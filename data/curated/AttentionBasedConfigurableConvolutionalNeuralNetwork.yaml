@@ -1,0 +1,148 @@
+id: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+name: Attention-Based Configurable Convolutional Neural Network
+aliases:
+- ABC-CNN
+concept_kind: architecture
+definition: A visual-question-answering architecture that derives a convolution kernel from an encoded
+  question to compute normalized spatial attention, then fuses weighted and unweighted image features
+  with the question for answer-word classification.
+identity_notes: Compared all 442 pinned AIO and 610 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 23, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 166 AIO and 76 native definitions, with every matched definition
+  read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Visual
+  ABC-CNN derives configurable kernels from question semantics and predicts answer words from weighted/unweighted
+  image features. Sentence-pair ABCNN instead compares sentence representations by distance affinities;
+  CBAM is a feature-refinement component and DMN+ uses recurrent episodic fact aggregation. Shared attention
+  language does not establish identity.
+definition_evidence:
+- source_id: chen2016
+  locator: Sections 3–3.4, PDF pp. 3–5, Figures 2–3 and Equations 1–6
+  relation: supports
+claims:
+- claim_id: question-configured-spatial-attention
+  kind: mechanism
+  statement: An LSTM encodes the question, and the model averages its hidden states over time to obtain
+    the question vector. A learned affine transform followed by sigmoid converts that vector into a configurable
+    convolution kernel with channels matching the spatial image features. Convolving this kernel over
+    the image feature map and applying one softmax over spatial positions produces a question-conditioned
+    attention map. The convolution is padded to preserve the spatial extent; illustrative kernel drawings
+    do not establish an uninspected implementation kernel size.
+  evidence:
+  - source_id: chen2016
+    locator: Sections 3.1–3.3, PDF pp. 3–5, Equations 1–3 and Figures 2–3
+    relation: supports
+- claim_id: weighted-and-unweighted-feature-fusion
+  kind: mechanism
+  statement: The same spatial attention map multiplies each image-feature channel. A one-by-one convolution
+    reduces the weighted feature channels, and a nonlinear projection fuses the reduced weighted map,
+    the original unweighted image map and the question vector. The reported answer task is classification
+    over a separate answer-word dictionary, selecting the most probable word. The original-image branch
+    allows predictions to use information outside the weighted path; the architecture does not require
+    every answer to depend on the attention map.
+  evidence:
+  - source_id: chen2016
+    locator: Section 3.4, PDF p. 5, Equations 4–6; Section 4.5, p. 8, original-feature bypass discussion
+    relation: supports
+- claim_id: notation-and-training-boundaries
+  kind: scope
+  statement: The answer-generation prose specifies a softmax classifier, while Equation 6 reuses g after
+    g was defined as scaled tanh in Equation 5. This record follows the explicit classifier description
+    and does not treat the reused symbol as a verified probability formula. Although the architecture
+    permits end-to-end training, the reported experiments keep the image feature extractor fixed for speed.
+    The question encoder, attention and answer components are trained with answer supervision; the absence
+    of attention-region labels is not an unsupervised-learning claim.
+  evidence:
+  - source_id: chen2016
+    locator: Sections 3–3.5 and introductory training description, PDF pp. 2–5, Equations 5–6 and Training
+      and Testing
+    relation: supports
+- claim_id: feature-and-answer-vocabulary-variants
+  kind: scope
+  statement: The experiments distinguish coarse VGG-plus-color features, denser fully convolutional segmentation
+    features, and a combined feature configuration. These are separate evaluated settings of ABC-CNN rather
+    than interchangeable synonyms. The VQA comparison also distinguishes a dictionary of one thousand
+    frequent answers from a full answer dictionary, with different reported accuracies. Spatial resolution,
+    pretrained features, answer vocabulary and fixed-encoder training therefore belong to the empirical
+    protocol, not universal architecture guarantees.
+  evidence:
+  - source_id: chen2016
+    locator: Section 4.1, PDF pp. 5–6; Section 4.5, pp. 7–8, Tables 2 and 5
+    relation: supports
+- claim_id: filtered-evaluation-and-table-arithmetic
+  kind: limitation
+  statement: 'Toronto COCO-QA, DAQUAR and VQA results use different datasets and answer restrictions;
+    the reported method is evaluated on single-word answers. Aggregate gains do not extend to every question
+    category or metric: the listed image-plus-bag-of-words comparator scores higher on COCO-QA color questions,
+    and the DAQUAR-reduced ensemble scores higher on WUPS at threshold 0.9. The prose attention-ablation
+    differences also disagree with Table 2: subtracting NO-ATT from ATT yields 3.89, 3.31 and 1.11 percentage
+    points for accuracy, WUPS 0.9 and WUPS 0.0. These table-derived differences are not the prose values
+    1.34, 0.85 and 0.35.'
+  evidence:
+  - source_id: chen2016
+    locator: Sections 4.2–4.5, PDF pp. 6–8, Tables 2–5; constructed Table 2 arithmetic
+    relation: supports
+- claim_id: attention-interpretation-and-identity
+  kind: limitation
+  statement: The normalized map is a learned spatial weighting, not a demonstrated probability that a
+    region is the correct object or a certified causal explanation. Selected visualizations illustrate
+    question-dependent responses, and the paper explicitly allows correct answers when the attention map
+    does not focus on the queried object because original image features are also supplied. Extending
+    the classifier to generate full sentences is proposed rather than evaluated here.
+  evidence:
+  - source_id: chen2016
+    locator: Introduction and Section 3, PDF pp. 2–3; Section 4.5 and Figure 5, pp. 8–9; Conclusion, p.
+      8
+    relation: supports
+evidence_sources:
+- source_id: chen2016
+  title: 'ABC-CNN: An Attention Based Convolutional Neural Network for Visual Question Answering'
+  authors:
+  - Kan Chen
+  - Jiang Wang
+  - Liang-Chieh Chen
+  - Haoyuan Gao
+  - Wei Xu
+  - Ram Nevatia
+  persistent_id: arXiv:1511.05960v2
+  version: arXiv1511.05960v2,3 April2016, ten PDF pages. All pages visually read, including equations,
+    tables, diagrams and references. Locators use PDF/printed page order; other versions and author code
+    not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1511.05960v2
+  access_level: full_text
+  accessed_at: '2026-10-13T11:06:17Z'
+  sha256: 43d0fc2f07dd9dd40c74b3fdfb1c5ded0427d974fc98caa597b2ca07dc990249
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Learned convolutional, recurrent and classification components form a particular multimodal
+    neural architecture; ANN is broader.
+- target: AIO:ConvolutionalLayer
+  relation: related_match
+  rationale: Image feature extraction, question-configured convolution and channel reduction are components
+    of the whole architecture.
+- target: AIO:LongShortTermMemory
+  relation: related_match
+  rationale: An LSTM encodes the question and its hidden states are averaged; that component does not
+    define the entire visual-question-answering architecture.
+limitations:
+- This is Chen and colleagues’ visual ABC-CNN, not Yin and colleagues’ sentence-pair ABCNN or every attention-based
+  CNN.
+- Printed classifier notation and ablation arithmetic contain inconsistencies; interpretation and table-derived
+  calculations remain explicit, without assuming unseen code.
+- Reported image encoders are fixed, answer outputs are single words, and dataset/feature/vocabulary settings
+  differ. No unrestricted generation, universal superiority or causal attention faithfulness is established.
+- All ten pages of arXiv1511.05960v2 were visually read. No author code, training, benchmark replication
+  or other source version inspected. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T11:31:08Z'
+  updated_at: '2026-10-13T11:31:08Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

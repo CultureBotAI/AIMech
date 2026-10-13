@@ -1,0 +1,670 @@
+# Scientific author self-review of Grid Long Short-Term Memory
+
+- Review: 20261013T114453Z-grid-long-short-term-memory
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T11:40:26Z
+- Finished UTC: 2026-10-13T11:44:53Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Grid LSTM is supported as a distinct DRAFT architecture family. Both minor claim-locator and dossier-note findings are resolved; printed-cell convention, unresolved parameter count and finite task-specific evidence remain explicit.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:GridLongShortTermMemory
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 71bbccf4c7fb500c713f24329252229ff5f4de7f.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GridLongShortTermMemory | data/curated/GridLongShortTermMemory.yaml | maintained | Grid Long Short-Term Memory |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:GridLongShortTermMemory | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 139.83s (0:02:19)<br>Checked 442 record(s); 0 failed.<br>Checked 611 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 280 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 276,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:GridLongShortTermMemory | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:GridLongShortTermMemory | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:GridLongShortTermMemory | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:GridLongShortTermMemory | {"alternative_output_gate": 0.23041713860161783, "hypothetical_one_percent_error_missed_by_100_tests": 0.3660323412732292, "printed_output_gate": 0.3799489622552249, "priority_first_hidden": 0.10033734371870275, "separate_memory_outputs": [1.1, -0.4], "simultaneous_hidden": [0.07494222638092535, -0.19729555105927712], "summed_memory_output": 0.6, "tied_weights10": 400, "tied_weights20": 400, "untied_weights20": 8000} |
+
+## Scientific And Domain Assessments
+
+### Grid Long Short-Term Memory
+
+identity: supported. Targets: AIMech:GridLongShortTermMemory.
+
+Retain this distinct DRAFT architecture.
+
+Grid LSTM is a distinct architecture family with separate dimensional memories and coupled hidden context. Neural GPU uses convolutional gated state evolution; DMN uses episodic QA memory. Grid search and memory-summing multidimensional LSTM are not equivalent identities. Named task configurations remain scoped.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:GridLongShortTermMemory.
+
+The declared AIO mapping is supported.
+
+ANN is broader across feed-forward, sequential and spatial instantiations. LSTM is related because its pinned network definition specifically processes sequences, while the Grid family includes one-dimensional feed-forward parity networks. RNN, LSTMCellLayer, MemoryCellLayer and DeepFeedForwardNetwork do not define the whole family.
+
+### separate-dimensional-memory
+
+evidence: supported. Targets: AIMech:GridLongShortTermMemory.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section2.3 Equation4 directly sums incoming memories, while Section3.1 Equations5–6 share concatenated hidden context and return separate memory pairs. The corrected locator includes Equation6. Coupled gates prevent interpreting separate memory outputs as independent networks.
+
+### axis-priority-and-sharing
+
+evidence: supported. Targets: AIMech:GridLongShortTermMemory.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section3.2 Equation7 constructs the prioritized context from updated other axes; Section3.3 Equation8 allows nonlinear or identity replacements. Section3.5 describes tying across positions. Corrected locators now include all these numbered anchors; tied positions do not require equal direction transforms.
+
+### printed-cell-convention
+
+evidence: supported. Targets: AIMech:GridLongShortTermMemory.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equation1 explicitly places the output-gated memory inside tanh. The chosen example demonstrates its difference from output gating after tanh, without inferring unseen author-code behavior or a universal gradient bound.
+
+### fixed-length-algorithmic-tests
+
+evidence: supported. Targets: AIMech:GridLongShortTermMemory.
+
+Supported within the stated primary-source and mathematical scope.
+
+Sections4.1–4.2 fix15-digit addition and20-symbol memorization with per-symbol measures; Appendix5.1 projects a full k-bit vector and tests selected lengths up to250 with100-sample stopping. A hypothetical1% error model can pass100 IID tests with probability about.366; this is not an estimate of the trained models.
+
+### character-model-protocol
+
+evidence: supported. Targets: AIMech:GridLongShortTermMemory.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section4.3 carries hidden/cell state while backpropagating50-character segments, which does not carry gradients through the complete sequence. Its8.82M text count differs from Figure6 16.8M. The1.47bpc comparison rows also differ in test/alphabet scope.
+
+### task-specific-instantiations
+
+evidence: supported. Targets: AIMech:GridLongShortTermMemory.
+
+Supported within the stated primary-source and mathematical scope.
+
+Sections4.4 and Figures7–8 report target-conditioned rescans and seven-model output averaging with beam20. Appendix5.2 compares configurations with different patch/crop/head dimensions, so.32vs.36 MNIST error cannot isolate memory-depth causality. Activation images do not prove unique computation.
+
+### separate versus summed memories, priority timing, parameter tying, output-gate placement, finite stopping tests and exact source locators
+
+consistency: supported. Targets: AIMech:GridLongShortTermMemory.
+
+Constructed calculations support the stated distinctions.
+
+Chosen formula checks separate direct memory summation, priority versus simultaneous hidden updates, output-gate placement and fixed-input parameter tying. A hypothetical sampling calculation illustrates why one hundred successful tests are not all-input proof. No author code, fitted model or benchmark executed.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:GridLongShortTermMemory.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Read the complete corrected record and all six mapping YAMLs after recapture. Confirmed distinct per-axis memory outputs, shared hidden context, priority scheduling, non-LSTM axes and tying scope. Issue269 corrects two claim locators, including Section2.3, Equations4–6, Sections3.2–3.5 and Equations7–8. Also corrected dossier equation numbers and Figure4 sample/parameter labeling after a second immutable finding. Source formula, empirical protocol, character-model parameter-count inconsistency, synchronized report and both append-only EDIT entries checked.
+
+## Findings
+
+### F1: Correct Grid LSTM equation and section locators
+
+minor / resolved / confirmed; issue key: grid-lstm-equation-locators.
+
+The separate-memory claim cites Equations 4–5, omitting the defining per-axis LSTM transforms in Equation 6 on PDFp5. The axis-priority claim cites Equation 6 for the optional non-LSTM transform, but that transform is Equation 8; priority is Equation 7. Its section range 3.2–3.4 also omits Section 3.5 (weight sharing) on PDFp6. Correct to Equations 4–6 and Sections 3.2–3.5, Equations 7–8 respectively. The mechanism statements remain supported.
+
+Disposition: Section2.3 Equation4 directly sums incoming memories, while Section3.1 Equations5–6 share concatenated hidden context and return separate memory pairs. The corrected locator includes Equation6. Coupled gates prevent interpreting separate memory outputs as independent networks. Section3.2 Equation7 constructs the prioritized context from updated other axes; Section3.3 Equation8 allows nonlinear or identity replacements. Section3.5 describes tying across positions. Corrected locators now include all these numbered anchors; tied positions do not require equal direction transforms.
+
+### F2: Correct Grid LSTM source-reading notes
+
+minor / resolved / confirmed; issue key: grid-lstm-source-notes.
+
+The discovery report reading notes incorrectly label the page5 mechanisms as Equations3–5/6 instead of Equations5–6/7–8. They also call Figure4 values0.55M/5M parameter counts, but the table header is Samples. Correct the notes to training sample counts and the actual equation numbers; the maintained concept does not assert those parameter counts.
+
+Disposition: Dossier notes now identify hidden concatenation and separate transforms as Equations5–6, priority as7 and non-LSTM transform as8. Figure4 values0.55M/5M are training samples, not parameter counts. Corrected report read and source Figure4/Equations5–8 visually reread after final capture; maintained record bytes remain unchanged by the second correction.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T113018Z-grid-long-short-term-memory.json | supports | Compared all 442 pinned AIO and 609 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 6, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 54 AIO and 68 native definitions, with every matched definition read. 6 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. Grid LSTM couples per-dimension hidden context while retaining distinct memory flows. It is not a grid-search optimizer, Neural GPU convolutional GRU grid, DMN episodic memory, or the memory-summing multidimensional LSTM formulation it contrasts with. Named task-specific instantiations are kept within explicit scope. |
+| mapping | sources/aio/aio.json | supports | ANN is broader across feed-forward, sequential and spatial instantiations. LSTM is related because its pinned network definition specifically processes sequences, while the Grid family includes one-dimensional feed-forward parity networks. RNN, LSTMCellLayer, MemoryCellLayer and DeepFeedForwardNetwork do not define the whole family. |
+| kalchbrenner2016 | https://arxiv.org/pdf/1507.01526v3; All fifteen pages of arXiv1507.01526v3 visually read; other versions, author code, training and benchmark replication not inspected or run. | supports | arXiv1507.01526v3,7 January2016, fifteen PDF pages. All pages visually read, including appendices and references. PDF header says under review ICLR2016; acceptance is not inferred. Locators use PDF/printed page order; author code and other versions not inspected. |
+| calculation | research/discovery/grid-lstm-boundaries.py | supports | Chosen formula checks separate direct memory summation, priority versus simultaneous hidden updates, output-gate placement and fixed-input parameter tying. A hypothetical sampling calculation illustrates why one hundred successful tests are not all-input proof. No author code, fitted model or benchmark executed. |
+| corrected-record | data/curated/GridLongShortTermMemory.yaml | supports | Complete corrected record and mapping context inspected; claim locators verified against the primary PDF. |
+| corrected-report | research/discovery/20261013T113018Z-grid-long-short-term-memory.json | supports | Corrected reading notes identify Equations5–8 and Figure4 training samples. Both corrections have append-only EDIT history. |
+| predecessor-initial | reviews/structured/20261013T113518Z-grid-lstm-locator-findings/review.yaml | supports | Immutable initial author self-review preserves the confirmed initial finding. |
+| predecessor-notes | reviews/structured/20261013T113933Z-grid-lstm-source-note-findings/review.yaml | supports | Immutable initial author self-review preserves the confirmed notes finding. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 610 native and 442 unchanged generated records. The 794-entry main frontier retains 477 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All fifteen primary PDF pages visually inspected. No author code, training or other versions inspected.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T114453Z-grid-long-short-term-memory
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Grid Long Short-Term Memory
+started_at: '2026-10-13T11:40:26Z'
+finished_at: '2026-10-13T11:44:53Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged separate versus summed memories, priority
+    timing, parameter tying, output-gate placement, finite stopping tests and exact
+    source locators. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Grid LSTM is supported as a distinct DRAFT architecture family. Both minor
+  claim-locator and dossier-note findings are resolved; printed-cell convention, unresolved
+  parameter count and finite task-specific evidence remain explicit.
+source:
+  git_revision: 71bbccf4c7fb500c713f24329252229ff5f4de7f
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/DeepFeedForwardNetwork.yaml
+    sha256: d66c246318687598cf762fae4b54586a312b70d143735aba5c12b2606c45c8c9
+    role: context
+  - path: data/aio/LSTMCellLayer.yaml
+    sha256: 3d2dba1fbcce253281204550c144d7c19ad5476ac421c2697ad5913a8adf44c6
+    role: context
+  - path: data/aio/LongShortTermMemory.yaml
+    sha256: c78f9d7cd7fa61ec26d6964fbdd8dd17302480984df521b1a1c2b336f9768093
+    role: context
+  - path: data/aio/MemoryCellLayer.yaml
+    sha256: 290f04d7838e185381b29b22e67f8765de74242d687d23b0ffae2dad9d3f7237
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/curated/DynamicMemoryNetworkPlus.yaml
+    sha256: a7360c19312b2db3e79fdebcf74908537e3d1582488646b164c9a97a6c6568d6
+    role: context
+  - path: data/curated/GridLongShortTermMemory.yaml
+    sha256: 24c6416047ffc7b7d205ebb703c14583ef8d6c4f0c1205657863e521b721965b
+    role: target
+  - path: data/curated/NeuralGPU.yaml
+    sha256: 0c862105dfd0351e262d4b100c99b903aaa8f146788817e8c09ee97782b26727
+    role: context
+  - path: research/discovery/20261013T113018Z-grid-long-short-term-memory.json
+    sha256: 5d28effb4bfc3f1fdc1c23b626cb1fd8dedaf973f257940851ce1a474b037e24
+    role: context
+  - path: research/discovery/grid-lstm-boundaries.py
+    sha256: 1af0bb8e066aad81d6b8d7387882ec7e31f38cf108ae70cae11fb9331394d4b8
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GridLongShortTermMemory
+  path: data/curated/GridLongShortTermMemory.yaml
+  label: Grid Long Short-Term Memory
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GridLongShortTermMemory.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:GridLongShortTermMemory'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:GridLongShortTermMemory
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All fifteen pages of arXiv1507.01526v3 visually read; other versions,
+      author code, training and benchmark replication not inspected or run.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 139.83s (0:02:19)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 611 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 280 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 276,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/grid-lstm-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"alternative_output_gate": 0.23041713860161783, "hypothetical_one_percent_error_missed_by_100_tests":
+    0.3660323412732292, "printed_output_gate": 0.3799489622552249, "priority_first_hidden":
+    0.10033734371870275, "separate_memory_outputs": [1.1, -0.4], "simultaneous_hidden":
+    [0.07494222638092535, -0.19729555105927712], "summed_memory_output": 0.6, "tied_weights10":
+    400, "tied_weights20": 400, "untied_weights20": 8000}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T113018Z-grid-long-short-term-memory.json
+  accessed_at: '2026-10-13T11:40:26Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 609 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    6, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered
+    54 AIO and 68 native definitions, with every matched definition read. 6 full annotated
+    AIO node/edge/generated contexts and 2 full native records were inspected. Grid
+    LSTM couples per-dimension hidden context while retaining distinct memory flows.
+    It is not a grid-search optimizer, Neural GPU convolutional GRU grid, DMN episodic
+    memory, or the memory-summing multidimensional LSTM formulation it contrasts with.
+    Named task-specific instantiations are kept within explicit scope.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T11:40:26Z'
+  support: supports
+  summary: ANN is broader across feed-forward, sequential and spatial instantiations.
+    LSTM is related because its pinned network definition specifically processes sequences,
+    while the Grid family includes one-dimensional feed-forward parity networks. RNN,
+    LSTMCellLayer, MemoryCellLayer and DeepFeedForwardNetwork do not define the whole
+    family.
+- evidence_id: kalchbrenner2016
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1507.01526v3
+  locator: All fifteen pages of arXiv1507.01526v3 visually read; other versions, author
+    code, training and benchmark replication not inspected or run.
+  accessed_at: '2026-10-13T11:06:17Z'
+  snapshot_sha256: 7993018d83f17f52e89910536f14060de587b5baa8b30c886013b10fb3daa63a
+  support: supports
+  summary: arXiv1507.01526v3,7 January2016, fifteen PDF pages. All pages visually
+    read, including appendices and references. PDF header says under review ICLR2016;
+    acceptance is not inferred. Locators use PDF/printed page order; author code and
+    other versions not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/grid-lstm-boundaries.py
+  accessed_at: '2026-10-13T11:42:28Z'
+  snapshot_sha256: 1af0bb8e066aad81d6b8d7387882ec7e31f38cf108ae70cae11fb9331394d4b8
+  support: supports
+  summary: Chosen formula checks separate direct memory summation, priority versus
+    simultaneous hidden updates, output-gate placement and fixed-input parameter tying.
+    A hypothetical sampling calculation illustrates why one hundred successful tests
+    are not all-input proof. No author code, fitted model or benchmark executed.
+- evidence_id: corrected-record
+  kind: record_content
+  reference: data/curated/GridLongShortTermMemory.yaml
+  accessed_at: '2026-10-13T11:42:28Z'
+  snapshot_sha256: 24c6416047ffc7b7d205ebb703c14583ef8d6c4f0c1205657863e521b721965b
+  support: supports
+  summary: Complete corrected record and mapping context inspected; claim locators
+    verified against the primary PDF.
+- evidence_id: corrected-report
+  kind: record_content
+  reference: research/discovery/20261013T113018Z-grid-long-short-term-memory.json
+  accessed_at: '2026-10-13T11:42:28Z'
+  snapshot_sha256: 5d28effb4bfc3f1fdc1c23b626cb1fd8dedaf973f257940851ce1a474b037e24
+  support: supports
+  summary: Corrected reading notes identify Equations5–8 and Figure4 training samples.
+    Both corrections have append-only EDIT history.
+- evidence_id: predecessor-initial
+  kind: record_content
+  reference: reviews/structured/20261013T113518Z-grid-lstm-locator-findings/review.yaml
+  accessed_at: '2026-10-13T11:42:28Z'
+  support: supports
+  summary: Immutable initial author self-review preserves the confirmed initial finding.
+- evidence_id: predecessor-notes
+  kind: record_content
+  reference: reviews/structured/20261013T113933Z-grid-lstm-source-note-findings/review.yaml
+  accessed_at: '2026-10-13T11:42:28Z'
+  support: supports
+  summary: Immutable initial author self-review preserves the confirmed notes finding.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Grid Long Short-Term Memory
+  outcome: supported
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  evidence_ids:
+  - identity
+  - kalchbrenner2016
+  summary: Retain this distinct DRAFT architecture.
+  details: Grid LSTM is a distinct architecture family with separate dimensional memories
+    and coupled hidden context. Neural GPU uses convolutional gated state evolution;
+    DMN uses episodic QA memory. Grid search and memory-summing multidimensional LSTM
+    are not equivalent identities. Named task configurations remain scoped.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  evidence_ids:
+  - mapping
+  - kalchbrenner2016
+  summary: The declared AIO mapping is supported.
+  details: ANN is broader across feed-forward, sequential and spatial instantiations.
+    LSTM is related because its pinned network definition specifically processes sequences,
+    while the Grid family includes one-dimensional feed-forward parity networks. RNN,
+    LSTMCellLayer, MemoryCellLayer and DeepFeedForwardNetwork do not define the whole
+    family.
+- assessment_id: separate-dimensional-memory
+  area: evidence
+  topic: separate-dimensional-memory
+  outcome: supported
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  evidence_ids:
+  - kalchbrenner2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section2.3 Equation4 directly sums incoming memories, while Section3.1
+    Equations5–6 share concatenated hidden context and return separate memory pairs.
+    The corrected locator includes Equation6. Coupled gates prevent interpreting separate
+    memory outputs as independent networks.
+- assessment_id: axis-priority-and-sharing
+  area: evidence
+  topic: axis-priority-and-sharing
+  outcome: supported
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  evidence_ids:
+  - kalchbrenner2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section3.2 Equation7 constructs the prioritized context from updated other
+    axes; Section3.3 Equation8 allows nonlinear or identity replacements. Section3.5
+    describes tying across positions. Corrected locators now include all these numbered
+    anchors; tied positions do not require equal direction transforms.
+- assessment_id: printed-cell-convention
+  area: evidence
+  topic: printed-cell-convention
+  outcome: supported
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  evidence_ids:
+  - kalchbrenner2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equation1 explicitly places the output-gated memory inside tanh. The chosen
+    example demonstrates its difference from output gating after tanh, without inferring
+    unseen author-code behavior or a universal gradient bound.
+- assessment_id: fixed-length-algorithmic-tests
+  area: evidence
+  topic: fixed-length-algorithmic-tests
+  outcome: supported
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  evidence_ids:
+  - kalchbrenner2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Sections4.1–4.2 fix15-digit addition and20-symbol memorization with per-symbol
+    measures; Appendix5.1 projects a full k-bit vector and tests selected lengths
+    up to250 with100-sample stopping. A hypothetical1% error model can pass100 IID
+    tests with probability about.366; this is not an estimate of the trained models.
+- assessment_id: character-model-protocol
+  area: evidence
+  topic: character-model-protocol
+  outcome: supported
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  evidence_ids:
+  - kalchbrenner2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section4.3 carries hidden/cell state while backpropagating50-character
+    segments, which does not carry gradients through the complete sequence. Its8.82M
+    text count differs from Figure6 16.8M. The1.47bpc comparison rows also differ
+    in test/alphabet scope.
+- assessment_id: task-specific-instantiations
+  area: evidence
+  topic: task-specific-instantiations
+  outcome: supported
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  evidence_ids:
+  - kalchbrenner2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Sections4.4 and Figures7–8 report target-conditioned rescans and seven-model
+    output averaging with beam20. Appendix5.2 compares configurations with different
+    patch/crop/head dimensions, so.32vs.36 MNIST error cannot isolate memory-depth
+    causality. Activation images do not prove unique computation.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: separate versus summed memories, priority timing, parameter tying, output-gate
+    placement, finite stopping tests and exact source locators
+  outcome: supported
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  evidence_ids:
+  - kalchbrenner2016
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Chosen formula checks separate direct memory summation, priority versus
+    simultaneous hidden updates, output-gate placement and fixed-input parameter tying.
+    A hypothetical sampling calculation illustrates why one hundred successful tests
+    are not all-input proof. No author code, fitted model or benchmark executed.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  evidence_ids:
+  - identity
+  - mapping
+  - kalchbrenner2016
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Read the complete corrected record and all six
+    mapping YAMLs after recapture. Confirmed distinct per-axis memory outputs, shared
+    hidden context, priority scheduling, non-LSTM axes and tying scope. Issue269 corrects
+    two claim locators, including Section2.3, Equations4–6, Sections3.2–3.5 and Equations7–8.
+    Also corrected dossier equation numbers and Figure4 sample/parameter labeling
+    after a second immutable finding. Source formula, empirical protocol, character-model
+    parameter-count inconsistency, synchronized report and both append-only EDIT entries
+    checked.
+findings:
+- finding_id: F1
+  issue_key: grid-lstm-equation-locators
+  category: evidence
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Correct Grid LSTM equation and section locators
+  description: The separate-memory claim cites Equations 4–5, omitting the defining
+    per-axis LSTM transforms in Equation 6 on PDFp5. The axis-priority claim cites
+    Equation 6 for the optional non-LSTM transform, but that transform is Equation
+    8; priority is Equation 7. Its section range 3.2–3.4 also omits Section 3.5 (weight
+    sharing) on PDFp6. Correct to Equations 4–6 and Sections 3.2–3.5, Equations 7–8
+    respectively. The mechanism statements remain supported.
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  field_paths:
+  - claims[claim_id=separate-dimensional-memory].evidence
+  - claims[claim_id=axis-priority-and-sharing].evidence
+  evidence_ids:
+  - kalchbrenner2016
+  - corrected-record
+  - corrected-report
+  - predecessor-initial
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GridLongShortTermMemory.yaml
+    role: maintained
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/269
+  disposition_reason: Section2.3 Equation4 directly sums incoming memories, while
+    Section3.1 Equations5–6 share concatenated hidden context and return separate
+    memory pairs. The corrected locator includes Equation6. Coupled gates prevent
+    interpreting separate memory outputs as independent networks. Section3.2 Equation7
+    constructs the prioritized context from updated other axes; Section3.3 Equation8
+    allows nonlinear or identity replacements. Section3.5 describes tying across positions.
+    Corrected locators now include all these numbered anchors; tied positions do not
+    require equal direction transforms.
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261013T113518Z-grid-lstm-locator-findings
+    finding_id: F1
+- finding_id: F2
+  issue_key: grid-lstm-source-notes
+  category: evidence
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Correct Grid LSTM source-reading notes
+  description: The discovery report reading notes incorrectly label the page5 mechanisms
+    as Equations3–5/6 instead of Equations5–6/7–8. They also call Figure4 values0.55M/5M
+    parameter counts, but the table header is Samples. Correct the notes to training
+    sample counts and the actual equation numbers; the maintained concept does not
+    assert those parameter counts.
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  field_paths:
+  - source_analysis.reading.notes
+  evidence_ids:
+  - kalchbrenner2016
+  - corrected-record
+  - corrected-report
+  - predecessor-notes
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261013T113018Z-grid-long-short-term-memory.json
+    role: maintained
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/269
+  disposition_reason: Dossier notes now identify hidden concatenation and separate
+    transforms as Equations5–6, priority as7 and non-LSTM transform as8. Figure4 values0.55M/5M
+    are training samples, not parameter counts. Corrected report read and source Figure4/Equations5–8
+    visually reread after final capture; maintained record bytes remain unchanged
+    by the second correction.
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261013T113933Z-grid-lstm-source-note-findings
+    finding_id: F1
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 610 native and 442 unchanged generated records.
+  The 794-entry main frontier retains 477 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All fifteen primary PDF pages visually inspected. No author code, training or other
+  versions inspected.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261013T113518Z-grid-lstm-locator-findings
+  relationship: Resolves the explicitly linked initial finding.
+- repository: CultureBotAI/AIMech
+  review_id: 20261013T113933Z-grid-lstm-source-note-findings
+  relationship: Resolves the explicitly linked notes finding.
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
