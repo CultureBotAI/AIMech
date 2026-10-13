@@ -1,0 +1,144 @@
+id: AIMech:DynamicConvolutionalLayer
+name: Dynamic Convolutional Layer
+aliases:
+- Dynamic Convolution Layer
+concept_kind: layer
+definition: A neural layer that convolves feature maps with filters generated from the current input by
+  a learned subnetwork, allowing the applied kernels to vary between examples during inference.
+identity_notes: Compared all 442 pinned AIO and 612 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 3, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 55 AIO and 82 native definitions, with every matched definition
+  read. 7 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. The
+  layer of Klein and colleagues uses a learned input-to-filter branch alongside feature maps. It is not
+  a complete visual ABC-CNN, whose question generates attention kernels, or CBAM channel/spatial feature
+  gating. Generic sample-conditioned convolution and its constrained separable weather instantiations
+  remain distinct scopes; kernel-method feature spaces and dynamic time-series models are different identities.
+definition_evidence:
+- source_id: klein2015
+  locator: Sections 3–3.2, PDF pp. 2–4 (printed 4841–4843), Figure 3 and Equations 5–7
+  relation: supports
+claims:
+- claim_id: input-generated-convolution-kernels
+  kind: mechanism
+  statement: A feature branch supplies input maps and a separate learned branch supplies the convolution
+    filters for that example. The layer sums convolutions over input channels using these sample-specific
+    filters. The generator parameters are learned during training, while the generated kernels are intermediate
+    values that can change between test examples; this does not require a test-time gradient update to
+    persistent model parameters. Within one layer application, the generated kernel bank is convolved
+    across spatial positions.
+  evidence:
+  - source_id: klein2015
+    locator: Section 3.2, PDF pp. 3–4 (4842–4843), Figure 3 and Equations 5–7
+    relation: supports
+- claim_id: gradient-and-generic-scope
+  kind: scope
+  statement: Training propagates derivatives through both the feature input and the generated-filter input,
+    including into the filter-generating subnetwork. If the branches depend on a common earlier input,
+    their derivative contributions must both be included. Conditional convolution is linear in a feature
+    map when its kernel is held fixed, but the complete input-to-output function need not be linear when
+    that input also determines the kernel. The generic layer definition does not require positive, normalized
+    or spatially separable filters; those constraints belong to the reported weather configurations.
+  evidence:
+  - source_id: klein2015
+    locator: Section 3.2, PDF pp. 3–4 (4842–4843), Equations 5–7; Sections 4–5, pp. 4–5 (4843–4844); constructed
+      scalar chain-rule example
+    relation: supports
+- claim_id: normalized-separable-weather-filters
+  kind: mechanism
+  statement: In the weather application, the generating subnetwork produces horizontal and vertical vectors
+    of forty-one entries, and each vector receives softmax normalization. The last radar frame is convolved
+    first with the vertical filter and then with the horizontal filter. Each normalized vector defines
+    a weighted mixture of spatial offsets; their composition is a separable two-dimensional kernel. It
+    can spread mass over several offsets rather than select one exact translation, and it does not represent
+    every unrestricted two-dimensional kernel or a certified physical motion field.
+  evidence:
+  - source_id: klein2015
+    locator: Section 4, PDF pp. 4–5 (4843–4844), Figures 4–5 and Intuition; constructed separability and
+      mixture examples
+    relation: supports
+- claim_id: whole-image-and-patch-configurations
+  kind: scope
+  statement: Whole-image synthesis takes four 250-by-250 radar frames and predicts a 200-by-200 central
+    region of the next frame. Its generator uses three conventional convolution and pooling stages before
+    the filter outputs. The patch configuration takes four 70-by-70 patches, removes the last such stage,
+    predicts a 10-by-10 center and is applied in sliding windows. The latter can generate different filters
+    for different patches. These are distinct evaluated configurations built from the layer, not a claim
+    that the generic layer itself requires those image sizes or one global motion for every scene.
+  evidence:
+  - source_id: klein2015
+    locator: Sections 4–5, PDF pp. 4–5 (4843–4844), Figures 4–5
+    relation: supports
+- claim_id: dataset-and-comparison-limits
+  kind: limitation
+  statement: The three radar datasets use separate year ranges for training, validation and test, exclude
+    empty or nearly empty sequences, and undergo specified intensity conversion and cropping. Results
+    report the mean of summed squared pixel errors with standard errors. The patch dynamic network has
+    the lowest listed mean on each dataset, but its difference from the patch CNN on Tel Aviv is not significant
+    at the stated 0.01 paired-test level. The whole-image dynamic network has higher error than the patch
+    CNN in all three columns. These results concern the filtered next-frame protocol and selected baselines,
+    not universal forecasting superiority.
+  evidence:
+  - source_id: klein2015
+    locator: Sections 6.1–6.5, PDF pp. 5–6 and 8 (4844–4845, 4847), Table 1 and Equation 8
+    relation: supports
+- claim_id: loss-capacity-and-runtime-limits
+  kind: limitation
+  statement: The paper notes that Euclidean pixel loss can prefer blurry predictions to more natural-looking
+    shifted images, and that the filter-generating branch increases network complexity. Its CNN comparator
+    was selected from multiple architectures on validation data. The reported dynamic model is slower
+    per training epoch, despite the shown faster convergence pattern; that observation is not a hardware-independent
+    speed guarantee. Selected image overlays and suggested extensions to other vision tasks do not establish
+    causal motion recovery, calibrated forecast uncertainty or evaluated performance on those proposed
+    tasks.
+  evidence:
+  - source_id: klein2015
+    locator: Sections 6.4–7, PDF pp. 6–8 (4845–4847), Figures 6–7 and Discussion
+    relation: supports
+evidence_sources:
+- source_id: klein2015
+  title: A Dynamic Convolutional Layer for Short Range Weather Prediction
+  authors:
+  - Benjamin Klein
+  - Lior Wolf
+  - Yehuda Afek
+  version: CVPR2015 open-access proceedings PDF, printed4840–4848, nine PDF pages; all visually read.
+    Locators provide PDF and proceedings page numbers. CVF HTML fetch returned403 through web, but the
+    public PDF was retrieved and inspected. Author code and data not inspected.
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_cvpr_2015/papers/Klein_A_Dynamic_Convolutional_2015_CVPR_paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T11:30:06Z'
+  sha256: 588910012bafc316a1d6d8defe82b6198c4d3d645b36dfb9599e4d1e25be9933
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Layer
+  relation: broad_match
+  rationale: This is a reusable neural input-to-output layer with feature and kernel inputs, rather than
+    an entire weather-prediction architecture.
+- target: AIO:ConvolutionalLayer
+  relation: related_match
+  rationale: It applies convolution, but the pinned target describes filters as trained parameters; here
+    the applied sample-specific kernels are generated activations. The related mapping preserves that
+    distinction without silently equating the definitions.
+limitations:
+- This record denotes the input-generated-filter layer of Klein and colleagues, not every later use of
+  dynamic convolution, the complete weather network, or a trained checkpoint.
+- Generic generated filters need not be softmax-normalized or separable; the specific weather application
+  imposes those constraints. Spatial separability is distinct from depthwise-plus-pointwise channel factorization.
+- An input-dependent generator makes the overall transformation nonlinear in general, even though convolution
+  with a held-fixed filter is linear.
+- Year-separated filtered datasets, architecture selection, Euclidean loss and the nonsignificant Tel
+  Aviv comparison bound the empirical evidence.
+- All nine CVPR2015 PDF pages visually read, including formulas, figures, tables and references. No author
+  code, data, model fitting or benchmark replication inspected or executed; DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T11:54:57Z'
+  updated_at: '2026-10-13T11:54:57Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
