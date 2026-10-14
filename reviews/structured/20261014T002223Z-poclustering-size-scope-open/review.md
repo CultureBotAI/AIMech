@@ -1,0 +1,411 @@
+# Scoped author self-review of exact and ECC PoClustering boundaries
+
+- Review: 20261014T002223Z-poclustering-size-scope-open
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-14T00:20:58Z
+- Finished UTC: 2026-10-14T00:22:23Z
+- Reviewer: Codex (self_review)
+- Completion: partial
+- Verdict: needs_curation
+- Scientific review: true
+
+## Summary
+
+Retain distinct exact and ECC methods; qualify the unbounded size-reduction wording.
+
+## Scope And Provenance
+
+Exact versus greedy method identity and two size-reduction fields only.
+
+Selection: Exact IDs AIMech:ExactPoClustering and AIMech:PoClusteringEdgeCliqueCover.
+Coverage: partial; 2 reviewed / 2 in the declared population.
+Source: working_tree at Git base 066abbb051380f96ff1e9cec663ec14b9726f68f.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ExactPoClustering | data/curated/ExactPoClustering.yaml | maintained | Exact PoClustering |
+| AIMech:PoClusteringEdgeCliqueCover | data/curated/PoClusteringEdgeCliqueCover.yaml | maintained | PoClustering edge-clique-cover heuristic |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| Curated collection validation | passed | True | AIMech:ExactPoClustering, AIMech:PoClusteringEdgeCliqueCover | Checked 665 curated concept record(s); 0 error(s).<br> |
+| Two-object exact and cover equality | passed | True | AIMech:ExactPoClustering, AIMech:PoClusteringEdgeCliqueCover | Read captured fields and verified hashes; the sole two-object maximal clique is also the required covering clique, so strict reduction is not guaranteed. |
+| uv run --locked aimech check-source | passed | True | AIMech:ExactPoClustering, AIMech:PoClusteringEdgeCliqueCover | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:ExactPoClustering, AIMech:PoClusteringEdgeCliqueCover | Exited0. |
+| Full publication gate | unavailable | True | AIMech:ExactPoClustering, AIMech:PoClusteringEdgeCliqueCover | Still running at this scoped observation; completion is partial. Final scientific reviews and publication will require a completed post-fix gate. |
+
+## Scientific And Domain Assessments
+
+### Exact enumeration versus greedy edge coverage
+
+identity: supported. Targets: AIMech:ExactPoClustering, AIMech:PoClusteringEdgeCliqueCover.
+
+Retain as distinct algorithms; shared representation is not method equivalence.
+
+### Strict reduction
+
+evidence: concern. Targets: AIMech:ExactPoClustering, AIMech:PoClusteringEdgeCliqueCover.
+
+Qualify the reduction as potentially smaller.
+
+## Findings
+
+### strict-size-reduction: Qualify possible size reduction
+
+minor / open / confirmed; issue key: aimech-poclustering-strict-size-reduction.
+
+The ECC definition and exact-method comparison describe a smaller family without qualifying that a strict reduction depends on input. A two-object graph is an equality case. This is bounded scope wording, not a failure of the published implementation.
+
+## Recommended Actions And Acceptance Checks
+
+### qualify-size
+
+Use potentially smaller in the two fields, synchronize report mirrors, add the finite equality case and append history; save a linked successor after verification.
+
+- Only the scoped maintained fields and actual update provenance change; reports mirror final records.
+- The constructed calculation includes a two-object equality case.
+- Required final corpus, source, history, rendering and structured-review checks pass.
+
+## Category Boundaries
+
+- retain: AIMech:ExactPoClustering, AIMech:PoClusteringEdgeCliqueCover. All threshold maximal cliques and a greedy covering subfamily are different constructions even though output sizes can coincide.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| fields | data/curated/ExactPoClustering.yaml; data/curated/PoClusteringEdgeCliqueCover.yaml; ExactPoClustering claims/exact-versus-heuristic; PoClusteringEdgeCliqueCover definition | supports | After capture, read both full records and rechecked the exact size-reduction wording. It is unqualified, despite inputs on which the methods retain the same clique family. |
+| primary | https://web.cs.ucla.edu/~weiwang/paper/SDM07_2.pdf; Section 5, Definition 5.1 and Algorithm 1 with prose, PDF pp.4–5 | supports | Complete paper read; after capture visually rechecked p.5. The method greedily extends cliques and removes redundant coverage; no strictly smaller family is guaranteed for every graph. |
+| equality | Two-object graph with one edge | supports | One maximal clique covers the sole edge. Both exact enumeration and any maximal-clique edge cover contain that clique; with the same singleton convention their retained families coincide. |
+
+## Limits And Additional Notes
+
+- Partial author self-review; no independent approval, status promotion or implementation execution.
+- Required final gate was still running; this is an initial needs-curation observation.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261014T002223Z-poclustering-size-scope-open
+kind: category
+repository: CultureBotAI/AIMech
+title: Scoped author self-review of exact and ECC PoClustering boundaries
+started_at: '2026-10-14T00:20:58Z'
+finished_at: '2026-10-14T00:22:23Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Author challenged the two methods and size wording; no independent
+    approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: partial
+verdict: needs_curation
+scientific_review: true
+summary: Retain distinct exact and ECC methods; qualify the unbounded size-reduction
+  wording.
+source:
+  git_revision: 066abbb051380f96ff1e9cec663ec14b9726f68f
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/HierarchicalClassification.yaml
+    sha256: 5e1f65090a3a9e7842b57c12410a7279d02c60baef05844fa1dd73545f1cbfc7
+    role: context
+  - path: data/aio/HierarchicalClustering.yaml
+    sha256: 144deaecd150e22de207c11a62f19db5f8409443724bd4be4b5c95c53375b258
+    role: context
+  - path: data/aio/KnearestNeighborClassificationAlgorithm.yaml
+    sha256: c45f4eca7cc4e11444cc9be90d2622f8fd37c5296b0b01ffb7a0b7e7ac17af2a
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/MetricLearning.yaml
+    sha256: 9497c86ecf87bce4abc89095d2b6b3e9290c15ec8a853f4f9c91a3b8d041f3fc
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/DBSCAN.yaml
+    sha256: de7d744d1f7761af64ce963cf5759853d70a586b4188eea757751357e5035f44
+    role: context
+  - path: data/curated/ExactPoClustering.yaml
+    sha256: caaade4760f275372739cd67c58a83ae9b084d1e99775d6d8d70997c4ac6d628
+    role: target
+  - path: data/curated/HDBSCAN.yaml
+    sha256: 46232d726b6e52f2373481fe18f52e3c9721aee83700311012ad07e3cc2704f3
+    role: context
+  - path: data/curated/LlamaClustering.yaml
+    sha256: 5976b079bdaf20aff6829dbc1dda7c9f591162c54b96db7621e5e7e703ced401
+    role: context
+  - path: data/curated/OPTICS.yaml
+    sha256: 538df2beab3517c798e773114cdaa01889642464b896623dd978cd02e3cc536a
+    role: context
+  - path: data/curated/PoClusteringEdgeCliqueCover.yaml
+    sha256: 4e8c6cca1fedc8a914d25fbabaa75feb4a1b6a81a4c009101dafa9aca5f37d5e
+    role: target
+  - path: data/curated/SubClusterComponentClustering.yaml
+    sha256: 20b762d56a2a1d84c7ac911ee0616b114ad00e616cf54e3d35a1ccce1baf4015
+    role: context
+  - path: research/discovery/20261014T001902Z-exact-poclustering.json
+    sha256: 0a57f0e1e03e713bf362def650049ff1a7707f58e15582e6e864b0778e509664
+    role: context
+  - path: research/discovery/20261014T001904Z-poclustering-edge-clique-cover.json
+    sha256: 4d3f6a5d562006f92780b206eda09be1703ccdb15e7be68c914dbbbd5618ac25
+    role: context
+  - path: research/discovery/poclustering-boundaries.py
+    sha256: 2623ab89e37923e32d8e7cb7250ae01ecb5a52af942ab82559e450d144a9d464
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ExactPoClustering
+  path: data/curated/ExactPoClustering.yaml
+  label: Exact PoClustering
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ExactPoClustering.yaml
+    role: maintained
+- target_id: AIMech:PoClusteringEdgeCliqueCover
+  path: data/curated/PoClusteringEdgeCliqueCover.yaml
+  label: PoClustering edge-clique-cover heuristic
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PoClusteringEdgeCliqueCover.yaml
+    role: maintained
+scope:
+  description: Exact versus greedy method identity and two size-reduction fields only.
+  selection: Exact IDs AIMech:ExactPoClustering and AIMech:PoClusteringEdgeCliqueCover.
+  coverage: partial
+  population_size: 2
+  reviewed_target_ids:
+  - AIMech:ExactPoClustering
+  - AIMech:PoClusteringEdgeCliqueCover
+  exclusions:
+  - target: Other claims, mappings and whole-corpus scientific support
+    reason: Individual full-record reviews follow curation; required full gate still
+      running.
+checks:
+- check_id: curated
+  name: Curated collection validation
+  command: uv run --locked aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ExactPoClustering
+  - AIMech:PoClusteringEdgeCliqueCover
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 665 curated concept record(s); 0 error(s).
+
+    '
+- check_id: scope-example
+  name: Two-object exact and cover equality
+  command: python3 /private/tmp/aimech-poclustering271-open-review.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ExactPoClustering
+  - AIMech:PoClusteringEdgeCliqueCover
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Read captured fields and verified hashes; the sole two-object maximal clique
+    is also the required covering clique, so strict reduction is not guaranteed.
+- check_id: source-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ExactPoClustering
+  - AIMech:PoClusteringEdgeCliqueCover
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: source-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ExactPoClustering
+  - AIMech:PoClusteringEdgeCliqueCover
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0.
+- check_id: whole-gate
+  name: Full publication gate
+  command: just check
+  status: unavailable
+  required: true
+  target_ids:
+  - AIMech:ExactPoClustering
+  - AIMech:PoClusteringEdgeCliqueCover
+  summary: Still running at this scoped observation; completion is partial. Final
+    scientific reviews and publication will require a completed post-fix gate.
+evidence:
+- evidence_id: fields
+  kind: record_content
+  reference: data/curated/ExactPoClustering.yaml; data/curated/PoClusteringEdgeCliqueCover.yaml
+  locator: ExactPoClustering claims/exact-versus-heuristic; PoClusteringEdgeCliqueCover
+    definition
+  accessed_at: '2026-10-14T00:22:23Z'
+  support: supports
+  summary: After capture, read both full records and rechecked the exact size-reduction
+    wording. It is unqualified, despite inputs on which the methods retain the same
+    clique family.
+- evidence_id: primary
+  kind: primary_source
+  reference: https://web.cs.ucla.edu/~weiwang/paper/SDM07_2.pdf
+  locator: Section 5, Definition 5.1 and Algorithm 1 with prose, PDF pp.4–5
+  accessed_at: '2026-10-14T00:00:05Z'
+  snapshot_sha256: 8cd93ac9ab3adfa3974575e7275a2ee968ba7e3a304e7d39ce13a5c70f7064fe
+  support: supports
+  summary: Complete paper read; after capture visually rechecked p.5. The method greedily
+    extends cliques and removes redundant coverage; no strictly smaller family is
+    guaranteed for every graph.
+- evidence_id: equality
+  kind: record_content
+  reference: Two-object graph with one edge
+  accessed_at: '2026-10-14T00:22:23Z'
+  support: supports
+  summary: One maximal clique covers the sole edge. Both exact enumeration and any
+    maximal-clique edge cover contain that clique; with the same singleton convention
+    their retained families coincide.
+assessments:
+- assessment_id: retain-methods
+  area: identity
+  topic: Exact enumeration versus greedy edge coverage
+  outcome: supported
+  target_ids:
+  - AIMech:ExactPoClustering
+  - AIMech:PoClusteringEdgeCliqueCover
+  evidence_ids:
+  - primary
+  summary: Retain as distinct algorithms; shared representation is not method equivalence.
+- assessment_id: size-scope
+  area: evidence
+  topic: Strict reduction
+  outcome: concern
+  target_ids:
+  - AIMech:ExactPoClustering
+  - AIMech:PoClusteringEdgeCliqueCover
+  evidence_ids:
+  - fields
+  - primary
+  - equality
+  summary: Qualify the reduction as potentially smaller.
+findings:
+- finding_id: strict-size-reduction
+  issue_key: aimech-poclustering-strict-size-reduction
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Qualify possible size reduction
+  description: The ECC definition and exact-method comparison describe a smaller family
+    without qualifying that a strict reduction depends on input. A two-object graph
+    is an equality case. This is bounded scope wording, not a failure of the published
+    implementation.
+  target_ids:
+  - AIMech:ExactPoClustering
+  - AIMech:PoClusteringEdgeCliqueCover
+  field_paths:
+  - claims[claim_id=exact-versus-heuristic].statement
+  - definition
+  evidence_ids:
+  - fields
+  - primary
+  - equality
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ExactPoClustering.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PoClusteringEdgeCliqueCover.yaml
+    role: maintained
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/326
+actions:
+- action_id: qualify-size
+  description: Use potentially smaller in the two fields, synchronize report mirrors,
+    add the finite equality case and append history; save a linked successor after
+    verification.
+  finding_ids:
+  - strict-size-reduction
+  target_ids:
+  - AIMech:ExactPoClustering
+  - AIMech:PoClusteringEdgeCliqueCover
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ExactPoClustering.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PoClusteringEdgeCliqueCover.yaml
+    role: maintained
+  acceptance_checks:
+  - Only the scoped maintained fields and actual update provenance change; reports
+    mirror final records.
+  - The constructed calculation includes a two-object equality case.
+  - Required final corpus, source, history, rendering and structured-review checks
+    pass.
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:ExactPoClustering
+  - AIMech:PoClusteringEdgeCliqueCover
+  rationale: All threshold maximal cliques and a greedy covering subfamily are different
+    constructions even though output sizes can coincide.
+  evidence_ids:
+  - primary
+  - equality
+limitations:
+- Partial author self-review; no independent approval, status promotion or implementation
+  execution.
+- Required final gate was still running; this is an initial needs-curation observation.
+related_reviews: []
+links:
+- https://github.com/CultureBotAI/AIMech/issues/326
+tags:
+- self-review
+- native-concepts
+- scope-correction
+```
