@@ -1,0 +1,142 @@
+id: AIMech:GirvanNewmanCommunityDetection
+name: Girvan–Newman community detection
+aliases:
+- Girvan–Newman algorithm
+- edge-betweenness community detection
+concept_kind: algorithm
+definition: A divisive community-detection algorithm that repeatedly removes an edge with maximal current
+  shortest-path betweenness and recalculates affected betweenness scores, using the resulting connected-component
+  splits to form a hierarchy of graph-vertex groups.
+definition_evidence:
+- source_id: girvan2001
+  locator: Section II.B, PDF p. 3, edge-betweenness definition and four-step algorithm
+  relation: supports
+claims:
+- claim_id: fractional-shortest-paths
+  kind: mechanism
+  statement: Edge betweenness sums contributions from shortest paths between vertex pairs. When a pair
+    has multiple shortest paths, the source gives them equal weights summing to one, so the pair contributes
+    to an edge in proportion to the fraction of its shortest paths using that edge. This is shortest-path
+    centrality, not a count of every walk or a measured physical flow.
+  evidence:
+  - source_id: girvan2001
+    locator: Section II.B, PDF p. 3, edge-betweenness definition
+    relation: supports
+- claim_id: iterative-recomputation
+  kind: mechanism
+  statement: After each maximal-betweenness edge removal, affected scores are recomputed before the next
+    removal. A fixed ordering of the initial scores is a different procedure. On a four-cycle with fixed
+    lexicographic ties, the constructed reference removes edge 0–1 first; recomputation then selects 2–3
+    and gives two groups of two vertices, while static sorting next removes 0–3 and first isolates a single
+    vertex.
+  evidence:
+  - source_id: girvan2001
+    locator: Section II.B, PDF p. 3, four-step algorithm and rejection of one-time sorting; curator calculation
+      in research/discovery/girvan-newman-boundaries.py
+    relation: supports
+- claim_id: hierarchy-and-selection
+  kind: scope
+  statement: The repeated deletions induce nested connected-component partitions and continue until no
+    edges remain. The inspected original method does not prescribe greedy modularity maximization or a
+    universal unique flat partition. Selecting a useful level of the hierarchy is separate from the edge-removal
+    rule; ties and any later cut-selection criterion need their own conventions.
+  evidence:
+  - source_id: girvan2001
+    locator: Sections II.B–III, PDF pp. 3–5, stopping rule and illustrated hierarchical splits
+    relation: supports
+- claim_id: runtime-and-domain
+  kind: scope
+  statement: Using the cited O(mn) shortest-path betweenness calculation on a graph with m edges and n
+    vertices gives O(m-squared n) worst-case time for repeated removals, or cubic time on sparse graphs.
+    Recalculation can be confined to the affected component. The inspected source treats unweighted undirected
+    networks and explicitly lists directed and weighted generalizations as future work.
+  evidence:
+  - source_id: girvan2001
+    locator: Section II.B, PDF p. 3, runtime and affected-component discussion; Conclusions, p. 7
+    relation: supports
+- claim_id: evaluation-scope
+  kind: scope
+  statement: The synthetic test uses 128 vertices in four groups with total degree sixteen, varying the
+    external connections; the figure averages one hundred realizations per point. The karate-club split
+    misclassifies one vertex, and the football analysis reports discrepancies where scheduling and conference
+    membership differ. These results are conditional evaluations rather than guarantees of complete recovery
+    in arbitrary graphs.
+  evidence:
+  - source_id: girvan2001
+    locator: Sections III.A–III.C, PDF pp. 3–5, Figures 3–5 and their captions
+    relation: supports
+- claim_id: application-interpretation
+  kind: limitation
+  statement: The collaboration-network groups receive interpretive topic and methodology labels. The Chesapeake
+    Bay example ignores trophic direction and finds groups associated roughly with habitat, spanning multiple
+    trophic levels. These partitions do not establish directed causal ecological mechanisms. The paper
+    also reports that some other food webs show no clear communities and leaves dense-graph sensitivity
+    versus absence of structure unresolved.
+  evidence:
+  - source_id: girvan2001
+    locator: Sections IV.A–IV.B and Conclusions, PDF pp. 5–7, Figures 6–7
+    relation: supports
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: The divisive graph algorithm produces a hierarchy of vertex partitions. This is a relation
+    to the clustering task, not equivalence or an asserted algorithm superclass.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The edge-removal rule derives groups from graph topology without class-label supervision.
+    External labels are used in evaluation rather than to define the removal rule.
+limitations:
+- This record covers the original shortest-path edge-betweenness removal method in arXiv cond-mat/0112110v1.
+  Later random-walk, weighted, directed, approximate-betweenness and modularity-based selection variants
+  require separate evidence.
+- 'The method is distinct from the original Newman matrix-based greedy modularity algorithm and its CNM
+  acceleration: it removes edges and recomputes shortest-path centrality rather than joining groups by
+  modularity gain.'
+- The finite four-cycle comparison fixes one tie policy and illustrates recomputation; it neither executes
+  the authors’ code nor proves that every graph yields different static and recomputed partitions.
+- The reference calculation sums over unordered reachable vertex pairs and retains isolated vertices.
+  It assigns no contribution to unreachable pairs and performs no deletion on an edgeless graph; the authors’
+  exceptional-input handling was not audited.
+- A high edge-betweenness score is a graph property, not proof of a social boundary, biological function
+  or actual information-flow mechanism. A hierarchy does not itself determine one uniquely correct community
+  partition.
+- All primary pages and references were read, but the journal version, source code and experimental datasets
+  were not inspected. No model training, paid service or benchmark replication was performed. The record
+  remains DRAFT.
+identity_notes: Compared all 442 pinned AIO and 673 native IDs, names, aliases and scoped synonyms before
+  either cohort write; no normalized identity match. Ignored- and hidden-inclusive searches of all three
+  checkouts returned 10,0,0 lines for Girvan–Newman. All ten public lines were read and are prior publication/comparison
+  context or the CNM discovery lead, not this maintained identity. Semantic assessment covered 46 AIO
+  and 268 native definitions; all 46 AIO and 267 prior native rows were unchanged and the new CNM definition
+  and entire record were read. Sixteen complete AIO node/edge/generated contexts were verified unchanged
+  and mapping rationales reassessed. Both cohort drafts were compared for distinct merge versus deletion
+  mechanisms. The source defines divisive edge removal and recomputation rather than modularity-based
+  agglomeration. This separates the maintained identity from CNM, HAC-Q and the original Newman matrix-update
+  candidate in this cohort. Later variants and any modularity-based cut selection are outside the inspected
+  original-method scope.
+evidence_sources:
+- source_id: girvan2001
+  title: Community structure in social and biological networks
+  authors:
+  - Michelle Girvan
+  - M. E. J. Newman
+  source_type: primary_paper
+  access_level: full_text
+  version: arXiv cond-mat/0112110v1, 2001-12-07; related PNAS99:7821–7826(2002). All eight pages and28
+    references read; rendered pages1–6 inspected, including all seven figures, both background equations
+    and the four-step method. Journal PDF, author code and datasets uninspected.
+  persistent_id: arxiv:cond-mat/0112110v1
+  url: https://arxiv.org/pdf/cond-mat/0112110v1
+  accessed_at: '2026-10-14T01:38:57Z'
+  sha256: aa1011120827ba04c03cbdb88d9775e4a764d7a292472aced2ab1309559cdae8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T01:53:33Z'
+  updated_at: '2026-10-14T01:53:33Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

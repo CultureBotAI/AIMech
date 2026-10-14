@@ -1,0 +1,580 @@
+# Scientific author self-review of Girvan–Newman community detection
+
+- Review: 20261014T015933Z-girvan-newman-community-detection
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-14T01:53:45Z
+- Finished UTC: 2026-10-14T01:59:33Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Girvan–Newman community detection as a DRAFT shortest-path edge-removal algorithm with related AIO tasks. Author self-review supports fractional betweenness and iterative recalculation while preserving hierarchy-selection, input-domain, runtime and interpretation limits.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:GirvanNewmanCommunityDetection
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 09d64c96d915362c623d35f42f43c02eb6accb33.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GirvanNewmanCommunityDetection | data/curated/GirvanNewmanCommunityDetection.yaml | maintained | Girvan–Newman community detection |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:GirvanNewmanCommunityDetection | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 168.10s (0:02:48)<br>Checked 442 record(s); 0 failed.<br>Checked 675 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 362 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 360,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:GirvanNewmanCommunityDetection | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:GirvanNewmanCommunityDetection | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:GirvanNewmanCommunityDetection | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:GirvanNewmanCommunityDetection | {"initial_cycle_scores": {"(0, 1)": "2", "(0, 3)": "2", "(1, 2)": "2", "(2, 3)": "2"}, "removed_first": [0, 1], "recomputed_scores": {"(0, 3)": "3", "(1, 2)": "3", "(2, 3)": "4"}, "removed_second_recomputed": [2, 3], "removed_second_static": [0, 3], "recomputed_first_split": [[0, 3], [1, 2]], "static_first_split": [[0], [1, 2, 3]], "unreachable_isolate_adds_no_path_contributions": true, "edgeless_result": "No deletion steps; every retained vertex is a singleton component.", "scope": "Unnormalized sum over unordered reachable pairs, equal fractional weighting of multiple shortest paths, fixed lexicographic ties. Finite reference example only; no author implementation, benchmark or universal community-recovery guarantee."} |
+
+## Scientific And Domain Assessments
+
+### Girvan–Newman community detection
+
+identity: supported. Targets: AIMech:GirvanNewmanCommunityDetection.
+
+Retain this distinct DRAFT algorithm.
+
+Retain the original shortest-path edge-betweenness deletion method. Ignored-inclusive searches return publication/comparison contexts, not this maintained identity. Divisive deletion differs from Newman/CNM modularity agglomeration; later random-walk, weighted, directed and cut-selection variants remain separately scoped.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:GirvanNewmanCommunityDetection.
+
+The explicit AIO mapping assessment is supported within its stated scope.
+
+Related HierarchicalClustering and UnsupervisedClustering task mappings preserve algorithm/task scope. Sixteen annotated AIO contexts were read and verified unchanged; four generated YAMLs were reread after capture. Graph grouping does not imply modular language modeling, causal inference or a directed probability model.
+
+### fractional-shortest-paths
+
+evidence: supported. Targets: AIMech:GirvanNewmanCommunityDetection.
+
+Supported within the stated primary-source and mathematical scope.
+
+Page3 divides one pair’s contribution equally among its shortest paths. The four-cycle gives every edge score2 under unordered-pair unnormalized accounting. This is not an all-walk count, a random-walk model or observed physical flow.
+
+### iterative-recomputation
+
+evidence: supported. Targets: AIMech:GirvanNewmanCommunityDetection.
+
+Supported within the stated primary-source and mathematical scope.
+
+The four-step method requires recalculating affected scores. After deleting01 in a four-cycle, scores03=3,12=3,23=4 select23, yielding two pairs; static initial ordering instead selects03 and isolates0. The finite reference fixes ties and makes no author-code claim.
+
+### hierarchy-and-selection
+
+evidence: supported. Targets: AIMech:GirvanNewmanCommunityDetection.
+
+Supported within the stated primary-source and mathematical scope.
+
+The method continues to no edges, generating nested component partitions. The original source supplies illustrated choices of level but no modularity-maximization merge rule or universal single best flat partition. The record keeps optional later selection criteria separate.
+
+### runtime-and-domain
+
+evidence: supported. Targets: AIMech:GirvanNewmanCommunityDetection.
+
+Supported within the stated primary-source and mathematical scope.
+
+Page3 states O(mn) for the cited betweenness calculation and O(m²n) repeated removal, with affected-component savings. Page7 specializes to cubic sparse graphs and explicitly leaves weighted/directed extensions for future work.
+
+### evaluation-scope
+
+evidence: supported. Targets: AIMech:GirvanNewmanCommunityDetection.
+
+Supported within the stated primary-source and mathematical scope.
+
+The original synthetic protocol fixes total degree16 in128vertices/four groups; Figure3 averages100realizations and explains half-integer external degree. Karate misclassifiesvertex3 and football has explicit Sunbelt/WesternAthletic discrepancies. These are conditional results, not universal exact recovery.
+
+### application-interpretation
+
+evidence: supported. Targets: AIMech:GirvanNewmanCommunityDetection.
+
+Supported within the stated primary-source and mathematical scope.
+
+SFI group labels are interpretive. The33taxon Chesapeake network ignores trophic direction and roughly groups habitats across trophic levels. Pages6–7 acknowledge other foodwebs with unclear communities and unresolved dense-graph sensitivity. Neither directed ecology nor universal biological truth is established.
+
+### shortest-path fractions, recalculated versus static deletion, hierarchy versus final cut, and descriptive versus causal interpretation
+
+consistency: supported. Targets: AIMech:GirvanNewmanCommunityDetection.
+
+Constructed calculations support the stated distinctions.
+
+Four-cycle exact shortest-path fractions and fixed-tie recomputation versus static-order first splits; unreachable isolate neutrality and edgeless retained-vertex components. No author code, benchmark or general community-recovery guarantee.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:GirvanNewmanCommunityDetection.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 6 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. All six claims and every maintained field were reviewed. Equal shortest-path fractions, recalculation, hierarchy versus final cut, complexity, domain and conditional empirical interpretation are supported. No repository defect was identified; DRAFT remains.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261014T015333Z-girvan-newman-community-detection.json | supports | Compared all 442 pinned AIO and 673 native IDs, names, aliases and scoped synonyms before either cohort write; no normalized identity match. Ignored- and hidden-inclusive searches of all three checkouts returned 10,0,0 lines for Girvan–Newman. All ten public lines were read and are prior publication/comparison context or the CNM discovery lead, not this maintained identity. Semantic assessment covered 46 AIO and 268 native definitions; all 46 AIO and 267 prior native rows were unchanged and the new CNM definition and entire record were read. Sixteen complete AIO node/edge/generated contexts were verified unchanged and mapping rationales reassessed. Both cohort drafts were compared for distinct merge versus deletion mechanisms. The source defines divisive edge removal and recomputation rather than modularity-based agglomeration. This separates the maintained identity from CNM, HAC-Q and the original Newman matrix-update candidate in this cohort. Later variants and any modularity-based cut selection are outside the inspected original-method scope. |
+| mapping | sources/aio/aio.json | supports | Related HierarchicalClustering and UnsupervisedClustering task mappings preserve algorithm/task scope. Sixteen annotated AIO contexts were read and verified unchanged; four generated YAMLs were reread after capture. Graph grouping does not imply modular language modeling, causal inference or a directed probability model. |
+| girvan2001 | https://arxiv.org/pdf/cond-mat/0112110v1; Section II.B, PDF p. 3, edge-betweenness definition and four-step algorithm; Section II.B, PDF p. 3, edge-betweenness definition; Section II.B, PDF p. 3, four-step algorithm and rejection of one-time sorting; curator calculation in research/discovery/girvan-newman-boundaries.py; Sections II.B–III, PDF pp. 3–5, stopping rule and illustrated hierarchical splits; Section II.B, PDF p. 3, runtime and affected-component discussion; Conclusions, p. 7; Sections III.A–III.C, PDF pp. 3–5, Figures 3–5 and their captions; Sections IV.A–IV.B and Conclusions, PDF pp. 5–7, Figures 6–7 | supports | arXiv cond-mat/0112110v1, 2001-12-07; related PNAS99:7821–7826(2002). All eight pages and28 references read; rendered pages1–6 inspected, including all seven figures, both background equations and the four-step method. Journal PDF, author code and datasets uninspected. |
+| calculation | research/discovery/girvan-newman-boundaries.py | supports | Four-cycle exact shortest-path fractions and fixed-tie recomputation versus static-order first splits; unreachable isolate neutrality and edgeless retained-vertex components. No author code, benchmark or general community-recovery guarantee. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- This cohort step adds one DRAFT record, reaching 675 native and 442 unchanged AIO records. The main frontier now has 860 entries, including 473 pending and 58 partly addressed cohorts; nested leads remain.
+- All eight pages and28 references fully read. All seven figures and both background equations visually read, together with the complete four-step method. Pages7–8 text read; not separately visually reread.
+- Primary methods were read; no author-code execution, model fitting, paid service, data upload, hardware benchmark or formal theorem certification. Constructed arithmetic examples are not experiment replication.
+- Original Documents checkout synchronization and old round141 cleanup remain unapproved after automatic-review rejection; only the isolated recovery checkout is changed.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261014T015933Z-girvan-newman-community-detection
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Girvan–Newman community detection
+started_at: '2026-10-14T01:53:45Z'
+finished_at: '2026-10-14T01:59:33Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged shortest-path fractions, recalculated
+    versus static deletion, hierarchy versus final cut, and descriptive versus causal
+    interpretation. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Girvan–Newman community detection as a DRAFT shortest-path edge-removal
+  algorithm with related AIO tasks. Author self-review supports fractional betweenness
+  and iterative recalculation while preserving hierarchy-selection, input-domain,
+  runtime and interpretation limits.
+source:
+  git_revision: 09d64c96d915362c623d35f42f43c02eb6accb33
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/BoltzmannMachineNetwork.yaml
+    sha256: 1152d2d85c5c1c408a0420e13f211ed109b12fb289c706ee7449864e91aece03
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/EthicalLLM.yaml
+    sha256: cd35ce670508ad59d04c55392e04f481415e2245c36f87185700b83bf14636f6
+    role: context
+  - path: data/aio/HierarchicalClassification.yaml
+    sha256: 5e1f65090a3a9e7842b57c12410a7279d02c60baef05844fa1dd73545f1cbfc7
+    role: context
+  - path: data/aio/HierarchicalClustering.yaml
+    sha256: 144deaecd150e22de207c11a62f19db5f8409443724bd4be4b5c95c53375b258
+    role: context
+  - path: data/aio/KnearestNeighborClassificationAlgorithm.yaml
+    sha256: c45f4eca7cc4e11444cc9be90d2622f8fd37c5296b0b01ffb7a0b7e7ac17af2a
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/MetricLearning.yaml
+    sha256: 9497c86ecf87bce4abc89095d2b6b3e9290c15ec8a853f4f9c91a3b8d041f3fc
+    role: context
+  - path: data/aio/ModularLLM.yaml
+    sha256: 73d7e14187388642a79ea7756f9c4fdd9958e0882e8292b3addf4ab6167a3613
+    role: context
+  - path: data/aio/ModularLanguageModel.yaml
+    sha256: d5de5d9786239ade0804aaa751ff93ef75b782bf61208789772bf4ad83e6595c
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/CNMCommunityDetection.yaml
+    sha256: c823bf2f1720f6ceb00148192efcf0a1485d4d6e04cdb92c4751f0993fb7d7cd
+    role: context
+  - path: data/curated/GirvanNewmanCommunityDetection.yaml
+    sha256: 0233486104552b70b0fb6cea4c4cd4cff9eb88e763025e14f1890731084b9afa
+    role: target
+  - path: data/curated/HACML.yaml
+    sha256: 06a6b1b83616ce816b112084bfcfb2f29cd061a2fa0d07c3b66c6e2cfcbaae4a
+    role: context
+  - path: data/curated/HACQ.yaml
+    sha256: f35a5f52f48d7e218b57d118c9271234b59f9858bcd9727acd3d8738f7b5ea81
+    role: context
+  - path: research/discovery/20261014T015333Z-girvan-newman-community-detection.json
+    sha256: 0be06f71bac3e79179c82f50536ea09c20158ce61b05fb617486e2fd8d4ee67a
+    role: context
+  - path: research/discovery/girvan-newman-boundaries.py
+    sha256: d911fae95a27afd6da2b7210b21e2044fb4a763d458e5f5d19e435b99441baa1
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GirvanNewmanCommunityDetection
+  path: data/curated/GirvanNewmanCommunityDetection.yaml
+  label: Girvan–Newman community detection
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GirvanNewmanCommunityDetection.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:GirvanNewmanCommunityDetection'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Uninspected source versions and implementation components
+    reason: Author code, datasets, journal PDF versions and later implementations
+      were not inspected or executed. Exact small examples are not benchmark replication
+      or universal proof; no scientific-status promotion.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 168.10s (0:02:48)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 675 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 362 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 360,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/girvan-newman-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"initial_cycle_scores": {"(0, 1)": "2", "(0, 3)": "2", "(1, 2)": "2",
+    "(2, 3)": "2"}, "removed_first": [0, 1], "recomputed_scores": {"(0, 3)": "3",
+    "(1, 2)": "3", "(2, 3)": "4"}, "removed_second_recomputed": [2, 3], "removed_second_static":
+    [0, 3], "recomputed_first_split": [[0, 3], [1, 2]], "static_first_split": [[0],
+    [1, 2, 3]], "unreachable_isolate_adds_no_path_contributions": true, "edgeless_result":
+    "No deletion steps; every retained vertex is a singleton component.", "scope":
+    "Unnormalized sum over unordered reachable pairs, equal fractional weighting of
+    multiple shortest paths, fixed lexicographic ties. Finite reference example only;
+    no author implementation, benchmark or universal community-recovery guarantee."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261014T015333Z-girvan-newman-community-detection.json
+  accessed_at: '2026-10-14T01:53:45Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 673 native IDs, names, aliases and scoped
+    synonyms before either cohort write; no normalized identity match. Ignored- and
+    hidden-inclusive searches of all three checkouts returned 10,0,0 lines for Girvan–Newman.
+    All ten public lines were read and are prior publication/comparison context or
+    the CNM discovery lead, not this maintained identity. Semantic assessment covered
+    46 AIO and 268 native definitions; all 46 AIO and 267 prior native rows were unchanged
+    and the new CNM definition and entire record were read. Sixteen complete AIO node/edge/generated
+    contexts were verified unchanged and mapping rationales reassessed. Both cohort
+    drafts were compared for distinct merge versus deletion mechanisms. The source
+    defines divisive edge removal and recomputation rather than modularity-based agglomeration.
+    This separates the maintained identity from CNM, HAC-Q and the original Newman
+    matrix-update candidate in this cohort. Later variants and any modularity-based
+    cut selection are outside the inspected original-method scope.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-14T01:53:45Z'
+  support: supports
+  summary: Related HierarchicalClustering and UnsupervisedClustering task mappings
+    preserve algorithm/task scope. Sixteen annotated AIO contexts were read and verified
+    unchanged; four generated YAMLs were reread after capture. Graph grouping does
+    not imply modular language modeling, causal inference or a directed probability
+    model.
+- evidence_id: girvan2001
+  kind: primary_source
+  reference: https://arxiv.org/pdf/cond-mat/0112110v1
+  locator: Section II.B, PDF p. 3, edge-betweenness definition and four-step algorithm;
+    Section II.B, PDF p. 3, edge-betweenness definition; Section II.B, PDF p. 3, four-step
+    algorithm and rejection of one-time sorting; curator calculation in research/discovery/girvan-newman-boundaries.py;
+    Sections II.B–III, PDF pp. 3–5, stopping rule and illustrated hierarchical splits;
+    Section II.B, PDF p. 3, runtime and affected-component discussion; Conclusions,
+    p. 7; Sections III.A–III.C, PDF pp. 3–5, Figures 3–5 and their captions; Sections
+    IV.A–IV.B and Conclusions, PDF pp. 5–7, Figures 6–7
+  accessed_at: '2026-10-14T01:38:57Z'
+  snapshot_sha256: aa1011120827ba04c03cbdb88d9775e4a764d7a292472aced2ab1309559cdae8
+  support: supports
+  summary: arXiv cond-mat/0112110v1, 2001-12-07; related PNAS99:7821–7826(2002). All
+    eight pages and28 references read; rendered pages1–6 inspected, including all
+    seven figures, both background equations and the four-step method. Journal PDF,
+    author code and datasets uninspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/girvan-newman-boundaries.py
+  accessed_at: '2026-10-14T01:54:48Z'
+  snapshot_sha256: d911fae95a27afd6da2b7210b21e2044fb4a763d458e5f5d19e435b99441baa1
+  support: supports
+  summary: Four-cycle exact shortest-path fractions and fixed-tie recomputation versus
+    static-order first splits; unreachable isolate neutrality and edgeless retained-vertex
+    components. No author code, benchmark or general community-recovery guarantee.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Girvan–Newman community detection
+  outcome: supported
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  evidence_ids:
+  - identity
+  - girvan2001
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain the original shortest-path edge-betweenness deletion method. Ignored-inclusive
+    searches return publication/comparison contexts, not this maintained identity.
+    Divisive deletion differs from Newman/CNM modularity agglomeration; later random-walk,
+    weighted, directed and cut-selection variants remain separately scoped.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  evidence_ids:
+  - mapping
+  - girvan2001
+  summary: The explicit AIO mapping assessment is supported within its stated scope.
+  details: Related HierarchicalClustering and UnsupervisedClustering task mappings
+    preserve algorithm/task scope. Sixteen annotated AIO contexts were read and verified
+    unchanged; four generated YAMLs were reread after capture. Graph grouping does
+    not imply modular language modeling, causal inference or a directed probability
+    model.
+- assessment_id: fractional-shortest-paths
+  area: evidence
+  topic: fractional-shortest-paths
+  outcome: supported
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  evidence_ids:
+  - girvan2001
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Page3 divides one pair’s contribution equally among its shortest paths.
+    The four-cycle gives every edge score2 under unordered-pair unnormalized accounting.
+    This is not an all-walk count, a random-walk model or observed physical flow.
+- assessment_id: iterative-recomputation
+  area: evidence
+  topic: iterative-recomputation
+  outcome: supported
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  evidence_ids:
+  - girvan2001
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The four-step method requires recalculating affected scores. After deleting01
+    in a four-cycle, scores03=3,12=3,23=4 select23, yielding two pairs; static initial
+    ordering instead selects03 and isolates0. The finite reference fixes ties and
+    makes no author-code claim.
+- assessment_id: hierarchy-and-selection
+  area: evidence
+  topic: hierarchy-and-selection
+  outcome: supported
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  evidence_ids:
+  - girvan2001
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The method continues to no edges, generating nested component partitions.
+    The original source supplies illustrated choices of level but no modularity-maximization
+    merge rule or universal single best flat partition. The record keeps optional
+    later selection criteria separate.
+- assessment_id: runtime-and-domain
+  area: evidence
+  topic: runtime-and-domain
+  outcome: supported
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  evidence_ids:
+  - girvan2001
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Page3 states O(mn) for the cited betweenness calculation and O(m²n) repeated
+    removal, with affected-component savings. Page7 specializes to cubic sparse graphs
+    and explicitly leaves weighted/directed extensions for future work.
+- assessment_id: evaluation-scope
+  area: evidence
+  topic: evaluation-scope
+  outcome: supported
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  evidence_ids:
+  - girvan2001
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The original synthetic protocol fixes total degree16 in128vertices/four
+    groups; Figure3 averages100realizations and explains half-integer external degree.
+    Karate misclassifiesvertex3 and football has explicit Sunbelt/WesternAthletic
+    discrepancies. These are conditional results, not universal exact recovery.
+- assessment_id: application-interpretation
+  area: evidence
+  topic: application-interpretation
+  outcome: supported
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  evidence_ids:
+  - girvan2001
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: SFI group labels are interpretive. The33taxon Chesapeake network ignores
+    trophic direction and roughly groups habitats across trophic levels. Pages6–7
+    acknowledge other foodwebs with unclear communities and unresolved dense-graph
+    sensitivity. Neither directed ecology nor universal biological truth is established.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: shortest-path fractions, recalculated versus static deletion, hierarchy versus
+    final cut, and descriptive versus causal interpretation
+  outcome: supported
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  evidence_ids:
+  - girvan2001
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Four-cycle exact shortest-path fractions and fixed-tie recomputation versus
+    static-order first splits; unreachable isolate neutrality and edgeless retained-vertex
+    components. No author code, benchmark or general community-recovery guarantee.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:GirvanNewmanCommunityDetection
+  evidence_ids:
+  - identity
+  - mapping
+  - girvan2001
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 6 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. All six claims and every maintained field were reviewed.
+    Equal shortest-path fractions, recalculation, hierarchy versus final cut, complexity,
+    domain and conditional empirical interpretation are supported. No repository defect
+    was identified; DRAFT remains.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- This cohort step adds one DRAFT record, reaching 675 native and 442 unchanged AIO
+  records. The main frontier now has 860 entries, including 473 pending and 58 partly
+  addressed cohorts; nested leads remain.
+- All eight pages and28 references fully read. All seven figures and both background
+  equations visually read, together with the complete four-step method. Pages7–8 text
+  read; not separately visually reread.
+- Primary methods were read; no author-code execution, model fitting, paid service,
+  data upload, hardware benchmark or formal theorem certification. Constructed arithmetic
+  examples are not experiment replication.
+- Original Documents checkout synchronization and old round141 cleanup remain unapproved
+  after automatic-review rejection; only the isolated recovery checkout is changed.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
