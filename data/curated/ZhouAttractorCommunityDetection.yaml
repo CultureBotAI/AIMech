@@ -1,0 +1,149 @@
+id: AIMech:ZhouAttractorCommunityDetection
+name: Zhou first-passage attractor community detection
+aliases:
+- Zhou local and global attractor communities
+concept_kind: algorithm
+definition: A graph community-detection algorithm that forms local or global groups as the minimal nonempty
+  sets closed under a first-passage-time attractor relation and its reverse, using neighbor-restricted
+  or all-vertex minimum expected arrival times respectively.
+definition_evidence:
+- source_id: zhou2003attractors
+  locator: First-passage definition, PDF pp. 1–2; Equation 1 and local/global attractor community definitions,
+    p. 2
+  relation: supports
+claims:
+- claim_id: weighted-walk-and-distance
+  kind: mechanism
+  statement: The maintained domain is a finite connected undirected graph with at least two vertices,
+    symmetric nonnegative adjacency weights, positive vertex strengths and optional self-loops. The walker
+    uses P_ij=A_ij/sum_l A_il. For target j, form B^(j) by setting column j of P to zero and solve (I-B^(j))d_:j=1.
+    For i!=j this is the mean first-hitting time; d_jj is the positive mean return time, equal to total
+    vertex strength divided by j’s strength. These first-passage quantities remain finite on connected
+    periodic graphs; no convergence of the ordinary state-probability sequence is required.
+  evidence:
+  - source_id: zhou2003attractors
+    locator: Graph and walk specification, PDF p. 1; Equation 1 and its linear system, p. 2; curator independent
+      absorbing-target checks in research/discovery/zhou-walk-boundaries.py
+    relation: supports
+- claim_id: all-attractor-closure
+  kind: mechanism
+  statement: A local attractor of i minimizes d_ij over vertices adjacent to i, while a global attractor
+    minimizes it over every vertex, including i itself. All equal minimizers satisfy the source’s non-strict
+    inequalities. For the selected mode, a community contains every attractor of each member and every
+    vertex attracted to a member, and is minimal among nonempty sets with both closure properties. Equivalently,
+    the communities are weakly connected components of the directed all-attractor relation. This gives
+    a disjoint partition without deleting original graph edges or specifying a desired number of groups.
+  evidence:
+  - source_id: zhou2003attractors
+    locator: Local/global attractor definitions and three L-community conditions, PDF p. 2; weak-component
+      equivalence is a curator interpretation of the two closure conditions
+    relation: supports
+- claim_id: return-and-tie-boundaries
+  kind: limitation
+  statement: Positive returns and ties affect the output. On a curator three-vertex path, the distance
+    rows are (4,1,4), (3,2,3), (4,1,4); every vertex has the middle vertex as its global attractor, giving
+    one community. Replacing diagonal returns by zero instead makes each vertex a self-attractor and yields
+    three singleton global groups. On a four-cycle every node has two tied local attractors, giving one
+    all-attractor component; selecting only one tied neighbor per node can instead produce two pairs.
+    Such arbitrary tie removal is not the all-attractor rule.
+  evidence:
+  - source_id: zhou2003attractors
+    locator: Equation 1 and non-strict attractor inequalities, PDF p. 2; exact path/cycle constructions
+      in research/discovery/zhou-walk-boundaries.py
+    relation: supports
+- claim_id: local-global-partition-boundary
+  kind: limitation
+  statement: Local and global modes do not guarantee nested partitions. In a curator weighted graph with
+    edges 0–3 of weight 2, 1–2 of weight 2, and 1–3 and 2–3 of weight 1, the local mode yields one four-node
+    group while the global mode yields {0,3} and {1,2}. The paper’s expectation of local groups lying
+    within global groups is heuristic. Exact curator comparison of the killed-column and independent absorbing-target
+    equations covers all 624 connected four-vertex graphs with absent, weight-1 or weight-2 edges, totaling
+    2496 target systems; it is not a benchmark replication or universal recovery proof.
+  evidence:
+  - source_id: zhou2003attractors
+    locator: Local/global relationship discussion, PDF p. 2; yeast relationship qualification, p. 3; finite
+      enumeration and explicit nesting counterexample in research/discovery/zhou-walk-boundaries.py
+    relation: supports
+- claim_id: stability-and-center-diagnostics
+  kind: scope
+  statement: The instability diagnostic counts nodes whose total direct weight to some other community
+    exceeds their weight to other members of their own community, excluding self. This compares each other
+    community separately, rather than all outside vertices together. Stability is reported after attractor
+    grouping and is not imposed as a membership constraint. A candidate center is a global self-attractor
+    under the positive-return convention; existence or uniqueness is not guaranteed by the definition.
+  evidence:
+  - source_id: zhou2003attractors
+    locator: Community size, instability and center definitions, PDF p. 2; unstable members reported in
+      examples, pp. 2–3
+    relation: supports
+- claim_id: evaluation-and-extension-limits
+  kind: limitation
+  statement: The source applies the method to weighted karate and collaboration networks, an unweighted
+    football network and a historical yeast protein-interaction component. Its planted random-module comparison
+    reports limitations relative to Girvan–Newman, so no universal detection advantage follows. Protein
+    transport, essentiality and functional explanations remain hypotheses rather than causal evidence.
+    Finite-temperature membership, coarse-grained recursion, localized distance approximation and the
+    later distance-profile dissimilarity method are separate extensions, not steps of this original attractor-closure
+    algorithm.
+  evidence:
+  - source_id: zhou2003attractors
+    locator: Examples and limitations, PDF pp. 2–3; Table I, p. 4; Figure 1, p. 5; proposed extensions,
+      p. 3
+    relation: supports
+identity_notes: 'Compared both cohort candidates against all 442 pinned AIO and 697 native identities;
+  no normalized match. Ignored- and hidden-inclusive searches of three full checkouts returned 27,0,0
+  lines, all read as existing Zhou source URLs, abstract interpretations, query strings and pending leads.
+  Semantic assessment covered 155 AIO and 542 native definitions: 155 AIO and541 prior native rows verified
+  unchanged, plus the new Noh–Rieger row and full record read. Thirteen complete AIO contexts and six
+  full native neighbors assessed. This algorithm groups vertices by closure under minimum first-passage
+  attractors and reverse relations. It neither deletes high-betweenness edges nor optimizes modularity,
+  ranks individual nodes, compares complete profile vectors, or constructs a guaranteed local-to-global
+  hierarchy.'
+evidence_sources:
+- source_id: zhou2003attractors
+  title: Network Landscape from a Brownian Particle’s Perspective
+  authors:
+  - Haijun Zhou
+  source_type: primary_paper
+  access_level: full_text
+  persistent_id: arxiv:physics/0302030v1
+  version: arXiv physics/0302030v1, submitted and printed February11,2003; primary metadata links PRE67:041908(2003),
+    DOI10.1103/PhysRevE.67.041908. All five PDF pages and25references read as text and images, including
+    Equation1, all Figure1 panels and TableI. No journal-byte equivalence or author-software inspection.
+  url: https://arxiv.org/pdf/physics/0302030v1
+  accessed_at: '2026-10-14T07:32:16Z'
+  sha256: 2da11ce6cf7ed05ce8ab4fa79de23e5af43f8846b12942193e8bf133c1506a11
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The algorithm groups graph vertices using interaction topology and first-passage dynamics
+    without label supervision. The AIO target denotes a clustering task, so this method-to-task relation
+    is not an equivalence or algorithm is-a assertion.
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: First-passage attractors are derived from a specified Markov walk. The local grouping algorithm
+    is distinct from the target process/model; the target’s Network parent and hidden-layer relation are
+    not imported into this graph algorithm.
+limitations:
+- Local and global partitions are alternative output modes of one attractor-closure construction; neither
+  is generally a refinement of the other.
+- The source calls expected passage a distance, but it is asymmetric and has positive diagonal returns.
+  Replacing it by a zero-diagonal metric changes global attractors.
+- Exact ties are retained. Numerical tolerance and approximate linear-solver error require an implementation
+  policy that was not audited.
+- The introductory stationary-probability convergence wording is not adopted for periodic walks. First-passage
+  solves do not rely on that limit.
+- Only historical source applications and finite curator calculations were assessed. Journal-byte equivalence,
+  author code, raw datasets, biological hypotheses and benchmark replication were not verified. DRAFT
+  remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T08:00:11Z'
+  updated_at: '2026-10-14T08:00:11Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,164 @@
+id: AIMech:ZhouRandomWalkDissimilarity
+name: Zhou random-walk distance-profile dissimilarity
+aliases:
+- Zhou neighbor dissimilarity index
+concept_kind: mathematical_method
+definition: A pairwise graph dissimilarity that compares the mean first-passage-time profiles of two adjacent
+  vertices by taking the Euclidean norm of their differences to all other vertices and dividing that norm
+  by N-2, for a graph of N vertices.
+definition_evidence:
+- source_id: zhou2003dissimilarity
+  locator: Section II, Equation 1, PDF p. 2; denominator placement checked visually in arXiv physics/0302032v1
+  relation: supports
+claims:
+- claim_id: walk-and-profile-domain
+  kind: scope
+  statement: The maintained domain is a finite connected undirected graph with N>2, symmetric nonnegative
+    adjacency weights and positive vertex strengths. A walker moves from i to j with probability A_ij/sum_l
+    A_il. For each distinct adjacent pair (i,j), the functional compares d_ik and d_jk for every k other
+    than i and j, where d is the mean first-hitting-time matrix on the entire input graph. Unweighted
+    graphs are a special case. The endpoint coordinates are omitted, so diagonal self-return conventions
+    do not affect this index.
+  evidence:
+  - source_id: zhou2003dissimilarity
+    locator: Section II, PDF p. 2; preceding distance construction in the inspected Zhou attractor paper,
+      Equation 1, p. 2
+    relation: supports
+  - source_id: zhou2003attractors
+    locator: Graph and transition specification, PDF p. 1; Equation 1 and first-passage linear system,
+      p. 2
+    relation: supports
+- claim_id: exact-source-normalization
+  kind: mechanism
+  statement: In the inspected arXiv v1, Lambda(i,j)=sqrt(sum_{k not in {i,j}}(d_ik-d_jk)^2)/(N-2). The
+    denominator lies outside the square root. Root-mean-square normalization would divide the same norm
+    by sqrt(N-2), yielding a value sqrt(N-2) times larger. On a four-cycle the source index squared is
+    1/2, whereas the root-mean-square value squared is 1. No equivalence between these numerical threshold
+    scales is asserted.
+  evidence:
+  - source_id: zhou2003dissimilarity
+    locator: Section II, Equation 1, PDF p. 2; four-cycle arithmetic in research/discovery/zhou-walk-boundaries.py
+    relation: supports
+- claim_id: symmetric-nonseparating-score
+  kind: limitation
+  statement: 'The index is symmetric and nonnegative even though its input passage times are generally
+    asymmetric. It need not be positive for different vertices: two vertices with identical hitting profiles
+    to all remaining vertices have value zero, including any pair in an unweighted complete four-vertex
+    graph. The source defines it on adjacent pairs; extending it to all pairs or asserting metric separation
+    or a triangle inequality requires additional justification.'
+  evidence:
+  - source_id: zhou2003dissimilarity
+    locator: Section II, PDF p. 2; exact complete-graph calculation in research/discovery/zhou-walk-boundaries.py
+    relation: supports
+- claim_id: global-dynamics-not-local-overlap
+  kind: mechanism
+  statement: The compared profiles depend on whole-graph random-walk passage, not only shared-neighbor
+    counts, shortest-path lengths or stationary visit probabilities. Multiplying every adjacency weight
+    by one common positive factor leaves the transition matrix, all mean passage times and the index unchanged.
+    Computing full-network distances before later subdivision is distinct from recomputing them within
+    each induced subgraph.
+  evidence:
+  - source_id: zhou2003dissimilarity
+    locator: Section II and opening of Section III, PDF p. 2; transition specification in the Zhou attractor
+      paper, PDF pp. 1–2; common-weight rescaling calculation in research/discovery/zhou-walk-boundaries.py
+    relation: supports
+  - source_id: zhou2003attractors
+    locator: Graph and transition specification, PDF p. 1; Equation 1 and first-passage linear system,
+      p. 2
+    relation: supports
+- claim_id: hierarchy-algorithm-is-separate
+  kind: limitation
+  statement: The source’s separate hierarchy procedure thresholds these indices into friend sets and simultaneously
+    reassigns unstable vertices by total interaction. This functional alone defines neither a partition
+    nor guaranteed hierarchy termination. A curator complete four-vertex weighted graph with within-pair
+    weights 1 and cross-pair weights 2 has zero within-pair indices and cross-pair index squared 25/288.
+    A threshold below the latter index yields two friend pairs; each node has own-group weight 1 and other-group
+    weight 4. Simultaneous moves swap all group labels, leaving every node unstable and preventing the
+    printed step-4 stopping condition. This is a scoped counterexample to unconditional termination of
+    that printed adjustment rule, not an execution of author software.
+  evidence:
+  - source_id: zhou2003dissimilarity
+    locator: Section III, steps 2–5, PDF p. 2; exact synchronous-update construction in research/discovery/zhou-walk-boundaries.py
+    relation: supports
+- claim_id: interpretation-and-version-limits
+  kind: limitation
+  statement: The source interprets small index values as similar graph perspectives and uses them in historical
+    synthetic, social and yeast-network clustering examples. Its performance and protein-function hypotheses
+    concern the full hierarchy pipeline and specific data, not independent validation of this pairwise
+    functional or causal biology. This record follows the inspected arXiv v1 normalization; journal-byte
+    equivalence and version-specific numerical changes were not established.
+  evidence:
+  - source_id: zhou2003dissimilarity
+    locator: Section II, p. 2; applications, pp. 3–9; conclusions, pp. 7 and 9
+    relation: supports
+identity_notes: 'Compared the pairwise functional against all 442 pinned AIO and 698 native identities;
+  no normalized match. Ignored- and hidden-inclusive searches of three full checkouts returned 62,0,0
+  lines, read as the previous Zhou record/report, source evidence, query strings or pending leads. Semantic
+  assessment covered 155 AIO and 543 native definitions: 155 AIO and542 prior native rows verified unchanged,
+  plus the new attractor-closure row and full record read. Thirteen complete AIO contexts and six full
+  native neighbors assessed. The identity is the symmetric nonnegative pairwise profile score, not first-passage
+  distance itself, a node centrality, original attractor closure or the full subsequent hierarchy. Distinct
+  vertices can have zero score and the original domain is adjacent pairs.'
+evidence_sources:
+- source_id: zhou2003dissimilarity
+  title: Distance, dissimilarity index, and network community structure
+  authors:
+  - Haijun Zhou
+  source_type: primary_paper
+  access_level: full_text
+  persistent_id: arxiv:physics/0302032v1
+  version: arXiv physics/0302032v1, submitted and printed February11,2003; primary metadata links PRE67:061901(2003),
+    DOI10.1103/PhysRevE.67.061901. All ten pages and12references read as text; page2 inspected visually
+    for Equation1 and six algorithm steps. Other displays remain text-only. No journal-byte equivalence,
+    implementation audit or replication.
+  url: https://arxiv.org/pdf/physics/0302032v1
+  accessed_at: '2026-10-14T07:32:17Z'
+  sha256: 820fabdced2dae59cef7009c53c1aafb73b259c4bef0107826faf38044bfd520
+- source_id: zhou2003attractors
+  title: Network Landscape from a Brownian Particle’s Perspective
+  authors:
+  - Haijun Zhou
+  source_type: primary_paper
+  access_level: full_text
+  persistent_id: arxiv:physics/0302030v1
+  version: arXiv physics/0302030v1, submitted and printed February11,2003; primary metadata links PRE67:041908(2003),
+    DOI10.1103/PhysRevE.67.041908. All five PDF pages and25references read as text and images, including
+    Equation1, all Figure1 panels and TableI. No journal-byte equivalence or author-software inspection.
+  url: https://arxiv.org/pdf/physics/0302030v1
+  accessed_at: '2026-10-14T07:32:16Z'
+  sha256: 2da11ce6cf7ed05ce8ab4fa79de23e5af43f8846b12942193e8bf133c1506a11
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: broad_match
+  rationale: The local concept assigns a nonnegative number to a graph and an adjacent vertex pair using
+    an explicit equation. AIO MathematicalFunction is the broader rule-to-value class; the local identity
+    is a functional rather than a particular solver.
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The compared profiles are mean passage times of a specified Markov walk. This relates the
+    pairwise functional to its generating process, without asserting process equivalence or inheriting
+    the target’s Network/hidden-layer context.
+limitations:
+- The maintained identity is the adjacent-pair dissimilarity functional, not the complete threshold hierarchy,
+  attractor communities, a learned graph representation or a node centrality.
+- N>2 and connected positive-strength input are explicit. Disconnected cross-component passage, zero denominators
+  and directed generalizations are outside scope.
+- The source denominator is outside the radical. Numerical thresholds cannot be copied from a root-mean-square
+  convention without rescaling.
+- Tie policy, friendless vertices, exhausted thresholds and synchronous reassignment termination require
+  separate algorithm assessment. The finite cycling example preserves the source’s simultaneous update
+  rule.
+- All ten source pages were read as text, with the defining equation and algorithm steps inspected visually;
+  other displays remain text-only. No author code, raw benchmark replication, journal-byte equivalence
+  or biological hypothesis validation. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T08:02:02Z'
+  updated_at: '2026-10-14T08:02:02Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
