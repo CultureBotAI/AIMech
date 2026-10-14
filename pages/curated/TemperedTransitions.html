@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tempered transitions · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Tempered transitions</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Tempered transitions</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:TemperedTransitions</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Neal tempered transitions
+    </div>
+
+  <div class="detail-desc">
+    A Markov chain Monte Carlo transition algorithm that proposes a new target state through a prescribed outward and return sequence of mutually reversed kernels for auxiliary distributions, then accepts or rejects the endpoint using density ratios evaluated along the complete path.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared tempered transitions against all442 pinned AIO and700 native identities; no normalized match. Ignored- and hidden-inclusive searches of three full checkouts returned312,116,115 lines in24 unique content groups, all classified as the pending cohort or newly written AIS record/report, primary-source notes and queries. The23 new groups were read in full; the shared cohort line was retained from the earlier assessment. Semantic assessment covered103 AIO and307 native definitions: all103 and306 preceding rows verified unchanged, plus the new AIS row and maintained record read and its three corrections reassessed. Ten complete AIO contexts and five full native neighbors assessed. This identity is the full up/down Metropolis transition on one target state. It differs from weighted one-way AIS estimates, replica exchanges in parallel tempering, a temperature-index random walk in simulated tempering, annealing optimization, and tempered Hamiltonian trajectory modifications.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#auxiliary-kernel-pairs</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the maintained regular case, choose a target p_0 and proper positive auxiliary densities p_1,...,p_n on a common state space, with n&gt;=1. For every i, supply kernels U_i and D_i satisfying p_i(x)U_i(x,y)=p_i(y)D_i(y,x). They are mutual reversals under p_i and both preserve that distribution. If the same kernel is used in both directions, it must satisfy detailed balance. A composition of individually reversible updates can be paired with those updates in reverse order; invariance alone does not justify using an arbitrary nonreversible scan identically in both directions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal1994tempered">Sampling from Multimodal Distributions Using Tempered Transitions</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, PDF p. 5, Equation 5 and composition-order paragraph</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#path-and-acceptance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    From u_0=x, apply U_1,...,U_n to produce u_1,...,u_n. Set v_n=u_n and apply D_n,...,D_1 to produce v_(n−1),...,v_0. Accept candidate v_0 with probability min(1, product over i=1,...,n of [p_i(u_(i−1))/p_(i−1)(u_(i−1))]*[p_(i−1)(v_(i−1))/p_i(v_(i−1))]); on rejection retain x. Each intermediate density occurs equally in numerator and denominator, so arbitrary positive normalizing factors cancel. There are 2n base-kernel applications, including both U_n and D_n at the outermost distribution.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal1994tempered">Sampling from Multimodal Distributions Using Tempered Transitions</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, PDF pp. 5–6, explicit path construction and Equation 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#invariance-and-exploration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Detailed balance follows by pairing each accepted complete path with its reversed path. The resulting kernel preserves p_0, but this alone does not ensure irreducibility, rapid mixing, independent samples or an exact p_0 draw from arbitrary initialization. High acceptance need not mean exploration: a three-state outward deterministic cycle followed by its reverse can return to the starting state with acceptance one on every attempt. Auxiliary distributions need not equilibrate at each visit for path balance, but inadequate movement and overlap can still make sampling ineffective.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal1994tempered">Sampling from Multimodal Distributions Using Tempered Transitions</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, PDF pp. 6–7, Equations 7–12; efficiency discussion, Sections 4–5; curator identity-transition example in research/discovery/tempered-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#finite-path-balance-checks</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A curator enumeration uses three states, unnormalized target (1,2,7), intermediate weights (1,2,3), outer weights (1,1,1), and exact refresh kernels. Summing all outward/return paths with the full acceptance rule gives a transition satisfying detailed balance. Independently scaling the three density vectors by 7,11 and13 leaves that transition unchanged. In this example, an endpoint-only acceptance surrogate sends the target to (1/20,11/60,23/30), which is incorrect. A separate example using the same invariant nonreversible cycle both ways sends target (1/10,1/5,7/10) to (1/10,3/10,3/5), also incorrect. Seventy-two additional finite kernel cases satisfy detailed balance when paired with their proper reversals. These checks establish finite examples and failures, not a universal mixing or implementation guarantee.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal1994tempered">Sampling from Multimodal Distributions Using Tempered Transitions</a></span>
+        <span>· <strong>Locator:</strong> Equation 5, PDF p. 5; Equation 6, p. 6; full-path proof, pp. 6–7; exact independent enumeration in research/discovery/tempered-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#temperature-and-method-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Canonical distributions proportional to exp(−beta_i*E) are one auxiliary-family choice; a numerical temperature ladder is not essential to the general construction, and proper auxiliary distributions still must exist. Tempered transitions moves outward and back systematically, whereas simulated tempering includes a temperature index in its state and parallel tempering exchanges configurations across replicas. The source’s Gaussian spacing/dimension comparisons assume strong equilibration conditions, and its synthetic multimodal example does not establish universal superiority. Tempered Hamiltonian trajectories and overrelaxed variants are separate extensions rather than required steps.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal1994tempered">Sampling from Multimodal Distributions Using Tempered Transitions</a></span>
+        <span>· <strong>Locator:</strong> General interpolating distributions, PDF pp. 3–4; Section 3.3, pp. 7–10; Sections 4–6, pp. 10–21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#later-normalizer-extension</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The 1994 comparison table’s lack of a tempered-transition normalizer estimate is not a timeless limitation. The later AIS report derives backward path weights whose mean estimates Z_n/Z_0 when target-chain sampling meets the required stationarity or convergence conditions. That estimator uses both accepted and rejected transitions; a reverse-chain combination and intermediate normalizer estimates are also discussed. This is an additional estimator, not the acceptance rule, and its uncertainty must account for chain autocorrelation and potentially severe weight variance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal1998ais">Annealed Importance Sampling</a></span>
+        <span>· <strong>Locator:</strong> Section 7, PDF pp. 19–20, Equations 28–29 and variance warning</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal1994tempered">Sampling from Multimodal Distributions Using Tempered Transitions</a></span>
+        <span>· <strong>Locator:</strong> Unnumbered comparison table and accompanying discussion, PDF p. 20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The maintained regular case uses positive proper densities on a common state space. More general zero-support or constrained-state extensions need explicit measure/support handling.</li>
+      <li>The complete path, kernel pairing and rejected state retention are essential. A heuristic outward/return annealing schedule without this correction is not automatically target preserving.</li>
+      <li>The original 1994 report was read through OCR because its text encoding is garbled; core equations and figures/table were checked visually. Other displays remain OCR-only, and revised 1996 journal bytes were not inspected.</li>
+      <li>The AIS source is a separately inspected 1998 report. Its later normalizer estimator is kept distinct from the original transition identity.</li>
+      <li>No author software, floating-point reversibility audit, model training or benchmark replication was performed. DRAFT remains.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Tempered transitions constructs a Markov kernel preserving a specified target distribution by an up/down path and acceptance test. This procedure is related to the AIO process/model; it is not asserted to be equivalent to that class or to inherit its Network parent or hidden-layer relation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-neal1994tempered">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">neal1994tempered</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://glizen.com/radfordneal/ftp/ttrans.pdf" target="_blank" rel="noopener">Sampling from Multimodal Distributions Using Tempered Transitions</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Radford M. Neal
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> University of Toronto Statistics Technical Report 9421</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b91a045d73dd…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-neal1998ais">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">neal1998ais</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/physics/9803008v2" target="_blank" rel="noopener">Annealed Importance Sampling</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Radford M. Neal
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arxiv:physics/9803008v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6ae14b83d623…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-14T19:47:07Z</div>
+    <div><strong>Updated:</strong> 2026-10-14T19:47:07Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TemperedTransitions.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TemperedTransitions.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

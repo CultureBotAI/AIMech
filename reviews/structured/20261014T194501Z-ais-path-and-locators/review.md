@@ -1,0 +1,418 @@
+# Partial author self-review of AIS path support and source locators
+
+- Review: 20261014T194501Z-ais-path-and-locators
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-14T19:43:58Z
+- Finished UTC: 2026-10-14T19:45:01Z
+- Reviewer: Codex (self_review)
+- Completion: partial
+- Verdict: needs_curation
+- Scientific review: true
+
+## Summary
+
+Correct one zero-support path-definition defect and two bounded locator/indexing defects before final review. Core positive-density AIS formulas and supplied finite calculations remain supported.
+
+## Scope And Provenance
+
+AIS zero-weight path convention, Equation2 locator and initial-state indexing exception.
+
+Selection: Exact maintained AIMech:AnnealedImportanceSampling record.
+Coverage: partial; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base c924f97a3db72c41c068391adbbd8fd3690d5740.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AnnealedImportanceSampling | data/curated/AnnealedImportanceSampling.yaml | maintained | Annealed importance sampling |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| Current captured bytes | passed | True | AIMech:AnnealedImportanceSampling | All canonical captured hashes equal the current bytes. Primary page2, main equations and the nested-support counterexample assessed. |
+| Full publication gate | skipped | True | AIMech:AnnealedImportanceSampling | Will run on the corrected final records. |
+
+## Scientific And Domain Assessments
+
+### Nested support and indexing
+
+representation: concern. Targets: AIMech:AnnealedImportanceSampling.
+
+The admitted zero-support case lacks a defined termination convention, and the indexing correction needs its initial-draw exception.
+
+### Equation2 page
+
+evidence: concern. Targets: AIMech:AnnealedImportanceSampling.
+
+Correct the definition locator from page3 to page2.
+
+## Findings
+
+### ais-zero-weight-path-convention: AIS: define zero-weight path handling under nested supports
+
+major / open / confirmed; issue key: ais-zero-weight-path-convention.
+
+Nested supports permit f0=f1=(1,0), f2=(1,1), T1=identity. The base state1 has probability1/2 and encounters0/1 then0/0. Explicit zero-weight termination must prevent later ratio and endpoint evaluation; expected mean weight is1/2. The existing all-weights-zero warning does not specify this per-run convention.
+
+### ais-definition-equation-page: AIS: correct Equation 2 definition locator to PDF page 2
+
+minor / open / confirmed; issue key: ais-definition-equation-page.
+
+Equation2 appears on PDF/printed page2, visually confirmed by the author and supporting agent. The definition locator incorrectly says page3.
+
+### ais-initial-state-index-exception: AIS: qualify the intermediate-state indexing note at the initial draw
+
+minor / open / confirmed; issue key: ais-initial-state-index-exception.
+
+The repaired relation x_j follows T_(j+1) applies only for0&lt;=j&lt;=n−2. State x_(n−1) is the initial direct draw from p_n; no T_n occurs in Equation4.
+
+## Recommended Actions And Acceptance Checks
+
+### correct-ais
+
+Correct the maintained AIS record and report mirror, extend the finite calculator with a zero-weight guard, append actual history, reinspect changed inputs and save same-key successor dispositions after checks.
+
+- Allowed zero-support paths terminate at zero weight before undefined ratios or endpoint evaluation; exact two-state mean equals1/2.
+- Equation2 locator says PDF p.2; indexing note explicitly excludes the initial base draw.
+- Final record/report/calculation mirrors agree, actual history and same-target predecessor lineage are retained, and required checks pass.
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| primary | https://arxiv.org/pdf/physics/9803008v2; Equation2, PDF p.2; Section2 support condition, p.4; Equation4–5, p.5; intermediate-state paragraph, p.6 | supports | Original primary bytes and rendered page2 confirm the locator. The path ordering and nested-support condition expose the two representation qualifications. |
+| current-record | data/curated/AnnealedImportanceSampling.yaml | supports | Full current record read; three defective fields and the report mirror are identified. |
+| supporting-audit | research/discovery/20261014T194311Z-ais-tempered-supporting-math-audit.json | supports | Bounded subagent mathematical audit records exact read scope, passing positive-density finite tests and concrete counterexample. It is not an independent complete scientific review. |
+
+## Limits And Additional Notes
+
+- Partial author review supported by a separate bounded agent audit; no independent scientific approval.
+- The supporting audit uses medium/low severities. The zero-path case is normalized to major because the written algorithm is undefined on admitted inputs; locator/indexing issues are minor.
+- These findings concern local curation, not upstream AIO or alleged source-paper errors.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261014T194501Z-ais-path-and-locators
+kind: record
+repository: CultureBotAI/AIMech
+title: Partial author self-review of AIS path support and source locators
+started_at: '2026-10-14T19:43:58Z'
+finished_at: '2026-10-14T19:45:01Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author confirmed findings from a bounded supporting subagent
+    math audit against the maintained record, primary equations and an exact counterexample.
+    Same-model/provider assistance is not independent scientific approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: partial
+verdict: needs_curation
+scientific_review: true
+summary: Correct one zero-support path-definition defect and two bounded locator/indexing
+  defects before final review. Core positive-density AIS formulas and supplied finite
+  calculations remain supported.
+source:
+  git_revision: c924f97a3db72c41c068391adbbd8fd3690d5740
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/BoltzmannMachineNetwork.yaml
+    sha256: 1152d2d85c5c1c408a0420e13f211ed109b12fb289c706ee7449864e91aece03
+    role: context
+  - path: data/aio/DataPreparation.yaml
+    sha256: 99aebfc324b628969407ddc7591312e992db1469e7ef8fb3ad28e4b62d3bb359
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/Normalization.yaml
+    sha256: ecdbd41476b6125c670855f1f00090047acd61f5ee16d71384f6b9ed86bea2bb
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticHiddenLayer.yaml
+    sha256: 610c29db815f7348c5bdcdc7e7460dd2dea9ea338f3727ebb1596c51b4af41da
+    role: context
+  - path: data/aio/SelectionAndSamplingBias.yaml
+    sha256: 72d8ef34949942ddee1fe60d645806a2117b95207f681de923297b64f78cc477
+    role: context
+  - path: data/curated/AnnealedImportanceSampling.yaml
+    sha256: 279fb7899a54df6206fbf1a2dd59168d6a1be426911d25b9c7de74d7c37006f2
+    role: target
+  - path: data/curated/FixedLengthPoissonMarkovRandomField.yaml
+    sha256: bf5c284066cbad094b3982f0b2adf8b8e67d62b697204ac7a584d7029a2e027d
+    role: context
+  - path: data/curated/MetropolisHastings.yaml
+    sha256: 01cb22a25242e8564e2a7bb839ecb46da1bc49eb09b3c85200f9a596e05b99b4
+    role: context
+  - path: data/curated/ParallelTempering.yaml
+    sha256: e2976bcbbe756cf1b943520c6c9d739b862213c2df4ab4f2806957b67db8d0eb
+    role: context
+  - path: data/curated/ProductOfHiddenMarkovModels.yaml
+    sha256: 51fdf99954e91afb1d0ddda78bd60dc98991847715c2f1fe9ef2be4a7f46436e
+    role: context
+  - path: data/curated/ReplicatedSoftmax.yaml
+    sha256: 1a71debad5b7ac38c8e647ffb18c52f712300a7906b44efa5d348fb3488940cf
+    role: context
+  - path: data/curated/SimulatedAnnealing.yaml
+    sha256: 7e77f553c8b2afc4563dc7ef6cba2b53719f22b1fd02ed37d22de9821079d42c
+    role: context
+  - path: data/curated/SquareRootGraphicalModel.yaml
+    sha256: 34125cf7fce0580e388de4cb4805c18712679fcd842c4bce48cae7a29728b89f
+    role: context
+  - path: research/discovery/20261014T082648Z-annealed-importance-sampling.json
+    sha256: d7e9fef1919c6001025bcfb5ebb862302ef3b12283d461dfc92336b5d99ca8c8
+    role: context
+  - path: research/discovery/20261014T194311Z-ais-tempered-supporting-math-audit.json
+    sha256: 4fd496660b8f67fdff5d93ebea24f245e8b4cfc293dec87a283ae9224a4f4c24
+    role: context
+  - path: research/discovery/ais-boundaries.py
+    sha256: 78edf88cf8a999af19faa57eccbc284ae0e0eed52bfe0e818ee51f4983b8af80
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AnnealedImportanceSampling
+  path: data/curated/AnnealedImportanceSampling.yaml
+  label: Annealed importance sampling
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AnnealedImportanceSampling.yaml
+    role: maintained
+scope:
+  description: AIS zero-weight path convention, Equation2 locator and initial-state
+    indexing exception.
+  selection: Exact maintained AIMech:AnnealedImportanceSampling record.
+  coverage: partial
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:AnnealedImportanceSampling
+  exclusions:
+  - target: Complete scientific review and full publication gate
+    reason: Pending the supported corrections; no complete passing review is claimed.
+  - target: Tempered-transitions draft locator
+    reason: Its unnumbered-table wording was corrected before creating the maintained
+      TT record; it is outside this AIS target.
+checks:
+- check_id: capture
+  name: Current captured bytes
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AnnealedImportanceSampling
+  summary: All canonical captured hashes equal the current bytes. Primary page2, main
+    equations and the nested-support counterexample assessed.
+  scope_note: Manual scientific assessment and explicit hash comparison.
+- check_id: full-gate
+  name: Full publication gate
+  command: just check
+  status: skipped
+  required: true
+  target_ids:
+  - AIMech:AnnealedImportanceSampling
+  summary: Will run on the corrected final records.
+evidence:
+- evidence_id: primary
+  kind: primary_source
+  reference: https://arxiv.org/pdf/physics/9803008v2
+  locator: Equation2, PDF p.2; Section2 support condition, p.4; Equation4–5, p.5;
+    intermediate-state paragraph, p.6
+  accessed_at: '2026-10-14T19:45:01Z'
+  snapshot_sha256: 6ae14b83d623438355c2de17a5e830d67a07fd5331b2eb997b82ed40174745cc
+  support: supports
+  summary: Original primary bytes and rendered page2 confirm the locator. The path
+    ordering and nested-support condition expose the two representation qualifications.
+- evidence_id: current-record
+  kind: record_content
+  reference: data/curated/AnnealedImportanceSampling.yaml
+  accessed_at: '2026-10-14T19:45:01Z'
+  snapshot_sha256: 279fb7899a54df6206fbf1a2dd59168d6a1be426911d25b9c7de74d7c37006f2
+  support: supports
+  summary: Full current record read; three defective fields and the report mirror
+    are identified.
+- evidence_id: supporting-audit
+  kind: record_content
+  reference: research/discovery/20261014T194311Z-ais-tempered-supporting-math-audit.json
+  accessed_at: '2026-10-14T19:45:01Z'
+  snapshot_sha256: 4fd496660b8f67fdff5d93ebea24f245e8b4cfc293dec87a283ae9224a4f4c24
+  support: supports
+  summary: Bounded subagent mathematical audit records exact read scope, passing positive-density
+    finite tests and concrete counterexample. It is not an independent complete scientific
+    review.
+assessments:
+- assessment_id: path-domain
+  area: representation
+  topic: Nested support and indexing
+  outcome: concern
+  target_ids:
+  - AIMech:AnnealedImportanceSampling
+  evidence_ids:
+  - primary
+  - current-record
+  - supporting-audit
+  summary: The admitted zero-support case lacks a defined termination convention,
+    and the indexing correction needs its initial-draw exception.
+- assessment_id: definition-locator
+  area: evidence
+  topic: Equation2 page
+  outcome: concern
+  target_ids:
+  - AIMech:AnnealedImportanceSampling
+  evidence_ids:
+  - primary
+  - current-record
+  summary: Correct the definition locator from page3 to page2.
+findings:
+- finding_id: ais-zero-weight-path-convention
+  issue_key: ais-zero-weight-path-convention
+  category: representation
+  severity: major
+  status: open
+  certainty: confirmed
+  title: 'AIS: define zero-weight path handling under nested supports'
+  description: Nested supports permit f0=f1=(1,0), f2=(1,1), T1=identity. The base
+    state1 has probability1/2 and encounters0/1 then0/0. Explicit zero-weight termination
+    must prevent later ratio and endpoint evaluation; expected mean weight is1/2.
+    The existing all-weights-zero warning does not specify this per-run convention.
+  target_ids:
+  - AIMech:AnnealedImportanceSampling
+  field_paths:
+  - claims[path-law-and-weight]
+  evidence_ids:
+  - primary
+  - current-record
+  - supporting-audit
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AnnealedImportanceSampling.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261014T082648Z-annealed-importance-sampling.json
+    role: report mirror
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/352
+- finding_id: ais-definition-equation-page
+  issue_key: ais-definition-equation-page
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: 'AIS: correct Equation 2 definition locator to PDF page 2'
+  description: Equation2 appears on PDF/printed page2, visually confirmed by the author
+    and supporting agent. The definition locator incorrectly says page3.
+  target_ids:
+  - AIMech:AnnealedImportanceSampling
+  field_paths:
+  - definition_evidence[0].locator
+  evidence_ids:
+  - primary
+  - current-record
+  - supporting-audit
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AnnealedImportanceSampling.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261014T082648Z-annealed-importance-sampling.json
+    role: report mirror
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/353
+- finding_id: ais-initial-state-index-exception
+  issue_key: ais-initial-state-index-exception
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: 'AIS: qualify the intermediate-state indexing note at the initial draw'
+  description: The repaired relation x_j follows T_(j+1) applies only for0<=j<=n−2.
+    State x_(n−1) is the initial direct draw from p_n; no T_n occurs in Equation4.
+  target_ids:
+  - AIMech:AnnealedImportanceSampling
+  field_paths:
+  - limitations[1]
+  evidence_ids:
+  - primary
+  - current-record
+  - supporting-audit
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AnnealedImportanceSampling.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261014T082648Z-annealed-importance-sampling.json
+    role: report mirror
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/354
+actions:
+- action_id: correct-ais
+  description: Correct the maintained AIS record and report mirror, extend the finite
+    calculator with a zero-weight guard, append actual history, reinspect changed
+    inputs and save same-key successor dispositions after checks.
+  finding_ids:
+  - ais-zero-weight-path-convention
+  - ais-definition-equation-page
+  - ais-initial-state-index-exception
+  target_ids:
+  - AIMech:AnnealedImportanceSampling
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AnnealedImportanceSampling.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261014T082648Z-annealed-importance-sampling.json
+    role: report mirror
+  acceptance_checks:
+  - Allowed zero-support paths terminate at zero weight before undefined ratios or
+    endpoint evaluation; exact two-state mean equals1/2.
+  - Equation2 locator says PDF p.2; indexing note explicitly excludes the initial
+    base draw.
+  - Final record/report/calculation mirrors agree, actual history and same-target
+    predecessor lineage are retained, and required checks pass.
+limitations:
+- Partial author review supported by a separate bounded agent audit; no independent
+  scientific approval.
+- The supporting audit uses medium/low severities. The zero-path case is normalized
+  to major because the written algorithm is undefined on admitted inputs; locator/indexing
+  issues are minor.
+- These findings concern local curation, not upstream AIO or alleged source-paper
+  errors.
+links:
+- https://github.com/CultureBotAI/AIMech/issues/352
+- https://github.com/CultureBotAI/AIMech/issues/353
+- https://github.com/CultureBotAI/AIMech/issues/354
+tags:
+- self-review
+- supporting-math-audit
+- ais-correction
+```

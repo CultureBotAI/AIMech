@@ -1,0 +1,162 @@
+id: AIMech:TemperedTransitions
+name: Tempered transitions
+aliases:
+- Neal tempered transitions
+concept_kind: algorithm
+definition: A Markov chain Monte Carlo transition algorithm that proposes a new target state through a
+  prescribed outward and return sequence of mutually reversed kernels for auxiliary distributions, then
+  accepts or rejects the endpoint using density ratios evaluated along the complete path.
+definition_evidence:
+- source_id: neal1994tempered
+  locator: Section 3.1, PDF pp. 5–6, Equation 5, up/down construction and Equation 6; detailed-balance
+    proof, Section 3.2, pp. 6–7
+  relation: supports
+claims:
+- claim_id: auxiliary-kernel-pairs
+  kind: mechanism
+  statement: In the maintained regular case, choose a target p_0 and proper positive auxiliary densities
+    p_1,...,p_n on a common state space, with n>=1. For every i, supply kernels U_i and D_i satisfying
+    p_i(x)U_i(x,y)=p_i(y)D_i(y,x). They are mutual reversals under p_i and both preserve that distribution.
+    If the same kernel is used in both directions, it must satisfy detailed balance. A composition of
+    individually reversible updates can be paired with those updates in reverse order; invariance alone
+    does not justify using an arbitrary nonreversible scan identically in both directions.
+  evidence:
+  - source_id: neal1994tempered
+    locator: Section 3.1, PDF p. 5, Equation 5 and composition-order paragraph
+    relation: supports
+- claim_id: path-and-acceptance
+  kind: mechanism
+  statement: From u_0=x, apply U_1,...,U_n to produce u_1,...,u_n. Set v_n=u_n and apply D_n,...,D_1 to
+    produce v_(n−1),...,v_0. Accept candidate v_0 with probability min(1, product over i=1,...,n of [p_i(u_(i−1))/p_(i−1)(u_(i−1))]*[p_(i−1)(v_(i−1))/p_i(v_(i−1))]);
+    on rejection retain x. Each intermediate density occurs equally in numerator and denominator, so arbitrary
+    positive normalizing factors cancel. There are 2n base-kernel applications, including both U_n and
+    D_n at the outermost distribution.
+  evidence:
+  - source_id: neal1994tempered
+    locator: Section 3.1, PDF pp. 5–6, explicit path construction and Equation 6
+    relation: supports
+- claim_id: invariance-and-exploration
+  kind: limitation
+  statement: 'Detailed balance follows by pairing each accepted complete path with its reversed path.
+    The resulting kernel preserves p_0, but this alone does not ensure irreducibility, rapid mixing, independent
+    samples or an exact p_0 draw from arbitrary initialization. High acceptance need not mean exploration:
+    a three-state outward deterministic cycle followed by its reverse can return to the starting state
+    with acceptance one on every attempt. Auxiliary distributions need not equilibrate at each visit for
+    path balance, but inadequate movement and overlap can still make sampling ineffective.'
+  evidence:
+  - source_id: neal1994tempered
+    locator: Section 3.2, PDF pp. 6–7, Equations 7–12; efficiency discussion, Sections 4–5; curator identity-transition
+      example in research/discovery/tempered-boundaries.py
+    relation: supports
+- claim_id: finite-path-balance-checks
+  kind: scope
+  statement: A curator enumeration uses three states, unnormalized target (1,2,7), intermediate weights
+    (1,2,3), outer weights (1,1,1), and exact refresh kernels. Summing all outward/return paths with the
+    full acceptance rule gives a transition satisfying detailed balance. Independently scaling the three
+    density vectors by 7,11 and13 leaves that transition unchanged. In this example, an endpoint-only
+    acceptance surrogate sends the target to (1/20,11/60,23/30), which is incorrect. A separate example
+    using the same invariant nonreversible cycle both ways sends target (1/10,1/5,7/10) to (1/10,3/10,3/5),
+    also incorrect. Seventy-two additional finite kernel cases satisfy detailed balance when paired with
+    their proper reversals. These checks establish finite examples and failures, not a universal mixing
+    or implementation guarantee.
+  evidence:
+  - source_id: neal1994tempered
+    locator: Equation 5, PDF p. 5; Equation 6, p. 6; full-path proof, pp. 6–7; exact independent enumeration
+      in research/discovery/tempered-boundaries.py
+    relation: supports
+- claim_id: temperature-and-method-boundaries
+  kind: scope
+  statement: Canonical distributions proportional to exp(−beta_i*E) are one auxiliary-family choice; a
+    numerical temperature ladder is not essential to the general construction, and proper auxiliary distributions
+    still must exist. Tempered transitions moves outward and back systematically, whereas simulated tempering
+    includes a temperature index in its state and parallel tempering exchanges configurations across replicas.
+    The source’s Gaussian spacing/dimension comparisons assume strong equilibration conditions, and its
+    synthetic multimodal example does not establish universal superiority. Tempered Hamiltonian trajectories
+    and overrelaxed variants are separate extensions rather than required steps.
+  evidence:
+  - source_id: neal1994tempered
+    locator: General interpolating distributions, PDF pp. 3–4; Section 3.3, pp. 7–10; Sections 4–6, pp.
+      10–21
+    relation: supports
+- claim_id: later-normalizer-extension
+  kind: scope
+  statement: The 1994 comparison table’s lack of a tempered-transition normalizer estimate is not a timeless
+    limitation. The later AIS report derives backward path weights whose mean estimates Z_n/Z_0 when target-chain
+    sampling meets the required stationarity or convergence conditions. That estimator uses both accepted
+    and rejected transitions; a reverse-chain combination and intermediate normalizer estimates are also
+    discussed. This is an additional estimator, not the acceptance rule, and its uncertainty must account
+    for chain autocorrelation and potentially severe weight variance.
+  evidence:
+  - source_id: neal1998ais
+    locator: Section 7, PDF pp. 19–20, Equations 28–29 and variance warning
+    relation: supports
+  - source_id: neal1994tempered
+    locator: Unnumbered comparison table and accompanying discussion, PDF p. 20
+    relation: supports
+identity_notes: 'Compared tempered transitions against all442 pinned AIO and700 native identities; no
+  normalized match. Ignored- and hidden-inclusive searches of three full checkouts returned312,116,115
+  lines in24 unique content groups, all classified as the pending cohort or newly written AIS record/report,
+  primary-source notes and queries. The23 new groups were read in full; the shared cohort line was retained
+  from the earlier assessment. Semantic assessment covered103 AIO and307 native definitions: all103 and306
+  preceding rows verified unchanged, plus the new AIS row and maintained record read and its three corrections
+  reassessed. Ten complete AIO contexts and five full native neighbors assessed. This identity is the
+  full up/down Metropolis transition on one target state. It differs from weighted one-way AIS estimates,
+  replica exchanges in parallel tempering, a temperature-index random walk in simulated tempering, annealing
+  optimization, and tempered Hamiltonian trajectory modifications.'
+evidence_sources:
+- source_id: neal1994tempered
+  title: Sampling from Multimodal Distributions Using Tempered Transitions
+  authors:
+  - Radford M. Neal
+  source_type: author_technical_report
+  access_level: full_text
+  persistent_id: University of Toronto Statistics Technical Report 9421
+  version: Technical Report 9421, October 29,1994,22pages. All pages and9 references read via OCR; method/proof
+    pages5–7 and figures/table on9,15,17,20 visually checked. Author metadata links a revised Statistics
+    and Computing6:353–366(1996) paper; those journal bytes were not inspected.
+  url: https://glizen.com/radfordneal/ftp/ttrans.pdf
+  accessed_at: '2026-10-14T07:51:05Z'
+  sha256: b91a045d73ddbe45ab6f75b3877cbd66fc43127ebb0c55989388894afc35a596
+- source_id: neal1998ais
+  title: Annealed Importance Sampling
+  authors:
+  - Radford M. Neal
+  source_type: primary_paper
+  access_level: full_text
+  persistent_id: arxiv:physics/9803008v2
+  version: arXiv physics/9803008v2, submitted September 4, 1998; printed report first version February
+    18, revised September 1, 1998. All 25 pages and 18 references inspected, with figure pages 14–15 and
+    core method pages 4–6 visually checked. Author metadata lists Statistics and Computing 11:125–139
+    (2001); journal-byte equivalence was not established.
+  url: https://arxiv.org/pdf/physics/9803008v2
+  accessed_at: '2026-10-14T07:51:05Z'
+  sha256: 6ae14b83d623438355c2de17a5e830d67a07fd5331b2eb997b82ed40174745cc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: Tempered transitions constructs a Markov kernel preserving a specified target distribution
+    by an up/down path and acceptance test. This procedure is related to the AIO process/model; it is
+    not asserted to be equivalent to that class or to inherit its Network parent or hidden-layer relation.
+limitations:
+- The maintained regular case uses positive proper densities on a common state space. More general zero-support
+  or constrained-state extensions need explicit measure/support handling.
+- The complete path, kernel pairing and rejected state retention are essential. A heuristic outward/return
+  annealing schedule without this correction is not automatically target preserving.
+- The original 1994 report was read through OCR because its text encoding is garbled; core equations and
+  figures/table were checked visually. Other displays remain OCR-only, and revised 1996 journal bytes
+  were not inspected.
+- The AIS source is a separately inspected 1998 report. Its later normalizer estimator is kept distinct
+  from the original transition identity.
+- No author software, floating-point reversibility audit, model training or benchmark replication was
+  performed. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T19:47:07Z'
+  updated_at: '2026-10-14T19:47:07Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
