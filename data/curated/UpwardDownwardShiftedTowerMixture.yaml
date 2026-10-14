@@ -1,0 +1,149 @@
+id: AIMech:UpwardDownwardShiftedTowerMixture
+name: Upward-downward shifted tower mixture
+concept_kind: algorithm
+definition: A finite conditional Markov update that equally mixes maximum-shift tower kernels built from
+  paired upward and downward cyclic state orders, making their stationary flows symmetric.
+definition_evidence:
+- source_id: neal2024
+  locator: Section 10, PDF pp. 37 and 40, Equations 101–104 and Figure 9
+  relation: supports
+claims:
+- claim_id: paired-orders-and-maximum-shift
+  kind: mechanism
+  statement: Let pi be a strictly positive normalized probability mass function on a finite state space.
+    Choose one maximum-probability anchor a and an order of all other states with nondecreasing probability,
+    including an explicit tie policy. Use the cyclic order (a,tail) for UST and (a,reverse(tail)) for
+    DST, preserving the same anchor. Both components use shift h=max(pi). For at least two positive states,
+    0<h<1; a one-state target is handled separately by staying. The component orders must define every
+    row for the same target, not be chosen independently from the current state label.
+  evidence:
+  - source_id: neal2024
+    locator: Section 10, PDF p. 37, upward/downward ordering definitions and Equation 101; p. 40, Figure
+      9 and maximum-shift policy
+    relation: supports
+- claim_id: component-overlap-and-half-mixture
+  kind: mechanism
+  statement: For either component order, let C_i be the total pi mass before state i. Following Neal’s
+    orientation, move a point sampled uniformly in [C_i,C_i+pi(i)) by -h modulo one and select its destination
+    interval. Equivalently, let d=pi(i)-h+C_i-C_j and g(z)=max(0,min(z,pi(i)+pi(j)-z,pi(i),pi(j))). The
+    flow from i to j is v_ij=g(d)+g(d+1), and its transition probability is v_ij/pi(i). If U and D denote
+    the resulting matrices, UDST uses M=(U+D)/2. Draw a fresh fair component choice for each local update
+    or sample the averaged row directly. A sequential U-then-D product, a once-per-chain choice or current-label-dependent
+    component weights is not this constant half mixture.
+  evidence:
+  - source_id: neal2024
+    locator: Section 10, PDF pp. 37–41, Equations 98–104 and Algorithm 7; Figure 9 and the UDST definition
+      on p. 40
+    relation: supports
+- claim_id: symmetric-flow-and-minimum-self-mass
+  kind: mechanism
+  statement: 'The paired cyclic reversal gives pi(i)*U(i,j)=pi(j)*D(j,i). Averaging the two component
+    flows therefore gives pi(i)*M(i,j)=pi(j)*M(j,i): the mixture is stochastic, reversible and preserves
+    pi. Both maximum-shift components attain the minimum stationary self-transition mass max(0,2*h-1),
+    so their mixture does too. If h>1/2, only the dominant state has positive self probability, (2*h-1)/h;
+    every other state moves to it with probability one and its outgoing probabilities to them are pi(j)/h.
+    At h=1/2 the self probability is zero. These statements concern the positive-support local transition
+    kernel.'
+  evidence:
+  - source_id: neal2024
+    locator: Section 10, PDF pp. 37 and 40, Equations 101–104 and minimum-self discussion; Section 13,
+      p. 51, Equations 112–114
+    relation: supports
+- claim_id: tie-pairing-and-orientation-qualification
+  kind: scope
+  statement: Independent weak sorting is insufficient for the reversal relation when probabilities tie.
+    For a uniform three-state target, choosing order (1,2,3) for both UST and DST satisfies both weak
+    probability orders but makes both components the same directed cycle. Their average is invariant but
+    not reversible. Pairing (1,2,3) with (1,3,2) gives the intended reversible mixture. Tie pairing is
+    therefore an explicit qualification of the source’s reversal argument. Changing the common shift orientation
+    transposes both component flows; for the correctly paired mixture they exchange, leaving its averaged
+    kernel unchanged. This does not identify the unaveraged fixed-order component kernels.
+  evidence:
+  - source_id: neal2024
+    locator: Section 10, PDF p. 37, tie discussion and Equation 101; p. 40, Figure 9 and Equations 102–104;
+      original tie and orientation checks in research/discovery/mixture-boundaries.py
+    relation: supports
+- claim_id: distinct-mixture-construction
+  kind: scope
+  statement: 'For four equally probable states in cyclic order (1,2,3,4), UDST moves to the two neighbors
+    with probability one half each. Its first row is (0,1/2,0,1/2), while same-order HST moves deterministically
+    to the opposite state and UDNAM has first row (0,1/3,1/3,1/3). This UDST kernel cannot be one circular
+    weight shift in any order: for equal quarter-length intervals, a single shift gives either one cyclic
+    offset or two consecutive offsets. Two half-probability outputs require a consecutive pair that is
+    not closed under negation modulo four, contrary to reversibility. Original exact calculations also
+    exclude all shifts through 96 closed affine segments across all 24 orders. This one-target distinction
+    does not deny agreement on other targets, including dominant-mass cases.'
+  evidence:
+  - source_id: neal2024
+    locator: Section 10, PDF pp. 37–40, component geometry and mixture; Section 13, pp. 49–51, uniform
+      and dominant-mass comparisons; original all-order certificate in research/discovery/mixture-boundaries.py
+    relation: supports
+- claim_id: conditional-scan-and-convergence-limits
+  kind: limitation
+  statement: Using the kernel for a valid full conditional with other coordinates fixed preserves the
+    joint target. Fixed mixtures and fixed sweeps of such updates preserve it too, although a full sweep
+    need not be reversible. Uniform even-state UDST is a period-two random walk on a cycle. For two independent
+    uniform binary coordinates, a fixed full scan maps (a,b) to (1-a,1-b) and has two closed classes.
+    Thus minimum self mass and local reversibility do not establish aperiodicity, joint exploration or
+    convergence from every initial state. No universal variance, spectral-efficiency, burn-in, finite-run
+    accuracy or runtime advantage is claimed.
+  evidence:
+  - source_id: neal2024
+    locator: Section 2, PDF pp. 2–3, conditional invariance and composition; Section 5, pp. 13–14 and
+      footnotes 7–8; Section 13, pp. 49–51, uniform-cycle comparisons; original scan checks in research/discovery/mixture-boundaries.py
+    relation: supports
+identity_notes: The actual post317 assessment covers all 442 pinned AIO and 710 native IDs, names, aliases
+  and every scoped synonym, plus four complete checkout searches including ignored and hidden files. Historical
+  706-native source research, 334 selected ID/name rows, 103 selected definitions, 59 additional mixture
+  definitions, 22 exact AIO node/incident/generated contexts and 18 full native neighbors retain their
+  attributed reading scope. The four actual FSS/ZFSS and NAM/ZDNAM records are freshly assessed. AIO:MarkovChain
+  is related_match between a transition construction and a stochastic process; no equivalent or subclass
+  mapping or neural-layer inheritance is asserted. No aliases adopted. UDST is a constant equal choice
+  between maximum-shift components using the same maximum anchor and exactly reversed tails, including
+  tie ordering. Its paired flows transpose, while independently weak-sorted ties need not. It adds a component
+  choice absent from a single circular shift. The uniform-four-state witness excludes every single cyclic
+  order and shift by exact certificates and a separate analytic argument. It differs from UDNAM and HST
+  as constructions despite possible special-case coincidences; no claim that all resulting kernel sets
+  are disjoint.
+evidence_sources:
+- source_id: neal2024
+  title: Modifying Gibbs Sampling to Avoid Self Transitions
+  authors:
+  - Radford M. Neal
+  source_type: author_technical_report
+  url: https://glizen.com/radfordneal/ftp/gibbs-self.pdf
+  persistent_id: arxiv:2403.18054
+  version: Author-hosted technical report dated 26 March 2024; 84 PDF pages. Independently pinned from
+    arXiv:2403.18054v1; byte equivalence between versions is not asserted.
+  access_level: full_text
+  accessed_at: '2026-10-14T20:33:01Z'
+  sha256: 3d637d3eec046118a4c81d0d3824f387e1077d5ed8bd15d90a4db242c89d8bea
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The algorithm constructs target-preserving finite Markov transitions. AIO MarkovChain denotes
+    a stochastic process/model; this association does not assert equivalence, subclass membership or inheritance
+    of Network and ProbabilisticHiddenLayer assertions.
+limitations:
+- The maintained scope uses finite strictly positive normalized probabilities and exact paired orders,
+  including ties. Zero-current completions, approximate normalization and adaptive ordering are outside
+  this scope.
+- The source calls this equal mixture UDST. Generic circular shifting, the individual ST/UST/DST/HST/OHST
+  policies and arbitrary mixtures of invariant kernels are not exact aliases for this construction.
+- Figure 9’s middle caption uses a DST subscript while its reversed construction is identified as UST.
+  The paired geometry and Equations 101–104 support the maintained relation. No author-issued correction
+  is claimed.
+- The exact overlap specification does not certify the printed direct sampler at closed-uniform endpoints
+  or floating-point boundaries. Original curator checks and source lineage are retained; author software
+  and empirical benchmarks were not executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T23:04:24Z'
+  updated_at: '2026-10-14T23:04:24Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
