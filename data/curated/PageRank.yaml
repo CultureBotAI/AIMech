@@ -1,0 +1,240 @@
+id: AIMech:PageRank
+name: PageRank
+aliases:
+- PageRank citation ranking
+concept_kind: algorithm
+definition: A link-analysis ranking algorithm that assigns node scores using a random walk mixing normalized
+  outgoing-link transitions with teleportation to a specified restart distribution, under an explicit
+  policy for nodes with no outgoing weight.
+definition_evidence:
+- source_id: brin1998
+  locator: Section 2.1, printed pp. 109–110 / PDF pp. 3–4
+  relation: supports
+- source_id: page1998
+  locator: Sections 2.4–2.7 and 6, PDF/printed pp. 3–6,11–12
+  relation: supports
+- source_id: networkx35
+  locator: google_matrix lines 175–268; _pagerank_scipy lines 455–499; modern normalization convention
+    explicitly selected here
+  relation: supports
+claims:
+- claim_id: transition-construction
+  kind: mechanism
+  statement: For a finite nonempty graph with nonnegative edge weights, normalize every positive-outweight
+    row of its adjacency matrix. Replace a zero-outweight row by a specified probability vector q, obtaining
+    row-stochastic P. With restart probability vector v and 0 <= alpha < 1, the selected normalized formulation
+    is the row-vector equation p = alpha p P + (1-alpha) v. Scores sum to one. NetworkX 3.5 defaults q
+    to v and v to the uniform distribution; these explicit conventions do not assert that every historical
+    implementation used them.
+  evidence:
+  - source_id: networkx35
+    locator: google_matrix lines 240–268 and _pagerank_scipy lines 455–499
+    relation: supports
+- claim_id: personalization-and-ranking
+  kind: scope
+  statement: Uniform restart gives the unpersonalized case; changing the restart distribution gives personalized
+    PageRank within this family. Once the graph, weights, damping and restart policy are fixed, the ranking
+    does not require query text. A retrieval system can filter candidates or combine this score with query-dependent
+    signals. Recursive importance is not simply indegree, alternating HITS authority/hub scores, a cluster
+    assignment or a language model.
+  evidence:
+  - source_id: page1998
+    locator: Sections 2.3–2.5, 5 and 6, PDF/printed pp. 3–5,8–12
+    relation: supports
+  - source_id: brin1998
+    locator: Sections 2.1 and 4.5.1, printed pp. 109–110,114 / PDF pp. 3–4,8
+    relation: supports
+  - source_id: networkx35
+    locator: pagerank documentation lines 19–61 and iteration lines 491–499; finite examples in research/discovery/pagerank-boundaries.py
+    relation: supports
+- claim_id: iteration-and-convergence
+  kind: mechanism
+  statement: The inspected NetworkX 3.5 public function delegates to a sparse power iteration that propagates
+    link mass, redistributes dangling mass, adds restart mass and stops when the L1 change is below N
+    times tol, or raises after max_iter. For the stated probability domain, the affine update is an L1
+    contraction with factor at most alpha, so it has a unique fixed point and converges in exact arithmetic
+    even when P is reducible or v contains zeros. This is curator mathematical qualification of the documentation’s
+    stronger irreducibility wording, not a promise that a finite iteration cap meets every tolerance.
+    Alpha equal to one is outside this contraction claim; a two-node cycle can oscillate.
+  evidence:
+  - source_id: networkx35
+    locator: public dispatch lines 110–112; google_matrix notes lines 218–225; sparse iteration lines
+      455–499; curator L1 contraction argument and finite reducible/periodic cases in research/discovery/pagerank-boundaries.py
+    relation: supports
+- claim_id: historical-normalization
+  kind: limitation
+  statement: The Brin–Page paper prints a per-node baseline 1-d while also describing total probability
+    one. On a non-dangling N-node stochastic graph that recurrence instead has total N; unit normalization
+    uses (1-d)/N or divides scores by N. Its random-surfer prose also describes d as the jump probability
+    although the equation uses d on link contributions. The January 1998 report presents additional matrix-orientation
+    and rank-source scaling ambiguities. The normalized equation in this record follows the explicitly
+    versioned implementation convention; the early printed formulas are not silently treated as identical
+    specifications.
+  evidence:
+  - source_id: brin1998
+    locator: Sections 2.1.1–2.1.2, printed pp. 109–110 / PDF pp. 3–4
+    relation: supports
+  - source_id: page1998
+    locator: Sections 2.4–2.6 and 6, PDF/printed pp. 4–6,11
+    relation: supports
+  - source_id: networkx35
+    locator: google_matrix lines 240–268 and _pagerank_scipy lines 474–499
+    relation: supports
+- claim_id: dangling-policy-boundary
+  kind: limitation
+  statement: The January 1998 report describes removing links to dangling pages, repeating this removal
+    and reinserting them after the core calculation. The selected modern formulation instead redistributes
+    dangling mass according to q during every update. Their equivalence is not asserted. On a constructed
+    graph with only the link 0 to 1, alpha=1/2 and uniform restart, uniform dangling redistribution yields
+    scores (2/5,3/5), while redistribution to node 0 yields (1/2,1/2). Omitting redistribution entirely
+    gives a leaky fixed vector with total mass 5/8 under the same baseline.
+  evidence:
+  - source_id: page1998
+    locator: Sections 2.7 and 3.1, PDF/printed pp. 6–7
+    relation: supports
+  - source_id: networkx35
+    locator: dangling normalization and update lines 482–499; exact arithmetic in research/discovery/pagerank-boundaries.py
+    relation: supports
+- claim_id: evidence-and-interpretation
+  kind: limitation
+  statement: The primary papers provide historical search examples, graph-dependent computation observations
+    and exploratory usage comparisons. These do not establish that link rank measures factual correctness,
+    calibrated human attention or universal relevance. The January report acknowledges incomplete and
+    biased usage and link data; its optimistic manipulation-resistance discussion is not a guarantee.
+    The Google system combines PageRank with other ranking signals, so its qualitative search results
+    are not an isolated evaluation of this algorithm.
+  evidence:
+  - source_id: page1998
+    locator: Sections 5–8, Figure 6 and Table 2, PDF/printed pp. 8–15; Appendix A p. 17
+    relation: supports
+  - source_id: brin1998
+    locator: Sections 4.5.1, 5 and 6.2, printed pp. 114–117 / PDF pp. 8–11
+    relation: supports
+aio_no_match:
+  search_scope: 'All 442 pinned AIO and 683 preceding native identities were compared. Ignored- and hidden-inclusive
+    searches covered three checkouts. Semantic assessment covered 128 AIO and 469 native definitions:
+    127/450 prior rows were verified unchanged and 1/19 new rows read. Fifteen complete AIO node/edge/generated-record
+    contexts and five full native neighboring records were assessed.'
+  rationale: No suitable AIO counterpart was found for this normalized link-ranking procedure in the inspected
+    snapshot. It does not itself classify, cluster, fit latent topics or define a language model; personalization
+    changes a restart distribution rather than language behavior. An incidental downstream use or a shared
+    word does not establish a mapping.
+  examined_targets:
+  - target: AIO:Classification
+    rejection_reason: A stationary node-ranking distribution does not assign supplied class labels.
+  - target: AIO:Distillation
+    rejection_reason: The procedure does not train a student to mimic a teacher.
+  - target: AIO:ProbabilisticTopicModel
+    rejection_reason: Restart probabilities are supplied parameters, not fitted latent word/topic distributions.
+  - target: AIO:RankingBias
+    rejection_reason: A bias concerning rank and relevance is distinct from the graph-ranking procedure;
+      the latter does not certify relevance.
+  - target: AIO:OrdinalLLM
+    rejection_reason: The algorithm ranks graph nodes without defining a language model.
+  - target: AIO:DataPreparation
+    rejection_reason: The specified output is graph importance, not data cleaning or transformation for
+      training.
+  - target: AIO:Clustering
+    rejection_reason: Node ranking alone does not construct similarity groups or a partition.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The record denotes graph normalization, an explicit dangling policy and stationary-score
+      computation, rather than only a scalar mathematical function.
+  - target: AIO:RetrievalAugmentedLLM
+    rejection_reason: No language generator is conditioned on retrieved information.
+  - target: AIO:HierarchicalClassification
+    rejection_reason: The method has no class hierarchy or hierarchical classification rule.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: Using a graph does not define a graph language model.
+  - target: AIO:PrincipalComponentAnalysis
+    rejection_reason: The stochastic fixed-point calculation does not extract centered covariance principal
+      components.
+  - target: AIO:DimensionalityReduction
+    rejection_reason: The specified goal is a ranking distribution rather than an embedding that preserves
+      data geometry.
+  - target: AIO:UnsupervisedClustering
+    rejection_reason: A stationary score is not an unlabeled-object cluster assignment.
+  - target: AIO:PersonalizedLLM
+    rejection_reason: Personalizing a restart distribution does not adapt language modeling or generation.
+limitations:
+- The record selects an explicit damped probability formulation supported by NetworkX 3.5 and preserves
+  differences from the early papers. It does not claim byte-level or behavioral identity across all PageRank
+  implementations.
+- The graph, edge weights, damping, restart and dangling policy affect scores. The probability/contraction
+  claims assume nonnegative normalized inputs and alpha below one; the inspected implementation does not
+  enforce every mathematical precondition.
+- Personalization is represented as a parameterization of this family. Topic-sensitive combinations, scalable
+  personalized solvers and other downstream algorithms require their own evidence and identity assessment.
+- Exact finite substitutions verify the stated examples, not author code, historical experiments or a
+  general finite-precision error guarantee. A successive-iterate tolerance is not itself a universal ranking-accuracy
+  guarantee.
+- The inspected January 29, 1998 mirror differs in version from the inaccessible 1999-66 report. All 17
+  mirrored pages and the complete 11-page companion paper were read; no unseen version or absent Appendix
+  A screenshot is claimed inspected.
+- The pinned implementation module was read but not executed. No original author code, live crawl, training,
+  paid service, upload or historical benchmark was run. Records remain DRAFT after author self-review.
+identity_notes: Compared all 442 pinned AIO and 683 native identities; no normalized match. Ignored- and
+  hidden-inclusive searches of three checkouts returned 419,78,76 lines. Three nested result blobs were
+  decoded; all25 distinct terminal payloads were read and identify prior pending leads or context rather
+  than an existing record. Semantic assessment covered128 AIO and469 native definitions:127/450 prior
+  rows verified unchanged and1/19 new rows read. Fifteen complete AIO node/edge/generated-record contexts
+  and full HITS, nonprincipal extraction, PowerIterationClustering, DiffusionMaps and relevance-weighted
+  topic distillation records were assessed. The concept is the PageRank link-ranking family, including
+  its specified restart-distribution parameterization. The restart vector alone does not create a second
+  local identity. Specialized topic-sensitive ranking and scalable personalized computation remain separate
+  source leads pending their methods.
+evidence_sources:
+- source_id: brin1998
+  title: The anatomy of a large-scale hypertextual Web search engine
+  authors:
+  - Sergey Brin
+  - Lawrence Page
+  source_type: primary_paper
+  access_level: full_text
+  version: Computer Networks and ISDN Systems30(1–7):107–117 (1998),11-page publisher-layout PDF linked
+    by Google Research and hosted at Stanford. All text, figures, tables and12 references inspected. Printed107–117=PDF1–11.
+    The longer web/CD version was not inspected.
+  persistent_id: doi:10.1016/S0169-7552(98)00110-X
+  url: https://snap.stanford.edu/class/cs224w-readings/Brin98Anatomy.pdf
+  accessed_at: '2026-10-14T03:01:55Z'
+  sha256: 3a155ade395c7789876a0bc08a1842f909486438c1b1739ae531fa5c797d93f0
+- source_id: page1998
+  title: 'The PageRank Citation Ranking: Bringing Order to the Web'
+  authors:
+  - Lawrence Page
+  - Sergey Brin
+  - Rajeev Motwani
+  - Terry Winograd
+  source_type: author_technical_report
+  access_level: full_text
+  version: Mirrored primary report dated January29,1998,17 PDF pages with matching printed pagination;
+    complete text and all rendered pages inspected. Author attribution corroborated by the companion Brin–Page
+    bibliography and Motwani course catalog; names are absent from this cover. This is not asserted byte-identical
+    to the inaccessible1999-66 revision. AppendixA describes example queries but this copy contains no
+    accompanying screenshots.
+  url: https://gwern.net/doc/technology/google/1998-page.pdf
+  accessed_at: '2026-10-14T03:02:58Z'
+  sha256: 91c3a407edfdfe435b3ff987130a765349d530e039555ff8b93018bc886576fc
+- source_id: networkx35
+  title: NetworkX3.5 PageRank implementation and embedded documentation
+  authors:
+  - NetworkX developers
+  source_type: official_documentation
+  access_level: documentation
+  version: Complete499-line networkx/algorithms/link_analysis/pagerank_alg.py from commit4fa222d2fb157e1b7f8c753c9f92e5907d1ddeb4,
+    resolved from annotated tag networkx-3.5 object cd59914a6e46b04f006633f203ee7b4878d53159. Read without
+    importing or executing the module; the separately read live3.7 documentation is not this version.
+  persistent_id: https://github.com/networkx/networkx/blob/4fa222d2fb157e1b7f8c753c9f92e5907d1ddeb4/networkx/algorithms/link_analysis/pagerank_alg.py
+  url: https://raw.githubusercontent.com/networkx/networkx/4fa222d2fb157e1b7f8c753c9f92e5907d1ddeb4/networkx/algorithms/link_analysis/pagerank_alg.py
+  accessed_at: '2026-10-14T03:12:34Z'
+  sha256: b458d9d198458c91754b2d339e2053ac74dc6eafc634cacf55e135c9b7a1c8cd
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T03:21:41Z'
+  updated_at: '2026-10-14T03:21:41Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
