@@ -1,0 +1,181 @@
+id: AIMech:BrandesFleischerCurrentFlowBetweenness
+name: Brandes–Fleischer current-flow betweenness computation
+aliases:
+- Brandes-Fleischer exact current-flow betweenness
+concept_kind: algorithm
+definition: An exact network-analysis algorithm that computes current-flow betweenness by forming grounded-Laplacian
+  current-response rows, sorting each edge row, and aggregating rank-weighted contributions with endpoint
+  correction instead of explicitly enumerating all source–sink pairs.
+definition_evidence:
+- source_id: brandesfleischer2005
+  locator: Section 4, Theorem 2 and Algorithm 1, PDF pp. 7–8 / printed pp. 539–540
+  relation: supports
+claims:
+- claim_id: electrical-domain-and-estimand
+  kind: scope
+  statement: The domain is a simple connected undirected graph with n>=3 and positive edge conductances.
+    For ordered distinct source–sink pairs s,t, solve the weighted Laplacian equation Lp=e_s-e_t. Edge
+    current is c(u,v)[p(u)-p(v)]. Vertex throughput is half the sum of absolute incident currents minus
+    half the absolute supply, excluding source and sink. The maintained normalized betweenness is the
+    sum of these throughputs over ordered pairs, divided by (n-1)(n-2). Edge orientation is a computational
+    convention and does not make the graph directed.
+  evidence:
+  - source_id: brandesfleischer2005
+    locator: Section 2, PDF pp. 2–3 / printed pp. 534–535; Section 3.1 and Definition 2, PDF pp. 4–5 /
+      printed pp. 536–537
+    relation: supports
+- claim_id: grounded-current-response
+  kind: mechanism
+  statement: Ground one vertex, invert the reduced weighted Laplacian, and embed the inverse in a matrix
+    C with a zero row and column at that vertex. For oriented edge e=(u,v), define the indexed row F_ej=c(e)[C_uj-C_vj].
+    Then its current for supply s,t is F_es-F_et. This row formula follows the source’s Laplacian and
+    Ohm-law construction while avoiding its inconsistent incidence-matrix dimensions. Choice of ground
+    changes absolute potentials but not current differences.
+  evidence:
+  - source_id: brandesfleischer2005
+    locator: Section 2, Equation 1, PDF p. 3 / printed p. 535; Section 4, current-response construction,
+      PDF p. 7 / printed p. 539
+    relation: supports
+- claim_id: sorted-row-aggregation
+  kind: mechanism
+  statement: Fix vertex indices i=1,...,n and initialize a(v)=0. For each oriented edge e=(u,v), assign
+    each vertex j its distinct rank r_e(j) in a nonincreasing ordering of F_ej, retaining the original
+    vertex indices. Add (j-r_e(j))F_ej to a(u) and (n+1-j-r_e(j))F_ej to a(v) for every j. Return 2[a(v_i)-(i-1)]/[(n-1)(n-2)].
+    The subtraction removes sink endpoint contributions. Equal row values can occupy distinct consecutive
+    positions in any consistent tie order; the aggregate is unchanged. This is the source’s raw accumulation
+    and final correction, not the differently scaled intermediate prose expression.
+  evidence:
+  - source_id: brandesfleischer2005
+    locator: Section 4, proof of Theorem 2 and Algorithm 1 lines 1.1–1.2, PDF pp. 7–8 / printed pp. 539–540;
+      curator finite tie and orientation checks in research/discovery/current-flow-boundaries.py
+    relation: supports
+- claim_id: computation-and-storage
+  kind: scope
+  statement: After one reduced-matrix inversion, m rows of length n are formed and sorted, giving the
+    source’s O(I(n-1)+mn log n) arithmetic/comparison bound, where I is the inversion cost. A dense C,
+    graph storage and one current row require O(n^2+m) storage. The source discusses retaining selected
+    inverse columns under a vertex ordering to reduce storage. Its rough condition-number estimate and
+    conjugate-gradient cost do not provide an unconditional exact finite-precision runtime or tolerance
+    guarantee.
+  evidence:
+  - source_id: brandesfleischer2005
+    locator: Section 4, Theorem 2 and matrix/storage discussion, PDF pp. 7–9 / printed pp. 539–541; explicit
+      dense-storage accounting is curator interpretation
+    relation: supports
+- claim_id: scope-and-comparison
+  kind: limitation
+  statement: Current-flow throughput can include routes beyond shortest paths; the unit triangle has normalized
+    current-flow betweenness 1/3 at each vertex, while internal-vertex shortest-path betweenness is zero.
+    On a unit four-vertex path the matched normalized scores are (0,2/3,2/3,0). These are curator examples.
+    Algorithm 1 computes exact scores in its mathematical model; the chapter’s sampled-pair approximation
+    and closeness procedures are different algorithms. Structural prominence and the electrical analogy
+    do not establish causal influence, biological function or a learned prediction.
+  evidence:
+  - source_id: brandesfleischer2005
+    locator: Sections 3–6, PDF pp. 4–11 / printed pp. 536–543; Algorithm 1, p. 8 / p. 540; curator finite
+      examples in research/discovery/current-flow-boundaries.py
+    relation: supports
+- claim_id: evaluation-and-source-boundaries
+  kind: limitation
+  statement: Appendix A describes a Java implementation using yFiles and JMP on a 2.4 GHz computer with
+    3 GB memory. Figure 1 compares total runtime of exact procedures on random graphs with average degrees
+    6 through 20 in steps of two, and approximation errors on six random and six AS graphs of roughly
+    9000 vertices and 20000 edges. No numerical speedup, replicated historical result or universal accuracy
+    claim is asserted. The inspected copy contains current/potential, incidence-dimension and intermediate-normalization
+    inconsistencies; the maintained mechanism follows the explicit Laplacian construction and Algorithm
+    1, with finite checks and those limitations retained.
+  evidence:
+  - source_id: brandesfleischer2005
+    locator: Appendix A and Figure 1, PDF p. 12 / printed p. 544; Definition 1, PDF p. 2 / p. 534; Section
+      4, PDF pp. 7–8 / pp. 539–540
+    relation: supports
+identity_notes: 'Compared all 442 pinned AIO and 687 native identities; no normalized match. Ignored-
+  and hidden-inclusive searches of three full checkouts returned 27,0,0 lines, all read as prior source
+  leads or query strings. Semantic assessment covered 147 AIO and 521 native definitions: all 147 AIO
+  and 519 prior native rows verified unchanged and two newly selected native rows read. Nine complete
+  AIO contexts and five full native neighbors were assessed. The identity is Algorithm 1’s exact current-flow
+  betweenness computation using sorted edge-response rows. It is not the underlying centrality measure
+  alone, the chapter’s stochastic sampled-pair Algorithm 3, its closeness Algorithm 2, shortest-path Brandes
+  accumulation, pivot centrality estimation, PageRank or fixed-prior image denoising. The dense pair-enumeration
+  approach in Newman’s earlier method is contextual, with endpoint and normalization conventions kept
+  separate. This is scoped graph-analysis machinery for network centrality; it does not establish a causal
+  influence model or a trained predictor.'
+evidence_sources:
+- source_id: brandesfleischer2005
+  title: Centrality Measures Based on Current Flow
+  authors:
+  - Ulrik Brandes
+  - Daniel Fleischer
+  source_type: primary_paper
+  access_level: full_text
+  persistent_id: doi:10.1007/978-3-540-31856-9_44
+  version: Twelve-page repository-hosted typeset STACS 2005 chapter, Lecture Notes in Computer Science
+    3404:533–544, with a KOPS deposit overlay on the first page. All text and 22 references read; mathematical
+    pages 2–10 and Appendix A/Figure 1 on page 12 visually inspected. Publisher metadata and abstract
+    confirm title, authors, venue, pages and DOI. No author software, raw data or alternate corrected
+    edition was inspected.
+  url: https://d-nb.info/1104942720/34
+  accessed_at: '2026-10-14T04:15:45Z'
+  sha256: 92063e95b544688e1aabb5468e2fefcb3276520743a661bf9febc8622e90556d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Compared all 442 pinned AIO and 687 preceding native identities and searched three full
+    checkouts including ignored and hidden files. Semantic assessment covered 147 AIO and 521 native definitions:
+    147/519 prior rows were verified unchanged and two newly selected native rows read. Nine complete
+    AIO contexts and five full native neighbors were assessed.'
+  rationale: No examined AIO target denotes this exact current-flow centrality algorithm. A graph input,
+    ranking output or matrix computation alone is insufficient to identify it with clustering, language
+    modeling, bias or preprocessing.
+  examined_targets:
+  - target: AIO:Clustering
+    rejection_reason: A centrality vector assigns scores without grouping vertices into clusters.
+  - target: AIO:UnsupervisedClustering
+    rejection_reason: Absence of labels does not turn structural score computation into clustering.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The identity is a specific matrix and row-sorting algorithm, not solely a rule defining
+      an input-output function.
+  - target: AIO:DataPreparation
+    rejection_reason: Computing network prominence is the defined result; incidental downstream feature
+      use does not establish a preprocessing identity.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: The electrical-network computation has no language-model input/output or training
+      mechanism.
+  - target: AIO:RankingBias
+    rejection_reason: A structural graph score is not the belief that high-ranked information is necessarily
+      relevant.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: This exact method aggregates all source–sink pairs algebraically; it is not a bias
+      caused by sample selection.
+  - target: AIO:RepresentationBias
+    rejection_reason: A graph centrality computation is not subgroup representation bias.
+  - target: AIO:DeepActiveLearning
+    rejection_reason: Neither labels nor a deep neural network are acquired or fitted.
+limitations:
+- This record specifies Algorithm 1 for connected simple undirected positive-conductance networks with
+  n>=3 and endpoint-excluded normalization. Disconnected components, singleton cases, signed weights,
+  endpoint inclusion and edge centrality require explicit separate conventions.
+- The inspected Definition 1 writes a cycle sum of currents as zero, whereas its Ohm law and weighted
+  Laplacian require signed potential drops x/c to sum to zero. The weighted-triangle curator example has
+  nonzero cycle-current sum and zero cycle-potential sum. The literal unweighted cycle-current equation
+  is not adopted for general conductances.
+- The inspected incidence matrix is declared n-by-m but used in BC where edge-by-vertex current rows require
+  transposition or a different matrix convention. The maintained indexed row formula is explicit. Algorithm
+  1 uses raw accumulation before endpoint subtraction, unlike an inconsistently normalized intermediate
+  prose expression.
+- The chapter’s separate closeness definition uses an n-1 numerator that disappears in its proof and Algorithm
+  2. This record makes no blanket normalization identity with information centrality and does not incorporate
+  Algorithm 2 into its identity.
+- Exact mathematical accumulation is distinguished from numerical linear solves. No implementation-specific
+  tolerance, conditioning guarantee, benchmark replication, paid service or model training was used. Finite
+  rational examples do not certify every graph, theorem or historical program. DRAFT remains after author
+  self-review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T05:06:20Z'
+  updated_at: '2026-10-14T05:06:20Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
