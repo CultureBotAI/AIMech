@@ -1,0 +1,153 @@
+id: AIMech:RadicchiEdgeClustering
+name: Radicchi edge-clustering community detection
+aliases:
+- Radicchi divisive algorithm
+- modified edge-clustering community detection
+concept_kind: algorithm
+definition: A divisive graph-community algorithm family that repeatedly removes edges with the lowest
+  modified cycle-based edge-clustering score, updates affected local scores and forms a component hierarchy,
+  optionally retaining branches through the paper’s original-adjacency strong or weak community tests.
+definition_evidence:
+- source_id: radicchi2004
+  locator: Section IV, PDF pp. 4–5, Equations 3–5 and edge-removal rule; Section III, p. 4
+  relation: supports
+claims:
+- claim_id: modified-triangle-score
+  kind: mechanism
+  statement: For an edge joining vertices i and j, the triangle variant scores (z + 1) / min(k_i − 1,
+    k_j − 1), where z counts triangles containing the edge and k values are current endpoint degrees.
+    It removes edges with smallest scores and updates affected values. The added one distinguishes this
+    ranking from the ordinary edge-clustering coefficient; values may exceed one, as exact scores of two
+    on a triangle and three-halves on a four-clique illustrate.
+  evidence:
+  - source_id: radicchi2004
+    locator: Section IV, PDF pp. 4–5, Equations 3–4 and update discussion; curator calculation in research/discovery/radicchi-boundaries.py
+    relation: supports
+- claim_id: leaf-and-tie-boundary
+  kind: limitation
+  statement: The source assigns an infinite modified score to a leaf’s unique edge, whose triangle denominator
+    is zero. This is a stated convention, not a finite probability. A triangle-free four-cycle instead
+    gives equal finite triangle scores of one. The inspected text does not settle every tie or terminal
+    all-infinite case, so the record does not claim that a leaf edge can never be removed during full-tree
+    construction.
+  evidence:
+  - source_id: radicchi2004
+    locator: Section IV, PDF p. 5, paragraph following Equation 5; Figure 5 legend, pp. 8–9; curator calculation
+      in research/discovery/radicchi-boundaries.py
+    relation: supports
+- claim_id: cycle-family-boundary
+  kind: scope
+  statement: The family extends the score to (z_g + 1) / s_g using the number of cycles of order g containing
+    an edge and the possible such cycles given the node degrees. The paper evaluates triangles and four-cycles,
+    but the inspected presentation gives no explicit executable four-cycle denominator formula. This record
+    preserves the described family without claiming reconstruction of a particular g = 4 implementation.
+  evidence:
+  - source_id: radicchi2004
+    locator: Section IV, PDF p. 5, Equation 5 and g = 3/g = 4 discussion
+    relation: supports
+- claim_id: selector-and-filter
+  kind: mechanism
+  statement: Minimum modified cycle score replaces maximum shortest-path betweenness as the edge selector.
+    The plotted anticorrelation between those scores is imperfect and their extremal edges can differ.
+    Either selector can be combined with the same original-adjacency community tests and at-least-two-qualifying-children
+    retention rule; sharing a filter does not establish identical hierarchies.
+  evidence:
+  - source_id: radicchi2004
+    locator: Sections III–IV, PDF pp. 4–5; Figure 4 legend p. 8 and plot p. 12
+    relation: supports
+- claim_id: runtime-conditions
+  kind: limitation
+  statement: The paper’s rough aM + bM-squared cost estimate combines repeated connectivity checks with
+    local score updates. Treating an update as independent of total edge count requires control of the
+    local neighborhood and cycle order; it is not a universal constant-cost claim for unbounded degrees.
+    Figure 5 measures full-tree construction without a community-validation criterion on random graphs
+    of fixed average degree five, so its times are not complete filtered-pipeline timings.
+  evidence:
+  - source_id: radicchi2004
+    locator: Section IV, PDF p. 5, runtime estimate; Figure 5 legend, pp. 8–9 and plot p. 13
+    relation: supports
+- claim_id: evaluation-scope
+  kind: scope
+  statement: On the 128-vertex four-group synthetic benchmark with expected degree sixteen, the paper
+    compares strong/weak definition outcomes and exact-group success separately from node error. Its g
+    = 4 weak-criterion advantage is conditional on that test. The collaboration case analyzes the largest
+    12,722-vertex component of a 15,616-vertex graph; its reported size distribution pools nested weak
+    communities, not merely groups from one flat partition.
+  evidence:
+  - source_id: radicchi2004
+    locator: Sections III–V, PDF pp. 4–6; Figure 2 and Figure 6 legends, pp. 8–9, plots pp. 10 and 14
+    relation: supports
+- claim_id: domain-limits
+  kind: limitation
+  statement: The source’s applications are social networks. It acknowledges subjective interpretation
+    of collaboration groups and identifies a shortage of short cycles as a possible difficulty for non-social
+    networks. Proposed biological and technological applications are future work in this source, not demonstrated
+    general validation or proof that few triangles mean no communities exist.
+  evidence:
+  - source_id: radicchi2004
+    locator: Sections V–VI, PDF pp. 6–7
+    relation: supports
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: Successive graph splits produce a grouping hierarchy; the AIO task is related to this particular
+    divisive family rather than equivalent to it.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Local graph scores and optional degree tests produce unlabeled groupings from topology without
+    class-label supervision.
+limitations:
+- This family record covers arXiv cond-mat/0309488v2, with an explicit triangle formula and bounded description
+  of higher-cycle scoring. It is not a duplicate standalone g3 record or a complete implementation specification
+  for g4.
+- Current-graph degrees and cycles determine deletion scores; the optional strong/weak community tests
+  use the original full adjacency. Conflating these two graph states changes the procedure.
+- The finite calculations test score and definition boundaries only. They do not run author code or reproduce
+  the source’s accuracy and runtime experiments.
+- Source tie resolution, higher-cycle denominator conventions and terminal all-infinite behavior were
+  not audited in code. Weighted and directed generalizations are outside the inspected scope.
+- All fourteen text pages, equations and figures were inspected. The journal PDF, supporting community
+  lists, datasets and author software remain uninspected. No model training or benchmark replication was
+  performed; the record remains DRAFT.
+identity_notes: 'Compared all 442 pinned AIO and 675 native IDs, names, aliases and scoped synonyms before
+  either cohort write; no normalized identity match. Ignored- and hidden-inclusive searches of all three
+  checkouts returned 16,0,0 lines. All sixteen public matches were read: source citations, previously
+  pending reading notes, query logs and the existing Radicchi source lead, not either maintained identity.
+  Semantic assessment covered 64 AIO and 290 native definitions: 46 AIO and 268 native rows match prior
+  inspected context; all 18 newly selected AIO and 22 native definitions were read. Sixteen complete AIO
+  node/edge/generated contexts were verified unchanged and mapping rationales reassessed. Both drafts
+  were compared for inherited betweenness plus definition filtering versus local cycle-score deletion.
+  Retain the modified edge-clustering divisive family, with the explicit triangle rule and described higher-cycle
+  extension. Its minimum local cycle score differs from maximal shortest-path betweenness even though
+  either selector can use the same definition filter. This family record does not create an extra g3 duplicate
+  or assert an inspected complete g4 implementation.'
+evidence_sources:
+- source_id: radicchi2004
+  title: Defining and identifying communities in networks
+  authors:
+  - Filippo Radicchi
+  - Claudio Castellano
+  - Federico Cecconi
+  - Vittorio Loreto
+  - Domenico Parisi
+  source_type: primary_paper
+  access_level: full_text
+  version: arXiv cond-mat/0309488v2, 2004-02-27; related PNAS 101:2658–2663, DOI 10.1073/pnas.0400054101.
+    All fourteen pages and 36 references read; rendered pages 3–5 and 9–14 inspected, covering all five
+    equations, the five-step procedure and all six figures. Journal PDF, supporting community lists, author
+    code and data uninspected.
+  persistent_id: arxiv:cond-mat/0309488v2
+  url: https://arxiv.org/pdf/cond-mat/0309488v2
+  accessed_at: '2026-10-14T01:38:57Z'
+  sha256: 02467f9e119b7da54139e8df41b62f52c672aa607154951c5c868ef750f2d564
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T02:08:28Z'
+  updated_at: '2026-10-14T02:08:28Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
