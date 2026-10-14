@@ -1,0 +1,146 @@
+id: AIMech:NohRiegerRandomWalkCentrality
+name: Noh–Rieger random-walk centrality
+aliases:
+- Random walk centrality of Noh and Rieger
+concept_kind: mathematical_method
+definition: A node-scoring method for an undirected random walk that divides each node’s stationary visitation
+  probability by its integrated excess return probability, yielding a centrality whose reciprocal differences
+  determine pairwise mean first-passage-time asymmetry.
+definition_evidence:
+- source_id: nohrieger2004v2
+  locator: Equations 8–11, PDF p. 2; convergence condition in note 21, pp. 4–5
+  relation: supports
+claims:
+- claim_id: walk-domain
+  kind: scope
+  statement: The maintained scope is a finite connected simple undirected unweighted graph with an odd
+    cycle and no self-loops. A discrete-time walker at i chooses a neighbor uniformly, so P_ij=A_ij/k_i
+    and stationary probability pi_i=k_i/sum_j k_j. Connectivity and the odd cycle make this finite walk
+    irreducible and aperiodic; disconnected components require separate treatment and no cross-component
+    first-passage comparison is asserted.
+  evidence:
+  - source_id: nohrieger2004v2
+    locator: Model description, PDF pp. 1–2; Equations 1–4, p. 2; note 21, pp. 4–5
+    relation: supports
+- claim_id: integrated-return-score
+  kind: mechanism
+  statement: Define R_ij=sum_{t=0}^infinity((P^t)_ij-pi_j), tau_i=R_ii and C_i=pi_i/tau_i. The t=0 term
+    is included. On the maintained graph domain the deviation series converges. This score depends on
+    return dynamics as well as degree; it is neither the stationary distribution itself nor a probability
+    distribution over nodes. A single dominant spectral mode is only the source’s relaxation approximation,
+    not the definition of tau_i.
+  evidence:
+  - source_id: nohrieger2004v2
+    locator: Equations 7 and 10–11, PDF p. 2; spectral approximation and Figure 1 discussion, p. 3
+    relation: supports
+- claim_id: mean-first-passage-asymmetry
+  kind: mechanism
+  statement: For distinct i and j, mean first-passage time H_ij=(R_jj-R_ij)/pi_j. The positive return
+    time to i is H_ii=1/pi_i; it is not the zero-time self-hitting convention. Reversibility yields H_ij-H_ji=1/C_j-1/C_i.
+    Thus C_i>C_j implies a smaller expected passage time from j to i than from i to j. This expectation
+    identity does not order every realized arrival time or establish a probability of winning two independent
+    arrival races.
+  evidence:
+  - source_id: nohrieger2004v2
+    locator: Equations 3 and 5–11 with the pairwise interpretation, PDF p. 2
+    relation: supports
+- claim_id: periodic-walk-boundary
+  kind: limitation
+  statement: For a connected bipartite graph without self-loops, the original walk has eigenvalue -1 and
+    the ordinary deviation series need not converge. The source states this restriction explicitly in
+    note 21 and suggests changing the walk by adding self-loops. In a curator four-cycle example, the
+    diagonal deviation partial sums alternate between 3/4 and 1/2. A generalized inverse or a modified
+    lazy walk must not silently be identified with the original convergent-series definition.
+  evidence:
+  - source_id: nohrieger2004v2
+    locator: Note 21, PDF pp. 4–5; explicit four-cycle calculation in research/discovery/noh-rieger-boundaries.py
+    relation: supports
+- claim_id: finite-algebraic-checks
+  kind: limitation
+  statement: Exact curator arithmetic on a triangle gives pi_i=1/3, tau_i=4/9 and C_i=3/4 at every node,
+    with distinct-node mean passage time 2 and positive return time 3. On a triangle with a two-edge tail,
+    two degree-two nodes have centralities 15/67 and 5/29; the corresponding mean passage times are 9
+    and 23/3, whose difference agrees with the reciprocal-centrality identity. The curator calculation
+    uses R=(I-P+1pi^T)^(-1)-1pi^T and independently solves absorbing-target first-step equations. These
+    finite identities are not a replication of the paper’s network simulations.
+  evidence:
+  - source_id: nohrieger2004v2
+    locator: Equations 8–11, PDF p. 2; explicit finite matrix interpretation and calculations in research/discovery/noh-rieger-boundaries.py
+    relation: supports
+- claim_id: interpretation-and-evaluation-limits
+  kind: limitation
+  statement: The source interprets the score as relative accessibility under random transport and search.
+    Its extension from pairwise mean-passage asymmetry to an ordering of early ensemble visits is explicitly
+    inexact. The reported experiments use a Barabasi–Albert graph with 10000 nodes for degree/relaxation
+    plots, and 512-node Barabasi–Albert and 625-node hierarchical examples with initially one noninteracting
+    walker per node for visit-fraction comparisons. They do not establish universal degree monotonicity,
+    causal influence, learned predictive performance, directed-graph validity or congestion behavior with
+    interacting walkers.
+  evidence:
+  - source_id: nohrieger2004v2
+    locator: Figure 1 and the explicitly inexact argument, PDF p. 3; Figure 2 and simulation/extension
+      discussion, pp. 3–4
+    relation: supports
+identity_notes: 'Compared all 442 pinned AIO and 696 native identities; no normalized match. Ignored-
+  and hidden-inclusive searches of three full checkouts returned 67,0,0 lines, all read as existing Noh
+  source references, leads, query strings or review limitations. Semantic assessment covered 155 AIO and
+  541 native definitions: 155 AIO and540 prior native rows verified unchanged, plus the newly added RK
+  row and full record read. Twelve complete AIO contexts and six full native neighbors assessed. The identity
+  is the centrality functional pi_i divided by the complete integrated excess return probability, with
+  its pairwise mean-passage asymmetry interpretation. It differs from stationary visitation/PageRank,
+  Newman net-flow betweenness, resistance-sum closeness, sampled shortest-path betweenness and Markov-chain
+  transition construction. Network transport/search analysis is the scoped relevance; no learned predictor
+  or universal information advantage is asserted.'
+evidence_sources:
+- source_id: nohrieger2004v2
+  title: Random Walks on Complex Networks
+  authors:
+  - Jae Dong Noh
+  - Heiko Rieger
+  source_type: primary_paper
+  access_level: full_text
+  persistent_id: arxiv:cond-mat/0307719v2
+  version: arXiv identifier cond-mat/0307719v2 and watermark 19March2004, with printed Dated November26,2024.
+    Actual copy has five PDF pages although abstract metadata says four pages. Cause of mismatch unresolved;
+    no journal-byte equivalence asserted. All five actual PDF pages and24numbered references/notes read;
+    all rendered pages, equations and both figures inspected. ArXiv metadata links PRL92:118701(2004),
+    DOI10.1103/PhysRevLett.92.118701. The source date/page-count mismatch is retained.
+  url: https://arxiv.org/pdf/cond-mat/0307719v2
+  accessed_at: '2026-10-14T05:18:31Z'
+  sha256: 30125860cee7e6da4a0213c2a995b67e69366c9d8f95e02b389bd7aa0a877456
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: broad_match
+  rationale: The local concept is the precisely defined function (G,i) -> pi_i/sum_t((P^t)_ii-pi_i) on
+    its stated graph domain. AIO MathematicalFunction is broader and defines a rule assigning a dependent
+    value to specified independent variables. This record denotes the scoring functional rather than a
+    particular numerical solver.
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The score is constructed from stationary and return probabilities of the specified Markov
+    walk. The AIO target denotes the stochastic process/model; the local scalar centrality is a property
+    of that process, not an equivalent process or subclass network. The target’s Network parent and probabilistic-hidden-layer
+    relationship are retained as ontology context, not asserted as properties of this score.
+limitations:
+- The maintained scope is the original unweighted undirected non-bipartite walk. The source’s symmetric-weight
+  extension is noted but not adopted here; directed and interacting-walker extensions remain outside scope.
+- Global return dynamics are required; degree alone and a single spectral relaxation scale do not determine
+  the score in general.
+- The exact statement concerns mean passage times. Early-visit ranking and transport interpretations do
+  not provide a universal arrival-probability, causal or predictive guarantee.
+- The arXiv v2 watermark/version history says March 2004, while the inspected PDF prints November 2024
+  and has five pages versus four in its metadata. The mismatch remains unresolved; no publisher-byte equivalence
+  is claimed.
+- Finite curator matrix checks are mathematical examples, not author software, raw simulation replication
+  or a new general proof. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T07:30:04Z'
+  updated_at: '2026-10-14T07:30:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
