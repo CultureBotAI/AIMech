@@ -1,4 +1,23 @@
-"""Finite exact-arithmetic PageRank examples; no external graph or library execution."""
+"""PageRank contraction argument and finite exact-arithmetic illustrations.
+
+Curator argument, separate from the finite examples below: let P be a finite
+nonnegative row-stochastic matrix, v a probability row vector, and 0 <= alpha < 1.
+For any row vectors x and y, the triangle inequality gives
+
+    sum_j |sum_i (x_i - y_i) P_ij|
+    <= sum_i |x_i - y_i| sum_j P_ij = ||x - y||_1.
+
+Consequently F(x) = alpha x P + (1-alpha) v contracts L1 distance by at most
+alpha and maps the closed probability simplex into itself. This simplex is a
+complete metric space, so the contraction mapping theorem gives a unique fixed
+point and convergence of exact-arithmetic iteration from every probability
+vector. Neither irreducibility of P nor strictly positive entries of v is needed.
+The conclusion requires the stated probability domain and alpha below one.
+
+The finite rational substitutions below illustrate boundary cases; they do not
+prove the general contraction statement or guarantee finite-precision accuracy
+or convergence within a specified max_iter. No external graph or library is run.
+"""
 from fractions import Fraction as F
 import json
 
