@@ -1,0 +1,169 @@
+id: AIMech:NeXOOntologyConstruction
+name: NeXO ontology construction
+aliases:
+- NeXO construction algorithm
+concept_kind: algorithm
+definition: A network-based ontology-construction procedure that starts from a probabilistic hierarchy
+  of gene communities, removes unsupported binary restrictions to permit multiway joins, and adds supported
+  second-parent connections to produce an overlapping term hierarchy.
+definition_evidence:
+- source_id: dutkowski2013
+  locator: Inferring ontologies from networks, PDF p. 2 and Figure 1; Online Methods, Assembly of the
+    NeXO, p. 9
+  relation: supports
+claims:
+- claim_id: probabilistic-backbone
+  kind: mechanism
+  statement: The procedure first builds a binary community tree from interaction-network data and associates
+    internal groups with candidate ontology terms. The paper displays a product of Beta-integrated edge/hole
+    factors while calling the optimization maximum likelihood and referring to HAC-ML. HAC-ML’s original
+    paper distinguishes a profiled-likelihood guide from integrated Bayesian model-selection scores. The
+    displayed NeXO objective and the uninspected software optimization should therefore not be silently
+    equated.
+  evidence:
+  - source_id: dutkowski2013
+    locator: Inferring ontologies from networks, PDF p. 2; Online Methods, Assembly of the NeXO, p. 9;
+      Reference 32, p. 8
+    relation: supports
+  - source_id: park2011
+    locator: Methods, PDF pp. 2–4, Equations 2, 5, 7–8
+    relation: supports
+- claim_id: multiway-joins
+  kind: mechanism
+  statement: The method extends earlier top- and bottom-level pruning to internal tree nodes. It compares
+    a parent’s pooled interactions with its siblings against separate interactions between its children
+    and those siblings, using an integrated-probability ratio. Removal additionally requires that interaction
+    density among the children does not exceed that between the parent and its siblings. Replacing the
+    removed node by its children permits a multiway join.
+  evidence:
+  - source_id: dutkowski2013
+    locator: Online Methods, Assembly of the NeXO, PDF p. 9, removal-ratio equation and density guard
+    relation: supports
+- claim_id: additional-parents
+  kind: mechanism
+  statement: Starting near the leaves, the heuristic considers a smaller gene set as a child of a larger
+    candidate parent. It excludes pairs already on a common path or sharing a parent, requires sufficient
+    cross-set interaction density and a hypergeometric threshold, and requires the union to retain at
+    least half the parent’s density. Accepted edges permit multiple parents. This is a local heuristic,
+    not an optimization certificate for every possible ontology DAG.
+  evidence:
+  - source_id: dutkowski2013
+    locator: Online Methods, Assembly of the NeXO, PDF p. 9, three additional-parent conditions
+    relation: supports
+- claim_id: ontology-and-label-scope
+  kind: scope
+  statement: The resulting term graph and descendant-gene assignments are separate from the particular
+    yeast NeXO ontology produced in the study. Alignment to GO and other evidence can supply names for
+    some terms; unmatched terms can retain systematic identifiers. The paper explores relation-type suggestions
+    but does not establish automatic is-a or part-of assignment for every inferred relation.
+  evidence:
+  - source_id: dutkowski2013
+    locator: Results and Discussion, PDF pp. 3–8; Online Methods, final ontology definition, p. 9
+    relation: supports
+- claim_id: robustness-formula-boundary
+  kind: limitation
+  statement: Term prioritization combines network support with scores obtained after randomly removing
+    edges, rebuilding the ontology and aligning it to the original. The printed bootstrap expression is
+    the reciprocal of n times the sum of alignment scores. It is not the ordinary arithmetic mean and
+    becomes undefined if that sum is zero. The intended formula and author implementation were not verified,
+    so this record does not silently replace it or adopt a numerical robustness guarantee.
+  evidence:
+  - source_id: dutkowski2013
+    locator: Online Methods, Scoring robustness of NeXO terms, PDF p. 10; curator calculation in research/discovery/nexo-construction-boundaries.py
+    relation: supports
+- claim_id: evaluation-and-input-dependence
+  kind: scope
+  statement: The study uses yeast interaction networks and comparisons with prepared GO hierarchies, functional
+    enrichment and selected genetic-interaction profiles. It acknowledges GO-dependent thresholds for
+    expression and YeastNet inputs and reports controls removing those sources. Alignment, enrichment
+    and selected Golgi experiments provide different evidence; none establishes correctness of every inferred
+    term or relation. Supplementary controls were described in the main text but were not independently
+    inspected here.
+  evidence:
+  - source_id: dutkowski2013
+    locator: Results, PDF pp. 4–7 and Figures 3–5; Online Methods, Input networks and Preparation of GO,
+      p. 9; Genetic interaction profiling, p. 10
+    relation: supports
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: The algorithm constructs a hierarchy of object groups. The target is a related task, so this
+    mapping does not assert algorithm/task equivalence or subclass membership.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The grouping procedure uses network relationships rather than training a classifier on object
+    labels. Domain-informed input selection or GO-dependent evaluation does not establish identity with
+    a supervised classifier.
+limitations:
+- The record denotes the 2013 construction algorithm, not the released yeast ontology, NeXO Web database
+  or a generic ontology reasoner. The associated alignment algorithm is a separate operation.
+- HAC-ML supplies relevant upstream method context, but the displayed Beta objective and optimization
+  terminology remain distinct from an inspected implementation. Tree pruning and added-parent ordering
+  can affect the result.
+- The second-parent criteria and density thresholds are source-specific heuristics. Gene-set membership
+  and cross-interaction counting after earlier additions need explicit implementation conventions.
+- The published and advance PDFs show the same reciprocal bootstrap expression on page 10. Extracted-text
+  comparison found only publication-header, pagination and copyright differences; this is not a complete
+  visual audit of both versions.
+- The inspected published PDF has pre-existing highlights. All ten pages, references, five figures and
+  method equations were read; supplementary datasets and figures remain uninspected.
+- No author implementation, experimental dataset or supplementary archive was audited or executed. Finite
+  curator calculations assess printed formulas and bounded examples, not benchmark replication or global
+  optimality. The record remains DRAFT.
+identity_notes: 'Compared all 442 pinned AIO and 666 native IDs, names, aliases and scoped synonyms for
+  the three candidates and their publication identifiers; no normalized identity match. Ignored- and hidden-inclusive
+  fixed-string searches of the recovery, older discovery and original Documents checkouts returned 26,
+  0, 0 lines. All matches were read and are prior source/discovery context, with no existing maintained
+  identity. Semantic assessment covered 44 AIO and 260 native definitions: 41 AIO and 228 native rows
+  were unchanged from earlier reading; three additional AIO and 32 additional native definitions were
+  read. Fourteen complete annotated AIO node/edge/generated contexts and the candidate-specific native
+  records were inspected. Retain the 2013 NeXO construction method separately from its output yeast ontology,
+  the upstream HAC-ML guide, CliXO and the associated alignment operation. Its defining additions are
+  internal-node removal with a density guard and heuristic second-parent edges; it does not infer all
+  relation meanings.'
+evidence_sources:
+- source_id: dutkowski2013
+  title: A gene ontology inferred from molecular networks
+  authors:
+  - Janusz Dutkowski
+  - Michael Kramer
+  - Michal A Surma
+  - Rama Balakrishnan
+  - J Michael Cherry
+  - Nevan J Krogan
+  - Trey Ideker
+  source_type: primary_paper
+  access_level: full_text
+  version: Nature Biotechnology31(1):38–45,January2013; online2012-12-16. All10 pages of the university-hosted
+    published PDF,57references,five figures and Online Methods equations read. The downloaded copy has
+    pre-existing highlights. Advance-copy extracted-text differences and its page10 equation were checked;
+    no complete second visual audit or supplement reading is claimed.
+  persistent_id: doi:10.1038/nbt.2463
+  url: https://mechanism.ucsd.edu/bill/teaching/w16/cogs200/Dutkowski-2013-A%20gene%20ontology%20inferred%20from%20m.pdf
+  accessed_at: '2026-10-14T00:38:20Z'
+  sha256: 77571ca2fa8308e37fe51505bb3644212d96b8ae656b2530cbb7b52c4bda4807
+- source_id: park2011
+  title: Resolving the structure of interactomes with hierarchical agglomerative clustering
+  authors:
+  - Yongjin Park
+  - Joel S Bader
+  source_type: primary_paper
+  access_level: full_text
+  version: BMC Bioinformatics12(Suppl1):S44,2011-02-15; all10 publisher PDF pages and36references read,
+    including Equations1–11, pseudocode, four figures and three tables. Supplementary author code not
+    inspected.
+  persistent_id: doi:10.1186/1471-2105-12-S1-S44
+  url: https://link.springer.com/content/pdf/10.1186/1471-2105-12-S1-S44.pdf
+  accessed_at: '2026-10-14T00:38:22Z'
+  sha256: e930abd762f0f7c51d7671b3f605bc1fd2a35cdc230b668515c7778ffcb73b60
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T01:04:45Z'
+  updated_at: '2026-10-14T01:04:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NeXO ontology alignment · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>NeXO ontology alignment</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">NeXO ontology alignment</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NeXOOntologyAlignment</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> AlignOntology
+    </div>
+
+  <div class="detail-desc">
+    An iterative ontology-alignment algorithm that combines shared-terminal set overlap with parent and child neighborhood similarities, then greedily selects one-to-one term correspondences while rejecting reversed ancestor relations.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 666 native IDs, names, aliases and scoped synonyms for the three candidates and their publication identifiers; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 26, 0, 0 lines. All matches were read and are prior source/discovery context, with no existing maintained identity. Semantic assessment covered 44 AIO and 260 native definitions: 41 AIO and 228 native rows were unchanged from earlier reading; three additional AIO and 32 additional native definitions were read. Fourteen complete annotated AIO node/edge/generated contexts and the candidate-specific native records were inspected. Retain the gene-set and topology-based alignment algorithm described in the 2013 NeXO methods. AlignOntology is an author-attributed software name; no exact conformance claim about later code is made. It differs from constructing an ontology, learning generative flows, matching dictionary atoms and language-model value alignment.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#intrinsic-and-relational-scores</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The initial term-pair scores are Jaccard overlaps of their assigned gene sets. Later iterations combine three quarters intrinsic similarity with one quarter relational similarity. Relational similarity compares parent and child neighborhoods using the previous score matrix; each neighborhood comparison greedily chooses unique pairs and normalizes their summed scores. The root has a separate child-only rule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dutkowski2013">A gene ontology inferred from molecular networks</a></span>
+        <span>· <strong>Locator:</strong> Online Methods, Ontology alignment, PDF p. 10, intrinsic, relational and set-similarity equations</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#constrained-greedy-alignment</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each iteration sorts term pairs by score and accepts them greedily when neither term is already used and the proposed pair creates no reversed ancestor-descendant correspondence with an accepted pair. Processing stops when all terms of one ontology are matched or only scores below the stated threshold remain. These uniqueness and no-crisscross constraints do not require exact equality of gene sets or a full graph isomorphism.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dutkowski2013">A gene ontology inferred from molecular networks</a></span>
+        <span>· <strong>Locator:</strong> Online Methods, Ontology alignment, PDF p. 10, steps 0–5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#greedy-optimality-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The first greedy pass need not maximize total admissible similarity. A finite sibling-term example with Jaccard matrix [[1/2,1/3],[1/3,0]] selects the unique highest pair for a total of one half, whereas the two cross-pairs total two thirds without violating uniqueness or ancestor constraints. This assesses a first pass only; it does not predict the final iterated alignment or the author implementation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dutkowski2013">A gene ontology inferred from molecular networks</a></span>
+        <span>· <strong>Locator:</strong> Online Methods, Ontology alignment, PDF p. 10; curator-derived Jaccard example in research/discovery/nexo-alignment-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#iteration-and-conventions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source returns an alignment when it matches any previously encountered alignment. This repetition rule does not require successive score matrices to converge or successive mappings to agree. The printed formulas also leave empty-neighborhood, mixed root/non-root and tie conventions to implementation. No occurrence of a cycle in author code or general failure to terminate is asserted.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dutkowski2013">A gene ontology inferred from molecular networks</a></span>
+        <span>· <strong>Locator:</strong> Online Methods, Ontology alignment, PDF p. 10, relational cases and final repetition rule</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#alignment-calibration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper estimates false discovery from randomized ontologies and uses size-dependent score thresholds, with a stated alignment FDR below ten percent in each size group. This is a separate calculation from the five-percent thresholds in functional-enrichment comparisons. Alignment scores, semantic identity and experimentally supported biological function remain distinct.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dutkowski2013">A gene ontology inferred from molecular networks</a></span>
+        <span>· <strong>Locator:</strong> Online Methods, Calculating the false-discovery rate for ontology alignment, PDF p. 10; Figure 3 and functional enrichment, p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The record covers the algorithm described in the 2013 NeXO paper. Michael Kramer’s AlignOntology landing page attributes the software to that paper, but its later code revisions were not audited and are not assumed equivalent in every detail.</li>
+      <li>Comparable terminal identities are required for meaningful gene-set overlap. Missing or inconsistent annotations and shared evaluation inputs can affect scores and matches.</li>
+      <li>Greedy local and global matching is not a maximum-weight assignment or a semantic equivalence proof. The finite counterexample concerns k=0 only, with a common matched root and sibling terms.</li>
+      <li>Repeated-mapping termination differs from convergence of the numeric similarities. The source does not fully specify empty parent/child sets, mixed root status or tie ordering.</li>
+      <li>No author implementation, experimental dataset or supplementary archive was audited or executed. Finite curator calculations assess printed formulas and bounded examples, not benchmark replication or global optimality. The record remains DRAFT.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable pinned AIO mapping was found for the specific ontology-correspondence procedure. The bounded assessment distinguishes alignment from clustering, hierarchical classification, metric representation learning, conditional-dependence modeling and language-model value alignment.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO and 666 native identities; ignored- and hidden-inclusive searches of three checkouts; 44 AIO and 260 native semantic definitions; fourteen complete annotated AIO contexts and inspected native neighbors.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/HierarchicalClustering.html"><code>AIO:HierarchicalClustering</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method aligns terms in two existing hierarchies; it does not cluster observations into a new hierarchy.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html"><code>AIO:UnsupervisedClustering</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Constrained cross-ontology correspondences do not partition an unlabeled data set into clusters.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/HierarchicalClassification.html"><code>AIO:HierarchicalClassification</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure does not learn a predictor for preassigned hierarchical labels.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MetricLearning.html"><code>AIO:MetricLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            It uses prescribed set-overlap and recursive neighborhood scores, rather than learning the deep-neural metric representation defined by this pinned target.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This particular symbolic correspondence algorithm does not establish the general data-learning task as an equivalent identity or necessary algorithm parent.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The stateful iterative matching procedure is not identified by this generic mathematical-function category.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html"><code>AIO:ProbabilisticGraphicalModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Its ontology DAGs represent term relations, not conditional dependencies between random variables.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/EthicalLLM.html"><code>AIO:EthicalLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Ontology alignment is unrelated to the value-alignment synonym of an ethical language model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Repeated similarity updates and stopping on a repeated mapping do not define a stochastic transition model.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-dutkowski2013">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">dutkowski2013</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://mechanism.ucsd.edu/bill/teaching/w16/cogs200/Dutkowski-2013-A%20gene%20ontology%20inferred%20from%20m.pdf" target="_blank" rel="noopener">A gene ontology inferred from molecular networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Janusz Dutkowski, Michael Kramer, Michal A Surma, Rama Balakrishnan, J Michael Cherry, Nevan J Krogan, Trey Ideker
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1038/nbt.2463</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:77571ca2fa83…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-14T01:04:46Z</div>
+    <div><strong>Updated:</strong> 2026-10-14T01:04:46Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NeXOOntologyAlignment.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NeXOOntologyAlignment.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

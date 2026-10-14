@@ -1,0 +1,562 @@
+# Scientific author self-review of NeXO ontology alignment
+
+- Review: 20261014T011058Z-nexo-ontology-alignment
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-14T01:05:11Z
+- Finished UTC: 2026-10-14T01:10:58Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain NeXO ontology alignment as a DRAFT algorithm with an explicit bounded AIO no-match assessment. Author self-review supports the set/topology scores and constrained greedy procedure while preserving first-pass suboptimality, implementation conventions and calibration limits.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:NeXOOntologyAlignment
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 0f9030f612fbe81d829a98721437e1201d7ba0c9.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:NeXOOntologyAlignment | data/curated/NeXOOntologyAlignment.yaml | maintained | NeXO ontology alignment |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:NeXOOntologyAlignment | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 154.85s (0:02:34)<br>Checked 442 record(s); 0 failed.<br>Checked 669 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 356 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 353,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:NeXOOntologyAlignment | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:NeXOOntologyAlignment | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:NeXOOntologyAlignment | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:NeXOOntologyAlignment | {"jaccard_matrix": [["1/2", "1/3"], ["1/3", "0"]], "greedy_first_pass_score": "1/2", "admissible_alternative_score": "2/3", "mixed_score_example": "5/8", "nonadjacent_mapping_recurrence_example": ["A", "B", "A"], "scope": "The Jaccard sibling example assesses a single greedy k=0 pass. It does not show an actual later-iteration cycle or the behavior of uninspected author code. Empty-neighborhood conventions remain unspecified."} |
+
+## Scientific And Domain Assessments
+
+### NeXO ontology alignment
+
+identity: supported. Targets: AIMech:NeXOOntologyAlignment.
+
+Retain this distinct DRAFT algorithm.
+
+Retain the 2013 gene-set and topology-based ontology matching procedure. The author landing page supports AlignOntology as its attributed software name; later code conformance was not inspected. It differs from constructing an ontology, matching pursuit, generative flow matching and language-model value alignment.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:NeXOOntologyAlignment.
+
+The explicit AIO mapping assessment is supported within its stated scope.
+
+The explicit no-match assessment is supported within the pinned AIO snapshot and bounded identity/context searches. All nine rejected target YAMLs were reread: clustering, hierarchical classification, metric learning, generic task/function, probabilistic graphical models, EthicalLLM and MarkovChain do not establish a suitable mapping for this specific symbolic correspondence algorithm.
+
+### intrinsic-and-relational-scores
+
+evidence: supported. Targets: AIMech:NeXOOntologyAlignment.
+
+Supported within the stated primary-source and mathematical scope.
+
+Page 10 uses Jaccard intrinsic similarity at k=0 and weights 0.75 intrinsic plus 0.25 relational later. Parent/child set similarity is derived from greedy unique previous-iteration matches; roots receive the separate child-only expression. The 5/8 constructed mixture is a scalar check, not a full iteration.
+
+### constrained-greedy-alignment
+
+evidence: supported. Targets: AIMech:NeXOOntologyAlignment.
+
+Supported within the stated primary-source and mathematical scope.
+
+The sorted greedy pass rejects repeated term use and reversed ancestor correspondences, with a 0.01 threshold. The constraints are weaker than graph isomorphism and do not require identical term annotations.
+
+### greedy-optimality-boundary
+
+evidence: supported. Targets: AIMech:NeXOOntologyAlignment.
+
+Supported within the stated primary-source and mathematical scope.
+
+The realized sibling Jaccard matrix has a unique largest 1/2 entry but an admissible cross-pair sum of 2/3. These are sibling-block totals, exactly the scope stated in the claim and calculator. Including the common matched root adds the same one to both totals (3/2 versus 5/3) and leaves the counterexample intact. This challenges one first pass only, not final iterated behavior.
+
+### iteration-and-conventions
+
+evidence: supported. Targets: AIMech:NeXOOntologyAlignment.
+
+Supported within the stated primary-source and mathematical scope.
+
+The source stops when the current mapping equals any earlier mapping; it does not require numerical score convergence or adjacent equality. The abstract A,B,A sequence illustrates only this logical condition and is not an observed execution. Empty neighborhoods, mixed root status and tie handling remain unverified conventions.
+
+### alignment-calibration
+
+evidence: supported. Targets: AIMech:NeXOOntologyAlignment.
+
+Supported within the stated primary-source and mathematical scope.
+
+The methods specify randomized-ontology comparisons, size-dependent thresholds and alignment FDR below 10% per size group. The 5% enrichment threshold on page 4 is separate. Neither alignment score nor this estimated FDR is a certificate of biological identity.
+
+### greedy assignment versus maximum weight, sibling-block versus full-rooted scores, repeated mappings versus numeric convergence and calibration thresholds
+
+consistency: supported. Targets: AIMech:NeXOOntologyAlignment.
+
+Constructed calculations support the stated distinctions.
+
+A first-pass Jaccard sibling example separates greedy matching from maximum total similarity. A sequence recurrence example distinguishes repeated mapping from adjacent equality without asserting an observed cycle.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:NeXOOntologyAlignment.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. All five claims, the full explicit no-match assessment and other maintained fields were assessed. Intrinsic versus relational scoring, uniqueness versus ancestor constraints, first-pass greedy suboptimality, repeated mappings versus matrix convergence, and alignment FDR versus enrichment thresholds remain distinct. No repository correction was identified; DRAFT remains.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261014T010446Z-nexo-ontology-alignment.json | supports | Compared all 442 pinned AIO and 666 native IDs, names, aliases and scoped synonyms for the three candidates and their publication identifiers; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 26, 0, 0 lines. All matches were read and are prior source/discovery context, with no existing maintained identity. Semantic assessment covered 44 AIO and 260 native definitions: 41 AIO and 228 native rows were unchanged from earlier reading; three additional AIO and 32 additional native definitions were read. Fourteen complete annotated AIO node/edge/generated contexts and the candidate-specific native records were inspected. Retain the gene-set and topology-based alignment algorithm described in the 2013 NeXO methods. AlignOntology is an author-attributed software name; no exact conformance claim about later code is made. It differs from constructing an ontology, learning generative flows, matching dictionary atoms and language-model value alignment. |
+| mapping | sources/aio/aio.json | supports | The explicit no-match assessment is supported within the pinned AIO snapshot and bounded identity/context searches. All nine rejected target YAMLs were reread: clustering, hierarchical classification, metric learning, generic task/function, probabilistic graphical models, EthicalLLM and MarkovChain do not establish a suitable mapping for this specific symbolic correspondence algorithm. |
+| dutkowski2013 | https://mechanism.ucsd.edu/bill/teaching/w16/cogs200/Dutkowski-2013-A%20gene%20ontology%20inferred%20from%20m.pdf; Online Methods, Ontology alignment, PDF pp. 9–10; Figure 1e and Inferring ontologies from networks, p. 2; Online Methods, Ontology alignment, PDF p. 10, intrinsic, relational and set-similarity equations; Online Methods, Ontology alignment, PDF p. 10, steps 0–5; Online Methods, Ontology alignment, PDF p. 10; curator-derived Jaccard example in research/discovery/nexo-alignment-boundaries.py; Online Methods, Ontology alignment, PDF p. 10, relational cases and final repetition rule; Online Methods, Calculating the false-discovery rate for ontology alignment, PDF p. 10; Figure 3 and functional enrichment, p. 4 | supports | Nature Biotechnology31(1):38–45,January2013; online2012-12-16. All10 pages of the university-hosted published PDF,57references,five figures and Online Methods equations read. The downloaded copy has pre-existing highlights. Advance-copy extracted-text differences and its page10 equation were checked; no complete second visual audit or supplement reading is claimed. |
+| calculation | research/discovery/nexo-alignment-boundaries.py | supports | A first-pass Jaccard sibling example separates greedy matching from maximum total similarity. A sequence recurrence example distinguishes repeated mapping from adjacent equality without asserting an observed cycle. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- This cohort step adds one DRAFT record, reaching 669 native and 442 unchanged AIO records. The main frontier now has 854 entries, including 473 pending and 58 partly addressed cohorts; nested leads remain.
+- All10 pages each of the NeXO2013 and HACML2011 primary papers were read, with references and every figure, table and method equation inspected. This record cites only its listed evidence sources. Full193-line extracted-text diff read; all differences are publication headers, pagination and copyright lines. Advance-copy page10 rendered and read; both PDFs show the same reciprocal bootstrap equation. Other advance-copy pages were not separately visually read.
+- Primary methods were read; no author-code execution, model fitting, paid service, data upload, hardware benchmark or formal theorem certification. Constructed arithmetic examples are not experiment replication.
+- Original Documents checkout synchronization and old round141 cleanup remain unapproved after automatic-review rejection; only the isolated recovery checkout is changed.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261014T011058Z-nexo-ontology-alignment
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of NeXO ontology alignment
+started_at: '2026-10-14T01:05:11Z'
+finished_at: '2026-10-14T01:10:58Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged greedy assignment versus maximum weight,
+    sibling-block versus full-rooted scores, repeated mappings versus numeric convergence
+    and calibration thresholds. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain NeXO ontology alignment as a DRAFT algorithm with an explicit bounded
+  AIO no-match assessment. Author self-review supports the set/topology scores and
+  constrained greedy procedure while preserving first-pass suboptimality, implementation
+  conventions and calibration limits.
+source:
+  git_revision: 0f9030f612fbe81d829a98721437e1201d7ba0c9
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/BoltzmannMachineNetwork.yaml
+    sha256: 1152d2d85c5c1c408a0420e13f211ed109b12fb289c706ee7449864e91aece03
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/EthicalLLM.yaml
+    sha256: cd35ce670508ad59d04c55392e04f481415e2245c36f87185700b83bf14636f6
+    role: context
+  - path: data/aio/HierarchicalClassification.yaml
+    sha256: 5e1f65090a3a9e7842b57c12410a7279d02c60baef05844fa1dd73545f1cbfc7
+    role: context
+  - path: data/aio/HierarchicalClustering.yaml
+    sha256: 144deaecd150e22de207c11a62f19db5f8409443724bd4be4b5c95c53375b258
+    role: context
+  - path: data/aio/KnearestNeighborClassificationAlgorithm.yaml
+    sha256: c45f4eca7cc4e11444cc9be90d2622f8fd37c5296b0b01ffb7a0b7e7ac17af2a
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/MetricLearning.yaml
+    sha256: 9497c86ecf87bce4abc89095d2b6b3e9290c15ec8a853f4f9c91a3b8d041f3fc
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/CliXO.yaml
+    sha256: 68a4f69aab547e5d7c0bded8104c312b719d3f5cad62941e8c44ed697fd61fa8
+    role: context
+  - path: data/curated/FlowMatching.yaml
+    sha256: 3e7122ee85f438483256afcce7b4621b4701d10a0022b8efa1f0eb86c6a02887
+    role: context
+  - path: data/curated/MatchingPursuit.yaml
+    sha256: a24959ced5e8f39c3b861dd89fe7ab4407ac632f9187bc4bfa8f0cb1c30a5953
+    role: context
+  - path: data/curated/NeXOOntologyAlignment.yaml
+    sha256: ae6d9d1de083684f451595b12d7ceeb786ff53bd086e7fa01e2efc03908b95c7
+    role: target
+  - path: research/discovery/20261014T010446Z-nexo-ontology-alignment.json
+    sha256: 2ebea9411d64fee38c2cf23a3b3079feddcc2e296b83561b8bdd7a2d7bec06e4
+    role: context
+  - path: research/discovery/nexo-alignment-boundaries.py
+    sha256: f51e75b01ec46a9e565e54aa54c28bc3d791685a30b9aea39a8904fae8aeb95d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:NeXOOntologyAlignment
+  path: data/curated/NeXOOntologyAlignment.yaml
+  label: NeXO ontology alignment
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NeXOOntologyAlignment.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:NeXOOntologyAlignment'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:NeXOOntologyAlignment
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Uninspected source versions and implementation components
+    reason: The published main papers were read completely. Author code, experimental
+      data and supplements were not audited or executed. The NeXO advance copy was
+      compared by extracted text and visually on page 10 only; this is not a second
+      full visual audit. Constructed checks do not replicate a benchmark or certify
+      a complete algorithm.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 154.85s (0:02:34)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 669 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 356 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 353,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/nexo-alignment-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"jaccard_matrix": [["1/2", "1/3"], ["1/3", "0"]], "greedy_first_pass_score":
+    "1/2", "admissible_alternative_score": "2/3", "mixed_score_example": "5/8", "nonadjacent_mapping_recurrence_example":
+    ["A", "B", "A"], "scope": "The Jaccard sibling example assesses a single greedy
+    k=0 pass. It does not show an actual later-iteration cycle or the behavior of
+    uninspected author code. Empty-neighborhood conventions remain unspecified."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261014T010446Z-nexo-ontology-alignment.json
+  accessed_at: '2026-10-14T01:05:11Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO and 666 native IDs, names, aliases and scoped
+    synonyms for the three candidates and their publication identifiers; no normalized
+    identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery,
+    older discovery and original Documents checkouts returned 26, 0, 0 lines. All
+    matches were read and are prior source/discovery context, with no existing maintained
+    identity. Semantic assessment covered 44 AIO and 260 native definitions: 41 AIO
+    and 228 native rows were unchanged from earlier reading; three additional AIO
+    and 32 additional native definitions were read. Fourteen complete annotated AIO
+    node/edge/generated contexts and the candidate-specific native records were inspected.
+    Retain the gene-set and topology-based alignment algorithm described in the 2013
+    NeXO methods. AlignOntology is an author-attributed software name; no exact conformance
+    claim about later code is made. It differs from constructing an ontology, learning
+    generative flows, matching dictionary atoms and language-model value alignment.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-14T01:05:11Z'
+  support: supports
+  summary: 'The explicit no-match assessment is supported within the pinned AIO snapshot
+    and bounded identity/context searches. All nine rejected target YAMLs were reread:
+    clustering, hierarchical classification, metric learning, generic task/function,
+    probabilistic graphical models, EthicalLLM and MarkovChain do not establish a
+    suitable mapping for this specific symbolic correspondence algorithm.'
+- evidence_id: dutkowski2013
+  kind: primary_source
+  reference: https://mechanism.ucsd.edu/bill/teaching/w16/cogs200/Dutkowski-2013-A%20gene%20ontology%20inferred%20from%20m.pdf
+  locator: Online Methods, Ontology alignment, PDF pp. 9–10; Figure 1e and Inferring
+    ontologies from networks, p. 2; Online Methods, Ontology alignment, PDF p. 10,
+    intrinsic, relational and set-similarity equations; Online Methods, Ontology alignment,
+    PDF p. 10, steps 0–5; Online Methods, Ontology alignment, PDF p. 10; curator-derived
+    Jaccard example in research/discovery/nexo-alignment-boundaries.py; Online Methods,
+    Ontology alignment, PDF p. 10, relational cases and final repetition rule; Online
+    Methods, Calculating the false-discovery rate for ontology alignment, PDF p. 10;
+    Figure 3 and functional enrichment, p. 4
+  accessed_at: '2026-10-14T00:38:20Z'
+  snapshot_sha256: 77571ca2fa8308e37fe51505bb3644212d96b8ae656b2530cbb7b52c4bda4807
+  support: supports
+  summary: Nature Biotechnology31(1):38–45,January2013; online2012-12-16. All10 pages
+    of the university-hosted published PDF,57references,five figures and Online Methods
+    equations read. The downloaded copy has pre-existing highlights. Advance-copy
+    extracted-text differences and its page10 equation were checked; no complete second
+    visual audit or supplement reading is claimed.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/nexo-alignment-boundaries.py
+  accessed_at: '2026-10-14T01:10:50Z'
+  snapshot_sha256: f51e75b01ec46a9e565e54aa54c28bc3d791685a30b9aea39a8904fae8aeb95d
+  support: supports
+  summary: A first-pass Jaccard sibling example separates greedy matching from maximum
+    total similarity. A sequence recurrence example distinguishes repeated mapping
+    from adjacent equality without asserting an observed cycle.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: NeXO ontology alignment
+  outcome: supported
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  evidence_ids:
+  - identity
+  - dutkowski2013
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain the 2013 gene-set and topology-based ontology matching procedure.
+    The author landing page supports AlignOntology as its attributed software name;
+    later code conformance was not inspected. It differs from constructing an ontology,
+    matching pursuit, generative flow matching and language-model value alignment.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  evidence_ids:
+  - mapping
+  - dutkowski2013
+  summary: The explicit AIO mapping assessment is supported within its stated scope.
+  details: 'The explicit no-match assessment is supported within the pinned AIO snapshot
+    and bounded identity/context searches. All nine rejected target YAMLs were reread:
+    clustering, hierarchical classification, metric learning, generic task/function,
+    probabilistic graphical models, EthicalLLM and MarkovChain do not establish a
+    suitable mapping for this specific symbolic correspondence algorithm.'
+- assessment_id: intrinsic-and-relational-scores
+  area: evidence
+  topic: intrinsic-and-relational-scores
+  outcome: supported
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  evidence_ids:
+  - dutkowski2013
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Page 10 uses Jaccard intrinsic similarity at k=0 and weights 0.75 intrinsic
+    plus 0.25 relational later. Parent/child set similarity is derived from greedy
+    unique previous-iteration matches; roots receive the separate child-only expression.
+    The 5/8 constructed mixture is a scalar check, not a full iteration.
+- assessment_id: constrained-greedy-alignment
+  area: evidence
+  topic: constrained-greedy-alignment
+  outcome: supported
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  evidence_ids:
+  - dutkowski2013
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The sorted greedy pass rejects repeated term use and reversed ancestor
+    correspondences, with a 0.01 threshold. The constraints are weaker than graph
+    isomorphism and do not require identical term annotations.
+- assessment_id: greedy-optimality-boundary
+  area: evidence
+  topic: greedy-optimality-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  evidence_ids:
+  - dutkowski2013
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The realized sibling Jaccard matrix has a unique largest 1/2 entry but
+    an admissible cross-pair sum of 2/3. These are sibling-block totals, exactly the
+    scope stated in the claim and calculator. Including the common matched root adds
+    the same one to both totals (3/2 versus 5/3) and leaves the counterexample intact.
+    This challenges one first pass only, not final iterated behavior.
+- assessment_id: iteration-and-conventions
+  area: evidence
+  topic: iteration-and-conventions
+  outcome: supported
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  evidence_ids:
+  - dutkowski2013
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The source stops when the current mapping equals any earlier mapping; it
+    does not require numerical score convergence or adjacent equality. The abstract
+    A,B,A sequence illustrates only this logical condition and is not an observed
+    execution. Empty neighborhoods, mixed root status and tie handling remain unverified
+    conventions.
+- assessment_id: alignment-calibration
+  area: evidence
+  topic: alignment-calibration
+  outcome: supported
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  evidence_ids:
+  - dutkowski2013
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The methods specify randomized-ontology comparisons, size-dependent thresholds
+    and alignment FDR below 10% per size group. The 5% enrichment threshold on page
+    4 is separate. Neither alignment score nor this estimated FDR is a certificate
+    of biological identity.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: greedy assignment versus maximum weight, sibling-block versus full-rooted
+    scores, repeated mappings versus numeric convergence and calibration thresholds
+  outcome: supported
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  evidence_ids:
+  - dutkowski2013
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: A first-pass Jaccard sibling example separates greedy matching from maximum
+    total similarity. A sequence recurrence example distinguishes repeated mapping
+    from adjacent equality without asserting an observed cycle.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:NeXOOntologyAlignment
+  evidence_ids:
+  - identity
+  - mapping
+  - dutkowski2013
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. All five claims, the full explicit no-match assessment
+    and other maintained fields were assessed. Intrinsic versus relational scoring,
+    uniqueness versus ancestor constraints, first-pass greedy suboptimality, repeated
+    mappings versus matrix convergence, and alignment FDR versus enrichment thresholds
+    remain distinct. No repository correction was identified; DRAFT remains.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- This cohort step adds one DRAFT record, reaching 669 native and 442 unchanged AIO
+  records. The main frontier now has 854 entries, including 473 pending and 58 partly
+  addressed cohorts; nested leads remain.
+- All10 pages each of the NeXO2013 and HACML2011 primary papers were read, with references
+  and every figure, table and method equation inspected. This record cites only its
+  listed evidence sources. Full193-line extracted-text diff read; all differences
+  are publication headers, pagination and copyright lines. Advance-copy page10 rendered
+  and read; both PDFs show the same reciprocal bootstrap equation. Other advance-copy
+  pages were not separately visually read.
+- Primary methods were read; no author-code execution, model fitting, paid service,
+  data upload, hardware benchmark or formal theorem certification. Constructed arithmetic
+  examples are not experiment replication.
+- Original Documents checkout synchronization and old round141 cleanup remain unapproved
+  after automatic-review rejection; only the isolated recovery checkout is changed.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
