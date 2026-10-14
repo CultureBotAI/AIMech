@@ -1,0 +1,179 @@
+id: AIMech:FlakeFocusedCrawl
+name: Flake focused community crawling
+aliases:
+- APPROXIMATE-FLOW-COMMUNITY
+- Flake focused-crawl algorithm
+concept_kind: algorithm
+definition: A flow-based focused-crawling family that alternates gathering a local web graph around positive
+  seed pages, extracting a group through seeded maximum flow, promoting selected discovered pages to seeds
+  and recrawling, with version-specific graph augmentation and seed-ranking rules.
+definition_evidence:
+- source_id: flake2000
+  locator: Sections 3.2–3.3 and Table 1, printed pp. 153–154 / PDF pp. 4–5
+  relation: supports
+- source_id: flake2002
+  locator: Figure 2b and approximate-flow discussion, printed p. 68 / PDF p. 3
+  relation: supports
+claims:
+- claim_id: acquisition-and-reseeding
+  kind: mechanism
+  statement: The procedure uses an explicitly supplied seed set, gathers outgoing links and searches for
+    incoming links, performs flow-based grouping on the resulting graph, promotes selected nonseed pages
+    and repeats for a prescribed number of rounds. Graph acquisition and seed expansion are part of the
+    algorithm; the wrapper is distinct from solving a single fixed augmented graph.
+  evidence:
+  - source_id: flake2002
+    locator: Figure 2b and approximate-flow discussion, printed p. 68 / PDF p. 3
+    relation: supports
+  - source_id: flake2000
+    locator: Sections 3.2–3.3 and Table 1, printed pp. 153–154 / PDF pp. 4–5
+    relation: supports
+- claim_id: kdd2000-variant
+  kind: mechanism
+  statement: The KDD2000 implementation symmetrizes links within the seed and immediate-neighbor region
+    while preserving directed boundary-reference links toward a virtual sink. It explicitly scales only
+    seed-to-neighbor capacities, deviating from the uniform-scaling construction discussed in its theorem.
+    Table 1 promotes community pages tied to selected high in-degree and out-degree scores measured on
+    the induced graph, then recrawls.
+  evidence:
+  - source_id: flake2000
+    locator: Section 3.2, Figure 2 and implementation-deviation paragraphs; Section 3.3 and Table 1, printed
+      pp. 153–154 / PDF pp. 4–5
+    relation: supports
+- claim_id: ieee2002-variant
+  kind: mechanism
+  statement: The 2002 wrapper describes a fixed-depth crawl in both hyperlink directions, sets k to the
+    seed-set size, invokes EXACT-FLOW-COMMUNITY on the induced graph, ranks returned pages by internal
+    community links and adds highest-ranked nonseeds. These choices differ from the earlier boundary wiring
+    and induced-graph in/out-degree rule; the versions are retained explicitly rather than presented as
+    identical pseudocode.
+  evidence:
+  - source_id: flake2002
+    locator: Figure 2b and approximate-flow discussion, printed p. 68 / PDF p. 3
+    relation: supports
+  - source_id: flake2000
+    locator: Table 1 and preceding implementation-deviation paragraphs, printed p. 154 / PDF p. 5
+    relation: supports
+- claim_id: em-and-convergence-boundary
+  kind: limitation
+  statement: The earlier source describes reseeding as inspired by expectation maximization, but supplies
+    no statistical expected-log-likelihood objective or corresponding parameter-estimation E-step. It
+    explicitly lacks a proof of convergence to a fixed point and a bound on deviation from the ideal community
+    procedure. A prescribed round count and empirical stabilization are not such guarantees.
+  evidence:
+  - source_id: flake2000
+    locator: Section 3.3, printed p. 154 / PDF p. 5
+    relation: supports
+- claim_id: coverage-and-theorem-boundary
+  kind: limitation
+  statement: Exact flow on a sampled graph does not establish a result for the complete Web. Missing incoming
+    links, crawl depth, boundary treatment, seed selection and heuristic capacity scaling affect the represented
+    problem. The 2000 paper’s Theorem 2 concerns a specified uniformly scaled virtual-sink graph under
+    a stated inequality, while the authors explicitly describe deviations in the implemented crawler;
+    it is not an unconditional guarantee for either wrapper.
+  evidence:
+  - source_id: flake2000
+    locator: Section 3.2, Theorem 2 and implementation deviations, printed pp. 153–154 / PDF pp. 4–5
+    relation: supports
+  - source_id: flake2002
+    locator: Approximate-flow discussion, printed p. 68 / PDF p. 3
+    relation: supports
+- claim_id: historical-evaluation
+  kind: scope
+  statement: The KDD2000 examples concern support-vector-machine research, the Internet Archive and Ronald
+    Rivest, with different seeds, iteration counts and handling of same-domain links. The authors report
+    false positives and say network retrieval dominated runtime. The 2002 examples use three individual-scientist
+    seeds and roughly two hundred returned pages per run; these are conditional historical demonstrations,
+    not comparable modern accuracy or throughput benchmarks.
+  evidence:
+  - source_id: flake2000
+    locator: Section 4, Tables 2–4 and runtime discussion, printed pp. 154–158 / PDF pp. 5–9
+    relation: supports
+  - source_id: flake2002
+    locator: Experimental Results and Figure 3, printed p. 69 / PDF p. 4
+    relation: supports
+- claim_id: interpretation-and-ranking
+  kind: limitation
+  statement: Internal-link counts rank pages rather than estimate calibrated membership probabilities.
+    The 2002 paper’s keyword features and exhaustively selected three-term rules characterize the returned
+    groups after collection; their reported match rates are not a held-out evaluation of a learned predictive
+    model. Link-based retrieval does not establish bias-free or universally correct semantic communities.
+  evidence:
+  - source_id: flake2002
+    locator: Experimental Results, Figure 3 and Table 1 discussion, printed pp. 69–70 / PDF pp. 4–5
+    relation: supports
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: The crawler repeatedly groups linked pages around positive examples. The general clustering
+    task is related without asserting that the seeded acquisition algorithm is purely unsupervised, a
+    hierarchical clustering method or a trained predictor.
+limitations:
+- This family record preserves the distinct 2000 and 2002 graph and ranking conventions. It does not combine
+  their details into a new purported author implementation.
+- 'Exact-flow core limitations remain relevant: preserving seeds and optimizing a cut do not certify every
+  seed’s degree criterion or recover any arbitrarily preselected community. The separate exact-flow record
+  and finite calculations document those boundaries.'
+- The 2002 Figure 2a all-E rescaling ambiguity is inherited by its called core. The prose preexisting-edge
+  convention is the recorded interpretation; author code was not audited.
+- Tie handling, the precise number of promoted pages in the 2002 description and all exceptional candidate-pool
+  cases were not resolved from implementation evidence. No fixed-point or approximation guarantee is asserted.
+- Both complete primary papers, displayed algorithms and result tables were inspected. Their historical
+  URLs were not visited and their descriptions were not independently revalidated. No live Web crawl,
+  author-code execution, model training or benchmark replication was performed; DRAFT remains.
+identity_notes: 'Compared all 442 pinned AIO and 677 native IDs, names, aliases and scoped synonyms before
+  either cohort write; no normalized identity match. Ignored- and hidden-inclusive searches of all three
+  checkouts returned 20,0,0 lines, all read: prior source-deduplication logs and the Flake source lead,
+  not either maintained concept. Semantic search covered 70 AIO and 318 native definitions; 64 AIO and
+  290 native rows match prior inspected context, and all six newly selected AIO and 28 native definitions
+  were read. Eleven complete AIO node/edge/generated contexts were assessed, five verified unchanged and
+  six newly read. The full EM record and previously inspected GN/Radicchi records provide native identity
+  context. Both drafts were compared for a fixed-graph exact core versus a versioned crawl/reseed family.
+  Retain one focused-crawling family with explicitly distinguished2000 and2002 versions. Both alternate
+  flow-based grouping, seed promotion and recrawling, but their graph augmentation and seed-ranking rules
+  differ. The family is distinct from the one-graph exact core and from likelihood-based expectation maximization;
+  no extra duplicate is created for each historical wrapper.'
+evidence_sources:
+- source_id: flake2002
+  title: Self-Organization and Identification of Web Communities
+  authors:
+  - Gary William Flake
+  - Steve Lawrence
+  - C. Lee Giles
+  - Frans M. Coetzee
+  source_type: primary_paper
+  access_level: full_text
+  version: IEEE Computer 35(3):66–71, March2002; DOI10.1109/2.989932; author-hosted publisher PDF. All
+    six pages and renders read, including three figures, two algorithms, one table, ten main references
+    and nine sidebar references. Author code and historical web data uninspected.
+  persistent_id: doi:10.1109/2.989932
+  url: https://clgiles.ist.psu.edu/papers/Computer-2002-web-communities.pdf
+  accessed_at: '2026-10-14T02:04:10Z'
+  sha256: 104f1461e3005c47850c380fd2f9a55434d9851bdae5d1a3cd5e1d2fdf5b2d68
+- source_id: flake2000
+  title: Efficient Identification of Web Communities
+  authors:
+  - Gary William Flake
+  - Steve Lawrence
+  - C. Lee Giles
+  source_type: primary_paper
+  access_level: full_text
+  version: ACM KDD2000, pp150–160; DOI10.1145/347090.347121; author-hosted proceedings PDF. Complete eleven-page
+    text and25references read. Rendered pages3–6,8–10 cover all figures, definitions, theorem conditions
+    and five tables, including both algorithms; rotated result tables were rendered upright. Author code
+    and historical data uninspected.
+  persistent_id: doi:10.1145/347090.347121
+  url: https://clgiles.ist.psu.edu/papers/KDD-2000-web-communities.pdf
+  accessed_at: '2026-10-14T02:06:18Z'
+  sha256: 016ffe67913e080e9f86ef536667353a9cd4410c389db5d8373079a63fadb7dc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T02:24:51Z'
+  updated_at: '2026-10-14T02:24:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
