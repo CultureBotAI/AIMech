@@ -1,0 +1,182 @@
+id: AIMech:RiondatoKornaropoulosBetweennessSampling
+name: Riondato–Kornaropoulos fixed-sample betweenness approximation
+aliases:
+- RK betweenness approximation
+- Riondato–Kornaropoulos betweenness sampling
+concept_kind: algorithm
+definition: A fixed-sample graph betweenness approximation algorithm that chooses a sample count using
+  a VC-dimension bound for shortest-path incidence ranges, then averages internal-vertex indicators from
+  independent uniform endpoint-pair and conditional shortest-path draws.
+definition_evidence:
+- source_id: riondatokornaropoulos2016author
+  locator: Sections 4 and 5.1, Corollary 1, Equation 3 and Algorithm 1, PDF pp. 9 and 15–19
+  relation: supports
+claims:
+- claim_id: domain-and-estimand
+  kind: scope
+  statement: The maintained core applies to finite simple static directed or undirected graphs with n>=3
+    and strictly positive edge weights, including unit weights. Draw an ordered pair of distinct vertices
+    uniformly from all n(n-1) pairs, then a shortest path uniformly among that pair’s shortest paths.
+    Unreachable pairs contribute an empty path and zero indicators. The output averages indicators for
+    internal vertices only and targets shortest-path betweenness normalized by n(n-1). At a fixed sample
+    count chosen independently of the main sample stream, each estimate is unbiased for that target.
+  evidence:
+  - source_id: riondatokornaropoulos2016author
+    locator: Section 3.1, PDF pp. 5–6; Section 5.1, pp. 15–19
+    relation: supports
+- claim_id: vc-based-fixed-count
+  kind: mechanism
+  statement: Let D_hat>=3 be a valid integer upper bound on the maximum number of vertices in any shortest
+    path, fixed before the main sample stream. Corollary 1 supplies d=floor(log2(D_hat-2))+1 as a VC-dimension
+    upper bound for the internal-vertex path-incidence ranges. For tolerance epsilon and failure budget
+    delta in (0,1), Equation 3 prescribes r=ceil((c/epsilon^2)(d+ln(1/delta))), using a constant c sufficient
+    for the cited uniform-convergence theorem. Under its assumptions, the resulting iid sample gives simultaneous
+    all-vertex additive error at most epsilon with probability at least 1-delta. The author manuscript
+    calls c approximately 0.5 an estimate; this record does not certify that experimental value as a universal
+    sufficient constant.
+  evidence:
+  - source_id: riondatokornaropoulos2016author
+    locator: Theorem 1 and following constant discussion, PDF p. 8; Corollary 1, p. 9; Section 5.1, Equation
+      3, p. 15
+    relation: supports
+- claim_id: count-weighted-path-sampling
+  kind: mechanism
+  statement: For each sampled pair (s,t), a shortest-path search computes distances, predecessor sets
+    and exact shortest-path counts sigma_sx. Starting at t, choose predecessor z of the current vertex
+    x with probability sigma_sz/sigma_sx and continue to s. The factors telescope to probability 1/sigma_st
+    for each complete shortest path. All equal-distance predecessor contributions must be retained; choosing
+    predecessors uniformly can bias the complete-path law. Add 1/r to each internal vertex’s score and
+    perform exactly r pair draws, including unreachable pairs.
+  evidence:
+  - source_id: riondatokornaropoulos2016author
+    locator: Section 5.1, PDF pp. 16–17 and Algorithm 1; curator weighted-path calculations in research/discovery/rk-path-boundaries.py
+    relation: supports
+- claim_id: diameter-and-transcription-boundaries
+  kind: limitation
+  statement: Vertex diameter counts vertices on shortest paths, not total edge weight or the minimum number
+    of hops. A largest weakly connected component’s vertex count is a safe graph-dependent upper bound
+    for the maintained positive-weight domain. If the actual vertex diameter is at most two, all internal-vertex
+    scores are zero; log(VD-2) must not be evaluated blindly. Equation 3 includes the +1 in the VC bound,
+    whereas Algorithm 1 line 5 omits it. Integer rounding is required. The undirected unique-shortest-path
+    bound VC<=3 must not be extended to directed graphs. Source reuse of a diameter-estimation draw as
+    a main sample needs a separate dependence argument; it is outside this record’s independent-main-stream
+    scope.
+  evidence:
+  - source_id: riondatokornaropoulos2016author
+    locator: Definition 1, PDF p. 6; Corollary 1 and Lemma 2, pp. 9–10; directed counterexample, pp. 11–12;
+      Equation 3, p. 15; Algorithm 1 and diameter approximation, pp. 17–18
+    relation: supports
+- claim_id: finite-law-and-normalization-checks
+  kind: limitation
+  statement: Curator enumeration compares count-weighted backtracking with an independent simple-path
+    oracle on all 729 directed three-vertex graphs whose arcs are absent or have weight 1 or 2, covering
+    4374 ordered-pair cases. A separate unequal-predecessor example gives three paths probability 1/3
+    each, versus 1/4,1/4,1/2 under uniform predecessor choice. A directed three-vertex chain plus an isolated
+    vertex has empty-path probability 3/4 and central-vertex expectation 1/12; conditioning away unreachable
+    pairs changes it to 1/3. Arithmetic with D_hat=4, epsilon=0.05, delta=0.1 and the experimental c=0.5
+    gives ceilings 861 from Equation 3 and 661 from the omitted-+1 transcription. These finite checks
+    certify neither the constant nor general confidence coverage.
+  evidence:
+  - source_id: riondatokornaropoulos2016author
+    locator: Section 5.1, PDF pp. 15–19; explicit curator calculations in research/discovery/rk-path-boundaries.py
+    relation: supports
+- claim_id: identity-and-evaluation-scope
+  kind: limitation
+  statement: The fixed VC-based sample count distinguishes this algorithm from KADABRA’s adaptive stopping
+    and ABRA’s exact pair-fraction estimators; its complete centrality estimator is also distinct from
+    a conditional path-sampling subroutine. The inspected manuscript’s historical C/igraph implementation
+    and five-run experiments use c=0.5, delta=0.1 and selected directed, undirected and synthetic networks.
+    They do not establish a universal speedup, validate every parameter setting or certify current software.
+    Relative top-k output, edge betweenness, bounded-distance and walk variants require separate identity
+    and evidence assessment.
+  evidence:
+  - source_id: riondatokornaropoulos2016author
+    locator: Sections 5.1–5.2, 6 and 7, PDF pp. 15–35; named-neighbor distinction assessed against the
+      maintained KADABRA and ABRA records
+    relation: supports
+identity_notes: 'Compared all 442 pinned AIO and 695 native identities; no normalized match. Ignored-
+  and hidden-inclusive searches of three full checkouts returned 51,0,0 lines, all read as existing RK
+  source URLs, leads or query strings. Semantic assessment covered 155 AIO and 540 native definitions:
+  all155 prior AIO and539 prior native rows verified unchanged, and the newly added conditional KADABRA
+  sampler row and full record read. Eleven complete AIO contexts and seven full native neighbors were
+  assessed; corrected KADABRA contexts were reassessed. The maintained identity is all-node fixed-sample
+  path-indicator averaging with a VC-based sample count, not KADABRA adaptive stopping, ABRA pair-fraction
+  averaging, exact Brandes accumulation, pivot dependency sampling or a conditional path sampler. Top-k
+  and other estimands require separate assessment.'
+evidence_sources:
+- source_id: riondatokornaropoulos2016author
+  title: Fast approximation of betweenness centrality through sampling
+  authors:
+  - Matteo Riondato
+  - Evgenios M. Kornaropoulos
+  source_type: primary_paper
+  access_level: full_text
+  version: 37-page author-hosted manuscript with placeholder journal header and received/accepted dates;
+    author catalog identifies DMKD30(2):438-475,2016. No publisher-byte equivalence. All37 pages and47references
+    read as text, with rendered pages6,8,9,15,17 inspected. Other figures/tables and many proof displays
+    remain text-only. The linked author catalog identifies the2016 journal article and2014 conference
+    version; no version-specific publisher DOI or byte equivalence is asserted.
+  url: https://www.rionda.to/papers/RiondatoKornaropoulos-BetweennessSampling-DMKD.pdf
+  accessed_at: '2026-10-14T06:07:46Z'
+  sha256: b783f401a0a6cc637fe6f6c56dfeeca093cf7a796b44b939012511ec86647653
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all442 pinned AIO and695 preceding native identities, with ignored- and hidden-inclusive
+    searches across three checkouts. Semantic assessment covers155 AIO and540 native definitions, including
+    the newly added KADABRA sampler; eleven complete AIO contexts and seven full native neighbors assessed.
+  rationale: No examined AIO class denotes the graph-specific VC sample-size and uniform shortest-path
+    estimator. Statistical learning theory supplies its guarantee but does not make the estimator a neural
+    architecture, bias category, clustering task or data-preparation identity.
+  examined_targets:
+  - target: AIO:Clustering
+    rejection_reason: Estimating a vector of centrality values does not group vertices into clusters.
+  - target: AIO:UnsupervisedClustering
+    rejection_reason: Absence of labels does not turn all-node path-indicator averaging into clustering.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The identity includes a specific randomized sampling procedure and VC-based sample
+      count, not only a mathematical input-output function.
+  - target: AIO:DataPreparation
+    rejection_reason: The defined output is estimated graph prominence; possible downstream use as a feature
+      does not establish a preprocessing identity.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: The shortest-path estimator neither fits a language model nor learns a graph representation.
+  - target: AIO:RankingBias
+    rejection_reason: A network centrality estimate is not the belief that highly ranked information is
+      necessarily relevant.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: Uniform pair/path sampling is the defined procedure, not a selection-bias concept.
+  - target: AIO:RepresentationBias
+    rejection_reason: The mathematical centrality estimator does not denote subgroup representation bias.
+  - target: AIO:DeepActiveLearning
+    rejection_reason: The algorithm does not acquire labels or fit a deep neural network.
+  - target: AIO:DataDredgingBias
+    rejection_reason: A predetermined sample-size bound and iid estimation do not denote data-dredging
+      bias.
+  - target: AIO:BidirectionalLayer
+    rejection_reason: The algorithm is not a recurrent-neural-network wrapper; shortest-path counting
+      does not instantiate the AIO layer.
+limitations:
+- The sample-size guarantee is conditional on a sufficient theorem constant, a valid vertex-diameter upper
+  bound and iid draws independent of its selection. No explicit universal validity of c=0.5 is asserted.
+- Strictly positive weights, simple static graphs and exact shortest-path counts are the maintained scope.
+  Zero-weight cycles, multigraph conventions, finite-precision counting and dynamic changes need separate
+  analysis.
+- The all-ordered-pair denominator includes unreachable pairs. A single collapsed empty path must carry
+  the aggregate unreachable-pair mass; dropping it or assigning only one pair’s mass changes the distribution.
+- The source contains small-diameter and equation-versus-pseudocode boundaries. This record follows the
+  scoped mathematical procedure, not literal unqualified execution of Algorithm 1.
+- Only selected source displays were visually inspected; remaining figures, tables and proof displays
+  are text-only. No general proof certification, author-code execution, benchmark replication or publisher-byte
+  equivalence.
+- Top-k, edge, bounded-distance and walk variants, and the diameter-sample reuse optimization remain outside
+  this identity. DRAFT remains after author self-review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T07:26:29Z'
+  updated_at: '2026-10-14T07:26:29Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
