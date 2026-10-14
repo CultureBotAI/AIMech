@@ -1,0 +1,638 @@
+# Scientific author self-review of KADABRA adaptive betweenness approximation
+
+- Review: 20261014T071241Z-kadabra-adaptive-betweenness
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-14T07:01:39Z
+- Finished UTC: 2026-10-14T07:12:41Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain KADABRA adaptive betweenness approximation as DRAFT with a bounded AIO no-match assessment. Its fixed-horizon confidence assumptions and source-transcription caveats are explicit.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:KADABRAAdaptiveBetweenness
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 7289b51273d1a39c08286b8e044eb52cbd68b1bd.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:KADABRAAdaptiveBetweenness | data/curated/KADABRAAdaptiveBetweenness.yaml | maintained | KADABRA adaptive betweenness approximation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:KADABRAAdaptiveBetweenness | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 289.46s (0:04:49)<br>Checked 442 record(s); 0 failed.<br>Checked 695 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 385 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 385,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:KADABRAAdaptiveBetweenness | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:KADABRAAdaptiveBetweenness | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:KADABRAAdaptiveBetweenness | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:KADABRAAdaptiveBetweenness | {"exhaustive_path_law": [{"directed": false, "graphs": 64, "ordered_pair_cases": 768}, {"directed": true, "graphs": 4096, "ordered_pair_cases": 49152}], "unequal_meeting_edge_weights": {"paths": [[0, 1, 3, 5, 6], [0, 2, 3, 5, 6], [0, 4, 7, 8, 6]], "meeting": [[[5, 6], 2], [[8, 6], 1]], "probabilities": ["1/3", "1/3", "1/3"], "scans": 10, "uniform_meeting_edge_would_give_path_probabilities": ["1/4", "1/4", "1/2"]}, "diamond_vertex0": {"mean": "1/12", "pair_fraction_variance": "5/144", "one_path_indicator_variance": "11/144"}, "long_path": {"nodes": 129, "distance": 128, "incident_edges_scanned": 254, "note": "Selected path endpoints require linear work; no universal square-root bound."}, "zero_score_triangle": {"delta": 0.1, "tolerance": 0.05, "curator_hoeffding_cap": 958, "uniform_node_tail_budget": 0.008333333333333333, "first_stopping_count": 462, "lower_radius": 0.0, "upper_radius": 0.04988372423655512, "note": "The literal inclusive event truth&lt;=estimate-f is true with probability1 at zero; closed-interval coverage uses strict outside errors."}, "scope": "Finite exact path laws and variance arithmetic, plus floating evaluation of source radii under an explicitly curator-derived cap. No author software, benchmark, general proof certification or replication."} |
+
+## Scientific And Domain Assessments
+
+### KADABRA adaptive betweenness approximation
+
+identity: supported. Targets: AIMech:KADABRAAdaptiveBetweenness.
+
+Retain this distinct DRAFT algorithm.
+
+Retain the core all-node adaptive estimator separately from the conditional path sampler, fixed-size RK, ABRA pair-fraction estimators, top-k ranking and pilot optimization. Fixed sample expectations do not establish unbiasedness after stopping.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:KADABRAAdaptiveBetweenness.
+
+The explicit AIO mapping assessment is supported within its stated scope.
+
+Retain the bounded no-match over eleven complete AIO contexts. BidirectionalLayer wraps recurrent neural networks and is not a graph-search layer. Neither concentration theory nor graph ranking turns this algorithm into a bias concept, clustering task, language model or data-preparation identity.
+
+### domain-and-estimand
+
+evidence: supported. Targets: AIMech:KADABRAAdaptiveBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+The estimator averages internal-node indicators under iid uniform ordered distinct-pair and conditional shortest-path sampling. Unreachable pairs remain empty zero contributions. Denominator n(n-1), exact path counts and unweighted static graph scope are explicit.
+
+### balanced-path-sampling
+
+evidence: supported. Targets: AIMech:KADABRAAdaptiveBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+The source describes complete layer expansion by incident-edge volume, forward/reverse directed searches and meeting-edge weights equal to the product of prefix/suffix counts. Finite enumeration and the unequal-cut example support the distinction from first-meeting or uniform-edge shortcuts.
+
+### fixed-horizon-and-tail-budgets
+
+evidence: supported. Targets: AIMech:KADABRAAdaptiveBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+A predetermined positive integer cap spends delta/2 and fixed node tail budgets together spend at most delta/2. Uniform delta/(4n) is valid. The cap ceil(ln(4n/delta)/(2lambda^2)) follows directly from two-sided Hoeffding plus a union bound and is labeled a curator alternative. Pilot conditioning requires an independent main stream, not same-stream budget tuning.
+
+### confidence-radii-and-stopping
+
+evidence: supported. Targets: AIMech:KADABRAAdaptiveBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+The f/g formulas match Equations5–6 after renaming variables. They use means at positive tau, not raw counts. Stopping occurs at simultaneous radii&lt;=lambda or the certified cap. The source’s bounded stopped-martingale argument, rather than an arbitrary fixed-time substitution, is the stated support; printed-proof certification is expressly excluded.
+
+### boundary-and-transcription-limits
+
+evidence: supported. Targets: AIMech:KADABRAAdaptiveBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+At h=true score0 the lower radius is0, so the printed inclusive failure event is indeed certain. Closed confidence intervals use strict outside errors. Tau0, raw counters, horizon rounding and log(VD-2) are preserved boundaries. The finite zero-score case gives cap958 and stop462 under the explicit curator configuration.
+
+### identity-and-evaluation-limits
+
+evidence: supported. Targets: AIMech:KADABRAAdaptiveBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+The diamond mean agrees for indicator and fraction estimators while their single-draw variances differ. The record does not extrapolate fixed-size unbiasedness to stopping, old2016 ABRA comparisons to revised2018 code, or conditional graph-model runtimes to all graphs.
+
+### stopped versus fixed-time confidence, mean/count transcription, endpoint and path laws, fixed budgets, cap assumptions, zero-score equality and historical comparisons
+
+consistency: supported. Targets: AIMech:KADABRAAdaptiveBetweenness.
+
+Constructed calculations support the stated distinctions.
+
+Finite exhaustive path-law checks cover all64 undirected and4096 directed simple four-node graphs. A branching cut shows why meeting edges need path-count weights. A diamond distinguishes path-indicator from pair-fraction variance; a long path rules out a blanket square-root work claim. Explicit confidence radii on a zero-score triangle use a clearly labeled curator Hoeffding cap. These are finite mathematical checks, not author software, general proof certification or benchmark replication.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:KADABRAAdaptiveBetweenness.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 6 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Complete maintained fields and all six claims assessed against both inspected 2016 versions. The record requires a certified fixed horizon, independent main draws, fixed positive node budgets and positive-time means. The conservative cap is clearly curator-derived. Printed equality and pseudocode issues remain explicit; the core algorithm is separated from pilot optimization and top-k output. The final conference locator was checked against the actual publisher pagination. The preceding full record reading was reassessed with the exact locator/update-time delta; corrected reports preserve previous wording and hashes.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261014T064041Z-kadabra-adaptive-betweenness.json | supports | Compared all 442 pinned AIO and 693 native identities; no normalized match. Ignored- and hidden-inclusive searches of three full checkouts returned 59,0,0 lines, all read as existing KADABRA leads, source-reading notes or query strings. Semantic assessment covered 155 AIO and 538 native definitions: the prior 154 AIO and 536 native rows were verified unchanged, with BidirectionalLayer, ABRA-s-fix and Apriori additions read. Eleven complete AIO contexts and seven full native neighbors were assessed. The maintained identity is the all-node adaptive stopping procedure for sampled shortest-path indicators, using a fixed sample horizon and node-specific confidence radii. It differs from fixed-size RK path sampling, progressive or fixed ABRA pair fractions, exact dependency accumulation, electrical-flow methods, and the path-sampling subroutine alone. Top-k output and the pilot-budget optimization heuristic require separate scope assessment. |
+| mapping | sources/aio/aio.json | supports | Retain the bounded no-match over eleven complete AIO contexts. BidirectionalLayer wraps recurrent neural networks and is not a graph-search layer. Neither concentration theory nor graph ranking turns this algorithm into a bias concept, clustering task, language model or data-preparation identity. |
+| borassinatal2016esa | https://drops.dagstuhl.de/storage/00lipics/lipics-vol057-esa2016/LIPIcs.ESA.2016.20/LIPIcs.ESA.2016.20.pdf; Section 2, Algorithm 1 and Theorem 1, printed pp. 20:5–20:7; Section 2.1 proof, pp. 20:7–20:9 | supports | Eighteen-page publisher ESA2016 LIPIcs57 article20, pp.20:1-20:18, CC BY3.0. All text and45references read; rendered pages6-8 and13-15 inspected, including all four figures and Algorithms1-3. No author software, raw benchmark data or later journal version inspected. |
+| borassinatal2016v4 | https://arxiv.org/pdf/1604.08553v4; Sections 2–3, Algorithm 1 and Theorem 2, PDF pp. 4–7; Appendix C, pp. 17–19; Section 2, PDF pp. 4–6; Section 4, p. 7; Appendix A notation, p. 15; Section 4, PDF p. 7; curator path-law calculations in research/discovery/kadabra-path-boundaries.py; Section 2 and Remark 1, PDF pp. 5–6; Sections 3 and Appendix C, pp. 6–7 and 17–19; independent pilot described in Appendix D, pp. 19–20; curator Hoeffding cap derived from p. 5; Algorithm 1 and Section 3, PDF pp. 6–7; Theorem 2, p. 5; Appendix C, Theorem 9 and Equations 5–6, pp. 17–19; Algorithm 1, PDF p. 6; horizon expression, p. 5; Theorem 9 and proof, pp. 17–19; explicit curator calculation in research/discovery/kadabra-path-boundaries.py; Sections 2–6, PDF pp. 4–12; Appendix D and Appendix F, pp. 19–20 and 25–37; finite variance comparison in research/discovery/kadabra-path-boundaries.py | supports | Thirty-seven-page arXiv1604.08553v4. Version history and watermark identify12August2016, while the printed manuscript date is15August2016; the difference is preserved. All text and49references read; rendered core-method/proof pages6-7 and16-20, all four figures on10-12, Tables1-5 and19 on25-28,30,37 inspected. Other table pages and remaining random-graph proof displays are text-only. No later journal-byte equivalence or author-code inspection. Additional rendered page5 inspected with a reread of page17 during preparation. |
+| calculation | research/discovery/kadabra-path-boundaries.py | supports | Finite exhaustive path-law checks cover all64 undirected and4096 directed simple four-node graphs. A branching cut shows why meeting edges need path-count weights. A diamond distinguishes path-indicator from pair-fraction variance; a long path rules out a blanket square-root work claim. Explicit confidence radii on a zero-score triangle use a clearly labeled curator Hoeffding cap. These are finite mathematical checks, not author software, general proof certification or benchmark replication. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- An initial just check passed before the conference-locator defect was corrected. That result was retained separately; the final gate was rerun on the corrected records.
+- The vendored-artifact check first failed at sandbox DNS resolution. The failure was preserved and the read-only check rerun with authorized network access.
+- This round adds one DRAFT concept, reaching 694 native and 442 unchanged AIO records. The main frontier has 879 entries, including 472 pending and 58 partly addressed cohorts; nested leads remain.
+- ESA: all18 pages and45 references read, with core method and all four figures visually inspected. arXiv v4: all37 pages,49 references and19 tables read as text; rendered5–7,10–12,16–20,25–28,30,37 inspected. Other tables and some random-graph proof displays remain text-only.
+- The core record uses explicit fixed-horizon assumptions and positive-time means. Printed proof/pseudocode issues are retained, and a Hoeffding cap is labeled a curator alternative. No author software, raw benchmark replication or later journal-byte equivalence; later source abstracts are leads only.
+- The KADABRA all-node estimator is added. Its sampler, pilot optimization and top-k procedure, other ABRA variants, RK sampling and other centrality sources retain separate pending assessments.
+- Original Documents synchronization and old round141 cleanup remain unapproved after automatic-review rejection; only the isolated recovery worktree is modified.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261014T071241Z-kadabra-adaptive-betweenness
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of KADABRA adaptive betweenness approximation
+started_at: '2026-10-14T07:01:39Z'
+finished_at: '2026-10-14T07:12:41Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged stopped versus fixed-time confidence,
+    mean/count transcription, endpoint and path laws, fixed budgets, cap assumptions,
+    zero-score equality and historical comparisons. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain KADABRA adaptive betweenness approximation as DRAFT with a bounded
+  AIO no-match assessment. Its fixed-horizon confidence assumptions and source-transcription
+  caveats are explicit.
+source:
+  git_revision: 7289b51273d1a39c08286b8e044eb52cbd68b1bd
+  state: working_tree
+  inputs:
+  - path: data/aio/BidirectionalLayer.yaml
+    sha256: e5a9046594e0cc0b0ddf152c6d84745d25b3a3246273babbd7a859f01d7270c8
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DataDredgingBias.yaml
+    sha256: 335067e88f1462e141ac5f35e697cd42f7d250ec4dde9250531babe0d96cc1d0
+    role: context
+  - path: data/aio/DataPreparation.yaml
+    sha256: 99aebfc324b628969407ddc7591312e992db1469e7ef8fb3ad28e4b62d3bb359
+    role: context
+  - path: data/aio/DeepActiveLearning.yaml
+    sha256: b04c9aa74728adbe1bd907cb3f0e15b263bda18ed29660babce092daeed2b4f9
+    role: context
+  - path: data/aio/GraphLanguageModel.yaml
+    sha256: 1cdda6f7d19946e0672835185e179e2336832225c180e2b70d7860b0c96fc2a8
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/RankingBias.yaml
+    sha256: 3e931657e0ee2a47e36a7858dbb8f26f00b565040f4fedd138f55353551160b0
+    role: context
+  - path: data/aio/RepresentationBias.yaml
+    sha256: 5ac7d1455814eb8305b1ab9d0934e61fc50c09fe3dfd7724da5fdb4a21f360b2
+    role: context
+  - path: data/aio/SelectionAndSamplingBias.yaml
+    sha256: 72d8ef34949942ddee1fe60d645806a2117b95207f681de923297b64f78cc477
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/ABRASFixedSampleBetweenness.yaml
+    sha256: 54cfede513b8c180857a7be3cdb1c6a330dd2471df8fd4b3cf0b277fa353ce92
+    role: context
+  - path: data/curated/ABRASProgressiveBetweenness.yaml
+    sha256: 9b1d85ceb3a3305970c23930e67cda59be68985f8fd5da6b4ae3ec94c655a113
+    role: context
+  - path: data/curated/Apriori.yaml
+    sha256: ecdb6f7857fe97ae313e2e6c95984852213e1647bc4b4ab81a30e81a989c71a6
+    role: context
+  - path: data/curated/BrandesBetweennessCentrality.yaml
+    sha256: 2ff7051fa27a4e1150545d634b90599a335b909b1fe6956441260c5284830e21
+    role: context
+  - path: data/curated/BrandesFleischerSampledCurrentFlowBetweenness.yaml
+    sha256: 32b66dbd161efc40fa7162b43f16436146accd5aa8ea90c10874d91be21948ad
+    role: context
+  - path: data/curated/BrandesPichPivotCentralityEstimation.yaml
+    sha256: 7f8492fc3a881da6c35439412b535572f687215410b85b05439d2ca8d799b9c1
+    role: context
+  - path: data/curated/KADABRAAdaptiveBetweenness.yaml
+    sha256: 8add303f8ebaa0330d3a2ffde947c7a5113fdb3abce5749e937cffb27fb9d8e3
+    role: target
+  - path: data/curated/NewmanRandomWalkBetweennessMatrix.yaml
+    sha256: 9ed2e0ea7ac76abbf3de52341f78f4944e73b6215af2008fff08888d9fb59bd8
+    role: context
+  - path: research/discovery/20261014T064041Z-kadabra-adaptive-betweenness.json
+    sha256: 6e54f25882b85aeb4811aa0a99574d1c3e156c25d089344bdf57ccf1144aac64
+    role: context
+  - path: research/discovery/kadabra-path-boundaries.py
+    sha256: fdcf1857ab588f921eba2952068a3a509a5a3f1649f134ed6272c155bc97247e
+    role: context
+  - path: reviews/structured/20261014T070041Z-kadabra-conference-locators/review.yaml
+    sha256: a8aaff53d19b4b8396d52f880716b2b805cbed9325faa874e3cc9090267b07c7
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:KADABRAAdaptiveBetweenness
+  path: data/curated/KADABRAAdaptiveBetweenness.yaml
+  label: KADABRA adaptive betweenness approximation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/KADABRAAdaptiveBetweenness.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:KADABRAAdaptiveBetweenness'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Uninspected source versions and implementation components
+    reason: Both primary versions were read completely as extracted text, with bounded
+      visual inspection of core methods, confidence displays, all figures and selected
+      extended tables. Not every proof or table was visually checked; no general proof
+      certification, author-code execution, later journal-byte equivalence or benchmark
+      replication.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 289.46s (0:04:49)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 695 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 385 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 385,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/kadabra-path-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"exhaustive_path_law": [{"directed": false, "graphs": 64, "ordered_pair_cases":
+    768}, {"directed": true, "graphs": 4096, "ordered_pair_cases": 49152}], "unequal_meeting_edge_weights":
+    {"paths": [[0, 1, 3, 5, 6], [0, 2, 3, 5, 6], [0, 4, 7, 8, 6]], "meeting": [[[5,
+    6], 2], [[8, 6], 1]], "probabilities": ["1/3", "1/3", "1/3"], "scans": 10, "uniform_meeting_edge_would_give_path_probabilities":
+    ["1/4", "1/4", "1/2"]}, "diamond_vertex0": {"mean": "1/12", "pair_fraction_variance":
+    "5/144", "one_path_indicator_variance": "11/144"}, "long_path": {"nodes": 129,
+    "distance": 128, "incident_edges_scanned": 254, "note": "Selected path endpoints
+    require linear work; no universal square-root bound."}, "zero_score_triangle":
+    {"delta": 0.1, "tolerance": 0.05, "curator_hoeffding_cap": 958, "uniform_node_tail_budget":
+    0.008333333333333333, "first_stopping_count": 462, "lower_radius": 0.0, "upper_radius":
+    0.04988372423655512, "note": "The literal inclusive event truth<=estimate-f is
+    true with probability1 at zero; closed-interval coverage uses strict outside errors."},
+    "scope": "Finite exact path laws and variance arithmetic, plus floating evaluation
+    of source radii under an explicitly curator-derived cap. No author software, benchmark,
+    general proof certification or replication."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261014T064041Z-kadabra-adaptive-betweenness.json
+  accessed_at: '2026-10-14T07:01:39Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO and 693 native identities; no normalized match.
+    Ignored- and hidden-inclusive searches of three full checkouts returned 59,0,0
+    lines, all read as existing KADABRA leads, source-reading notes or query strings.
+    Semantic assessment covered 155 AIO and 538 native definitions: the prior 154
+    AIO and 536 native rows were verified unchanged, with BidirectionalLayer, ABRA-s-fix
+    and Apriori additions read. Eleven complete AIO contexts and seven full native
+    neighbors were assessed. The maintained identity is the all-node adaptive stopping
+    procedure for sampled shortest-path indicators, using a fixed sample horizon and
+    node-specific confidence radii. It differs from fixed-size RK path sampling, progressive
+    or fixed ABRA pair fractions, exact dependency accumulation, electrical-flow methods,
+    and the path-sampling subroutine alone. Top-k output and the pilot-budget optimization
+    heuristic require separate scope assessment.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-14T07:01:39Z'
+  support: supports
+  summary: Retain the bounded no-match over eleven complete AIO contexts. BidirectionalLayer
+    wraps recurrent neural networks and is not a graph-search layer. Neither concentration
+    theory nor graph ranking turns this algorithm into a bias concept, clustering
+    task, language model or data-preparation identity.
+- evidence_id: borassinatal2016esa
+  kind: primary_source
+  reference: https://drops.dagstuhl.de/storage/00lipics/lipics-vol057-esa2016/LIPIcs.ESA.2016.20/LIPIcs.ESA.2016.20.pdf
+  locator: Section 2, Algorithm 1 and Theorem 1, printed pp. 20:5–20:7; Section 2.1
+    proof, pp. 20:7–20:9
+  accessed_at: '2026-10-14T05:42:44Z'
+  snapshot_sha256: c73bb488b2adef340a3a17dcc412090f488d7411920a2f95917a51227ad00a50
+  support: supports
+  summary: Eighteen-page publisher ESA2016 LIPIcs57 article20, pp.20:1-20:18, CC BY3.0.
+    All text and45references read; rendered pages6-8 and13-15 inspected, including
+    all four figures and Algorithms1-3. No author software, raw benchmark data or
+    later journal version inspected.
+- evidence_id: borassinatal2016v4
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1604.08553v4
+  locator: Sections 2–3, Algorithm 1 and Theorem 2, PDF pp. 4–7; Appendix C, pp. 17–19;
+    Section 2, PDF pp. 4–6; Section 4, p. 7; Appendix A notation, p. 15; Section 4,
+    PDF p. 7; curator path-law calculations in research/discovery/kadabra-path-boundaries.py;
+    Section 2 and Remark 1, PDF pp. 5–6; Sections 3 and Appendix C, pp. 6–7 and 17–19;
+    independent pilot described in Appendix D, pp. 19–20; curator Hoeffding cap derived
+    from p. 5; Algorithm 1 and Section 3, PDF pp. 6–7; Theorem 2, p. 5; Appendix C,
+    Theorem 9 and Equations 5–6, pp. 17–19; Algorithm 1, PDF p. 6; horizon expression,
+    p. 5; Theorem 9 and proof, pp. 17–19; explicit curator calculation in research/discovery/kadabra-path-boundaries.py;
+    Sections 2–6, PDF pp. 4–12; Appendix D and Appendix F, pp. 19–20 and 25–37; finite
+    variance comparison in research/discovery/kadabra-path-boundaries.py
+  accessed_at: '2026-10-14T05:53:22Z'
+  snapshot_sha256: 6e42bfafd925bb6186254a3a4d621671775c7dac9fe767425c3f7d057a63fa86
+  support: supports
+  summary: Thirty-seven-page arXiv1604.08553v4. Version history and watermark identify12August2016,
+    while the printed manuscript date is15August2016; the difference is preserved.
+    All text and49references read; rendered core-method/proof pages6-7 and16-20, all
+    four figures on10-12, Tables1-5 and19 on25-28,30,37 inspected. Other table pages
+    and remaining random-graph proof displays are text-only. No later journal-byte
+    equivalence or author-code inspection. Additional rendered page5 inspected with
+    a reread of page17 during preparation.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/kadabra-path-boundaries.py
+  accessed_at: '2026-10-14T07:02:22Z'
+  snapshot_sha256: fdcf1857ab588f921eba2952068a3a509a5a3f1649f134ed6272c155bc97247e
+  support: supports
+  summary: Finite exhaustive path-law checks cover all64 undirected and4096 directed
+    simple four-node graphs. A branching cut shows why meeting edges need path-count
+    weights. A diamond distinguishes path-indicator from pair-fraction variance; a
+    long path rules out a blanket square-root work claim. Explicit confidence radii
+    on a zero-score triangle use a clearly labeled curator Hoeffding cap. These are
+    finite mathematical checks, not author software, general proof certification or
+    benchmark replication.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: KADABRA adaptive betweenness approximation
+  outcome: supported
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  evidence_ids:
+  - identity
+  - borassinatal2016esa
+  - borassinatal2016v4
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain the core all-node adaptive estimator separately from the conditional
+    path sampler, fixed-size RK, ABRA pair-fraction estimators, top-k ranking and
+    pilot optimization. Fixed sample expectations do not establish unbiasedness after
+    stopping.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  evidence_ids:
+  - mapping
+  - borassinatal2016esa
+  - borassinatal2016v4
+  summary: The explicit AIO mapping assessment is supported within its stated scope.
+  details: Retain the bounded no-match over eleven complete AIO contexts. BidirectionalLayer
+    wraps recurrent neural networks and is not a graph-search layer. Neither concentration
+    theory nor graph ranking turns this algorithm into a bias concept, clustering
+    task, language model or data-preparation identity.
+- assessment_id: domain-and-estimand
+  area: evidence
+  topic: domain-and-estimand
+  outcome: supported
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  evidence_ids:
+  - borassinatal2016v4
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The estimator averages internal-node indicators under iid uniform ordered
+    distinct-pair and conditional shortest-path sampling. Unreachable pairs remain
+    empty zero contributions. Denominator n(n-1), exact path counts and unweighted
+    static graph scope are explicit.
+- assessment_id: balanced-path-sampling
+  area: evidence
+  topic: balanced-path-sampling
+  outcome: supported
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  evidence_ids:
+  - borassinatal2016v4
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The source describes complete layer expansion by incident-edge volume,
+    forward/reverse directed searches and meeting-edge weights equal to the product
+    of prefix/suffix counts. Finite enumeration and the unequal-cut example support
+    the distinction from first-meeting or uniform-edge shortcuts.
+- assessment_id: fixed-horizon-and-tail-budgets
+  area: evidence
+  topic: fixed-horizon-and-tail-budgets
+  outcome: supported
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  evidence_ids:
+  - borassinatal2016v4
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: A predetermined positive integer cap spends delta/2 and fixed node tail
+    budgets together spend at most delta/2. Uniform delta/(4n) is valid. The cap ceil(ln(4n/delta)/(2lambda^2))
+    follows directly from two-sided Hoeffding plus a union bound and is labeled a
+    curator alternative. Pilot conditioning requires an independent main stream, not
+    same-stream budget tuning.
+- assessment_id: confidence-radii-and-stopping
+  area: evidence
+  topic: confidence-radii-and-stopping
+  outcome: supported
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  evidence_ids:
+  - borassinatal2016v4
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The f/g formulas match Equations5–6 after renaming variables. They use
+    means at positive tau, not raw counts. Stopping occurs at simultaneous radii<=lambda
+    or the certified cap. The source’s bounded stopped-martingale argument, rather
+    than an arbitrary fixed-time substitution, is the stated support; printed-proof
+    certification is expressly excluded.
+- assessment_id: boundary-and-transcription-limits
+  area: evidence
+  topic: boundary-and-transcription-limits
+  outcome: supported
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  evidence_ids:
+  - borassinatal2016v4
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: At h=true score0 the lower radius is0, so the printed inclusive failure
+    event is indeed certain. Closed confidence intervals use strict outside errors.
+    Tau0, raw counters, horizon rounding and log(VD-2) are preserved boundaries. The
+    finite zero-score case gives cap958 and stop462 under the explicit curator configuration.
+- assessment_id: identity-and-evaluation-limits
+  area: evidence
+  topic: identity-and-evaluation-limits
+  outcome: supported
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  evidence_ids:
+  - borassinatal2016v4
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The diamond mean agrees for indicator and fraction estimators while their
+    single-draw variances differ. The record does not extrapolate fixed-size unbiasedness
+    to stopping, old2016 ABRA comparisons to revised2018 code, or conditional graph-model
+    runtimes to all graphs.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: stopped versus fixed-time confidence, mean/count transcription, endpoint
+    and path laws, fixed budgets, cap assumptions, zero-score equality and historical
+    comparisons
+  outcome: supported
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  evidence_ids:
+  - borassinatal2016esa
+  - borassinatal2016v4
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Finite exhaustive path-law checks cover all64 undirected and4096 directed
+    simple four-node graphs. A branching cut shows why meeting edges need path-count
+    weights. A diamond distinguishes path-indicator from pair-fraction variance; a
+    long path rules out a blanket square-root work claim. Explicit confidence radii
+    on a zero-score triangle use a clearly labeled curator Hoeffding cap. These are
+    finite mathematical checks, not author software, general proof certification or
+    benchmark replication.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:KADABRAAdaptiveBetweenness
+  evidence_ids:
+  - identity
+  - mapping
+  - borassinatal2016esa
+  - borassinatal2016v4
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 6 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Complete maintained fields and all six claims assessed
+    against both inspected 2016 versions. The record requires a certified fixed horizon,
+    independent main draws, fixed positive node budgets and positive-time means. The
+    conservative cap is clearly curator-derived. Printed equality and pseudocode issues
+    remain explicit; the core algorithm is separated from pilot optimization and top-k
+    output. The final conference locator was checked against the actual publisher
+    pagination. The preceding full record reading was reassessed with the exact locator/update-time
+    delta; corrected reports preserve previous wording and hashes.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- An initial just check passed before the conference-locator defect was corrected.
+  That result was retained separately; the final gate was rerun on the corrected records.
+- The vendored-artifact check first failed at sandbox DNS resolution. The failure
+  was preserved and the read-only check rerun with authorized network access.
+- This round adds one DRAFT concept, reaching 694 native and 442 unchanged AIO records.
+  The main frontier has 879 entries, including 472 pending and 58 partly addressed
+  cohorts; nested leads remain.
+- 'ESA: all18 pages and45 references read, with core method and all four figures visually
+  inspected. arXiv v4: all37 pages,49 references and19 tables read as text; rendered5–7,10–12,16–20,25–28,30,37
+  inspected. Other tables and some random-graph proof displays remain text-only.'
+- The core record uses explicit fixed-horizon assumptions and positive-time means.
+  Printed proof/pseudocode issues are retained, and a Hoeffding cap is labeled a curator
+  alternative. No author software, raw benchmark replication or later journal-byte
+  equivalence; later source abstracts are leads only.
+- The KADABRA all-node estimator is added. Its sampler, pilot optimization and top-k
+  procedure, other ABRA variants, RK sampling and other centrality sources retain
+  separate pending assessments.
+- Original Documents synchronization and old round141 cleanup remain unapproved after
+  automatic-review rejection; only the isolated recovery worktree is modified.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
