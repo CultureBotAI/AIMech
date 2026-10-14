@@ -1,0 +1,573 @@
+# Scientific author self-review of Kleinberg nonprincipal hub-authority extraction
+
+- Review: 20261014T031110Z-kleinberg-nonprincipal-hub-authority-extraction
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-14T03:04:41Z
+- Finished UTC: 2026-10-14T03:11:10Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Kleinberg nonprincipal hub-authority extraction as DRAFT with a related AIO Clustering mapping. Author self-review supports its implicit-summary scope and explicitly qualified eigenpair/sign construction.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:KleinbergNonprincipalHubAuthorityExtraction
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 225f55803ab62fd673da1a9e46061014d733fb8b.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:KleinbergNonprincipalHubAuthorityExtraction | data/curated/KleinbergNonprincipalHubAuthorityExtraction.yaml | maintained | Kleinberg nonprincipal hub-authority extraction |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:KleinbergNonprincipalHubAuthorityExtraction | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 201.45s (0:03:21)<br>Checked 442 record(s); 0 failed.<br>Checked 683 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 370 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 368,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:KleinbergNonprincipalHubAuthorityExtraction | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:KleinbergNonprincipalHubAuthorityExtraction | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:KleinbergNonprincipalHubAuthorityExtraction | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:KleinbergNonprincipalHubAuthorityExtraction | {"graph": {"vertices": 11, "edges": [[0, 7], [0, 8], [0, 9], [1, 7], [1, 8], [1, 9], [2, 7], [2, 8], [2, 9], [3, 10], [4, 10], [5, 10], [6, 10]]}, "authority_indegrees": [3, 3, 3, 4], "sequential_raw_steps": [{"iteration": 1, "authority": [3, 3, 3, 4], "star_to_core": "4/3"}, {"iteration": 2, "authority": [27, 27, 27, 16], "star_to_core": "16/27"}, {"iteration": 3, "authority": [243, 243, 243, 64], "star_to_core": "64/243"}], "normalization": "Positive common L2 scaling preserves these directions and ratios; no zero-norm policy is inferred.", "nonzero_gram_eigenvalues": [9, 4], "secondary_mode": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], "raw_paired_norm_squared": 4, "unit_pair_factor": "1/sqrt(4)=1/2", "zero_mode_maps_to_zero": true, "secondary_mode_can_be_one_sided": true, "simultaneous_sign_reversal_exchanges_tails": true} |
+
+## Scientific And Domain Assessments
+
+### Kleinberg nonprincipal hub-authority extraction
+
+identity: supported. Targets: AIMech:KleinbergNonprincipalHubAuthorityExtraction.
+
+Retain this distinct DRAFT algorithm.
+
+Retain the Section6 nonprincipal extension as a distinct reusable procedure. It selects extreme coordinates from additional paired modes rather than only the principal ranking or a generic low-dimensional embedding. Shared eigenvector mathematics does not make it KernelPCA, LaplacianEigenmaps or PowerIterationClustering.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:KleinbergNonprincipalHubAuthorityExtraction.
+
+The explicit AIO mapping assessment is supported within its stated scope.
+
+Retain related_match to AIO Clustering because Section6 explicitly interprets the extracted lists as implicit summaries of multiple large clusters. This is an algorithm-to-task relationship; overlapping lists and hand-selected modes do not establish a partition, task identity or AIO subclass. Fourteen complete AIO contexts were assessed and their generated records reread after capture.
+
+### paired-modes
+
+evidence: supported. Targets: AIMech:KleinbergNonprincipalHubAuthorityExtraction.
+
+Supported within the stated primary-source and mathematical scope.
+
+Proposition6.1 on rendered page22 links authority and hub modes; the unit-basis convention appears on page11. For a positive mode, &#124;&#124;Ax&#124;&#124;²=lambda, so Ax/sqrt(lambda) supplies a unit hub vector. This qualification is stated openly, without asserting that the source printed the corrected formula or that author code was inspected.
+
+### coordinate-selection
+
+evidence: supported. Targets: AIMech:KleinbergNonprincipalHubAuthorityExtraction.
+
+Supported within the stated primary-source and mathematical scope.
+
+Rendered pages22–23 select positive/negative coordinate extremes and note simultaneous sign reversal. The record treats these as summaries, not a complete partition, and preserves the unspecified handling of one-sided modes and zero-coordinate ties.
+
+### normalization-and-sign-boundaries
+
+evidence: supported. Targets: AIMech:KleinbergNonprincipalHubAuthorityExtraction.
+
+Supported within the stated primary-source and mathematical scope.
+
+The exact eleven-vertex example gives Gram blocks3*J3 and[4], hence nonzero eigenvalues9 and4. The unit secondary authority e10 maps to four unit hub entries of squared norm4 and needs division by2. It has only nonnegative coordinates despite a strict largest eigenvalue; a separate nonzero null vector maps to zero. These directly qualify the printed universal statements.
+
+### implicit-cluster-scope
+
+evidence: supported. Targets: AIMech:KleinbergNonprincipalHubAuthorityExtraction.
+
+Supported within the stated primary-source and mathematical scope.
+
+Rendered pages22–23 describe implicitly represented large clusters, repeated leading pages across modes and hand-selection of distinct examples. The record preserves these boundaries. Nonuniqueness within repeated eigenspaces is curator linear-algebra context, not an empirical result.
+
+### historical-evaluation
+
+evidence: supported. Targets: AIMech:KleinbergNonprincipalHubAuthorityExtraction.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section6 illustrates query senses and communities with selected lists; rendered page26 describes keyword choice among the first20 nonprincipal modes. Section8 explicitly evaluates enhanced systems. Neither those examples nor coordinate signs establish general clustering accuracy or semantic/normative labels.
+
+### principal ranking versus implicit topic summaries, sequential update directions, positive-mode unit normalization, one-sided secondary eigenvectors and enhanced-system evaluation scope
+
+consistency: supported. Targets: AIMech:KleinbergNonprincipalHubAuthorityExtraction.
+
+Constructed calculations support the stated distinctions.
+
+Constructed exact graph arithmetic distinguishes indegree from mutually reinforced ranking, verifies sequential updates, positive-mode normalization and a zero-mode boundary, and demonstrates a one-sided secondary eigenvector despite a strict leading gap. No author implementation or empirical dataset was executed.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:KleinbergNonprincipalHubAuthorityExtraction.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Every maintained field and all five claims were read. The positive eigenvalue condition and square-root normalization are expressly curator qualifications to the printed proposition, and the one-sided secondary-mode counterexample is identified as constructed arithmetic. The source version, exact locators, mapping direction and DRAFT status remain explicit.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261014T030424Z-kleinberg-nonprincipal-hub-authority-extraction.json | supports | Compared all 442 pinned AIO and 681 native identities before either cohort write; no normalized match. Ignored- and hidden-inclusive searches of three checkouts returned 419,78,76 lines. All 23 nonembedded unique payloads were read; six embedded matches were decoded and verified byte-identical to previously read search payloads. These were prior pending leads and contrasts, not existing maintained identities. Semantic assessment covered 127 AIO and 450 native definitions: 127/439 prior rows verified unchanged, eleven new native rows read. Fourteen complete AIO nodes/incident-edge/generated-record contexts and full PowerIterationClustering, LaplacianEigenmaps, KernelPCA, ChakrabartiFocusedCrawler and RelevanceWeightedTopicDistillation records were assessed. The original principal ranking and nonprincipal extraction were compared directly. The concept is the Section 6 nonprincipal paired-eigenvector extraction of additional hub/authority summaries, distinct from principal ranking, centered PCA and Laplacian embeddings. It does not supply a complete disjoint partition. |
+| mapping | sources/aio/aio.json | supports | Retain related_match to AIO Clustering because Section6 explicitly interprets the extracted lists as implicit summaries of multiple large clusters. This is an algorithm-to-task relationship; overlapping lists and hand-selected modes do not establish a partition, task identity or AIO subclass. Fourteen complete AIO contexts were assessed and their generated records reread after capture. |
+| kleinberg1999 | https://www.cs.cornell.edu/home/kleinber/auth.pdf; Section 6, Proposition 6.1 and coordinate-selection discussion, printed pp. 20–22 / PDF pp. 21–23; Section 6 and Proposition 6.1, printed p. 21 / PDF p. 22; unit-eigenvector convention in Section 3, printed p. 10 / PDF p. 11; curator normalization qualification; Section 6, printed pp. 21–22 / PDF pp. 22–23; sign qualification illustrated in research/discovery/hits-boundaries.py; Section 3 unit-basis convention and Section 6 Proposition 6.1/sign assertion, printed pp. 10,21 / PDF pp. 11,22; exact arithmetic in research/discovery/hits-boundaries.py; Sections 5–6, printed pp. 18–23 / PDF pp. 19–24; eigenbasis qualification is curator linear-algebra context; Sections 6–8, printed pp. 22–27 / PDF pp. 23–28 | supports | Author-hosted extended manuscript associated with JACM 46(5):604–632 (1999), 34 PDF pages: unnumbered cover then printed pages 1–33. All text and 58 references read; rendered mathematical/algorithm/result pages inspected. Cover identifies preliminary SODA 1998 and IBM RJ10076 May 1997 versions. Locators use this author copy; byte identity with the journal PDF is not asserted. |
+| calculation | research/discovery/hits-boundaries.py | supports | Constructed exact graph arithmetic distinguishes indegree from mutually reinforced ranking, verifies sequential updates, positive-mode normalization and a zero-mode boundary, and demonstrates a one-sided secondary eigenvector despite a strict leading gap. No author implementation or empirical dataset was executed. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- This cohort step adds one DRAFT record, reaching 683 native and 442 unchanged AIO records. The main frontier now has 868 entries, including 472 pending and 59 partly addressed cohorts; nested leads remain.
+- All 34 PDF pages and all 58 references read in text. Rendered pages 6–7,9–15,22–27 visually inspected, covering all three figures, Subgraph/Iterate/Filter algorithms, Theorems 3.1–3.2, Proposition 6.1 and all displayed result lists. Printed pages are PDF page minus one after the unnumbered cover. Historical URLs read as source rows, not visited.
+- Primary methods were read; no author-code execution, model fitting, paid service, data upload, hardware benchmark or formal theorem certification. Constructed arithmetic examples are not experiment replication.
+- Original Documents checkout synchronization and old round141 cleanup remain unapproved after automatic-review rejection; only the isolated recovery checkout is changed.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261014T031110Z-kleinberg-nonprincipal-hub-authority-extraction
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Kleinberg nonprincipal hub-authority extraction
+started_at: '2026-10-14T03:04:41Z'
+finished_at: '2026-10-14T03:11:10Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged principal ranking versus implicit topic
+    summaries, sequential update directions, positive-mode unit normalization, one-sided
+    secondary eigenvectors and enhanced-system evaluation scope. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Kleinberg nonprincipal hub-authority extraction as DRAFT with a related
+  AIO Clustering mapping. Author self-review supports its implicit-summary scope and
+  explicitly qualified eigenpair/sign construction.
+source:
+  git_revision: 225f55803ab62fd673da1a9e46061014d733fb8b
+  state: working_tree
+  inputs:
+  - path: data/aio/Classification.yaml
+    sha256: d97da621c5052c7ab913cda95184ea2cca274f803298fd5f2c1273a22a211219
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DataPreparation.yaml
+    sha256: 99aebfc324b628969407ddc7591312e992db1469e7ef8fb3ad28e4b62d3bb359
+    role: context
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/Distillation.yaml
+    sha256: 02faf8db468fca6adfe257a141c98c7b13f85dc301e856a1f9622dfdb68ae5c9
+    role: context
+  - path: data/aio/GraphLanguageModel.yaml
+    sha256: 1cdda6f7d19946e0672835185e179e2336832225c180e2b70d7860b0c96fc2a8
+    role: context
+  - path: data/aio/HierarchicalClassification.yaml
+    sha256: 5e1f65090a3a9e7842b57c12410a7279d02c60baef05844fa1dd73545f1cbfc7
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/OrdinalLLM.yaml
+    sha256: 2bbb482a7007dd95f6e644863e264f646f7cc40e3debc05273bdb7ac96160d4b
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/aio/ProbabilisticTopicModel.yaml
+    sha256: a3ddfd23b511de967f562e99542d8a89109852359d286a4d707d784359ddfe32
+    role: context
+  - path: data/aio/RankingBias.yaml
+    sha256: 3e931657e0ee2a47e36a7858dbb8f26f00b565040f4fedd138f55353551160b0
+    role: context
+  - path: data/aio/RetrievalAugmentedLLM.yaml
+    sha256: 05511e7f4671c2940df670a17ac14f579560dba5b45794d4c9f40e300ba17a8f
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/ChakrabartiFocusedCrawler.yaml
+    sha256: b8ef804f124949e9d98895169e9d41693ae10931ddd8b21ffd6ae8e94fd7cd30
+    role: context
+  - path: data/curated/KernelPCA.yaml
+    sha256: a93227a6b2d6b2b89b679b8f7f9ddd5054741d1c11f9510490d82a3e691a1cab
+    role: context
+  - path: data/curated/KleinbergNonprincipalHubAuthorityExtraction.yaml
+    sha256: 9162dcaecb41d90d13e08da95fcb980d46f0770fc9f461165ba09a01b6f21b37
+    role: target
+  - path: data/curated/LaplacianEigenmaps.yaml
+    sha256: a9a641dc989b2031a8f3ae71a8e9c974a5fed6d31ef1b4f8bab58e05b21279c6
+    role: context
+  - path: data/curated/PowerIterationClustering.yaml
+    sha256: ca81d60eb87c027126a3372950d40f50d0df8391b1075697e0ab5ffabf3dfa0f
+    role: context
+  - path: data/curated/RelevanceWeightedTopicDistillation.yaml
+    sha256: 3a51e334541ce81ba8570d7b4091d07b732069cf5605561fc5d7dfbcaab50fda
+    role: context
+  - path: research/discovery/20261014T030424Z-kleinberg-nonprincipal-hub-authority-extraction.json
+    sha256: 25081f191e1997a7c3ec024ff5bfff9fd3b9301c4ea720a9b7b128a727351fdf
+    role: context
+  - path: research/discovery/hits-boundaries.py
+    sha256: f7e51f62b8dc7379e55c1946d419fdacab206841c0916ee570c0ba7ce62957bb
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  path: data/curated/KleinbergNonprincipalHubAuthorityExtraction.yaml
+  label: Kleinberg nonprincipal hub-authority extraction
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/KleinbergNonprincipalHubAuthorityExtraction.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:KleinbergNonprincipalHubAuthorityExtraction'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Uninspected source versions and implementation components
+    reason: No author code, historical graph snapshots, modern implementation or underlying
+      enhanced-system user-study primary was inspected. Printed normalization and
+      reducible-matrix sign qualifications are retained; finite examples are not replication.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 201.45s (0:03:21)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 683 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 370 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 368,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/hits-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"graph": {"vertices": 11, "edges": [[0, 7], [0, 8], [0, 9], [1, 7], [1,
+    8], [1, 9], [2, 7], [2, 8], [2, 9], [3, 10], [4, 10], [5, 10], [6, 10]]}, "authority_indegrees":
+    [3, 3, 3, 4], "sequential_raw_steps": [{"iteration": 1, "authority": [3, 3, 3,
+    4], "star_to_core": "4/3"}, {"iteration": 2, "authority": [27, 27, 27, 16], "star_to_core":
+    "16/27"}, {"iteration": 3, "authority": [243, 243, 243, 64], "star_to_core": "64/243"}],
+    "normalization": "Positive common L2 scaling preserves these directions and ratios;
+    no zero-norm policy is inferred.", "nonzero_gram_eigenvalues": [9, 4], "secondary_mode":
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], "raw_paired_norm_squared": 4, "unit_pair_factor":
+    "1/sqrt(4)=1/2", "zero_mode_maps_to_zero": true, "secondary_mode_can_be_one_sided":
+    true, "simultaneous_sign_reversal_exchanges_tails": true}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261014T030424Z-kleinberg-nonprincipal-hub-authority-extraction.json
+  accessed_at: '2026-10-14T03:04:41Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO and 681 native identities before either cohort
+    write; no normalized match. Ignored- and hidden-inclusive searches of three checkouts
+    returned 419,78,76 lines. All 23 nonembedded unique payloads were read; six embedded
+    matches were decoded and verified byte-identical to previously read search payloads.
+    These were prior pending leads and contrasts, not existing maintained identities.
+    Semantic assessment covered 127 AIO and 450 native definitions: 127/439 prior
+    rows verified unchanged, eleven new native rows read. Fourteen complete AIO nodes/incident-edge/generated-record
+    contexts and full PowerIterationClustering, LaplacianEigenmaps, KernelPCA, ChakrabartiFocusedCrawler
+    and RelevanceWeightedTopicDistillation records were assessed. The original principal
+    ranking and nonprincipal extraction were compared directly. The concept is the
+    Section 6 nonprincipal paired-eigenvector extraction of additional hub/authority
+    summaries, distinct from principal ranking, centered PCA and Laplacian embeddings.
+    It does not supply a complete disjoint partition.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-14T03:04:41Z'
+  support: supports
+  summary: Retain related_match to AIO Clustering because Section6 explicitly interprets
+    the extracted lists as implicit summaries of multiple large clusters. This is
+    an algorithm-to-task relationship; overlapping lists and hand-selected modes do
+    not establish a partition, task identity or AIO subclass. Fourteen complete AIO
+    contexts were assessed and their generated records reread after capture.
+- evidence_id: kleinberg1999
+  kind: primary_source
+  reference: https://www.cs.cornell.edu/home/kleinber/auth.pdf
+  locator: Section 6, Proposition 6.1 and coordinate-selection discussion, printed
+    pp. 20–22 / PDF pp. 21–23; Section 6 and Proposition 6.1, printed p. 21 / PDF
+    p. 22; unit-eigenvector convention in Section 3, printed p. 10 / PDF p. 11; curator
+    normalization qualification; Section 6, printed pp. 21–22 / PDF pp. 22–23; sign
+    qualification illustrated in research/discovery/hits-boundaries.py; Section 3
+    unit-basis convention and Section 6 Proposition 6.1/sign assertion, printed pp.
+    10,21 / PDF pp. 11,22; exact arithmetic in research/discovery/hits-boundaries.py;
+    Sections 5–6, printed pp. 18–23 / PDF pp. 19–24; eigenbasis qualification is curator
+    linear-algebra context; Sections 6–8, printed pp. 22–27 / PDF pp. 23–28
+  accessed_at: '2026-10-14T02:45:46Z'
+  snapshot_sha256: a8503fe2c089deae3f32c7c8970935b0d0a560f3f558f72d09426513cb95bea5
+  support: supports
+  summary: 'Author-hosted extended manuscript associated with JACM 46(5):604–632 (1999),
+    34 PDF pages: unnumbered cover then printed pages 1–33. All text and 58 references
+    read; rendered mathematical/algorithm/result pages inspected. Cover identifies
+    preliminary SODA 1998 and IBM RJ10076 May 1997 versions. Locators use this author
+    copy; byte identity with the journal PDF is not asserted.'
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/hits-boundaries.py
+  accessed_at: '2026-10-14T03:06:12Z'
+  snapshot_sha256: f7e51f62b8dc7379e55c1946d419fdacab206841c0916ee570c0ba7ce62957bb
+  support: supports
+  summary: Constructed exact graph arithmetic distinguishes indegree from mutually
+    reinforced ranking, verifies sequential updates, positive-mode normalization and
+    a zero-mode boundary, and demonstrates a one-sided secondary eigenvector despite
+    a strict leading gap. No author implementation or empirical dataset was executed.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Kleinberg nonprincipal hub-authority extraction
+  outcome: supported
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  evidence_ids:
+  - identity
+  - kleinberg1999
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain the Section6 nonprincipal extension as a distinct reusable procedure.
+    It selects extreme coordinates from additional paired modes rather than only the
+    principal ranking or a generic low-dimensional embedding. Shared eigenvector mathematics
+    does not make it KernelPCA, LaplacianEigenmaps or PowerIterationClustering.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  evidence_ids:
+  - mapping
+  - kleinberg1999
+  summary: The explicit AIO mapping assessment is supported within its stated scope.
+  details: Retain related_match to AIO Clustering because Section6 explicitly interprets
+    the extracted lists as implicit summaries of multiple large clusters. This is
+    an algorithm-to-task relationship; overlapping lists and hand-selected modes do
+    not establish a partition, task identity or AIO subclass. Fourteen complete AIO
+    contexts were assessed and their generated records reread after capture.
+- assessment_id: paired-modes
+  area: evidence
+  topic: paired-modes
+  outcome: supported
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  evidence_ids:
+  - kleinberg1999
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Proposition6.1 on rendered page22 links authority and hub modes; the unit-basis
+    convention appears on page11. For a positive mode, ||Ax||²=lambda, so Ax/sqrt(lambda)
+    supplies a unit hub vector. This qualification is stated openly, without asserting
+    that the source printed the corrected formula or that author code was inspected.
+- assessment_id: coordinate-selection
+  area: evidence
+  topic: coordinate-selection
+  outcome: supported
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  evidence_ids:
+  - kleinberg1999
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Rendered pages22–23 select positive/negative coordinate extremes and note
+    simultaneous sign reversal. The record treats these as summaries, not a complete
+    partition, and preserves the unspecified handling of one-sided modes and zero-coordinate
+    ties.
+- assessment_id: normalization-and-sign-boundaries
+  area: evidence
+  topic: normalization-and-sign-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  evidence_ids:
+  - kleinberg1999
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The exact eleven-vertex example gives Gram blocks3*J3 and[4], hence nonzero
+    eigenvalues9 and4. The unit secondary authority e10 maps to four unit hub entries
+    of squared norm4 and needs division by2. It has only nonnegative coordinates despite
+    a strict largest eigenvalue; a separate nonzero null vector maps to zero. These
+    directly qualify the printed universal statements.
+- assessment_id: implicit-cluster-scope
+  area: evidence
+  topic: implicit-cluster-scope
+  outcome: supported
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  evidence_ids:
+  - kleinberg1999
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Rendered pages22–23 describe implicitly represented large clusters, repeated
+    leading pages across modes and hand-selection of distinct examples. The record
+    preserves these boundaries. Nonuniqueness within repeated eigenspaces is curator
+    linear-algebra context, not an empirical result.
+- assessment_id: historical-evaluation
+  area: evidence
+  topic: historical-evaluation
+  outcome: supported
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  evidence_ids:
+  - kleinberg1999
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section6 illustrates query senses and communities with selected lists;
+    rendered page26 describes keyword choice among the first20 nonprincipal modes.
+    Section8 explicitly evaluates enhanced systems. Neither those examples nor coordinate
+    signs establish general clustering accuracy or semantic/normative labels.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: principal ranking versus implicit topic summaries, sequential update directions,
+    positive-mode unit normalization, one-sided secondary eigenvectors and enhanced-system
+    evaluation scope
+  outcome: supported
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  evidence_ids:
+  - kleinberg1999
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Constructed exact graph arithmetic distinguishes indegree from mutually
+    reinforced ranking, verifies sequential updates, positive-mode normalization and
+    a zero-mode boundary, and demonstrates a one-sided secondary eigenvector despite
+    a strict leading gap. No author implementation or empirical dataset was executed.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:KleinbergNonprincipalHubAuthorityExtraction
+  evidence_ids:
+  - identity
+  - mapping
+  - kleinberg1999
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Every maintained field and all five claims were read.
+    The positive eigenvalue condition and square-root normalization are expressly
+    curator qualifications to the printed proposition, and the one-sided secondary-mode
+    counterexample is identified as constructed arithmetic. The source version, exact
+    locators, mapping direction and DRAFT status remain explicit.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- This cohort step adds one DRAFT record, reaching 683 native and 442 unchanged AIO
+  records. The main frontier now has 868 entries, including 472 pending and 59 partly
+  addressed cohorts; nested leads remain.
+- All 34 PDF pages and all 58 references read in text. Rendered pages 6–7,9–15,22–27
+  visually inspected, covering all three figures, Subgraph/Iterate/Filter algorithms,
+  Theorems 3.1–3.2, Proposition 6.1 and all displayed result lists. Printed pages
+  are PDF page minus one after the unnumbered cover. Historical URLs read as source
+  rows, not visited.
+- Primary methods were read; no author-code execution, model fitting, paid service,
+  data upload, hardware benchmark or formal theorem certification. Constructed arithmetic
+  examples are not experiment replication.
+- Original Documents checkout synchronization and old round141 cleanup remain unapproved
+  after automatic-review rejection; only the isolated recovery checkout is changed.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

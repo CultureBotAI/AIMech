@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HITS hub and authority ranking · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>HITS hub and authority ranking</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">HITS hub and authority ranking</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:HITSRanking</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> HITS
+    </div>
+
+  <div class="detail-desc">
+    A link-analysis ranking algorithm that constructs a query-focused directed page graph and alternately propagates authority scores from incoming hub scores and hub scores from outgoing authority scores, normalizing the vectors and selecting their largest coordinates.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 681 native identities before either cohort write; no normalized match. Ignored- and hidden-inclusive searches of three checkouts returned 419,78,76 lines. All 23 nonembedded unique payloads were read; six embedded matches were decoded and verified byte-identical to previously read search payloads. These were prior pending leads and contrasts, not existing maintained identities. Semantic assessment covered 127 AIO and 450 native definitions: 127/439 prior rows verified unchanged, eleven new native rows read. Fourteen complete AIO nodes/incident-edge/generated-record contexts and full PowerIterationClustering, LaplacianEigenmaps, KernelPCA, ChakrabartiFocusedCrawler and RelevanceWeightedTopicDistillation records were assessed. The original principal ranking and nonprincipal extraction were compared directly. The concept is the original principal hub/authority ranking procedure and its query-focused graph construction, not all web ranking or the relevance-weighted Chakrabarti variant.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#query-graph</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Start from the top t text-query results, then add every outgoing neighbor and at most d incoming neighbors of each root page, taking an arbitrary subset when the latter bound is exceeded. This is one expansion from the root set, not recursive crawl closure. Form the induced graph on the base set and remove links between pages on the same domain. The source uses typical t=200 and d=50. A proposed cap on referrals from one domain was not used in the reported experiments.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kleinberg1999">Authoritative Sources in a Hyperlinked Environment</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Subgraph and Figure 1, printed pp. 4–6 / PDF pp. 5–7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#sequential-propagation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Let A[u,v]=1 for a retained link u to v. Initialize authority x and hub y to all ones. Each Iterate step computes x_new=A^T y_old, then y_new=A x_new using the newly computed authority vector, and separately normalizes both by their Euclidean norms. Filter selects the c largest coordinates of each vector. Ranking after graph construction uses links alone in this original procedure. It is not indegree ranking, simultaneous updates with both old vectors, or relevance-weighted propagation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kleinberg1999">Authoritative Sources in a Hyperlinked Environment</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Figures 2–3, Iterate and Filter, printed pp. 7–11 / PDF pp. 8–12; finite graph arithmetic in research/discovery/hits-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#spectral-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The convergence argument assumes a strict leading eigenvalue gap for the nonnegative Gram matrices A^T A and A A^T, with all-ones initialization supplying a nonzero leading projection. Authority and hub directions approach their principal eigendirections under these assumptions. The reported stabilization after approximately 20 iterations is an empirical observation, not a universal stopping rule. The printed algorithm does not specify a zero-norm policy for an edgeless graph.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kleinberg1999">Authoritative Sources in a Hyperlinked Environment</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Theorems 3.1–3.2 and following discussion, printed pp. 10–11 / PDF pp. 11–12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#query-and-topic-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a similar-page query, the source replaces the text-query root with pages linking to the supplied page and applies the same expansion and ranking machinery. Broad-topic authority is a graph-based relevance heuristic. For narrow queries, the strongest linked theme can diffuse into a broader or different topic; high link authority does not establish factual correctness, exhaustive retrieval or a human community boundary.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kleinberg1999">Authoritative Sources in a Hyperlinked Environment</a></span>
+        <span>· <strong>Locator:</strong> Sections 4 and 7, printed pp. 12–14,24–25 / PDF pp. 13–15,25–26</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#evaluation-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The primary manuscript presents historical ranked URL lists for broad and similar-page queries. Section 8 separately summarizes user studies of systems augmented with text and link heuristics and explicitly distinguishes these from direct evaluation of the pure algorithm. Those enhanced-system results are not recorded here as HITS accuracy, benchmark wins or contemporary web effectiveness.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kleinberg1999">Authoritative Sources in a Hyperlinked Environment</a></span>
+        <span>· <strong>Locator:</strong> Sections 4 and 8, printed pp. 12–14,25–27 / PDF pp. 13–15,26–28</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The concept covers the original query-focused principal ranking algorithm. The Section 6 nonprincipal extraction and Chakrabarti relevance-weighted distiller are distinct procedures.</li>
+      <li>Graph acquisition, domain filtering, initialization and selection ties affect the result. The source does not give a universal tie, degeneracy or zero-score policy, nor an arbitrary-graph convergence-rate guarantee.</li>
+      <li>A constructed eleven-vertex graph has one authority of indegree four and three authorities of indegree three; mutual reinforcement favors the latter component. This is a finite algebraic example, not a web experiment or benchmark replication.</li>
+      <li>All 34 manuscript pages, references and relevant rendered equations, algorithms and result lists were inspected. Author code, historical graph snapshots and primary enhanced-system user studies were not inspected or executed.</li>
+      <li>The author copy has different pagination from journal metadata. Source locators identify that copy. NetworkX documentation corroborates the HITS name but its modern implementation options are outside this record; DRAFT remains.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable AIO counterpart was found for the original hub/authority ranking procedure in this snapshot. Its graph propagation and query selection do not make it a classifier, language model, teacher–student distiller, centered PCA or clustering task. The separate nonprincipal extension has an implicit-clustering relationship; that relationship is not transferred to this principal ranking record.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO and 681 preceding native identities were compared. Ignored- and hidden-inclusive searches covered three checkouts. Semantic assessment covered 127 AIO and 450 native definitions, verifying 127/439 unchanged prior rows and reading eleven new native rows. Fourteen complete AIO node/edge/generated-record contexts and five full native neighbors were assessed.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Distillation.html"><code>AIO:Distillation</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Here distillation means selecting link authorities, not fitting a student to a teacher.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html"><code>AIO:ProbabilisticTopicModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithms do not fit latent probability distributions over topics or words.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RankingBias.html"><code>AIO:RankingBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A belief about rank and relevance is a bias concept, not this ranking procedure.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/OrdinalLLM.html"><code>AIO:OrdinalLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The methods are graph algorithms, not language models with ordinal outputs.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DataPreparation.html"><code>AIO:DataPreparation</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Selecting query-relevant authority lists is not defined as cleaning or transforming data for model training.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html"><code>AIO:Clustering</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The principal-mode ranking procedure selects a single ranked set of authorities and hubs, not a grouping of objects by within-group similarity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The defined concept includes graph construction, iteration and selection rather than only a scalar mathematical function.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RetrievalAugmentedLLM.html"><code>AIO:RetrievalAugmentedLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            No retrieval-conditioned language generation is defined.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GraphLanguageModel.html"><code>AIO:GraphLanguageModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A directed web-link graph is not a graph language model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Classification.html"><code>AIO:Classification</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Neither method trains a classifier or assigns supplied class labels.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/HierarchicalClassification.html"><code>AIO:HierarchicalClassification</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            There is no class hierarchy or hierarchical assignment rule.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html"><code>AIO:PrincipalComponentAnalysis</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Shared eigenvector mathematics does not make authority ranking ordinary centered covariance PCA.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html"><code>AIO:DimensionalityReduction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The specified output is selected hub/authority lists, not a general low-dimensional data representation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html"><code>AIO:UnsupervisedClustering</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The core ranking does not construct an unlabeled-object partition or cluster assignment.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-kleinberg1999">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">kleinberg1999</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.cornell.edu/home/kleinber/auth.pdf" target="_blank" rel="noopener">Authoritative Sources in a Hyperlinked Environment</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jon M. Kleinberg
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1145/324133.324140</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a8503fe2c089…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-14T03:04:21Z</div>
+    <div><strong>Updated:</strong> 2026-10-14T03:04:21Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HITSRanking.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HITSRanking.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
