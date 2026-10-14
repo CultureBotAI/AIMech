@@ -1,0 +1,189 @@
+id: AIMech:KADABRABalancedBidirectionalPathSampling
+name: KADABRA balanced bidirectional shortest-path sampling
+aliases:
+- KADABRA balanced bidirectional BFS sampler
+- KADABRA shortest-path sampler
+concept_kind: algorithm
+definition: A shortest-path sampling algorithm that expands complete breadth-first-search frontiers from
+  opposite endpoints according to frontier edge volume, then samples a connecting edge and its two path
+  segments with shortest-path-count weights to obtain a uniform shortest path.
+definition_evidence:
+- source_id: borassinatal2016v4
+  locator: Section 4, PDF p. 7
+  relation: supports
+- source_id: borassinatal2016esa
+  locator: Section 4, printed pp. 20:10–20:11
+  relation: supports
+claims:
+- claim_id: conditional-path-domain
+  kind: scope
+  statement: For a finite simple unweighted directed or undirected graph and distinct specified endpoints
+    s and t, the output is a uniformly sampled shortest s-to-t path when one exists, and an empty result
+    otherwise. This conditional sampler does not itself select the endpoint distribution or estimate centrality.
+    KADABRA’s enclosing estimator uses independent uniform ordered distinct-node pairs, which is an additional
+    sampling layer.
+  evidence:
+  - source_id: borassinatal2016v4
+    locator: Sections 2 and 4, PDF pp. 4–7; Appendix A notation, p. 15
+    relation: supports
+- claim_id: balanced-frontier-expansion
+  kind: mechanism
+  statement: Maintain source and target BFS layers, distances and exact shortest-path counts. At each
+    step expand the entire current frontier with smaller incident-edge volume, breaking equal-volume ties
+    by a fixed convention. In directed graphs the source search uses outgoing arcs and the target search
+    uses incoming arcs. Collect all connecting edges encountered in the selected frontier before choosing
+    a path. The balance criterion is edge volume, not merely the number of frontier vertices or the total
+    sizes of the two search trees.
+  evidence:
+  - source_id: borassinatal2016v4
+    locator: Section 4, PDF p. 7; explicit finite implementation interpretation in research/discovery/kadabra-path-boundaries.py
+    relation: supports
+- claim_id: count-weighted-cut-and-backtracking
+  kind: mechanism
+  statement: For a source-side meeting edge (v,w), assign weight sigma_sv times sigma_wt. Sample one meeting
+    edge in proportion to this weight, then sample a shortest prefix from s to v and shortest suffix from
+    w to t using path-count-proportional predecessor or successor choices. Their concatenation with the
+    edge is a shortest s-to-t path. The product of cut-edge probability and prefix/suffix probabilities
+    gives each complete shortest path probability 1/sigma_st. Reaching a vertex a second time at the same
+    BFS distance must still contribute to its path count.
+  evidence:
+  - source_id: borassinatal2016v4
+    locator: Section 4, PDF p. 7; path-count factorization checked in research/discovery/kadabra-path-boundaries.py.
+      The probability product and equal-distance accumulation are explicit curator interpretation of the
+      source’s counting requirement.
+    relation: supports
+- claim_id: finite-uniformity-boundaries
+  kind: limitation
+  statement: Exact curator enumeration checks every ordered distinct-endpoint pair in all 64 undirected
+    and 4096 directed simple four-node graphs, including disconnected cases. A separate directed branching
+    example has meeting-edge weights 2 and 1, giving three complete paths probability 1/3 each; uniform
+    meeting-edge selection would instead give probabilities 1/4, 1/4 and 1/2. These finite cases illustrate
+    why full-frontier processing and exact counts matter; they do not certify author software or all possible
+    graph implementations.
+  evidence:
+  - source_id: borassinatal2016v4
+    locator: Section 4, PDF p. 7; finite exhaustive and branching calculations in research/discovery/kadabra-path-boundaries.py
+    relation: supports
+- claim_id: complexity-and-model-scope
+  kind: limitation
+  statement: The sampler retains linear worst-case graph-traversal work; a selected 129-node path requires
+    scanning 254 incident edges in the curator calculation. The source’s sublinear analyses concern specified
+    configuration and rank-one inhomogeneous random-graph models with additional degree-distribution and
+    supercriticality assumptions, not every graph or endpoint pair under every model. Its unit-cost arithmetic
+    assumption also hides the bit cost of potentially exponential shortest-path counts. Weighted edges,
+    approximate counts and a universal square-root runtime are outside this maintained scope.
+  evidence:
+  - source_id: borassinatal2016v4
+    locator: Section 4 and Theorem 4, PDF pp. 7–8; Appendix E, pp. 20–24; long-path calculation in research/discovery/kadabra-path-boundaries.py
+    relation: supports
+- claim_id: separation-from-centrality-and-later-variants
+  kind: limitation
+  statement: The sampler is a subroutine distinct from KADABRA’s confidence budgets, bounded adaptive
+    stopping and top-k output. Replacing an exact pair contribution by one sampled path indicator changes
+    the estimator variance even when the mean target is unchanged. The 2016 historical experiments describe
+    the sampler within a particular implementation and graph collection; they are not a general performance
+    guarantee. Other balancing or parallelization variants are outside this record’s scope.
+  evidence:
+  - source_id: borassinatal2016v4
+    locator: Abstract and Sections 2, 4 and 6, PDF pp. 1, 4–8 and 9–12; finite indicator-versus-fraction
+      comparison in research/discovery/kadabra-path-boundaries.py. Other algorithms are not included in
+      this maintained identity.
+    relation: supports
+identity_notes: 'Compared all 442 pinned AIO and 694 native identities; no collision among the proposed
+  record name or aliases. The broad KADABRA identity term matches the enclosing estimator and is explicitly
+  resolved as a subroutine-versus-estimator distinction. Ignored- and hidden-inclusive searches of three
+  full checkouts returned 183,0,0 lines, assessed as the preceding KADABRA record/report, source-reading
+  notes, leads or query strings. Semantic assessment covered 155 AIO and 539 native definitions: all155
+  AIO and538 prior native rows verified unchanged and the new KADABRA estimator row and full record read.
+  Eleven complete AIO contexts and five full native neighbors assessed. The identity is a conditional
+  uniform shortest-path sampler using full-layer edge-volume balancing and count-weighted connecting edges.
+  It is distinct from the enclosing KADABRA estimator, ABRA pair fractions, exact Brandes dependency accumulation,
+  generic first-meeting bidirectional search and later vertex-wise balancing variants.'
+evidence_sources:
+- source_id: borassinatal2016esa
+  title: KADABRA is an ADaptive Algorithm for Betweenness via Random Approximation
+  authors:
+  - Michele Borassi
+  - Emanuele Natale
+  source_type: primary_paper
+  access_level: full_text
+  persistent_id: doi:10.4230/LIPIcs.ESA.2016.20
+  version: Eighteen-page publisher ESA2016 LIPIcs57 article20, pp.20:1-20:18, CC BY3.0. All text and45references
+    read; rendered pages6-8 and13-15 inspected, including all four figures and Algorithms1-3. No author
+    software, raw benchmark data or later journal version inspected.
+  url: https://drops.dagstuhl.de/storage/00lipics/lipics-vol057-esa2016/LIPIcs.ESA.2016.20/LIPIcs.ESA.2016.20.pdf
+  accessed_at: '2026-10-14T05:42:44Z'
+  sha256: c73bb488b2adef340a3a17dcc412090f488d7411920a2f95917a51227ad00a50
+- source_id: borassinatal2016v4
+  title: KADABRA is an ADaptive Algorithm for Betweenness via Random Approximation
+  authors:
+  - Michele Borassi
+  - Emanuele Natale
+  source_type: primary_paper
+  access_level: full_text
+  version: Thirty-seven-page arXiv1604.08553v4. Version history and watermark identify12August2016, while
+    the printed manuscript date is15August2016; the difference is preserved. All text and49references
+    read; rendered core-method/proof pages6-7 and16-20, all four figures on10-12, Tables1-5 and19 on25-28,30,37
+    inspected. Other table pages and remaining random-graph proof displays are text-only. No later journal-byte
+    equivalence or author-code inspection. Additional rendered page5 inspected with a reread of page17
+    during preparation.
+  url: https://arxiv.org/pdf/1604.08553v4
+  accessed_at: '2026-10-14T05:53:22Z'
+  sha256: 6e42bfafd925bb6186254a3a4d621671775c7dac9fe767425c3f7d057a63fa86
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 694 preceding native identities with ignored- and hidden-inclusive
+    searches of three checkouts. A broad KADABRA search term also matches the enclosing estimator, whose
+    complete definition and scope were read to distinguish the subroutine. Semantic assessment covers155
+    AIO and539 native definitions; eleven complete AIO contexts and five full native neighbors assessed.
+  rationale: No examined AIO target denotes the conditional uniform shortest-path sampler. In particular,
+    BidirectionalLayer is an RNN wrapper, not a bidirectional graph search.
+  examined_targets:
+  - target: AIO:Clustering
+    rejection_reason: Sampling a path does not group vertices into clusters.
+  - target: AIO:UnsupervisedClustering
+    rejection_reason: Uniformly sampling a conditional shortest path does not group vertices into clusters,
+      whether or not labels are available.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The identity is a randomized graph-search and path-sampling procedure, not merely
+      an input-output function.
+  - target: AIO:DataPreparation
+    rejection_reason: The defined output is a sampled shortest path; incidental downstream feature use
+      does not establish a data-preparation identity.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: The conditional graph-path sampler has no language-model objective, training mechanism
+      or learned representation.
+  - target: AIO:RankingBias
+    rejection_reason: A sampled graph path is not a belief about the relevance of highly ranked information.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: A specified uniform conditional path law is an algorithm, not a selection-bias concept.
+  - target: AIO:RepresentationBias
+    rejection_reason: A graph-path sampling procedure is not subgroup representation bias.
+  - target: AIO:DeepActiveLearning
+    rejection_reason: Neither labels nor a deep neural network are acquired or fitted.
+  - target: AIO:DataDredgingBias
+    rejection_reason: Conditional shortest-path sampling does not itself define a data-dredging bias.
+  - target: AIO:BidirectionalLayer
+    rejection_reason: This AIO class wraps recurrent neural networks; forward and reverse graph searches
+      do not instantiate that layer.
+limitations:
+- Exact simple unweighted graph paths and exact counts are assumed. Weighted shortest paths, multiedge
+  conventions, finite-precision sampling and approximate count correction require separate analysis.
+- The conditional endpoint sampler does not by itself define a centrality estimator or its accuracy, confidence,
+  stopping rule or endpoint population.
+- Uniformity requires processing the full chosen frontier and count-weighted meeting-edge and segment
+  choices. A generic bidirectional search that returns its first meeting path is not equivalent.
+- Finite exact calculations and source interpretation are curator checks, not execution or verification
+  of the authors’ implementation. Some random-graph proof displays were read only as extracted text.
+- No universal runtime improvement, current-software comparison or proof of every reported random-graph
+  bound is asserted. DRAFT remains after author self-review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T06:43:39Z'
+  updated_at: '2026-10-14T07:01:29Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
