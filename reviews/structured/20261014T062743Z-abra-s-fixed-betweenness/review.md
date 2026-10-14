@@ -1,0 +1,584 @@
+# Scientific author self-review of ABRA-s-fix fixed-sample betweenness approximation
+
+- Review: 20261014T062743Z-abra-s-fixed-betweenness
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-14T06:15:34Z
+- Finished UTC: 2026-10-14T06:27:43Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain ABRA-s-fix as a distinct DRAFT fixed-sample estimator with bounded AIO no-match assessment. The returned-bound contract and conservative confidence conventions are explicit.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:ABRASFixedSampleBetweenness
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 9106d7f9c5da17e6cda025ac576834bd74cffde0.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ABRASFixedSampleBetweenness | data/curated/ABRASFixedSampleBetweenness.yaml | maintained | ABRA-s-fix fixed-sample betweenness approximation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:ABRASFixedSampleBetweenness | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 330.73s (0:05:30)<br>Checked 442 record(s); 0 failed.<br>Checked 693 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 381 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 381,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:ABRASFixedSampleBetweenness | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:ABRASFixedSampleBetweenness | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:ABRASFixedSampleBetweenness | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:ABRASFixedSampleBetweenness | {"path3_fixed_draws": [{"count": 1, "mean": "1/3", "variance": "2/9", "zero_estimate_probability": "2/3", "error_when_estimate_zero": "1/3"}, {"count": 2, "mean": "1/3", "variance": "1/9", "zero_estimate_probability": "4/9", "error_when_estimate_zero": "1/3"}, {"count": 4, "mean": "1/3", "variance": "1/18", "zero_estimate_probability": "16/81", "error_when_estimate_zero": "1/3"}], "all_zero_vectors": [{"count": 1, "xi_delta": 9.61948340773969, "xi_stage_one": 11.122156995998854}, {"count": 16, "xi_delta": 0.8694916411016347, "xi_stage_one": 0.9852298454564461}, {"count": 64, "xi_delta": 0.3067975529813767, "xi_stage_one": 0.34300580576628414}], "interpretation": "With S=16 the fixed algorithm still returns its bound even though it exceeds epsilon=.5; epsilon is not its input. Using eta=delta/2 preserves the literal first-stage allocation and is more conservative than a one-shot eta=delta bound. Zero sampled centrality is not proof of zero true centrality.", "scope": "Exhaustive finite Bernoulli arithmetic and explicit floating confidence expressions. No author implementation or empirical guarantee."} |
+
+## Scientific And Domain Assessments
+
+### ABRA-s-fix fixed-sample betweenness approximation
+
+identity: supported. Targets: AIMech:ABRASFixedSampleBetweenness.
+
+Retain this distinct DRAFT algorithm.
+
+Retain the fixed-count output contract separately from confidence-controlled progressive stopping and a graph-derived pseudodimension cap. The record does not promise a preset additive tolerance or exact ranking.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:ABRASFixedSampleBetweenness.
+
+The explicit AIO mapping assessment is supported within its stated scope.
+
+Retain the bounded no-match over ten AIO contexts. A fixed-sample graph estimator is not itself a bias, task or language model because it uses concentration theory or graph samples.
+
+### domain-and-sample-contract
+
+evidence: supported. Targets: AIMech:ABRASFixedSampleBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section4.4 accepts delta and a fixed positive S, and performs exactly S independent pair draws. The maintained positive-weight/static graph domain avoids unresolved zero-weight path conventions. Epsilon is not a stopping input.
+
+### ordered-pair-fraction-estimator
+
+evidence: supported. Targets: AIMech:ABRASFixedSampleBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+The shared Algorithm1–2 mechanism computes internal shortest-path fractions and averages over the complete ordered-pair population. Unreachable pairs remain zero contributions; neither raw counts nor reachable conditioning are substituted.
+
+### fixed-sample-error-bound
+
+evidence: supported. Targets: AIMech:ABRASFixedSampleBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+Theorem3.3 permits one-shot eta=delta. Retaining Algorithm1’s first-stage allocation eta=delta/2 is explicitly more conservative and still implies Theorem4.10’s1-delta statement. Both conventions are labeled, avoiding a silent change to the source’s referenced lines. Distinct vectors and conservative numerical bounds remain required.
+
+### output-and-guarantee
+
+evidence: supported. Targets: AIMech:ABRASFixedSampleBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section4.4 returns the estimates and achieved xi irrespective of xi’s value. Finite all-zero vectors yield xi&gt;.5 at S16 and even xi&gt;1 at S1; such outputs are valid but may be uninformative. No preselected tolerance or rank-preservation result follows.
+
+### fixed-expectation-boundaries
+
+evidence: supported. Targets: AIMech:ABRASFixedSampleBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+Independent bounded pair fractions imply fixed-size unbiasedness and variance Var(f)/S&lt;=1/(4S), explicitly labeled curator consequences. Exact path3 enumeration at S1,2,4 reproduces mean1/3, variance and zero-estimate probabilities. A zero observed score is not proof of zero truth.
+
+### version-and-evaluation-scope
+
+evidence: supported. Targets: AIMech:ABRASFixedSampleBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section4.4 is a named variant in the revised manuscript. The fixed-size comparison in Section6.4/Figure4/Table10 is historical context only; no quantitative speedup, current-software result or predictive validation is imported.
+
+### fixed versus stopped sample counts, unconditional output, confidence allocation, pair normalization, vector identity, unbiasedness and empirical scope
+
+consistency: supported. Targets: AIMech:ABRASFixedSampleBetweenness.
+
+Constructed calculations support the stated distinctions.
+
+Exhaustive finite Bernoulli draws reproduce the path3 fixed mean, variance and probability of observing a zero estimate despite nonzero truth. Explicit all-zero-vector bounds compare eta=delta and eta=delta/2 and show that fixed-size output may exceed a hypothetical accuracy threshold. These are mathematical curator checks, not empirical or author-code validation.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:ABRASFixedSampleBetweenness.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 6 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Complete maintained fields, all six claims and source locators assessed. The final count is a fixed positive integer independent of samples. The algorithm returns the achieved bound unconditionally. Literal first-stage delta/2 and direct one-shot delta allocations are distinguished, while fixed-size unbiasedness is separated from progressive stopped estimates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261014T061457Z-abra-s-fixed-betweenness.json | supports | Compared all 442 pinned AIO and 692 native identities; no normalized match. Ignored- and hidden-inclusive searches of three full checkouts returned 170,0,1 lines, read as the progressive ABRA record/report, existing source leads, reading notes, query strings or an unrelated translation. Semantic assessment covered 154 AIO and 536 native definitions: all 154 AIO and 535 prior native rows verified unchanged and one newly selected native row read. Ten complete AIO contexts and five full native neighbors were assessed. ABRA-s-fix takes a fixed independent positive sample count and returns its achieved bound unconditionally. It is distinct from ABRA-s’s confidence-based progressive stopping, the forced-stop pseudodimension variant and source-pivot or current-flow sampling. |
+| mapping | sources/aio/aio.json | supports | Retain the bounded no-match over ten AIO contexts. A fixed-sample graph estimator is not itself a bias, task or language model because it uses concentration theory or graph samples. |
+| riondatoupfal2018 | https://www.rionda.to/papers/RiondatoUpfal-BetweennessRademacherAverages-TKDD.pdf; Section 4.4 and Theorem 4.10, PDF p. 24; shared static estimator in Sections 4.1–4.1.1, pp. 10–16; Section 4.4, PDF p. 24; Section 4.1 input domain, p. 10; the strict-positive-weight restriction is maintained to avoid unresolved zero-weight path conventions; Definition 3.1, PDF p. 5; Equation 11 and Algorithms 1–2, pp. 10–13; Section 4.4, p. 24; Theorems 3.3–3.4 and Equations 4–6, PDF p. 7; Algorithm 1 lines 19–21, p. 12; Section 4.4 and Theorem 4.10, p. 24; one-shot allocation distinction is explicit curator interpretation; Section 4.4 and Theorem 4.10, PDF p. 24; range in Definition 3.1, p. 5; explicit bound examples in research/discovery/abra-fixed-boundaries.py; Equation 11 and independent uniform sampling, PDF pp. 10–11; Section 4.4, p. 24; explicit curator arithmetic in research/discovery/abra-fixed-boundaries.py; Sections 4.2.1, 4.4–5, PDF pp. 17 and 24–28; Sections 6 and 6.4, pp. 28–34; Figure 4 and Table 10, p. 34 | supports | Thirty-seven-page author-hosted ACM-style manuscript labeled April 2018, retaining placeholder journal header and DOI fields. Author catalog and BibTeX identify ACM Transactions on Knowledge Discovery from Data 12(5), article 61 (2018). All text and 53 references read; four figures, Tables 3–10 and selected equations/algorithms visually inspected. Tables 1–2 were read as text; not every proof equation was visually checked. The 27-page arXiv v1 was read for the earlier-version comparison, without publisher-byte equivalence. No author software or raw benchmark data inspected. |
+| calculation | research/discovery/abra-fixed-boundaries.py | supports | Exhaustive finite Bernoulli draws reproduce the path3 fixed mean, variance and probability of observing a zero estimate despite nonzero truth. Explicit all-zero-vector bounds compare eta=delta and eta=delta/2 and show that fixed-size output may exceed a hypothetical accuracy threshold. These are mathematical curator checks, not empirical or author-code validation. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- This round adds one DRAFT concept, reaching 693 native and 442 unchanged AIO records. The main frontier has 878 entries, including 472 pending and 58 partly addressed cohorts; nested leads remain.
+- All37 PDF pages and53references read in extracted text. Rendered pages5,7,12,14,15,16,22,24,25,28,29,31,32,33,34 inspected: all four figures and Tables3–10, plus relevant equations and algorithms. Tables1–2 text only. Not all theorem proofs visually checked.
+- Fixed positive sample count only; no adaptive sample-size choice, relative top-k, dynamic update or universal numerical guarantee. The first-stage and one-shot confidence-allocation conventions are distinguished.
+- Revised progressive and fixed-sample ABRA variants are represented separately. Target-set, forced-stop, alternative-estimator, top-k, dynamic ABRA, KADABRA and other centrality leads remain pending.
+- Original Documents synchronization and old round141 cleanup remain unapproved after automatic-review rejection; only the isolated recovery worktree is modified.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261014T062743Z-abra-s-fixed-betweenness
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of ABRA-s-fix fixed-sample betweenness approximation
+started_at: '2026-10-14T06:15:34Z'
+finished_at: '2026-10-14T06:27:43Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged fixed versus stopped sample counts, unconditional
+    output, confidence allocation, pair normalization, vector identity, unbiasedness
+    and empirical scope. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain ABRA-s-fix as a distinct DRAFT fixed-sample estimator with bounded
+  AIO no-match assessment. The returned-bound contract and conservative confidence
+  conventions are explicit.
+source:
+  git_revision: 9106d7f9c5da17e6cda025ac576834bd74cffde0
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DataDredgingBias.yaml
+    sha256: 335067e88f1462e141ac5f35e697cd42f7d250ec4dde9250531babe0d96cc1d0
+    role: context
+  - path: data/aio/DataPreparation.yaml
+    sha256: 99aebfc324b628969407ddc7591312e992db1469e7ef8fb3ad28e4b62d3bb359
+    role: context
+  - path: data/aio/DeepActiveLearning.yaml
+    sha256: b04c9aa74728adbe1bd907cb3f0e15b263bda18ed29660babce092daeed2b4f9
+    role: context
+  - path: data/aio/GraphLanguageModel.yaml
+    sha256: 1cdda6f7d19946e0672835185e179e2336832225c180e2b70d7860b0c96fc2a8
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/RankingBias.yaml
+    sha256: 3e931657e0ee2a47e36a7858dbb8f26f00b565040f4fedd138f55353551160b0
+    role: context
+  - path: data/aio/RepresentationBias.yaml
+    sha256: 5ac7d1455814eb8305b1ab9d0934e61fc50c09fe3dfd7724da5fdb4a21f360b2
+    role: context
+  - path: data/aio/SelectionAndSamplingBias.yaml
+    sha256: 72d8ef34949942ddee1fe60d645806a2117b95207f681de923297b64f78cc477
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/ABRASFixedSampleBetweenness.yaml
+    sha256: 54cfede513b8c180857a7be3cdb1c6a330dd2471df8fd4b3cf0b277fa353ce92
+    role: target
+  - path: data/curated/ABRASProgressiveBetweenness.yaml
+    sha256: 9b1d85ceb3a3305970c23930e67cda59be68985f8fd5da6b4ae3ec94c655a113
+    role: context
+  - path: data/curated/BrandesBetweennessCentrality.yaml
+    sha256: 2ff7051fa27a4e1150545d634b90599a335b909b1fe6956441260c5284830e21
+    role: context
+  - path: data/curated/BrandesFleischerSampledCurrentFlowBetweenness.yaml
+    sha256: 32b66dbd161efc40fa7162b43f16436146accd5aa8ea90c10874d91be21948ad
+    role: context
+  - path: data/curated/BrandesPichPivotCentralityEstimation.yaml
+    sha256: 7f8492fc3a881da6c35439412b535572f687215410b85b05439d2ca8d799b9c1
+    role: context
+  - path: data/curated/EppsteinWangRANDClosenessApproximation.yaml
+    sha256: 33d58cab5cddbe19e25fa1f1efa66982a6ca9c461b8cee211df186c570688d19
+    role: context
+  - path: research/discovery/20261014T061457Z-abra-s-fixed-betweenness.json
+    sha256: abc7cde628de54bf5967ea06f8da845149d7d50212654e835053189f8d5df7fb
+    role: context
+  - path: research/discovery/abra-fixed-boundaries.py
+    sha256: cf86166725e6be74e4805d0dacfd1672a39cd36d234fd7f5863196a8af3fc1c2
+    role: context
+  - path: research/discovery/abra-pair-boundaries.py
+    sha256: a38b589db131fe6b916646e68e0845fc897d3bb6a9494049297f7d390804e4d8
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ABRASFixedSampleBetweenness
+  path: data/curated/ABRASFixedSampleBetweenness.yaml
+  label: ABRA-s-fix fixed-sample betweenness approximation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ABRASFixedSampleBetweenness.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:ABRASFixedSampleBetweenness'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Uninspected source versions and implementation components
+    reason: The37-page author manuscript was read with bounded visual inspection;
+      no publisher-byte equivalence, author software or empirical replication is claimed.
+      Finite arithmetic tests selected fixed-size properties only.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 330.73s (0:05:30)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 693 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 381 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 381,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/abra-fixed-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"path3_fixed_draws": [{"count": 1, "mean": "1/3", "variance": "2/9",
+    "zero_estimate_probability": "2/3", "error_when_estimate_zero": "1/3"}, {"count":
+    2, "mean": "1/3", "variance": "1/9", "zero_estimate_probability": "4/9", "error_when_estimate_zero":
+    "1/3"}, {"count": 4, "mean": "1/3", "variance": "1/18", "zero_estimate_probability":
+    "16/81", "error_when_estimate_zero": "1/3"}], "all_zero_vectors": [{"count": 1,
+    "xi_delta": 9.61948340773969, "xi_stage_one": 11.122156995998854}, {"count": 16,
+    "xi_delta": 0.8694916411016347, "xi_stage_one": 0.9852298454564461}, {"count":
+    64, "xi_delta": 0.3067975529813767, "xi_stage_one": 0.34300580576628414}], "interpretation":
+    "With S=16 the fixed algorithm still returns its bound even though it exceeds
+    epsilon=.5; epsilon is not its input. Using eta=delta/2 preserves the literal
+    first-stage allocation and is more conservative than a one-shot eta=delta bound.
+    Zero sampled centrality is not proof of zero true centrality.", "scope": "Exhaustive
+    finite Bernoulli arithmetic and explicit floating confidence expressions. No author
+    implementation or empirical guarantee."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261014T061457Z-abra-s-fixed-betweenness.json
+  accessed_at: '2026-10-14T06:15:34Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO and 692 native identities; no normalized match.
+    Ignored- and hidden-inclusive searches of three full checkouts returned 170,0,1
+    lines, read as the progressive ABRA record/report, existing source leads, reading
+    notes, query strings or an unrelated translation. Semantic assessment covered
+    154 AIO and 536 native definitions: all 154 AIO and 535 prior native rows verified
+    unchanged and one newly selected native row read. Ten complete AIO contexts and
+    five full native neighbors were assessed. ABRA-s-fix takes a fixed independent
+    positive sample count and returns its achieved bound unconditionally. It is distinct
+    from ABRA-s’s confidence-based progressive stopping, the forced-stop pseudodimension
+    variant and source-pivot or current-flow sampling.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-14T06:15:34Z'
+  support: supports
+  summary: Retain the bounded no-match over ten AIO contexts. A fixed-sample graph
+    estimator is not itself a bias, task or language model because it uses concentration
+    theory or graph samples.
+- evidence_id: riondatoupfal2018
+  kind: primary_source
+  reference: https://www.rionda.to/papers/RiondatoUpfal-BetweennessRademacherAverages-TKDD.pdf
+  locator: Section 4.4 and Theorem 4.10, PDF p. 24; shared static estimator in Sections
+    4.1–4.1.1, pp. 10–16; Section 4.4, PDF p. 24; Section 4.1 input domain, p. 10;
+    the strict-positive-weight restriction is maintained to avoid unresolved zero-weight
+    path conventions; Definition 3.1, PDF p. 5; Equation 11 and Algorithms 1–2, pp.
+    10–13; Section 4.4, p. 24; Theorems 3.3–3.4 and Equations 4–6, PDF p. 7; Algorithm
+    1 lines 19–21, p. 12; Section 4.4 and Theorem 4.10, p. 24; one-shot allocation
+    distinction is explicit curator interpretation; Section 4.4 and Theorem 4.10,
+    PDF p. 24; range in Definition 3.1, p. 5; explicit bound examples in research/discovery/abra-fixed-boundaries.py;
+    Equation 11 and independent uniform sampling, PDF pp. 10–11; Section 4.4, p. 24;
+    explicit curator arithmetic in research/discovery/abra-fixed-boundaries.py; Sections
+    4.2.1, 4.4–5, PDF pp. 17 and 24–28; Sections 6 and 6.4, pp. 28–34; Figure 4 and
+    Table 10, p. 34
+  accessed_at: '2026-10-14T05:26:24Z'
+  snapshot_sha256: d703b83aff52e25b8018e49ebd5f0778242bad441db0430d35af8f332a409d8b
+  support: supports
+  summary: Thirty-seven-page author-hosted ACM-style manuscript labeled April 2018,
+    retaining placeholder journal header and DOI fields. Author catalog and BibTeX
+    identify ACM Transactions on Knowledge Discovery from Data 12(5), article 61 (2018).
+    All text and 53 references read; four figures, Tables 3–10 and selected equations/algorithms
+    visually inspected. Tables 1–2 were read as text; not every proof equation was
+    visually checked. The 27-page arXiv v1 was read for the earlier-version comparison,
+    without publisher-byte equivalence. No author software or raw benchmark data inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/abra-fixed-boundaries.py
+  accessed_at: '2026-10-14T06:18:04Z'
+  snapshot_sha256: cf86166725e6be74e4805d0dacfd1672a39cd36d234fd7f5863196a8af3fc1c2
+  support: supports
+  summary: Exhaustive finite Bernoulli draws reproduce the path3 fixed mean, variance
+    and probability of observing a zero estimate despite nonzero truth. Explicit all-zero-vector
+    bounds compare eta=delta and eta=delta/2 and show that fixed-size output may exceed
+    a hypothetical accuracy threshold. These are mathematical curator checks, not
+    empirical or author-code validation.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: ABRA-s-fix fixed-sample betweenness approximation
+  outcome: supported
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  evidence_ids:
+  - identity
+  - riondatoupfal2018
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain the fixed-count output contract separately from confidence-controlled
+    progressive stopping and a graph-derived pseudodimension cap. The record does
+    not promise a preset additive tolerance or exact ranking.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  evidence_ids:
+  - mapping
+  - riondatoupfal2018
+  summary: The explicit AIO mapping assessment is supported within its stated scope.
+  details: Retain the bounded no-match over ten AIO contexts. A fixed-sample graph
+    estimator is not itself a bias, task or language model because it uses concentration
+    theory or graph samples.
+- assessment_id: domain-and-sample-contract
+  area: evidence
+  topic: domain-and-sample-contract
+  outcome: supported
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  evidence_ids:
+  - riondatoupfal2018
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section4.4 accepts delta and a fixed positive S, and performs exactly S
+    independent pair draws. The maintained positive-weight/static graph domain avoids
+    unresolved zero-weight path conventions. Epsilon is not a stopping input.
+- assessment_id: ordered-pair-fraction-estimator
+  area: evidence
+  topic: ordered-pair-fraction-estimator
+  outcome: supported
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  evidence_ids:
+  - riondatoupfal2018
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The shared Algorithm1–2 mechanism computes internal shortest-path fractions
+    and averages over the complete ordered-pair population. Unreachable pairs remain
+    zero contributions; neither raw counts nor reachable conditioning are substituted.
+- assessment_id: fixed-sample-error-bound
+  area: evidence
+  topic: fixed-sample-error-bound
+  outcome: supported
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  evidence_ids:
+  - riondatoupfal2018
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Theorem3.3 permits one-shot eta=delta. Retaining Algorithm1’s first-stage
+    allocation eta=delta/2 is explicitly more conservative and still implies Theorem4.10’s1-delta
+    statement. Both conventions are labeled, avoiding a silent change to the source’s
+    referenced lines. Distinct vectors and conservative numerical bounds remain required.
+- assessment_id: output-and-guarantee
+  area: evidence
+  topic: output-and-guarantee
+  outcome: supported
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  evidence_ids:
+  - riondatoupfal2018
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section4.4 returns the estimates and achieved xi irrespective of xi’s value.
+    Finite all-zero vectors yield xi>.5 at S16 and even xi>1 at S1; such outputs are
+    valid but may be uninformative. No preselected tolerance or rank-preservation
+    result follows.
+- assessment_id: fixed-expectation-boundaries
+  area: evidence
+  topic: fixed-expectation-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  evidence_ids:
+  - riondatoupfal2018
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Independent bounded pair fractions imply fixed-size unbiasedness and variance
+    Var(f)/S<=1/(4S), explicitly labeled curator consequences. Exact path3 enumeration
+    at S1,2,4 reproduces mean1/3, variance and zero-estimate probabilities. A zero
+    observed score is not proof of zero truth.
+- assessment_id: version-and-evaluation-scope
+  area: evidence
+  topic: version-and-evaluation-scope
+  outcome: supported
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  evidence_ids:
+  - riondatoupfal2018
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section4.4 is a named variant in the revised manuscript. The fixed-size
+    comparison in Section6.4/Figure4/Table10 is historical context only; no quantitative
+    speedup, current-software result or predictive validation is imported.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: fixed versus stopped sample counts, unconditional output, confidence allocation,
+    pair normalization, vector identity, unbiasedness and empirical scope
+  outcome: supported
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  evidence_ids:
+  - riondatoupfal2018
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Exhaustive finite Bernoulli draws reproduce the path3 fixed mean, variance
+    and probability of observing a zero estimate despite nonzero truth. Explicit all-zero-vector
+    bounds compare eta=delta and eta=delta/2 and show that fixed-size output may exceed
+    a hypothetical accuracy threshold. These are mathematical curator checks, not
+    empirical or author-code validation.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:ABRASFixedSampleBetweenness
+  evidence_ids:
+  - identity
+  - mapping
+  - riondatoupfal2018
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 6 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Complete maintained fields, all six claims and source
+    locators assessed. The final count is a fixed positive integer independent of
+    samples. The algorithm returns the achieved bound unconditionally. Literal first-stage
+    delta/2 and direct one-shot delta allocations are distinguished, while fixed-size
+    unbiasedness is separated from progressive stopped estimates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- This round adds one DRAFT concept, reaching 693 native and 442 unchanged AIO records.
+  The main frontier has 878 entries, including 472 pending and 58 partly addressed
+  cohorts; nested leads remain.
+- 'All37 PDF pages and53references read in extracted text. Rendered pages5,7,12,14,15,16,22,24,25,28,29,31,32,33,34
+  inspected: all four figures and Tables3–10, plus relevant equations and algorithms.
+  Tables1–2 text only. Not all theorem proofs visually checked.'
+- Fixed positive sample count only; no adaptive sample-size choice, relative top-k,
+  dynamic update or universal numerical guarantee. The first-stage and one-shot confidence-allocation
+  conventions are distinguished.
+- Revised progressive and fixed-sample ABRA variants are represented separately. Target-set,
+  forced-stop, alternative-estimator, top-k, dynamic ABRA, KADABRA and other centrality
+  leads remain pending.
+- Original Documents synchronization and old round141 cleanup remain unapproved after
+  automatic-review rejection; only the isolated recovery worktree is modified.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
