@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diaconis–Holmes–Neal fiber sampler · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Diaconis–Holmes–Neal fiber sampler</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Diaconis–Holmes–Neal fiber sampler</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DiaconisHolmesNealFiberSampler</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A finite-state Metropolis sampler that uses partitions into ordered lines, retains a binary direction for each partition, and combines a neighbor proposal with a separate probabilistic sign update to preserve a target distribution on the augmented state.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Whole-corpus normalized checks cover every ID, name, alias and scoped synonym in 442 pinned AIO and 703 native records; four full checkouts include ignored and hidden files. Finite ordered fibers, one retained sign per partition, fixed partition selection and the post-MH sign operation define this identity. The one-line directed sampler is explicitly covered as d=1 specialization, with no separate record or narrower-name exact alias. Shared MH or lifting does not make this equivalent to random walk MH, Neal pair-state or acceptance-uniform updates, HMC or continuous Gustafson half-normal displacement. Existing source-frontier reference is resolved in place. Related AIO:MarkovChain does not assert model identity or layer inheritance; 18 complete candidate class contexts and 19 native neighbors were assessed.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ordered-partitions-and-augmented-target</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Let pi be a strictly positive probability mass function on a finite state space X. For each of d directions, partition X into linearly ordered lines. Require connectivity through the union of these lines: any two states can be joined by successive within-line moves. Retain z in {−1,+1}^d and use augmented target pi(x)/2^d. Fix positive direction-selection probabilities w_i summing to one and parameters theta_i satisfying 0&lt;theta_i&lt;1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dhn1997">Analysis of a Non-Reversible Markov Chain Sampler</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, printed p. 16 / PDF p. 17, partitions, connectedness and augmented state</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#directed-neighbor-metropolis-stage</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Choose direction i using w_i and find its line containing x. Propose the successor of x on that line when z_i=+1 or the predecessor when z_i=−1, together with negation of the proposed z_i. Accept with min(1,pi(x*)/pi(x)); otherwise leave the state unchanged for this stage. A proposed step beyond a line endpoint is rejected. Other direction signs remain unchanged. This uses neighboring elements of the ordering, not an independent draw from the full line conditional.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dhn1997">Analysis of a Non-Reversible Markov Chain Sampler</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, printed p. 16 / PDF p. 17, Steps 1–2; endpoint rule in Section 5.1, printed p. 15 / PDF p. 16, Step 1; application to each line in Proposition 2 proof, printed p. 17 / PDF p. 18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#post-metropolis-sign-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After the Metropolis stage, negate the resulting sign z_i with probability 1−theta_i and keep it with probability theta_i, without changing x or other signs. Thus an accepted move preserves its incoming direction with probability 1−theta_i and reverses it with probability theta_i; a rejected move reverses the incoming direction with probability 1−theta_i and retains it with probability theta_i. This second sign operation follows both acceptance and rejection.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dhn1997">Analysis of a Non-Reversible Markov Chain Sampler</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, printed p. 16 / PDF p. 17, Step 3; combined-effect explanation in Section 5.1, printed p. 15 / PDF p. 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#finite-state-invariance-and-ergodicity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The Metropolis stage preserves the augmented target and the sign-update stage preserves its uniform sign factors. Each direction kernel is therefore invariant, and so is their fixed mixture. Proposition 2 establishes irreducibility and aperiodicity for the stated finite positive-target construction with connected ordered-line partitions, positive direction probabilities and 0&lt;theta_i&lt;1. Endpoint holding probabilities enter the aperiodicity argument. These are assumption-bound finite-state results, not an ergodicity theorem for arbitrary continuous extensions or parameter endpoints.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dhn1997">Analysis of a Non-Reversible Markov Chain Sampler</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1, printed p. 15 / PDF p. 16, Proposition 1; Section 5.2, printed pp. 16–17 / PDF pp. 17–18, Proposition 2 and proof</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#one-line-directed-specialization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With d=1 and one ordered line X={1,...,n}, the fiber construction is the directed sampler of Section 5.1: propose x+z with sign negation, reject an out-of-range move, and apply the same second sign operation. This record includes that one-line specialization. The authors discuss continuous counterparts and Gustafson’s guided walk separately; the finite construction does not define all persistent-direction or lifted MCMC algorithms.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dhn1997">Analysis of a Non-Reversible Markov Chain Sampler</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1, printed pp. 15–16 / PDF pp. 16–17; Section 5.2, printed pp. 16–17 / PDF pp. 17–18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#line-selection-and-exploration-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Useful ordered lines must be available, although the implementation need only find a current point’s successor or predecessor rather than explicitly enumerate each line. Lines aligned poorly with the target can retain diffusive behavior, and local moves can still encounter probability barriers. The construction does not provide a general advantage over direct conditional or other proposal methods merely by retaining direction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dhn1997">Analysis of a Non-Reversible Markov Chain Sampler</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, printed p. 17 / PDF p. 18, line-construction discussion; Section 7, printed pp. 23–24 / PDF pp. 24–25, discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The maintained identity is the finite ordered-fiber construction, including its one-line directed case. It does not denote every nonreversible sampler, graph non-backtracking walk, momentum method or continuous guided-walk extension.</li>
+      <li>Strict positivity, line connectivity, positive fixed direction weights and 0&lt;theta_i&lt;1 belong to the stated finite ergodicity result. Setting theta_i to zero or one requires separate analysis; stationarity alone does not certify convergence.</li>
+      <li>The stored sign for each partition is part of the state. Resetting signs at every transition, omitting the second sign operation or applying it only after rejection changes the specified kernel.</li>
+      <li>The primary evidence is the author-hosted 5 June 1997 Technical Report BU-1385-M. The later 2000 journal article was not obtained, and exact equivalence of versions is not asserted.</li>
+      <li>The record makes no numerical mixing-rate, variance-reduction or runtime claim. The source’s specially tuned uniform walk and illustrative target experiments do not establish such a guarantee for every fiber construction.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The fiber procedure constructs a finite Markov chain on state-and-direction pairs with a specified target marginal. AIO MarkovChain describes a stochastic process/model; this is a method-to-process association without equivalence, subclass status or inheritance of Network and ProbabilisticHiddenLayer assertions.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-dhn1997">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">dhn1997</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://glizen.com/radfordneal/ftp/nonrev.pdf" target="_blank" rel="noopener">Analysis of a Non-Reversible Markov Chain Sampler</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Persi Diaconis, Susan Holmes, Radford M. Neal
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:795fc1d47425…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-14T21:02:45Z</div>
+    <div><strong>Updated:</strong> 2026-10-14T21:02:45Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DiaconisHolmesNealFiberSampler.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DiaconisHolmesNealFiberSampler.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
