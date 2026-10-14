@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ABRA-s-fix fixed-sample betweenness approximation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>ABRA-s-fix fixed-sample betweenness approximation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">ABRA-s-fix fixed-sample betweenness approximation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ABRASFixedSampleBetweenness</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ABRA-s-fix, ABRA fixed-sample betweenness approximation
+    </div>
+
+  <div class="detail-desc">
+    A fixed-sample static-graph betweenness algorithm that averages shortest-path fractions over a user-specified number of uniform endpoint pairs and returns both the estimates and a simultaneous Rademacher-based additive error bound, regardless of the size of that bound.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 692 native identities; no normalized match. Ignored- and hidden-inclusive searches of three full checkouts returned 170,0,1 lines, read as the progressive ABRA record/report, existing source leads, reading notes, query strings or an unrelated translation. Semantic assessment covered 154 AIO and 536 native definitions: all 154 AIO and 535 prior native rows verified unchanged and one newly selected native row read. Ten complete AIO contexts and five full native neighbors were assessed. ABRA-s-fix takes a fixed independent positive sample count and returns its achieved bound unconditionally. It is distinct from ABRA-s’s confidence-based progressive stopping, the forced-stop pseudodimension variant and source-pivot or current-flow sampling.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#domain-and-sample-contract</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The maintained domain is a finite simple directed or undirected static graph with n&gt;=3, unweighted edges or strictly positive edge lengths, and exact shortest-path counts. The user supplies a positive integer S fixed independently of the samples and a failure budget delta in (0,1). The algorithm takes exactly S independent uniform ordered pairs of distinct vertices, with replacement. Epsilon is not an input stopping threshold.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-riondatoupfal2018">ABRA: Approximating Betweenness Centrality in Static and Dynamic Graphs with Rademacher Averages</a></span>
+        <span>· <strong>Locator:</strong> Section 4.4, PDF p. 24; Section 4.1 input domain, p. 10; the strict-positive-weight restriction is maintained to avoid unresolved zero-weight path conventions</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ordered-pair-fraction-estimator</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For every sampled pair (u,v), an internal vertex w contributes f_w(u,v)=sigma_uv(w)/sigma_uv. Source, target and unreachable-pair contributions are zero; unreachable pairs remain part of the n(n-1) population. Return bhat(w)=S^(-1) sum_j f_w(u_j,v_j). Shared shortest-path predecessor and backward suffix-count computations obtain these fractions without choosing just one path or substituting raw path counts.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-riondatoupfal2018">ABRA: Approximating Betweenness Centrality in Static and Dynamic Graphs with Rademacher Averages</a></span>
+        <span>· <strong>Locator:</strong> Definition 3.1, PDF p. 5; Equation 11 and Algorithms 1–2, pp. 10–13; Section 4.4, p. 24</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fixed-sample-error-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Retain the distinct node sample vectors V_S and bound their conditional Rademacher average by omega=inf over r&gt;0 of log(sum_{v in V_S} exp(r^2 ||v||_2^2/(2S^2)))/r. For a one-shot failure allocation eta, let L=ln(3/eta) and xi=2omega+[L+sqrt(L(L+4S omega))]/S+sqrt(L/(2S)). Retaining Algorithm 1’s first-stage allocation uses eta=delta/2 and gives an at-least-1-delta guarantee conservatively. A direct one-shot use of Theorem 3.3 may instead use eta=delta; these two bound conventions are explicitly distinguished. Numerical evaluation must conservatively bound omega, and equal vector norms alone do not identify vectors.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-riondatoupfal2018">ABRA: Approximating Betweenness Centrality in Static and Dynamic Graphs with Rademacher Averages</a></span>
+        <span>· <strong>Locator:</strong> Theorems 3.3–3.4 and Equations 4–6, PDF p. 7; Algorithm 1 lines 19–21, p. 12; Section 4.4 and Theorem 4.10, p. 24; one-shot allocation distinction is explicit curator interpretation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#output-and-guarantee</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After exactly S samples, return the full node estimates and xi even when xi is large. With the stated sampling and conservative-bound assumptions, all absolute errors are simultaneously at most xi with probability at least 1-delta. The achieved tolerance is determined by the sample; it is not guaranteed to meet a user-selected epsilon or preserve ranks. A returned xi greater than one is possible and supplies a vacuous bound for these [0,1] scores. This fixed-size method has no data-dependent termination or stage-wise union requirement.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-riondatoupfal2018">ABRA: Approximating Betweenness Centrality in Static and Dynamic Graphs with Rademacher Averages</a></span>
+        <span>· <strong>Locator:</strong> Section 4.4 and Theorem 4.10, PDF p. 24; range in Definition 3.1, p. 5; explicit bound examples in research/discovery/abra-fixed-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fixed-expectation-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the fixed independent sample count, each estimate is unbiased for the n(n-1)-normalized target and has variance Var(f_w)/S, at most 1/(4S); these are explicit curator consequences of the sampling law. On an undirected three-node path, the middle contribution is Bernoulli with mean 1/3. At S=2 the estimate is zero with probability 4/9 despite true score 1/3, and its variance is 1/9. Finite exact enumeration verifies S=1,2,4. Unbiasedness does not imply exact values in one run or carry over automatically to a stopped progressive estimate.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-riondatoupfal2018">ABRA: Approximating Betweenness Centrality in Static and Dynamic Graphs with Rademacher Averages</a></span>
+        <span>· <strong>Locator:</strong> Equation 11 and independent uniform sampling, PDF pp. 10–11; Section 4.4, p. 24; explicit curator arithmetic in research/discovery/abra-fixed-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#version-and-evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The identity follows Section 4.4 of the inspected 37-page author manuscript labeled April 2018. It differs from progressive ABRA-s, the pseudodimension-based forced-stop variant and relative top-k or dynamic variants. Section 6.4 and Figure 4/Table 10 compare the fixed method with RK under the manuscript’s historical implementation and datasets; no universal advantage, replicated timing, causal influence or learned prediction is asserted. Earlier arXiv text is version-comparison context rather than a replacement for the revised method.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-riondatoupfal2018">ABRA: Approximating Betweenness Centrality in Static and Dynamic Graphs with Rademacher Averages</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.2.1, 4.4–5, PDF pp. 17 and 24–28; Sections 6 and 6.4, pp. 28–34; Figure 4 and Table 10, p. 34</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Fixed positive S is independent of sampled values. Adaptive selection of the final count requires a different validity argument.</li>
+      <li>Unreachable pairs contribute zero without being removed from the population; endpoints do not contribute, but the denominator remains n(n-1).</li>
+      <li>Strict positive edge lengths or unweighted graphs and exact path counts are maintained. Zero-weight cycles, approximate distances/counts and numerical ties need separate conventions.</li>
+      <li>The first-stage delta/2 allocation and one-shot delta allocation are distinguished. Any numerical Rademacher upper bound must remain conservative. No preselected accuracy, rank preservation or generally useful bound at small S is promised.</li>
+      <li>The author manuscript retains placeholder journal fields; no publisher-byte identity is asserted. Full text, selected mathematical pages and all figures were inspected, but not every proof equation visually checked. No author software or benchmark was executed.</li>
+      <li>The finite calculations test selected mathematical boundaries. The record remains DRAFT after author self-review.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No examined AIO target denotes this fixed-sample shortest-path fraction estimator and its returned concentration bound. Statistical-learning tools and shared graph or sampling terminology do not establish an identity with clustering, language modeling, preprocessing or bias concepts.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> Compared all 442 pinned AIO and 692 preceding native identities with ignored- and hidden-inclusive checkout searches. Semantic context covers 154 AIO and 536 native definitions, with prior rows verified unchanged and the new progressive ABRA-s definition and full record read. Ten complete AIO contexts and five full native neighbors were assessed.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html"><code>AIO:Clustering</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A centrality vector assigns scores without grouping vertices into clusters.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html"><code>AIO:UnsupervisedClustering</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Absence of labels does not turn structural score computation into clustering.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The identity is a particular fixed-sample shortest-path fraction estimator and error-bound computation, not solely an input-output function.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DataPreparation.html"><code>AIO:DataPreparation</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Computing network prominence is the defined result; incidental downstream feature use does not establish a preprocessing identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GraphLanguageModel.html"><code>AIO:GraphLanguageModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The static graph sampling and concentration method has no language-model objective or training mechanism.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RankingBias.html"><code>AIO:RankingBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A structural graph score is not the belief that high-ranked information is necessarily relevant.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SelectionAndSamplingBias.html"><code>AIO:SelectionAndSamplingBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Uniform pair sampling and its confidence bound define an algorithm, not selection or sampling bias.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RepresentationBias.html"><code>AIO:RepresentationBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A graph centrality computation is not subgroup representation bias.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DeepActiveLearning.html"><code>AIO:DeepActiveLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Neither labels nor a deep neural network are acquired or fitted.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DataDredgingBias.html"><code>AIO:DataDredgingBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Returning a one-shot concentration bound does not make the algorithm itself a data-dredging bias concept.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-riondatoupfal2018">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">riondatoupfal2018</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.rionda.to/papers/RiondatoUpfal-BetweennessRademacherAverages-TKDD.pdf" target="_blank" rel="noopener">ABRA: Approximating Betweenness Centrality in Static and Dynamic Graphs with Rademacher Averages</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Matteo Riondato, Eli Upfal
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d703b83aff52…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-14T06:14:57Z</div>
+    <div><strong>Updated:</strong> 2026-10-14T06:14:57Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ABRASFixedSampleBetweenness.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ABRASFixedSampleBetweenness.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

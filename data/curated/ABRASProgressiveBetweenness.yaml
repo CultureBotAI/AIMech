@@ -1,0 +1,185 @@
+id: AIMech:ABRASProgressiveBetweenness
+name: ABRA-s progressive betweenness approximation
+aliases:
+- ABRA-s
+- ABRA static progressive betweenness approximation
+concept_kind: algorithm
+definition: A progressive sampling algorithm for static-graph betweenness that averages fractions of shortest
+  paths through each node over uniformly sampled endpoint pairs and checks a predetermined sequence of
+  sample sizes and stops when a Rademacher-based simultaneous error bound meets the requested additive
+  tolerance.
+definition_evidence:
+- source_id: riondatoupfal2018
+  locator: Sections 4.1–4.1.2, Algorithms 1–2 and Theorem 4.1, PDF pp. 10–16
+  relation: supports
+claims:
+- claim_id: graph-domain-and-estimand
+  kind: scope
+  statement: The maintained computational scope is a finite simple directed or undirected static graph
+    with n>=3, unweighted edges or strictly positive edge lengths, and exact shortest-path counts, with
+    requested additive tolerance epsilon and overall failure budget delta in (0,1). Uniform sampling covers
+    all n(n-1) ordered pairs of distinct endpoints, independently with replacement. For pair (u,v), f_w(u,v)
+    is the fraction of its shortest paths that contain w internally; endpoints and unreachable pairs contribute
+    zero. The target b(w) is the average of f_w over that complete pair population. Resampling unreachable
+    pairs would change the estimand.
+  evidence:
+  - source_id: riondatoupfal2018
+    locator: Definitions 3.1–3.2, PDF pp. 5–6; Equation 11 and Algorithms 1–2, pp. 10–13. The positive-weight
+      restriction avoids unresolved zero-weight predecessor and cycle conventions.
+    relation: supports
+- claim_id: fraction-estimator-and-vector-state
+  kind: mechanism
+  statement: At each sample, compute the source–target shortest-path structure and propagate suffix path
+    counts backward. An internal node contributes sigma_uw times sigma_wv divided by sigma_uv, rather
+    than a raw path count or an indicator for one randomly chosen path. Maintain each node’s sample vector
+    and its association with the set of distinct vectors; identical vectors may be shared. The estimate
+    is the vector’s l1 norm divided by the number of pairs sampled. Equal l1 and l2 norms alone do not
+    establish vector identity, so compressed bookkeeping must retain the information needed to distinguish
+    different vectors.
+  evidence:
+  - source_id: riondatoupfal2018
+    locator: Section 4.1, Algorithms 1–2 and Figure 2, PDF pp. 11–14; curator vector distinction in research/discovery/abra-pair-boundaries.py
+    relation: supports
+- claim_id: rademacher-stopping-bound
+  kind: mechanism
+  statement: At a predetermined sample size l, let V_S be the distinct node sample vectors. Bound the
+    conditional Rademacher average by omega=inf over r>0 of log(sum_{v in V_S} exp(r^2 ||v||_2^2/(2l^2)))/r.
+    For a failure budget eta, put L=ln(3/eta) and xi=2omega+[L+sqrt(L(L+4l omega))]/l+sqrt(L/(2l)). The
+    algorithm returns the estimates and xi once xi<=epsilon. A conservatively computed upper bound on
+    omega may replace the infimum; an uncertified numerical underestimate cannot inherit the guarantee.
+    This is a simultaneous additive bound, not a relative-error or exact-ranking guarantee.
+  evidence:
+  - source_id: riondatoupfal2018
+    locator: Theorems 3.3–3.4, Equations 4–6, PDF p. 7; Section 4.1 and Algorithm 1, pp. 11–12
+    relation: supports
+- claim_id: progressive-validity-and-schedule
+  kind: limitation
+  statement: 'The inspected revised algorithm fixes the sample schedule independently of the sampled values
+    and spends eta_i=delta/2^i at stage i. The union bound across these predetermined stages supports
+    validity at the selected stopping stage. The earlier adaptive schedule is not substituted into this
+    proof. Increasing sample sizes alone do not ensure termination: with S_i=i, xi is always larger than
+    sqrt(ln(2)/2), approximately 0.5887, from its square-root term alone, so epsilon=0.5 cannot be met
+    even when every true score is zero. Geometric schedules are discussed by the source; the nontermination
+    boundary is explicit curator algebra.'
+  evidence:
+  - source_id: riondatoupfal2018
+    locator: Section 1 correction notice, PDF p. 2; Section 4.1.1, Lemmas 4.2–4.3, pp. 13–16; Section
+      4.1.2, p. 16; curator schedule check in research/discovery/abra-pair-boundaries.py
+    relation: supports
+- claim_id: finite-estimator-boundaries
+  kind: limitation
+  statement: Finite exact curator examples give middle-node pair-normalized score 1/3 on an undirected
+    three-node path and 1/6 on a directed three-node chain. Conditioning the latter on reachable pairs
+    changes it to 1/3. A branching directed graph has two shortest paths through a shared internal node,
+    whose raw count 2 must be divided by 2 to obtain contribution 1. Exhaustive one- and two-draw expectations
+    match their fixed-size targets. These checks do not establish unbiasedness after data-dependent stopping,
+    universal numerical stability or replicated author performance.
+  evidence:
+  - source_id: riondatoupfal2018
+    locator: Definition 3.1 and Equation 11, PDF pp. 5 and 10–11; Algorithms 1–2, pp. 12–13; explicit
+      curator examples in research/discovery/abra-pair-boundaries.py
+    relation: supports
+- claim_id: version-and-evaluation-boundaries
+  kind: limitation
+  statement: The inspected 37-page author manuscript labeled April 2018 explicitly revises the earlier
+    algorithm because of randomly stopped sequences. Its static experiments compare ABRA-s with exact
+    Brandes and RK on four SNAP graphs using C++11, NetworKit and NLopt, geometric schedules and fixed
+    delta 0.1. Five runs per setting are described, with most tables reporting one selected run; slower
+    cases on email-Enron are retained by the source. These results do not establish a universal speedup,
+    causal influence or trained predictive accuracy. Fixed-sample, target-set, relative top-k, alternative-estimator
+    and dynamic variants require their own scope assessments.
+  evidence:
+  - source_id: riondatoupfal2018
+    locator: Section 1, PDF pp. 2–3; Sections 4.1.3–5, pp. 16–28; Sections 6–6.4 and Tables 3–10, pp.
+      28–34
+    relation: supports
+identity_notes: 'Compared all 442 pinned AIO and 691 native identities; no normalized match. Ignored-
+  and hidden-inclusive searches of three full checkouts returned 56,0,1 lines, all read as existing ABRA/Bavarian
+  leads, source-reading notes, query strings or an unrelated Portuguese translation. Semantic assessment
+  covered 154 AIO and 535 native definitions: all 147 AIO and 524 prior native rows verified unchanged,
+  with seven additional AIO and eleven additional native rows read. Ten complete AIO contexts and six
+  full native neighbors were assessed. The identity is the revised static progressive ABRA-s algorithm:
+  independently sampled ordered pairs contribute shortest-path fractions and a fixed stage schedule with
+  allocated failure budgets determines when to stop. It differs from exact source dependency accumulation,
+  source-pivot estimation, electrical-flow pair sampling, shortest-path closeness sampling and the separate
+  fixed-sample ABRA-s-fix variant.'
+evidence_sources:
+- source_id: riondatoupfal2018
+  title: 'ABRA: Approximating Betweenness Centrality in Static and Dynamic Graphs with Rademacher Averages'
+  authors:
+  - Matteo Riondato
+  - Eli Upfal
+  source_type: primary_paper
+  access_level: full_text
+  version: Thirty-seven-page author-hosted ACM-style manuscript labeled April 2018, retaining placeholder
+    journal header and DOI fields. Author catalog and BibTeX identify ACM Transactions on Knowledge Discovery
+    from Data 12(5), article 61 (2018). All text and 53 references read; four figures, Tables 3–10 and
+    selected equations/algorithms visually inspected. Tables 1–2 were read as text; not every proof equation
+    was visually checked. The 27-page arXiv v1 was read for the earlier-version comparison, without publisher-byte
+    equivalence. No author software or raw benchmark data inspected.
+  url: https://www.rionda.to/papers/RiondatoUpfal-BetweennessRademacherAverages-TKDD.pdf
+  accessed_at: '2026-10-14T05:26:24Z'
+  sha256: d703b83aff52e25b8018e49ebd5f0778242bad441db0430d35af8f332a409d8b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 691 preceding native identities, including full ignored-
+    and hidden-inclusive checkout searches. Semantic context covers 154 AIO and 535 native definitions;
+    seven new AIO and eleven new native rows were read and earlier rows verified unchanged. Ten complete
+    AIO contexts and six full native neighbors were assessed.
+  rationale: No examined AIO target denotes this static progressive shortest-path fraction algorithm.
+    Statistical learning theory supplies a concentration bound, but shared statistical, sampling and graph
+    language does not identify the procedure with clustering, a language model, data preparation or a
+    bias concept.
+  examined_targets:
+  - target: AIO:Clustering
+    rejection_reason: A centrality vector assigns scores without grouping vertices into clusters.
+  - target: AIO:UnsupervisedClustering
+    rejection_reason: Absence of labels does not turn structural score computation into clustering.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The identity is a particular progressive shortest-path fraction estimator and stopping
+      procedure, not solely an input-output function.
+  - target: AIO:DataPreparation
+    rejection_reason: Computing network prominence is the defined result; incidental downstream feature
+      use does not establish a preprocessing identity.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: The static graph sampling and concentration method has no language-model objective
+      or training mechanism.
+  - target: AIO:RankingBias
+    rejection_reason: A structural graph score is not the belief that high-ranked information is necessarily
+      relevant.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: Uniform pair sampling and its confidence bound define an algorithm, not selection
+      or sampling bias.
+  - target: AIO:RepresentationBias
+    rejection_reason: A graph centrality computation is not subgroup representation bias.
+  - target: AIO:DeepActiveLearning
+    rejection_reason: Neither labels nor a deep neural network are acquired or fitted.
+  - target: AIO:DataDredgingBias
+    rejection_reason: Correcting repeated-stage error probabilities does not make the algorithm itself
+      a bias concept.
+limitations:
+- The record uses the revised fixed-schedule static algorithm. The earlier adaptive schedule, dynamic
+  updates and relative top-k procedure are separate cases, not covered by the maintained guarantee.
+- Unreachable pairs remain in the population with zero contribution. Endpoint exclusion does not change
+  the denominator from n(n-1) to (n-1)(n-2).
+- Strictly positive weighted edges or unweighted graphs are used here. Zero-length cycles, numerical distance
+  ties and inexact path counts require separate conventions despite the source’s broader nonnegative-weight
+  wording.
+- The confidence guarantee requires independent uniform pair draws, a schedule fixed independently of
+  them, stage-wise failure allocation and conservative evaluation of the Rademacher bound. It does not
+  imply termination for every increasing schedule or unbiased stopped estimates.
+- The author manuscript retains placeholder journal metadata; no publisher-layout byte equivalence is
+  asserted. Earlier arXiv text was read for version comparison. No author software, raw experiments or
+  historical benchmark was executed.
+- Some source performance prose and derived percentages need separate qualification; no numerical speedup
+  or general error-scaling result is imported. DRAFT remains after author self-review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T06:13:02Z'
+  updated_at: '2026-10-14T06:13:02Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
