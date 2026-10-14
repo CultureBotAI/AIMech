@@ -1,0 +1,140 @@
+id: AIMech:ChakrabartiFocusedCrawler
+name: Chakrabarti classifier-guided focused crawling
+aliases:
+- Chakrabarti focused crawler
+- Taxonomy-guided focused crawling
+concept_kind: algorithm
+definition: A focused web-acquisition procedure that uses a trained classifier over a supplied topic taxonomy
+  to decide or prioritize hyperlink expansion, with hard and soft focus modes and periodic relevance-weighted
+  hub discovery to promote promising crawl locations.
+definition_evidence:
+- source_id: chakrabarti1999
+  locator: Sections 3.1–3.3 and Figure 2, printed pp. 551–553 / PDF pp. 7–9
+  relation: supports
+claims:
+- claim_id: taxonomy-and-classifier
+  kind: mechanism
+  statement: The user marks good categories in an existing topic tree, with no good category an ancestor
+    of another. The intended classifier model assigns documents to exclusive leaf topics and represents
+    text as a multinomial bag of words with class priors. Posterior mass for the selected categories supplies
+    relevance; the taxonomy is an input rather than a hierarchy learned by the crawling procedure.
+  evidence:
+  - source_id: chakrabarti1999
+    locator: Sections 2.3, 3 and 3.1, printed pp. 549–551 / PDF pp. 5–7
+    relation: supports
+- claim_id: focus-policies
+  kind: mechanism
+  statement: Hard focus finds the maximum-posterior leaf and permits expansion only if a selected good
+    category is its ancestor. Soft focus sums the posterior mass of the selected categories, assigns each
+    unvisited neighbor the parent relevance, uses the maximum over multiple referring parents and updates
+    the score after retrieval. Soft focus does not discard pages a priori. A document can have substantial
+    total good-category mass while its most probable leaf lies elsewhere; these policies are not interchangeable
+    threshold tests.
+  evidence:
+  - source_id: chakrabarti1999
+    locator: Section 3.1, printed pp. 551–552 / PDF pp. 7–8; curator finite example in research/discovery/focused-crawling-boundaries.py
+    relation: supports
+- claim_id: frontier-and-distiller
+  kind: mechanism
+  statement: The soft crawl frontier sorts first by increasing fetch-attempt count and then by decreasing
+    relevance; hard focus orders surviving URLs by attempt count with arbitrary remaining ties. Periodically
+    the crawler stops for relevance-weighted hub/authority analysis, promotes top hubs for revisiting
+    and prepares unvisited pages cited by those hubs. The cited relational-database/concurrent redesign
+    is described as ongoing work, not assumed to be this implementation.
+  evidence:
+  - source_id: chakrabarti1999
+    locator: Sections 3.2–3.3, printed pp. 552–553 / PDF pp. 8–9
+    relation: supports
+- claim_id: probability-equation-boundary
+  kind: limitation
+  statement: 'Equation 1 includes the class prior in its numerator but omits prior factors from the sibling-likelihood
+    denominator, despite the surrounding intended Bayes model. Literal values therefore need not normalize:
+    priors 1/4 and 3/4 with equal likelihoods 1/2 give 1/8 and 3/8, summing to 1/2. The record preserves
+    the intended probabilistic model and this printed discrepancy; it does not silently repair or diagnose
+    an uninspected author implementation.'
+  evidence:
+  - source_id: chakrabarti1999
+    locator: Section 3.1, Equation 1, printed p. 551 / PDF p. 7; exact curator arithmetic in research/discovery/focused-crawling-boundaries.py
+    relation: supports
+- claim_id: evaluation-boundary
+  kind: limitation
+  statement: The historical comparison of unfocused, hard and soft crawling uses the same classifier for
+    crawl guidance and acquired-page relevance scoring. The authors frame this as evaluation of the neighborhood-based
+    crawling heuristic. It is not independently human-labeled relevance accuracy or classifier calibration.
+    Plotted progression uses fetched-page counts, and overlap from disjoint seed subsets is indirect evidence
+    of coverage, not exhaustive recall or general invariance to initialization.
+  evidence:
+  - source_id: chakrabarti1999
+    locator: Sections 4.1–4.4 and Figures 3–8, printed pp. 553–558 / PDF pp. 9–14
+    relation: supports
+- claim_id: failure-and-scope
+  kind: limitation
+  statement: Text-poor pages can be misclassified, hard pruning can lose useful paths, and soft focus
+    can diffuse into other topics. The mutual-funds example motivates broadening selected categories;
+    automatic detection and adaptation are future work. The stated average-relevance goal is not accompanied
+    by a global optimum guarantee. Neither historical topical labels nor link-based examples establish
+    medical conclusions or causal claims about the represented communities.
+  evidence:
+  - source_id: chakrabarti1999
+    locator: Sections 3, 4.1–4.3, 4.7 and 6, printed pp. 550,553–556,559–561 / PDF pp. 6,9–12,15–17
+    relation: supports
+aio_mappings:
+- target: AIO:Classification
+  relation: related_match
+  rationale: Trained topic classification directly determines link expansion and priority. The acquisition
+    algorithm is related to this classification task without being identical to the classifier, a learned
+    taxonomy or an asserted AIO subclass.
+limitations:
+- This record covers the hard/soft 1999 acquisition family and its periodic distiller interface, not all
+  methods called focused crawling. Flake flow-based crawling and the relevance-weighted graph-ranking
+  component have distinct records.
+- The printed probability denominator is ambiguous. No author code, smoothing/training implementation,
+  calibration audit, live crawl or historical dataset was inspected or executed.
+- Section 4.4 and Figure 8 axes discuss top 25 resources while the Figure 8 caption says 100 best servers.
+  Section 4.3 rounds a cycling overlap value differently from its plotted level. No exact ranking-overlap
+  denominator or replicated percentage is asserted.
+- All eighteen primary pages, references, figures and central mathematical expressions were inspected.
+  The author-hosted copy has different pagination from publisher metadata; cited locators identify that
+  copy. Publisher full text was inaccessible.
+- DRAFT remains. Historical demonstrations and constructed arithmetic do not establish current-web effectiveness,
+  universal optimality or bias-free relevance.
+identity_notes: 'Compared all 442 pinned AIO and 679 native IDs, names, aliases and scoped synonyms before
+  either cohort write; no normalized identity match. Ignored- and hidden-inclusive searches of three checkouts
+  returned 26,0,0 lines, all read: prior deduplication logs and the source lead, not these maintained
+  identities. Semantic search covered 127 AIO and 439 native definitions: 70 AIO and 318 native rows match
+  previously inspected unchanged context; all 57 newly selected AIO and 121 new native definitions were
+  read. Eleven complete AIO nodes, incident edges and generated records were assessed, with full native
+  NaiveBayes, BestFirstSearch, DINOSelfDistillation and FlakeFocusedCrawl context. The classifier-guided
+  acquisition family and relevance-weighted ranking component were compared directly. The concept is the
+  1999 classifier-guided acquisition family with hard and soft focus modes and periodic distiller integration.
+  A human taxonomy is an input, not a learned hierarchy. It differs from Flake flow grouping, general
+  best-first search and the naive Bayes component alone.'
+evidence_sources:
+- source_id: chakrabarti1999
+  title: 'Focused crawling: a new approach to topic-specific Web resource discovery'
+  authors:
+  - Soumen Chakrabarti
+  - Martin van den Berg
+  - Byron Dom
+  source_type: primary_paper
+  access_level: full_text
+  version: 1999 author-hosted Elsevier-layout PDF, eighteen pages, displayed pagination 546–562 after
+    its unnumbered first page. All text and 31 references read; rendered pages 4,6–8,10–15 inspected,
+    covering all ten figures and central formulas. Publisher metadata lists Computer Networks 31(11–16):1623–1640;
+    locators here use the inspected PDF pagination, without claiming identical bytes to the unavailable
+    publisher full text.
+  persistent_id: doi:10.1016/S1389-1286(99)00052-3
+  url: https://www.cse.iitb.ac.in/~soumen/doc/www1999f/pdf/www1999f.pdf
+  accessed_at: '2026-10-14T02:28:13Z'
+  sha256: bd6570f7155839c2bf83552c2acfc65a37cdb017da2f030f4f266414b1c23ac0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T02:43:28Z'
+  updated_at: '2026-10-14T02:43:28Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
