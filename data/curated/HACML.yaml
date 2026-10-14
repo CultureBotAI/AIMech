@@ -1,0 +1,142 @@
+id: AIMech:HACML
+name: HAC-ML network clustering
+aliases:
+- HAC-ML
+concept_kind: algorithm
+definition: A greedy network-clustering algorithm that builds a hierarchical stochastic block structure
+  by merging groups with the least loss of profiled network likelihood, using separate Bayesian criteria
+  to collapse terminal groups and stop top-level merging.
+definition_evidence:
+- source_id: park2011
+  locator: Methods, Preliminary definitions and Agglomerative clustering, PDF pp. 2–4, Equations 1–8 and
+    pseudocode
+  relation: supports
+claims:
+- claim_id: profile-likelihood-guide
+  kind: mechanism
+  statement: For undirected, unweighted graphs without self edges, the method models edges and holes between
+    vertex groups with Bernoulli probabilities. It begins with singleton groups and a full block model
+    at the top level. At each step it selects a pair with greatest profiled-likelihood merge ratio, which
+    depends on their connectivity to other groups. This greedy guide is neither a globally optimal tree
+    search nor posterior averaging over trees.
+  evidence:
+  - source_id: park2011
+    locator: Methods, PDF pp. 2–3, Equations 1–5 and greedy pseudocode; Conclusions, p. 9
+    relation: supports
+- claim_id: bayesian-boundaries
+  kind: mechanism
+  statement: Uniform-prior integration of a block probability gives a Beta factor. A separate integrated-probability
+    merge ratio supplies the proposed top-level stopping rule. When both children are already collapsed,
+    another integrated ratio compares a single terminal group with their separate within- and between-group
+    structure. The paper explicitly omits multiplicity factors for alternative merges and splits; these
+    are stated model-selection conventions rather than a posterior calculation over all partitions.
+  evidence:
+  - source_id: park2011
+    locator: Methods, PDF pp. 2–4, Equations 2, 7–8 and model-selection qualifications
+    relation: supports
+- claim_id: multiple-edge-types
+  kind: mechanism
+  statement: For multiple interaction types, each type retains its own likelihood factors under a shared
+    group structure. The type-specific likelihoods multiply, so their log scores add. This conditional
+    independence and shared-structure construction differs from taking the union of all edges and does
+    not guarantee that adding another network improves predictions.
+  evidence:
+  - source_id: park2011
+    locator: Extension to multiple edge types, PDF p. 4; Synergy in mixed networks, pp. 8–9 and Table
+      3
+    relation: supports
+- claim_id: printed-score-boundary
+  kind: limitation
+  statement: 'The singleton mismatch expression printed in the prose is not numerically equal to the ratio
+    obtained from Equations 2 and 5: one differing external adjacency gives a profiled ratio of one quarter,
+    whereas the prose expression gives one half. The record uses the general profiled-likelihood construction
+    and preserves this printed discrepancy. Its effect on author code or empirical results was not checked.'
+  evidence:
+  - source_id: park2011
+    locator: Methods, PDF pp. 2–3, Equations 2 and 5 and singleton-mismatch paragraph; curator calculation
+      in research/discovery/hacml-boundaries.py
+    relation: supports
+- claim_id: complexity-and-search
+  kind: scope
+  statement: The paper contrasts a naive quartic implementation with a faster implementation using a priority
+    queue, lazy evaluation and a restriction to candidate pairs sharing a neighbor. The stated faster
+    complexity depends on those choices and network sparsity. Merge ties, excluded candidates and irreversible
+    greedy decisions require implementation conventions; no universal global-optimum or posterior-coverage
+    guarantee is claimed.
+  evidence:
+  - source_id: park2011
+    locator: Greedy agglomerative algorithm, PDF pp. 3–4; Conclusions, p. 9
+    relation: supports
+- claim_id: evaluation-scope
+  kind: scope
+  statement: The link-prediction study hides observed edges and evaluates them against an equal-sized
+    random set of holes, reporting rankings and maximum F scores. The authors acknowledge that this balanced
+    test overstates practical performance on sparse networks. They prune isolated and degree-one vertices
+    and restrict joint-network comparisons to shared vertices. Reported advantages are empirical across
+    the inspected networks; Table 3 does not show a consistent benefit from combining interaction types.
+  evidence:
+  - source_id: park2011
+    locator: Performance Evaluation and Results, PDF pp. 4–8, Tables 1–3 and Figures 1–4
+    relation: supports
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: The algorithm constructs a hierarchy of object groups. The target is a related task, so this
+    mapping does not assert algorithm/task equivalence or subclass membership.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The grouping procedure uses network relationships rather than training a classifier on object
+    labels. Domain-informed input selection or GO-dependent evaluation does not establish identity with
+    a supervised classifier.
+limitations:
+- This is Park and Bader’s 2011 HAC-ML network procedure, not the generic family of hierarchical agglomerative
+  clustering methods or a fitted interactome. The separate HAC-E, HAC-ES and HAC-Q scores are not aliases.
+- The input-network graph records observed interactions; it is not by itself a conditional-dependence
+  graph, a causal graph or a Bayesian network. The grouping model assumes Bernoulli edge trials conditional
+  on its structure.
+- The implementation complexity claim uses restricted candidate search. The printed top-level product
+  notation and singleton-score shorthand do not provide a completely unambiguous executable specification;
+  no author-code conformance is asserted.
+- Missing edges are used as holes for fitting and sampled negatives for evaluation, although biological
+  data can contain unobserved true links. The balanced held-out test is not a calibrated estimate of deployment
+  precision.
+- No author implementation, experimental dataset or supplementary archive was audited or executed. Finite
+  curator calculations assess printed formulas and bounded examples, not benchmark replication or global
+  optimality. The record remains DRAFT.
+identity_notes: 'Compared all 442 pinned AIO and 666 native IDs, names, aliases and scoped synonyms for
+  the three candidates and their publication identifiers; no normalized identity match. Ignored- and hidden-inclusive
+  fixed-string searches of the recovery, older discovery and original Documents checkouts returned 26,
+  0, 0 lines. All matches were read and are prior source/discovery context, with no existing maintained
+  identity. Semantic assessment covered 44 AIO and 260 native definitions: 41 AIO and 228 native rows
+  were unchanged from earlier reading; three additional AIO and 32 additional native definitions were
+  read. Fourteen complete annotated AIO node/edge/generated contexts and the candidate-specific native
+  records were inspected. Retain the 2011 profiled network-likelihood merge guide with separate Bayesian
+  top/terminal selection. ROCK counts shared neighbors with a size normalization, graph degree linkage
+  multiplies directed degree averages, and CliXO selects persistent informative cliques. Generic HAC,
+  a fitted interactome and the HAC-E/ES/Q score variants are distinct scopes.'
+evidence_sources:
+- source_id: park2011
+  title: Resolving the structure of interactomes with hierarchical agglomerative clustering
+  authors:
+  - Yongjin Park
+  - Joel S Bader
+  source_type: primary_paper
+  access_level: full_text
+  version: BMC Bioinformatics12(Suppl1):S44,2011-02-15; all10 publisher PDF pages and36references read,
+    including Equations1–11, pseudocode, four figures and three tables. Supplementary author code not
+    inspected.
+  persistent_id: doi:10.1186/1471-2105-12-S1-S44
+  url: https://link.springer.com/content/pdf/10.1186/1471-2105-12-S1-S44.pdf
+  accessed_at: '2026-10-14T00:38:22Z'
+  sha256: e930abd762f0f7c51d7671b3f605bc1fd2a35cdc230b668515c7778ffcb73b60
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T01:04:43Z'
+  updated_at: '2026-10-14T01:04:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

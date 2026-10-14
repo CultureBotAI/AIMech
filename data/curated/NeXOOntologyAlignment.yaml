@@ -1,0 +1,157 @@
+id: AIMech:NeXOOntologyAlignment
+name: NeXO ontology alignment
+aliases:
+- AlignOntology
+concept_kind: algorithm
+definition: An iterative ontology-alignment algorithm that combines shared-terminal set overlap with parent
+  and child neighborhood similarities, then greedily selects one-to-one term correspondences while rejecting
+  reversed ancestor relations.
+definition_evidence:
+- source_id: dutkowski2013
+  locator: Online Methods, Ontology alignment, PDF pp. 9–10; Figure 1e and Inferring ontologies from networks,
+    p. 2
+  relation: supports
+claims:
+- claim_id: intrinsic-and-relational-scores
+  kind: mechanism
+  statement: The initial term-pair scores are Jaccard overlaps of their assigned gene sets. Later iterations
+    combine three quarters intrinsic similarity with one quarter relational similarity. Relational similarity
+    compares parent and child neighborhoods using the previous score matrix; each neighborhood comparison
+    greedily chooses unique pairs and normalizes their summed scores. The root has a separate child-only
+    rule.
+  evidence:
+  - source_id: dutkowski2013
+    locator: Online Methods, Ontology alignment, PDF p. 10, intrinsic, relational and set-similarity equations
+    relation: supports
+- claim_id: constrained-greedy-alignment
+  kind: mechanism
+  statement: Each iteration sorts term pairs by score and accepts them greedily when neither term is already
+    used and the proposed pair creates no reversed ancestor-descendant correspondence with an accepted
+    pair. Processing stops when all terms of one ontology are matched or only scores below the stated
+    threshold remain. These uniqueness and no-crisscross constraints do not require exact equality of
+    gene sets or a full graph isomorphism.
+  evidence:
+  - source_id: dutkowski2013
+    locator: Online Methods, Ontology alignment, PDF p. 10, steps 0–5
+    relation: supports
+- claim_id: greedy-optimality-boundary
+  kind: limitation
+  statement: The first greedy pass need not maximize total admissible similarity. A finite sibling-term
+    example with Jaccard matrix [[1/2,1/3],[1/3,0]] selects the unique highest pair for a total of one
+    half, whereas the two cross-pairs total two thirds without violating uniqueness or ancestor constraints.
+    This assesses a first pass only; it does not predict the final iterated alignment or the author implementation.
+  evidence:
+  - source_id: dutkowski2013
+    locator: Online Methods, Ontology alignment, PDF p. 10; curator-derived Jaccard example in research/discovery/nexo-alignment-boundaries.py
+    relation: supports
+- claim_id: iteration-and-conventions
+  kind: scope
+  statement: The source returns an alignment when it matches any previously encountered alignment. This
+    repetition rule does not require successive score matrices to converge or successive mappings to agree.
+    The printed formulas also leave empty-neighborhood, mixed root/non-root and tie conventions to implementation.
+    No occurrence of a cycle in author code or general failure to terminate is asserted.
+  evidence:
+  - source_id: dutkowski2013
+    locator: Online Methods, Ontology alignment, PDF p. 10, relational cases and final repetition rule
+    relation: supports
+- claim_id: alignment-calibration
+  kind: scope
+  statement: The paper estimates false discovery from randomized ontologies and uses size-dependent score
+    thresholds, with a stated alignment FDR below ten percent in each size group. This is a separate calculation
+    from the five-percent thresholds in functional-enrichment comparisons. Alignment scores, semantic
+    identity and experimentally supported biological function remain distinct.
+  evidence:
+  - source_id: dutkowski2013
+    locator: Online Methods, Calculating the false-discovery rate for ontology alignment, PDF p. 10; Figure
+      3 and functional enrichment, p. 4
+    relation: supports
+aio_no_match:
+  search_scope: All 442 pinned AIO and 666 native identities; ignored- and hidden-inclusive searches of
+    three checkouts; 44 AIO and 260 native semantic definitions; fourteen complete annotated AIO contexts
+    and inspected native neighbors.
+  rationale: No suitable pinned AIO mapping was found for the specific ontology-correspondence procedure.
+    The bounded assessment distinguishes alignment from clustering, hierarchical classification, metric
+    representation learning, conditional-dependence modeling and language-model value alignment.
+  examined_targets:
+  - target: AIO:HierarchicalClustering
+    rejection_reason: The method aligns terms in two existing hierarchies; it does not cluster observations
+      into a new hierarchy.
+  - target: AIO:UnsupervisedClustering
+    rejection_reason: Constrained cross-ontology correspondences do not partition an unlabeled data set
+      into clusters.
+  - target: AIO:HierarchicalClassification
+    rejection_reason: The procedure does not learn a predictor for preassigned hierarchical labels.
+  - target: AIO:MetricLearning
+    rejection_reason: It uses prescribed set-overlap and recursive neighborhood scores, rather than learning
+      the deep-neural metric representation defined by this pinned target.
+  - target: AIO:MachineLearningTask
+    rejection_reason: This particular symbolic correspondence algorithm does not establish the general
+      data-learning task as an equivalent identity or necessary algorithm parent.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The stateful iterative matching procedure is not identified by this generic mathematical-function
+      category.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: Its ontology DAGs represent term relations, not conditional dependencies between
+      random variables.
+  - target: AIO:EthicalLLM
+    rejection_reason: Ontology alignment is unrelated to the value-alignment synonym of an ethical language
+      model.
+  - target: AIO:MarkovChain
+    rejection_reason: Repeated similarity updates and stopping on a repeated mapping do not define a stochastic
+      transition model.
+limitations:
+- The record covers the algorithm described in the 2013 NeXO paper. Michael Kramer’s AlignOntology landing
+  page attributes the software to that paper, but its later code revisions were not audited and are not
+  assumed equivalent in every detail.
+- Comparable terminal identities are required for meaningful gene-set overlap. Missing or inconsistent
+  annotations and shared evaluation inputs can affect scores and matches.
+- Greedy local and global matching is not a maximum-weight assignment or a semantic equivalence proof.
+  The finite counterexample concerns k=0 only, with a common matched root and sibling terms.
+- Repeated-mapping termination differs from convergence of the numeric similarities. The source does not
+  fully specify empty parent/child sets, mixed root status or tie ordering.
+- No author implementation, experimental dataset or supplementary archive was audited or executed. Finite
+  curator calculations assess printed formulas and bounded examples, not benchmark replication or global
+  optimality. The record remains DRAFT.
+identity_notes: 'Compared all 442 pinned AIO and 666 native IDs, names, aliases and scoped synonyms for
+  the three candidates and their publication identifiers; no normalized identity match. Ignored- and hidden-inclusive
+  fixed-string searches of the recovery, older discovery and original Documents checkouts returned 26,
+  0, 0 lines. All matches were read and are prior source/discovery context, with no existing maintained
+  identity. Semantic assessment covered 44 AIO and 260 native definitions: 41 AIO and 228 native rows
+  were unchanged from earlier reading; three additional AIO and 32 additional native definitions were
+  read. Fourteen complete annotated AIO node/edge/generated contexts and the candidate-specific native
+  records were inspected. Retain the gene-set and topology-based alignment algorithm described in the
+  2013 NeXO methods. AlignOntology is an author-attributed software name; no exact conformance claim about
+  later code is made. It differs from constructing an ontology, learning generative flows, matching dictionary
+  atoms and language-model value alignment.'
+evidence_sources:
+- source_id: dutkowski2013
+  title: A gene ontology inferred from molecular networks
+  authors:
+  - Janusz Dutkowski
+  - Michael Kramer
+  - Michal A Surma
+  - Rama Balakrishnan
+  - J Michael Cherry
+  - Nevan J Krogan
+  - Trey Ideker
+  source_type: primary_paper
+  access_level: full_text
+  version: Nature Biotechnology31(1):38–45,January2013; online2012-12-16. All10 pages of the university-hosted
+    published PDF,57references,five figures and Online Methods equations read. The downloaded copy has
+    pre-existing highlights. Advance-copy extracted-text differences and its page10 equation were checked;
+    no complete second visual audit or supplement reading is claimed.
+  persistent_id: doi:10.1038/nbt.2463
+  url: https://mechanism.ucsd.edu/bill/teaching/w16/cogs200/Dutkowski-2013-A%20gene%20ontology%20inferred%20from%20m.pdf
+  accessed_at: '2026-10-14T00:38:20Z'
+  sha256: 77571ca2fa8308e37fe51505bb3644212d96b8ae656b2530cbb7b52c4bda4807
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T01:04:46Z'
+  updated_at: '2026-10-14T01:04:46Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
