@@ -1,0 +1,134 @@
+id: AIMech:OverlappingHierarchicalClustering
+name: Overlapping hierarchical clustering (OHC)
+aliases:
+- OHC clustering
+concept_kind: algorithm
+definition: A graph-based agglomerative clustering algorithm that expands clusters across increasing distance
+  thresholds when the change in induced edge density is within a tolerance, retaining overlapping groups
+  in a cluster-inclusion hierarchy.
+identity_notes: At the start of this three-candidate batch, compared all 442 pinned AIO and 662 native
+  IDs, names, aliases and scoped synonyms against OHC, exact PoClustering and the PoClustering edge-clique-cover
+  heuristic; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the
+  recovery, older discovery and original Documents checkouts returned 17, 0, 64 lines for the combined
+  candidate terms. All lines were read. Recovery matches are pending discovery/source-reading notes; the
+  older checkout has no matches; original-checkout hits are ECC certificate-authority names and eccenca
+  namespaces in ignored dependency files, not clustering records. Semantic search including clustering,
+  clique, poset, pyramid, fuzzy and DAG terms covered 41 AIO and 225 native definitions. The 41 AIO and
+  224 previously read native definitions were unchanged; the new Llama definition and full record were
+  read. Eleven complete annotated AIO node/edge/generated contexts and five full native records were assessed.
+  Retain the Jeantet et al. graph-density-tolerance expansion, distinct from nearest-neighbor Llama union
+  rounds, SCC weak-component partitions, DBSCAN core-density connectivity, HDBSCAN persistence and OPTICS
+  reachability ordering.
+definition_evidence:
+- source_id: ohc2020
+  locator: Sections 2.1–2.2, Definitions 1–3 and Algorithm 1, PDF pp. 3–5
+  relation: supports
+claims:
+- claim_id: density-controlled-expansion
+  kind: mechanism
+  statement: Increase pairwise-distance thresholds to grow a neighborhood graph. For each newly affected
+    cluster, consider its most-linked neighboring points and accept expansion when the absolute change
+    in induced graph-edge density is at most a supplied tolerance. Continue permitted growth, remove old
+    clusters contained in the expanded ones and retain the new level. The density is 2E/[n(n−1)], with
+    singleton density defined as one.
+  evidence:
+  - source_id: ohc2020
+    locator: Sections 2.1–2.2, Definitions 1–2 and Algorithm 1, PDF pp. 3–5
+    relation: supports
+- claim_id: overlapping-hierarchy
+  kind: mechanism
+  statement: 'The intended output is a quasi-dendrogram: a directed acyclic cluster-inclusion structure
+    with singleton leaves, a full-data root and potentially overlapping covers at intermediate levels.
+    Hard membership in several clusters differs from a fuzzy membership probability. Graph-edge density
+    is not the core-neighbor-count criterion of DBSCAN.'
+  evidence:
+  - source_id: ohc2020
+    locator: Section 2.2, Definition 3 and Algorithm 1, PDF pp. 3–5; related work, pp. 10–11
+    relation: supports
+- claim_id: parameter-extremes
+  kind: scope
+  statement: 'The paper relates zero density tolerance to clique-like clusters and tolerance one to single-linkage-like
+    connected grouping. Its statements about exactly the cliques or connected subgraphs must not be read
+    as enumerating every contained subgraph: Algorithm 1 removes contained clusters. Simultaneous tied-neighbor
+    expansion can also have a different density from each separate expansion. No exhaustive-clique or
+    order-invariance guarantee is asserted here.'
+  evidence:
+  - source_id: ohc2020
+    locator: Properties 2–3 and Algorithm 1, PDF pp. 4–5; Section 3.3, pp. 8–9
+    relation: supports
+- claim_id: printed-specification-boundaries
+  kind: limitation
+  statement: The printed algorithm leaves the initialization and reset of its new-cluster list implicit
+    and does not fully settle tied-neighbor and equal-distance edge processing. The neighborhood definition
+    uses a metric and a less-than-or-equal threshold, while experiments use cosine dissimilarity and the
+    path wording of Definition 3 says strictly less than the threshold. These passages are not adopted
+    as a complete executable or universally metric specification.
+  evidence:
+  - source_id: ohc2020
+    locator: Definitions 1 and 3, Section 2.2 and Algorithm 1, PDF pp. 3–5
+    relation: supports
+- claim_id: hierarchy-comparison
+  kind: scope
+  statement: The proposed comparison averages best-match Jaccard similarities in both directions between
+    cluster levels. Repeated levels with the same cluster count are paired by a greedy ordered correspondence
+    before averaging across levels. This is a structural comparison of the produced hierarchies; the paper
+    does not supply a proof that the greedy matching globally optimizes the stated correspondence objective.
+  evidence:
+  - source_id: ohc2020
+    locator: Section 3.2, Equations 1–3 and Figure 2, PDF pp. 6–7
+    relation: supports
+- claim_id: evaluation-and-runtime
+  kind: scope
+  statement: Experiments compare SLINK, Ward and HDBSCAN* on 1000 random two-dimensional points and yearly
+    sets of 1000 word vectors learned from Wiley abstracts. There is no known ground-truth hierarchy for
+    the comparison. A fitted runtime trend of approximately n^2.45 at a particular density tolerance is
+    empirical, not a worst-case complexity theorem or portable speed guarantee.
+  evidence:
+  - source_id: ohc2020
+    locator: Sections 3.1–3.3 and Figures 3–5, PDF pp. 5–9
+    relation: supports
+evidence_sources:
+- source_id: ohc2020
+  title: Overlapping Hierarchical Clustering (OHC)
+  authors:
+  - Ian Jeantet
+  - Zoltán Miklós
+  - David Gross-Amblard
+  source_type: primary_paper
+  access_level: full_text
+  version: IDA 2020, LNCS 12080, pp. 261–273; all 13 chapter PDF pages read, including figures, equations,
+    algorithm and references.
+  persistent_id: doi:10.1007/978-3-030-44584-3_21
+  url: https://link.springer.com/content/pdf/10.1007/978-3-030-44584-3_21.pdf?pdf=inline+link
+  accessed_at: '2026-10-14T00:00:05Z'
+  sha256: a27ca0bd28b60f49bbc849602894ef2a9f613751b39e92c3bb460a66a9ea8ad2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: OHC constructs an overlapping cluster hierarchy; this AIO target denotes the related task,
+    not the specific graph-density algorithm or equivalence to a strict tree.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Groups are constructed from supplied distances without reference labels. Structural comparisons
+    to other hierarchies do not make the construction a supervised classifier.
+limitations:
+- This record denotes the Jeantet, Miklós and Gross-Amblard OHC algorithm, not all overlapping hierarchical
+  clustering methods.
+- Exact graph density, tolerance, tie handling and edge ordering affect the construction. Properties about
+  parameter extremes are retained as qualified source descriptions, not independently certified theorems.
+- Standalone calculations test a static tied expansion and subset removal. They do not establish that
+  the tied state is reached by a complete OHC execution or measure empirical clustering quality.
+- The full 13-page primary chapter, all figures, equations, algorithm and references were read. Author
+  code and alternative revisions were not inspected or executed; no benchmark replication or formal proof
+  certification was performed. This record remains DRAFT.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T00:19:00Z'
+  updated_at: '2026-10-14T00:19:00Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,165 @@
+id: AIMech:ExactPoClustering
+name: Exact PoClustering
+aliases:
+- Maximal-clique PoClustering
+concept_kind: algorithm
+definition: A dissimilarity-based clustering construction that accumulates maximal cliques of pairwise-distance
+  threshold graphs and organizes their sets by inclusion with diameter labels, allowing overlapping clusters
+  and multiple parents.
+identity_notes: At the start of this three-candidate batch, compared all 442 pinned AIO and 662 native
+  IDs, names, aliases and scoped synonyms against OHC, exact PoClustering and the PoClustering edge-clique-cover
+  heuristic; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the
+  recovery, older discovery and original Documents checkouts returned 17, 0, 64 lines for the combined
+  candidate terms. All lines were read. Recovery matches are pending discovery/source-reading notes; the
+  older checkout has no matches; original-checkout hits are ECC certificate-authority names and eccenca
+  namespaces in ignored dependency files, not clustering records. Semantic search including clustering,
+  clique, poset, pyramid, fuzzy and DAG terms covered 41 AIO and 225 native definitions. The 41 AIO and
+  224 previously read native definitions were unchanged; the new Llama definition and full record were
+  read. Eleven complete annotated AIO node/edge/generated contexts and five full native records were assessed.
+  Retain exhaustive threshold maximal-clique construction with diameter labels, distinct from PoClustering
+  edge-cover pruning, OHC density-tolerance expansion, Llama neighbor unions and SCC weak-component partitions.
+definition_evidence:
+- source_id: poclustering2006
+  locator: Section 3, Definitions 3.1–3.2 and Property 3.1, pp. 3–4; Section 4 and Algorithm 1, p. 4
+  relation: supports
+claims:
+- claim_id: threshold-maximal-cliques
+  kind: mechanism
+  statement: At each distinct dissimilarity threshold, form the graph whose edges connect pairs at or
+    below that value and enumerate its maximal cliques. Accumulate distinct clique sets across thresholds,
+    label them by their diameters and order them by inclusion. Maximal means not contained in a larger
+    clique at that threshold; it does not mean a single largest clique.
+  evidence:
+  - source_id: poclustering2006
+    locator: Section 3, Definitions 3.1–3.2 and Property 3.1, pp. 3–4; Section 4 and Algorithm 1, p. 4
+    relation: supports
+  - source_id: poclustering2007
+    locator: Sections 3–4, Equation 3.1 and Theorem 4.1, PDF pp. 3–4
+    relation: supports
+- claim_id: diameter-labelled-representation
+  kind: scope
+  statement: 'Exact threshold edge coverage supplies a cluster containing each pair at its own dissimilarity
+    threshold. Its dissimilarity is therefore recoverable as the minimum diameter among retained clusters
+    containing that pair. The diameter labels are essential: scaling every nonzero distance preserves
+    the unlabelled inclusion family while changing the numerical distances. The 2007 paper defers its
+    broader correspondence-theorem proof to an uninspected technical report.'
+  evidence:
+  - source_id: poclustering2006
+    locator: Section 3, Definitions 3.1–3.2 and Property 3.1, PDF pp. 3–4
+    relation: supports
+  - source_id: poclustering2007
+    locator: Sections 3–4 and Theorem 4.1, PDF pp. 3–4; reference 12, p. 6
+    relation: supports
+- claim_id: inclusion-and-zero-distance
+  kind: limitation
+  statement: A smaller cluster diameter does not imply inclusion between arbitrary clusters, despite the
+    biconditional wording in the 2007 abstract. The main construction uses inclusion as a separate relation.
+    Also, allowing zero dissimilarity between distinct objects conflicts with simultaneously requiring
+    every singleton and strictly increasing diameter along inclusion. A positive off-diagonal restriction
+    or an explicit treatment of zero-distance equivalence is needed for those additional conditions.
+  evidence:
+  - source_id: poclustering2006
+    locator: Section 3 and Property 3.1, PDF pp. 3–4
+    relation: supports
+  - source_id: poclustering2007
+    locator: Abstract, p. 1; Sections 3–4, pp. 3–4
+    relation: supports
+- claim_id: exact-versus-heuristic
+  kind: scope
+  statement: Enumerating all maximal cliques can produce exponentially many sets. The later edge-clique-cover
+    heuristic retains a potentially smaller family intended to cover graph edges, rather than enumerating
+    every maximal clique. Pairwise-distance information and full cluster-family recovery are different
+    requirements, so this exact construction is kept distinct from that heuristic.
+  evidence:
+  - source_id: poclustering2006
+    locator: Sections 3–4, PDF pp. 3–4
+    relation: supports
+  - source_id: poclustering2007
+    locator: Sections 4–5, PDF pp. 4–5
+    relation: supports
+- claim_id: pseudocode-boundaries
+  kind: limitation
+  statement: The 2006 printed driver updates a threshold-specific edge set while its loop condition names
+    the original edge set, and leaves some initial collections implicit. Its incremental clique-update
+    deletion test compares raw intersections with endpoint cliques; without adding the new edge endpoints
+    that test does not perform the stated containment pruning. Equal-weight edges also require careful
+    threshold-level handling. The mathematical threshold construction is not a certification of that literal
+    pseudocode.
+  evidence:
+  - source_id: poclustering2006
+    locator: Algorithms 1–2 and accompanying text, PDF pp. 4–5
+    relation: supports
+- claim_id: evaluation-scope
+  kind: scope
+  statement: The 2006 Gene Ontology study derives gene dissimilarities from annotation categories and
+    assesses recovery of those categories, rather than independently predicting function from expression
+    alone. Its best-match Jaccard score is directional. Table values qualify conflicting prose summaries
+    of accuracy and recovery, and they do not establish universal biological or clustering superiority.
+  evidence:
+  - source_id: poclustering2006
+    locator: Section 5, Tables 2–4 and evaluation definitions, PDF pp. 5–6
+    relation: supports
+evidence_sources:
+- source_id: poclustering2006
+  title: Clustering Pair-wise Dissimilarity Data into Partially Ordered Sets
+  authors:
+  - Jinze Liu
+  - Qi Zhang
+  - Wei Wang
+  - Leonard McMillan
+  - Jan Prins
+  source_type: primary_paper
+  access_level: full_text
+  version: KDD 2006 author-hosted six-page proceedings PDF; all pages, figures, algorithms, tables and
+    references read. Publisher landing page returned 403; author-hosted PDF was accessible.
+  url: https://web.cs.ucla.edu/~weiwang/paper/KDD06.pdf
+  accessed_at: '2026-10-14T00:00:05Z'
+  sha256: 35e67bb4051db2833d15fb0c3c5239b4947d278553d56070058bd03e88438105
+- source_id: poclustering2007
+  title: 'PoClustering: Lossless Clustering of Dissimilarity Data'
+  authors:
+  - Jinze Liu
+  - Qi Zhang
+  - Wei Wang
+  - Leonard McMillan
+  - Jan Prins
+  source_type: primary_paper
+  access_level: full_text
+  version: SDM 2007, pp. 557–562; all six author-hosted PDF pages read. SIAM metadata confirms authors,
+    pages and DOI; the separately cited UNC technical report was not located or read.
+  persistent_id: doi:10.1137/1.9781611972771.61
+  url: https://web.cs.ucla.edu/~weiwang/paper/SDM07_2.pdf
+  accessed_at: '2026-10-14T00:00:05Z'
+  sha256: 8cd93ac9ab3adfa3974575e7275a2ee968ba7e3a304e7d39ce13a5c70f7064fe
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: The construction produces a cluster-inclusion partial order that generalizes a tree hierarchy.
+    This maps to the related task, not a tree-equivalence or algorithm/task is-a assertion.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The generic construction groups objects from supplied pairwise dissimilarities; annotation-derived
+    evaluation inputs do not make its identity a supervised classifier.
+limitations:
+- This record covers the exact maximal-clique construction, not the later PoClustering edge-clique-cover
+  heuristic or every abstract partially ordered set.
+- Numerical distance recovery requires retained diameter information and threshold edge coverage. The
+  cited UNC technical report was not located in the bounded search and was not read; no general theorem
+  certification is claimed.
+- Zero off-diagonal distances, tied thresholds and literal pseudocode require the stated qualifications.
+  No unqualified NP-completeness claim is adopted from wording that lacks an explicit decision problem.
+- Finite exact examples illustrate representation, scaling, zero-distance and clique-cover boundaries;
+  they are not an author implementation or benchmark.
+- All six pages of each 2006 and 2007 paper were read, including figures, algorithms, tables and references.
+  No author code, datasets or alternative revisions were audited or executed. This record remains DRAFT.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T00:19:02Z'
+  updated_at: '2026-10-14T00:25:48Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

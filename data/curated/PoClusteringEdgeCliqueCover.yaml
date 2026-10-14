@@ -1,0 +1,136 @@
+id: AIMech:PoClusteringEdgeCliqueCover
+name: PoClustering edge-clique-cover heuristic
+aliases: []
+concept_kind: algorithm
+definition: An approximate PoClustering algorithm that incrementally extends and prunes clique sets to
+  cover the edges of dissimilarity-threshold graphs, retaining a potentially smaller overlapping cluster
+  family than exhaustive maximal-clique enumeration.
+identity_notes: At the start of this three-candidate batch, compared all 442 pinned AIO and 662 native
+  IDs, names, aliases and scoped synonyms against OHC, exact PoClustering and the PoClustering edge-clique-cover
+  heuristic; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the
+  recovery, older discovery and original Documents checkouts returned 17, 0, 64 lines for the combined
+  candidate terms. All lines were read. Recovery matches are pending discovery/source-reading notes; the
+  older checkout has no matches; original-checkout hits are ECC certificate-authority names and eccenca
+  namespaces in ignored dependency files, not clustering records. Semantic search including clustering,
+  clique, poset, pyramid, fuzzy and DAG terms covered 41 AIO and 225 native definitions. The 41 AIO and
+  224 previously read native definitions were unchanged; the new Llama definition and full record were
+  read. Eleven complete annotated AIO node/edge/generated contexts and five full native records were assessed.
+  Retain the 2007 greedy clique-extension and redundancy-pruning heuristic, distinct from exhaustive PoClustering,
+  exact minimum edge-clique-cover optimization, OHC density tolerances and Llama nearest-neighbor unions.
+  ECC is not used as an ambiguous native alias.
+definition_evidence:
+- source_id: poclustering2007
+  locator: Section 5, Definition 5.1 and Algorithm 1 with accompanying prose, PDF pp. 4–5
+  relation: supports
+claims:
+- claim_id: incremental-edge-cover
+  kind: mechanism
+  statement: Process dissimilarity-ordered edge insertions while maintaining a family of maximal cliques
+    that covers the current graph edges. The described heuristic extends newly affected sets into maximal
+    cliques and sequentially removes cliques whose edges are already covered. The retained sets support
+    an overlapping cluster-inclusion structure.
+  evidence:
+  - source_id: poclustering2007
+    locator: Section 5, Definition 5.1 and Algorithm 1 with accompanying prose, PDF pp. 4–5
+    relation: supports
+- claim_id: heuristic-not-minimum-solver
+  kind: scope
+  statement: The stated goal is a small edge-clique cover, but the described maximal extension and sequential
+    redundancy removal are greedy. They are not an exact minimum-cardinality cover solver and do not enumerate
+    every maximal clique. Distinct choices can affect which cluster sets are retained.
+  evidence:
+  - source_id: poclustering2007
+    locator: Section 5 and Algorithm 1, PDF pp. 4–5
+    relation: supports
+- claim_id: coverage-versus-family-recovery
+  kind: scope
+  statement: Covering every threshold-graph edge with retained clique sets can preserve each pair’s dissimilarity
+    when the corresponding cluster diameters and threshold witnesses are retained. This is distinct from
+    recovering the complete exact PoCluster family. A constructed six-vertex graph has eight maximal triangles
+    but a four-triangle cover of the same twelve edges; the example is not a claimed output of the published
+    greedy routine.
+  evidence:
+  - source_id: poclustering2007
+    locator: Section 4, pairwise coverage discussion, p. 3; Section 5 and Definition 5.1, pp. 4–5
+    relation: supports
+- claim_id: printed-pseudocode
+  kind: limitation
+  statement: The displayed routine forms intersections of old endpoint cliques without explicitly adding
+    the new edge endpoints, and its argmin constraint names the original cover rather than the candidate
+    subset. Read literally, those expressions do not specify the prose’s extension and coverage-preserving
+    pruning. The record follows the described heuristic while declining conformance claims for the literal
+    pseudocode or an uninspected implementation.
+  evidence:
+  - source_id: poclustering2007
+    locator: Algorithm 1 and its explanatory paragraphs, PDF p. 5
+    relation: supports
+- claim_id: complexity-conditions
+  kind: scope
+  statement: The paper gives an edge-count-based polynomial accounting for its intended greedy updates,
+    with at most O(n²) edge insertions and costs depending on the maintained cover size. This is an analysis
+    of the stated restricted update procedure, not the complexity of an exact minimum-cover solver or
+    a reproduced wall-clock guarantee.
+  evidence:
+  - source_id: poclustering2007
+    locator: Section 5, complexity paragraphs, PDF p. 5
+    relation: supports
+- claim_id: evaluation-scope
+  kind: scope
+  statement: Reported experiments compare the heuristic with hierarchical and pyramidal clustering on
+    generated overlapping set families. The match score averages each reference set’s best Jaccard match
+    and is directional; it does not by itself measure precision of all output sets. Exact-method timings
+    are omitted because of long runs, the heuristic is slower than the plotted baselines, and real-data
+    experiments are deferred to an uninspected technical report.
+  evidence:
+  - source_id: poclustering2007
+    locator: Section 6, match score and Figure 4, PDF pp. 5–6; reference 12, p. 6
+    relation: supports
+evidence_sources:
+- source_id: poclustering2007
+  title: 'PoClustering: Lossless Clustering of Dissimilarity Data'
+  authors:
+  - Jinze Liu
+  - Qi Zhang
+  - Wei Wang
+  - Leonard McMillan
+  - Jan Prins
+  source_type: primary_paper
+  access_level: full_text
+  version: SDM 2007, pp. 557–562; all six author-hosted PDF pages read. SIAM metadata confirms authors,
+    pages and DOI; the separately cited UNC technical report was not located or read.
+  persistent_id: doi:10.1137/1.9781611972771.61
+  url: https://web.cs.ucla.edu/~weiwang/paper/SDM07_2.pdf
+  accessed_at: '2026-10-14T00:00:05Z'
+  sha256: 8cd93ac9ab3adfa3974575e7275a2ee968ba7e3a304e7d39ce13a5c70f7064fe
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: The retained cluster sets form a partial order extending tree-based clustering. The AIO target
+    is a related grouping task rather than an identity with this greedy algorithm.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The generic heuristic groups objects from pairwise dissimilarities without class-label supervision.
+    Its directional reference-set metric is an evaluation choice.
+limitations:
+- This is the Liu et al. PoClustering ECC heuristic, not arbitrary edge-clique-cover optimization, exact
+  PoClustering, or error-correcting coding.
+- The record does not certify a minimum cover, an approximation ratio, order independence or literal pseudocode
+  correctness. Coverage preservation requires the stated threshold/diameter information.
+- The conference paper’s broader bijection proof and real-data experiments are deferred to an unread technical
+  report; no universal lossless-family or biological performance claim is adopted.
+- The synthetic generator leaves some details, including the treatment of normally distributed overlap
+  probabilities outside [0,1], unspecified. No author code or experimental data were inspected or executed.
+- All six pages of the primary 2007 paper were read, including figures, algorithm and references; the
+  2006 exact method was read as context. Finite constructed checks are not author implementation runs
+  or benchmark replication. This record remains DRAFT.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T00:19:04Z'
+  updated_at: '2026-10-14T00:25:48Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
