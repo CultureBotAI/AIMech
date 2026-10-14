@@ -1,0 +1,617 @@
+# Scientific author self-review of Brandes–Pich pivot-based centrality estimation
+
+- Review: 20261014T042159Z-brandes-pich-pivot-centrality
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-14T04:13:29Z
+- Finished UTC: 2026-10-14T04:21:59Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the Brandes–Pich pivot-estimation procedure as a DRAFT algorithm with a bounded AIO no-match assessment. Its inspected mechanism and explicit relative-score convention are supported; source ambiguities, degenerate cases and statistical limits remain visible.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:BrandesPichPivotCentralityEstimation
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 7a98f2ecbe03b177167e399cf82990ec1f612f41.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:BrandesPichPivotCentralityEstimation | data/curated/BrandesPichPivotCentralityEstimation.yaml | maintained | Brandes–Pich pivot-based centrality estimation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:BrandesPichPivotCentralityEstimation | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 162.33s (0:02:42)<br>Checked 442 record(s); 0 failed.<br>Checked 686 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 374 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 375,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:BrandesPichPivotCentralityEstimation | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:BrandesPichPivotCentralityEstimation | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:BrandesPichPivotCentralityEstimation | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:BrandesPichPivotCentralityEstimation | {"path4_exact": {"closeness": ["1/5", "3/10", "3/10", "1/5"], "betweenness": ["0", "1/2", "1/2", "0"], "dependency_sum": ["0", "4", "4", "0"]}, "path4_pivots_0_1": {"closeness": ["15/38", "15/38", "5/38", "3/38"], "betweenness": ["0", "1/2", "1/2", "0"], "dependency_sum": ["0", "2", "2", "0"]}, "path4_pivots_0_2": {"closeness": ["2/7", "2/7", "2/7", "1/7"], "betweenness": ["0", "3/4", "1/4", "0"], "dependency_sum": ["0", "3", "1", "0"]}, "all_six_uniform_two_pivot_subsets_raw_mean": ["0", "4", "4", "0"], "manuscript_scaled_all_pivot_mean": ["0", "4/3", "4/3", "0"], "singleton_pivot_closeness": "undefined at that pivot before a separate policy", "complete_graph_sum_one_betweenness": "undefined because every dependency is zero", "printed_two_sided_tail_example": {"actual_probability": "1", "printed_bound": 0.6065306597126334}, "scope": "Finite exact examples plus one scalar probability counterexample; no author code, benchmark, general error theorem or statistical guarantee for normalized scores."} |
+
+## Scientific And Domain Assessments
+
+### Brandes–Pich pivot-based centrality estimation
+
+identity: supported. Targets: AIMech:BrandesPichPivotCentralityEstimation.
+
+Retain this distinct DRAFT algorithm.
+
+Retain this scoped estimation procedure as distinct from exact Brandes computation, CURE clustering, PageRank and HITS. Pivot choices are parameterized strategies inside this procedure; the underlying centrality indices and original Eppstein–Wang approximation remain separate source scopes. No exact identity match was found in the ignored-inclusive and semantic searches.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:BrandesPichPivotCentralityEstimation.
+
+The explicit AIO mapping assessment is supported within its stated scope.
+
+Retain the bounded no-match assessment over nine inspected AIO targets. Structural estimation is not clustering, deep label acquisition, language modeling or a bias concept. Potential sampling error and possible downstream feature use do not alone establish a conceptual mapping.
+
+### domain-and-contributions
+
+evidence: supported. Targets: AIMech:BrandesPichPivotCentralityEstimation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Sections 2–3 define simple undirected unweighted connected graphs, inverse distance sum, internal-path fractions and one-sided dependencies. The record correctly keeps this core domain separate from the later multiedge text experiment and from causal or learned prediction.
+
+### relative-score-formulation
+
+evidence: supported. Targets: AIMech:BrandesPichPivotCentralityEstimation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equations 4–5 scale every sampled contribution by the same positive factor, and Section 5.2 scales the resulting vector to sum one. The displayed maintained formulas are explicitly curator restatements: multiplying all distance estimates before inversion gives a common reciprocal factor that also cancels. Raw-score or statistical unbiasedness is not asserted.
+
+### pivot-selection
+
+evidence: supported. Targets: AIMech:BrandesPichPivotCentralityEstimation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section 4 and Table 1 agree on the five listed choices. Distinct pivots and random initialization are explicit. Mixed is left unresolved because the prose names MinSum but the table names MaxSum. The maintained description does not guess tie handling or the code actually used.
+
+### computation-and-exact-limit
+
+evidence: supported. Targets: AIMech:BrandesPichPivotCentralityEstimation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section 2.2 supplies single-source work and linear storage context; Section 3 restricts sources. The traversal count yields O(k(n+m)), explicitly excluding source-selection overhead. With all sources, the definitions give exact relative vectors where normalization exists. This algebra does not imply exactness from arbitrary subsets.
+
+### normalization-and-degeneracy
+
+evidence: supported. Targets: AIMech:BrandesPichPivotCentralityEstimation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Distance sums are positive with at least two distinct pivots in the stated connected unweighted domain. A singleton gives zero at itself, and complete-graph dependencies vanish. Independent simple-path enumeration verifies the path4 and triangle examples. The relative betweenness for pivots {0,2} is (0,3/4,1/4,0), while the all-source vector is (0,1/2,1/2,0).
+
+### sampling-and-source-limits
+
+evidence: supported. Targets: AIMech:BrandesPichPivotCentralityEstimation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Rendered page 7 uses an absolute-deviation event but omits a two-sided factor; the scalar 0/1 example directly refutes that literal bound. Its mean-versus-total wording and Section 4 distinct-pivot design are also preserved. The record prudently makes no replacement general confidence statement, and distinguishes finite raw extrapolation arithmetic from nonlinear normalized scores.
+
+### evaluation-and-application-scope
+
+evidence: supported. Targets: AIMech:BrandesPichPivotCentralityEstimation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Complete Sections 5–6, both tables and all nine figures support the described experimental design. The report retains all differing observed-network counts, inversion versus weighted-inversion terminology, and the multiple-edge text exception. No numerical performance advantage, unified denominator, historical runtime or biological-function validation is claimed.
+
+### raw versus relative scores, sampled versus exact computation, undefined denominators, pivot-selection semantics, iid versus distinct sampling, and manuscript inconsistencies
+
+consistency: supported. Targets: AIMech:BrandesPichPivotCentralityEstimation.
+
+Constructed calculations support the stated distinctions.
+
+Independent enumeration of all simple shortest paths agrees with BFS/dependency accumulation on the finite path and triangle cases. Path4 pivot subsets change relative scores; all-pivot scaling cancels in sum-to-one output. Exhausting six size-two subsets illustrates raw extrapolation separately from normalized output. Zero-denominator cases and a scalar counterexample to the manuscript’s literal two-sided tail display are explicit. These are curator calculations, not author-code execution, empirical replication or a general statistical guarantee.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:BrandesPichPivotCentralityEstimation.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 7 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. All seven claims, identity, definition, source version/access/hash, AIO no-match assessment, limits and actual curation provenance were read. The sampled sum-to-one vectors follow from cancellation of common factors. The manuscript discrepancies and undefined normalizations are preserved explicitly; no algorithmic or experimental property is inferred from an unseen implementation.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261014T041321Z-brandes-pich-pivot-centrality.json | supports | Compared all 442 pinned AIO and 685 native identities; no normalized match. Ignored- and hidden-inclusive searches of three full checkouts returned 13,0,0 lines, all read as prior query strings or the pending Brandes–Pich lead. Semantic assessment covered 147 AIO and 518 native definitions: 128/470 prior rows were verified unchanged and 19/48 newly selected rows read. Nine complete AIO contexts and the full Brandes, CURE, PageRank and HITS records were assessed. The identity is the Brandes–Pich network-centrality estimation procedure, not the underlying closeness or betweenness measure, exact all-source Brandes computation, pivot selection in isolation, or a general sampling algorithm. The maintained formulation specifies relative score vectors used in the paper’s comparisons. It includes the supported pivot choices as parameterized strategies rather than separate duplicate identities. Eppstein–Wang closeness approximation remains a distinct source lead requiring its original method and assumptions. Text-network analysis supplies relevant graph/text-analysis context; no learned predictor or general claim that every graph algorithm is AI is implied. |
+| mapping | sources/aio/aio.json | supports | Retain the bounded no-match assessment over nine inspected AIO targets. Structural estimation is not clustering, deep label acquisition, language modeling or a bias concept. Potential sampling error and possible downstream feature use do not alone establish a conceptual mapping. |
+| brandespich2006 | https://kim246.wwwdns.kim.uni-konstanz.de/publications/bp-celn-06.pdf; Sections 2.2–3.2, PDF/printed pp. 5–8; Section 4, pp. 9–10; Section 5.2, p. 13; Sections 2.1–3.2, PDF/printed pp. 3–8, Equations 1–5; Sections 3.1–3.2, PDF/printed pp. 7–8, Equations 4–5; Section 5.2, p. 13; curator algebra and finite checks in research/discovery/pivot-centrality-boundaries.py; Section 4, PDF/printed pp. 9–10, Equations 6–7; Table 1, PDF p. 20; Sections 2.2–3, PDF/printed pp. 5–8; Section 4, pp. 9–10; Section 5.2, p. 13; finite all-pivot check in research/discovery/pivot-centrality-boundaries.py; Definitions and aggregation, Sections 2–3, PDF/printed pp. 3–8; sum-to-one comparison, Section 5.2, p. 13; explicit curator consequences in research/discovery/pivot-centrality-boundaries.py; Section 3, PDF/printed pp. 7–8, Equations 3–5 and following prose; Section 4, p. 9; curator finite and scalar checks in research/discovery/pivot-centrality-boundaries.py; Sections 5–6, PDF/printed pp. 11–16; Tables 1–2, PDF pp. 20–21; Figures 1–9, PDF pp. 22–30 | supports | Author manuscript dated August 18, 2006, 30 PDF pages: printed pages 1–19 followed by two tables and nine figures. All prose, references, tables and figures read; mathematical and method pages visually inspected. Author catalog associates the work with International Journal of Bifurcation and Chaos 17(7):2303–2318 (2007). No separate journal-layout copy, implementation or dataset was inspected. |
+| calculation | research/discovery/pivot-centrality-boundaries.py | supports | Independent enumeration of all simple shortest paths agrees with BFS/dependency accumulation on the finite path and triangle cases. Path4 pivot subsets change relative scores; all-pivot scaling cancels in sum-to-one output. Exhausting six size-two subsets illustrates raw extrapolation separately from normalized output. Zero-denominator cases and a scalar counterexample to the manuscript’s literal two-sided tail display are explicit. These are curator calculations, not author-code execution, empirical replication or a general statistical guarantee. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- This round adds one DRAFT concept, reaching 686 native and 442 unchanged AIO records. The main frontier has 871 entries, including 472 pending and 58 partly addressed cohorts; nested leads remain.
+- All 30 pages of the manuscript read as prose/references, tables and rendered figures; method/equation pages visually checked. No separate journal version, author code or data inspected.
+- No inspected journal-layout PDF, implementation or raw results; no guarantee of monotonically improving accuracy or causal/biofunctional importance. The manuscript discrepancies are retained explicitly; no accuracy guarantee adopted.
+- The first unsaved calculator draft contained a wrong manually expected path-subset proportion. It was corrected before record writing and independently checked by enumerating all simple shortest paths; no saved record or review contains that value.
+- Original Documents synchronization and old round141 cleanup remain unapproved after automatic-review rejection; only the isolated recovery worktree is modified.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261014T042159Z-brandes-pich-pivot-centrality
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Brandes–Pich pivot-based centrality estimation
+started_at: '2026-10-14T04:13:29Z'
+finished_at: '2026-10-14T04:21:59Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged raw versus relative scores, sampled versus
+    exact computation, undefined denominators, pivot-selection semantics, iid versus
+    distinct sampling, and manuscript inconsistencies. This is adversarial author
+    self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the Brandes–Pich pivot-estimation procedure as a DRAFT algorithm with
+  a bounded AIO no-match assessment. Its inspected mechanism and explicit relative-score
+  convention are supported; source ambiguities, degenerate cases and statistical limits
+  remain visible.
+source:
+  git_revision: 7a98f2ecbe03b177167e399cf82990ec1f612f41
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DataPreparation.yaml
+    sha256: 99aebfc324b628969407ddc7591312e992db1469e7ef8fb3ad28e4b62d3bb359
+    role: context
+  - path: data/aio/DeepActiveLearning.yaml
+    sha256: b04c9aa74728adbe1bd907cb3f0e15b263bda18ed29660babce092daeed2b4f9
+    role: context
+  - path: data/aio/GraphLanguageModel.yaml
+    sha256: 1cdda6f7d19946e0672835185e179e2336832225c180e2b70d7860b0c96fc2a8
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/RankingBias.yaml
+    sha256: 3e931657e0ee2a47e36a7858dbb8f26f00b565040f4fedd138f55353551160b0
+    role: context
+  - path: data/aio/RepresentationBias.yaml
+    sha256: 5ac7d1455814eb8305b1ab9d0934e61fc50c09fe3dfd7724da5fdb4a21f360b2
+    role: context
+  - path: data/aio/SelectionAndSamplingBias.yaml
+    sha256: 72d8ef34949942ddee1fe60d645806a2117b95207f681de923297b64f78cc477
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/BrandesBetweennessCentrality.yaml
+    sha256: 2ff7051fa27a4e1150545d634b90599a335b909b1fe6956441260c5284830e21
+    role: context
+  - path: data/curated/BrandesPichPivotCentralityEstimation.yaml
+    sha256: 7f8492fc3a881da6c35439412b535572f687215410b85b05439d2ca8d799b9c1
+    role: target
+  - path: data/curated/CUREClustering.yaml
+    sha256: ab437b2bd33b77ed821e8695bc15ba90de4fc216d4cafff09da7e48060d42cba
+    role: context
+  - path: data/curated/HITSRanking.yaml
+    sha256: 48904e9aac6c76fb815f90a5b4fdb7d8b423acc438548865a82544e176183c1b
+    role: context
+  - path: data/curated/PageRank.yaml
+    sha256: 8561bc6973069e960effb6f14cd8eaa377e7d5e52ab6c15e2ea4a96f7eeb52e6
+    role: context
+  - path: research/discovery/20261014T041321Z-brandes-pich-pivot-centrality.json
+    sha256: 6d49071e263a9d9f7273dd641673e145393ad2e58af31ff817e32db2619966d5
+    role: context
+  - path: research/discovery/pivot-centrality-boundaries.py
+    sha256: f507f6e1fc459b62235d9734e7ee47bbb0e0b5ea0c0a35e8221759c1bbcfd3c7
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:BrandesPichPivotCentralityEstimation
+  path: data/curated/BrandesPichPivotCentralityEstimation.yaml
+  label: Brandes–Pich pivot-based centrality estimation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BrandesPichPivotCentralityEstimation.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:BrandesPichPivotCentralityEstimation'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Uninspected source versions and implementation components
+    reason: No separate journal-layout PDF, author implementation or raw data was
+      inspected. Formal graph domain is connected simple undirected unweighted; no
+      guarantee is transferred to degree-weighted, deterministic or without-replacement
+      choices. Finite calculations are not a benchmark or a general confidence theorem.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 162.33s (0:02:42)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 686 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 374 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 375,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/pivot-centrality-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"path4_exact": {"closeness": ["1/5", "3/10", "3/10", "1/5"], "betweenness":
+    ["0", "1/2", "1/2", "0"], "dependency_sum": ["0", "4", "4", "0"]}, "path4_pivots_0_1":
+    {"closeness": ["15/38", "15/38", "5/38", "3/38"], "betweenness": ["0", "1/2",
+    "1/2", "0"], "dependency_sum": ["0", "2", "2", "0"]}, "path4_pivots_0_2": {"closeness":
+    ["2/7", "2/7", "2/7", "1/7"], "betweenness": ["0", "3/4", "1/4", "0"], "dependency_sum":
+    ["0", "3", "1", "0"]}, "all_six_uniform_two_pivot_subsets_raw_mean": ["0", "4",
+    "4", "0"], "manuscript_scaled_all_pivot_mean": ["0", "4/3", "4/3", "0"], "singleton_pivot_closeness":
+    "undefined at that pivot before a separate policy", "complete_graph_sum_one_betweenness":
+    "undefined because every dependency is zero", "printed_two_sided_tail_example":
+    {"actual_probability": "1", "printed_bound": 0.6065306597126334}, "scope": "Finite
+    exact examples plus one scalar probability counterexample; no author code, benchmark,
+    general error theorem or statistical guarantee for normalized scores."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261014T041321Z-brandes-pich-pivot-centrality.json
+  accessed_at: '2026-10-14T04:13:29Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO and 685 native identities; no normalized match.
+    Ignored- and hidden-inclusive searches of three full checkouts returned 13,0,0
+    lines, all read as prior query strings or the pending Brandes–Pich lead. Semantic
+    assessment covered 147 AIO and 518 native definitions: 128/470 prior rows were
+    verified unchanged and 19/48 newly selected rows read. Nine complete AIO contexts
+    and the full Brandes, CURE, PageRank and HITS records were assessed. The identity
+    is the Brandes–Pich network-centrality estimation procedure, not the underlying
+    closeness or betweenness measure, exact all-source Brandes computation, pivot
+    selection in isolation, or a general sampling algorithm. The maintained formulation
+    specifies relative score vectors used in the paper’s comparisons. It includes
+    the supported pivot choices as parameterized strategies rather than separate duplicate
+    identities. Eppstein–Wang closeness approximation remains a distinct source lead
+    requiring its original method and assumptions. Text-network analysis supplies
+    relevant graph/text-analysis context; no learned predictor or general claim that
+    every graph algorithm is AI is implied.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-14T04:13:29Z'
+  support: supports
+  summary: Retain the bounded no-match assessment over nine inspected AIO targets.
+    Structural estimation is not clustering, deep label acquisition, language modeling
+    or a bias concept. Potential sampling error and possible downstream feature use
+    do not alone establish a conceptual mapping.
+- evidence_id: brandespich2006
+  kind: primary_source
+  reference: https://kim246.wwwdns.kim.uni-konstanz.de/publications/bp-celn-06.pdf
+  locator: Sections 2.2–3.2, PDF/printed pp. 5–8; Section 4, pp. 9–10; Section 5.2,
+    p. 13; Sections 2.1–3.2, PDF/printed pp. 3–8, Equations 1–5; Sections 3.1–3.2,
+    PDF/printed pp. 7–8, Equations 4–5; Section 5.2, p. 13; curator algebra and finite
+    checks in research/discovery/pivot-centrality-boundaries.py; Section 4, PDF/printed
+    pp. 9–10, Equations 6–7; Table 1, PDF p. 20; Sections 2.2–3, PDF/printed pp. 5–8;
+    Section 4, pp. 9–10; Section 5.2, p. 13; finite all-pivot check in research/discovery/pivot-centrality-boundaries.py;
+    Definitions and aggregation, Sections 2–3, PDF/printed pp. 3–8; sum-to-one comparison,
+    Section 5.2, p. 13; explicit curator consequences in research/discovery/pivot-centrality-boundaries.py;
+    Section 3, PDF/printed pp. 7–8, Equations 3–5 and following prose; Section 4,
+    p. 9; curator finite and scalar checks in research/discovery/pivot-centrality-boundaries.py;
+    Sections 5–6, PDF/printed pp. 11–16; Tables 1–2, PDF pp. 20–21; Figures 1–9, PDF
+    pp. 22–30
+  accessed_at: '2026-10-14T03:57:27Z'
+  snapshot_sha256: 42eba6e6ed12bd8e4f9b45cc517f26cc9ba5b5b755ea0058069526f5fff31d8b
+  support: supports
+  summary: 'Author manuscript dated August 18, 2006, 30 PDF pages: printed pages 1–19
+    followed by two tables and nine figures. All prose, references, tables and figures
+    read; mathematical and method pages visually inspected. Author catalog associates
+    the work with International Journal of Bifurcation and Chaos 17(7):2303–2318 (2007).
+    No separate journal-layout copy, implementation or dataset was inspected.'
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/pivot-centrality-boundaries.py
+  accessed_at: '2026-10-14T04:15:26Z'
+  snapshot_sha256: f507f6e1fc459b62235d9734e7ee47bbb0e0b5ea0c0a35e8221759c1bbcfd3c7
+  support: supports
+  summary: Independent enumeration of all simple shortest paths agrees with BFS/dependency
+    accumulation on the finite path and triangle cases. Path4 pivot subsets change
+    relative scores; all-pivot scaling cancels in sum-to-one output. Exhausting six
+    size-two subsets illustrates raw extrapolation separately from normalized output.
+    Zero-denominator cases and a scalar counterexample to the manuscript’s literal
+    two-sided tail display are explicit. These are curator calculations, not author-code
+    execution, empirical replication or a general statistical guarantee.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Brandes–Pich pivot-based centrality estimation
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  evidence_ids:
+  - identity
+  - brandespich2006
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain this scoped estimation procedure as distinct from exact Brandes
+    computation, CURE clustering, PageRank and HITS. Pivot choices are parameterized
+    strategies inside this procedure; the underlying centrality indices and original
+    Eppstein–Wang approximation remain separate source scopes. No exact identity match
+    was found in the ignored-inclusive and semantic searches.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  evidence_ids:
+  - mapping
+  - brandespich2006
+  summary: The explicit AIO mapping assessment is supported within its stated scope.
+  details: Retain the bounded no-match assessment over nine inspected AIO targets.
+    Structural estimation is not clustering, deep label acquisition, language modeling
+    or a bias concept. Potential sampling error and possible downstream feature use
+    do not alone establish a conceptual mapping.
+- assessment_id: domain-and-contributions
+  area: evidence
+  topic: domain-and-contributions
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  evidence_ids:
+  - brandespich2006
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Sections 2–3 define simple undirected unweighted connected graphs, inverse
+    distance sum, internal-path fractions and one-sided dependencies. The record correctly
+    keeps this core domain separate from the later multiedge text experiment and from
+    causal or learned prediction.
+- assessment_id: relative-score-formulation
+  area: evidence
+  topic: relative-score-formulation
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  evidence_ids:
+  - brandespich2006
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: 'Equations 4–5 scale every sampled contribution by the same positive factor,
+    and Section 5.2 scales the resulting vector to sum one. The displayed maintained
+    formulas are explicitly curator restatements: multiplying all distance estimates
+    before inversion gives a common reciprocal factor that also cancels. Raw-score
+    or statistical unbiasedness is not asserted.'
+- assessment_id: pivot-selection
+  area: evidence
+  topic: pivot-selection
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  evidence_ids:
+  - brandespich2006
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section 4 and Table 1 agree on the five listed choices. Distinct pivots
+    and random initialization are explicit. Mixed is left unresolved because the prose
+    names MinSum but the table names MaxSum. The maintained description does not guess
+    tie handling or the code actually used.
+- assessment_id: computation-and-exact-limit
+  area: evidence
+  topic: computation-and-exact-limit
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  evidence_ids:
+  - brandespich2006
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section 2.2 supplies single-source work and linear storage context; Section
+    3 restricts sources. The traversal count yields O(k(n+m)), explicitly excluding
+    source-selection overhead. With all sources, the definitions give exact relative
+    vectors where normalization exists. This algebra does not imply exactness from
+    arbitrary subsets.
+- assessment_id: normalization-and-degeneracy
+  area: evidence
+  topic: normalization-and-degeneracy
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  evidence_ids:
+  - brandespich2006
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Distance sums are positive with at least two distinct pivots in the stated
+    connected unweighted domain. A singleton gives zero at itself, and complete-graph
+    dependencies vanish. Independent simple-path enumeration verifies the path4 and
+    triangle examples. The relative betweenness for pivots {0,2} is (0,3/4,1/4,0),
+    while the all-source vector is (0,1/2,1/2,0).
+- assessment_id: sampling-and-source-limits
+  area: evidence
+  topic: sampling-and-source-limits
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  evidence_ids:
+  - brandespich2006
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Rendered page 7 uses an absolute-deviation event but omits a two-sided
+    factor; the scalar 0/1 example directly refutes that literal bound. Its mean-versus-total
+    wording and Section 4 distinct-pivot design are also preserved. The record prudently
+    makes no replacement general confidence statement, and distinguishes finite raw
+    extrapolation arithmetic from nonlinear normalized scores.
+- assessment_id: evaluation-and-application-scope
+  area: evidence
+  topic: evaluation-and-application-scope
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  evidence_ids:
+  - brandespich2006
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Complete Sections 5–6, both tables and all nine figures support the described
+    experimental design. The report retains all differing observed-network counts,
+    inversion versus weighted-inversion terminology, and the multiple-edge text exception.
+    No numerical performance advantage, unified denominator, historical runtime or
+    biological-function validation is claimed.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: raw versus relative scores, sampled versus exact computation, undefined denominators,
+    pivot-selection semantics, iid versus distinct sampling, and manuscript inconsistencies
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  evidence_ids:
+  - brandespich2006
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Independent enumeration of all simple shortest paths agrees with BFS/dependency
+    accumulation on the finite path and triangle cases. Path4 pivot subsets change
+    relative scores; all-pivot scaling cancels in sum-to-one output. Exhausting six
+    size-two subsets illustrates raw extrapolation separately from normalized output.
+    Zero-denominator cases and a scalar counterexample to the manuscript’s literal
+    two-sided tail display are explicit. These are curator calculations, not author-code
+    execution, empirical replication or a general statistical guarantee.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesPichPivotCentralityEstimation
+  evidence_ids:
+  - identity
+  - mapping
+  - brandespich2006
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 7 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. All seven claims, identity, definition, source version/access/hash,
+    AIO no-match assessment, limits and actual curation provenance were read. The
+    sampled sum-to-one vectors follow from cancellation of common factors. The manuscript
+    discrepancies and undefined normalizations are preserved explicitly; no algorithmic
+    or experimental property is inferred from an unseen implementation.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- This round adds one DRAFT concept, reaching 686 native and 442 unchanged AIO records.
+  The main frontier has 871 entries, including 472 pending and 58 partly addressed
+  cohorts; nested leads remain.
+- All 30 pages of the manuscript read as prose/references, tables and rendered figures;
+  method/equation pages visually checked. No separate journal version, author code
+  or data inspected.
+- No inspected journal-layout PDF, implementation or raw results; no guarantee of
+  monotonically improving accuracy or causal/biofunctional importance. The manuscript
+  discrepancies are retained explicitly; no accuracy guarantee adopted.
+- The first unsaved calculator draft contained a wrong manually expected path-subset
+  proportion. It was corrected before record writing and independently checked by
+  enumerating all simple shortest paths; no saved record or review contains that value.
+- Original Documents synchronization and old round141 cleanup remain unapproved after
+  automatic-review rejection; only the isolated recovery worktree is modified.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
