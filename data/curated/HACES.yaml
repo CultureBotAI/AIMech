@@ -1,0 +1,127 @@
+id: AIMech:HACES
+name: HAC-ES network clustering
+aliases:
+- HAC-ES
+concept_kind: algorithm
+definition: A hierarchical network-clustering variant that guides agglomeration by the sum of cross-group
+  edge density and Jaccard overlap of the groups’ external neighboring vertices.
+definition_evidence:
+- source_id: park2011
+  locator: Different merging scores, PDF p. 4, Equations 9–10 and named score substitutions
+  relation: supports
+claims:
+- claim_id: combined-merge-guide
+  kind: mechanism
+  statement: The guide adds the cross-group edge density to a shared-neighbor term. That term counts outside
+    vertices connected to both groups and divides by the number connected to either group. Vertices in
+    the two candidate groups are excluded, and each outside vertex contributes a Boolean presence indicator
+    rather than its number of incident edges.
+  evidence:
+  - source_id: park2011
+    locator: Different merging scores, PDF p. 4, Equations 9–10 and explanation of the summation
+    relation: supports
+- claim_id: ranking-and-probability-boundary
+  kind: scope
+  statement: The unweighted sum can change candidate-pair rankings relative to edge density alone and
+    can exceed one. A constructed pair with edge density one half and complete external-neighbor overlap
+    scores three halves, exceeding a pair with density one and no overlap. The combined score is therefore
+    a merge heuristic, not a Bernoulli edge probability.
+  evidence:
+  - source_id: park2011
+    locator: Different merging scores, PDF p. 4, Equations 9–10; curator-derived candidate comparison
+      in research/discovery/haces-boundaries.py
+    relation: supports
+- claim_id: empty-neighborhood-boundary
+  kind: limitation
+  statement: If neither candidate group has an external neighbor, the printed shared-neighbor expression
+    has zero numerator and denominator. The paper does not state a numerical convention for this case.
+    Candidate restrictions or code might handle it, but no such behavior was inspected or assumed here.
+  evidence:
+  - source_id: park2011
+    locator: Different merging scores, PDF p. 4, Equation 10; curator-derived empty-union boundary in
+      research/discovery/haces-boundaries.py
+    relation: supports
+- claim_id: hierarchical-link-estimation
+  kind: scope
+  statement: The method belongs to the paper’s hierarchical link-prediction comparison, where densities
+    at tree joins estimate missing links. The shared-neighbor merge heuristic and those subsequent density
+    estimates play different roles. Improved agreement of local scores with common neighbors does not
+    itself establish biological identity or universal predictive improvement.
+  evidence:
+  - source_id: park2011
+    locator: Link prediction and Empirical evaluation, PDF p. 5; Table 2 and Figure 1, p. 6
+    relation: supports
+- claim_id: evaluation-scope
+  kind: scope
+  statement: The study compares this named variant with HAC-ML and other methods on biological interaction
+    networks using held-out-edge prediction. Positive test pairs are balanced by an equal number of sampled
+    holes, and maximum F scores summarize ranked predictions. This selection changes the negative prevalence
+    relative to deployment. The reported comparisons support a setting-specific empirical assessment,
+    not universal superiority or calibrated real-world link probabilities.
+  evidence:
+  - source_id: park2011
+    locator: Performance Evaluation and Link prediction, PDF pp. 4–5; Table 2 and Figure 1, p. 6
+    relation: supports
+limitations:
+- The external-neighbor term is a Jaccard ratio over vertices, not over the current cluster labels or
+  a sum of all shared-neighbor paths. It is distinct from ROCK’s link-count normalization.
+- The printed sum supplies no fitted mixing weight. Its two components have different information content
+  despite each lying between zero and one when defined.
+- This record covers a named 2011 score variant in Park and Bader’s network-clustering study, not a fitted
+  interactome or the entire family of agglomerative clustering methods.
+- The paper defines each alternative by replacing the merge guide. It does not separately specify every
+  candidate-restriction, tie, stopping and terminal-collapse convention for each variant. The detailed
+  HAC-ML implementation and its complexity are not automatically asserted for this variant.
+- The experiments use undirected, unweighted interaction graphs with iterative removal of isolated and
+  degree-one vertices. Missing observed edges can include unobserved biological interactions; sampled
+  holes are not established biological negatives.
+- No author implementation, data or supplementary archive was audited or executed. Finite constructed
+  checks assess local scores and algebraic distinctions, not complete clustering runs, benchmark replication
+  or global optimality. DRAFT remains.
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: This algorithm constructs a hierarchy of vertex groups. The target is a related task, not
+    an equivalent algorithm or asserted superclass.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The procedure groups graph vertices using observed relationships rather than supervised label
+    prediction. The task relation does not establish algorithm identity.
+identity_notes: 'Compared all 442 pinned AIO and 669 native IDs, names, aliases and scoped synonyms for
+  the three candidates and publication identifiers; no normalized identity match. Ignored- and hidden-inclusive
+  fixed-string searches of the recovery, older discovery and original Documents checkouts returned 158,
+  0 and 5 lines. All 158 public matches were inspected and belong to source/discovery/review context and
+  rendered existing records, not these maintained identities. The five original-checkout matches are unrelated
+  Spanish hace text in ignored dependencies. Semantic assessment covered 46 AIO and 264 native definitions:
+  44 AIO and 260 native rows were unchanged from prior reading; two additional AIO and four additional
+  native definitions were read. Sixteen complete annotated AIO node/edge/generated contexts and the candidate-specific
+  native records were assessed. Retain the source-named HAC-ES variant: edge density plus Jaccard overlap
+  of external neighboring vertices. ROCK uses cross-cluster shared-neighbor link counts and a different
+  size normalization. HAC-ML uses profiled network likelihood, and neither HAC-E nor HAC-Q has this combined
+  score.'
+evidence_sources:
+- source_id: park2011
+  title: Resolving the structure of interactomes with hierarchical agglomerative clustering
+  authors:
+  - Yongjin Park
+  - Joel S Bader
+  source_type: primary_paper
+  access_level: full_text
+  version: BMC Bioinformatics 12(Suppl 1):S44, 2011-02-15. All ten publisher-PDF pages, 36 references,
+    Equations 1–11, pseudocode, four figures and three tables were read. Variant formulas on page 4 and
+    evaluation on page 6 were visually reassessed in this batch. Supplementary author code remains uninspected.
+  persistent_id: doi:10.1186/1471-2105-12-S1-S44
+  url: https://link.springer.com/content/pdf/10.1186/1471-2105-12-S1-S44.pdf
+  accessed_at: '2026-10-14T00:38:22Z'
+  sha256: e930abd762f0f7c51d7671b3f605bc1fd2a35cdc230b668515c7778ffcb73b60
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T01:20:34Z'
+  updated_at: '2026-10-14T01:20:34Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
