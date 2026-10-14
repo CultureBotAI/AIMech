@@ -1,0 +1,186 @@
+id: AIMech:CNMCommunityDetection
+name: Clauset–Newman–Moore community detection
+aliases:
+- CNM
+- CNM community detection
+- fast modularity community detection
+concept_kind: algorithm
+definition: A greedy community-detection algorithm that agglomerates graph vertices using modularity changes,
+  with sparse change tables and heap-based maximum tracking to accelerate the construction of a merge
+  hierarchy and selection of a partition by modularity.
+definition_evidence:
+- source_id: clauset2004
+  locator: Sections I–II, PDF pp. 1–4, Equations 4–10 and algorithm/data-structure descriptions
+  relation: supports
+claims:
+- claim_id: modularity-agglomeration
+  kind: mechanism
+  statement: The procedure starts with singleton communities and greedily merges groups according to a
+    degree-corrected modularity objective. For an undirected graph, the objective compares within-group
+    observed edges with degree-product expectations. The merge sequence defines a dendrogram, and the
+    largest modularity encountered selects a cut along that sequence. This is approximate optimization
+    rather than a search over all possible partitions.
+  evidence:
+  - source_id: clauset2004
+    locator: Section II, PDF pp. 2–3, Equations 4–7 and algorithm steps; Section III, p. 4 and Figure
+      1
+    relation: supports
+  - source_id: cnm-docs
+    locator: 'Mandatory file outputs: .info and .joins; optional .groups output'
+    relation: supports
+- claim_id: sparse-update-structures
+  kind: mechanism
+  statement: The efficient formulation stores change entries only for pairs of communities joined by an
+    edge. It uses balanced-tree sparse rows, row maxima and a global maximum heap, together with community
+    degree fractions. Merging two communities changes their neighboring rows using different updates for
+    common and one-sided neighbors. Sparse omission of a nonadjacent pair does not mean that its true
+    modularity change is zero.
+  evidence:
+  - source_id: clauset2004
+    locator: Section II, PDF p. 3, three data structures and Equations 8–10
+    relation: supports
+- claim_id: printed-normalization-boundary
+  kind: limitation
+  statement: In the inspected arXiv v2, the connected-pair initialization in Equation 8 is one half of
+    the modularity change derived from Equations 4 and 7, while the later one-sided updates retain a factor
+    of two. On a three-vertex path, the printed first gain is one eighth instead of one quarter, and the
+    next printed update is zero instead of one eighth. Literal accumulation from the defined initial modularity
+    ends at minus one quarter even though the one-block modularity is zero. The record preserves this
+    printed mismatch without asserting that the authors’ software or experiments use it.
+  evidence:
+  - source_id: clauset2004
+    locator: Section II, PDF pp. 2–3, Equations 4, 7, 8 and 10, algorithm step 2; curator calculation
+      in research/discovery/cnm-boundaries.py
+    relation: supports
+- claim_id: documented-input-and-output-scope
+  kind: scope
+  statement: The author’s documentation requires the original unweighted program to receive a single connected
+    undirected graph without self-loops or parallel edges. This restriction matters because the sparse
+    adjacent-pair procedure can otherwise exhaust eligible merges before one community remains. The documentation
+    exposes both merge/modularity history and communities at a selected step; a separately linked weighted
+    version is outside this record’s inspected implementation scope.
+  evidence:
+  - source_id: cnm-docs
+    locator: Introduction and October 2008 update; Input file requirements; Common error messages; File
+      outputs
+    relation: supports
+  - source_id: clauset2004
+    locator: Section II, PDF p. 3, sparse support and stopping step; curator disconnected-components example
+      in research/discovery/cnm-boundaries.py
+    relation: supports
+- claim_id: complexity-and-ties
+  kind: scope
+  statement: The stated runtime bound is O(m d log n), where m is the edge count, n is the vertex count
+    and d is the resulting dendrogram depth. The O(n log-squared n) specialization additionally assumes
+    sparse input and roughly balanced depth. The paper also describes a row-scan implementation with a
+    worse worst-case bound and notes that tie handling can change the hierarchy. These choices do not
+    support universal linear runtime or identical outputs across every implementation.
+  evidence:
+  - source_id: clauset2004
+    locator: Section II, PDF pp. 3–4, runtime argument and scan implementation; Conclusions, p. 5
+    relation: supports
+- claim_id: greedy-optimality-boundary
+  kind: limitation
+  statement: A small exact-definition reference calculation on a six-vertex path illustrates that the
+    best cut encountered by greedy merging need not maximize modularity globally. With fixed lexicographic
+    ties and gains recomputed from the objective, the trajectory peaks at thirteen fiftieths, while the
+    partition into two consecutive triples scores three tenths. This example is separate from the printed
+    initialization mismatch and does not execute author software.
+  evidence:
+  - source_id: clauset2004
+    locator: Section II, PDF p. 2, approximate optimization and Equation 4; curator reference calculation
+      in research/discovery/cnm-boundaries.py
+    relation: supports
+- claim_id: evaluation-scope
+  kind: scope
+  statement: The demonstration uses the largest connected component of an August 2003 Amazon co-purchasing
+    network after ignoring link direction. High modularity, an interpretable visualization and informal
+    descriptions of product groups support a descriptive case study. They do not establish a universally
+    correct community definition, recovery against comprehensive ground truth, or a general predictive-performance
+    advantage. The exploratory community-size distribution is not adopted here as a universal law.
+  evidence:
+  - source_id: clauset2004
+    locator: Section III and Conclusions, PDF pp. 4–5, Figures 1–3 and Table I; Reference note 14, p.
+      6
+    relation: supports
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: The algorithm constructs an agglomerative hierarchy of vertex groups. The target is a related
+    clustering task, not an equivalent named algorithm or asserted superclass.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Graph topology and a prescribed objective determine the groups rather than supervised class
+    labels. This task relation preserves the algorithm/task distinction.
+limitations:
+- The record covers the 2004 CNM sparse greedy modularity algorithm and the explicitly scoped author documentation.
+  It is not the 2008 Clauset–Moore–Newman hierarchical random-graph model or the full family of modularity-optimization
+  methods.
+- The earlier Newman greedy method supplies algorithmic context, while the retained HAC-Q record concerns
+  a related score used with hierarchical link-density estimates. Shared scores do not establish identical
+  data structures, tie behavior or downstream representations.
+- A high objective value is not a biological, social or semantic truth certificate. The degree-product
+  null term is an expected adjacency contribution, not necessarily a Bernoulli probability bounded by
+  one.
+- The printed initialization discrepancy is scoped to the inspected arXiv v2. The journal PDF, earlier
+  preprint, source archives and later library implementations were not compared; no author-code defect
+  or experimental invalidity is asserted.
+- The author documentation snapshot has a 2005 footer and updates through 2009; these dates do not establish
+  the revision of any uninspected code archive. Program-specific file-format requirements are not universal
+  requirements of community-detection mathematics.
+- The original documented input is connected and simple, with a positive edge count needed by the modularity
+  denominator. Weighted, directed, disconnected and signed variants require separate evidence and implementation
+  conventions.
+- No author code, experimental data, model training or paid service was executed. Exact finite formula
+  and reference-procedure checks are not benchmark replication or formal certification of every proof.
+  The record remains DRAFT.
+identity_notes: 'Compared all 442 pinned AIO and 672 native IDs, names, aliases and scoped synonyms for
+  CNM and publication identifiers; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+  searches of the recovery, older discovery and original Documents checkouts returned 79, 0 and 0 lines.
+  All 79 public matches were read and are existing HAC-Q/source/discovery context and rendered counterparts,
+  not this maintained identity. Semantic assessment covered 46 AIO and 267 native definitions: all 46
+  AIO and 264 previous native rows were unchanged and three new variant definitions and full records were
+  read. Sixteen complete annotated AIO node/edge/generated contexts were verified unchanged and candidate-specific
+  native records assessed. The author catalog identifies CNM with the 2004 sparse greedy modularity method.
+  It is distinct from the 2008 hierarchical random-graph model and the HAC-Q link-prediction variant.
+  The record preserves the earlier greedy objective as context without treating every modularity optimizer
+  as this algorithm.'
+evidence_sources:
+- source_id: clauset2004
+  title: Finding community structure in very large networks
+  authors:
+  - Aaron Clauset
+  - M. E. J. Newman
+  - Cristopher Moore
+  source_type: primary_paper
+  access_level: full_text
+  version: arXiv cond-mat/0408187v2, 2004-08-30. All six pages and 37 references read; pages 2–5 rendered
+    and visually assessed, including Equations 1–10, all three figures, Table I and algorithm descriptions.
+    Journal and v1 PDFs not compared.
+  persistent_id: arxiv:cond-mat/0408187v2
+  url: https://arxiv.org/pdf/cond-mat/0408187v2
+  accessed_at: '2026-10-14T01:23:17Z'
+  sha256: a0f3adfe111be62362127e448150867a26e543d0aae22558efa6df51d94f5d1b
+- source_id: cnm-docs
+  title: Fast Modularity Community Structure Inference Algorithm
+  authors:
+  - Aaron Clauset
+  source_type: official_documentation
+  access_level: documentation
+  version: Complete author HTML snapshot accessed 2026-10-14. Historical footer dated 2005-10-05 with
+    updates through 2009; not an inspected code-release version. Input requirements and output definitions
+    read; code archives and weighted extension uninspected.
+  url: https://www.cs.unm.edu/~aaron/research/fastmodularity.htm
+  accessed_at: '2026-10-14T01:30:26Z'
+  sha256: 589febc769218e43e0eb83f3184b3086b1547e909366669d668558329a6a5e3f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T01:37:06Z'
+  updated_at: '2026-10-14T01:37:06Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
