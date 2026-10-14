@@ -1,0 +1,178 @@
+id: AIMech:NewmanGreedyModularity
+name: Newman greedy modularity algorithm
+aliases:
+- Newman fast community detection
+- Newman agglomerative modularity
+concept_kind: algorithm
+definition: Newman’s direct edge-fraction-matrix algorithm for greedy agglomerative community detection,
+  which starts with singleton vertices, joins adjacent communities using modularity changes, updates the
+  matrix by combining their rows and columns, and selects a maximum-modularity cut along the resulting
+  merge history.
+definition_evidence:
+- source_id: newman2003
+  locator: Section II, PDF pp. 1–2, Equation 1 and merge/update description
+  relation: supports
+claims:
+- claim_id: edge-fraction-convention
+  kind: mechanism
+  statement: Using the symmetric accounting convention in the source, each edge between different communities
+    contributes half of its normalized weight to each orientation of the edge-fraction matrix, while an
+    internal edge contributes wholly to its diagonal entry. Row sums give community degree fractions.
+    Modularity is the sum of diagonal edge fractions minus squared row sums, and joining two groups changes
+    it by twice their cross fraction minus twice the product of their row sums.
+  evidence:
+  - source_id: newman2003
+    locator: Section II, Equation 1 and merge-gain expression, PDF pp. 1–2; reference note 19, p. 5
+    relation: supports
+- claim_id: direct-matrix-agglomeration
+  kind: mechanism
+  statement: The procedure evaluates adjacent community pairs and chooses the greatest modularity increase
+    or smallest decrease, then combines the corresponding matrix rows and columns. The dendrogram records
+    the joins; a best encountered cut is selected by modularity. Vertices in different connected components
+    are not joined, as the paper explicitly notes. Sparse candidate restriction therefore does not imply
+    that disconnected data acquire a single root.
+  evidence:
+  - source_id: newman2003
+    locator: Section II, PDF p. 2; collaboration-network discussion, p. 3
+    relation: supports
+- claim_id: cnm-and-runtime-boundary
+  kind: scope
+  statement: The direct matrix-update method has the stated worst-case bound O((m+n)n), with m edges and
+    n vertices; the quadratic specialization assumes sparsity. The later Clauset–Newman–Moore method retains
+    the modularity objective and greedy merge structure while maintaining sparse modularity-change rows
+    and maximum-tracking data structures. This record identifies the earlier matrix-update method, not
+    every greedy modularity implementation or a new objective distinct from CNM.
+  evidence:
+  - source_id: newman2003
+    locator: Section II, PDF p. 2, candidate scan and matrix-update runtime
+    relation: supports
+  - source_id: clauset2004
+    locator: Section II, PDF pp. 2–4, comparison with Reference 32 and sparse data structures
+    relation: supports
+- claim_id: greedy-optimality-boundary
+  kind: limitation
+  statement: Maximal modularity along the greedy trajectory is not guaranteed to be maximal over all graph
+    partitions. In an exact symmetric-fraction reference calculation on a six-vertex path with fixed lexicographic
+    ties, the best greedy cut scores thirteen fiftieths, while the feasible partition into two consecutive
+    triples scores three tenths. The calculation is a finite example and does not execute author software
+    or identify every possible tie outcome.
+  evidence:
+  - source_id: newman2003
+    locator: Section II, PDF pp. 1–2, exhaustive-search discussion and approximate greedy procedure; curator
+      calculation in research/discovery/newman-greedy-boundaries.py
+    relation: supports
+- claim_id: recursive-subgraph-boundary
+  kind: scope
+  statement: The collaboration example reruns the method on selected communities to reveal finer structure.
+    Such a rerun recalculates edge fractions and degree terms on the selected subgraph; it is not merely
+    a different cut of one fixed full-network dendrogram. In the constructed path example, the gain for
+    joining the same first two vertices is four twenty-fifths in the full six-vertex graph and one quarter
+    in its induced three-vertex path.
+  evidence:
+  - source_id: newman2003
+    locator: Section III, PDF pp. 3–5, recursive analysis and Figure 4; Equation 1; curator calculation
+      in research/discovery/newman-greedy-boundaries.py
+    relation: supports
+- claim_id: weighted-extension-boundary
+  kind: scope
+  statement: The paper proposes a weighted generalization but evaluates unweighted networks. Interpreting
+    the objective through normalized edge fractions preserves it under multiplication of all nonnegative
+    edge weights by the same positive constant. Raw edge strengths without normalization are not interchangeable
+    with those fractions. This record does not establish signed-weight conventions or performance for
+    the untested weighted extension.
+  evidence:
+  - source_id: newman2003
+    locator: Section II, PDF pp. 1–2, edge-fraction definition and weighted-extension paragraph; reference
+      note 19; curator calculation in research/discovery/newman-greedy-boundaries.py
+    relation: supports
+- claim_id: evaluation-scope
+  kind: scope
+  statement: The reported accuracy and speed tradeoff depends on the test. The four-group synthetic benchmark
+    compares recovery at varying external degree; the football example merges several known conferences,
+    while the karate-club and collaboration examples provide other forms of comparison. The large collaboration
+    analysis uses the largest connected component, and its multi-year Girvan–Newman timing comparison
+    is an estimate. These cases do not establish universal recovery, a universal modularity significance
+    threshold or a hardware-independent speed ratio.
+  evidence:
+  - source_id: newman2003
+    locator: Section III, PDF pp. 2–5 and Figures 1–4; Section II significance discussion, p. 1
+    relation: supports
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: The matrix-update algorithm builds an agglomerative hierarchy of graph-vertex groups. The
+    target is a related task rather than an equivalent algorithm or asserted superclass.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Groups are derived from graph topology and modularity rather than supplied class labels.
+    This relates an algorithm to a task without equating their identities.
+limitations:
+- The retained identity is the original direct matrix-update procedure in arXiv cond-mat/0309508v1, later
+  cited by CNM. Its shared objective and merge structure are explicit; sparse cached-gain acceleration,
+  edge-betweenness removal and hierarchical random-graph modeling have separate identities.
+- The symmetric edge accounting in reference note 19 is used consistently. Its alternative one-sided representation
+  is not silently combined with symmetric row sums or the symmetric gain formula. Author source code and
+  journal-version equations were not compared.
+- Positive total edge weight is needed for normalized fractions. Disconnected components remain separate
+  under adjacent-only merging; ties, isolates and exceptional input handling require implementation conventions
+  that were not audited.
+- The six-path example fixes one tie policy and shows a better feasible partition, not an exhaustive solution
+  or a failure claim about every tie policy. The induced-subgraph example demonstrates changed scores,
+  not a reproduced physicist-network hierarchy.
+- Power-law community-size observations are descriptive and distinguish maximum-modularity cuts from pooling
+  every dendrogram level. Neither the reported 0.3 modularity heuristic nor empirical group interpretations
+  supply a general significance test.
+- No author program, dataset, model training or paid service was executed. Constructed arithmetic is not
+  benchmark replication. Source-version and input-domain limits remain explicit, and the record remains
+  DRAFT.
+identity_notes: Compared all 442 pinned AIO and 673 native IDs, names, aliases and scoped synonyms before
+  either cohort write; no normalized identity match. Ignored- and hidden-inclusive searches of all three
+  checkouts returned 6,0,0 lines for the original Newman method. All six public lines were read and only
+  name the source in the CNM discovery report. Semantic assessment covered 46 AIO and 268 native definitions;
+  all 46 AIO and 267 prior native rows were unchanged and the new CNM definition and entire record were
+  read. Sixteen complete AIO node/edge/generated contexts were verified unchanged and mapping rationales
+  reassessed. Both cohort drafts were compared for distinct merge versus deletion mechanisms. Retain the
+  original Newman direct matrix-update procedure as the predecessor algorithmic variant of CNM. Both share
+  modularity and greedy agglomeration; the distinguishing maintained scope is explicit matrix recomputation
+  versus sparse cached-gain/maxima structures, with distinct stated runtime bounds. It is not the Girvan–Newman
+  edge-removal algorithm, a generic modularity objective, or the 2008 hierarchical random-graph model.
+evidence_sources:
+- source_id: newman2003
+  title: Fast algorithm for detecting community structure in networks
+  authors:
+  - M. E. J. Newman
+  source_type: primary_paper
+  access_level: full_text
+  version: arXiv cond-mat/0309508v1, 2003-09-22; related journal reference Phys Rev E69:066133(2004).
+    All five pages read in text and render, including Equation1, the gain/update description, four figures
+    and all20 references/notes. Journal PDF, author code and datasets not inspected.
+  persistent_id: arxiv:cond-mat/0309508v1
+  url: https://arxiv.org/pdf/cond-mat/0309508v1
+  accessed_at: '2026-10-14T01:38:57Z'
+  sha256: cde52f64d9f0041d66ee57318ab3c18576f287555aa7d5466fc55095ae73c20e
+- source_id: clauset2004
+  title: Finding community structure in very large networks
+  authors:
+  - Aaron Clauset
+  - M. E. J. Newman
+  - Cristopher Moore
+  source_type: primary_paper
+  access_level: full_text
+  version: arXiv cond-mat/0408187v2, 2004-08-30. All six pages and 37 references read; pages 2–5 rendered
+    and visually assessed, including Equations 1–10, all three figures, Table I and algorithm descriptions.
+    Journal and v1 PDFs not compared.
+  persistent_id: arxiv:cond-mat/0408187v2
+  url: https://arxiv.org/pdf/cond-mat/0408187v2
+  accessed_at: '2026-10-14T01:23:17Z'
+  sha256: a0f3adfe111be62362127e448150867a26e543d0aae22558efa6df51d94f5d1b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T01:53:32Z'
+  updated_at: '2026-10-14T01:53:32Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

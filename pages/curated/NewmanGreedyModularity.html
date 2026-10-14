@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Newman greedy modularity algorithm · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Newman greedy modularity algorithm</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Newman greedy modularity algorithm</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NewmanGreedyModularity</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Newman fast community detection, Newman agglomerative modularity
+    </div>
+
+  <div class="detail-desc">
+    Newman’s direct edge-fraction-matrix algorithm for greedy agglomerative community detection, which starts with singleton vertices, joins adjacent communities using modularity changes, updates the matrix by combining their rows and columns, and selects a maximum-modularity cut along the resulting merge history.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 673 native IDs, names, aliases and scoped synonyms before either cohort write; no normalized identity match. Ignored- and hidden-inclusive searches of all three checkouts returned 6,0,0 lines for the original Newman method. All six public lines were read and only name the source in the CNM discovery report. Semantic assessment covered 46 AIO and 268 native definitions; all 46 AIO and 267 prior native rows were unchanged and the new CNM definition and entire record were read. Sixteen complete AIO node/edge/generated contexts were verified unchanged and mapping rationales reassessed. Both cohort drafts were compared for distinct merge versus deletion mechanisms. Retain the original Newman direct matrix-update procedure as the predecessor algorithmic variant of CNM. Both share modularity and greedy agglomeration; the distinguishing maintained scope is explicit matrix recomputation versus sparse cached-gain/maxima structures, with distinct stated runtime bounds. It is not the Girvan–Newman edge-removal algorithm, a generic modularity objective, or the 2008 hierarchical random-graph model.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#edge-fraction-convention</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Using the symmetric accounting convention in the source, each edge between different communities contributes half of its normalized weight to each orientation of the edge-fraction matrix, while an internal edge contributes wholly to its diagonal entry. Row sums give community degree fractions. Modularity is the sum of diagonal edge fractions minus squared row sums, and joining two groups changes it by twice their cross fraction minus twice the product of their row sums.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-newman2003">Fast algorithm for detecting community structure in networks</a></span>
+        <span>· <strong>Locator:</strong> Section II, Equation 1 and merge-gain expression, PDF pp. 1–2; reference note 19, p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#direct-matrix-agglomeration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The procedure evaluates adjacent community pairs and chooses the greatest modularity increase or smallest decrease, then combines the corresponding matrix rows and columns. The dendrogram records the joins; a best encountered cut is selected by modularity. Vertices in different connected components are not joined, as the paper explicitly notes. Sparse candidate restriction therefore does not imply that disconnected data acquire a single root.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-newman2003">Fast algorithm for detecting community structure in networks</a></span>
+        <span>· <strong>Locator:</strong> Section II, PDF p. 2; collaboration-network discussion, p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#cnm-and-runtime-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The direct matrix-update method has the stated worst-case bound O((m+n)n), with m edges and n vertices; the quadratic specialization assumes sparsity. The later Clauset–Newman–Moore method retains the modularity objective and greedy merge structure while maintaining sparse modularity-change rows and maximum-tracking data structures. This record identifies the earlier matrix-update method, not every greedy modularity implementation or a new objective distinct from CNM.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-newman2003">Fast algorithm for detecting community structure in networks</a></span>
+        <span>· <strong>Locator:</strong> Section II, PDF p. 2, candidate scan and matrix-update runtime</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-clauset2004">Finding community structure in very large networks</a></span>
+        <span>· <strong>Locator:</strong> Section II, PDF pp. 2–4, comparison with Reference 32 and sparse data structures</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#greedy-optimality-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maximal modularity along the greedy trajectory is not guaranteed to be maximal over all graph partitions. In an exact symmetric-fraction reference calculation on a six-vertex path with fixed lexicographic ties, the best greedy cut scores thirteen fiftieths, while the feasible partition into two consecutive triples scores three tenths. The calculation is a finite example and does not execute author software or identify every possible tie outcome.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-newman2003">Fast algorithm for detecting community structure in networks</a></span>
+        <span>· <strong>Locator:</strong> Section II, PDF pp. 1–2, exhaustive-search discussion and approximate greedy procedure; curator calculation in research/discovery/newman-greedy-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#recursive-subgraph-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The collaboration example reruns the method on selected communities to reveal finer structure. Such a rerun recalculates edge fractions and degree terms on the selected subgraph; it is not merely a different cut of one fixed full-network dendrogram. In the constructed path example, the gain for joining the same first two vertices is four twenty-fifths in the full six-vertex graph and one quarter in its induced three-vertex path.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-newman2003">Fast algorithm for detecting community structure in networks</a></span>
+        <span>· <strong>Locator:</strong> Section III, PDF pp. 3–5, recursive analysis and Figure 4; Equation 1; curator calculation in research/discovery/newman-greedy-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#weighted-extension-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper proposes a weighted generalization but evaluates unweighted networks. Interpreting the objective through normalized edge fractions preserves it under multiplication of all nonnegative edge weights by the same positive constant. Raw edge strengths without normalization are not interchangeable with those fractions. This record does not establish signed-weight conventions or performance for the untested weighted extension.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-newman2003">Fast algorithm for detecting community structure in networks</a></span>
+        <span>· <strong>Locator:</strong> Section II, PDF pp. 1–2, edge-fraction definition and weighted-extension paragraph; reference note 19; curator calculation in research/discovery/newman-greedy-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The reported accuracy and speed tradeoff depends on the test. The four-group synthetic benchmark compares recovery at varying external degree; the football example merges several known conferences, while the karate-club and collaboration examples provide other forms of comparison. The large collaboration analysis uses the largest connected component, and its multi-year Girvan–Newman timing comparison is an estimate. These cases do not establish universal recovery, a universal modularity significance threshold or a hardware-independent speed ratio.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-newman2003">Fast algorithm for detecting community structure in networks</a></span>
+        <span>· <strong>Locator:</strong> Section III, PDF pp. 2–5 and Figures 1–4; Section II significance discussion, p. 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The retained identity is the original direct matrix-update procedure in arXiv cond-mat/0309508v1, later cited by CNM. Its shared objective and merge structure are explicit; sparse cached-gain acceleration, edge-betweenness removal and hierarchical random-graph modeling have separate identities.</li>
+      <li>The symmetric edge accounting in reference note 19 is used consistently. Its alternative one-sided representation is not silently combined with symmetric row sums or the symmetric gain formula. Author source code and journal-version equations were not compared.</li>
+      <li>Positive total edge weight is needed for normalized fractions. Disconnected components remain separate under adjacent-only merging; ties, isolates and exceptional input handling require implementation conventions that were not audited.</li>
+      <li>The six-path example fixes one tie policy and shows a better feasible partition, not an exhaustive solution or a failure claim about every tie policy. The induced-subgraph example demonstrates changed scores, not a reproduced physicist-network hierarchy.</li>
+      <li>Power-law community-size observations are descriptive and distinguish maximum-modularity cuts from pooling every dendrogram level. Neither the reported 0.3 modularity heuristic nor empirical group interpretations supply a general significance test.</li>
+      <li>No author program, dataset, model training or paid service was executed. Constructed arithmetic is not benchmark replication. Source-version and input-domain limits remain explicit, and the record remains DRAFT.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/HierarchicalClustering.html" style="font-weight: 600;"><code>AIO:HierarchicalClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Hierarchical Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The matrix-update algorithm builds an agglomerative hierarchy of graph-vertex groups. The target is a related task rather than an equivalent algorithm or asserted superclass.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Groups are derived from graph topology and modularity rather than supplied class labels. This relates an algorithm to a task without equating their identities.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-newman2003">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">newman2003</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/cond-mat/0309508v1" target="_blank" rel="noopener">Fast algorithm for detecting community structure in networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            M. E. J. Newman
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arxiv:cond-mat/0309508v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cde52f64d9f0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-clauset2004">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">clauset2004</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/cond-mat/0408187v2" target="_blank" rel="noopener">Finding community structure in very large networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aaron Clauset, M. E. J. Newman, Cristopher Moore
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arxiv:cond-mat/0408187v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a0f3adfe111b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-14T01:53:32Z</div>
+    <div><strong>Updated:</strong> 2026-10-14T01:53:32Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NewmanGreedyModularity.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NewmanGreedyModularity.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
