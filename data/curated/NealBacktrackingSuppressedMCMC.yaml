@@ -1,0 +1,179 @@
+id: AIMech:NealBacktrackingSuppressedMCMC
+name: Neal backtracking-suppressed MCMC
+concept_kind: algorithm
+definition: A finite-state MCMC construction that augments a reversible chain with its preceding state
+  and replaces a conditional resampling step with a balanced conditional kernel that suppresses immediate
+  backtracking while preserving the target marginal.
+definition_evidence:
+- source_id: neal2004
+  locator: Section 4, PDF pp. 6–8, Equations 10 and 12–16
+  relation: supports
+claims:
+- claim_id: pair-state-construction
+  kind: mechanism
+  statement: Start with an irreducible reversible stochastic matrix T on a finite state space and its
+    stationary distribution pi. Use ordered pairs (a,b) with T(a,b)>0, and pair mass mu(a,b)=pi(a)*T(a,b)=pi(b)*T(b,a).
+    From (a,b), swap the components and update the second component using a stochastic conditional kernel
+    U_b(a,c), giving the next pair (b,c). On the positive conditional support, require T(b,a)*U_b(a,c)=T(b,c)*U_b(c,a)
+    and U_b(a,c)>=T(b,c) for c distinct from a. The resulting pair transition preserves mu, whose two
+    coordinate marginals are pi. These are local conditional balance and off-diagonal conditions; they
+    do not assert ordinary detailed balance of the composed pair transition.
+  evidence:
+  - source_id: neal2004
+    locator: Section 4, PDF pp. 6–7, Equations 10 and 12–14; invariance calculation, Section 6, p. 16,
+      Equations 37–42
+    relation: supports
+- claim_id: liu-conditional-kernel
+  kind: mechanism
+  statement: 'One choice sets U_b(a,c)=min[T(b,c)/(1−T(b,a)), T(b,c)/(1−T(b,c))] for distinct a and c
+    in the positive conditional support; the diagonal entry completes the row to one. Equivalently, propose
+    c from T(b,.) conditioned on c being different from a and accept with min[1,(1−T(b,a))/(1−T(b,c))],
+    retaining a on rejection. If T(b,a)=1, there is no alternative conditional state: set U_b(a,a)=1 without
+    evaluating the undefined exclusion proposal or any 0/0 ratio. This guarded conditional step is based
+    on the equation-defined kernel, not on the source’s inconsistent fast simulation branch.'
+  evidence:
+  - source_id: neal2004
+    locator: Conditional exclusion proposal, Section 3, PDF p. 5, Equation 9 and point-mass exception;
+      pair-kernel specialization, Section 4, p. 8, Equation 16
+    relation: supports
+- claim_id: corrected-asymptotic-variance-scope
+  kind: limitation
+  statement: Base-chain irreducibility does not imply irreducibility of the expanded pair chain. Diaconis
+    and Miclo explicitly correct that assertion in the original Theorem 2. Assuming expanded-chain irreducibility
+    separately, together with the finite reversible base and the conditional balance and domination conditions,
+    the asymptotic variance of an average of f of one original-state coordinate is no greater than for
+    the base chain. The comparison concerns the limiting quantity n*Var(mean_n), per transition. It does
+    not establish the same ordering for arbitrary functions of both pair coordinates, finite-run mean
+    squared error, mixing time or wall-clock cost.
+  evidence:
+  - source_id: neal2004
+    locator: Asymptotic variance definition, Section 2, PDF p. 3, Equation 3; original Theorem 2 and coordinate
+      estimator, Section 4, p. 7, Equation 15
+    relation: supports
+  - source_id: diaconis-miclo2013
+    locator: End of Section 3, printed p. 603 / PDF p. 32, explicit irreducibility correction and Equation
+      3.12
+    relation: supports
+- claim_id: exact-pair-and-variance-checks
+  kind: scope
+  statement: A curator three-state example uses probability 1/2 for each move to another state and no
+    self transitions. The reversible base is irreducible and aperiodic, but the Liu pair kernel has two
+    disjoint deterministic orientation cycles. Its invariant pair mass and, in each cycle of this example,
+    the projected uniform target remain correct. Thus it refutes automatic pair irreducibility, not projected
+    correctness in this example. A two-state alternating example checks the point-mass guard. In 54 further
+    positive-conductance examples, both chains are irreducible and exact Poisson-equation calculations
+    give 162 single-coordinate indicator comparisons, all with lower asymptotic variance for the expanded
+    chain. For the independent uniform three-state baseline, with every row equal to (1/3,1/3,1/3), each
+    indicator variance changes from 2/9 to 2/27. These constructed checks illustrate the corrected scope;
+    they do not prove the general theorem or establish a runtime benefit.
+  evidence:
+  - source_id: neal2004
+    locator: Section 4, PDF pp. 6–8, Equations 10–16; curator construction and exact Poisson-equation
+      calculations in research/discovery/nonreversible-boundaries.py
+    relation: supports
+  - source_id: diaconis-miclo2013
+    locator: Printed p. 603 / PDF p. 32, irreducibility correction and Equation 3.12
+    relation: supports
+- claim_id: printed-simulator-inconsistency
+  kind: limitation
+  statement: 'The inspected report’s fast simulation branch for T(b,a)>=1/2 states an acceptance probability
+    1/(1−T(b,c)), which can exceed one. For conditional masses (3/5,3/10,1/10), current index 0 and proposed
+    index 1, that printed quantity is 10/7. Clipping it at one in the printed unconditioned-proposal branch
+    gives transition probability 3/10, whereas Equation 16 gives 3/7. The maintained method uses Equation
+    16 and its conditional exclusion proposal; it does not claim an invented repair or verified implementation
+    of the printed fast branch. Suppression need not eliminate returns: the same example has diagonal
+    conditional probability 29/63.'
+  evidence:
+  - source_id: neal2004
+    locator: Section 4, PDF p. 8, Equation 16; printed fast simulation branch, p. 9; exact conditional
+      arithmetic in research/discovery/nonreversible-boundaries.py
+    relation: supports
+- claim_id: return-and-computation-boundaries
+  kind: scope
+  statement: 'The construction suppresses a return to the immediately preceding state when the conditional
+    distribution permits it; it does not prohibit all backtracking or revisits to older states. Computing
+    base transition masses may be costly: a Metropolis self-transition probability can require summing
+    rejection probabilities over proposals, and exclusion sampling can be expensive when the excluded
+    conditional mass is near one. The literal construction has no automatic benefit for continuous transition
+    distributions where exact immediate returns already have probability zero. Extensions that avoid a
+    neighborhood or multiple preceding states require separate evidence.'
+  evidence:
+  - source_id: neal2004
+    locator: Section 4, PDF pp. 9–10, simulation and computational discussion; Section 7, p. 21, continuous-return
+      limitation and proposed extensions
+    relation: supports
+identity_notes: Compared both candidate identities with all 442 pinned AIO and 701 native IDs, names,
+  aliases and generated synonyms of every scope using the repository Unicode-aware normalizer; no normalized
+  collisions. All 1143 current record hashes were refreshed and verified unchanged from the assessed inventory
+  immediately before this write. Full ignored- and hidden-inclusive searches of three checkouts were completed
+  without access errors; the 52-group frontier follow-up and 6 fixed-string groups were read in full.
+  The semantic assessment read all 359 selected definitions/identity fields (86 AIO, 273 native), 12 complete
+  pinned AIO CLASS contexts and 15 full native neighbors. Root separately assessed the handoffs, retained
+  byte-verified AIO contexts and documented primary pages. Signed threshold memory and previous/current
+  state-pair memory define separate algorithms; neither is a general Markov-process model, hidden/observed
+  pairwise model, Gibbs sampler or persistent contrastive-divergence training method. The mapping is related_match
+  to AIO:MarkovChain, without equivalence or inherited network/hidden-layer assertions. Absence is bounded
+  to this snapshot, maintained corpus and the documented searches.
+evidence_sources:
+- source_id: neal2004
+  title: 'Improving Asymptotic Variance of MCMC Estimators: Non-reversible Chains are Better'
+  authors:
+  - Radford M. Neal
+  source_type: author_technical_report
+  access_level: full_text
+  persistent_id: arxiv:math/0407281v1
+  version: arXiv:math/0407281v1, submitted 15 July 2004 19:44:23 UTC; Technical Report 0406; cover 15
+    July 2004 Root text pages 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25; visual
+    pages 6,7,8,9. All25 pages and16 references read; core transition/theorem/implementation pages visually
+    inspected. The preserved invariance calculation is distinct from the incorrect automatic-irreducibility
+    claim. Equation16 and conditional proposal define the curated mechanism; invalid p9 fast branch is
+    excluded. Historical endpoint-index example is not relied upon.
+  url: https://arxiv.org/pdf/math/0407281v1
+  accessed_at: '2026-10-14T19:41:47Z'
+  sha256: b3f451ce72fb992aac2c98c7e3da317c34b0ba96ffacbff65f765632481b2eb3
+- source_id: diaconis-miclo2013
+  title: On the spectral analysis of second-order Markov chains
+  authors:
+  - Persi Diaconis
+  - Laurent Miclo
+  source_type: primary_paper
+  access_level: full_text
+  persistent_id: doi:10.5802/afst.1383
+  version: Published article, Annales de la Faculté des sciences de Toulouse, Série 6, 22(3), 2013, pp.573–621;
+    publisher reports online publication 2014-02-13; doi:10.5802/afst.1383. PDF includes an archive cover.
+    Root text pages 2,31,32,33,34,50; visual pages 32. Selective full-text reading only. Explicit additional
+    irreducibility assumption and single-coordinate scope read in context with next-section cyclic example
+    and bibliography. Remaining spectral proofs not reviewed.
+  url: https://www.numdam.org/item/AFST_2013_6_22_3_573_0.pdf
+  accessed_at: '2026-10-14T19:43:21Z'
+  sha256: 15117d97e644d570befc28f44129fb579a2d3d642e8f459dbc4249781b5b8d98
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The algorithm constructs a transition on ordered state pairs with a specified target marginal.
+    The AIO target describes a stochastic process/model; this is a method-to-process association without
+    equivalence, subclass status, or inheritance of the exported Network and ProbabilisticHiddenLayer
+    assertions.
+limitations:
+- This local label denotes Neal’s finite-state conditional-kernel construction. Generic nonreversible
+  MCMC, lifted MCMC and non-backtracking graph walks are not asserted as exact aliases.
+- The expanded-chain irreducibility requirement must be checked separately. The uncorrected automatic-irreducibility
+  claim is not adopted.
+- The target invariance statement and the asymptotic-variance comparison have different assumptions. Neither
+  implies finite-run or computational superiority.
+- The inspected 2004 arXiv report is retained with its printed simulation caveat. No corrected fast implementation
+  or equivalence to uninspected author-hosted PDF bytes is claimed.
+- The Diaconis–Miclo article was inspected selectively, including its correction on PDF p. 32; this is
+  not a full review of its spectral results.
+- The exact curator calculations do not execute author software or reproduce benchmarks. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T20:19:21Z'
+  updated_at: '2026-10-14T20:19:21Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

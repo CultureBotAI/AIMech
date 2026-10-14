@@ -1,0 +1,82 @@
+{
+  "created_at": "2026-10-14T19:59:34Z",
+  "role": "Supporting mathematical source/draft audit by /root/nonreversible_math_checks within the same agent workflow. Not an independent scientific approval, complete record review, or authorization to publish.",
+  "scope": "Two proposed mechanisms; no maintained records existed when assigned. No repository mutation, gates, commits, issue creation, benchmarks, training, or author-code execution. Original exact calculations were written only under /private/tmp.",
+  "inputs": [
+    {"path": "/private/tmp/aimech-nonreversible-followup-20261014/handoff.json", "sha256": "e8e53c06bf896f2d22fcf5779e3ae08a2cafb8b11f5abb20561816b81c6301da", "read_scope": "Complete source-research handoff and original boundary-checks.py read."},
+    {"path": "/private/tmp/aimech-nonreversible-followup-20261014/neal2020-nrevu-author.pdf", "sha256": "633fee302304649f2bf3a13c919c04773a5f30cfda2343a945249f27f4dae7bc", "read_scope": "Extracted text pages 1–3 and 5 plus beginning of 6; page 4 extracted text encountered but dense figure extraction not relied on; visual page 2. No full-paper review or empirical result verification by this agent."},
+    {"path": "/private/tmp/aimech-nonreversible-followup-20261014/neal2004-asymvar-arxiv-v1.pdf", "sha256": "b3f451ce72fb992aac2c98c7e3da317c34b0ba96ffacbff65f765632481b2eb3", "read_scope": "Extracted text final part of page 5, all pages 6–10, and beginning of 11; visual pages 8–9. General proofs and full bibliography were not audited by this agent."},
+    {"path": "/private/tmp/aimech-nonreversible-followup-20261014/diaconis-miclo2013-second-order.pdf", "sha256": "15117d97e644d570befc28f44129fb579a2d3d642e8f459dbc4249781b5b8d98", "read_scope": "Visual PDF page 32 / printed page 603, including the correction preceding Eq.(3.12). Remaining paper not read by this agent."}
+  ],
+  "calculation": {
+    "script": "/private/tmp/aimech-nonreversible-exact-boundaries.py",
+    "script_sha256": "75ad60f06adf1a11400932ac7bf6c3e578446d14d7de84f1c6f35bb680471945",
+    "result": "/private/tmp/aimech-nonreversible-exact-boundaries.json",
+    "result_sha256": "3937a6af92d578ccd989d6b486571a5404b242d7dc9db446355fcba29d27687c",
+    "command": "python3 /private/tmp/aimech-nonreversible-exact-boundaries.py",
+    "exit_code": 0,
+    "properties": "Pure standard library; exact Fraction arithmetic; deterministic JSON stdout only; no timestamps, files, network, randomness, third-party libraries, or author code. Output density pieces and masses are derived by transport, not hardcoded.",
+    "checks": [
+      "576 positive finite-target cases with two symmetric proposal families, four drifts and deterministic/two-point independent noise: wrapped translation plus acceptance rescaling preserves the complete piecewise-constant joint density exactly.",
+      "Two-state symmetric flip with target (1/3,2/3): correct rescaling gives joint densities 1/6 and 1/3 uniformly over (-1,1). Omitting rescaling breaks the product joint density after one step and gives state-0 probability 1/6 instead of 1/3 after a second fixed-threshold step.",
+      "Asymmetric proposal negative control [[1/2,1/2],[1,0]] gives state-0 probability 1/2 under the density-ratio-only rule, demonstrating that the symmetric-proposal boundary is substantive.",
+      "Half-period drift is an involution on v, but the full shift-then-accept chain has unequal exact set fluxes 1/24 and 0. Full independent v refresh followed by acceptance/rescaling has another pair of unequal augmented-state fluxes, 1/192 and 1/384, even though the projected x process uses ordinary Metropolis transitions.",
+      "The three-state complete graph without self loops has an irreducible aperiodic reversible baseline but its equation-defined pair lift has two closed deterministic orientation classes. Local balance, off-diagonal domination and pair invariance hold. Each class in this example still has the correct projected marginal, so this is specifically an expanded-irreducibility counterexample.",
+      "Point-mass conditionals are handled without division by zero; the two-state alternating example retains the required previous conditional state after the swap.",
+      "Conditional row (3/5,3/10,1/10) with current index 0: Eq.(16) gives row (29/63,3/7,1/9). The printed p.9 first-branch acceptance for index 1 is 10/7; clipping produces 3/10 instead of the required 3/7 transition. The diagonal remains 29/63, illustrating suppression without complete elimination.",
+      "54 positive symmetric-conductance baseline families: exact row normalization, detailed balance, positive-support lifting, conditional invariance, off-diagonal domination and expanded irreducibility checked. Exact Poisson-equation asymptotic-variance calculations for all three coordinate indicators give 162 valid comparisons, each strictly improved. These finite illustrations do not prove the general theorem or wall-clock benefits."
+    ],
+    "limitations": "Finite positive targets and continuous auxiliary-density transport only; no simulated trajectories or empirical autocorrelation estimates. No verification of author scripts, numerical experiments, arbitrary general MH extensions, continuous-state irreducibility, or the complete general asymptotic-variance proof. The Poisson equation is applied only after exact finite irreducibility checks."
+  },
+  "findings": [
+    {
+      "key": "translation-versus-composed-reversibility",
+      "severity": "important drafting boundary",
+      "owner": "handoff / future candidate wording; no maintained record defect existed at assignment",
+      "locator": "Neal2020 Section 2 p.2 Eq.(1); handoff candidate limitations about zero shift, half-period shift and uniform regeneration",
+      "finding": "The translation substep is reversible for deterministic drift congruent to 0 or 1 modulo 2, but that fact does not establish reversibility of the composed augmented chain. Uniform regeneration recovers ordinary Metropolis for the x projection, but also does not establish augmented-chain detailed balance. The handoff's wording is ambiguous if interpreted as a statement about the entire method.",
+      "evidence": "The exact calculator has unequal stationary set fluxes for both half-period-shift-then-accept and refresh-then-accept compositions. Composition of invariant reversible kernels need not be reversible.",
+      "recommendation": "State degeneracy only for the threshold update; distinguish the full (x,v) chain and the x projection. Do not claim every invariant tuning is nonreversible or every reversible threshold substep makes the complete chain reversible.",
+      "communicated_to_root": true
+    },
+    {
+      "key": "proposal-scope",
+      "severity": "required mathematical assumption",
+      "owner": "future candidate wording",
+      "locator": "Neal2020 Section 2 p.2 acceptance rule and Eq.(2); random-walk proposal p.3; augmented reversible proposal Section 4 p.5",
+      "finding": "The simple density-ratio acceptance/rescaling construction needs a symmetric proposal independent of the persistent v, or an appropriately reversible volume-preserving augmented proposal. Mere symmetry in x at each fixed v is insufficient if the proposal law changes between the forward and rescaled reverse v values.",
+      "evidence": "For independent symmetric q, accepted transport has forward density pi(y)q(x,y)/2 after the v Jacobian and matches the reverse flow when q(x,y)=q(y,x). The asymmetric-q negative control fails invariance. No general q-ratio extension was established in this audit.",
+      "recommendation": "Keep the existing symmetric-proposal or valid augmented-proposal boundary explicit; do not generalize the simple rule to arbitrary MALA/asymmetric proposals.",
+      "communicated_to_root": true
+    },
+    {
+      "key": "source-fast-simulator-invalid-as-printed",
+      "severity": "confirmed source inconsistency",
+      "owner": "Neal2004 source description; already flagged by source agent",
+      "locator": "Neal2004 p.9 final implementation paragraph, first branch T(x,y)>=1/2; contrast Eq.(16) p.8",
+      "finding": "The printed acceptance 1/(1−T(x,z*)) exceeds one when T(x,z*) is positive. Clipping does not implement Eq.(16).",
+      "recommendation": "Curate the equation-defined kernel and conditional-proposal construction with point-mass handling. Preserve this source inconsistency as a limitation; do not silently copy or repair the printed branch."
+    },
+    {
+      "key": "expanded-irreducibility-not-automatic",
+      "severity": "confirmed published correction",
+      "owner": "Neal2004 theorem as qualified by Diaconis–Miclo2013",
+      "locator": "Neal2004 Theorem 2(a), p.7; Diaconis–Miclo2013 printed p.603 / PDF p.32, immediately before Eq.(3.12)",
+      "finding": "Local conditional reversibility and off-diagonal domination do not imply expanded-state irreducibility. The later paper explicitly adds that condition before retaining the variance order.",
+      "recommendation": "Require expanded irreducibility separately for the stated single-coordinate asymptotic-variance comparison. Distinguish invariance from ergodicity and asymptotic per-transition variance from finite-run error or wall-clock cost."
+    },
+    {
+      "key": "source-boundary-example-index-typo",
+      "severity": "minor source example inconsistency; irrelevant unless example copied",
+      "owner": "Neal2004",
+      "locator": "p.8 first example after Eq.(16)",
+      "finding": "The example declares X={1,...,N} but includes a self-loop condition x=y=0. Its diagram shows the endpoint (1,1), suggesting the written boundary index is a typo. This audit does not rely on that example to define the method.",
+      "recommendation": "Omit this historical example or disclose the interpreted correction rather than silently reproducing the inconsistent condition."
+    }
+  ],
+  "mathematical_rationale": {
+    "persistent_uniform": "For a symmetric proposal independent of v, an accepted move x->y maps v to v*pi(x)/pi(y). Its inverse Jacobian is pi(y)/pi(x), so joint input density pi(x)/2 times q(x,y) transforms to pi(y)/2 times q(x,y), matching reverse flow. Rejections retain the full state. Independent wrapped translations preserve uniform v conditionally on x, so composition preserves pi(x)Uniform(-1,1). Invariance does not imply full-chain reversibility or convergence.",
+    "backtracking_lift": "The baseline detailed balance gives mu(a,b)=pi(b)T(b,a). Conditional invariance gives sum_a T(b,a)U_b(a,c)=T(b,c). Consequently the shift/update chain preserves mu(b,c)=pi(b)T(b,c). Off-diagonal domination reduces the diagonal return probability, but says nothing sufficient about connectedness of the expanded state graph."
+  },
+  "recommendation": "Proceed with two separate native draft concepts after root identity/mapping review and complete record review. Incorporate the precise proposal and composition boundaries; preserve both established source qualifications. This bounded supporting audit is not a saturation claim or a substitute for the project's canonical review/publication gates."
+}
