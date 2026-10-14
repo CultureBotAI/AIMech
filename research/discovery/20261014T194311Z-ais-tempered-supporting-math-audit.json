@@ -1,0 +1,293 @@
+{
+  "completed_at": "2026-10-14T19:43:11Z",
+  "audit_kind": "bounded_subagent_supporting_math_and_source_audit",
+  "auditor": {
+    "agent": "/root/monte_carlo_math_audit",
+    "tool": "Codex",
+    "model_family": "GPT-6",
+    "independence": "Supporting subagent audit under the same model/provider workflow; not an independent scientific approval or completed formal record review."
+  },
+  "repository_modified": false,
+  "scope": {
+    "record_read_in_full": "data/curated/AnnealedImportanceSampling.yaml",
+    "record_sha256_observed_before_root_remediation": "279fb7899a54df6206fbf1a2dd59168d6a1be426911d25b9c7de74d7c37006f2",
+    "tt_draft_read_in_full": "/private/tmp/aimech-round309-record-content.py",
+    "tt_draft_sha256_observed_before_root_remediation": "9a45550b69ddb2e80bf058e60ef71b89643cabc94d71ed8b97d5184935751474",
+    "ais_pdf_text_pages": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      19,
+      20
+    ],
+    "ais_pdf_visual_pages": [
+      2,
+      4,
+      5,
+      6,
+      19
+    ],
+    "tempered_ocr_pages_read_full": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "tempered_ocr_page10": "Read transition-efficiency discussion and beginning of Gaussian-comparison section; remaining page was not included in the bounded text excerpt.",
+    "tempered_pdf_visual_pages": [
+      5,
+      6,
+      7,
+      20
+    ],
+    "calculator_sources_read_full": [
+      "/private/tmp/aimech-ais-boundaries.py",
+      "/private/tmp/aimech-tempered-boundaries.py"
+    ],
+    "excluded": [
+      "Full-paper scientific review",
+      "AIO mapping and identity-deduplication audit",
+      "Bibliography-wide checks",
+      "Full regression gates",
+      "Author implementation or benchmark replication",
+      "Continuous-state general theorem certification",
+      "Publication or Git operations"
+    ]
+  },
+  "sources": [
+    {
+      "path": "/private/tmp/aimech-monte-carlo-frontier-sources-20261014/ais1998-arxiv-v2.pdf",
+      "sha256": "6ae14b83d623438355c2de17a5e830d67a07fd5331b2eb997b82ed40174745cc"
+    },
+    {
+      "path": "/private/tmp/aimech-monte-carlo-frontier-sources-20261014/tempered-transitions1994.pdf",
+      "sha256": "b91a045d73ddbe45ab6f75b3877cbd66fc43127ebb0c55989388894afc35a596"
+    }
+  ],
+  "findings": [
+    {
+      "id": "AIS-LOCATOR-001",
+      "severity": "low",
+      "owner": "data/curated/AnnealedImportanceSampling.yaml",
+      "field": "definition_evidence[0].locator",
+      "finding": "Self-normalized Equation 2 is cited as PDF p. 3, but appears on PDF p. 2.",
+      "evidence": "AIS PDF p. 2, Equation 2; page inspected as extracted text and rendered image. PDF p. 3 contains the annealing discussion and no Equation 2.",
+      "recommended_fix": "Change Equation 2 locator to PDF p. 2.",
+      "disposition": "reported_to_root_unresolved_at_audit"
+    },
+    {
+      "id": "AIS-ZERO-SUPPORT-002",
+      "severity": "medium",
+      "owner": "data/curated/AnnealedImportanceSampling.yaml",
+      "field": "claims[path-law-and-weight], claims[estimand-and-unbiasedness-boundary]",
+      "finding": "Nested-support assumptions allow a base draw outside an intermediate support, making a later density ratio 0/0 unless a zero-weight path convention is stated. The raw product as written is not defined for every allowed case.",
+      "evidence": "AIS PDF p. 4 permits nested support; PDF p. 5 Equations 4\u20135 define the raw path/product and Equations 6\u201310 give the extended-space law. Curator counterexample f0=f1=(1,0), f2=(1,1), T1=identity satisfies the stated support and invariance assumptions. With base state 1 (probability 1/2), the first ratio f1/f2 is 0, and the next ratio f0/f1 is 0/0.",
+      "counterexample": {
+        "functions": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "intermediate_kernel": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "base_state_1_probability": "1/2",
+        "raw_factors_state_1": [
+          "0/1",
+          "0/0"
+        ],
+        "correct_state_0_weight": "1",
+        "correct_state_1_weight": "0",
+        "expected_weight_with_zero_path_convention": "1/2",
+        "true_Z0_over_Z2": "1/2"
+      },
+      "recommended_fix": "On the first zero numerator, assign the run zero weight and stop subsequent ratio and endpoint evaluation; the run contributes zero to both weighted numerator and denominator. Preserve the all-weights-zero undefined-estimate warning, and add an exact finite guard case. Alternatively restrict the maintained raw formula to strictly positive densities.",
+      "root_preferred_resolution_assessed": "Explicit zero-weight termination is valid; no objection.",
+      "disposition": "reported_to_root_unresolved_at_audit"
+    },
+    {
+      "id": "AIS-INDEX-003",
+      "severity": "low",
+      "owner": "data/curated/AnnealedImportanceSampling.yaml",
+      "field": "limitations[1]",
+      "finding": "The correction that x_j follows T_(j+1) needs its upper-index exception: x_(n\u22121) is drawn directly from p_n, and T_n is not part of Equation 4.",
+      "evidence": "AIS PDF p. 5, Equation 4 visually inspected. Source PDF p. 6 intermediate-state paragraph has T_(j\u22121), which is indeed inconsistent with the main sequence. For 0<=j<=n\u22122 the actual preceding transition is T_(j+1); the highest state is the initial base draw.",
+      "recommended_fix": "Qualify T_(j+1) to j<=n\u22122, and explicitly state that x_(n\u22121) is drawn directly from p_n.",
+      "disposition": "reported_to_root_unresolved_at_audit"
+    },
+    {
+      "id": "TT-LOCATOR-004",
+      "severity": "low",
+      "owner": "Tempered transitions draft /private/tmp/aimech-round309-record-content.py",
+      "field": "claims[later-normalizer-extension].evidence locator",
+      "finding": "The 1994 PDF p. 20 comparison table is cited as Table 1, but the inspected report displays an unnumbered table.",
+      "evidence": "Tempered-transitions PDF p. 20 rendered image: seven numbered comparison questions followed by the three-method checkmark table, without a Table 1 label.",
+      "recommended_fix": "Use unnumbered comparison table, PDF p. 20; retain separate AIS PDF pp. 19\u201320 Equations 28\u201329 citation for the later estimator.",
+      "disposition": "reported_to_root_unresolved_at_audit"
+    }
+  ],
+  "verified_mathematical_points": [
+    "AIS main state indexing and successive-weight formula agree with PDF p. 5 Equations 4\u20135.",
+    "AIS invariance rather than reversibility/ergodicity suffices for intermediate kernels; the reverse kernels in the extended-space proof need not be simulated.",
+    "AIS weighted-mass and normalizing-ratio identities, finite-sample self-normalized bias, and unweighted-endpoint distinction are consistent with the proof and exact finite examples, subject to resolving zero-weight path handling.",
+    "AIS terminal fixed-length average and dependence caveats agree with PDF pp. 6 and 8.",
+    "TT mutual reversal, outward/return indexing, full-path acceptance, rejection retention, 2n kernel applications and independent density-scale cancellation agree with PDF pp. 5\u20137 Equations 5\u201312.",
+    "TT invariant-but-not-mutually-reversed cycle counterexample and correct-reversal identity-transition example match exact calculations.",
+    "Later TT normalizer estimate is correctly separated from the 1994 transition identity; AIS PDF pp. 19\u201320 Equations 28\u201329 use accepted and rejected transitions and discuss autocorrelation and variance."
+  ],
+  "calculator_results": {
+    "ais": {
+      "nonreversible_example": {
+        "target": [
+          1,
+          2,
+          7
+        ],
+        "bridge": [
+          1,
+          1,
+          1
+        ],
+        "base": [
+          3,
+          2,
+          1
+        ],
+        "weighted_endpoint_mass": [
+          "1/6",
+          "1/3",
+          "7/6"
+        ],
+        "expected_weight": "5/3",
+        "unweighted_endpoint_probability": [
+          "1/6",
+          "1/2",
+          "1/3"
+        ],
+        "target_probability": [
+          "1/10",
+          "1/5",
+          "7/10"
+        ],
+        "self_normalized_indicator_expected_value": {
+          "one_run": "1/3",
+          "two_runs": "967/2025",
+          "target": "7/10"
+        },
+        "expected_log_weight": 0.21485510211104045,
+        "log_expected_weight": 0.5108256237659907
+      },
+      "identity_kernel_reduces_to_plain_importance_sampling": true,
+      "noninvariant_reset_expected_weight": "1/2",
+      "invariant_family_cases": 192,
+      "violated_support_example": {
+        "expected_weight": "1",
+        "actual_normalizing_ratio": "2"
+      },
+      "scope": "Finite exact laws and counterexamples only. No continuous-state theorem certification, variance bound, benchmark replication, author implementation, paid provider or training."
+    },
+    "tempered": {
+      "target": [
+        "1/10",
+        "1/5",
+        "7/10"
+      ],
+      "correct_path_kernel": [
+        [
+          "7/27",
+          "7/27",
+          "13/27"
+        ],
+        [
+          "7/54",
+          "7/18",
+          "13/27"
+        ],
+        [
+          "13/189",
+          "26/189",
+          "50/63"
+        ]
+      ],
+      "independent_density_scales_cancel": true,
+      "endpoint_only_acceptance": {
+        "kernel": [
+          [
+            "1/6",
+            "1/3",
+            "1/2"
+          ],
+          [
+            "1/12",
+            "5/12",
+            "1/2"
+          ],
+          [
+            "1/42",
+            "2/21",
+            "37/42"
+          ]
+        ],
+        "target_after_one_step": [
+          "1/20",
+          "11/60",
+          "23/30"
+        ]
+      },
+      "wrong_same_nonreversible_directions": {
+        "kernel": [
+          [
+            "0",
+            "0",
+            "1"
+          ],
+          [
+            "1/2",
+            "1/2",
+            "0"
+          ],
+          [
+            "0",
+            "2/7",
+            "5/7"
+          ]
+        ],
+        "target_after_one_step": [
+          "1/10",
+          "3/10",
+          "3/5"
+        ]
+      },
+      "correct_cycle_reverse_is_identity": true,
+      "finite_invariant_family_cases": 72,
+      "scope": "Exact finite path enumeration, including rejection self-loops. No author-code or benchmark replication, universal efficiency bound, guarantee of ergodicity or numerical implementation audit."
+    }
+  },
+  "test_execution": "Both supplied calculator programs ran successfully; their exact Fraction-based assertions passed (192 AIS finite family cases and 72 TT finite family cases). The additional two-state nested-support zero/zero case was executed separately and exhibited the stated ZeroDivisionError, with the guarded mean 1/2 matching Z0/Z2.",
+  "overall": "Core positive-density formulas and supplied finite arithmetic pass this bounded supporting audit. Four actionable curation/locator findings were reported; no repository changes were made."
+}
