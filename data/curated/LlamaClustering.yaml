@@ -1,0 +1,187 @@
+id: AIMech:LlamaClustering
+name: Llama clustering
+aliases:
+- Lattices by Leveraging Agglomerations and Multiple Ancestors
+concept_kind: algorithm
+definition: An agglomerative clustering algorithm that unions each current cluster with a nearest neighboring
+  cluster in successive rounds and retains the resulting overlapping sets as a directed acyclic clustering
+  structure with multiple possible parents.
+identity_notes: Compared all 442 pinned AIO and 661 native IDs, names, aliases and scoped synonyms for
+  the full concept name, expanded method name and local ID; no normalized identity match. Ignored- and
+  hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts
+  returned 82, 0, 0 lines. All distinct match contents were read, including pending discovery entries
+  and source-reading observations. Recovery hits concern pending Llama discovery and source-reading notes,
+  plus the explicit provenance review of its handoff; none identifies an existing standalone Llama clustering
+  record. Both other checkouts returned no matches including ignored and hidden files. Semantic matching
+  covered 41 AIO and 224 native definitions, all read; unchanged definitions were byte-compared with the
+  preceding full assessment. 11 full annotated AIO node/edge/generated contexts and 5 full native records
+  were inspected. Retain nearest-neighbor union rounds that accumulate overlapping sets with multiple
+  parents. This is distinct from disjoint reciprocal agglomeration, thresholded weak-component merging,
+  grafted binary trees, learned probabilistic DAGs and language-model terminology.
+definition_evidence:
+- source_id: llama2021
+  locator: Sections 3.1–3.3, Equations 5–6 and Algorithm 1, main PDF pp. 2–4
+  relation: supports
+claims:
+- claim_id: nearest-neighbor-unions
+  kind: mechanism
+  statement: Begin with singleton observations. In each round, each current cluster chooses a nearest
+    other cluster according to a supplied similarity linkage; the next round contains the unions of these
+    pairs, with duplicate sets identified. Accumulating those sets permits one cluster to have multiple
+    parents and one observation to belong to overlapping clusters. Nonreciprocal neighbor relationships
+    create this branching; the operation is not merely reciprocal-pair agglomeration.
+  evidence:
+  - source_id: llama2021
+    locator: Section 3.2, Equations 5–6 and Algorithm 1, main PDF pp. 3–4
+    relation: supports
+- claim_id: size-and-round-controls
+  kind: scope
+  statement: The optional round limit can stop construction before the full-data root exists, so a limited-round
+    result need not satisfy the root condition of the paper’s complete DAG-clustering definition. The
+    parent-cap variant retains eligible nearest-neighbor pairs only when selected by both endpoint parent
+    sets and carries forward unmerged clusters. Those controls change the unrestricted construction; exact-recovery
+    statements are not automatically transferred to every cap and stopping choice.
+  evidence:
+  - source_id: llama2021
+    locator: Definition 2, main PDF p. 2; Section 3.3 and Algorithm 1, pp. 3–4
+    relation: supports
+- claim_id: conditional-separation
+  kind: scope
+  statement: The paper analyzes linkage functions that distinguish connected from disconnected unions
+    in an unobserved graph whose components define a target partition. Its noisy variant permits specified
+    singleton neighbor errors when an incoming within-component neighbor preserves the affected point.
+    The appendix assumes symmetric tie-free linkage. Recovery statements concern this restricted setting
+    and enough rounds, not arbitrary data, arbitrary tied neighbors or universal superiority over tree
+    methods.
+  evidence:
+  - source_id: llama2021
+    locator: Sections 4.1–4.3, Definitions 3–4, Theorem 1 and Propositions 1–5, main PDF pp. 4–5
+    relation: supports
+  - source_id: llama-supplement
+    locator: Appendix B.1–B.3, supplement PDF pp. 1–3
+    relation: supports
+- claim_id: sparse-linkage-and-overlap
+  kind: mechanism
+  statement: The practical sparse-graph computation treats missing point-pair similarities as zero and
+    restricts neighbor candidates to clusters connected by graph edges. For overlapping clusters, ordinary
+    tree average-linkage updates can double-count shared observations and differ from an exact set-union
+    average. The paper explicitly treats those updates as an approximation and compares them empirically;
+    the approximation is not an algebraic identity.
+  evidence:
+  - source_id: llama-supplement
+    locator: Appendix A.1, supplement PDF p. 1
+    relation: supports
+  - source_id: llama2021
+    locator: Section 6.1 and Table 2, main PDF pp. 6–8
+    relation: supports
+- claim_id: complexity-scope
+  kind: scope
+  statement: For the unrestricted analysis with symmetric tie-free linkage, the paper bounds the number
+    of stored clusters by O(N²) and the linkage computations over R rounds by O(RN²). These are node and
+    linkage-call counts, not unconditional wall-clock bounds or a claim that an arbitrary linkage is constant-cost.
+    Its K-round recovery statement uses the largest target-cluster size K, not the number of clusters.
+  evidence:
+  - source_id: llama2021
+    locator: Section 4.3, Propositions 3–5, main PDF p. 5
+    relation: supports
+  - source_id: llama-supplement
+    locator: Appendix B.3, supplement PDF p. 3
+    relation: supports
+- claim_id: evaluation-measures
+  kind: scope
+  statement: 'The paper evaluates recovery using best-match Jaccard overlap per reference cluster and
+    per point-membership, and evaluates excess structure using best-match Jaccard overlap per predicted
+    node. These measure different properties: recovering all reference groups does not establish a compact
+    or precise output. A conventional tree dendrogram-purity score alone can reward trivial large DAG
+    families and does not establish useful overlapping structure.'
+  evidence:
+  - source_id: llama2021
+    locator: Section 5, Equations 9–12, main PDF pp. 5–6
+    relation: supports
+  - source_id: llama-supplement
+    locator: Appendix C.1, supplement PDF pp. 3–5
+    relation: supports
+- claim_id: empirical-scope
+  kind: scope
+  statement: Experiments use partition-labelled and multi-label covering datasets plus WordNet reconstruction
+    from word embeddings. Results vary by metric and dataset, and the method is not uniformly best. The
+    timing comparison uses 100 rounds, ten threads, approximate average linkage and precomputed sparse
+    graphs, excluding graph construction. The appendix distinguishes 1.2 million large-ILSVRC clustering
+    inputs from a sampled 50,000-point evaluation. These source-specific results are not portable runtime
+    guarantees or reproduced experiments.
+  evidence:
+  - source_id: llama2021
+    locator: Sections 6.1–6.3, Tables 1–5 and Figure 3, main PDF pp. 6–9
+    relation: supports
+  - source_id: llama-supplement
+    locator: Appendix C.2–C.4, Tables 6–7 and Figure 6, supplement PDF pp. 5–6
+    relation: supports
+evidence_sources:
+- source_id: llama2021
+  title: DAG-Structured Clustering by Nearest Neighbors
+  authors:
+  - Nicholas Monath
+  - Manzil Zaheer
+  - Avinava Dubey
+  - Amr Ahmed
+  - Andrew McCallum
+  source_type: primary_paper
+  access_level: full_text
+  version: PMLR 130:2854–2862, AISTATS 2021; all 12 main PDF pages read, including references. Author
+    names follow the PDF; the landing page expands the third name.
+  persistent_id: PMLR:130:monath21a
+  url: https://proceedings.mlr.press/v130/monath21a/monath21a.pdf
+  accessed_at: '2026-10-13T23:32:55Z'
+  sha256: 88876e633ff19d41a4d8cccdcc3999807a7ee6eb36a3d645527b1a7f467bd3a5
+- source_id: llama-supplement
+  title: 'DAG-Structured Clustering by Nearest Neighbors: Supplement'
+  authors:
+  - Nicholas Monath
+  - Manzil Zaheer
+  - Avinava Dubey
+  - Amr Ahmed
+  - Andrew McCallum
+  source_type: primary_paper
+  access_level: full_text
+  version: PMLR accompanying supplement, 2021; all six PDF pages, Appendices A–C, proofs, figures and
+    tables read.
+  persistent_id: PMLR:130:monath21a
+  url: https://proceedings.mlr.press/v130/monath21a/monath21a-supp.pdf
+  accessed_at: '2026-10-13T23:32:57Z'
+  sha256: 12f635c9983b993be77feda1231dc32797a69ca2d1852a96a8a68365d29c88b7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The algorithm groups observations into overlapping sets from supplied linkage scores; this
+    target denotes the grouping task, not this algorithm.
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: The method extends nested cluster-tree construction to a structure with overlapping groups
+    and multiple parents. This related-task mapping does not identify its DAG with a tree or assert equivalence
+    to every hierarchical-clustering definition.
+limitations:
+- This Llama is the 2021 clustering algorithm, not a language model. A cluster-inclusion DAG does not
+  assert causal or conditional-independence semantics.
+- The literal Lemma 1 proof writes argmin where the main similarity algorithm uses argmax. Its noisy-recovery
+  proof also states a first-round pair-cover argument without the singleton-target exception, whose singleton
+  already exists in the accumulated structure. No formal theorem certification or refutation is claimed.
+- Printed dendrogram-purity Equations 18–19 sum ordered unequal pairs but normalize by unordered-pair
+  counts. A conventional unordered-pair interpretation is needed for unit-normalized purity; no metric
+  implementation was inspected.
+- Standalone exact calculations illustrate finite-round root absence, overlap double-counting and the
+  printed purity normalization. They are not author implementation runs or general correctness proofs.
+- All 12 main and six supplementary PDF pages were read, including figures, tables, references and proofs.
+  Author code, datasets, alternative source revisions and historical experiments were not audited or executed.
+- No training, model execution, paid service, data upload, benchmark replication or formal proof certification
+  was performed. This record remains DRAFT.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T00:04:51Z'
+  updated_at: '2026-10-14T00:04:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
