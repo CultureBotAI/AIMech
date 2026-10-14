@@ -1,0 +1,178 @@
+id: AIMech:BrandesBetweennessCentrality
+name: Brandes betweenness centrality computation
+aliases:
+- Brandes algorithm
+concept_kind: algorithm
+definition: An exact graph algorithm for computing shortest-path vertex betweenness that combines single-source
+  shortest-path counting with reverse-distance accumulation of dependencies, avoiding explicit summation
+  of every source-target-vertex contribution.
+definition_evidence:
+- source_id: brandes2001
+  locator: Sections 3–4, PDF/printed pp. 5–10; Theorem 6 and Algorithm 1
+  relation: supports
+claims:
+- claim_id: scoped-path-domain
+  kind: scope
+  statement: The explicit formulation here uses a finite connected simple undirected graph with positive
+    edge lengths, or unit lengths for an unweighted graph. A vertex receives the fraction of each pair’s
+    shortest paths on which it is an internal vertex; endpoints do not contribute. The scores stated here
+    use unordered vertex pairs without size normalization. The paper also discusses directed and more
+    general graph inputs; their implementation conventions are not silently added to this scoped formulation.
+  evidence:
+  - source_id: brandes2001
+    locator: Section 2, PDF/printed pp. 3–4; undirected halving on p. 9; Algorithm 1, p. 10
+    relation: supports
+- claim_id: shortest-path-counts
+  kind: mechanism
+  statement: For each source s, compute distances, shortest-path counts sigma_s(v) and predecessor lists.
+    Initialize sigma_s(s)=1 and add counts from every shortest-path predecessor, including ties. Breadth-first
+    traversal applies to unit lengths; Dijkstra traversal applies to positive lengths. Strictly positive
+    lengths place predecessors at smaller distances and make the predecessor structure acyclic.
+  evidence:
+  - source_id: brandes2001
+    locator: Section 3, PDF/printed pp. 5–6, predecessor definition and Lemma 3; Algorithm 1, p. 10
+    relation: supports
+- claim_id: dependency-accumulation
+  kind: mechanism
+  statement: Process vertices in non-increasing distance from s. For each successor w for which v is a
+    shortest-path predecessor, add [sigma_s(v)/sigma_s(w)] times [1+delta_s(w)] to delta_s(v). Add each
+    non-source vertex’s dependency to its total across sources. Divide the resulting totals by two for
+    the selected undirected convention, because both orientations of each pair were visited. This division
+    is distinct from any optional normalization for network size.
+  evidence:
+  - source_id: brandes2001
+    locator: Section 4, PDF/printed pp. 6–10; Theorem 6, proof, Corollary 7 and Algorithm 1
+    relation: supports
+- claim_id: fractional-and-weighted-boundaries
+  kind: limitation
+  statement: Fractions of shortest paths are not raw counts of paths and do not count every walk. In a
+    constructed four-cycle, each vertex has unordered betweenness 1/2 but stress count 1. In a triangle
+    with edge lengths 0–1=1, 1–2=1 and 0–2=2, vertex 1 has betweenness 1/2 because direct and two-edge
+    routes tie. Raising the last length to 3 gives that vertex score 1; treating all three edges as unit
+    length gives 0. Thus interpreting a strength or similarity weight as a path length requires an explicit
+    modeling choice.
+  evidence:
+  - source_id: brandes2001
+    locator: Sections 2–3, PDF/printed pp. 3–6; exact curator examples in research/discovery/brandes-betweenness-boundaries.py
+    relation: supports
+- claim_id: complexity-scope
+  kind: scope
+  statement: The paper gives O(n+m) storage, O(nm) time for unweighted graphs and O(nm+n-squared log n)
+    time for positive-weight graphs. These are the stated arithmetic-operation bounds under its connected-graph
+    assumptions, with a Fibonacci-heap shortest-path bound for the weighted case. They do not establish
+    arbitrary-precision bit complexity, a universal wall-clock speedup or the same bound for every priority-queue
+    implementation.
+  evidence:
+  - source_id: brandes2001
+    locator: Section 3, PDF/printed p. 6, Fibonacci-heap qualification; Section 4, p. 9, Corollary 7 and
+      Theorem 8
+    relation: supports
+- claim_id: method-and-application-boundary
+  kind: scope
+  statement: The contribution accelerates computation of an existing shortest-path centrality measure.
+    It produces structural vertex scores without fitting a predictive model, assigning community labels
+    or defining a causal influence measure. The primary text discusses social, web and word-network analysis.
+    PageRank and HITS use different link-propagation objectives; repeatedly deleting high-betweenness
+    edges to form communities is a surrounding procedure, not this vertex-score computation.
+  evidence:
+  - source_id: brandes2001
+    locator: Introduction, PDF/printed pp. 1–2; Sections 2 and 4, pp. 3–4,9–10; applications pp. 12–13
+    relation: supports
+- claim_id: evaluation-limits
+  kind: limitation
+  statement: The empirical evidence concerns historical LEDA implementations, specified hardware, random
+    graphs and particular network-analysis examples. The random-graph experiments vary density or fix
+    average degree; reported application speed comparisons include different machines and software contexts.
+    These observations do not establish held-out prediction accuracy, modern hardware performance, calibrated
+    social importance or correctness of an unseen implementation.
+  evidence:
+  - source_id: brandes2001
+    locator: Section 5, PDF/printed pp. 9,11–13; Figures 3–4 and footnotes 3–4
+    relation: supports
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 684 preceding native identities and searched three checkouts
+    including ignored and hidden files. The semantic search selected 128 AIO and 470 native definitions;
+    prior selected rows were verified unchanged and the new PageRank definition read. Nine complete AIO
+    node/edge/generated-record contexts and four full native neighboring records were assessed.
+  rationale: No inspected AIO target adequately denotes this centrality-computation algorithm. A downstream
+    clustering or feature-engineering use does not make the algorithm identical to those tasks, and a
+    mathematical expression for its output does not identify its computational procedure.
+  examined_targets:
+  - target: AIO:Clustering
+    rejection_reason: Vertex centrality scores do not group objects into clusters.
+  - target: AIO:UnsupervisedClustering
+    rejection_reason: No unlabeled-object grouping or cluster assignment is defined by this computation.
+  - target: AIO:HierarchicalClustering
+    rejection_reason: The algorithm does not construct a cluster hierarchy; a downstream divisive community
+      procedure is distinct.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The betweenness index is mathematically a function, but this record denotes a particular
+      traversal and accumulation algorithm for computing it. The generic function class does not identify
+      that computational method.
+  - target: AIO:DataPreparation
+    rejection_reason: The specified output is a network centrality statistic, not a procedure defined
+      to clean or organize machine-learning data. Possible use as a feature is insufficient for this mapping.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: Graph traversal and path counting do not define a language model.
+  - target: AIO:RankingBias
+    rejection_reason: The algorithm computes a structural statistic rather than a belief that a top-ranked
+      result is most relevant.
+  - target: AIO:DimensionalityReduction
+    rejection_reason: The method is not a learned embedding or an algorithm intended to preserve high-dimensional
+      data geometry.
+  - target: AIO:PrincipalComponentAnalysis
+    rejection_reason: Shortest-path dependency accumulation does not compute centered covariance principal
+      components.
+limitations:
+- The maintained mechanism is scoped to connected simple undirected positive-length graphs. The paper
+  mentions directed graphs, loops and multiple edges, but this record does not infer every convention
+  needed for those cases, disconnected inputs or endpoint-inclusive variants.
+- Positive lengths and exact shortest-path comparisons are material assumptions. Zero or negative lengths
+  and numerical tie handling need separate analysis; the stated DAG argument must not be extended to them
+  automatically.
+- The existing betweenness measure, sampled approximations, variants and community-detection pipelines
+  remain distinct identities or source leads. No model-training behavior or AIO acceptance is implied.
+- 'The rendered proof prose on PDF page 8 uses sigma(s,v)/sigma(s,w), consistently with Theorem 6 and
+  Algorithm 1. An earlier preliminary discovery note had misread that fraction; issue #340 corrects the
+  note rather than attributing an error to the paper.'
+- The curator calculator uses independent path enumeration on five small constructed graphs. It does not
+  reproduce author code, original datasets, historical runtimes or general asymptotic proofs.
+- All primary text, references, mathematical displays and figures were inspected. No author software,
+  separate journal-layout copy, training, paid service or data upload was used. This record remains DRAFT
+  after author self-review.
+identity_notes: Compared all 442 pinned AIO and 684 native identities; no normalized match. Ignored- and
+  hidden-inclusive searches of three checkouts returned 56,0,0 lines; all 13 unique payloads were read
+  and were prior citation/query/pending-lead context. The semantic search selected 128 AIO and 470 native
+  definitions; all 128 AIO and 469 previous native rows were verified unchanged and the new PageRank definition
+  read. Nine complete AIO node/edge/generated-record contexts and full GN, definition-filtered GN, PageRank
+  and HITS records were assessed. This identity is the algorithm for computing vertex shortest-path betweenness
+  by per-source dependency accumulation. It is not the older betweenness measure itself, stress centrality,
+  PageRank, HITS or an iterative edge-removal community detector. Its role here is a reusable network-analysis
+  primitive relevant to structural graph features and the inspected web/text-network applications; this
+  does not assert that every graph algorithm is a learned AI model.
+evidence_sources:
+- source_id: brandes2001
+  title: A Faster Algorithm for Betweenness Centrality
+  authors:
+  - Ulrik Brandes
+  source_type: primary_paper
+  access_level: full_text
+  version: Stanford-hosted author-style PDF, 15 pages with printed pagination 1–15, identifying Journal
+    of Mathematical Sociology 25(2):163–177 (2001). Complete text and 25 references read; rendered equations,
+    Algorithm 1 and all four figures inspected. The author catalog corroborates publication metadata.
+    A separate journal-layout copy and author software were not inspected.
+  persistent_id: doi:10.1080/0022250X.2001.9990249
+  url: https://snap.stanford.edu/class/cs224w-readings/brandes01centrality.pdf
+  accessed_at: '2026-10-14T02:04:11Z'
+  sha256: a4af39425ef88fc83ce71dde1d300c2ec9fd2f5e15fb0ba006a7a7d20260818f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T03:53:06Z'
+  updated_at: '2026-10-14T03:53:06Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

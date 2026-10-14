@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brandes betweenness centrality computation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Brandes betweenness centrality computation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Brandes betweenness centrality computation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BrandesBetweennessCentrality</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Brandes algorithm
+    </div>
+
+  <div class="detail-desc">
+    An exact graph algorithm for computing shortest-path vertex betweenness that combines single-source shortest-path counting with reverse-distance accumulation of dependencies, avoiding explicit summation of every source-target-vertex contribution.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 684 native identities; no normalized match. Ignored- and hidden-inclusive searches of three checkouts returned 56,0,0 lines; all 13 unique payloads were read and were prior citation/query/pending-lead context. The semantic search selected 128 AIO and 470 native definitions; all 128 AIO and 469 previous native rows were verified unchanged and the new PageRank definition read. Nine complete AIO node/edge/generated-record contexts and full GN, definition-filtered GN, PageRank and HITS records were assessed. This identity is the algorithm for computing vertex shortest-path betweenness by per-source dependency accumulation. It is not the older betweenness measure itself, stress centrality, PageRank, HITS or an iterative edge-removal community detector. Its role here is a reusable network-analysis primitive relevant to structural graph features and the inspected web/text-network applications; this does not assert that every graph algorithm is a learned AI model.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#scoped-path-domain</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The explicit formulation here uses a finite connected simple undirected graph with positive edge lengths, or unit lengths for an unweighted graph. A vertex receives the fraction of each pair’s shortest paths on which it is an internal vertex; endpoints do not contribute. The scores stated here use unordered vertex pairs without size normalization. The paper also discusses directed and more general graph inputs; their implementation conventions are not silently added to this scoped formulation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-brandes2001">A Faster Algorithm for Betweenness Centrality</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF/printed pp. 3–4; undirected halving on p. 9; Algorithm 1, p. 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#shortest-path-counts</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each source s, compute distances, shortest-path counts sigma_s(v) and predecessor lists. Initialize sigma_s(s)=1 and add counts from every shortest-path predecessor, including ties. Breadth-first traversal applies to unit lengths; Dijkstra traversal applies to positive lengths. Strictly positive lengths place predecessors at smaller distances and make the predecessor structure acyclic.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-brandes2001">A Faster Algorithm for Betweenness Centrality</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF/printed pp. 5–6, predecessor definition and Lemma 3; Algorithm 1, p. 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dependency-accumulation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Process vertices in non-increasing distance from s. For each successor w for which v is a shortest-path predecessor, add [sigma_s(v)/sigma_s(w)] times [1+delta_s(w)] to delta_s(v). Add each non-source vertex’s dependency to its total across sources. Divide the resulting totals by two for the selected undirected convention, because both orientations of each pair were visited. This division is distinct from any optional normalization for network size.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-brandes2001">A Faster Algorithm for Betweenness Centrality</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF/printed pp. 6–10; Theorem 6, proof, Corollary 7 and Algorithm 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fractional-and-weighted-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Fractions of shortest paths are not raw counts of paths and do not count every walk. In a constructed four-cycle, each vertex has unordered betweenness 1/2 but stress count 1. In a triangle with edge lengths 0–1=1, 1–2=1 and 0–2=2, vertex 1 has betweenness 1/2 because direct and two-edge routes tie. Raising the last length to 3 gives that vertex score 1; treating all three edges as unit length gives 0. Thus interpreting a strength or similarity weight as a path length requires an explicit modeling choice.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-brandes2001">A Faster Algorithm for Betweenness Centrality</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3, PDF/printed pp. 3–6; exact curator examples in research/discovery/brandes-betweenness-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#complexity-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper gives O(n+m) storage, O(nm) time for unweighted graphs and O(nm+n-squared log n) time for positive-weight graphs. These are the stated arithmetic-operation bounds under its connected-graph assumptions, with a Fibonacci-heap shortest-path bound for the weighted case. They do not establish arbitrary-precision bit complexity, a universal wall-clock speedup or the same bound for every priority-queue implementation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-brandes2001">A Faster Algorithm for Betweenness Centrality</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF/printed p. 6, Fibonacci-heap qualification; Section 4, p. 9, Corollary 7 and Theorem 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#method-and-application-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The contribution accelerates computation of an existing shortest-path centrality measure. It produces structural vertex scores without fitting a predictive model, assigning community labels or defining a causal influence measure. The primary text discusses social, web and word-network analysis. PageRank and HITS use different link-propagation objectives; repeatedly deleting high-betweenness edges to form communities is a surrounding procedure, not this vertex-score computation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-brandes2001">A Faster Algorithm for Betweenness Centrality</a></span>
+        <span>· <strong>Locator:</strong> Introduction, PDF/printed pp. 1–2; Sections 2 and 4, pp. 3–4,9–10; applications pp. 12–13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#evaluation-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The empirical evidence concerns historical LEDA implementations, specified hardware, random graphs and particular network-analysis examples. The random-graph experiments vary density or fix average degree; reported application speed comparisons include different machines and software contexts. These observations do not establish held-out prediction accuracy, modern hardware performance, calibrated social importance or correctness of an unseen implementation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-brandes2001">A Faster Algorithm for Betweenness Centrality</a></span>
+        <span>· <strong>Locator:</strong> Section 5, PDF/printed pp. 9,11–13; Figures 3–4 and footnotes 3–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The maintained mechanism is scoped to connected simple undirected positive-length graphs. The paper mentions directed graphs, loops and multiple edges, but this record does not infer every convention needed for those cases, disconnected inputs or endpoint-inclusive variants.</li>
+      <li>Positive lengths and exact shortest-path comparisons are material assumptions. Zero or negative lengths and numerical tie handling need separate analysis; the stated DAG argument must not be extended to them automatically.</li>
+      <li>The existing betweenness measure, sampled approximations, variants and community-detection pipelines remain distinct identities or source leads. No model-training behavior or AIO acceptance is implied.</li>
+      <li>The rendered proof prose on PDF page 8 uses sigma(s,v)/sigma(s,w), consistently with Theorem 6 and Algorithm 1. An earlier preliminary discovery note had misread that fraction; issue #340 corrects the note rather than attributing an error to the paper.</li>
+      <li>The curator calculator uses independent path enumeration on five small constructed graphs. It does not reproduce author code, original datasets, historical runtimes or general asymptotic proofs.</li>
+      <li>All primary text, references, mathematical displays and figures were inspected. No author software, separate journal-layout copy, training, paid service or data upload was used. This record remains DRAFT after author self-review.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No inspected AIO target adequately denotes this centrality-computation algorithm. A downstream clustering or feature-engineering use does not make the algorithm identical to those tasks, and a mathematical expression for its output does not identify its computational procedure.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> Compared all 442 pinned AIO and 684 preceding native identities and searched three checkouts including ignored and hidden files. The semantic search selected 128 AIO and 470 native definitions; prior selected rows were verified unchanged and the new PageRank definition read. Nine complete AIO node/edge/generated-record contexts and four full native neighboring records were assessed.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html"><code>AIO:Clustering</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Vertex centrality scores do not group objects into clusters.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html"><code>AIO:UnsupervisedClustering</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            No unlabeled-object grouping or cluster assignment is defined by this computation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/HierarchicalClustering.html"><code>AIO:HierarchicalClustering</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm does not construct a cluster hierarchy; a downstream divisive community procedure is distinct.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The betweenness index is mathematically a function, but this record denotes a particular traversal and accumulation algorithm for computing it. The generic function class does not identify that computational method.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DataPreparation.html"><code>AIO:DataPreparation</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The specified output is a network centrality statistic, not a procedure defined to clean or organize machine-learning data. Possible use as a feature is insufficient for this mapping.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GraphLanguageModel.html"><code>AIO:GraphLanguageModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Graph traversal and path counting do not define a language model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RankingBias.html"><code>AIO:RankingBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm computes a structural statistic rather than a belief that a top-ranked result is most relevant.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html"><code>AIO:DimensionalityReduction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method is not a learned embedding or an algorithm intended to preserve high-dimensional data geometry.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html"><code>AIO:PrincipalComponentAnalysis</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Shortest-path dependency accumulation does not compute centered covariance principal components.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-brandes2001">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">brandes2001</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://snap.stanford.edu/class/cs224w-readings/brandes01centrality.pdf" target="_blank" rel="noopener">A Faster Algorithm for Betweenness Centrality</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ulrik Brandes
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1080/0022250X.2001.9990249</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a4af39425ef8…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-14T03:53:06Z</div>
+    <div><strong>Updated:</strong> 2026-10-14T03:53:06Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BrandesBetweennessCentrality.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BrandesBetweennessCentrality.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

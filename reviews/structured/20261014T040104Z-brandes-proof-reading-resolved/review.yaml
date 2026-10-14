@@ -1,0 +1,295 @@
+schema_version: 1.0.0
+review_id: 20261014T040104Z-brandes-proof-reading-resolved
+kind: batch
+repository: CultureBotAI/AIMech
+title: Successor review of corrected Brandes source notes
+started_at: '2026-10-14T03:54:14Z'
+finished_at: '2026-10-14T04:01:04Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author rechecked a previous source interpretation against
+    the rendered primary equation; this is not independent review.
+skill: aimech-resolve-reviews
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Resolve the preliminary source-reading defect in both reports. Their current
+  fields identify the correctly printed ratio and preserve the earlier curator misreading
+  in explicit correction metadata.
+source:
+  git_revision: f2fe23fddacc70eebe898916adebc38bf6f4a1e1
+  state: working_tree
+  inputs:
+  - path: data/curated/BrandesBetweennessCentrality.yaml
+    sha256: 2ff7051fa27a4e1150545d634b90599a335b909b1fe6956441260c5284830e21
+    role: context
+  - path: research/discovery/20261014T024328Z-chakrabarti-focused-crawler.json
+    sha256: d934f515398625451db885c1a82fe507079dffe611ee324fbc3293f076d7c440
+    role: target
+  - path: research/discovery/20261014T024330Z-relevance-weighted-topic-distillation.json
+    sha256: 0c0da4b058b5ce3eb8669576b7ad097e9f0770f27b8b49feb1394c92239efbd2
+    role: target
+  - path: research/discovery/20261014T035306Z-brandes-betweenness-centrality.json
+    sha256: c5fe13055460a578444c960d26412db5583b25ae7e74a067955f4797ad4941b9
+    role: context
+  - path: reviews/structured/20261014T035231Z-brandes-proof-reading/review.yaml
+    sha256: 34395578d70ce204eda4cd592472a9b9552b76cd31a7c87605678aaa00277fa5
+    role: context
+  - path: schema/record_review.yaml
+    sha256: 229baf9b69118a1fe318e4c31085c0820e4e3d1365e7b04d6ace451b7c35f9bb
+    role: context
+targets:
+- target_id: research:20261014T024328Z-chakrabarti-focused-crawler
+  path: research/discovery/20261014T024328Z-chakrabarti-focused-crawler.json
+  label: 20261014T024328Z-chakrabarti-focused-crawler
+  kind: maintained
+  selector: source_analysis.reading.context_reading.brandes.source_discrepancy
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261014T024328Z-chakrabarti-focused-crawler.json
+    role: maintained
+- target_id: research:20261014T024330Z-relevance-weighted-topic-distillation
+  path: research/discovery/20261014T024330Z-relevance-weighted-topic-distillation.json
+  label: 20261014T024330Z-relevance-weighted-topic-distillation
+  kind: maintained
+  selector: source_analysis.reading.context_reading.brandes.source_discrepancy
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261014T024330Z-relevance-weighted-topic-distillation.json
+    role: maintained
+scope:
+  description: Only the embedded Brandes source-discrepancy assertion in the two named
+    discovery reports.
+  selection: Exact source_analysis.reading.context_reading.brandes.source_discrepancy
+    fields.
+  coverage: full
+  population_size: 2
+  reviewed_target_ids:
+  - research:20261014T024328Z-chakrabarti-focused-crawler
+  - research:20261014T024330Z-relevance-weighted-topic-distillation
+  exclusions:
+  - target: Other report claims and associated curated crawler/distillation records
+    reason: Not scientifically rereviewed; this finding concerns a preliminary neighboring-method
+      note only.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - research:20261014T024328Z-chakrabarti-focused-crawler
+  - research:20261014T024330Z-relevance-weighted-topic-distillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 182.00s (0:03:01)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 685 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 373 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 373,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - research:20261014T024328Z-chakrabarti-focused-crawler
+  - research:20261014T024330Z-relevance-weighted-topic-distillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - research:20261014T024328Z-chakrabarti-focused-crawler
+  - research:20261014T024330Z-relevance-weighted-topic-distillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - research:20261014T024328Z-chakrabarti-focused-crawler
+  - research:20261014T024330Z-relevance-weighted-topic-distillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: required-4
+  name: just render
+  command: just render
+  status: passed
+  required: true
+  target_ids:
+  - research:20261014T024328Z-chakrabarti-focused-crawler
+  - research:20261014T024330Z-relevance-weighted-topic-distillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Rendered AIMech site under /private/tmp/aimech-discovery-recovery-worktree-20261012/pages
+
+    uv run --locked python scripts/render_pages.py
+
+    '
+- check_id: required-5
+  name: just render-check
+  command: just render-check
+  status: passed
+  required: true
+  target_ids:
+  - research:20261014T024328Z-chakrabarti-focused-crawler
+  - research:20261014T024330Z-relevance-weighted-topic-distillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'pages/ is current
+
+    uv run --locked python scripts/render_pages.py --check
+
+    '
+evidence:
+- evidence_id: primary
+  kind: primary_source
+  reference: https://snap.stanford.edu/class/cs224w-readings/brandes01centrality.pdf
+  locator: PDF/printed pages 7–10, Theorem 6, page 8 proof prose and Algorithm 1.
+  accessed_at: '2026-10-14T02:04:11Z'
+  snapshot_sha256: a4af39425ef88fc83ce71dde1d300c2ec9fd2f5e15fb0ba006a7a7d20260818f
+  support: supports
+  summary: Rendered page 8 and the higher-resolution detail confirm sigma(s,v)/sigma(s,w),
+    agreeing with Theorem 6 and Algorithm 1. Both current note fields now state this
+    correctly.
+- evidence_id: occurrences
+  kind: search
+  reference: research/; reviews/; data/; pages/
+  accessed_at: '2026-10-14T03:54:14Z'
+  support: supports
+  search_scope: rg --no-ignore --hidden -l -F brandes-proof-ratio-reading reviews
+  summary: Ignored-inclusive review-bundle search found only the actual initial same-key
+    finding before this successor. Both affected targets and the exact predecessor
+    are retained.
+- evidence_id: corrections
+  kind: record_content
+  reference: research/discovery/20261014T035306Z-brandes-betweenness-centrality.json
+  accessed_at: '2026-10-14T03:54:14Z'
+  snapshot_sha256: c5fe13055460a578444c960d26412db5583b25ae7e74a067955f4797ad4941b9
+  support: supports
+  summary: The new discovery report lists both corrected owners and their hashes,
+    actual correction time, original wording, issue and initial review. Its history
+    sidecar records the actual write session; the new Brandes record uses the correct
+    ratio.
+- evidence_id: predecessor
+  kind: record_content
+  reference: reviews/structured/20261014T035231Z-brandes-proof-reading/review.yaml
+  accessed_at: '2026-10-14T03:54:14Z'
+  snapshot_sha256: 34395578d70ce204eda4cd592472a9b9552b76cd31a7c87605678aaa00277fa5
+  support: supports
+  summary: The immutable initial observation is valid. Each original captured input
+    was verified against the published base commit, and each corrected owner retains
+    its original SHA-256 in correction metadata.
+assessments:
+- assessment_id: corrected-ratio
+  area: provenance
+  topic: Corrected primary equation interpretation
+  outcome: supported
+  target_ids:
+  - research:20261014T024328Z-chakrabarti-focused-crawler
+  - research:20261014T024330Z-relevance-weighted-topic-distillation
+  evidence_ids:
+  - primary
+  - corrections
+  - predecessor
+  summary: Both selected fields now match the primary source and explain the superseded
+    curator error.
+- assessment_id: lineage
+  area: completeness
+  topic: Same-defect predecessor and affected targets
+  outcome: supported
+  target_ids:
+  - research:20261014T024328Z-chakrabarti-focused-crawler
+  - research:20261014T024330Z-relevance-weighted-topic-distillation
+  evidence_ids:
+  - predecessor
+  - occurrences
+  - corrections
+  summary: The one predecessor and both affected targets are retained; no competing
+    successor was found in the ignored-inclusive bundle search.
+findings:
+- finding_id: proof-ratio-reading
+  issue_key: brandes-proof-ratio-reading
+  category: provenance
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Correct the preliminary Brandes ratio reading
+  description: The two preliminary report fields now correctly identify the ratio
+    printed in the primary paper; their former incorrect assertions remain explicitly
+    marked as superseded in correction metadata.
+  target_ids:
+  - research:20261014T024328Z-chakrabarti-focused-crawler
+  - research:20261014T024330Z-relevance-weighted-topic-distillation
+  field_paths:
+  - source_analysis.reading.context_reading.brandes.source_discrepancy
+  evidence_ids:
+  - primary
+  - corrections
+  - predecessor
+  - occurrences
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261014T024328Z-chakrabarti-focused-crawler.json
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261014T024330Z-relevance-weighted-topic-distillation.json
+    role: maintained
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/340
+  disposition_reason: Both maintained fields were reread against the primary rendering.
+    Correction provenance retains the original wording, original hashes, actual edit
+    time, issue and initial observation. The new Brandes record also uses the correct
+    ratio. The actual batch history, regenerated pages and required full/source/vendored
+    checks passed. Both affected predecessor targets are retained and its captured
+    inputs match the published base.
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261014T035231Z-brandes-proof-reading
+    finding_id: proof-ratio-reading
+actions: []
+limitations:
+- This is a bounded source-reading review, not a new scientific review of either crawler
+  or distillation record.
+- No author implementation or benchmark was run; no claim of a Brandes paper or software
+  defect is supported.
+- Two initial document validations rejected an unsupported evidence enum and a manual
+  inspection encoded as a command without an exit code. The unsaved author input now
+  uses refutes and identifies the manual check correctly; no schema or saved review
+  was changed.
+- An initial save refused the previous working-tree base after the preceding PR merged.
+  The current base was captured anew, all unchanged input hashes compared, and both
+  note fields and the primary equation reread before this replacement unsaved observation.
+  No saved bundle was overwritten.
+links:
+- https://github.com/CultureBotAI/AIMech/issues/340
+tags:
+- self-review
+- source-correction
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261014T035231Z-brandes-proof-reading
+  relationship: Resolves the same source-reading defect in both original report targets.
