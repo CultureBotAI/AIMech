@@ -1,0 +1,147 @@
+id: AIMech:NestedAntitheticModification
+name: Nested antithetic modification
+concept_kind: algorithm
+definition: A finite conditional transition construction that starts with independent draws from the conditional
+  distribution and successively applies maximal antithetic changes between a focal state and its remaining
+  tail in a supplied ordering.
+definition_evidence:
+- source_id: neal2024
+  locator: Section 6, PDF pp. 14–17, Equations 28–34 and Algorithm 2
+  relation: supports
+claims:
+- claim_id: finite-target-and-consistent-focal-order
+  kind: mechanism
+  statement: Let pi be a normalized, strictly positive probability mass function on a finite state space
+    and let sigma be a permutation of its states. Start with P(u,v)=pi(v). At stage i, the focal set is
+    the singleton {sigma(i)} and the tail contains the states later in sigma. The same ordering defines
+    every row for this target. When used as a conditional update, a probability-based ordering may change
+    when the other variables change the full conditional, but independently choosing a new ordering from
+    the current label is not the specified construction.
+  evidence:
+  - source_id: neal2024
+    locator: Section 6, PDF pp. 14–15 and 21; Algorithm 2, p. 17; current-dependent-order negative control
+      in research/discovery/nam-boundaries.py
+    relation: supports
+- claim_id: maximal-singleton-tail-modification
+  kind: mechanism
+  statement: Before a stage, write the remaining block as P(u,v)=r*pi(v), let q be the focal mass and
+    s the total tail mass. For a nonempty tail, use delta=r*min(q/s,s/q). Increase focal-to-tail entries
+    by delta*pi(v) and tail-to-focal entries by delta*q; decrease the focal diagonal by delta*s and each
+    tail-to-tail entry by delta*pi(v)*q/s. Transitions involving previous focal states remain unchanged.
+    If q<s, the focal diagonal becomes zero and the next stage operates on the tail. If q>=s, the entire
+    tail block becomes zero and the construction stops. With only one state, the initial one-by-one identity
+    matrix already defines the update.
+  evidence:
+  - source_id: neal2024
+    locator: Section 5, PDF p. 10, Equation 19; Section 6, pp. 14–15, Equations 28–34
+    relation: supports
+- claim_id: reversible-kernel-and-row-computation
+  kind: mechanism
+  statement: Every antithetic stage preserves nonnegative row sums of one and detailed balance with pi.
+    The final NAM kernel therefore preserves pi and has at most one positive diagonal entry. Algorithm
+    2 computes only the current row by tracking remaining target mass s and remaining transition mass
+    f. Before the current state becomes focal, an earlier focal mass q receives f*q/s after q has been
+    removed from s, unless q>=s, in which case it receives all f. A zero residual f assigns zero to all
+    remaining destinations. Once the current state is focal, its remaining probabilities follow the same
+    maximal stage.
+  evidence:
+  - source_id: neal2024
+    locator: Section 5, PDF p. 10, Equation 19; Section 6, pp. 16–20, Algorithm 2 and Equations 35–63
+    relation: supports
+- claim_id: fixed-upward-and-downward-policies
+  kind: scope
+  statement: This parameterized construction includes a supplied fixed order, the upward policy UNAM using
+    nondecreasing pi, and the downward policy DNAM using nonincreasing pi. These policies can produce
+    different kernels. UNAM is unchanged by permutations within equal-probability groups and does not
+    decrease any off-diagonal probability relative to the independent draw. DNAM can depend on its tie
+    order, can zero an entire tail block and can decrease off-diagonal probabilities. Neither direction
+    is an exact alias for the entire parameterized construction. Neal also uses unprefixed NAM specifically
+    for a fixed-order policy; this record states the broader construction-level scope explicitly.
+  evidence:
+  - source_id: neal2024
+    locator: Section 6, PDF p. 21, naming and ordering discussion; Section 7, pp. 22–24, Algorithm 3 and
+      Equations 66–75; Section 8, pp. 28–30, Algorithm 4 and Figure 6
+    relation: supports
+- claim_id: single-order-versus-completed-mixtures
+  kind: scope
+  statement: 'NAM is distinct from one Liu excluded-current Metropolis correction. The upward full construction
+    has historical counterparts discussed by Neal, but an incomplete first-stage variant is not automatically
+    the same kernel. The separately named UDNAM chooses UNAM or DNAM with equal probability and averages
+    their matrices. Such a mixture is not generally one NAM ordering: for pi=(4/9,3/9,2/9), it has two
+    positive diagonal entries, whereas each of the six supplied-order NAM matrices has one. The zero-self
+    ZDNAM completion also changes the construction rather than merely choosing a different focal permutation.'
+  evidence:
+  - source_id: neal2024
+    locator: Section 7, PDF pp. 25–27, full and truncated historical constructions and iterated Metropolis
+      modifications; Section 8, p. 28, UDNAM definition; Section 9, pp. 31–35; exact six-order comparison
+      in research/discovery/nam-boundaries.py
+    relation: supports
+- claim_id: conditional-invariance-and-scan-limits
+  kind: limitation
+  statement: Using this kernel for a valid full conditional while holding other variables fixed preserves
+    the joint target. Fixed mixtures and fixed sequential compositions preserve that target, although
+    a sequential sweep need not be reversible. Reduced self transitions do not establish aperiodicity
+    or exploration of every joint state. For a uniform binary conditional the modified update flips deterministically;
+    systematic compositions can therefore remain within a proper subset of joint states. This record makes
+    no general variance, burn-in, finite-run accuracy or runtime claim.
+  evidence:
+  - source_id: neal2024
+    locator: Section 2, PDF pp. 2–3, Equations 1–4 and composition; Section 5, pp. 13–14 and footnotes
+      7–8
+    relation: supports
+identity_notes: The post315 assessment covers all 442 pinned AIO and 708 native IDs, labels, aliases and
+  scoped synonyms, plus four complete checkout searches including ignored and hidden files. Historical
+  706-native research, 334 selected ID/name rows, 103 definitions and 15 fully read native neighbors retain
+  their attributed scope. The two actual FSS/ZFSS records were freshly assessed; shared dominant-mass
+  boundaries do not equate full kernels. The finite local reversible construction differs from exact Gibbs
+  resampling, one-stage Liu MHGS, pair-state/direction/uniform-memory samplers, continuous slice procedures
+  and multiple-proposal frameworks. AIO:MarkovChain is related_match at the process-versus-construction
+  level; neural Network/ProbabilisticHiddenLayer inheritance is not asserted. A single supplied-order
+  NAM construction includes upward and downward policy specializations without exact aliases or duplicate
+  records. UDNAM equal mixture and ZDNAM completion are not exact single-order aliases. Tjelmeland T2
+  equality concerns only its finite index kernel; its entire proposal/weighted-estimator framework is
+  distinct. Historical FHY attribution remains through inspected Neal2024 because original full text was
+  not obtained.
+evidence_sources:
+- source_id: neal2024
+  title: Modifying Gibbs Sampling to Avoid Self Transitions
+  authors:
+  - Radford M. Neal
+  source_type: author_technical_report
+  url: https://glizen.com/radfordneal/ftp/gibbs-self.pdf
+  persistent_id: arxiv:2403.18054
+  version: Author-hosted technical report dated 26 March 2024; 84 PDF pages. Independently pinned from
+    arXiv:2403.18054v1; byte equivalence between versions is not asserted.
+  access_level: full_text
+  accessed_at: '2026-10-14T20:33:01Z'
+  sha256: 3d637d3eec046118a4c81d0d3824f387e1077d5ed8bd15d90a4db242c89d8bea
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The construction defines conditional Markov transitions preserving a target. AIO MarkovChain
+    denotes a stochastic process/model, so this is a method-to-process association without equivalence,
+    subclass status or inheritance of Network and ProbabilisticHiddenLayer assertions.
+limitations:
+- The maintained mathematical scope uses a finite positive-support distribution with exact normalization
+  and a consistent focal ordering. Zero-current conventions, floating arithmetic and countably infinite
+  extensions are not specified here.
+- The source Figure 3 caption on PDF p. 16 says off-diagonal probabilities become smaller, contrary to
+  its displayed matrix and the Section 7 inequalities. This caption direction error is not adopted. No
+  author implementation was executed.
+- Historical attribution to the full Frigessi–Hwang–Younes construction is mediated through Neal’s report;
+  that original full text was not obtained. The local Tjelmeland index-selection kernel does not identify
+  its entire multiple-proposal and weighted-estimator framework with NAM.
+- All fixed/upward/downward policies are covered as parameter choices, without broad exact aliases. UDNAM
+  remains a distinct mixture identity and ZDNAM a separate completion; this construction does not exhaust
+  the source family.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T22:25:01Z'
+  updated_at: '2026-10-14T22:25:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
