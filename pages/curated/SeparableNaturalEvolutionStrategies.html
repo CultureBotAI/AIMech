@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Separable Natural Evolution Strategies · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Separable Natural Evolution Strategies</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Separable Natural Evolution Strategies</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SeparableNaturalEvolutionStrategies</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    The Gaussian population natural evolution strategy that samples independent normal coordinates, ranks their evaluated fitness, and adapts the search mean and positive coordinate standard deviations using rank-shaped standardized directions and componentwise exponential scale updates in a fixed coordinate system.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The original 2011 Gaussian population Algorithm1 uses independent-coordinate sampling and scalar exponential coordinate-scale updates. This diagonal Gaussian finite procedure is distinct from full-covariance xNES and the broader NES/IGO frameworks; diagonal sampling alone does not identify every independent-coordinate optimizer with SNES. Current bounded identity assessment covers730native and442pinnedAIO records and four ignored/hidden-inclusive checkout scans; all2900matches were reconciled. Existing frontier owner194 is retained in place, without a duplicate leaf. The premerge collection and actual creation freshness checks remain separately recorded.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#diagonal-gaussian-search-family</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain a mean vector mu in d-dimensional real space and a vector of strictly positive standard deviations sigma. The Gaussian population version uses a product of independent normal coordinates, with covariance diag(sigma_i squared), in a chosen coordinate system. It adapts d means and d scales rather than a general covariance matrix. The diagonal restriction concerns the search distribution; the objective need not itself factor into independent coordinate functions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-schaul2011">High Dimensions and Heavy Tails for Natural Evolution Strategies</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF p. 3 / printed p. 847, product-density display, coordinate restriction and Algorithm 1.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#population-sampling-and-rank-shaping</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In each generation, draw lambda independent standard normal vectors s_k, form z_k = mu + sigma * s_k componentwise, and evaluate the black-box fitness at each z_k. Sort the sample pairs by fitness and assign rank utilities u_k, with the source formulated for fitness maximization. The update uses search-distribution scores and fitness rankings, not derivatives of the objective. Rank utility weights replace raw fitness values; they are not generally an unbiased estimator of the raw expected-fitness gradient.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-schaul2011">High Dimensions and Heavy Tails for Natural Evolution Strategies</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp. 2–3 / printed pp. 846–847, score-gradient and fitness-shaping discussion; Section 3 Algorithm 1, PDF p. 3 / printed p. 847.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#standardized-mean-direction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Using the ranked standardized samples from the current generation, compute g_mu = sum_k u_k s_k. The mean update is mu_new = mu + eta_mu * sigma * g_mu, with coordinatewise multiplication by the generation’s original standard-deviation vector. This transports the standardized direction back to the search coordinates; it is not an unscaled step directly in the objective coordinates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-schaul2011">High Dimensions and Heavy Tails for Natural Evolution Strategies</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Algorithm 1, PDF p. 3 / printed p. 847, mean-gradient and mean-update lines; Section 2, PDF p. 2 / printed p. 846, local-coordinate interpretation.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#componentwise-exponential-scale-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Compute g_sigma = sum_k u_k (s_k squared - 1) coordinatewise and update sigma_new = sigma * exp((eta_sigma/2) * g_sigma), with coordinatewise products and exponentials. The mean and scale directions come from the same pre-update samples. This is an additive step in each log standard deviation, not an additive variance update or a dense matrix exponential. Strictly positive scales remain positive in exact real arithmetic when the exponent is finite.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-schaul2011">High Dimensions and Heavy Tails for Natural Evolution Strategies</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Algorithm 1, PDF p. 3 / printed p. 847, scale-gradient and exponential scale-update lines; Section 2, PDF p. 2 / printed p. 846, natural-gradient interpretation.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#coordinate-dependent-linear-parameterization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Restricting the covariance to its diagonal gives linear parameter storage and linear work per sampled vector and per final coordinate update. The explicit population sampling and weighted-moment loops require O(lambda*d) arithmetic, with fitness sorting and objective evaluations additional. The method does not represent arbitrary rotated correlations: selecting a distinguished coordinate system sacrifices the general rotation invariance of an unrestricted Gaussian family.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-schaul2011">High Dimensions and Heavy Tails for Natural Evolution Strategies</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF p. 3 / printed p. 847, invariance and complexity discussion surrounding Algorithm 1; Section 5, PDF p. 5 / printed p. 849, dimension-dependent default population size.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#gaussian-population-variant-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The displayed Gaussian population SNES is a concrete variant of the NES search-distribution framework. The paper separately describes full-covariance exponential NES, a multivariate Cauchy hill climber, and a (1+1)-SNES variant whose pseudocode is not shown. The broader product-distribution discussion does not make these procedures, or every independent-coordinate optimizer, identical to Gaussian population Algorithm 1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-schaul2011">High Dimensions and Heavy Tails for Natural Evolution Strategies</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 2 / printed p. 846, xNES context; Section 3 Algorithm 1, PDF p. 3 / printed p. 847; Section 4 Algorithm 2, PDF p. 4 / printed p. 848; Section 5 variants list, PDF p. 5 / printed p. 849.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This record denotes the original Gaussian population Algorithm 1. It is not the whole NES or information-geometric optimization framework, full-covariance xNES, full CMA-ES, the Cauchy hill climber or every separable search distribution. The source’s Lennard-Jones experiment is labeled (1+1)-SNES and is not evidence for universal performance of the population algorithm.</li>
+      <li>Algorithm 1 leaves the precise utility curve, tie policy, initialization and stopping rule to the setup. Section 2 mentions normalized nonnegative and centered utility choices; neither is silently imposed as the only rule. Strictly increasing objective transformations preserve rankings with consistent tie treatment, but decreasing transformations, arbitrary tie changes and noisy evaluations do not support an unqualified identical-trajectory claim.</li>
+      <li>For a positive Gaussian scale, the location and log-scale scores are s/sigma and s squared - 1; their population Fisher block is diag(1/sigma squared, 2), giving the one-half log-scale factor. This bounded analytical explanation requires the Gaussian family. Raw expected-fitness gradient identities additionally require suitable regularity and integrability. Finite sampled updates, separate learning rates and nonlinear reparameterizations do not inherit an unconditional objective-improvement, convergence or exact finite-step invariance guarantee.</li>
+      <li>A rotated diagonal covariance is generally not diagonal, so favorable coordinate alignment matters. The O(d) description in Section 3 is per individual or final coordinate update, not a population-size-free bound on an entire generation. The default lambda in Section 5 depends on dimension; sorting, evaluations and retaining a batch of vectors add costs. No benchmark speedup, global optimum or universal high-dimensional advantage is asserted.</li>
+      <li>Positive scales are preserved by finite exact-real exponentials, but finite-precision overflow, underflow and numerically degenerate scales require implementation-specific safeguards. The source does not supply a complete numerical-stability or stopping guarantee, and no author implementation or benchmark has been executed for this record.</li>
+      <li>Section 4, PDF p. 4 / printed p. 848, broadly links heavy-tailed infinite variance to unavailable Fisher geometry. That implication is not used here: the unit-scale Cauchy location score 2x/(1+x squared) is bounded and nonzero on positive probability, so its Fisher information is finite and positive despite undefined variance. This scoped curator counterexample is not an author-issued erratum or a complete audit of the separate Cauchy algorithm.</li>
+      <li>Evidence locators refer to the eight-page paginated 2011 proceedings copy. The author-hosted manuscript has different abstract/conclusion wording, reference numbering, an added complexity footnote and different pagination, although the visually compared Algorithm 1 agrees. The 2014 journal comparison and the full-covariance factor conventions in Section 2 are separate context, not alternative evidence for a repaired implementation. Author-code access returned HTTP 500; code behavior is not certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ExponentialFunction.html" style="font-weight: 600;"><code>AIO:ExponentialFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Exponential Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The mandatory componentwise update of each standard deviation uses the scalar exponential e^x, a defining component matching the pinned Exponential Function concept. This relation does not equate the optimizer with a scalar function, assert a subclass or neural-network layer, or interpret a dense matrix exponential as elementwise exponentiation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-schaul2011">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">schaul2011</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cmap.polytechnique.fr/~nikolaus.hansen/proceedings/2011/GECCO/proceedings/p845.pdf" target="_blank" rel="noopener">High Dimensions and Heavy Tails for Natural Evolution Strategies</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tom Schaul, Tobias Glasmachers, Jürgen Schmidhuber
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7576759a0b08…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T04:48:29Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T04:48:29Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SeparableNaturalEvolutionStrategies.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SeparableNaturalEvolutionStrategies.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
