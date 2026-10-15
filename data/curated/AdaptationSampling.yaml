@@ -1,0 +1,272 @@
+id: AIMech:AdaptationSampling
+name: Adaptation sampling
+concept_kind: algorithm
+aliases: []
+definition: An online optimizer-hyperparameter controller that compares sample quality under a current
+  and a hypothetical setting, using either fresh evaluations or importance-weighted reuse of existing
+  observations, to decide how to adapt the setting.
+definition_evidence:
+- source_id: schaul2011-thesis
+  locator: Section 2.4.4, PDF pp. 48–49 / printed pp. 24–25, direct and virtual adaptation sampling.
+  relation: supports
+- source_id: wierstra2014
+  locator: Section 3.2, PDF pp. 11–13 / printed pp. 959–961, controller definition and NES example.
+  relation: supports
+claims:
+- claim_id: direct-hyperparameter-comparison
+  kind: mechanism
+  statement: Given an algorithm setting theta, a sampling law pi_theta and a quality measure psi for its
+    samples, direct adaptation sampling evaluates fresh samples under a nearby hypothetical setting theta_prime.
+    It retains the new setting when the chosen quality comparison indicates sufficient improvement and
+    otherwise reverts. The comparison acts at the algorithm-hyperparameter level, with progress over time
+    as its motivation; it is not itself the base optimizer’s natural-gradient update. The source gives
+    a Mann–Whitney comparison as an example, not a complete universal testing protocol.
+  evidence:
+  - source_id: schaul2011-thesis
+    locator: Section 2.4.4, PDF p. 48 / printed p. 24, direct adaptation sampling and meta-level quality
+      comparison.
+    relation: supports
+  - source_id: wierstra2014
+    locator: Section 3.2, PDF p. 11 / printed p. 959, direct procedure and progress-versus-fitness distinction.
+    relation: supports
+- claim_id: virtual-density-ratio-reuse
+  kind: mechanism
+  statement: Virtual adaptation sampling reuses samples z_i drawn under pi_theta. It compares their existing
+    quality values once with unit weights and once with weights w_i_prime = pi_theta_prime(z_i) / pi_theta(z_i).
+    The weights represent the hypothetical law while the observed quality values remain unchanged. This
+    can avoid fresh quality evaluations for the comparison, but the two groups reuse the same observations
+    and are not independent samples.
+  evidence:
+  - source_id: schaul2011-thesis
+    locator: Section 2.4.4, PDF p. 48 / printed p. 24, two virtual-adaptation bullets.
+    relation: supports
+  - source_id: wierstra2014
+    locator: Section 3.2, PDF p. 11 / printed p. 959, importance ratio and weighted copies of the same
+      quality values.
+    relation: supports
+- claim_id: reported-weighted-rank-comparison
+  kind: mechanism
+  statement: For quality values s_i and s_j_prime with positive weights w_i and w_j_prime, the thesis
+    defines U as the sum of w_i*w_j_prime over pairs with s_i greater than s_j_prime, plus half that product
+    for equal values. It sets m = sum_i w_i and m_prime = sum_j w_j_prime, then uses mu = m*m_prime/2
+    and variance m*m_prime*(m+m_prime+1)/12 in a normal comparison. These are the source’s reported weighted-statistic
+    and approximation formulas. They do not establish nominal independent-sample calibration for the paired,
+    importance-weighted virtual mode.
+  evidence:
+  - source_id: schaul2011-thesis
+    locator: Appendix B, PDF p. 121 / printed p. 97, weighted U, weight masses, normal mean/standard deviation
+      and directional comparisons; paired reuse in Section 2.4.4, PDF p. 48. The body’s Appendix A pointer
+      is incorrect in this copy.
+    relation: supports
+- claim_id: nes-counterfactual-scale-learning-rate
+  kind: mechanism
+  statement: In the concrete NES application, the controller adapts the learning rate eta_sigma of the
+    global search scale. It forms the hypothetical distribution that would result from the previous optimizer
+    state using 1.5 times the current eta_sigma, then weights the current population by the hypothetical-to-actual
+    density ratio and compares its fitness ranks with their weighted counterpart. The hypothetical learning-rate
+    change is distinct from directly multiplying the current search scale by 1.5 or adapting every optimizer
+    block learning rate.
+  evidence:
+  - source_id: schaul2012
+    locator: Section 2.2 and Algorithm 2, PDF p. 2 / printed p. 222, eta_sigma scope, hypothetical distribution
+      from theta_(t-1) and density ratios.
+    relation: supports
+  - source_id: wierstra2014
+    locator: Section 3.2, PDF pp. 12–13 / printed pp. 960–961; Algorithm 4 on p. 13, input and hypothetical-update
+      lines.
+    relation: supports
+- claim_id: empirical-increase-or-return-policy
+  kind: mechanism
+  statement: The described NES policy starts from a conservative initial learning rate. When its improvement
+    criterion succeeds, it sets eta_sigma_new = min((1+c_prime)*eta_sigma, 1); otherwise it sets eta_sigma_new
+    = (1-c_prime)*eta_sigma + c_prime*eta_sigma_init. The reported defaults are c_prime = 0.1 and rho
+    = 1/2 - 1/(3*(d+1)) for search dimension d. These are empirical controller settings, not optimality
+    or nominal error-rate guarantees. The unspecified test-return and rank-orientation conventions in
+    the displayed pseudocode remain explicit limitations.
+  evidence:
+  - source_id: schaul2011-thesis
+    locator: Section 2.4.4, PDF p. 49 / printed p. 25, hypothetical 1.5 rate, empirical rho, 1.1 increase/cap
+      and return toward the initial rate.
+    relation: supports
+  - source_id: schaul2012
+    locator: Section 2.2 and Algorithm 2, PDF p. 2 / printed p. 222; Table 1, PDF p. 3 / printed p. 223.
+    relation: supports
+- claim_id: modes-and-composition-boundary
+  kind: scope
+  statement: The source distinguishes direct fresh-evaluation adaptation from virtual reuse and also discusses
+    combining reweighted observations with some new hypothetical-law samples of weight one. Fresh sampling
+    and reuse are therefore explicit modes, not interchangeable implementations. The 2012 paper calls
+    the combination of xNES with the controller xNES-as. That combined optimizer, generic importance sampling,
+    importance mixing and the weighted comparison statistic are not exact aliases of the adaptation-sampling
+    controller.
+  evidence:
+  - source_id: schaul2011-thesis
+    locator: Section 2.4.4, PDF pp. 48–49 / printed pp. 24–25, direct/virtual distinction and optional
+      interpolation using new samples.
+    relation: supports
+  - source_id: wierstra2014
+    locator: Section 3.2, PDF p. 11 / printed p. 959, optional fresh samples accompanying reuse.
+    relation: supports
+  - source_id: schaul2012
+    locator: Section 2.2, PDF p. 2 / printed p. 222, naming of the xNES-as combination.
+    relation: supports
+identity_notes: 'Adaptation sampling denotes the online optimizer-hyperparameter comparison controller,
+  with direct fresh-sample and virtual density-ratio-reuse modes. It differs from baseNES/xNES/SNES/IGO
+  updates, CMAevolutionpaths, Rpropgradient-sign control and population-based training. xNES-as is the
+  composed optimizer, not an alias. Current733native442AIO inventory and four ignored-inclusive checkout
+  scans found no equivalent identity; preserve existingowner195. Current committed331 assessment covers733native
+  and442pinnedAIO records: all1175 identity/definition/hash rows equal the accepted natural-gradient research
+  inventory. Four combined rg --no-ignore --hidden scans reconcile4491occurrences in196unique line contents.
+  Earlier supporting assessments cover167 retained contents; root read all29 newly observed contents,
+  including new331 generated pages/review and hyphenated adaptation-sampling exclusions. The initial oversized
+  display was recovered with a bounded read of items13–20. All new contexts describe established NES/IGO/xNES/SNES
+  or reserve the proposed methods; none supplies an equivalent maintained record. All908main393nested
+  frontier objects retain the331 predecessor; root reassesses owners193–196/203 and retained broader supporting
+  semantic/frontier/AIO readings. Original natural-gradient2997match and adaptation1456match assessments
+  remain separately attributed, not claimed as fresh full root reread. Actual merge/base and prewrite
+  searches must be verified before creation; no universal absence or saturation.'
+evidence_sources:
+- source_id: schaul2011-thesis
+  title: Studies in Continuous Black-box Optimization
+  authors:
+  - Tom Schaul
+  source_type: author_technical_report
+  url: https://people.idsia.ch/~tom/publications/thesis.pdf
+  version: 2011 doctoral dissertation, Technische Universität München; 134-page IDSIA author-hosted copy.
+    Cover states submission 6 June 2011 and faculty acceptance 28 June 2011. Method PDF pp. 48–50 / printed
+    pp. 24–26; weighted-test Appendix B, PDF p. 121 / printed p. 97.
+  access_level: full_text
+  accessed_at: '2026-10-15T04:52:56Z'
+  sha256: 788a40bc471cdef2ab15b2a48145477aa2a29d0ffbde26917bad9760cb43ea4d
+- source_id: wierstra2014
+  title: Natural Evolution Strategies
+  authors:
+  - Daan Wierstra
+  - Tom Schaul
+  - Tobias Glasmachers
+  - Yi Sun
+  - Jan Peters
+  - Jürgen Schmidhuber
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume15/wierstra14a/wierstra14a.pdf
+  version: Journal of Machine Learning Research 15(27):949–980, 2014; official 32-page journal PDF. Adaptation
+    sampling is Section 3.2, PDF pp. 11–13 / printed pp. 959–961.
+  access_level: full_text
+  accessed_at: '2026-10-15T04:08:30Z'
+  sha256: 80ec84951836e76f3db0ce5d245d73ceecf8b233069cca387ed97f157bae08d6
+- source_id: schaul2012
+  title: Investigating the Impact of Adaptation Sampling in Natural Evolution Strategies on Black-box
+    Optimization Testbeds
+  authors:
+  - Tom Schaul
+  source_type: primary_paper
+  url: https://www.cmap.polytechnique.fr/~nikolaus.hansen/proceedings/2012/GECCO/companion/p221.pdf
+  version: GECCO 2012 Companion, pp. 221–228; eight-page proceedings PDF. Cover states conference 7–11
+    July 2012; exact publication day and DOI are not asserted.
+  access_level: full_text
+  accessed_at: '2026-10-15T04:55:41Z'
+  sha256: ef2d3e54ebf70c8d4feb6d9d8a89e44734f9fb50c1c3e665ba92a13ef681f0bb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Current733native442pinnedAIO inventory and all scoped synonyms were reconciled at committed331head32760a0e5b75bbc3187aa1ae2ed2ed71f499ae9f.
+    Four combined ignored/hidden-inclusive scans yielded4491occurrences in196distinct contents; retained
+    supporting readings cover167, with all29 new contexts read by root. Earlier adaptation-specific reading
+    covered88definitions,nine full native neighbors,13exactAIOCLASSnodes and74incidentedges; root inspected
+    all13nodes/74edges. All908main393nested frontier objects were mechanically scanned in retained research;95relevantlabels/five
+    fullowners were read, and currentowners193–196/203 were reassessed. Existingowner195 remains the sole
+    controller lead. This bounded pinned-snapshot assessment is not global absence or literature saturation;
+    actual merge-based creation freshness is recorded separately.
+  rationale: No inspected pinned target supplies a sufficiently informative identity or necessary defining-component
+    relation for the general comparison-based controller. Optional learning applications and host-optimizer
+    components do not justify forcing a mapping.
+  examined_targets:
+  - target: AIO:MetaLearning
+    rejection_reason: The source uses meta-learning in a broad optimizer-control sense. The pinned target
+      specifically concerns metadata about machine-learning experiments; that scope is not inherent to
+      this general controller.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned definition concerns model training and preprocessing. The controller
+      can adapt black-box search without training a machine-learning model.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The pinned definition is broad and is not restricted to scalar functions. Generic
+      computational describability supplies no sufficiently informative identity or necessary specific-component
+      match for this family of sampling, comparison and controller procedures.
+  - target: AIO:ExponentialFunction
+    rejection_reason: Scalar exponentiation is a component of a possible underlying NES update, not a
+      mandatory defining operation of the general adaptation-sampling controller.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A possible policy-search application does not make an environment/reward learning
+      interface inherent to the controller.
+  - target: AIO:ProbabilisticHiddenLayer
+    rejection_reason: Evaluating sampling densities does not supply a predictive category-estimation hidden
+      layer.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: Coverage and calibration problems are limitations of a comparison, not an identity
+      mapping to a bias category.
+  - target: AIO:ActiveLearning
+    rejection_reason: Extra objective or quality evaluations do not inherently constitute interactive
+      labeling or a predictive query-selection task.
+  - target: AIO:KnowledgeTransfer
+    rejection_reason: Reusing evaluations within a search is not inherently transfer of knowledge between
+      entities. The target’s related Adaptation synonym does not establish equivalence.
+  - target: AIO:MetaLearningLLM
+    rejection_reason: No language model, pretrained prior or few-shot task-adaptation mechanism is required.
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: No language model is required; the related evolutionary algorithms synonym does
+      not identify this controller.
+  - target: AIO:RegularizationLayer
+    rejection_reason: No layer-specific parameter or activity penalty is required.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The controller can operate on arbitrary black-box search. Adapting optimizer settings
+      does not by itself identify the pinned task of building methods that learn from data.
+limitations:
+- The weighted normal approximation is not established as calibrated for reused importance-weighted groups.
+  In the equal-law case with finite ratios equal to one, both groups contain the same n quality values.
+  Pair symmetry, including ties, makes U=n²/2 deterministically, whereas the displayed substituted variance
+  is n²*(2*n+1)/12>0 for n>0. This bounded curator derivation refutes that expression as the actual variance
+  in this paired case; it is not an author-issued erratum, a general error-rate calculation or a claim
+  that every independent direct-sampling test is invalid.
+- The thesis Appendix B gives half credit for equal values but displays no tie-adjusted variance. Integer
+  weights as repeated observations explain the pair-count identity, not independence or valid variance.
+  Adaptive choice of the hypothetical law, repeated comparisons and dependence between the reused groups
+  require separate calibration. Empirical rho is not asserted to be a valid nominal significance level.
+- The thesis and journal prose attach weights to unchanged quality values. The 2012 Algorithm 2 and 2014
+  Algorithm 4 instead write a set containing weight times rank, which must not silently be implemented
+  as altered rank values. Their weighted-Mann-Whitney return value and rank/tail convention are not fully
+  specified; the threshold branch is not certified as a literal implementation of the thesis’s directional
+  normal comparisons. No repaired pseudocode or author-code behavior is claimed.
+- Ratios need finite, positive sampling densities at reused observations and defined finite hypothetical
+  densities. Representing hypothetical-law expectations also requires suitable proposal coverage and integrability;
+  positivity only at observed points does not establish global support coverage or stable weights. Large
+  distribution changes can create large as well as small ratios. A weighted finite batch need not reveal
+  an improvement, and no automatic effective-sample-size or numerical safeguard is supplied.
+- Direct mode spends fresh evaluations, while virtual mode reuses expensive quality observations and still
+  needs hypothetical-density evaluation and comparison work. The optional interpolation using fresh samples
+  is not required in every mode. No cost-free controller, general variance reduction, monotonic progress,
+  convergence, universal noise robustness or benchmark advantage is asserted.
+- The concrete NES rule concerns the global-scale learning rate and empirical defaults. It is distinct
+  from xNES or SNES themselves, natural-gradient geometry, IGO flow, CMA-ES evolution-path control, Rprop
+  gradient-sign updates and population-based model copying. The source’s increase/decrease analogy with
+  Rprop does not establish an exact alias. Underlying full-covariance NES formulas are not re-certified
+  by this controller description.
+- 'Primary reading is limited to the declared methods and context: the thesis Section 2.4.4 and Appendix
+  B, journal Section 3.2, and the 2012 Section 2.2/Algorithm 2 and defaults. The thesis body incorrectly
+  points to Appendix A; the acquired 134-page author copy places the weighted test in Appendix B, PDF
+  p. 121 / printed p. 97. Its cover dates and the separately inspected TUM repository metadata are retained
+  without claiming byte equivalence to the repository PDF. The full thesis and empirical figures/tables
+  were not audited.'
+- The 2012 proceedings paper notes that its use of the known target fitness for restart decisions was
+  outside the BBOB guidelines; its numerical comparisons are not imported here. Its initial sandbox DNS
+  download failure and separate successful retry remain in the research provenance. An author BibTeX fetch
+  was unsupported by the web tool. No author implementation, benchmark, statistical test or calculator
+  was executed for this controller assessment.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T05:26:04Z'
+  updated_at: '2026-10-15T05:26:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
