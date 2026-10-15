@@ -1,0 +1,170 @@
+id: AIMech:SMOTENC
+name: SMOTE-NC
+concept_kind: preprocessing_method
+aliases: []
+definition: The original mixed nominal/continuous extension of SMOTE that synthesizes minority-class training
+  examples by finding minority neighbors with a continuous-distance and nominal-mismatch rule, interpolating
+  their continuous coordinates and assigning nominal coordinates through neighbor votes.
+definition_evidence:
+- source_id: chawla2002
+  locator: Section 6.1 introduction and steps 1–3, including Table 6, PDF pp. 28–29 / printed pp. 348–349;
+    continuous synthesis referred to Section 4.2, PDF pp. 8–10 / printed pp. 328–330.
+  relation: supports
+claims:
+- claim_id: mixed-feature-minority-synthesis
+  kind: scope
+  statement: The original SMOTE-NC procedure extends continuous-feature SMOTE to training examples with
+    both continuous and nominal features. It creates additional examples assigned to the minority class
+    by using minority-class neighbors, continuous interpolation and nominal-feature votes. The procedure
+    is training-data preprocessing rather than a fitted classifier. Its mixed-feature construction is
+    distinct from the original continuous-only method and from the separately proposed nominal-only SMOTE-N
+    construction.
+  evidence:
+  - source_id: chawla2002
+    locator: Section 6.1 introduction and steps 1–3, PDF pp. 28–29 / printed pp. 348–349; Section 4.2,
+      PDF p. 8 / printed p. 328; Section 6.2 opening, PDF p. 29 / printed p. 349.
+    relation: supports
+- claim_id: minority-continuous-standard-deviation-median
+  kind: mechanism
+  statement: Compute the standard deviation of each continuous feature using the minority-class examples,
+    then take the median M across those feature-wise standard deviations. This single scale supplies the
+    nominal-mismatch penalty in neighbor distance. It is not a median of raw feature values, a median
+    of variances, or a statistic pooled across all classes.
+  evidence:
+  - source_id: chawla2002
+    locator: Section 6.1 step 1 and the definition of Med in Table 6, PDF p. 28 / printed p. 348.
+    relation: supports
+- claim_id: mixed-distance-with-squared-nominal-penalty
+  kind: mechanism
+  statement: For minority examples x and y, the displayed distance rule is d(x,y)=sqrt(sum_continuous
+    (x_j-y_j)^2 + M^2*sum_nominal 1[x_j!=y_j]). Each differing nominal coordinate contributes a separate
+    M^2 inside the square root. The displayed example has two nominal mismatches and therefore two such
+    terms. This rule does not assign numeric interpolation values to category labels and is not the value-difference
+    construction discussed for SMOTE-N.
+  evidence:
+  - source_id: chawla2002
+    locator: Section 6.1 step 2 and Table 6, PDF p. 28 / printed p. 348; Section 6.2 opening, PDF p. 29
+      / printed p. 349. The mixed-distance example is captioned Table 6, despite the preceding prose reference
+      to Table 2.
+    relation: supports
+- claim_id: minority-neighbors-and-generation-parameters
+  kind: mechanism
+  statement: For a minority-class seed, identify k nearest neighbors among minority examples using the
+    mixed distance, then apply the earlier SMOTE generation procedure with randomly selected members of
+    that neighbor set and a requested oversampling amount. The earlier implementation uses k=5, while
+    its algorithm takes k and the oversampling percentage as inputs. This does not define five as a universal
+    requirement or fully settle ties, self-inclusion and neighbor-reuse conventions.
+  evidence:
+  - source_id: chawla2002
+    locator: Section 6.1 steps 2–3, PDF pp. 28–29 / printed pp. 348–349; Section 4.2 prose and Algorithm
+      SMOTE inputs and lines 13–18, PDF pp. 8–9 / printed pp. 328–329.
+    relation: supports
+- claim_id: shared-scalar-continuous-interpolation
+  kind: mechanism
+  statement: 'Following the earlier prose and Table 1 formulation, for the seed x and one selected minority
+    neighbor y, generate the continuous subvector as x_cont+r*(y_cont-x_cont), using one random scalar
+    r between zero and one for that synthetic example. The continuous subvector therefore lies on their
+    continuous-coordinate line segment. This record explicitly follows that shared-scalar description:
+    the printed pseudocode instead places the gap draw inside its coordinate loop, an unresolved source
+    inconsistency.'
+  evidence:
+  - source_id: chawla2002
+    locator: Section 6.1 step 3, PDF p. 29 / printed p. 349, referring to Section 4.2 prose on PDF p.
+      8 / printed p. 328 and Table 1 on PDF p. 10 / printed p. 330; compare Algorithm SMOTE lines 19–22,
+      PDF p. 9 / printed p. 329.
+    relation: supports
+- claim_id: coordinate-wise-nominal-neighbor-vote
+  kind: mechanism
+  statement: For each nominal coordinate, assign the value described as occurring in the majority of the
+    k nearest neighbors. This is a vote over feature values within the selected minority-neighbor set,
+    not a vote to predict the class of a query example. The printed NC rule does not expressly add the
+    seed to this vote. It does not completely specify how to choose a category when frequencies tie or
+    when no category has a strict majority.
+  evidence:
+  - source_id: chawla2002
+    locator: Section 6.1 step 3, PDF p. 29 / printed p. 349. The separate Section 6.2 proposal explicitly
+      votes over the seed plus its k neighbors, PDF p. 31 / printed p. 351; that voting-set statement
+      is not imported into NC.
+    relation: supports
+identity_notes: This record denotes the original mixed nominal/continuous SMOTE-NC preprocessing procedure,
+  distinct from the existing continuous-feature SMOTE record and from the separately proposed nominal-only
+  SMOTE-N. Fresh inventory of 739 maintained and 442 pinned AIO identities at merged base 50d9a115a61f9a8d40db79fef421ce23c3409bd9
+  found no normalized identity collision. Four ignored/hidden-inclusive checkout searches yielded 280/283/787/829
+  occurrences and ten complete distinct strings read by root, consisting of existing leads and continuous-SMOTE
+  context or its historical/derived representations. Historical research inspected 47 selected definitions,
+  four full neighboring records and thirteen exact AIO CLASS nodes with all 49 incident edges. Minority-only
+  median standard deviations and nominal-neighbor voting distinguish this procedure; the original prose
+  continuous interpolation interpretation and pseudocode discrepancy remain explicit. The local-to-broader
+  DataAugmentation mapping is retained with its bounded rationale, not equivalence or an accuracy guarantee.
+  No claim of exhaustive modern implementation coverage is made.
+evidence_sources:
+- source_id: chawla2002
+  title: 'SMOTE: Synthetic Minority Over-sampling Technique'
+  authors:
+  - Nitesh V. Chawla
+  - Kevin W. Bowyer
+  - Lawrence O. Hall
+  - W. Philip Kegelmeyer
+  source_type: primary_paper
+  url: https://www.cs.cmu.edu/afs/cs.cmu.edu/project/jair/pub/volume16/chawla02a.pdf
+  persistent_id: https://doi.org/10.1613/jair.953
+  version: Journal of Artificial Intelligence Research 16:321–357, 2002; retained 37-page CMU-hosted journal
+    PDF, submitted September 2001 and published June 2002. Current JAIR metadata lists 1 June 2002. The
+    PDF creation metadata 3 June 2002 is a file-build timestamp, not a different publication date. No
+    byte-equivalence claim to a different hosted or arXiv version.
+  access_level: full_text
+  accessed_at: '2026-10-11T12:17:50Z'
+  sha256: 8eece9837dbc7719b42d1c89be2030a5c0d328723612b05cd170d2c83854899f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataAugmentation
+  relation: broad_match
+  rationale: SMOTE-NC constructs additional mixed-feature training examples from observed minority examples
+    through continuous interpolation and nominal-neighbor voting. The pinned data-augmentation concept
+    is broader than this particular preprocessing method. This is a local-to-broader mapping, not equivalence,
+    an upstream ontology edit, a neural preprocessing layer or a guarantee of improved robustness or predictive
+    accuracy.
+limitations:
+- The continuous mechanism follows the shared-scalar prose and Table 1 interpretation. Algorithm SMOTE
+  line 21 draws gap inside the attribute loop; independent coordinate draws generally yield a point in
+  the coordinate-wise rectangle rather than on the line segment. The source descriptions are not certified
+  as identical executable code, and Section 6.1 does not resolve this inherited conflict.
+- 'The nominal rule says majority among the k neighbors. It does not completely specify ties, categories
+  lacking a strict majority, equal distances, duplicate observations, adequate neighbor counts, self-inclusion
+  or neighbor reuse. The SMOTE-N proposal explicitly includes the seed in its vote; that distinct statement
+  is not asserted for NC. Oversampling-percentage conventions also require care: the earlier pseudocode
+  handles percentages below 100 by selecting a subset and otherwise assumes integral multiples of 100.'
+- Without a continuous feature the median scale is undefined, so this rule is not an all-nominal method.
+  If the median standard deviation is zero, all nominal mismatch penalties vanish. Distinct vectors with
+  equal continuous coordinates can then have zero distance, even though some nominal coordinates differ.
+  A zero median does not require every continuous feature to be constant. These are direct formula boundaries,
+  not reported experiments; no fallback is printed.
+- Raw continuous squared differences and a median across feature-wise standard deviations depend on feature
+  units. Independent rescaling can change neighbor selection; this is not feature-wise standardization
+  or arbitrary-unit invariance. The method description does not fix sample versus population standard-deviation
+  denominators or missing and nonfinite-value handling.
+- Continuous interpolation and coordinate-wise nominal votes do not guarantee a distinct synthetic record,
+  a plausible joint feature combination or a point in the true minority support. The minority label is
+  assigned by the synthesis model rather than newly observed. Nominal votes may select categories from
+  neighbors other than the one selected for the continuous interpolation.
+- Section 6.1 reports one mixed-feature dataset, Adult, and describes unfavorable comparison with plain
+  undersampling. Its explanation involving overlap with majority space is a hypothesis, not a demonstrated
+  general cause. No numerical performance comparison, plot quantification, benchmark reproduction, universal
+  benefit or calibration guarantee is asserted here.
+- This record is scoped to the original 2002 construction. Later one-hot encodings, category penalties,
+  voting sets and zero-scale or missing-value fallbacks need separate versioned evidence. SMOTE-N remains
+  a separately described potential nominal-only proposal, not an alias. The retained 37-page journal PDF
+  was acquired on 11 October 2026 and reused after byte verification. Research read the defining core
+  and extensions with selected formula visuals, not the complete paper or benchmark. No author code, later
+  library implementation or original VDM paper was inspected or executed. The mixed-distance example is
+  Table 6 despite the preceding prose reference to Table 2.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T07:33:19Z'
+  updated_at: '2026-10-15T07:33:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

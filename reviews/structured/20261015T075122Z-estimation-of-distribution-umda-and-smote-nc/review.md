@@ -1,0 +1,1846 @@
+# Scientific self-review of the EDA family, original binary UMDA and original SMOTE-NC
+
+- Review: 20261015T075122Z-estimation-of-distribution-umda-and-smote-nc
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-15T07:34:27.454302Z
+- Finished UTC: 2026-10-15T07:51:22.079135Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+The exact three-target heterogeneous batch was assessed through all 18 source-linked claims, definitions, source versions and access, two bounded no-match assessments, one qualified broad mapping and 19 individual limitations. Retain the named EDA family separately from its original unsmoothed binary UMDA construction, and retain original mixed-feature SMOTE-NC as an unrelated preprocessing method. No new concrete findings were identified in the declared scope. Actual capture, root postcapture reading and completed required checks are bound. All records remain DRAFT.
+
+## Scope And Provenance
+
+Complete explicit three-target batch for this curation session; the combination is an administrative batch, not a proposed common scientific category.
+
+Selection: Exact maintained IDs AIMech:EstimationOfDistributionAlgorithms, AIMech:UnivariateMarginalDistributionAlgorithm, AIMech:SMOTENC from actual cohort335 creation.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 50d9a115a61f9a8d40db79fef421ce23c3409bd9.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:EstimationOfDistributionAlgorithms | data/curated/EstimationOfDistributionAlgorithms.yaml | maintained | Estimation of distribution algorithms |
+| AIMech:UnivariateMarginalDistributionAlgorithm | data/curated/UnivariateMarginalDistributionAlgorithm.yaml | maintained | Univariate marginal distribution algorithm |
+| AIMech:SMOTENC | data/curated/SMOTENC.yaml | maintained | SMOTE-NC |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:EstimationOfDistributionAlgorithms, AIMech:UnivariateMarginalDistributionAlgorithm, AIMech:SMOTENC | Actual command completed with exit0; exact output is retained. |
+| just vendored-check | passed | True | AIMech:EstimationOfDistributionAlgorithms, AIMech:UnivariateMarginalDistributionAlgorithm, AIMech:SMOTENC | Actual command completed with exit0; exact output is retained. |
+| uv run --locked aimech check-source | passed | True | AIMech:EstimationOfDistributionAlgorithms, AIMech:UnivariateMarginalDistributionAlgorithm, AIMech:SMOTENC | Actual command completed with exit0; exact output is retained. |
+| just render | passed | True | AIMech:EstimationOfDistributionAlgorithms, AIMech:UnivariateMarginalDistributionAlgorithm, AIMech:SMOTENC | Actual command completed with exit0; exact output is retained. |
+| just render-check | passed | True | AIMech:EstimationOfDistributionAlgorithms, AIMech:UnivariateMarginalDistributionAlgorithm, AIMech:SMOTENC | Actual command completed with exit0; exact output is retained. |
+| git diff --check | passed | True | AIMech:EstimationOfDistributionAlgorithms, AIMech:UnivariateMarginalDistributionAlgorithm, AIMech:SMOTENC | Actual command completed with exit0; exact output is retained. |
+| Historical attempt: just vendored-check | failed | False | AIMech:EstimationOfDistributionAlgorithms, AIMech:UnivariateMarginalDistributionAlgorithm, AIMech:SMOTENC | Retained failed attempt; the same required command later passed in the separately cited current log. |
+
+## Scientific And Domain Assessments
+
+### Claim selected-population-distribution-sampling
+
+evidence: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+The author documentation supplies the named family abstraction, and the original finite UMDA loop supplies an actual selected-data fitting and sampling example. The statement identifies the central variation mechanism without claiming that an arbitrary sampler is an EDA or that later hybrids cannot include mutation. It does not infer historical priority from an undated webpage.
+
+### Claim model-structure-is-an-algorithm-choice
+
+evidence: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+The contrast is present in the chapter: Equation 13 is a product law, whereas Equation 61 and the FDA discussion permit conditional factors. Section 9 discusses structure learning. Treating those as choices prevents an unjustified family-wide Bayesian-network or independence requirement. This assessment uses the structural descriptions and does not certify the literal FDA loop or LFDA score implementation.
+
+### Claim selection-and-estimation-are-distinct-choices
+
+evidence: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+The source separately lists selection methods and states the ideal proportionate theorem condition. Truncation and tournament are not silently substituted into Equation 15. Boltzmann weighting is an optional studied selection law, not a mandatory exponential component that would justify an AIO mapping.
+
+### Claim refitting-and-incremental-memory-are-distinct
+
+evidence: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+The unsmoothed assignment and convex blend are explicit in the original UMDA and SUMDA descriptions, with the later chapter identifying the lambda=1 boundary. The record correctly confines this equivalence to the displayed update, preserving the maintained PBIL selection/mutation differences. No new SUMDA identity or universal PBIL alias is inferred.
+
+### Claim population-theory-does-not-remove-sampling-error
+
+evidence: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+The chapter introduction and Theorem 5 explicitly separate infinite-population theory from finite samples. Section 8 discusses fixation and qualified population-size results. The limitation does not reinterpret its empirical examples or conjectures as a universal failure bound, nor deny results proved for specific variants and assumptions.
+
+### Claim family-and-concrete-optimizer-boundary
+
+evidence: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+The family is a named algorithm construction, while the displayed algorithms require additional model, selection and stopping choices. The record is therefore typed as algorithm but explicitly says family-level scope. It does not inherit a complete runnable specification from the incompletely described CDA or claim all EDA members have the binary UMDA law.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+The author explicitly names the EDA family; the inspected paper loops ground selection, estimation and sampling. The definition preserves open model/selection choices and avoids a single-optimizer interpretation.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+All 13 exact targets and their 47 incident edges were read during retained research. The current draft preserves individual rejections, including whole-optimizer versus function/model/task distinctions and optional exponential or graphical mechanisms. Requested StatisticalModel is absent as an exact CLASS and is not falsely counted as examined. The search scope explicitly states historical 739+442, not future curation absence.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+Original ten-page author-hosted 1996 proceedings copy, with method OCR cross-checked visually. PDF build and online metadata dates are not substituted for publication. Original author PostScript bytes are the cited source hash; the exact EOF-trimmed derivative and successful PDF conversion are separately retained. The author index year 2000 and publisher year 2001 are distinct. All locators refer to internal/PDF pages of the author manuscript. Primary author documentation explicitly names the family and explains estimation/sampling. It supports terminology and the abstraction, not a dated priority claim or each later linked method.
+
+### limitations assessment
+
+scope: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+All individual limitations below are retained and assessed against the attributed support. They constrain mechanism, source version, mathematical assumptions and unsupported empirical conclusions rather than serving as an exemption from source evidence.
+
+### Concept boundary and actual owner
+
+identity: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+The maintained concept retains its accepted algorithm scope with no aliases. Actual root decisions retain owner 197 and distinct residuals. The supporting historical identity scope is: The named EDA family centers on estimating a search distribution from selected evaluated candidates and sampling new candidates. It is broader than original binary UMDA, but neither every sampling optimizer nor a universally executable rule. Distinct concrete choices and possible PBIL/CEM overlaps remain explicit. Historical research snapshot of 739 native and 442 pinned AIO records: all normalized identities and scoped synonyms were checked mechanically, 159 selected semantic definitions and four complete PBIL/CEM/NES/IGO neighbors were read, and all frontier strings were scanned with owners 190–203 read in full. Four ignored/hidden-inclusive core scans and four comparator scans were reconciled; references and lexical false positives did not establish a duplicate identity. The 13 exact AIO nodes and 47 incident edges support a bounded no-match. This is a dated research assessment, not a future creation-time absence claim.
+
+### Retained limitation 1
+
+scope: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+The family abstraction is deliberately broader than the inspected binary constructions. No unsupported continuous or noisy implementation is added; separate applications do not supply a universal domain specification.
+
+### Retained limitation 2
+
+scope: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+The retained identity research and full current PBIL/CEM/NES/IGO readings support distinguishing named mechanisms while allowing a matching Bernoulli refit. The conditional equality is formula-level and does not claim that the source papers classify every modern method.
+
+### Retained limitation 3
+
+scope: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+The original PDF p. 8 explicitly leaves CDA undescribed. The two-state support counterexample in retained hand algebra shows why unqualified full-conditional uniqueness requires support assumptions; the cited Besag article was not separately read. The record preserves that scope rather than announcing an erratum.
+
+### Retained limitation 4
+
+scope: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+Chapter p. 31 Step 5 literally returns to Step 2, and p. 35 Equation 70 maximizes while the p. 38 conclusion says minimizing. These are retained contextual source caveats; the family record neither certifies those algorithms nor supplies a silent repaired implementation.
+
+### Retained limitation 5
+
+scope: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+The absence of a family-wide guarantee follows from the stated source assumptions and distinct finite/infinite analyses. The assessment does not claim a computational experiment or general performance ranking.
+
+### Retained limitation 6
+
+scope: supported. Targets: AIMech:EstimationOfDistributionAlgorithms.
+
+Native source metadata preserves the original PDF/PostScript hashes, separate derivative PDF and access history. The manuscript index year and published chapter year are kept distinct; no exact publisher-version or priority claim is made.
+
+### Claim selected-binary-frequency-refit
+
+evidence: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+The empirical marginal calculation follows Equation 7 and UMDA Step 1. Requiring a nonempty selected set is the necessary denominator condition; the source displays M&lt;=N. Counting selected occurrences accommodates whichever multiplicity convention an explicit selection policy chooses without silently fixing it. No full joint fit is introduced.
+
+### Claim product-bernoulli-resampling
+
+evidence: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+Equation 13 and Step 2 specify a product law, not exact empirical linkage equilibrium in every finite sample. Both displayed two-point sets have marginal one-frequency 1/2 in each coordinate; their product fit is uniform on four states. This is direct hand reasoning from the rule, not an executed test, population benchmark or independence guarantee for realized samples.
+
+### Claim selection-and-stopping-remain-explicit
+
+evidence: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+The original skeleton explicitly leaves the selection schedule and termination criterion open. The later selection discussion supports listing proportionate, truncation and tournament choices. The claim does not invent a universal truncation fraction, exact tie rule or proof-based stopping condition.
+
+### Claim unsmoothed-update-versus-sumda
+
+evidence: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+The original UMDA uses the selected frequency immediately, while Equation 14 and Equations 38–39 exhibit incremental memory. Substitution of lambda=1 gives the unsmoothed rule; 0&lt;lambda&lt;1 retains the old parameter. That local algebra does not erase extra operators in full PBIL implementations or support a blanket alias between whole named algorithms.
+
+### Claim ideal-proportionate-selection-recurrence
+
+evidence: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+Theorem 5 states infinite populations. The selected ideal law is q(x)f(x)/W for a product law q, nonnegative f and W&gt;0. Marginalizing yields p_i times the expectation with coordinate i set to one, divided by W. Differentiating the Bernoulli expected fitness gives the equivalent p_i(1-p_i) coordinate formula. Writing the conditional slice expectation instead of conditioning on an event of possibly zero probability also covers the endpoint identity algebraically. The record expressly excludes realized finite generations and arbitrary selection.
+
+### Claim finite-population-support-loss
+
+evidence: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+Under independent candidate generation, the all-zero event has exactly (1-p)^N probability. Any nonempty selection from that event has zero empirical one-frequency; product sampling then cannot restore the lost bit without an added mechanism. This is a local event and absorption argument only. It does not quantify eventual optimization failure, compare population sizes universally, or claim all runs fix to the wrong bit.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+The original paper and later chapter both define this select/refit/product-resample binary algorithm. The definition specifies unsmoothed empirical marginals and nonempty selection, with no inserted margins, mutation or generic conditional model.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+All 13 exact targets and their 47 incident edges were read during retained research. The current draft preserves individual rejections, including whole-optimizer versus function/model/task distinctions and optional exponential or graphical mechanisms. Requested StatisticalModel is absent as an exact CLASS and is not falsely counted as examined. The search scope explicitly states historical 739+442, not future curation absence.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+Original ten-page author-hosted 1996 proceedings copy, with method OCR cross-checked visually. PDF build and online metadata dates are not substituted for publication. Original author PostScript bytes are the cited source hash; the exact EOF-trimmed derivative and successful PDF conversion are separately retained. The author index year 2000 and publisher year 2001 are distinct. All locators refer to internal/PDF pages of the author manuscript.
+
+### limitations assessment
+
+scope: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+All individual limitations below are retained and assessed against the attributed support. They constrain mechanism, source version, mathematical assumptions and unsupported empirical conclusions rather than serving as an exemption from source evidence.
+
+### Concept boundary and actual owner
+
+identity: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+The maintained concept retains its accepted algorithm scope with no aliases. Actual root decisions retain owner 197 and distinct residuals. The supporting historical identity scope is: The original binary UMDA is the unsmoothed empirical-frequency refit and product-resampling algorithm. It is a concrete EDA construction, not the whole EDA family, a full incremental and mutated PBIL algorithm, NES or IGO. A matching unsmoothed Bernoulli CEM instance can coincide under matched selection and tie conventions; this is not universal full-method equivalence. Historical research snapshot of 739 native and 442 pinned AIO records: all normalized identities and scoped synonyms were checked mechanically, 159 selected semantic definitions and four complete PBIL/CEM/NES/IGO neighbors were read, and all frontier strings were scanned with owners 190–203 read in full. Four ignored/hidden-inclusive core scans and four comparator scans were reconciled; references and lexical false positives did not establish a duplicate identity. The 13 exact AIO nodes and 47 incident edges support a bounded no-match. This is a dated research assessment, not a future creation-time absence claim.
+
+### Retained limitation 1
+
+scope: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+The original four-step skeleton contains none of the named support-restoring or nonbinary additions. Treating those as outside this narrow scope does not claim that modern algorithms using the UMDA label lack them. Selection multiplicity and tie details remain explicitly unresolved.
+
+### Retained limitation 2
+
+scope: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+Product-law independence is mathematical, while finite empirical dependence can occur. The inspected original CDA description is incomplete, so a richer model is not silently treated as an implementation of this UMDA record.
+
+### Retained limitation 3
+
+scope: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+The ideal recurrence is a valid normalized selection law only under its fitness assumptions. In the retained hand example, W=3/2 and both slice means are 3/2 at p=(1/2,1/2), so the ideal update is stationary; a point mass at 00 or 11 gives W=2. The record correctly adds that optimal strings are still sampled with probability 1/2 at the stationary law. This rebuts a universal concentration/mean-maximization reading, not every sense of finding an optimum.
+
+### Retained limitation 4
+
+scope: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+The displayed fixed-r equation is consistent: t=0 returns p(1), and successive t values follow the constant-selected-frequency blend. The earlier suspicion is withdrawn. The actual limitation is its r(t)=c assumption; varying selected frequencies do not inherit this fixed-r closed form or a general adaptive convergence theorem. The later chapter’s finite-population discussion remains qualified.
+
+### Retained limitation 5
+
+scope: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+The conditional CEM overlap and full PBIL distinction are supported by retained identity comparison and direct Bernoulli frequency reasoning. No efficiency, runtime, priority or benchmark assertion is added.
+
+### Retained limitation 6
+
+scope: supported. Targets: AIMech:UnivariateMarginalDistributionAlgorithm.
+
+The exact primary and derivative versions are correctly distinguished. Earlier all-text research and selected visual scopes are retained in the source ledger, not retroactively expanded into a publisher or author-code audit.
+
+### Claim mixed-feature-minority-synthesis
+
+evidence: supported. Targets: AIMech:SMOTENC.
+
+Sections 6.1 and 4.2 define synthetic minority examples, with mixed continuous/nominal processing rather than a learned classification rule. Section 6.2 is explicitly potential and separate. The claim does not promote the N proposal, assert dataset-independent success or require a particular later library.
+
+### Claim minority-continuous-standard-deviation-median
+
+evidence: supported. Targets: AIMech:SMOTENC.
+
+Step 1 and Table 6 make the minority-class feature-wise standard deviations the inputs to one cross-feature median. The claim correctly distinguishes standard deviation from variance, raw-value medians and pooling over classes; it does not specify a denominator absent from the source.
+
+### Claim mixed-distance-with-squared-nominal-penalty
+
+evidence: supported. Targets: AIMech:SMOTENC.
+
+Step 2 and the displayed Table 6 formula put one squared median term per nominal mismatch inside the root. The claim cites the actual caption rather than the mistaken preceding Table 2 reference. The formula is a transcription/generalization of the shown coordinate rule, not a new executable implementation or proof of positive separation when M=0.
+
+### Claim minority-neighbors-and-generation-parameters
+
+evidence: supported. Targets: AIMech:SMOTENC.
+
+Step 2 selects minority examples by mixed distance and step 3 imports the earlier SMOTE synthesis. Section 4.2 explicitly takes k and amount as inputs and mentions five in its implementation. The claim preserves incomplete tie/reuse details and does not insist on five in every use.
+
+### Claim shared-scalar-continuous-interpolation
+
+evidence: supported. Targets: AIMech:SMOTENC.
+
+Section 6.1 step 3 refers to earlier continuous generation. Section 4.2 prose and Table 1 support one scalar on the continuous difference vector. Lines 19–22 visibly place gap inside the loop. The claim identifies its chosen prose interpretation and source conflict rather than certifying their equivalence; the line-segment conclusion is a direct algebraic consequence.
+
+### Claim coordinate-wise-nominal-neighbor-vote
+
+evidence: supported. Targets: AIMech:SMOTENC.
+
+The full printed step 3 says majority of the k nearest neighbors for a nominal feature. It is a feature-value vote in a known minority set, not class prediction. Section 6.2 explicitly adds the seed for N, which the claim carefully does not import into NC. No tie-resolution algorithm or strict-majority existence is invented.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:SMOTENC.
+
+Narrow mixed-feature minority augmentation, matching the original Section 6.1 procedure and avoiding classifier, continuous-only and nominal-only proposal identities.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:SMOTENC.
+
+The exact pinned target is broader augmentation, not the nearest-neighbor classifier or a neural layer. Native-to-broader direction matches the already maintained continuous core but is justified by the NC transformation itself; it conveys no empirical benefit.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:SMOTENC.
+
+The original 37-page 2002 journal PDF was acquired on 11 October 2026 and reused with exact byte verification. The source agent and root inspected defining core/NC methods selectively, with retained primary visuals and explicit source inconsistencies; neither full-paper coverage nor an author-code, later-library or benchmark audit is claimed.
+
+### limitations assessment
+
+scope: supported. Targets: AIMech:SMOTENC.
+
+All individual limitations below are retained and assessed against the attributed support. They constrain mechanism, source version, mathematical assumptions and unsupported empirical conclusions rather than serving as an exemption from source evidence.
+
+### Concept boundary and actual owner
+
+identity: supported. Targets: AIMech:SMOTENC.
+
+The maintained concept retains its accepted preprocessing_method scope with no aliases. Actual root decisions retain owner 205 and distinct residuals. The supporting historical identity scope is: This record denotes the original 2002 SMOTE-NC mixed nominal/continuous minority-training-example synthesis method, not continuous-only SMOTE, the potential nominal-only SMOTE-N proposal, a fitted classifier, or a later library version. The accepted research snapshot compared 739 native and 442 AIO records using normalized IDs, names, aliases and all scoped synonyms, with no candidate collision. Four ignored/hidden-inclusive full-checkout searches returned 1,462 occurrences reconstructed into nine fully read contents, all existing owner labels or continuous-SMOTE scope context; a supplementary scan covered 192 enumerated TEMP content modules. Forty-seven semantic definitions, four complete native neighbors and 13 exact AIO nodes with 49 incident edges were read. An all-field scan of the 908 main and 393 nested frontier objects and seven full relevant objects confirms existing owner 205 for NC and separate unresolved owner 206 for N; retain both, with no new leaf. This is historical research context, not a future creation-time absence or saturation assertion.
+
+### Retained limitation 1
+
+scope: supported. Targets: AIMech:SMOTENC.
+
+The prose/pseudocode conflict is visibly present. The rectangle-versus-segment boundary follows from using independent coordinate fractions, without a calculator or claim that the actual author implementation did so.
+
+### Retained limitation 2
+
+scope: supported. Targets: AIMech:SMOTENC.
+
+Unspecified choices are not filled with a modern implementation. Percentage handling and differing explicit NC/N vote sets are retained with their own locators.
+
+### Retained limitation 3
+
+scope: supported. Targets: AIMech:SMOTENC.
+
+These are symbolic consequences of the median and distance expression: an empty median is undefined, and M=0 removes every nominal term. A median can be zero when a majority of feature standard deviations are zero without every feature being constant. No fallback, data experiment or generalized metric guarantee is asserted.
+
+### Retained limitation 4
+
+scope: supported. Targets: AIMech:SMOTENC.
+
+The displayed expression uses raw feature differences and one cross-feature scale, so arbitrary independent unit changes are not absorbed. The absence of estimator/missing-value details is bounded to the inspected method, not all implementations.
+
+### Retained limitation 5
+
+scope: supported. Targets: AIMech:SMOTENC.
+
+Interpolation may duplicate endpoints and combine coordinates without certifying data support. Nominal voting uses the k-neighbor set whereas continuous generation chooses a member, so categories may be supplied by other neighbors. This is a scope limitation, not an empirical allegation.
+
+### Retained limitation 6
+
+scope: supported. Targets: AIMech:SMOTENC.
+
+The source explicitly reports the Adult limitation and proposes an overlap explanation. The draft retains that negative context without a numerical performance claim, causal proof or full benchmark audit; no reconstructed scores are asserted.
+
+### Retained limitation 7
+
+scope: supported. Targets: AIMech:SMOTENC.
+
+Version, acquisition and reading limits are explicit. The accepted original PDF was reused, the distinct potential N proposal remains unresolved, later implementation conventions are not treated as aliases, and the actual Table 6 caption controls the locator.
+
+### Captured bytes, accepted science and frontier accounting
+
+consistency: supported. Targets: AIMech:EstimationOfDistributionAlgorithms, AIMech:UnivariateMarginalDistributionAlgorithm, AIMech:SMOTENC.
+
+All three captured records equal the actual write payloads and report entries. Exact support covers18 claims and19 limitations. Only owners197/205 changed; all906 other main and393 nested values remain unchanged, including owner206. Six required checks passed. No global exhaustion or DRAFT promotion is inferred.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:EstimationOfDistributionAlgorithms, AIMech:UnivariateMarginalDistributionAlgorithm. The EDA record denotes a family construction with model and selection choices; UMDA denotes the original binary empirical-marginal refit and product-sampling algorithm. Family membership and conditional formula overlap do not establish equivalence or a lump. Both reuse owner197 while its variant residuals remain. Owner197 remains partially addressed, with source-family residuals explicit.
+- retain: AIMech:SMOTENC. Original SMOTE-NC synthesizes mixed-feature minority training examples; it is neither an EDA optimizer nor the continuous-only core or nominal-only SMOTE-N proposal. The qualified broad mapping to DataAugmentation does not imply equivalent identities or empirical benefit. Owner205 is addressed while owner206 remains unchanged.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| captured-inputs | /private/tmp/aimech-eda-smote-cohort335-capture.json | context_only | Actual canonical inspect output; all captured input hashes rechecked. Inspection alone is not scientific approval. |
+| postcapture-reading | /private/tmp/aimech-eda-smote-cohort335-root-reading.json | context_only | Actual root full-target assessment after capture and completed checks; selective primary scopes are stated separately. |
+| scientific-support | /private/tmp/aimech-eda-smote-cohort335-review-preparation-20261015/scientific-support.prepared-v2.json | context_only | Attributed same-author support of all18 accepted claims and19 individual limitations. This is preparation DATA, not itself an actual canonical capture. |
+| actual-write | /private/tmp/aimech-eda-smote-cohort335-write.json | context_only | Actual creation receipt binds three records, report pair and CREATE history. |
+| discovery-report | research/discovery/20261015T073319Z-estimation-of-distribution-umda-and-smote-nc.json | context_only | Record mirrors are exact. Only owners197/205 changed; all906 other main and393 nested objects, including206, are unchanged. No new frontier leaves. |
+| creation-history | history/reports/estimation-of-distribution-umda-and-smote-nc/2026-10-15T073335Z-codex-cd8c3d.yaml | context_only | Actual append-only CREATE sidecar; review and publication are separate later actions. |
+| pinned-aio | sources/aio/aio.json; 13 exact inspected alternatives for EDA/UMDA; AIO:DataAugmentation and retained NC alternatives/incident edges. | context_only | Exact snapshot supports two bounded no-match assessments and the local-to-broader DataAugmentation mapping; no upstream identity assertion. |
+| identity-assessment | /private/tmp/aimech-cohort335-root-decisions.json | context_only | Actual root decisions bind fresh ignored/hidden-inclusive scans and owner197/205 accounting; no manual rereading of every hit by this generator is claimed. |
+| umda-precuration-correction | /private/tmp/aimech-umda-fixed-frequency-correction-20261015/correction.json; 1996 Section 4, PDF p. 6, Theorem 5 and Equation 15. | context_only | An unsupported indexing suspicion was withdrawn after actual source visual reading: Equation15 is internally consistent. Original module/preview/acceptance/support remain historical, while this review uses the separately accepted successor. No canonical finding or GitHub issue is invented. |
+| src-muhlenbein1996 | http://www.muehlenbein.org/estbin96.pdf; Attributed supporting research read all 10 OCR pages, with method/assumption visuals4,5,6,8. Drafting freshly reread OCR1,3,4,6,8 and visual4. Root selectively read OCR3–4, then6/8, and visual4. No publisher PDF, empirical replication or source-wide theorem audit is claimed. Root and supporting agent later freshly inspected PDF6 and withdrew the unsupported Equation15 indexing suspicion; the fixed-r initial-value convention is consistent. | supports | PPSN IV (1996), LNCS 1141, pp. 178–187. Ten-page author-hosted copy with internally unnumbered pages; locators use PDF page numbers. PDF distillation metadata dated 2007 and publisher online metadata dated 2005 do not replace the 1996 proceedings year. Byte identity to the publisher PDF is not established. Native font extraction was garbled; OCR was used with visual checks of defining methods. Acquisition time is access metadata, not a claim of full reading. |
+| src-muhlenbein-mahnig-chapter | http://www.muehlenbein.org/ecdistribution.ps; Attributed supporting research read all39 native-text pages of the documented conversion and visuals10,16,31,32,35,36. Drafting reread selected method pages. Root selectively read internal/PDF9–11,16,32–34 and later31,35,38, plus visual10. Original PostScript SHA and conversion lineage remain distinct from the derived reading PDF. Root also subsequently read the complete PDF31 visual; this does not imply a full source-wide theorem audit. | supports | Author PostScript manuscript indexed as 2000; associated published chapter is dated 2001 in Theoretical Aspects of Evolutionary Computing, pp. 135–173. This source SHA identifies the original acquired PostScript, including its trailing MIME delimiter. A separate derivative removed only the suffix after the unique %%EOF; successful headless conversion produced the inspected 39-page PDF, SHA-256 72ecf752466d97f086da79338ba03a2e660fcd92cdfffb69622684c8178530b1. Locators use internal/PDF pages 1–39, not an inferred publisher offset. Original bytes, failed conversions and the exact derivative transformation are retained. Publisher-text or publisher-byte equivalence is not certified. Acquisition time is access metadata, not a claim of full reading. |
+| src-muhlenbein-author-index | http://www.muehlenbein.org/; Supporting and root readings cover the complete Mathematical models (Estimation of Distribution) subsection and publication-link contexts. This is primary author terminology/documentation, not a source-wide chronology or historical priority audit. | supports | Public author webpage acquired on 15 October 2026; its live HTTP body is byte-identical to the separately retrieved public archive capture dated 29 November 2023. The Mathematical models (Estimation of Distribution) subsection explicitly names and describes the family. No publication-priority date or source-wide update date is inferred. Acquisition time is access metadata, not a claim of full reading. |
+| src-chawla2002 | https://www.cs.cmu.edu/afs/cs.cmu.edu/project/jair/pub/volume16/chawla02a.pdf; Attributed source-agent research and drafting read the defining core and extensions selectively, with historical visuals8–10,28–29,31 and fresh draft text8–10,28–29. Root read Section6.1 native28–29 and opening6.2, visuals28–29 and8–9, plus Table1 and caption context on10. Neither complete37-page reading nor benchmark, original VDM, author-code or later-library audit is claimed. | supports | Journal of Artificial Intelligence Research 16:321–357, 2002; retained 37-page CMU-hosted journal PDF, submitted September 2001 and published June 2002. Current JAIR metadata lists 1 June 2002. The PDF creation metadata 3 June 2002 is a file-build timestamp, not a different publication date. No byte-equivalence claim to a different hosted or arXiv version. Acquisition time is access metadata, not a claim of full reading. |
+| record-eda | data/curated/EstimationOfDistributionAlgorithms.yaml | supports | Complete maintained DRAFT record assessed by root after capture and matched to accepted scientific support. |
+| record-umda | data/curated/UnivariateMarginalDistributionAlgorithm.yaml | supports | Complete maintained DRAFT record assessed by root after capture and matched to accepted scientific support. |
+| record-smote-nc | data/curated/SMOTENC.yaml | supports | Complete maintained DRAFT record assessed by root after capture and matched to accepted scientific support. |
+| check-gate | /private/tmp/aimech-eda-smote-cohort335-check-gate.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-vendor | /private/tmp/aimech-eda-smote-cohort335-retry-check-vendor.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-check-source | /private/tmp/aimech-eda-smote-cohort335-check-check-source.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-render | /private/tmp/aimech-eda-smote-cohort335-check-render.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-render-check | /private/tmp/aimech-eda-smote-cohort335-check-render-check.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-diff | /private/tmp/aimech-eda-smote-cohort335-check-diff.json | context_only | Actual completed command and retained output before this new review was saved. |
+| historical-check-attempt-1 | /private/tmp/aimech-eda-smote-cohort335-check-vendor.json | context_only | Actual failed attempt retained alongside its later successful required-check replacement; failure is not rewritten as a pass. |
+
+## Limits And Additional Notes
+
+- Author self-review with attributed supporting agents is not independent scientific approval. Full_text describes source access, not an assertion that every agent or root read all pages. Root source-reading receipts and actual postcapture reading remain separately attributed.
+- EDA is a family-level construction, while UMDA is the original unsmoothed binary procedure. The finite/infinite-population distinction, possible loss of support, qualified CEM/PBIL overlaps, incomplete CDA and FDA/LFDA source caveats remain. No universal convergence, population bound or source-family exhaustion is asserted.
+- The 1996 author PDF, original author PostScript, exact EOF-trimmed conversion derivative and primary author index are distinct artifacts. The chapter author index year 2000 differs from publisher year 2001. Access/conversion failures and original hashes remain provenance; no exact publisher-version or priority claim is introduced.
+- SMOTE-NC retains the squared median mismatch penalty, chosen shared-scalar prose interpretation with conflicting pseudocode, neighbor-only printed vote and unspecified ties, units, zero-scale and support boundaries. Its negative Adult discussion is not a generalized causal or performance conclusion. SMOTE-N is not curated by this review.
+- No author code, optimizer, benchmark or executable calculator was run for this review. Curator examples and formula consequences are bounded hand reasoning, not measured performance or source-wide theorem certification.
+- Two no-match search_scope fields may be refreshed from actual root identity decisions while their scientific rationale and 13 rejection targets remain byte-for-value equal to accepted previews. All other scientific and source metadata fields remain exact; global absence is not inferred from bounded scans.
+- Required checks reflect actual retained completed logs. Canonical validation, save and saved-review collection checking for this newly prepared review are separate actions; this document does not promote DRAFT status or alter the ontology.
+- The original UMDA TEMP limitation incorrectly suspected an indexing inconsistency in Equation15. Fresh source visual reading showed the fixed-r closed form is internally consistent. The separately accepted successor removes only that suspicion; original preview/acceptance/support remain historical. This pre-curation correction is provenance, not an invented canonical review finding or issue.
+- Root read all three complete canonical records after actual capture, all18 claims,19 limitations, exact mappings and evidence locators; report context changes, identity decisions, changed owners197/205 and unchanged206, report Markdown and full CREATE history. Root read scientific support narratives and every claim/individual-limitation assessment plus the corrected UMDA lineage. For primary science, root read 1996 EDA/UMDA PDF text3,4,6,8 and full visuals4,6; the chapter derivative text9,10,11,16,31,32,33,34,35,38 and visuals10,31; the author index Mathematical Models/EDA section and links. Root read SMOTE PDF section6.1 pp28-29 plus opening6.2, visuals28-29 and8-9, and Table1/caption PDF10. These are selective scopes, not all source pages, benchmark reproduction, later library code or SMOTE-N VDM verification. Agent broader readings are attributed in retained research; same-author assistance is not independent approval. Root read ten distinct full ignored-inclusive matched content strings, not all2179 duplicate occurrences, and bounded exact AIO/nearby-native contexts. Source access times describe actual acquisition, including reused 2026-10-11 SMOTE PDF, not fresh download or reading timestamps. Original PS and converted chapter PDF remain distinct, with failed conversion retained. Equation15 indexing suspicion was withdrawn before curation; fixed-frequency qualification remains.
+- Actual postcapture root scientific assessment supports retaining distinct EDA family and original binary unsmoothed UMDA algorithm records with bounded AIO no-match assessments, and original mixed continuous/nominal SMOTE-NC with a local-to-broader DataAugmentation mapping. Finite-sample versus idealized updates, fixed r(t)=c assumptions, source selection-step caveats, neighbor-only categorical voting, Euclidean M-squared mismatch contributions and the shared-scalar/procedural discrepancy remain explicit. No claim extends to SMOTE-N or all later implementations. All23 captured input hashes were rechecked now. Source/seed/native/history/full tests, vendored and rendered checks passed; the initial vendored DNS failure is retained separately. Same-author support audits of identity, actual outputs and parsed render/capture correspondence found no new issue. These are DRAFT records with a self-review, not independent acceptance. Only197/205 changed;906 other main and393 nested frontier objects are preserved. Unresolved leads remain; no saturation inferred.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+title: Scientific self-review of the EDA family, original binary UMDA and original
+  SMOTE-NC
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root author assessment with attributed same-author supporting
+    source and mathematical agents. No external or independent scientific approval
+    is asserted.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: The exact three-target heterogeneous batch was assessed through all 18 source-linked
+  claims, definitions, source versions and access, two bounded no-match assessments,
+  one qualified broad mapping and 19 individual limitations. Retain the named EDA
+  family separately from its original unsmoothed binary UMDA construction, and retain
+  original mixed-feature SMOTE-NC as an unrelated preprocessing method. No new concrete
+  findings were identified in the declared scope. Actual capture, root postcapture
+  reading and completed required checks are bound. All records remain DRAFT.
+scope:
+  description: Complete explicit three-target batch for this curation session; the
+    combination is an administrative batch, not a proposed common scientific category.
+  selection: Exact maintained IDs AIMech:EstimationOfDistributionAlgorithms, AIMech:UnivariateMarginalDistributionAlgorithm,
+    AIMech:SMOTENC from actual cohort335 creation.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  - AIMech:SMOTENC
+  exclusions:
+  - target: Other EDA variants, source-family residuals and maintained neighboring
+      optimizers
+    reason: Context only; this review does not resolve SUMDA/PBIL identity, incomplete
+      CDA, other factorization variants or all distribution-based optimization.
+  - target: SMOTE-N and later SMOTE-NC implementations
+    reason: Owner206 remains unresolved and unchanged; later encoding, voting and
+      fallback conventions are not treated as the original method.
+  - target: Author implementations, full benchmark analyses and unread theoretical
+      dependencies
+    reason: Outside the declared selective source reading and hand-algebra scope.
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  rationale: The EDA record denotes a family construction with model and selection
+    choices; UMDA denotes the original binary empirical-marginal refit and product-sampling
+    algorithm. Family membership and conditional formula overlap do not establish
+    equivalence or a lump. Both reuse owner197 while its variant residuals remain.
+    Owner197 remains partially addressed, with source-family residuals explicit.
+  evidence_ids:
+  - record-eda
+  - record-umda
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+  - src-muhlenbein-author-index
+- action: retain
+  target_ids:
+  - AIMech:SMOTENC
+  rationale: Original SMOTE-NC synthesizes mixed-feature minority training examples;
+    it is neither an EDA optimizer nor the continuous-only core or nominal-only SMOTE-N
+    proposal. The qualified broad mapping to DataAugmentation does not imply equivalent
+    identities or empirical benefit. Owner205 is addressed while owner206 remains
+    unchanged.
+  evidence_ids:
+  - record-smote-nc
+  - src-chawla2002
+  - pinned-aio
+  - identity-assessment
+limitations:
+- Author self-review with attributed supporting agents is not independent scientific
+  approval. Full_text describes source access, not an assertion that every agent or
+  root read all pages. Root source-reading receipts and actual postcapture reading
+  remain separately attributed.
+- EDA is a family-level construction, while UMDA is the original unsmoothed binary
+  procedure. The finite/infinite-population distinction, possible loss of support,
+  qualified CEM/PBIL overlaps, incomplete CDA and FDA/LFDA source caveats remain.
+  No universal convergence, population bound or source-family exhaustion is asserted.
+- The 1996 author PDF, original author PostScript, exact EOF-trimmed conversion derivative
+  and primary author index are distinct artifacts. The chapter author index year 2000
+  differs from publisher year 2001. Access/conversion failures and original hashes
+  remain provenance; no exact publisher-version or priority claim is introduced.
+- SMOTE-NC retains the squared median mismatch penalty, chosen shared-scalar prose
+  interpretation with conflicting pseudocode, neighbor-only printed vote and unspecified
+  ties, units, zero-scale and support boundaries. Its negative Adult discussion is
+  not a generalized causal or performance conclusion. SMOTE-N is not curated by this
+  review.
+- No author code, optimizer, benchmark or executable calculator was run for this review.
+  Curator examples and formula consequences are bounded hand reasoning, not measured
+  performance or source-wide theorem certification.
+- Two no-match search_scope fields may be refreshed from actual root identity decisions
+  while their scientific rationale and 13 rejection targets remain byte-for-value
+  equal to accepted previews. All other scientific and source metadata fields remain
+  exact; global absence is not inferred from bounded scans.
+- Required checks reflect actual retained completed logs. Canonical validation, save
+  and saved-review collection checking for this newly prepared review are separate
+  actions; this document does not promote DRAFT status or alter the ontology.
+- The original UMDA TEMP limitation incorrectly suspected an indexing inconsistency
+  in Equation15. Fresh source visual reading showed the fixed-r closed form is internally
+  consistent. The separately accepted successor removes only that suspicion; original
+  preview/acceptance/support remain historical. This pre-curation correction is provenance,
+  not an invented canonical review finding or issue.
+- Root read all three complete canonical records after actual capture, all18 claims,19
+  limitations, exact mappings and evidence locators; report context changes, identity
+  decisions, changed owners197/205 and unchanged206, report Markdown and full CREATE
+  history. Root read scientific support narratives and every claim/individual-limitation
+  assessment plus the corrected UMDA lineage. For primary science, root read 1996
+  EDA/UMDA PDF text3,4,6,8 and full visuals4,6; the chapter derivative text9,10,11,16,31,32,33,34,35,38
+  and visuals10,31; the author index Mathematical Models/EDA section and links. Root
+  read SMOTE PDF section6.1 pp28-29 plus opening6.2, visuals28-29 and8-9, and Table1/caption
+  PDF10. These are selective scopes, not all source pages, benchmark reproduction,
+  later library code or SMOTE-N VDM verification. Agent broader readings are attributed
+  in retained research; same-author assistance is not independent approval. Root read
+  ten distinct full ignored-inclusive matched content strings, not all2179 duplicate
+  occurrences, and bounded exact AIO/nearby-native contexts. Source access times describe
+  actual acquisition, including reused 2026-10-11 SMOTE PDF, not fresh download or
+  reading timestamps. Original PS and converted chapter PDF remain distinct, with
+  failed conversion retained. Equation15 indexing suspicion was withdrawn before curation;
+  fixed-frequency qualification remains.
+tags:
+- scientific-review
+- self-review
+- heterogeneous-batch
+- source-scoped
+schema_version: 1.0.0
+review_id: 20261015T075122Z-estimation-of-distribution-umda-and-smote-nc
+kind: batch
+repository: CultureBotAI/AIMech
+started_at: '2026-10-15T07:34:27.454302Z'
+finished_at: '2026-10-15T07:51:22.079135Z'
+source:
+  git_revision: 50d9a115a61f9a8d40db79fef421ce23c3409bd9
+  state: working_tree
+  inputs:
+  - path: .claude/skills/review-category/SKILL.md
+    sha256: 553c3870c1dfc127f90f196b7b212b644706d4c26e2a578ab615ccce588070d7
+    role: context
+  - path: data/aio/DataAugmentation.yaml
+    sha256: e99fd76071e8b52cbe8ed53f694b30093d7fb7a8af2e225f2f158f5cab5f11ae
+    role: context
+  - path: data/curated/CrossEntropyOptimization.yaml
+    sha256: b2d993224f56b48738bbecc23df28fe0bc1e16e54c658979fdd28fc1924ba269
+    role: context
+  - path: data/curated/EstimationOfDistributionAlgorithms.yaml
+    sha256: 0d7d85458e63ef3ad8032b26e0b25b9b3ee1c0e494c63cf660bcb8c9bcc4711d
+    role: target
+  - path: data/curated/InformationGeometricOptimization.yaml
+    sha256: ef55808962485da0302293b2110ff61ed153c76b6e5da5c570f189dafc66282f
+    role: context
+  - path: data/curated/NaturalEvolutionStrategies.yaml
+    sha256: b11c8d02da55175afcf5d5c11cf91a864418d7396b726f423f865d95cfe76a4c
+    role: context
+  - path: data/curated/PopulationBasedIncrementalLearning.yaml
+    sha256: fb2500f70c8a0cf57639b33f7f89acf9f141adf75a238aa248e784afc09866d2
+    role: context
+  - path: data/curated/SMOTENC.yaml
+    sha256: 8079d2566158a4b304e9f64d1fd3944f45d7c3d10055a306a58eb4a818939319
+    role: target
+  - path: data/curated/SyntheticMinorityOversamplingTechnique.yaml
+    sha256: 3bf5f89fc2d13712c77a400c269fecd0b57c60360503c825e86f6c2af40161f7
+    role: context
+  - path: data/curated/UnivariateMarginalDistributionAlgorithm.yaml
+    sha256: 9d8845b9c2b7e6806168bf31d0c7a837ef463dcbc6c3fbc386961aee3618c04a
+    role: target
+  - path: docs/curated-concepts.md
+    sha256: 1a3db0915791b0e90b02cd1f83c35850bfc3c97b18edfd8b946c91030578ccb8
+    role: context
+  - path: docs/record-review-profile.md
+    sha256: 2d3e3a73264523c78930d17b0812e2d22887e25423fe7c38e0ddce922d9cec9d
+    role: context
+  - path: docs/record-reviews.md
+    sha256: 452a19ab688276747b7c4308523a14d4d99c1c39ef6909ae8a90b85b7a9b3e9b
+    role: context
+  - path: history/reports/estimation-of-distribution-umda-and-smote-nc/2026-10-15T073335Z-codex-cd8c3d.yaml
+    sha256: 9e96c9e76dd7133732a932f486c503e39703fc2060927358c1540c8071ff5397
+    role: context
+  - path: justfile
+    sha256: 2d9c1b68c1c80d53aa44a6b8b5e916efe8b493650ff59a3fc7479a42be37f400
+    role: context
+  - path: research/discovery/20261015T073319Z-estimation-of-distribution-umda-and-smote-nc.json
+    sha256: 4916ef6060722c38bd9fda933bc88cb9270cbf7df5920e83ee96bdd9c1644cd5
+    role: context
+  - path: research/discovery/20261015T073319Z-estimation-of-distribution-umda-and-smote-nc.md
+    sha256: 474b0ea40cc0726565e4000aeed8bbf37bbc1bff69deedcbca826a5efc9eab18
+    role: context
+  - path: schema/record_review.yaml
+    sha256: 229baf9b69118a1fe318e4c31085c0820e4e3d1365e7b04d6ace451b7c35f9bb
+    role: context
+  - path: scripts/record_review.py
+    sha256: 95a4ec41e38ec47ba3578e76838c46a0adbf47e49ad3636524735d08cfcb1c4d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:EstimationOfDistributionAlgorithms
+  path: data/curated/EstimationOfDistributionAlgorithms.yaml
+  label: Estimation of distribution algorithms
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/EstimationOfDistributionAlgorithms.yaml
+    role: maintained native concept record
+- target_id: AIMech:UnivariateMarginalDistributionAlgorithm
+  path: data/curated/UnivariateMarginalDistributionAlgorithm.yaml
+  label: Univariate marginal distribution algorithm
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/UnivariateMarginalDistributionAlgorithm.yaml
+    role: maintained native concept record
+- target_id: AIMech:SMOTENC
+  path: data/curated/SMOTENC.yaml
+  label: SMOTE-NC
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SMOTENC.yaml
+    role: maintained native concept record
+checks:
+- check_id: check-gate
+  name: just check
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  - AIMech:SMOTENC
+  command: just check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-gate
+- check_id: check-vendor
+  name: just vendored-check
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  - AIMech:SMOTENC
+  command: just vendored-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-vendor
+- check_id: check-check-source
+  name: uv run --locked aimech check-source
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  - AIMech:SMOTENC
+  command: uv run --locked aimech check-source
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-check-source
+- check_id: check-render
+  name: just render
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  - AIMech:SMOTENC
+  command: just render
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render
+- check_id: check-render-check
+  name: just render-check
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  - AIMech:SMOTENC
+  command: just render-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render-check
+- check_id: check-diff
+  name: git diff --check
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  - AIMech:SMOTENC
+  command: git diff --check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-diff
+- check_id: historical-check-attempt-1
+  name: 'Historical attempt: just vendored-check'
+  status: failed
+  required: false
+  summary: Retained failed attempt; the same required command later passed in the
+    separately cited current log.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  - AIMech:SMOTENC
+  command: just vendored-check
+  exit_code: 1
+  expected_exit_code: 0
+  evidence_ids:
+  - historical-check-attempt-1
+evidence:
+- evidence_id: captured-inputs
+  kind: record_content
+  reference: /private/tmp/aimech-eda-smote-cohort335-capture.json
+  accessed_at: '2026-10-15T07:51:21.633349Z'
+  support: context_only
+  summary: Actual canonical inspect output; all captured input hashes rechecked. Inspection
+    alone is not scientific approval.
+  snapshot_sha256: 434604c493d2e0c2cfe2e106b9b2d375fc8cc8b45caf12d086523b7b75aa5656
+- evidence_id: postcapture-reading
+  kind: record_content
+  reference: /private/tmp/aimech-eda-smote-cohort335-root-reading.json
+  accessed_at: '2026-10-15T07:51:21.633349Z'
+  support: context_only
+  summary: Actual root full-target assessment after capture and completed checks;
+    selective primary scopes are stated separately.
+  snapshot_sha256: 4b4c761716e109c78bae8d47be36d42c234a94be7b84197f7514d04e5a816b2e
+- evidence_id: scientific-support
+  kind: record_content
+  reference: /private/tmp/aimech-eda-smote-cohort335-review-preparation-20261015/scientific-support.prepared-v2.json
+  accessed_at: '2026-10-15T07:51:21.633349Z'
+  support: context_only
+  summary: Attributed same-author support of all18 accepted claims and19 individual
+    limitations. This is preparation DATA, not itself an actual canonical capture.
+  snapshot_sha256: c3cdeab45fe0e5e60261d87d5cdf78e897eb8b761b6246ed7a466835f2413a9e
+- evidence_id: actual-write
+  kind: record_content
+  reference: /private/tmp/aimech-eda-smote-cohort335-write.json
+  accessed_at: '2026-10-15T07:51:21.633349Z'
+  support: context_only
+  summary: Actual creation receipt binds three records, report pair and CREATE history.
+  snapshot_sha256: 543891537e2f2f81db2be2763757bc0081a44e394b5c95d1afca2733c50ae644
+- evidence_id: discovery-report
+  kind: record_content
+  reference: research/discovery/20261015T073319Z-estimation-of-distribution-umda-and-smote-nc.json
+  accessed_at: '2026-10-15T07:51:21.633349Z'
+  support: context_only
+  summary: Record mirrors are exact. Only owners197/205 changed; all906 other main
+    and393 nested objects, including206, are unchanged. No new frontier leaves.
+  snapshot_sha256: 4916ef6060722c38bd9fda933bc88cb9270cbf7df5920e83ee96bdd9c1644cd5
+- evidence_id: creation-history
+  kind: record_content
+  reference: history/reports/estimation-of-distribution-umda-and-smote-nc/2026-10-15T073335Z-codex-cd8c3d.yaml
+  accessed_at: '2026-10-15T07:51:21.633349Z'
+  support: context_only
+  summary: Actual append-only CREATE sidecar; review and publication are separate
+    later actions.
+  snapshot_sha256: 9e96c9e76dd7133732a932f486c503e39703fc2060927358c1540c8071ff5397
+- evidence_id: pinned-aio
+  kind: database
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-15T07:51:21.633349Z'
+  support: context_only
+  summary: Exact snapshot supports two bounded no-match assessments and the local-to-broader
+    DataAugmentation mapping; no upstream identity assertion.
+  locator: 13 exact inspected alternatives for EDA/UMDA; AIO:DataAugmentation and
+    retained NC alternatives/incident edges.
+  snapshot_sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+- evidence_id: identity-assessment
+  kind: search
+  reference: /private/tmp/aimech-cohort335-root-decisions.json
+  accessed_at: '2026-10-15T07:51:21.633349Z'
+  support: context_only
+  summary: Actual root decisions bind fresh ignored/hidden-inclusive scans and owner197/205
+    accounting; no manual rereading of every hit by this generator is claimed.
+  snapshot_sha256: b837b43762decce5510899a68e02c6d199d15be3ca9d0e37582ed8d230c250a1
+  search_scope: Exact captured inventory, full carried frontier and four retained
+    checkouts searched including ignored and hidden files; no worldwide absence or
+    exhaustion claim.
+- evidence_id: umda-precuration-correction
+  kind: record_content
+  reference: /private/tmp/aimech-umda-fixed-frequency-correction-20261015/correction.json
+  accessed_at: '2026-10-15T07:51:21.633349Z'
+  support: context_only
+  summary: 'An unsupported indexing suspicion was withdrawn after actual source visual
+    reading: Equation15 is internally consistent. Original module/preview/acceptance/support
+    remain historical, while this review uses the separately accepted successor. No
+    canonical finding or GitHub issue is invented.'
+  locator: 1996 Section 4, PDF p. 6, Theorem 5 and Equation 15.
+  snapshot_sha256: 621a5dc576fa0272bbd5b893f33eecfea962abd94d8bdff5cea705360915a8c6
+- evidence_id: src-muhlenbein1996
+  kind: primary_source
+  reference: http://www.muehlenbein.org/estbin96.pdf
+  accessed_at: '2026-10-15T06:55:01Z'
+  support: supports
+  summary: PPSN IV (1996), LNCS 1141, pp. 178–187. Ten-page author-hosted copy with
+    internally unnumbered pages; locators use PDF page numbers. PDF distillation metadata
+    dated 2007 and publisher online metadata dated 2005 do not replace the 1996 proceedings
+    year. Byte identity to the publisher PDF is not established. Native font extraction
+    was garbled; OCR was used with visual checks of defining methods. Acquisition
+    time is access metadata, not a claim of full reading.
+  locator: Attributed supporting research read all 10 OCR pages, with method/assumption
+    visuals4,5,6,8. Drafting freshly reread OCR1,3,4,6,8 and visual4. Root selectively
+    read OCR3–4, then6/8, and visual4. No publisher PDF, empirical replication or
+    source-wide theorem audit is claimed. Root and supporting agent later freshly
+    inspected PDF6 and withdrew the unsupported Equation15 indexing suspicion; the
+    fixed-r initial-value convention is consistent.
+  snapshot_sha256: 4834a0d8e4ded7ad6d80046b29fc37dc54a452a76fe58657add06b5f1adaf7a9
+- evidence_id: src-muhlenbein-mahnig-chapter
+  kind: primary_source
+  reference: http://www.muehlenbein.org/ecdistribution.ps
+  accessed_at: '2026-10-15T06:55:01Z'
+  support: supports
+  summary: Author PostScript manuscript indexed as 2000; associated published chapter
+    is dated 2001 in Theoretical Aspects of Evolutionary Computing, pp. 135–173. This
+    source SHA identifies the original acquired PostScript, including its trailing
+    MIME delimiter. A separate derivative removed only the suffix after the unique
+    %%EOF; successful headless conversion produced the inspected 39-page PDF, SHA-256
+    72ecf752466d97f086da79338ba03a2e660fcd92cdfffb69622684c8178530b1. Locators use
+    internal/PDF pages 1–39, not an inferred publisher offset. Original bytes, failed
+    conversions and the exact derivative transformation are retained. Publisher-text
+    or publisher-byte equivalence is not certified. Acquisition time is access metadata,
+    not a claim of full reading.
+  locator: Attributed supporting research read all39 native-text pages of the documented
+    conversion and visuals10,16,31,32,35,36. Drafting reread selected method pages.
+    Root selectively read internal/PDF9–11,16,32–34 and later31,35,38, plus visual10.
+    Original PostScript SHA and conversion lineage remain distinct from the derived
+    reading PDF. Root also subsequently read the complete PDF31 visual; this does
+    not imply a full source-wide theorem audit.
+  snapshot_sha256: 078e7787fb89f8b4431789e7ce5a01b5c7a8bb91ad9e43a6163199ca017ea52b
+- evidence_id: src-muhlenbein-author-index
+  kind: authority
+  reference: http://www.muehlenbein.org/
+  accessed_at: '2026-10-15T06:53:47Z'
+  support: supports
+  summary: Public author webpage acquired on 15 October 2026; its live HTTP body is
+    byte-identical to the separately retrieved public archive capture dated 29 November
+    2023. The Mathematical models (Estimation of Distribution) subsection explicitly
+    names and describes the family. No publication-priority date or source-wide update
+    date is inferred. Acquisition time is access metadata, not a claim of full reading.
+  locator: Supporting and root readings cover the complete Mathematical models (Estimation
+    of Distribution) subsection and publication-link contexts. This is primary author
+    terminology/documentation, not a source-wide chronology or historical priority
+    audit.
+  snapshot_sha256: 11749b4ab415a9aa9c50055481f2379a73b3d31fea1afd072208801d1d4b4be3
+- evidence_id: src-chawla2002
+  kind: primary_source
+  reference: https://www.cs.cmu.edu/afs/cs.cmu.edu/project/jair/pub/volume16/chawla02a.pdf
+  accessed_at: '2026-10-11T12:17:50Z'
+  support: supports
+  summary: Journal of Artificial Intelligence Research 16:321–357, 2002; retained
+    37-page CMU-hosted journal PDF, submitted September 2001 and published June 2002.
+    Current JAIR metadata lists 1 June 2002. The PDF creation metadata 3 June 2002
+    is a file-build timestamp, not a different publication date. No byte-equivalence
+    claim to a different hosted or arXiv version. Acquisition time is access metadata,
+    not a claim of full reading.
+  locator: Attributed source-agent research and drafting read the defining core and
+    extensions selectively, with historical visuals8–10,28–29,31 and fresh draft text8–10,28–29.
+    Root read Section6.1 native28–29 and opening6.2, visuals28–29 and8–9, plus Table1
+    and caption context on10. Neither complete37-page reading nor benchmark, original
+    VDM, author-code or later-library audit is claimed.
+  snapshot_sha256: 8eece9837dbc7719b42d1c89be2030a5c0d328723612b05cd170d2c83854899f
+- evidence_id: record-eda
+  kind: record_content
+  reference: data/curated/EstimationOfDistributionAlgorithms.yaml
+  accessed_at: '2026-10-15T07:51:21.633349Z'
+  support: supports
+  summary: Complete maintained DRAFT record assessed by root after capture and matched
+    to accepted scientific support.
+  snapshot_sha256: 0d7d85458e63ef3ad8032b26e0b25b9b3ee1c0e494c63cf660bcb8c9bcc4711d
+- evidence_id: record-umda
+  kind: record_content
+  reference: data/curated/UnivariateMarginalDistributionAlgorithm.yaml
+  accessed_at: '2026-10-15T07:51:21.633349Z'
+  support: supports
+  summary: Complete maintained DRAFT record assessed by root after capture and matched
+    to accepted scientific support.
+  snapshot_sha256: 9d8845b9c2b7e6806168bf31d0c7a837ef463dcbc6c3fbc386961aee3618c04a
+- evidence_id: record-smote-nc
+  kind: record_content
+  reference: data/curated/SMOTENC.yaml
+  accessed_at: '2026-10-15T07:51:21.633349Z'
+  support: supports
+  summary: Complete maintained DRAFT record assessed by root after capture and matched
+    to accepted scientific support.
+  snapshot_sha256: 8079d2566158a4b304e9f64d1fd3944f45d7c3d10055a306a58eb4a818939319
+- evidence_id: check-gate
+  kind: validation
+  reference: /private/tmp/aimech-eda-smote-cohort335-check-gate.json
+  accessed_at: '2026-10-15T07:47:17.241575Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: 46fb0493ac40836756b9e0be372b3badae1a0cb1e434398d21ffcaa65c336cef
+- evidence_id: check-vendor
+  kind: validation
+  reference: /private/tmp/aimech-eda-smote-cohort335-retry-check-vendor.json
+  accessed_at: '2026-10-15T07:49:06.694046Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: bbdabd2906ef33e2954b18afc308c5c4da6ded5a87a35aa98ca83920fedbd9d1
+- evidence_id: check-check-source
+  kind: validation
+  reference: /private/tmp/aimech-eda-smote-cohort335-check-check-source.json
+  accessed_at: '2026-10-15T07:49:38.172082Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: 64a9166ccd7d840f7f6c43a3dcae113d1c6d9a4130d3c47c68cb1f41e77c4e27
+- evidence_id: check-render
+  kind: validation
+  reference: /private/tmp/aimech-eda-smote-cohort335-check-render.json
+  accessed_at: '2026-10-15T07:34:15.202609Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: a93848726098256afee4768640733d63e03d88e3037771ce8e2cb02cac1e5a36
+- evidence_id: check-render-check
+  kind: validation
+  reference: /private/tmp/aimech-eda-smote-cohort335-check-render-check.json
+  accessed_at: '2026-10-15T07:49:52.438889Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: ccdab32caa052df0ca84b91ca541dbb2f55b324269a4940066f3e16983586f2f
+- evidence_id: check-diff
+  kind: validation
+  reference: /private/tmp/aimech-eda-smote-cohort335-check-diff.json
+  accessed_at: '2026-10-15T07:49:53.076429Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: 6182fcc605f1b9d37554f4507f4bec8c1cf6a0379f831c7b00f2aa594d120a26
+- evidence_id: historical-check-attempt-1
+  kind: validation
+  reference: /private/tmp/aimech-eda-smote-cohort335-check-vendor.json
+  accessed_at: '2026-10-15T07:47:17.789675Z'
+  support: context_only
+  summary: Actual failed attempt retained alongside its later successful required-check
+    replacement; failure is not rewritten as a pass.
+  snapshot_sha256: 82c94be4de5d8f81f86b932ad3f7efb3c7a94d93643154abf6be1f46db722a05
+assessments:
+- assessment_id: eda-selected-population-distribution-sampling
+  area: evidence
+  topic: Claim selected-population-distribution-sampling
+  outcome: supported
+  summary: The author documentation supplies the named family abstraction, and the
+    original finite UMDA loop supplies an actual selected-data fitting and sampling
+    example. The statement identifies the central variation mechanism without claiming
+    that an arbitrary sampler is an EDA or that later hybrids cannot include mutation.
+    It does not infer historical priority from an undated webpage.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein-author-index
+  - src-muhlenbein1996
+- assessment_id: eda-model-structure-is-an-algorithm-choice
+  area: evidence
+  topic: Claim model-structure-is-an-algorithm-choice
+  outcome: supported
+  summary: 'The contrast is present in the chapter: Equation 13 is a product law,
+    whereas Equation 61 and the FDA discussion permit conditional factors. Section
+    9 discusses structure learning. Treating those as choices prevents an unjustified
+    family-wide Bayesian-network or independence requirement. This assessment uses
+    the structural descriptions and does not certify the literal FDA loop or LFDA
+    score implementation.'
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: eda-selection-and-estimation-are-distinct-choices
+  area: evidence
+  topic: Claim selection-and-estimation-are-distinct-choices
+  outcome: supported
+  summary: The source separately lists selection methods and states the ideal proportionate
+    theorem condition. Truncation and tournament are not silently substituted into
+    Equation 15. Boltzmann weighting is an optional studied selection law, not a mandatory
+    exponential component that would justify an AIO mapping.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: eda-refitting-and-incremental-memory-are-distinct
+  area: evidence
+  topic: Claim refitting-and-incremental-memory-are-distinct
+  outcome: supported
+  summary: The unsmoothed assignment and convex blend are explicit in the original
+    UMDA and SUMDA descriptions, with the later chapter identifying the lambda=1 boundary.
+    The record correctly confines this equivalence to the displayed update, preserving
+    the maintained PBIL selection/mutation differences. No new SUMDA identity or universal
+    PBIL alias is inferred.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: eda-population-theory-does-not-remove-sampling-error
+  area: evidence
+  topic: Claim population-theory-does-not-remove-sampling-error
+  outcome: supported
+  summary: The chapter introduction and Theorem 5 explicitly separate infinite-population
+    theory from finite samples. Section 8 discusses fixation and qualified population-size
+    results. The limitation does not reinterpret its empirical examples or conjectures
+    as a universal failure bound, nor deny results proved for specific variants and
+    assumptions.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: eda-family-and-concrete-optimizer-boundary
+  area: evidence
+  topic: Claim family-and-concrete-optimizer-boundary
+  outcome: supported
+  summary: The family is a named algorithm construction, while the displayed algorithms
+    require additional model, selection and stopping choices. The record is therefore
+    typed as algorithm but explicitly says family-level scope. It does not inherit
+    a complete runnable specification from the incompletely described CDA or claim
+    all EDA members have the binary UMDA law.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein-author-index
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: eda-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: The author explicitly names the EDA family; the inspected paper loops ground
+    selection, estimation and sampling. The definition preserves open model/selection
+    choices and avoids a single-optimizer interpretation.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+  - src-muhlenbein-author-index
+- assessment_id: eda-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: All 13 exact targets and their 47 incident edges were read during retained
+    research. The current draft preserves individual rejections, including whole-optimizer
+    versus function/model/task distinctions and optional exponential or graphical
+    mechanisms. Requested StatisticalModel is absent as an exact CLASS and is not
+    falsely counted as examined. The search scope explicitly states historical 739+442,
+    not future curation absence.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - pinned-aio
+- assessment_id: eda-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: Original ten-page author-hosted 1996 proceedings copy, with method OCR
+    cross-checked visually. PDF build and online metadata dates are not substituted
+    for publication. Original author PostScript bytes are the cited source hash; the
+    exact EOF-trimmed derivative and successful PDF conversion are separately retained.
+    The author index year 2000 and publisher year 2001 are distinct. All locators
+    refer to internal/PDF pages of the author manuscript. Primary author documentation
+    explicitly names the family and explains estimation/sampling. It supports terminology
+    and the abstraction, not a dated priority claim or each later linked method.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+  - src-muhlenbein-author-index
+- assessment_id: eda-limitations-assessment
+  area: scope
+  topic: limitations assessment
+  outcome: supported
+  summary: All individual limitations below are retained and assessed against the
+    attributed support. They constrain mechanism, source version, mathematical assumptions
+    and unsupported empirical conclusions rather than serving as an exemption from
+    source evidence.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+  - src-muhlenbein-author-index
+- assessment_id: eda-identity
+  area: identity
+  topic: Concept boundary and actual owner
+  outcome: supported
+  summary: 'The maintained concept retains its accepted algorithm scope with no aliases.
+    Actual root decisions retain owner 197 and distinct residuals. The supporting
+    historical identity scope is: The named EDA family centers on estimating a search
+    distribution from selected evaluated candidates and sampling new candidates. It
+    is broader than original binary UMDA, but neither every sampling optimizer nor
+    a universally executable rule. Distinct concrete choices and possible PBIL/CEM
+    overlaps remain explicit. Historical research snapshot of 739 native and 442 pinned
+    AIO records: all normalized identities and scoped synonyms were checked mechanically,
+    159 selected semantic definitions and four complete PBIL/CEM/NES/IGO neighbors
+    were read, and all frontier strings were scanned with owners 190–203 read in full.
+    Four ignored/hidden-inclusive core scans and four comparator scans were reconciled;
+    references and lexical false positives did not establish a duplicate identity.
+    The 13 exact AIO nodes and 47 incident edges support a bounded no-match. This
+    is a dated research assessment, not a future creation-time absence claim.'
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - identity-assessment
+  - postcapture-reading
+- assessment_id: eda-limitation-1
+  area: scope
+  topic: Retained limitation 1
+  outcome: supported
+  summary: The family abstraction is deliberately broader than the inspected binary
+    constructions. No unsupported continuous or noisy implementation is added; separate
+    applications do not supply a universal domain specification.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+  - src-muhlenbein-author-index
+- assessment_id: eda-limitation-2
+  area: scope
+  topic: Retained limitation 2
+  outcome: supported
+  summary: The retained identity research and full current PBIL/CEM/NES/IGO readings
+    support distinguishing named mechanisms while allowing a matching Bernoulli refit.
+    The conditional equality is formula-level and does not claim that the source papers
+    classify every modern method.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+  - src-muhlenbein-author-index
+- assessment_id: eda-limitation-3
+  area: scope
+  topic: Retained limitation 3
+  outcome: supported
+  summary: The original PDF p. 8 explicitly leaves CDA undescribed. The two-state
+    support counterexample in retained hand algebra shows why unqualified full-conditional
+    uniqueness requires support assumptions; the cited Besag article was not separately
+    read. The record preserves that scope rather than announcing an erratum.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+  - src-muhlenbein-author-index
+- assessment_id: eda-limitation-4
+  area: scope
+  topic: Retained limitation 4
+  outcome: supported
+  summary: Chapter p. 31 Step 5 literally returns to Step 2, and p. 35 Equation 70
+    maximizes while the p. 38 conclusion says minimizing. These are retained contextual
+    source caveats; the family record neither certifies those algorithms nor supplies
+    a silent repaired implementation.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+  - src-muhlenbein-author-index
+- assessment_id: eda-limitation-5
+  area: scope
+  topic: Retained limitation 5
+  outcome: supported
+  summary: The absence of a family-wide guarantee follows from the stated source assumptions
+    and distinct finite/infinite analyses. The assessment does not claim a computational
+    experiment or general performance ranking.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+  - src-muhlenbein-author-index
+- assessment_id: eda-limitation-6
+  area: scope
+  topic: Retained limitation 6
+  outcome: supported
+  summary: Native source metadata preserves the original PDF/PostScript hashes, separate
+    derivative PDF and access history. The manuscript index year and published chapter
+    year are kept distinct; no exact publisher-version or priority claim is made.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  evidence_ids:
+  - record-eda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+  - src-muhlenbein-author-index
+- assessment_id: umda-selected-binary-frequency-refit
+  area: evidence
+  topic: Claim selected-binary-frequency-refit
+  outcome: supported
+  summary: The empirical marginal calculation follows Equation 7 and UMDA Step 1.
+    Requiring a nonempty selected set is the necessary denominator condition; the
+    source displays M<=N. Counting selected occurrences accommodates whichever multiplicity
+    convention an explicit selection policy chooses without silently fixing it. No
+    full joint fit is introduced.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-product-bernoulli-resampling
+  area: evidence
+  topic: Claim product-bernoulli-resampling
+  outcome: supported
+  summary: Equation 13 and Step 2 specify a product law, not exact empirical linkage
+    equilibrium in every finite sample. Both displayed two-point sets have marginal
+    one-frequency 1/2 in each coordinate; their product fit is uniform on four states.
+    This is direct hand reasoning from the rule, not an executed test, population
+    benchmark or independence guarantee for realized samples.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-selection-and-stopping-remain-explicit
+  area: evidence
+  topic: Claim selection-and-stopping-remain-explicit
+  outcome: supported
+  summary: The original skeleton explicitly leaves the selection schedule and termination
+    criterion open. The later selection discussion supports listing proportionate,
+    truncation and tournament choices. The claim does not invent a universal truncation
+    fraction, exact tie rule or proof-based stopping condition.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-unsmoothed-update-versus-sumda
+  area: evidence
+  topic: Claim unsmoothed-update-versus-sumda
+  outcome: supported
+  summary: The original UMDA uses the selected frequency immediately, while Equation
+    14 and Equations 38–39 exhibit incremental memory. Substitution of lambda=1 gives
+    the unsmoothed rule; 0<lambda<1 retains the old parameter. That local algebra
+    does not erase extra operators in full PBIL implementations or support a blanket
+    alias between whole named algorithms.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-ideal-proportionate-selection-recurrence
+  area: evidence
+  topic: Claim ideal-proportionate-selection-recurrence
+  outcome: supported
+  summary: Theorem 5 states infinite populations. The selected ideal law is q(x)f(x)/W
+    for a product law q, nonnegative f and W>0. Marginalizing yields p_i times the
+    expectation with coordinate i set to one, divided by W. Differentiating the Bernoulli
+    expected fitness gives the equivalent p_i(1-p_i) coordinate formula. Writing the
+    conditional slice expectation instead of conditioning on an event of possibly
+    zero probability also covers the endpoint identity algebraically. The record expressly
+    excludes realized finite generations and arbitrary selection.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-finite-population-support-loss
+  area: evidence
+  topic: Claim finite-population-support-loss
+  outcome: supported
+  summary: Under independent candidate generation, the all-zero event has exactly
+    (1-p)^N probability. Any nonempty selection from that event has zero empirical
+    one-frequency; product sampling then cannot restore the lost bit without an added
+    mechanism. This is a local event and absorption argument only. It does not quantify
+    eventual optimization failure, compare population sizes universally, or claim
+    all runs fix to the wrong bit.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: The original paper and later chapter both define this select/refit/product-resample
+    binary algorithm. The definition specifies unsmoothed empirical marginals and
+    nonempty selection, with no inserted margins, mutation or generic conditional
+    model.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: All 13 exact targets and their 47 incident edges were read during retained
+    research. The current draft preserves individual rejections, including whole-optimizer
+    versus function/model/task distinctions and optional exponential or graphical
+    mechanisms. Requested StatisticalModel is absent as an exact CLASS and is not
+    falsely counted as examined. The search scope explicitly states historical 739+442,
+    not future curation absence.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - pinned-aio
+- assessment_id: umda-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: Original ten-page author-hosted 1996 proceedings copy, with method OCR
+    cross-checked visually. PDF build and online metadata dates are not substituted
+    for publication. Original author PostScript bytes are the cited source hash; the
+    exact EOF-trimmed derivative and successful PDF conversion are separately retained.
+    The author index year 2000 and publisher year 2001 are distinct. All locators
+    refer to internal/PDF pages of the author manuscript.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-limitations-assessment
+  area: scope
+  topic: limitations assessment
+  outcome: supported
+  summary: All individual limitations below are retained and assessed against the
+    attributed support. They constrain mechanism, source version, mathematical assumptions
+    and unsupported empirical conclusions rather than serving as an exemption from
+    source evidence.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-identity
+  area: identity
+  topic: Concept boundary and actual owner
+  outcome: supported
+  summary: 'The maintained concept retains its accepted algorithm scope with no aliases.
+    Actual root decisions retain owner 197 and distinct residuals. The supporting
+    historical identity scope is: The original binary UMDA is the unsmoothed empirical-frequency
+    refit and product-resampling algorithm. It is a concrete EDA construction, not
+    the whole EDA family, a full incremental and mutated PBIL algorithm, NES or IGO.
+    A matching unsmoothed Bernoulli CEM instance can coincide under matched selection
+    and tie conventions; this is not universal full-method equivalence. Historical
+    research snapshot of 739 native and 442 pinned AIO records: all normalized identities
+    and scoped synonyms were checked mechanically, 159 selected semantic definitions
+    and four complete PBIL/CEM/NES/IGO neighbors were read, and all frontier strings
+    were scanned with owners 190–203 read in full. Four ignored/hidden-inclusive core
+    scans and four comparator scans were reconciled; references and lexical false
+    positives did not establish a duplicate identity. The 13 exact AIO nodes and 47
+    incident edges support a bounded no-match. This is a dated research assessment,
+    not a future creation-time absence claim.'
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - identity-assessment
+  - postcapture-reading
+- assessment_id: umda-limitation-1
+  area: scope
+  topic: Retained limitation 1
+  outcome: supported
+  summary: The original four-step skeleton contains none of the named support-restoring
+    or nonbinary additions. Treating those as outside this narrow scope does not claim
+    that modern algorithms using the UMDA label lack them. Selection multiplicity
+    and tie details remain explicitly unresolved.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-limitation-2
+  area: scope
+  topic: Retained limitation 2
+  outcome: supported
+  summary: Product-law independence is mathematical, while finite empirical dependence
+    can occur. The inspected original CDA description is incomplete, so a richer model
+    is not silently treated as an implementation of this UMDA record.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-limitation-3
+  area: scope
+  topic: Retained limitation 3
+  outcome: supported
+  summary: The ideal recurrence is a valid normalized selection law only under its
+    fitness assumptions. In the retained hand example, W=3/2 and both slice means
+    are 3/2 at p=(1/2,1/2), so the ideal update is stationary; a point mass at 00
+    or 11 gives W=2. The record correctly adds that optimal strings are still sampled
+    with probability 1/2 at the stationary law. This rebuts a universal concentration/mean-maximization
+    reading, not every sense of finding an optimum.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-limitation-4
+  area: scope
+  topic: Retained limitation 4
+  outcome: supported
+  summary: 'The displayed fixed-r equation is consistent: t=0 returns p(1), and successive
+    t values follow the constant-selected-frequency blend. The earlier suspicion is
+    withdrawn. The actual limitation is its r(t)=c assumption; varying selected frequencies
+    do not inherit this fixed-r closed form or a general adaptive convergence theorem.
+    The later chapter’s finite-population discussion remains qualified.'
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+  - umda-precuration-correction
+- assessment_id: umda-limitation-5
+  area: scope
+  topic: Retained limitation 5
+  outcome: supported
+  summary: The conditional CEM overlap and full PBIL distinction are supported by
+    retained identity comparison and direct Bernoulli frequency reasoning. No efficiency,
+    runtime, priority or benchmark assertion is added.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: umda-limitation-6
+  area: scope
+  topic: Retained limitation 6
+  outcome: supported
+  summary: The exact primary and derivative versions are correctly distinguished.
+    Earlier all-text research and selected visual scopes are retained in the source
+    ledger, not retroactively expanded into a publisher or author-code audit.
+  target_ids:
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  evidence_ids:
+  - record-umda
+  - scientific-support
+  - src-muhlenbein1996
+  - src-muhlenbein-mahnig-chapter
+- assessment_id: smote-nc-mixed-feature-minority-synthesis
+  area: evidence
+  topic: Claim mixed-feature-minority-synthesis
+  outcome: supported
+  summary: Sections 6.1 and 4.2 define synthetic minority examples, with mixed continuous/nominal
+    processing rather than a learned classification rule. Section 6.2 is explicitly
+    potential and separate. The claim does not promote the N proposal, assert dataset-independent
+    success or require a particular later library.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-minority-continuous-standard-deviation-median
+  area: evidence
+  topic: Claim minority-continuous-standard-deviation-median
+  outcome: supported
+  summary: Step 1 and Table 6 make the minority-class feature-wise standard deviations
+    the inputs to one cross-feature median. The claim correctly distinguishes standard
+    deviation from variance, raw-value medians and pooling over classes; it does not
+    specify a denominator absent from the source.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-mixed-distance-with-squared-nominal-penalty
+  area: evidence
+  topic: Claim mixed-distance-with-squared-nominal-penalty
+  outcome: supported
+  summary: Step 2 and the displayed Table 6 formula put one squared median term per
+    nominal mismatch inside the root. The claim cites the actual caption rather than
+    the mistaken preceding Table 2 reference. The formula is a transcription/generalization
+    of the shown coordinate rule, not a new executable implementation or proof of
+    positive separation when M=0.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-minority-neighbors-and-generation-parameters
+  area: evidence
+  topic: Claim minority-neighbors-and-generation-parameters
+  outcome: supported
+  summary: Step 2 selects minority examples by mixed distance and step 3 imports the
+    earlier SMOTE synthesis. Section 4.2 explicitly takes k and amount as inputs and
+    mentions five in its implementation. The claim preserves incomplete tie/reuse
+    details and does not insist on five in every use.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-shared-scalar-continuous-interpolation
+  area: evidence
+  topic: Claim shared-scalar-continuous-interpolation
+  outcome: supported
+  summary: Section 6.1 step 3 refers to earlier continuous generation. Section 4.2
+    prose and Table 1 support one scalar on the continuous difference vector. Lines
+    19–22 visibly place gap inside the loop. The claim identifies its chosen prose
+    interpretation and source conflict rather than certifying their equivalence; the
+    line-segment conclusion is a direct algebraic consequence.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-coordinate-wise-nominal-neighbor-vote
+  area: evidence
+  topic: Claim coordinate-wise-nominal-neighbor-vote
+  outcome: supported
+  summary: The full printed step 3 says majority of the k nearest neighbors for a
+    nominal feature. It is a feature-value vote in a known minority set, not class
+    prediction. Section 6.2 explicitly adds the seed for N, which the claim carefully
+    does not import into NC. No tie-resolution algorithm or strict-majority existence
+    is invented.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: Narrow mixed-feature minority augmentation, matching the original Section
+    6.1 procedure and avoiding classifier, continuous-only and nominal-only proposal
+    identities.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: The exact pinned target is broader augmentation, not the nearest-neighbor
+    classifier or a neural layer. Native-to-broader direction matches the already
+    maintained continuous core but is justified by the NC transformation itself; it
+    conveys no empirical benefit.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - pinned-aio
+- assessment_id: smote-nc-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: The original 37-page 2002 journal PDF was acquired on 11 October 2026 and
+    reused with exact byte verification. The source agent and root inspected defining
+    core/NC methods selectively, with retained primary visuals and explicit source
+    inconsistencies; neither full-paper coverage nor an author-code, later-library
+    or benchmark audit is claimed.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-limitations-assessment
+  area: scope
+  topic: limitations assessment
+  outcome: supported
+  summary: All individual limitations below are retained and assessed against the
+    attributed support. They constrain mechanism, source version, mathematical assumptions
+    and unsupported empirical conclusions rather than serving as an exemption from
+    source evidence.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-identity
+  area: identity
+  topic: Concept boundary and actual owner
+  outcome: supported
+  summary: 'The maintained concept retains its accepted preprocessing_method scope
+    with no aliases. Actual root decisions retain owner 205 and distinct residuals.
+    The supporting historical identity scope is: This record denotes the original
+    2002 SMOTE-NC mixed nominal/continuous minority-training-example synthesis method,
+    not continuous-only SMOTE, the potential nominal-only SMOTE-N proposal, a fitted
+    classifier, or a later library version. The accepted research snapshot compared
+    739 native and 442 AIO records using normalized IDs, names, aliases and all scoped
+    synonyms, with no candidate collision. Four ignored/hidden-inclusive full-checkout
+    searches returned 1,462 occurrences reconstructed into nine fully read contents,
+    all existing owner labels or continuous-SMOTE scope context; a supplementary scan
+    covered 192 enumerated TEMP content modules. Forty-seven semantic definitions,
+    four complete native neighbors and 13 exact AIO nodes with 49 incident edges were
+    read. An all-field scan of the 908 main and 393 nested frontier objects and seven
+    full relevant objects confirms existing owner 205 for NC and separate unresolved
+    owner 206 for N; retain both, with no new leaf. This is historical research context,
+    not a future creation-time absence or saturation assertion.'
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - identity-assessment
+  - postcapture-reading
+- assessment_id: smote-nc-limitation-1
+  area: scope
+  topic: Retained limitation 1
+  outcome: supported
+  summary: The prose/pseudocode conflict is visibly present. The rectangle-versus-segment
+    boundary follows from using independent coordinate fractions, without a calculator
+    or claim that the actual author implementation did so.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-limitation-2
+  area: scope
+  topic: Retained limitation 2
+  outcome: supported
+  summary: Unspecified choices are not filled with a modern implementation. Percentage
+    handling and differing explicit NC/N vote sets are retained with their own locators.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-limitation-3
+  area: scope
+  topic: Retained limitation 3
+  outcome: supported
+  summary: 'These are symbolic consequences of the median and distance expression:
+    an empty median is undefined, and M=0 removes every nominal term. A median can
+    be zero when a majority of feature standard deviations are zero without every
+    feature being constant. No fallback, data experiment or generalized metric guarantee
+    is asserted.'
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-limitation-4
+  area: scope
+  topic: Retained limitation 4
+  outcome: supported
+  summary: The displayed expression uses raw feature differences and one cross-feature
+    scale, so arbitrary independent unit changes are not absorbed. The absence of
+    estimator/missing-value details is bounded to the inspected method, not all implementations.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-limitation-5
+  area: scope
+  topic: Retained limitation 5
+  outcome: supported
+  summary: Interpolation may duplicate endpoints and combine coordinates without certifying
+    data support. Nominal voting uses the k-neighbor set whereas continuous generation
+    chooses a member, so categories may be supplied by other neighbors. This is a
+    scope limitation, not an empirical allegation.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-limitation-6
+  area: scope
+  topic: Retained limitation 6
+  outcome: supported
+  summary: The source explicitly reports the Adult limitation and proposes an overlap
+    explanation. The draft retains that negative context without a numerical performance
+    claim, causal proof or full benchmark audit; no reconstructed scores are asserted.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: smote-nc-limitation-7
+  area: scope
+  topic: Retained limitation 7
+  outcome: supported
+  summary: Version, acquisition and reading limits are explicit. The accepted original
+    PDF was reused, the distinct potential N proposal remains unresolved, later implementation
+    conventions are not treated as aliases, and the actual Table 6 caption controls
+    the locator.
+  target_ids:
+  - AIMech:SMOTENC
+  evidence_ids:
+  - record-smote-nc
+  - scientific-support
+  - src-chawla2002
+- assessment_id: actual-correspondence
+  area: consistency
+  topic: Captured bytes, accepted science and frontier accounting
+  outcome: supported
+  summary: All three captured records equal the actual write payloads and report entries.
+    Exact support covers18 claims and19 limitations. Only owners197/205 changed; all906
+    other main and393 nested values remain unchanged, including owner206. Six required
+    checks passed. No global exhaustion or DRAFT promotion is inferred.
+  target_ids:
+  - AIMech:EstimationOfDistributionAlgorithms
+  - AIMech:UnivariateMarginalDistributionAlgorithm
+  - AIMech:SMOTENC
+  evidence_ids:
+  - captured-inputs
+  - postcapture-reading
+  - discovery-report
+  - creation-history
+  - umda-precuration-correction
+  - check-gate
+  - check-vendor
+  - check-check-source
+  - check-render
+  - check-render-check
+  - check-diff
+findings: []
+actions: []
+notes:
+- Actual postcapture root scientific assessment supports retaining distinct EDA family
+  and original binary unsmoothed UMDA algorithm records with bounded AIO no-match
+  assessments, and original mixed continuous/nominal SMOTE-NC with a local-to-broader
+  DataAugmentation mapping. Finite-sample versus idealized updates, fixed r(t)=c assumptions,
+  source selection-step caveats, neighbor-only categorical voting, Euclidean M-squared
+  mismatch contributions and the shared-scalar/procedural discrepancy remain explicit.
+  No claim extends to SMOTE-N or all later implementations. All23 captured input hashes
+  were rechecked now. Source/seed/native/history/full tests, vendored and rendered
+  checks passed; the initial vendored DNS failure is retained separately. Same-author
+  support audits of identity, actual outputs and parsed render/capture correspondence
+  found no new issue. These are DRAFT records with a self-review, not independent
+  acceptance. Only197/205 changed;906 other main and393 nested frontier objects are
+  preserved. Unresolved leads remain; no saturation inferred.
+```
