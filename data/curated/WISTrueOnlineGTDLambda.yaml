@@ -1,0 +1,231 @@
+id: AIMech:WISTrueOnlineGTDLambda
+name: WIS-TO-GTD(lambda)
+concept_kind: algorithm
+aliases: []
+definition: A linear off-policy state-value prediction adaptation of true online GTD(lambda) that derives
+  componentwise main-weight step sizes from feature usage, retains a scalar auxiliary step size, and couples
+  main and auxiliary Dutch traces with a gradient-correction trace.
+definition_evidence:
+- source_id: mahmood2015-author
+  locator: Section 6, author PDF p. 7, named WIS-TO-GTD extension; Appendix A.7, p. 18, Algorithm 3. The
+    printed correction-trace operand is distinguished from the pinned implementation in the claims and
+    limitations.
+  relation: supports
+- source_id: mahmood2015-wtogtd-code
+  locator: 'WTOGTD class, lines 13–59, at commit d73d441ca34c546cae79c9289104a68238c9b7ce: state, usage,
+    traces and weight updates.'
+  relation: supports
+claims:
+- claim_id: linear-off-policy-host-adaptation
+  kind: mechanism
+  statement: WIS-TO-GTD(lambda) estimates a target policy state value V_t(s)=theta_t^T*phi(s) from behavior-policy
+    transitions. The source uses fixed linear features, current action ratios rho_t=pi(A_t|S_t)/b(A_t|S_t),
+    state-dependent discount gamma and bootstrapping lambda in [0,1]. Its usage adaptation replaces the
+    main scalar step size of the true-online GTD host by a component vector while retaining scalar beta
+    for the auxiliary weights. This is prediction machinery, not an action-selection or policy-improvement
+    rule.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Sections 3 and 5, author PDF pp. 3–5, prediction setting; Section 6, p. 7, host adaptation
+      and main versus auxiliary step sizes; Appendix A.7, p. 18, Algorithm 3.
+    relation: supports
+- claim_id: usage-state-and-explicit-reciprocal-versions
+  kind: mechanism
+  statement: Let ⊙ denote componentwise multiplication, h_t=1-eta*(phi_t⊙phi_t) and q_t=gamma_t*lambda_t.
+    Update u_(t+1)=h_t⊙u_t+rho_t*(phi_t⊙phi_t)+(rho_t-1)*q_t*(h_t⊙v_t) and v_(t+1)=rho_t*q_t*(h_t⊙v_t)+rho_t*(phi_t⊙phi_t),
+    using old v_t in both right sides. The main step vector alpha_(t+1) is computed from new u_(t+1).
+    The paper assigns a reciprocal at zero the value zero. The pinned WTOGTD code instead replaces an
+    exactly zero denominator by one before taking its reciprocal, giving step size one at that component.
+    These are explicitly different boundary conventions.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 2, author PDF p. 3, componentwise division convention; Equations 22–24, p. 6; Appendix
+      A.7, p. 18, Algorithm 3 usage lines.
+    relation: supports
+  - source_id: mahmood2015-wtogtd-code
+    locator: 'WTOGTD.step, lines 37–45: old usage state, dtemp zero replacement and reciprocal alpha.'
+    relation: supports
+- claim_id: three-traces-with-pinned-correction-history
+  kind: mechanism
+  statement: In the pinned code, with a_t=alpha_(t+1)⊙phi_t and q_t=gamma_t*lambda_t, the main trace is
+    e_t=rho_t*[q_t*e_(t-1)+(1-rho_t*q_t*phi_t^T*e_(t-1))*a_t]. The auxiliary trace is e_w,t=rho_(t-1)*q_t*e_w,(t-1)+beta*(1-rho_(t-1)*q_t*phi_t^T*e_w,(t-1))*phi_t.
+    The accumulating correction trace is e_grad,t=rho_t*(q_t*e_grad,(t-1)+phi_t). Thus the first and third
+    traces use current rho, while the auxiliary Dutch trace uses stored previous rho. The code and the
+    2014 host use the correction trace’s own old history; the printed 2015 Algorithm 3 instead displays
+    old main e_(t-1) in that recurrence. The selected explicit correction-history equation here is the
+    pinned-code interpretation.
+  evidence:
+  - source_id: mahmood2015-wtogtd-code
+    locator: WTOGTD.step, lines 49–53, and stored-ratio assignment at line 58.
+    relation: supports
+  - source_id: vanhasselt2014-author
+    locator: 'Section 6, first-author PDF p. 7, Theorems 3–4 and final algorithm display: two Dutch traces
+      and own-history accumulating correction trace.'
+    relation: supports
+  - source_id: mahmood2015-author
+    locator: Appendix A.7, author PDF p. 18, Algorithm 3, displayed e_grad recurrence uses e_(t-1) without
+      the gradient superscript; contrasts with the pinned-code equation stated here.
+    relation: contradicts
+- claim_id: pre-update-predictions-and-coupled-weights
+  kind: mechanism
+  statement: Form delta_t=R_(t+1)+gamma_(t+1)*theta_t^T*phi_(t+1)-theta_t^T*phi_t before updating weights.
+    With o_t the stored previous next-state prediction, the pinned code updates theta_(t+1)=theta_t+delta_t*e_t+(theta_t^T*phi_t-o_t)*(e_t-rho_t*a_t)-gamma_(t+1)*(1-lambda_(t+1))*(w_t^T*e_grad,t)*(alpha_(t+1)⊙phi_(t+1)),
+    and w_(t+1)=w_t+rho_t*delta_t*e_w,t-beta*(w_t^T*phi_t)*phi_t. Both right sides use old w_t and the
+    same pre-update delta. It then stores rho_t and the pre-update theta_t^T*phi_(t+1). Along a contiguous
+    feature trajectory, o_t equals theta_(t-1)^T*phi_t, rather than a next prediction recomputed after
+    the current weight update.
+  evidence:
+  - source_id: mahmood2015-wtogtd-code
+    locator: 'WTOGTD.step, lines 47–59: prednext, delta, sequential theta/w right sides and stored prediction/rho.'
+    relation: supports
+  - source_id: mahmood2015-author
+    locator: Appendix A.7, author PDF p. 18, Algorithm 3, delta and theta/w update lines; the correction
+      trace is separately version-qualified.
+    relation: supports
+- claim_id: qualified-zero-lambda-and-on-policy-reductions
+  kind: scope
+  statement: When all lambda values are zero, the traces reduce to e_t=rho_t*(alpha_(t+1)⊙phi_t), e_w,t=beta*phi_t
+    and e_grad,t=rho_t*phi_t, and the prediction-difference term vanishes. With matched usage, reciprocal
+    and initialization conventions, the resulting update is WIS-GTD(0). When all rho values are one, beta=0
+    and w_0=0, the auxiliary weights remain zero and the main update reduces to usage-based true-online
+    TD under matched feature, reciprocal and boundary conventions. Beta=0 alone with arbitrary nonzero
+    w_0 does not generally remove the main auxiliary correction.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 6, author PDF p. 7, on-policy relationship; Appendix A.7, p. 18, Algorithms 2, 3
+      and 5. The zero-w condition and lambda-zero reduction follow from the displayed updates.
+    relation: supports
+  - source_id: mahmood2015-wtogtd-code
+    locator: WTOGTD.step, lines 37–59, substitution of lambda=0 or rho=1, beta=0 with zero initial w;
+      reciprocal and reset differences retained.
+    relation: supports
+- claim_id: feature-linear-update-bookkeeping
+  kind: scope
+  statement: At a fixed feature dimension n, the pinned update maintains a fixed number of length-n usage,
+    trace and weight vectors and uses elementwise arithmetic and inner products. Its dense update arithmetic
+    and storage are O(n) per transition, excluding feature construction, environment interaction and evaluation.
+    This bookkeeping statement is not a wall-clock benchmark or an active-feature-only complexity guarantee.
+  evidence:
+  - source_id: mahmood2015-wtogtd-code
+    locator: WTOGTD constructor and step, lines 13–59, fixed vector state and elementwise/dot-product
+      operations.
+    relation: supports
+  - source_id: mahmood2015-author
+    locator: Section 6, author PDF p. 7, extension of the linear-complexity usage schedule; Appendix A.7,
+      p. 18, Algorithm 3.
+    relation: supports
+limitations:
+- The selected explicit implementation is the author WTOGTD class at commit d73d441ca34c546cae79c9289104a68238c9b7ce.
+  Its own-history accumulating correction trace differs from the old-main-trace operand printed in the
+  2015 Algorithm 3. The code supports a version-specific interpretation, not a formal erratum or blanket
+  paper/code equivalence. It remains distinct from WIS-TD with provisional state, accumulating WIS-GTD,
+  ordinary true-online GTD and the on-policy usage-based hosts.
+- The paper reciprocal at zero is zero; the code uses one at an exactly zero usage denominator. Bare eta>=0
+  does not guarantee positive or bounded usage and reciprocal steps for arbitrary features and ratios.
+  For example, scalar u_0=1, eta=2 and phi_0=rho_0=1 give u_1=0. With zero initial weights and traces,
+  R_1=1 and gamma_1=0, the paper convention gives theta_1=0 while the code convention gives theta_1=1.
+  This hand boundary example lies outside sufficiently small eta positivity conditions; it is not an observed
+  experimental failure or a convergence result.
+- The pinned constructor initializes theta, w, all three traces, v, previous rho and previous prediction
+  to zero, with uniform configured initial usage. Its initepisode method clears only the main trace z.
+  Usage and auxiliary/correction histories are not thereby fully reset. A contiguous continuing trajectory
+  and an episodic caller that resets only z need not have the same state carry; no universal full-reset
+  protocol is inferred from the printed algorithm.
+- Meaningful finite importance ratios require suitable target-policy action support under behavior; relevant
+  features, rewards and steps must also be well defined. The implementation does not enforce all such
+  conditions. Main alpha is componentwise and auxiliary beta remains scalar. With beta=0 and zero initial
+  w, the gradient correction vanishes and cannot distinguish competing correction-trace recurrences; beta=0
+  alone is insufficient for arbitrary nonzero w.
+- Old v, old w, pre-update theta and the previous pre-update next-state prediction are part of the stated
+  timing. Substituting new w in the main correction or updating the stored prediction from new theta changes
+  that procedure. A next lambda of one removes the explicit gradient-correction term but does not alone
+  make the method an exact Monte Carlo average or normalized WIS estimator.
+- The source leaves convergence analysis of the new WIS/usage algorithms for future work. The 2014 host’s
+  exact linear sampled forward-view construction and the 2015 usage correspondence do not establish a
+  general convergence, stability, monotonic improvement or exact per-transition objective-gradient theorem
+  for this implementation. The separate WIS-TD forward-weight theorem is not silently transferred to WIS-TO-GTD.
+- The scope is fixed linear state-value prediction. Nonlinear or learned features, action-value control
+  and policy improvement require separate evidence. The record makes no experimental performance or author-test-pass
+  claim; reading source code and configuration files is not executing or reproducing them.
+- The selected paper evidence is the acquired eighteen-page combined author copy of the 2015 paper and
+  Appendix A plus the specific first-author-hosted 2014 GTD version. Native-text version comparisons and
+  the embedded PDF creation date do not certify every formula or establish a scientific revision date.
+  The commit-pinned implementation scope does not certify all repository callers, dependencies, later
+  versions or proofs.
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The algorithm predicts target-policy state values from reward transitions sampled under a
+    behavior policy, supplying prediction machinery used in reinforcement learning. The pinned AIO target
+    describes a broader exploration/performance-oriented task. This is a qualified association, not exact
+    identity, a subclass assertion, action selection, policy improvement or convergence.
+review_status: DRAFT
+identity_notes: The actual 2026-10-15 post-cohort 348 collection at commit 3fae62c1e83faa63da81229ab0d1268db1bfe8dd
+  covers 779 maintained and 442 generated records. Four fixed-string, word-boundary searches included
+  ignored and hidden files across the original checkout and three retained discovery/recovery checkouts.
+  All 7647 occurrences were reconstructed into 2035 distinct contents, freshly read by two attributed
+  supporting readers; root read the 79 candidate-focused contents, all 41 normalized context fields/16
+  adjacent definitions and the matching frontier context. Normalized IDs, local IDs, names, aliases and
+  scoped synonyms (4855 fields) yielded no candidate collision for the selected name, ID or explicit source/code
+  spellings. WIS-TO-GTD references in earlier reports, reviews and generated pages are dated residuals,
+  exclusions or this separately assessed draft, not a competing maintained record. WIS-GTD, WIS-TD, usage-based
+  ordinary/true-online TD, base true-online GTD, Dutch/replacing components and Sarsa/Peng/Watkins control
+  records retain distinct declared scopes. Reuse existing partial owner 264; preserve its ten prior IDs,
+  six resolutions and all 908 other main plus 393 nested entries. No frontier leaf is appended. This is
+  bounded identity evidence, not global absence, independent approval or family exhaustion.
+evidence_sources:
+- source_id: mahmood2015-author
+  title: Off-policy learning based on weighted importance sampling with linear computational complexity
+  authors:
+  - A. Rupam Mahmood
+  - Richard S. Sutton
+  source_type: primary_paper
+  url: https://armahmood.github.io/files/MS-WIS-O(n)-UAI-2015.pdf
+  persistent_id: https://proceedings.mlr.press/r13/mahmood15a.html
+  version: Author-catalog-linked eighteen-page combined UAI 2015 paper and Appendix A. Retained native-text
+    comparison matches PDF pp. 1–10 with the official main paper and pp. 11–18 with its supplement. The
+    embedded 2016 PDF creation date is not a verified scientific revision date. The printed Algorithm
+    3 correction-trace operand remains distinguished from the pinned author implementation.
+  access_level: full_text
+  accessed_at: '2026-10-15T17:02:13Z'
+  sha256: 9f30489028c8473a6e45d44e16604ae80a0ac485e181388274dcff73b57e1767
+- source_id: vanhasselt2014-author
+  title: Off-policy TD(λ) with a true online equivalence
+  authors:
+  - Hado van Hasselt
+  - A. Rupam Mahmood
+  - Richard S. Sutton
+  source_type: primary_paper
+  url: https://hadovanhasselt.com/wp-content/uploads/2015/12/off_policy_td.pdf
+  version: First-author-hosted ten-page version of the UAI 2014 paper with indexed discount/bootstrap
+    expressions. The selected method locators are PDF pp. 6–7; this follow-up freshly read pp. 5–8 and
+    visually inspected pp. 6–7. The URL directory date is not an independently verified scientific revision
+    date.
+  access_level: full_text
+  accessed_at: '2026-10-15T16:46:33Z'
+  sha256: b2d5ecc4acea5980a3b6871e86d067471730d3f858a70f5a9d8b04b960ba557c
+- source_id: mahmood2015-wtogtd-code
+  title: 'Author implementation of WIS-TO-GTD: WTOGTD class in wis-td-experiments'
+  authors:
+  - A. Rupam Mahmood
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/armahmood/wis-td-experiments/d73d441ca34c546cae79c9289104a68238c9b7ce/pysrc/algorithms/tdprediction/offpolicy/wtogtd.py
+  persistent_id: https://github.com/armahmood/wis-td-experiments/blob/d73d441ca34c546cae79c9289104a68238c9b7ce/pysrc/algorithms/tdprediction/offpolicy/wtogtd.py
+  version: Author repository linked from the 2015 paper; exact raw file pysrc/algorithms/tdprediction/offpolicy/wtogtd.py
+    at commit d73d441ca34c546cae79c9289104a68238c9b7ce, Git blob d9f664ddf8716f845968204c489b55f8dcd4a301.
+    Complete file read statically, lines 1–61; no author code or tests executed. This version uses its
+    own accumulating correction-trace history, zero-denominator replacement by one, and an episode method
+    that resets only the main trace. It is not a formal paper erratum.
+  access_level: documentation
+  accessed_at: '2026-10-15T18:26:22Z'
+  sha256: e394f9f4353ada7080b40bc7776e99bd22782ba84a42e2d42bfea3101e70bd23
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T19:46:10Z'
+  updated_at: '2026-10-15T19:46:10Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
