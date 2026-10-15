@@ -1,0 +1,215 @@
+id: AIMech:NaturalGradient
+name: Natural gradient
+concept_kind: mathematical_method
+aliases: []
+definition: A metric-dependent differential method that maps the coordinate derivatives of a differentiable
+  objective to a tangent vector by the inverse of a positive-definite Riemannian metric, giving the local
+  first-order steepest-descent direction when negated; the model Fisher information supplies its statistical
+  specialization.
+definition_evidence:
+- source_id: amari1998
+  locator: Section 2, PDF pp. 2–4 / printed pp. 252–254, Theorem 1 and Equation 2.3; Section 3.1, PDF
+    p. 5 / printed p. 255, Equation 3.5.
+  relation: supports
+claims:
+- claim_id: metric-dependent-local-direction
+  kind: mechanism
+  statement: For a differentiable objective L at an interior parameter w and a symmetric positive-definite
+    Riemannian metric G(w), the natural gradient is v=G(w)^(-1)*g, where g is the column of coordinate
+    derivatives of L. Its negative is the local first-order steepest-descent direction for the metric
+    norm. For g != 0, the unit-metric descent direction is -G^(-1)*g/sqrt(g^T*G^(-1)*g). This minimizes
+    the linearized change in L, not generally the nonlinear objective over a finite-radius neighborhood.
+    At g=0 the first-order problem supplies no preferred descent direction.
+  evidence:
+  - source_id: amari1998
+    locator: Section 2, PDF pp. 2–4 / printed pp. 252–254, Equations 2.1–2.5 and Theorem 1; normalized
+      direction follows from its metric-norm constraint.
+    relation: supports
+  - source_id: amari1996-nips9
+    locator: Section 3, PDF p. 3 / printed p. 129, Riemannian metric and natural-gradient direction.
+    relation: supports
+- claim_id: model-fisher-statistical-metric
+  kind: mechanism
+  statement: For a regular differentiable density family p(z;w), the statistical specialization uses the
+    model Fisher matrix F(w)=E_{z~p(. ;w)}[s(z,w)*s(z,w)^T], with s=grad_w log p(z;w). Finite score moments
+    and a locally nondegenerate parameterization are required for the displayed inverse. In the conditional
+    neural example, the expectation includes the fixed input law and the model conditional output law.
+    An outer-product average using observed labels is not automatically the same matrix; a generic positive-definite
+    preconditioner is not automatically this Fisher.
+  evidence:
+  - source_id: amari1998
+    locator: Section 3.1, PDF p. 5 / printed p. 255, Equations 3.3–3.5; Section 3.2, PDF p. 6; Section
+      6 derivation, PDF pp. 15–16 / printed pp. 265–266. Equation 3.11 discrepancy is retained below.
+    relation: supports
+  - source_id: amari1996-nips9
+    locator: Section 4, PDF p. 4 / printed p. 130, Equation 11 uses the outer product of log-density derivatives.
+    relation: supports
+- claim_id: sampled-loss-gradient-use
+  kind: mechanism
+  statement: For expected loss L(w)=E_q[l(z,w)] and independent observations from a fixed data law q,
+    the source uses w_{t+1}=w_t-eta_t*G(w_t)^(-1)*grad_w l(z_t,w_t). The learning rate and metric construction
+    remain separate choices; replacing the sampled derivative by grad L gives the corresponding deterministic
+    local direction. This mathematical rule does not alone specify initialization, metric estimation,
+    step-size selection or admissible-domain handling. A finite sampled step need not decrease the population
+    loss or remain in the domain.
+  evidence:
+  - source_id: amari1998
+    locator: Equation 2.5, PDF p. 4 / printed p. 254; Section 3, Equations 3.1–3.2; Section 3.2, Equation
+      3.10, PDF pp. 4–6 / printed pp. 254–256.
+    relation: supports
+- claim_id: coordinate-direction-and-finite-step-boundary
+  kind: scope
+  statement: 'Under a smooth coordinate diffeomorphism w=h(theta) with nonsingular Jacobian J, use the
+    same metric in the new coordinates: G_theta=J^T*G_w*J and g_theta=J^T*g_w. Then v_theta=J^(-1)*v_w,
+    so the natural-gradient direction and its continuous flow transform as a tangent vector. This is a
+    curator chain-rule consequence of the source metric definition. For a twice-differentiable nonlinear
+    h, mapping an additive step back generally agrees only to first order, with O(eta^2) differences.
+    Corresponding affine coordinate changes preserve additive steps exactly; arbitrary nonlinear finite-step
+    invariance is not implied.'
+  evidence:
+  - source_id: amari1998
+    locator: Section 2, PDF pp. 2–4 / printed pp. 252–254, metric tensor and Equation 2.3. The transformation
+      and finite-step qualification are explicit curator chain-rule/Taylor consequences, not a quoted
+      finite-update theorem.
+    relation: supports
+- claim_id: specified-right-invariant-matrix-geometry
+  kind: mechanism
+  statement: On nonsingular square matrices W, transport the identity Frobenius inner product through
+    dX=dW*W^(-1). This specified right-invariant metric yields the matrix natural gradient (grad_W L)*W^T*W.
+    The source applies this geometry in blind signal separation. It is a specialization, not the formula
+    for every natural gradient or automatically the exact model Fisher for every unknown source density.
+    The differential frame dX need not integrate to global matrix coordinates, and a general finite additive
+    update need not preserve nonsingularity.
+  evidence:
+  - source_id: amari1998
+    locator: Section 7, PDF pp. 19–21 / printed pp. 269–271, Equations 7.1–7.10, Theorem 6 and the nonintegrable-frame
+      paragraph.
+    relation: supports
+  - source_id: amari-cichocki-yang1996-nips8
+    locator: PDF p. 5 / printed p. 761, Equations 18–19, metric-adjusted matrix direction and the outer-product
+      separation update.
+    relation: supports
+- claim_id: conditional-reported-asymptotic-efficiency
+  kind: scope
+  statement: 'For the realizable independent-observation log-loss setting, Theorem 2 reports Fisher efficiency
+    of the natural-gradient online estimator with learning rate 1/t: the leading asymptotic error second
+    moment is F(w*)^(-1)/t. This is a qualified reported result using convergence, regularity and an invertible
+    Fisher, not a general convergence or finite-sample guarantee. The displayed proof remainder is not
+    certified here. The source separately uses the expected loss Hessian for its misspecified extension
+    and excludes generic semiparametric separation and deconvolution from this Fisher-efficiency conclusion.'
+  evidence:
+  - source_id: amari1998
+    locator: Section 4, PDF pp. 10–12 / printed pp. 260–262, Equation 4.4, Theorem 2, Equations 4.5–4.9
+      and the semiparametric remark. Proof-rate qualification is retained below.
+    relation: supports
+identity_notes: 'Natural gradient denotes the reusable inverse-metric differential direction. NES and
+  IGO add objectives/rank utilities and sampling distributions; xNES/SNES specify finite Gaussian algorithms.
+  The right-invariant blind-separation metric is a scoped specialization, not an alias of every ICA method.
+  Current733native442AIO inventory and four ignored-inclusive checkout scans found no equivalent identity;
+  preserve existing owner196 and its1996context. Current committed331 assessment covers733native and442pinnedAIO
+  records: all1175 identity/definition/hash rows equal the accepted natural-gradient research inventory.
+  Four combined rg --no-ignore --hidden scans reconcile4491occurrences in196unique line contents. Earlier
+  supporting assessments cover167 retained contents; root read all29 newly observed contents, including
+  new331 generated pages/review and hyphenated adaptation-sampling exclusions. The initial oversized display
+  was recovered with a bounded read of items13–20. All new contexts describe established NES/IGO/xNES/SNES
+  or reserve the proposed methods; none supplies an equivalent maintained record. All908main393nested
+  frontier objects retain the331 predecessor; root reassesses owners193–196/203 and retained broader supporting
+  semantic/frontier/AIO readings. Original natural-gradient2997match and adaptation1456match assessments
+  remain separately attributed, not claimed as fresh full root reread. Actual merge/base and prewrite
+  searches must be verified before creation; no universal absence or saturation.'
+evidence_sources:
+- source_id: amari1998
+  title: Natural Gradient Works Efficiently in Learning
+  authors:
+  - Shun-ichi Amari
+  source_type: primary_paper
+  url: https://bsi-ni.brain.riken.jp/database/file/176/181.pdf
+  persistent_id: https://doi.org/10.1162/089976698300017746
+  version: Neural Computation 10(2):251–276 (15 February 1998), 26-page typeset journal copy hosted by
+    RIKEN. Received 24 January 1997; accepted 20 May 1997. PDF build 15 April 1998 and modification 28
+    February 2006 are file metadata, not publication dates.
+  access_level: full_text
+  accessed_at: '2026-10-15T04:51:48Z'
+  sha256: fd56b27be7088548daad4e33676c2ec36aa7f8b45d501dada8afb7c41f466b73
+- source_id: amari1996-nips9
+  title: Neural Learning in Structured Parameter Spaces — Natural Riemannian Gradient
+  authors:
+  - Shun-ichi Amari
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/1996/file/39e4973ba3321b80f37d9b55f63ed8b8-Paper.pdf
+  version: Advances in Neural Information Processing Systems 9, NIPS 1996, pp. 127–133; official seven-page
+    proceedings PDF. The 1998 article identifies this as its earlier version.
+  access_level: full_text
+  accessed_at: '2026-10-15T04:48:23Z'
+  sha256: 385ed47e413a0b1622a27eb8d36f730ae3c0a64a72355a479e659241356a98de
+- source_id: amari-cichocki-yang1996-nips8
+  title: A New Learning Algorithm for Blind Signal Separation
+  authors:
+  - Shun-ichi Amari
+  - Andrzej Cichocki
+  - Howard Hua Yang
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/1995/file/e19347e1c3ca0c0b97de5fb3b690855a-Paper.pdf
+  version: Advances in Neural Information Processing Systems 8, pp. 757–763; NIPS 1995 conference, cited
+    as 1996 proceedings in Amari 1998 and the earlier general article. Official seven-page proceedings
+    PDF.
+  access_level: full_text
+  accessed_at: '2026-10-15T04:52:49Z'
+  sha256: 5b8a207f0f496fb5f075894f0c6434b7456b06e590a5003efdb640f0fa4f3e1d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: related_match
+  rationale: For a fixed objective and metric, the construction defines a mathematical rule from parameter
+    values to tangent vectors. This broad relationship is not equivalence or an upstream subclass assertion,
+    and does not identify the direction with a scalar activation, neural layer or complete optimizer.
+limitations:
+- The ordinary inverse requires a positive-definite metric on the stated parameter region. Redundant or
+  singular statistical parameterizations need additional treatment. Pseudoinverses, damping, quotient
+  constructions and numerical approximations are not automatically equivalent to the displayed method.
+  Neither a useful local direction nor a valid Fisher guarantees admissible finite steps, monotonic loss
+  improvement or convergence.
+- Amari 1998 Equation 3.11 (PDF p. 6 / printed p. 256) prints a density derivative rather than a log-density
+  derivative in its second factor. The coherent model-score definition used here is Equation 3.5, the
+  explicit derivation on PDF p. 16 and the earlier NIPS 9 Equation 11. This visually checked discrepancy
+  is not an author-issued erratum. The empirical observed-label outer product and the model expectation
+  remain distinct.
+- Amari 1998 Equation 7.11 (PDF p. 21 / printed p. 271) prints I-phi(y)^T*y although phi is a column vector.
+  Its preceding differential instead yields the matrix outer product and descent (I-phi(y)*y^T)*W; the
+  earlier NIPS 8 Equation 19 (PDF p. 5 / printed p. 761) shows that outer product. The general metric
+  formula in Theorem 6 is retained without certifying the inconsistent display or an executable blind-separation
+  implementation.
+- The proof on PDF p. 12 / printed p. 262 displays G(w_t)=G(w*)+O(1/t) after invoking convergence. That
+  rate does not follow from generic consistency or root-t parameter error alone, and its necessary extra
+  assumptions or error mode have not been established here. Theorem 2 is retained as a conditional reported
+  asymptotic result, not a complete proof certification, a global convergence theorem or an efficiency
+  claim for arbitrary losses, misspecified models or unknown semiparametric source densities.
+- 'The source describes Fisher as the only invariant metric on PDF p. 5 / printed p. 255, citing characterization
+  results whose assumptions were not inspected. Coordinate covariance alone does not establish such uniqueness:
+  other Riemannian metrics also transform tensorially. No universal uniqueness claim is made. General
+  metric geometry is distinguished from the specific statistical model and from finite additive-update
+  behavior.'
+- Generic natural gradient is distinct from NES, IGO, xNES and SNES, which add particular distribution
+  families, objectives or rank utilities, sampling rules and finite updates. Ordinary SGD, trust-region
+  policy optimization and concrete variational or blind-separation algorithms also retain their own identities.
+  The general direction does not resolve the remaining source-specialization work attached to frontier
+  owner 196.
+- The 1998 plateau discussion (PDF p. 18 / printed p. 268) is not a universal acceleration guarantee.
+  The systems extension on PDF p. 23 / printed p. 273 omits its proof and need not give a causal or finite-impulse-response
+  direction. No benchmark, universal speedup, global optimum, complete deconvolution method or historical-priority
+  claim is asserted.
+- The 26-page RIKEN-hosted journal copy, the seven-page NIPS 9 general article and the seven-page NIPS
+  8 separation article are distinct primary versions with retained hashes and acquisition receipts. Source-reading
+  scopes and the corrected timing of the root BSS visual assessment remain in the preparation handoff.
+  Failed source access is preserved separately. No author code, numerical calculator or empirical replication
+  was executed for this draft.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T05:26:04Z'
+  updated_at: '2026-10-15T05:40:40Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
