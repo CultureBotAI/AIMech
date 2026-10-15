@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HRSAT · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>HRSAT</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">HRSAT</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:HRSAT</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A source-scoped SAT-search algorithm described by the literal composition of the 1995 GenSAT stages: a probability-controlled choice between false-clause variables and globally best-scoring flips, followed by HSAT’s least-recently-flipped selector. The paper’s generic random-walk prose does not uniquely certify this composition as its experimental executable.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Gent and Walsh1995 Figure1 defines the source-scoped HRSAT candidate-pool coin followed by history selection in either pool. The accompanying prose wording is retained as an ambiguity. Later UBCSAT1.0.0 HWSAT uses a clause-first uniform random variable rule and is comparative evidence, not an exact alias. Existing HSAT, IHSAT, GSAT-with-random-walk, WalkSAT and AutoWalksat have distinct pool, picking or outer-controller scopes. At clean merged base14e9168ee3496e914545ae5c449e3ee190f0294b, the current inventory has786 native and442 pinned AIO records:4876 identity-field occurrences,3723 normalized values, and no candidate collision. Four full-checkout searches included ignored and hidden files; all1329 distinct matching contents (23381 occurrences) were read by the attributed root/team partitions, with18 contextual fields across ten neighboring records assessed separately. This is bounded identity evidence, not proof of universal semantic absence.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#printed-gensat-search-context</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the inspected 1995 GenSAT framework, begin an attempt from an initialized complete Boolean assignment; the GSAT initialization described in Section 2 is random. Before each permitted flip, test whether the assignment satisfies the CNF formula. Otherwise select a candidate set, pick one variable, flip its truth value and continue within the per-attempt flip budget and outer attempt budget. HRSAT is introduced as a variant within this framework.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gent-walsh1995">Unsatisfied Variables in Local Search</a></span>
+        <span>· <strong>Locator:</strong> PDF pp. 2–4, Section 2, Figure 1 and Section 4 introducing HRSAT.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#probability-controlled-candidate-set</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the literal printed select stage, choose with probability p the set of all variables occurring in currently unsatisfied clauses. With probability 1−p, choose the variables whose single-variable flips give the greatest change toward more satisfied clauses, as in the stated GSAT hclimb rule. A greatest change need not be positive. The focused branch is available even when an improving flip exists; Section 5.3 treats allowing walks only when hill climbing is unavailable as a separate variant.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gent-walsh1995">Unsatisfied Variables in Local Search</a></span>
+        <span>· <strong>Locator:</strong> PDF pp. 2–3, Section 2 and Figure 1; PDF p. 8, Section 5.3, the separately restricted walk variant.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#literal-history-pick-composition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After select returns its candidate set, the printed driver applies pick to that set. For HRSAT, compose this with the HSAT strategy described in Section 4: choose a candidate whose last flip was longest ago. The same section explicitly contrasts this history-based deterministic picking with random picking. This is a source-scoped reading of the printed stages, not a claim that the paper’s generic random-walk prose fully specifies or certifies the experimental implementation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gent-walsh1995">Unsatisfied Variables in Local Search</a></span>
+        <span>· <strong>Locator:</strong> PDF p. 3, Figure 1 and HSAT pick definition in Section 4; PDF pp. 4–5, HRSAT introduction and deterministic/history-picking discussion; PDF p. 8, generic random-picking prose retained as a qualification.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#focused-moves-and-endpoints</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A focused flip changes a variable appearing in a false clause and can reduce the total number of satisfied clauses. Under the literal composition and the same history, tie and outer-loop conventions, p=0 recovers the HSAT candidate/pick combination, while p=1 always uses the false-clause variable pool but retains the history selector. The latter endpoint is not a uniform random draw from that pool or a clause-first random walk.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gent-walsh1995">Unsatisfied Variables in Local Search</a></span>
+        <span>· <strong>Locator:</strong> PDF pp. 1–3, discussion of downward focused flips, Section 2 and Figure 1; PDF pp. 3–5, history picking. Endpoint statements are direct consequences of the stated probability branch and composition.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#archived-hwsat-version-distinction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The inspected UBCSAT 1.0.0 archive registers HWSAT as HSAT with random walk and cites the Gent–Walsh paper. Its unweighted PickHWSat walk branch instead chooses an unsatisfied clause uniformly and then a literal uniformly from that clause, flipping the corresponding variable; its other branch delegates to PickHSat. This is a separately versioned implementation policy, not evidence that HWSAT is an exact alias of the literal HRSAT composition curated here.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ubcsat1-hwsat">UBCSAT 1.0.0 source archive: HWSAT selector in src/hwsat.c</a></span>
+        <span>· <strong>Locator:</strong> Archive member src/hwsat.c, AddHWSat lines 28–41 and unweighted PickHWSat lines 56–77. The explicit uniform clause/literal comment accompanies the two RandomInt selections.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gent-walsh1995">Unsatisfied Variables in Local Search</a></span>
+        <span>· <strong>Locator:</strong> PDF p. 3, Figure 1; PDF pp. 3–5, HRSAT history selector, for the original composition being contrasted.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The 1995 printed select/pick stages and deterministic-history discussion support this literal composition, while the paper also uses generic random-walk and random-picking prose. This record preserves that ambiguity; it does not claim to reconstruct the exact experimental executable or silently substitute a uniform focused selector.</li>
+      <li>The later HWSAT name does not establish identical transition rules. The inspected UBCSAT 1.0 clause-first sampling differs from both history picking over the full focused pool and uniform sampling of the duplicate-free variable union. The complete delegated HSAT helper, solver infrastructure and later releases are not certified by this comparison.</li>
+      <li>The 1995 summary does not restate every initialization, never-flipped tie and restart convention from the earlier HSAT work. Those choices must be specified for an operational implementation; no convention is imported here from a maintained neighbor as though it were fresh primary evidence. A history preference is not a tabu-tenure exclusion.</li>
+      <li>The probability parameter lies in [0,1], and a focused flip needs an eligible variable. Empty clauses or an empty eligible set require explicit handling outside that selector. Clause/literal multiplicity and normalization can alter score counts or clause-first sampling; representation choices are not silently standardized.</li>
+      <li>Finite unsuccessful search is not an UNSAT certificate. Figure 1 tests satisfaction before each flip, so a model reached on the final permitted flip is not rechecked inside that literal loop. An added final test must be declared rather than treated as printed behavior.</li>
+      <li>The reported parameter studies and random/structured benchmarks do not establish a universal p, restart budget, speedup or asymptotic complexity bound. Difficult structured examples and the dependence on encoding and parameter choices remain within the source’s scope. No solver or benchmark was executed for this record.</li>
+      <li>Focused moves need not improve the score, and the history selector does not give every eligible variable a positive uniform probability at each step. General random-walk or 2-SAT convergence bounds therefore do not automatically apply. Endpoint agreement at p=0 does not identify the full parameterized method with ordinary HSAT.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> The inspected AIO targets describe language models, machine-learning tasks or training, neural architectures/layers, or a stochastic network/model class. The source-scoped symbolic SAT selector does not require those mechanisms. A possible augmented-state stochastic representation and flip-age bookkeeping do not alone establish a suitable mapping.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> At clean merged base14e9168ee3496e914545ae5c449e3ee190f0294b, the current inventory has786 native and442 pinned AIO records:4876 identity-field occurrences,3723 normalized values, and no candidate collision. Four full-checkout searches included ignored and hidden files; all1329 distinct matching contents (23381 occurrences) were read by the attributed root/team partitions, with18 contextual fields across ten neighboring records assessed separately. This is bounded identity evidence, not proof of universal semantic absence. Exact pinned AIO CLASS neighborhoods and incident edges remain the separately accepted research assessment; 11 examined targets retain their individual rejection rationales. Shared score, memory or randomness vocabulary does not make symbolic SAT search a neural architecture or an ML training procedure.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReasoningLLM.html"><code>AIO:ReasoningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is a language model doing reasoning in language tasks; the candidate searches Boolean assignments.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A fixed-formula SAT move selector is not preprocessing or a strategy for training a machine-learning model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Keeping flip ages is bookkeeping; it does not require constructing methods that learn from data.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A probability-controlled move and clause score do not establish a learned reward policy or value-function method.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An augmented-state stochastic description could include the assignment, ages and phase, but this representation alone does not map the named heuristic to the pinned network/model class and its probabilistic-hidden-layer relation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html"><code>AIO:ArtificialNeuralNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method does not require a connected network of artificial neurons.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MemoryAugmentedLLM.html"><code>AIO:MemoryAugmentedLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A variable-age table is not external memory in a large language model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MemoryCellLayer.html"><code>AIO:MemoryCellLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A SAT timestamp table is not the neural cell layer described by the target and its incident architecture edges.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LongShortTermMemory.html"><code>AIO:LongShortTermMemory</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method does not require the recurrent neural architecture or its input, memory-cell and output layers.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/NoiseDenseLayer.html"><code>AIO:NoiseDenseLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The discrete candidate-set coin is not dense-layer weight noise for neural regularization.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GaussianNoiseLayer.html"><code>AIO:GaussianNoiseLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            No additive zero-centered Gaussian regularization of neural inputs is required.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-gent-walsh1995">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">gent-walsh1995</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf" target="_blank" rel="noopener">Unsatisfied Variables in Local Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ian P. Gent, Toby Walsh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:eaa23fc5c52e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-ubcsat1-hwsat">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ubcsat1-hwsat</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/ubcsat-1-0-0.tar.gz" target="_blank" rel="noopener">UBCSAT 1.0.0 source archive: HWSAT selector in src/hwsat.c</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dave Tompkins, UBCSAT project
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:62a15f14ea22…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T23:35:54Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T23:35:54Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HRSAT.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HRSAT.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
