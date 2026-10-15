@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Replacing eligibility traces · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Replacing eligibility traces</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Replacing eligibility traces</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:ReplacingEligibilityTraces</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    An eligibility-trace update that replaces a visited state’s eligibility by one while geometrically attenuating other state traces, preserving recent credit eligibility without adding repeated-visit multiplicity.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This source-scoped credit-memory component replaces visited state/selected feature traces rather than accumulating repeated-visit counts. It is distinct from a complete TD/Sarsa controller, the original Watkins hard-cut forward/delayed construction, neural MCQ-L and Peng–Williams two-error control. Existing owner264 retains general/true-online and other-variant residuals. Fresh collection on 15 October 2026 at14:35:54–14:37:34 UTC at actual merged base 73729051e58d582f36c9af9296a92b393be0a679 compared all763 native and442 pinned AIO records (4,807 identity-field occurrences,3,674 normalized values), with zero candidate collisions and15 context-only fields across eight neighboring records. Four ignored- and hidden-inclusive checkout searches retained3,967/3,981/9,015/10,567 occurrences (27,530 total), grouped into1,338 exact matching contents. Root read all39 focused candidate-bearing decoded contexts, all15 normalized contextual fields/eight definitions, all20 full matching frontier objects and the three newly merged342 definitions. This is bounded semantic inspection; root does not claim a verbatim reading of all1,084 broader decoded contexts or every repeated occurrence. All909main and393nested objects were queried recursively; historic primary/AIO and supporting inspections retain their separately documented scopes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#state-replacing-recurrence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a visited state s_t, replace its eligibility by e_(t+1)(s_t)=1. For every other state s, set e_(t+1)(s)=gamma*lambda*e_t(s), with gamma and lambda in [0,1]. This differs from the accumulating rule e_(t+1)(s)=gamma*lambda*e_t(s)+1{s=s_t}: another visit replaces the current state trace rather than adding to its previous value.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-singh-sutton1996">Reinforcement learning with replacing eligibility traces</a></span>
+        <span>· <strong>Locator:</strong> Section 1, author PDF pp. 2–3, displayed accumulating and replacing trace recurrences and parameter domains.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#trace-as-td-credit-component</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the paper’s undiscounted absorbing-state prediction setting, the replacing trace enters the TD update as Delta V_t(s)=alpha_t(s)*[r_(t+1)+V_t(s_(t+1))-V_t(s_t)]*e_(t+1)(s), with terminal value zero. The trace determines which earlier states remain eligible for this learning signal; it is a component of the prediction update rather than a complete policy or control algorithm.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-singh-sutton1996">Reinforcement learning with replacing eligibility traces</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, author PDF pp. 3–4, absorbing Markov prediction setting, Equation 1 and online/offline/batch distinctions.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#bounded-recency-with-endpoints</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For traces initialized in [0,1] and q=gamma*lambda in [0,1], the replacing recurrence preserves each trace in [0,1]. After k consecutive inactive updates, a trace equals q^k times its earlier value. Thus inactive traces vanish after one update when q=0 and do not decay when q=1. These are direct consequences of reset-to-one and multiplication by q; repeated visits do not build the accumulating rule’s visit-multiplicity sum.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-singh-sutton1996">Reinforcement learning with replacing eligibility traces</a></span>
+        <span>· <strong>Locator:</strong> Section 1, author PDF pp. 2–3, replacing recurrence; boundedness and endpoint statements are elementary consequences of that displayed rule under the stated initialization.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#qualified-first-visit-correspondence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the undiscounted absorbing prediction setting with gamma=lambda=1, repeated-batch replacing TD converges to the first-visit Monte Carlo sample estimate for sampled states with N(s)&gt;0 under the paper’s fixed step size 0&lt;alpha&lt;1/N, where N is the number of training trials. Separately, offline replacing TD(1), applied after each completed trial with alpha_t(s) equal to the reciprocal number of first visits to s up through t, gives the first-visit sample-average update. These are the paper’s specified batch-limit and offline correspondences, not arbitrary finite-iteration online equalities.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-singh-sutton1996">Reinforcement learning with replacing eligibility traces</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1 and 2.4–2.5, author PDF pp. 3–4 and 7–8, Theorem 1 and its limiting calculation, and Theorem 2 with the first-visit-count step-size schedule.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#binary-feature-control-realization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The reported CMAC control realization maintains traces for action-specific binary features. After decaying old traces, it sets active features for the chosen action to one and clears the corresponding active features for other actions; the resulting trace vector weights a later scalar TD update. This chosen control convention is distinct from the alternative discussed in the paper, which replaces a state-action pair’s trace only when that same pair recurs.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-singh-sutton1996">Reinforcement learning with replacing eligibility traces</a></span>
+        <span>· <strong>Locator:</strong> Section 5, author PDF pp. 19–23, especially Figure 9 on p. 20, active-feature action traces on pp. 20–22 and the explicitly described alternative on p. 22.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This source-scoped recurrence is not the entire eligibility-trace family, a TD or Sarsa controller, MCQ-L, Peng–Williams Q(lambda), or a true-online trace algorithm. The original accumulating recursion already has a separate maintained TD-family context. General eligibility-family organization and other trace variants remain outside this record’s scope; the source’s earlier historical citations do not establish independently verified first-use priority.</li>
+      <li>The [0,1] trace bound requires the stated initialization and gamma*lambda domain. A bounded trace does not bound arbitrary rewards, TD errors, step sizes or parameter changes, and does not itself prove stable or convergent learning. The endpoint gamma*lambda=1 retains inactive traces rather than forgetting them; no continuing undiscounted-return existence result follows from it.</li>
+      <li>The first-visit correspondences retain the absorbing-process, completed-trial and step-size conditions stated in the claim. The batch result is a convergence limit, not equality after an arbitrary finite number of sweeps, and alpha=0 is excluded. The paper’s MSE comparisons are conditional and non-strict, with equality cases; they are not a universal superiority claim. No complete appendix-proof or external convergence-theorem certification is asserted.</li>
+      <li>The selected chosen-action feature replacement with clearing of other actions is one control realization, not a universal definition of replacing traces. The source explicitly leaves comparisons with state-action-only replacement open. Tabular and binary-feature results are not a general nonlinear-network replacement prescription, and stationary prediction results do not automatically apply while the control policy changes.</li>
+      <li>Figure 9 initializes all traces in step 1, but its end-of-trial branch returns to step 2 without an explicit all-trace reset. The note that the time index continues across trials does not settle that omission. This description preserves the printed recurrence and selected ongoing control steps without silently adding a reset or claiming a defect in unseen author software.</li>
+      <li>Appendix B states that position is clipped within [-1.2,0.5] while also describing termination when the next position exceeds 0.5. A literal test after that clipping cannot terminate by this condition. Its displayed minus-g force together with negative g also requires a sign/convention clarification. These ambiguities limit a literal reading of that experimental environment; they do not invalidate the trace recurrence or establish how the experiments were implemented.</li>
+      <li>The inspected evidence is a 36-page author-hosted prepublication layout associated with the 1996 journal article; local PDF page locators are used instead of inferred journal pagination. OCR was needed for prose, with selected equations and pseudocode checked visually. No author implementation, benchmark or full original-proof reproduction was performed for this evidence assessment; the reported random-walk and CMAC experiments do not establish universal performance or an optimal trace setting.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html" style="font-weight: 600;"><code>AIO:ReinforcementLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Reinforcement Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A credit-assignment component used within reinforcement-learning prediction/control; the broader pinned task is neither the recurrence itself nor a guaranteed outcome.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-singh-sutton1996">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">singh-sutton1996</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://web.eecs.umich.edu/~baveja/Papers/Replace.pdf" target="_blank" rel="noopener">Reinforcement learning with replacing eligibility traces</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Satinder P. Singh, Richard S. Sutton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/BF00114726</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:93193ac196bc…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T14:45:47Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T14:45:47Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ReplacingEligibilityTraces.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ReplacingEligibilityTraces.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

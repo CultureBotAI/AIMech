@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Watkins hard-cut multistep Q-learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Watkins hard-cut multistep Q-learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Watkins hard-cut multistep Q-learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:WatkinsHardCutMultistepQLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    The original hard-cut multistep Q-learning construction that estimates action returns using maximum-value bootstraps and continuation through policy actions, cuts subsequent-return contributions at non-policy actions, and updates action values from the delayed estimates.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This identity selects Watkins1989 hard-cut forward-return and delayed action-value updating, preserving the original policy-cut coefficient, displayed U timing gap and corrigenda boundaries. It is not an alias for one-step Q-learning, generic Q(lambda), MCQ-L/Sarsa, Peng–Williams control or the replacing-trace component. The soft-cut alternative and later backward/true-online implementations remain separate. Existing owner264 is used for scoped trace/control progress; owner267 remains the distinct routing lead. Fresh collection on 15 October 2026 at14:35:54–14:37:34 UTC at actual merged base 73729051e58d582f36c9af9296a92b393be0a679 compared all763 native and442 pinned AIO records (4,807 identity-field occurrences,3,674 normalized values), with zero candidate collisions and15 context-only fields across eight neighboring records. Four ignored- and hidden-inclusive checkout searches retained3,967/3,981/9,015/10,567 occurrences (27,530 total), grouped into1,338 exact matching contents. Root read all39 focused candidate-bearing decoded contexts, all15 normalized contextual fields/eight definitions, all20 full matching frontier objects and the three newly merged342 definitions. This is bounded semantic inspection; root does not claim a verbatim reading of all1,084 broader decoded contexts or every repeated occurrence. All909main and393nested objects were queried recursively; historic primary/AIO and supporting inspections retain their separately documented scopes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#action-values-and-implicit-greedy-policy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Represent action values Q_t(s,a) and derive the state estimate U_t^Q(s)=max_a Q_t(s,a). The implicit current policy chooses an action attaining that maximum. Actions actually taken may differ from that policy; learning action values does not itself specify how exploration is selected.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-watkins1989">Learning from Delayed Rewards</a></span>
+        <span>· <strong>Locator:</strong> Chapter 7, Section 3, printed pp. 95–96 / PDF pp. 102–103, state-value and implicit-policy definitions and the action-selection discussion.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#hard-cut-forward-return</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Choose lambda_star in [0,1] and set lambda_t=lambda_star when a_t is classified as a policy action, and lambda_t=0 otherwise. With R_t denoting the source’s variable-lambda action-return estimate, its printed recursion is R_t=r_t+gamma*((1-lambda_(t+1))*U_t(s_(t+1))+lambda_(t+1)*R_(t+1)). In the action-value construction U is the maximum-based state estimate. This retains the literal U_t indexing of the displayed recursion; the source’s following prose uses a different time index, as recorded in the limitations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-watkins1989">Learning from Delayed Rewards</a></span>
+        <span>· <strong>Locator:</strong> Chapter 7, Section 2.3, printed pp. 93–95 / PDF pp. 100–102, especially the hard-cut rule and recursion on printed p. 94; Section 3.1, printed p. 97 / PDF p. 104.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#cut-boundary-and-experimental-action-credit</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When action a_(t+1) is non-policy, lambda_(t+1)=0 and the current action’s return reduces to r_t+gamma*U_t(s_(t+1)). The next-state bootstrap remains, while rewards generated by that non-policy action and subsequent steps do not propagate into earlier returns through this recursion. The estimate R_t still concerns the action actually taken at t, including when that action is itself experimental; the cut does not mean that experimental actions are excluded from action-value learning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-watkins1989">Learning from Delayed Rewards</a></span>
+        <span>· <strong>Locator:</strong> Chapter 7, Section 2.3, printed p. 94 / PDF p. 101, recursive cut explanation and distinction between action-value and state-value estimation; Section 3.1, printed p. 97 / PDF p. 104.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#delayed-action-value-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the displayed delayed realization, once the return estimate for the state-action pair at time t is available at a later time t+T, update Q_(t+T+1)(s_t,a_t)=(1-alpha)*Q_(t+T)(s_t,a_t)+alpha*R_t. The value being blended is the pair’s value at the update time, not necessarily its value when the action was taken. The source also discusses incremental prediction-difference implementations, but this selected construction does not substitute a later online backward-trace loop for the displayed delayed update.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-watkins1989">Learning from Delayed Rewards</a></span>
+        <span>· <strong>Locator:</strong> Chapter 7, Section 3.1, printed pp. 97–98 / PDF pp. 104–105, delayed update equation and changing-estimate discussion.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#one-step-and-unit-continuation-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At lambda_star=0, all continuation coefficients vanish and the action-return estimate has the one-step reward-plus-maximum bootstrap target. At lambda_star=1, subsequent policy actions retain continuation, but a non-policy action still causes a cut and a bootstrap. Thus unit continuation is not an unconditional full-trajectory Monte Carlo target under arbitrary behavior, and equality of a one-step target does not establish equality of differently timed update trajectories.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-watkins1989">Learning from Delayed Rewards</a></span>
+        <span>· <strong>Locator:</strong> Chapter 7, Section 2, printed p. 88 / PDF p. 95, constant-lambda endpoints; Section 2.3, printed pp. 93–95 / PDF pp. 100–102, variable-lambda cut; Section 3.1, printed p. 97 / PDF p. 104.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The selected scope is the original hard-cut forward-return and delayed-update construction, not every method called Q(lambda), the whole Q-learning family, selected-next-action MCQ-L/Sarsa, Peng–Williams two-error propagation, or a replacing-trace component. The thesis separately proposes a soft exponential continuation rule. That alternative is not a defining component or an exact alias of this hard-cut method.</li>
+      <li>The inspected return-estimation development assumes bounded rewards and discount gamma&lt;1 in a Markov setting. Continuing undiscounted returns, unbounded rewards or arbitrary approximation require additional conditions. Lambda_star=1 does not remove non-policy cuts and does not itself establish existence of a return, stable learning or convergence.</li>
+      <li>The displayed recursion on printed p. 94 / PDF p. 101 uses U_t(s_(t+1)), while the immediately following explanatory prose invokes U_(t+1)(s_(t+1)). The draft preserves the displayed formula and records this timing gap instead of silently selecting a modern convention. Return construction, delayed updates and changing value estimates must use an explicitly declared timing convention in an implementation.</li>
+      <li>The initial corrigenda amend the prediction-difference development on printed pp. 90–91, retaining changing-value correction terms. The original printed p. 91 update also uses C(x,t+1) after defining C(x,t). These passages do not establish exact equality between arbitrary finite-step online updates and the delayed forward construction. Small-step remarks are not a uniform error bound or a true-online equivalence theorem.</li>
+      <li>The preliminary policy-classification discussion assumes a unique policy action per state, while the maximum-based policy can have ties. Tie breaking, the classification of equal-valued alternatives, initialization, terminal treatment and episode resets are not fully specified by this selected construction. An exploratory sampling branch can still select a maximizing action; its label alone does not determine whether the selected action is non-policy.</li>
+      <li>The thesis explicitly does not prove convergence of this multistep control family and discusses possible interactions between changing values and policies. Its one-step result is not a general proof for this method, nonlinear approximators, arbitrary behavior or arbitrary learning rates. This is a boundary of the inspected original source, not a claim that no later theorem exists.</li>
+      <li>Evidence is a 241-page Cambridge-hosted scan of the May 1989 thesis, including its initial corrigenda. The source’s PDF build date and repository modification date are not publication dates. Selected methods, qualifications and formula images were inspected; no full-thesis proof certification, author-code inspection or experiment reproduction is claimed. Historical demonstrations do not establish universal speed, variance reduction or benchmark superiority.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html" style="font-weight: 600;"><code>AIO:ReinforcementLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Reinforcement Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure learns action values and an implicit control policy from actions, rewards and transitions. The pinned AIO class denotes a learning task; this algorithm-to-task relation asserts neither exact identity nor a subclass relation or convergence guarantee.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-watkins1989">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">watkins1989</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.repository.cam.ac.uk/bitstreams/2ad45009-0e4b-496e-bd52-cd8f98a3f4d0/download" target="_blank" rel="noopener">Learning from Delayed Rewards</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Christopher John Cornish Hellaby Watkins
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.17863/CAM.132164</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:676a401aa8d1…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T14:45:47Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T14:45:47Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/WatkinsHardCutMultistepQLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/WatkinsHardCutMultistepQLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
