@@ -1,0 +1,156 @@
+id: AIMech:ContinuousTimeBayesianNetwork
+name: Continuous-time Bayesian network
+concept_kind: model_family
+definition: A finite-state continuous-time model family combining a separate initial Bayesian-network
+  distribution with a directed, possibly cyclic graph of current-parent-dependent conditional intensity
+  matrices, whose single-variable jump rates amalgamate into a homogeneous joint Markov generator.
+definition_evidence:
+- source_id: nodelman2002
+  locator: Section 3.1, PDF pp. 3–4; Definition 3.2 and Section 3.3, p. 4; amalgamation formula and joint
+    intensity matrix in Section 3.4, p. 5
+  relation: supports
+claims:
+- claim_id: initial-law-and-local-intensities
+  kind: mechanism
+  statement: 'Specify finitely many finite-state variables, an initial joint distribution represented
+    by an ordinary Bayesian network, and a separate directed dynamics graph. The dynamics graph may have
+    cycles. For every variable X and current parent assignment u, specify a conditional intensity matrix
+    Q_(X|u): off-diagonal entries are finite nonnegative transition rates, and each diagonal is the negative
+    sum of that row’s outgoing rates. A parent change can select a different local matrix. The joint model
+    is homogeneous because these rates are fixed functions of the current complete state, rather than
+    explicit functions of clock time. The initial-law graph and dynamics graph have different roles and
+    need not be the same.'
+  evidence:
+  - source_id: nodelman2002
+    locator: Sections 2.1–2.2, PDF p. 2; Section 3.1 and Example 3.1, pp. 3–4; Definition 3.2, p. 4
+    relation: supports
+- claim_id: single-coordinate-amalgamation
+  kind: mechanism
+  statement: For distinct joint states x and y differing only in coordinate k, set Q(x,y) to the local
+    rate for x_k to y_k under the parent values in x. Set Q(x,y)=0 if more than one coordinate differs,
+    and set Q(x,x)=-sum_(y!=x) Q(x,y). This assembles the local generators without multiplying their entries.
+    The resulting finite matrix has nonnegative off-diagonal entries and zero row sums. The absence of
+    a single jump changing multiple variables is a defining restriction of this construction; continuous
+    time alone does not impose it on every Markov process.
+  evidence:
+  - source_id: nodelman2002
+    locator: Section 3.3 and Example 3.4, PDF pp. 4–5; Section 3.4, p. 5; original finite amalgamation
+      and joint-jump boundary checks in research/discovery/ctbn-boundaries.py
+    relation: supports
+- claim_id: event-rates-and-zero-exits
+  kind: mechanism
+  statement: While the complete state x remains fixed, let lambda=-Q(x,x). If lambda>0, its next-event
+    waiting time is exponential with rate lambda, and destination y has probability Q(x,y)/lambda. This
+    can be factored into choosing a variable in proportion to its local exit rate and choosing its new
+    value in proportion to that local row’s off-diagonal rates. A variable with current exit rate zero
+    contributes no event and must not divide by that rate. It may become enabled after a parent changes.
+    If the total joint exit rate is zero, the joint state is absorbing. These guards qualify the printed
+    destination/event formulas; the paper does not supply a guarded implementation for every zero-rate
+    case. A child’s unconditional holding time need not be exponential at its initial local rate when
+    its parents can change first.
+  evidence:
+  - source_id: nodelman2002
+    locator: Sections 2.1–2.2, PDF p. 2; Section 3.4 generative procedure, p. 5; original competing-event
+      and parent-enabling checks in research/discovery/ctbn-boundaries.py
+    relation: supports
+- claim_id: finite-interval-transitions
+  kind: mechanism
+  statement: For the joint homogeneous generator, the transition matrix over duration delta is exp(delta*Q),
+    and a row-vector distribution propagates as p(t)=p(s)*exp((t-s)*Q). Two-time joint probabilities instead
+    have cells p_i(s)*[exp((t-s)*Q)]_ij; the source’s row-vector product labeled a two-time joint law
+    is only the later marginal. A zero multi-coordinate generator entry does not forbid sequential changes
+    during a positive interval. For two independent irreversible binary switches with rates 1 and 2, Q(00,11)=0
+    but P(00 to 11 in time t)=(1-exp(-t))*(1-exp(-2*t))>0 for t>0. This is a curator mathematical example,
+    not a reported empirical result.
+  evidence:
+  - source_id: nodelman2002
+    locator: Section 2.3, PDF p. 3; Section 3.4, p. 5; Section 4.1, p. 6; original finite-interval calculation
+      and rational exponential bounds in research/discovery/ctbn-boundaries.py
+    relation: supports
+- claim_id: initial-dependence-boundary
+  kind: limitation
+  statement: The dynamics graph alone does not establish independence of complete variable trajectories
+    under the arbitrary initial BN allowed by the definition. A curator counterexample uses two binary
+    variables with no dynamics edges, rate-one flips in both directions, and initial law (3/8,1/8,1/8,3/8)
+    in state order (00,01,10,11). Already P(00)=3/8 differs from the marginal product 1/4. At time t the
+    joint law is (1/4,1/4,1/4,1/4) plus exp(-4*t)*(1/8,-1/8,-1/8,1/8), so the zero-state indicators have
+    covariance exp(-4*t)/8 at every finite t>=0. Thus the unqualified trajectory-independence statement
+    in Theorem 3.9 is not adopted. No replacement general graphical-independence theorem is asserted.
+  evidence:
+  - source_id: nodelman2002
+    locator: Definition 3.2, PDF p. 4; Definitions 3.7–3.8 and Theorem 3.9, p. 5, qualified by the original
+      full-support correlated-initial counterexample in research/discovery/ctbn-boundaries.py
+    relation: supports
+- claim_id: representation-and-inference-scope
+  kind: scope
+  statement: The local rate factorization can represent the model compactly, but its joint state space
+    has the product of the local state cardinalities. Marginalizing variables need not leave a homogeneous
+    Markov process on the remaining variables; parent trajectory information can matter beyond a one-time
+    parent marginal. Sparse instantaneous dependencies also need not remain sparse over a nonzero observation
+    interval. The paper’s clique-tree approximation, linearized marginalization and subsystem approximation
+    are inference choices, not defining parts of this model family. No claim that every equivalent finite-time
+    DBN is fully connected, or that the model guarantees cheap exact inference, is made.
+  evidence:
+  - source_id: nodelman2002
+    locator: Sections 4.1–4.2, PDF pp. 6–7; Sections 5–5.2.2, pp. 7–9; Section 7, pp. 9–10
+    relation: supports
+identity_notes: 'Scoped to the finite homogeneous CTBN model of Nodelman, Shelton and Koller: an arbitrary
+  separate initial BN and a possibly cyclic current-parent CIM dynamics graph. This is distinct from hidden/observed
+  emission-model variants, discrete memory mixtures, undirected static potentials, timestamp-density topic
+  models and continuous-state linear layers. The pinned BayesianNetwork DAG does not identify the dynamics
+  graph; MarkovChain supplies a qualified process association. The source dossier read 127 selected definitions,
+  11 exact AIO node/incident/generated contexts and 11 full native neighbors; root and supporting reading
+  scopes are separately retained. Before this creation all 442 AIO and 713 preceding native IDs, names,
+  aliases and all scoped synonyms were refreshed and four complete checkouts searched including ignored
+  and hidden files; no bounded identity collision was identified. The existing CTBN frontier owner is
+  updated in place, without declaring inference/learning extensions exhausted.'
+evidence_sources:
+- source_id: nodelman2002
+  title: Continuous Time Bayesian Networks
+  authors:
+  - Uri Nodelman
+  - Christian R. Shelton
+  - Daphne Koller
+  source_type: primary_paper
+  url: https://ai.stanford.edu/~nodelman/papers/ctbn.pdf
+  version: Author-hosted ten-page paper linked as Corrected; UAI 2002, pp.378–387. No correction date,
+    original-proceedings comparison or arXiv PDF byte equivalence established. Locators use PDF pages.
+  access_level: full_text
+  accessed_at: '2026-10-14T21:42:09Z'
+  sha256: 27c0afd16350169ac473d7317681c21d08b0f504f2fe3ce5fe587ec9b04f62f7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The complete finite-state model defines a continuous-time Markov process, and the pinned
+    target includes Markov Process as an exact synonym. This related mapping does not equate the specific
+    CIM factorization with the broad AIO node or assert inheritance of its Network classification or ProbabilisticHiddenLayer
+    has-part relation. The separate initial BN does not make the possibly cyclic dynamics graph an AIO
+    BayesianNetwork DAG.
+limitations:
+- The maintained scope is finite variables and finite, time-independent conditional rates with one local
+  transition owner per variable. Time-dependent rates, infinite state spaces and simultaneous multi-variable
+  jump extensions require separate definitions. Zero rates and reducibility are permitted; irreducibility
+  and convergence to a unique stationary law independently of the initial distribution are not guaranteed.
+- This is a stochastic model representation, not a particular simulator, learning procedure or approximate-inference
+  algorithm. Hidden variables, emission distributions, action/reward control and intervention semantics
+  are not required by this definition.
+- 'Ancillary displayed inconsistencies in the corrected source remain outside the core construction: Example
+  2.2 on PDF p. 2 reverses two probabilities in the third embedded-chain row; the first marginalization
+  display on p. 8 mixes its initial/destination eliminated-state indices; and Section 5.2.2 on p. 9 labels
+  an expected holding time as an intensity, although its example uses the reciprocal. No repaired approximate-inference
+  implementation or author-issued erratum is claimed.'
+- The author-hosted PDF is labeled Corrected without an established correction date or comparison to the
+  original proceedings bytes. Original finite calculations support bounded examples; nonrational exponential
+  probabilities are enclosed by rational bounds, not represented as exact rational values. No author-code
+  execution, experiment replication, clinical validation or universal performance claim is included.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T00:11:24Z'
+  updated_at: '2026-10-15T00:11:24Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

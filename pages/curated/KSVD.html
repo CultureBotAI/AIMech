@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K-SVD · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>K-SVD</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">K-SVD</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:KSVD</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A dictionary-learning algorithm that alternates sparse coding of training samples with sequential updates of each dictionary atom and its active coefficients using a leading rank-one singular-value approximation of the support-restricted reconstruction residual.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to the original sparsity-constrained K-SVD dictionary-learning algorithm, not a trained dictionary, every sparse-coding procedure, approximate K-SVD or BatchOMP. Fixed-dictionary pursuits do not identify its sequential support-restricted atom/coefficient update. The pinned SparseLearning class has broader sparse-dictionary synonyms and neural representation-learning typing; related_match avoids equivalence and unsupported inheritance. The historical source dossier read 151 selected definitions, 15 exact AIO node/incident contexts and ten full native neighbors, with separate root reading scopes. Before this creation all 442 AIO and 713 preceding native IDs, names, aliases and all scoped synonyms were refreshed and four complete checkouts searched including ignored and hidden files; bounded assessed results found no identity collision. Existing source-family ownership is retained and remains partial.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#sparse-coding-and-dictionary-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For finite real training data Y with n rows and N sample columns, a dictionary D with K unit-norm columns, and a coefficient matrix X with K rows and N columns, the sparsity-constrained formulation minimizes ||Y-DX||_F^2 subject to at most T0 nonzero coefficients in each sample column of X. The source targets overcomplete dictionaries. Each iteration first holds D fixed and obtains sparse sample codes with a chosen approximation procedure, then updates the atoms and their associated coefficients. An exact solution of the combinatorial sparse-coding problem is not assumed.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-aharon2006">K-SVD: An Algorithm for Designing Overcomplete Dictionaries for Sparse Representation</a></span>
+        <span>· <strong>Locator:</strong> Section IV.B–C, PDF pp. 6–7 / printed pp. 4316–4317, Equations 17, 19–20 and Figure 2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#active-sample-residual-restriction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For atom k, hold the other atom/row products fixed and form E_k=Y-sum_{j!=k} d_j x_j^row. The active sample set is Omega_k={i in 1..N: X[k,i]!=0}. Restrict E_k to these sample columns before computing its rank-one approximation. This set uses the sample range N specified in Figure 2; the K upper bound printed in Equation 22 is an indexing discrepancy. Updating the unrestricted residual instead can introduce nonzero coefficients outside this set and violate a sample sparsity budget. Restriction preserves those outside coefficients as zero.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-aharon2006">K-SVD: An Algorithm for Designing Overcomplete Dictionaries for Sparse Representation</a></span>
+        <span>· <strong>Locator:</strong> Section IV.C, PDF p. 7 / printed p. 4317, Equations 21–23 and Figure 2; original support and sample-index examples in research/discovery/ksvd-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#joint-rank-one-and-sequential-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a nonempty active set, write its restricted residual as U Sigma V^T. Choose a leading left singular vector as the new unit atom and sigma_1 times the corresponding right singular vector, transposed, as its active coefficient row. Scatter this row back to the active sample positions and leave the other positions zero. Newly fitted active coefficients may themselves be zero, so the support can shrink. The source sweep updates atoms sequentially and uses the newest coefficients in subsequent residuals. A later sparse-coding stage may select new supports; fixed-support atom sweeps alone cannot introduce new active positions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-aharon2006">K-SVD: An Algorithm for Designing Overcomplete Dictionaries for Sparse Representation</a></span>
+        <span>· <strong>Locator:</strong> Section IV.B–C, PDF pp. 6–7 / printed pp. 4316–4317, support discussion and Figure 2; original sequential-residual example in research/discovery/ksvd-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#conditional-block-descent</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With the active set and all other atom/row products fixed, the leading singular triplet gives a least-squares rank-at-most-one approximation of the restricted residual. The preceding atom and row are feasible for that block, so an exact update cannot increase the total squared reconstruction error. This conditional property does not guarantee descent after arbitrary feasible sparse recoding. The source proposes comparing the best fit on the previous support with the new pursuit fit and retaining the better one. Nonincreasing objective values alone do not establish convergence of iterates to a local minimizer; the source’s stronger convergence inference is not adopted here.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-aharon2006">K-SVD: An Algorithm for Designing Overcomplete Dictionaries for Sparse Representation</a></span>
+        <span>· <strong>Locator:</strong> Section IV.C, PDF pp. 7–8 / printed pp. 4317–4318, rank-one update and convergence/safeguard discussion before Section IV.D; original exact block and deliberately poor feasible-recoding examples in research/discovery/ksvd-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#empty-zero-and-nonunique-blocks</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    An empty active sample set supplies no data to determine the atom, so keeping or replacing an unused atom requires an additional policy. The source discusses replacing unpopular atoms as an implementation heuristic. For a nonempty zero residual block, zero coefficients are optimal and any unit atom gives the same loss. Repeated positive leading singular values can give distinct equally optimal rank-one fits: for the two-by-two identity residual, either coordinate direction gives squared error 1. Simultaneously changing an atom and its coefficient row signs preserves their product. These block facts do not establish an identifiable learned dictionary.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-aharon2006">K-SVD: An Algorithm for Designing Overcomplete Dictionaries for Sparse Representation</a></span>
+        <span>· <strong>Locator:</strong> Figure 2, PDF p. 7 / printed p. 4317; Section IV.E, PDF p. 8 / printed p. 4318, unused-atom heuristic; explicit curator degeneracy and sign calculations derived from the block objective in research/discovery/ksvd-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#one-atom-coding-and-kmeans-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Using one atom per sample while allowing a free scalar coefficient gives the source’s gain-shape setting. It does not alone identify ordinary k-means. Fixing the nonzero coefficient to 1 and allowing an unconstrained representative instead yields a centroid subproblem. That is different from the usual unit-norm atom update with a freely fitted coefficient: on the single sample (2,0), the unconstrained centroid (2,0) has zero error, the fixed-one unit representative (1,0) has error 1, and the unit atom (1,0) with coefficient 2 again has zero error. The source analogy therefore requires the stated coefficient and normalization conventions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-aharon2006">K-SVD: An Algorithm for Designing Overcomplete Dictionaries for Sparse Representation</a></span>
+        <span>· <strong>Locator:</strong> Section IV.A, PDF pp. 5–6 / printed pp. 4315–4316, and Section IV.D, PDF p. 8 / printed p. 4318, Equation 24 and fixed-one discussion; original normalization example in research/discovery/ksvd-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This record covers the original sparsity-constrained algorithm, not a particular trained dictionary or an exact sparse-coding solver. The source’s error-constrained alternative, approximate K-SVD updates and BatchOMP implementations are not automatically the same operational identity. The existing BatchOMP/K-SVD source-family lead remains partly unresolved.</li>
+      <li>Equation 15 on PDF p. 6 also prints a sample sum with upper bound K instead of N. Equations 6–7 on PDF p. 3 display positive density exponents inconsistent with Equation 8 in background about a different method. Those background formulas are not adopted as K-SVD mechanisms. The Equation 22 sample-index caveat is retained in the active-set claim.</li>
+      <li>The fixed DC atom in Section VI’s image application is a configuration, not a universal algorithm requirement. Empty-support handling, pursuit choices, numerical SVD behavior, stopping rules and atom-replacement policies require implementation choices beyond the core block equations.</li>
+      <li>Curator exact arithmetic uses small constructed matrices with supplied SVD certificates; some examples use square dictionaries to expose algebraic boundaries. It does not validate numerical SVD software, run author code, reproduce a benchmark or establish recovery, uniqueness, global convergence or a general speed advantage.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned SparseLearning definition describes learning sparse linear combinations and their elements, which supplies semantic context for this dictionary-learning algorithm. Its broad sparse-coding and dictionary-learning synonyms do not make it the specific K-SVD algorithm. SparseLearning is typed through RepresentationLearning, whose pinned definition is a deep neural network. This mapping asserts neither equivalence nor subclass membership and does not transfer that network abstraction to the matrix algorithm.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-aharon2006">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">aharon2006</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://freddy.cs.technion.ac.il/wp-content/uploads/2017/12/K-SVD-An-Algorithm-for-Designing-Overcomplete.pdf" target="_blank" rel="noopener">K-SVD: An Algorithm for Designing Overcomplete Dictionaries for Sparse Representation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Michal Aharon, Michael Elad, Alfred Bruckstein
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1109/TSP.2006.881199</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4ac09163f067…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T00:11:24Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T00:11:24Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/KSVD.yaml" target="_blank" rel="noopener">
+      <code>data/curated/KSVD.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
