@@ -1,0 +1,195 @@
+id: AIMech:AutoWalksat
+name: Auto-Walksat
+concept_kind: algorithm
+aliases: []
+definition: A preprocessing-and-run algorithm that estimates a fixed noise setting for a stochastic SAT
+  solver by probing a terminal-score mean-to-standard-deviation ratio, searching the proxy with bracketing
+  and parabolic interpolation, and using an empirical post-minimum adjustment.
+definition_evidence:
+- source_id: patterson2001
+  locator: PDF pp. 3–4, Sections 2–3 and Figure 2; pp. 7–9, discussion and conclusion
+  relation: supports
+claims:
+- claim_id: fixed-noise-preprocessing-controller
+  kind: scope
+  statement: Auto-Walksat is a preprocessing controller for a CNF formula and a supplied stochastic SAT
+    algorithm with a noise parameter. It probes settings, estimates a setting from a proxy statistic,
+    and then runs the solver with that selected setting; the defining experiments instantiate Walksat-SKC.
+  evidence:
+  - source_id: patterson2001
+    locator: PDF pp. 1–4, Sections 1–3 and Figures 1–2
+    relation: supports
+- claim_id: terminal-unsuccessful-score-ratio
+  kind: mechanism
+  statement: For Walksat-SKC the objective is the number of unsatisfied clauses. The stated invariant
+    ratio is the mean divided by the standard deviation of objective values at the ends of several unsuccessful
+    attempts made with different random seeds.
+  evidence:
+  - source_id: patterson2001
+    locator: PDF p. 3, Section 2
+    relation: supports
+  - source_id: kautz2004-context
+    locator: PDF p. 2, AutoWalksat paragraph; later statistic wording is contextual and does not substitute
+      for the 2001 definition
+    relation: context
+- claim_id: short-repeated-probes
+  kind: mechanism
+  statement: Figure 2 estimates the ratio at a fixed noise setting with repeated short attempts, collecting
+    objective statistics after 2,000 flips plus one flip for every atom of the formula. It states a mean-confidence-interval
+    stopping test whose exact displayed numerical convention is unresolved.
+  evidence:
+  - source_id: patterson2001
+    locator: PDF p. 4, Figure 2, Probe definition
+    relation: supports
+- claim_id: bracketing-and-parabolic-search
+  kind: mechanism
+  statement: The described controller brackets noise over the displayed 0–100 scale, uses a parabolic
+    interpolation proposal when the parabola is well formed, and otherwise takes a golden-section step
+    toward the larger side before probing again and shrinking the bracket.
+  evidence:
+  - source_id: patterson2001
+    locator: PDF pp. 3–4, Section 3 and Figure 2
+    relation: supports
+- claim_id: post-minimum-heuristic-and-failure
+  kind: scope
+  statement: The discussion and conclusion describe increasing the ratio-minimizing noise by ten percent
+    before the final solver run as an empirical heuristic. The same paper reports that its logistics example
+    instead calls for decreasing noise and says how to choose the direction is unresolved.
+  evidence:
+  - source_id: patterson2001
+    locator: PDF pp. 7–9, Section 5, Figure 6 and Section 6
+    relation: supports
+limitations:
+- The terminal statistic is defined over unsuccessful attempts, while the probe pseudocode does not specify
+  treatment of successful attempts, a minimum retained count, a standard-deviation estimator, or what
+  to do when the retained set is empty or has zero spread. These are source specification gaps, not observed
+  implementation failures.
+- Figure 2 visually prints 0.05 with superscript 3 and no corresponding footnote visible on that page.
+  Its exact exponent/footnote meaning, interval width convention, replication rule and statistical construction
+  are unresolved. Even a precise mean-only interval does not establish precision of mean divided by a
+  near-zero standard deviation.
+- Figure 2 leaves endpoint values initially undefined, gives only a general bracket reassignment instruction,
+  and does not fully specify how the last proposal n relates to a retained best point. The prose’s one-percent
+  refinement criterion does not identify its exact comparison quantity or zero boundary. Finite noisy
+  probes and this description do not prove a global ratio minimum or an optimal solver noise setting.
+- The prose’s ten-percent increase is absent from Figure 2. The logistics example explicitly needs the
+  opposite direction. Its 39–69 to 9–39 numbers illustrate a 30-percentage-point decrease for that example,
+  without establishing a general relative/additive offset or clipping convention. The original does not
+  give an automatic rule for choosing the direction.
+- The supplied algorithm must expose the relevant noise parameter and objective observations. The detailed
+  evaluated move rule is Walksat-SKC; tuning one parameter need not fix instances difficult for that solver.
+  This is preprocessing followed by a chosen fixed setting, not a specification of generic within-run
+  adaptation. A finite failed SAT search is not an UNSAT certificate.
+- Illustrated curves, four DIMACS problem experiments, short tuning overhead and logistics results are
+  bounded observations. They do not establish universal speedup, calibrated success probability, optimality
+  for every formula/variant, or a theorem that the invariant ratio predicts performance. No benchmark
+  or author implementation was run here.
+- This assessment uses the nine-page May 2001 author preprint layout, with publication identity corroborated
+  separately. The 2004 owner-URL description uses different shorthand for the statistic and is context
+  only. Publisher-byte equivalence, later code behavior, the original cited invariants theory and full
+  Brent-method assumptions were not verified, so their details are not silently imported.
+aio_no_match:
+  search_scope: Auto-Walksat denotes the Patterson–Kautz 2001 fixed-noise SAT preprocessing controller,
+    distinct from its supplied Walksat-SKC solver and later online-adaptation variants. Fresh collection
+    on 15 October 2026 at22:42:01–22:42:36 UTC followed actual merged base4f3b4047856ef4391d42fe9de4d1e191e9d1aa86.
+    All785 native and442 pinned AIO record identities were compared (4,873 field occurrences,3,721 normalized
+    values), with zero candidate collisions and17 context-only fields in ten neighboring records. Four
+    complete ignored/hidden-inclusive searches retained37,418 occurrences in1,707 distinct contents. The
+    attributed assessment accounts for every group; three supporting partitions read complete matched
+    contents0–1499, while root read full small contents and identity/frontier/query-matching projections
+    of ten large embedded historical documents for1500–1706. It does not claim fresh reading of all unrelated
+    embedded science. All911 main and394 nested frontier objects were queried recursively; root read all19
+    matching full objects, ten neighboring identity/definition projections and full WalkSAT scientific
+    projection. Existing owner295 is the selected source-discovery owner;296,300,301 and all other owners
+    remain independent. The original2001 mechanism is supported, while the2004 discovery URL remains contextual
+    and its statistic wording differs. This is bounded current-corpus identity clearance, not universal
+    novelty or discovery saturation. Seven exact pinned AIO contexts,53 incident-edge entries and their
+    generated records retain the separately accepted primary/mapping reading; current collector confirms
+    the unchanged pinned/native baseline. The no-match is bounded to MathematicalFunction, MetaLearning,
+    MachineLearningTask, TrainingStrategy, ReinforcementLearning, MarkovChain and Network; empirical SAT
+    parameter selection does not itself establish their defined learning/model identities.
+  rationale: No informative positive AIO mapping was established for the complete source-defined SAT probing
+    and fixed-noise selection controller among the seven inspected targets. The assessment is bounded
+    to the pinned snapshot and selected semantic neighborhood.
+  examined_targets:
+  - target: AIO:MathematicalFunction
+    rejection_reason: The pinned definition is a general input–output mathematical rule, not a scalar-only
+      class. A ratio statistic is a component, but the complete repeated-probe, bracket-search and solver-execution
+      controller is not informatively identified with that component or generic functional representability.
+  - target: AIO:MetaLearning
+    rejection_reason: The pinned class learns from metadata about machine-learning experiments. These
+      instance-level SAT solver probes are not themselves machine-learning experiments or a learned cross-task
+      model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The procedure uses empirical observations to tune a symbolic satisfiability solver,
+      but it need not construct a machine-learning method or learned predictive model as specified by
+      the pinned class.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The class concerns strategies for training machine-learning models. Preprocessing
+      a SAT formula to select the solver noise parameter does not supply that training relation.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Feedback from SAT probes and exploration/exploitation terminology do not by themselves
+      make this a learned policy or value-based reinforcement-learning task. The source specifies numerical
+      parameter search, not an RL update.
+  - target: AIO:MarkovChain
+    rejection_reason: The specified identity is the full tuning controller, not a chain model. A possible
+      augmented-state Markov description would not establish an informative mapping to the pinned network/hidden-layer
+      context.
+  - target: AIO:Network
+    rejection_reason: Graph representability of a CNF or computation is insufficient; this procedure does
+      not constitutively specify the interconnected computational-node mechanism described by the pinned
+      class.
+review_status: DRAFT
+identity_notes: Auto-Walksat denotes the Patterson–Kautz 2001 fixed-noise SAT preprocessing controller,
+  distinct from its supplied Walksat-SKC solver and later online-adaptation variants. Fresh collection
+  on 15 October 2026 at22:42:01–22:42:36 UTC followed actual merged base4f3b4047856ef4391d42fe9de4d1e191e9d1aa86.
+  All785 native and442 pinned AIO record identities were compared (4,873 field occurrences,3,721 normalized
+  values), with zero candidate collisions and17 context-only fields in ten neighboring records. Four complete
+  ignored/hidden-inclusive searches retained37,418 occurrences in1,707 distinct contents. The attributed
+  assessment accounts for every group; three supporting partitions read complete matched contents0–1499,
+  while root read full small contents and identity/frontier/query-matching projections of ten large embedded
+  historical documents for1500–1706. It does not claim fresh reading of all unrelated embedded science.
+  All911 main and394 nested frontier objects were queried recursively; root read all19 matching full objects,
+  ten neighboring identity/definition projections and full WalkSAT scientific projection. Existing owner295
+  is the selected source-discovery owner;296,300,301 and all other owners remain independent. The original2001
+  mechanism is supported, while the2004 discovery URL remains contextual and its statistic wording differs.
+  This is bounded current-corpus identity clearance, not universal novelty or discovery saturation.
+evidence_sources:
+- source_id: patterson2001
+  title: 'Auto-Walksat: A Self-Tuning Implementation of Walksat'
+  authors:
+  - Donald J. Patterson
+  - Henry Kautz
+  url: https://www.cs.virginia.edu/~rmw7my/papers/sat01-patterson-kautz.pdf
+  accessed_at: '2026-10-15T21:00:56Z'
+  source_type: primary_paper
+  version: Nine-page author-hosted copy; page 1 states preprint submitted to Elsevier Science 24 May 2001.
+    Local PDF pages 1–9 are used as locators, not publisher pages 360–368. PDF producer/creation metadata
+    from 2019 is not the publication date. Publisher typeset bytes were not acquired or compared.
+  access_level: full_text
+  sha256: cc1ea78774e84107e3f9a8e1db37906f81599fac4306f86f750726d6e7675372
+  persistent_id: doi:10.1016/S1571-0653(04)00333-6
+- source_id: kautz2004-context
+  title: Walksat in the 2004 SAT Competition
+  authors:
+  - Henry Kautz
+  - Bart Selman
+  - David McAllester
+  url: https://www.cs.virginia.edu/~rmw7my/papers/walksat.pdf
+  accessed_at: '2026-10-15T21:00:58Z'
+  source_type: author_technical_report
+  version: Two-page author-hosted 2004 solver description; both native text pages read. This is the existing
+    owner discovery URL, not the defining 2001 paper. Context only for the later description and historical
+    owner URL; it does not replace the defining 2001 statistic or establish a later implementation.
+  access_level: full_text
+  sha256: 525f46d2f9fd9d32cc46daee6b15a0ece5fcef17af614e74d6143643ed2cf74f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T22:55:49Z'
+  updated_at: '2026-10-15T22:55:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
