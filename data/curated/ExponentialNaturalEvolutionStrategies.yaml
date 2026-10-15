@@ -1,0 +1,182 @@
+id: AIMech:ExponentialNaturalEvolutionStrategies
+name: Exponential natural evolution strategies
+concept_kind: algorithm
+definition: A Gaussian black-box optimization algorithm that adapts a search mean and full covariance
+  factor from ranked samples in local standard-normal coordinates, using a transported mean step and separate
+  exponential global-scale and matrix-shape updates.
+definition_evidence:
+- source_id: glasmachers2010
+  locator: Sections 4.2–5, PDF pp. 4–6, especially the coherent covariance-factor convention in Algorithm
+    1 on p. 6.
+  relation: supports
+claims:
+- claim_id: gaussian-ranked-generations
+  kind: mechanism
+  statement: Maintain a Gaussian search distribution in d-dimensional real space through a mean mu and
+    a nonsingular real matrix A, with covariance C=A*A^T. At each generation, draw independent standard
+    normal vectors z_i, form x_i=mu+A*z_i and evaluate their black-box fitness. Rank the paired samples
+    from best to worst for the chosen maximization convention and assign the configured rank utilities
+    u_i. Algorithm 1 generates a new population each iteration; it uses objective evaluations rather than
+    derivatives of the objective. The search distribution is not a predictive model of objective values.
+  evidence:
+  - source_id: glasmachers2010
+    locator: Section 2, PDF p. 2, Gaussian sampling and fitness shaping; Section 5 and Algorithm 1, PDF
+      pp. 5–6.
+    relation: supports
+- claim_id: natural-score-decomposition
+  kind: mechanism
+  statement: Use the sampled standard coordinates to compute g=sum_i u_i*z_i and Delta=sum_i u_i*(z_i*z_i^T-I),
+    in the natural-score normalization of Algorithm 1. Split Delta into the scalar a=tr(Delta)/d and the
+    symmetric trace-free matrix H=Delta-a*I. Represent A=sigma*B, initializing sigma=abs(det(A))^(1/d)
+    and B=A/sigma. Then sigma is positive and abs(det(B))=1; a positive-determinant initial factor gives
+    det(B)=1. Rank utilities replace raw fitness weights and need not give an unbiased gradient estimate
+    of raw expected fitness.
+  evidence:
+  - source_id: glasmachers2010
+    locator: Sections 4.2–4.3, PDF pp. 4–5; Algorithm 1 and utility discussion, PDF p. 6. The ordinary/natural
+      matrix-score notation discrepancy is retained in the limitations.
+    relation: supports
+- claim_id: finite-exponential-factor-update
+  kind: mechanism
+  statement: With configured learning rates eta_mu, eta_sigma and eta_B, Algorithm 1 updates mu_new=mu+eta_mu*sigma*B*g,
+    sigma_new=sigma*exp(eta_sigma*a/2), and B_new=B*exp(eta_B*H/2). The mean step uses the generation's
+    original sigma and B. The shape exponential is a matrix exponential, whereas the global scale uses
+    the scalar exponential. All scores come from the same sampled generation. When eta_sigma=eta_B=eta_A,
+    the scale and shape updates combine to A_new=A*exp(eta_A*Delta/2). Different block learning rates
+    rescale the components and do not generally give one scalar multiple of the complete natural-gradient
+    direction.
+  evidence:
+  - source_id: glasmachers2010
+    locator: Algorithm 1, PDF p. 6; local-coordinate map in Equation 4, PDF p. 4; expanded scale/shape
+      updates and equal-rate case in Equations 9–11, PDF p. 5.
+    relation: supports
+- claim_id: positive-covariance-and-shape-normalization
+  kind: scope
+  statement: For a nonsingular initial factor, finite learning rates and finite symmetric score matrices,
+    the matrix exponential in the factor update is invertible and the scalar scale multiplier is positive.
+    The resulting covariance sigma_new^2*B_new*B_new^T therefore remains positive definite in exact arithmetic.
+    Since H has zero trace, det(exp(eta_B*H/2))=1, preserving the normalized absolute determinant of B.
+    The factor itself need not stay symmetric. These domain-preservation statements do not establish fitness
+    improvement or protection against floating-point overflow, underflow and ill-conditioning.
+  evidence:
+  - source_id: glasmachers2010
+    locator: Section 4.1, PDF pp. 3–4, symmetric matrix exponential; Section 4.3, PDF p. 5, trace decomposition
+      and determinant identity; Algorithm 1, PDF p. 6.
+    relation: supports
+- claim_id: qualified-affine-and-rank-equivariance
+  kind: scope
+  statement: For an invertible affine change of search coordinates y=L*x+b, the concrete full-factor update
+    is equivariant when the initial mean and factor transform as L*mu+b and L*A, samples correspond, and
+    the same learning rates and rank utilities are used. Any constraints and stopping policy also need
+    corresponding transformation for a whole search to agree. Strictly increasing fitness transformations
+    preserve the ranking and existing ties with a consistent tie policy. This is not a claim that arbitrary
+    finite updates are invariant under nonlinear parameter changes or under transformations that create
+    new ties.
+  evidence:
+  - source_id: glasmachers2010
+    locator: Section 2, PDF pp. 2–3, rank shaping and invariance; Section 4.2, PDF p. 4; Algorithm 1 and
+      Section 6.1, PDF p. 6; Section 7, PDF p. 8.
+    relation: supports
+- claim_id: first-order-cma-connection-and-identity
+  kind: scope
+  statement: In the equal covariance-learning-rate case, the covariance update is C_new=A*exp(eta_A*Delta)*A^T.
+    Its first-order expansion has the rank-weighted additive form (1-eta_A*U)*C+eta_A*sum_i u_i*(x_i-mu)*(x_i-mu)^T,
+    where U=sum_i u_i. This explains the source's connection to a rank-mu covariance update under corresponding
+    weights and rates. The exponential update is not that first-order approximation at a general finite
+    step. The named algorithm does not include full CMA-ES evolution-path and cumulative step-size mechanisms,
+    and it is a concrete Gaussian NES variant rather than an alias of the general NES framework.
+  evidence:
+  - source_id: glasmachers2010
+    locator: Section 4.4, PDF p. 5, covariance expansion and evolution-path qualification; Section 5,
+      PDF pp. 5–6; Section 7, PDF p. 8.
+    relation: supports
+identity_notes: The original 2010 full-covariance Gaussian population update is a concrete NES variant
+  with transported mean and separate exponential scale/shape updates. The maintained NES family expressly
+  reserves executable xNES/SNES rules; its Fisher/score framework and optional rank shaping do not already
+  curate this finite update. xNES is also distinct from the maintained 2001 evolution-path CMA-ES and
+  from generic IGO flow. Current bounded identity assessment covers730native and442pinnedAIO records and
+  four ignored/hidden-inclusive checkout scans; all2900matches were reconciled. Existing frontier owner193
+  is retained in place, without a duplicate leaf. The premerge collection and actual creation freshness
+  checks remain separately recorded.
+evidence_sources:
+- source_id: glasmachers2010
+  title: Exponential Natural Evolution Strategies
+  authors:
+  - Tobias Glasmachers
+  - Tom Schaul
+  - Sun Yi
+  - Daan Wierstra
+  - Jürgen Schmidhuber
+  source_type: primary_paper
+  url: https://stiff-project.org/uploads/tx_sibibtex/glasmachers2010b.pdf
+  persistent_id: https://doi.org/10.1145/1830483.1830557
+  version: GECCO 2010, pp. 393–400, published 7 July 2010; retained eight-page unpaginated author manuscript
+    built 3 April 2010. PDF-page locators refer to this exact copy.
+  access_level: full_text
+  accessed_at: '2026-10-15T04:08:04Z'
+  sha256: eca9c29d9549fa1469885194e0afe2ded88890c2b9f91c0979d49f3f098afe6b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ExponentialFunction
+  relation: related_match
+  rationale: The mandatory scalar exponential global-scale update is a defining component related to the
+    pinned exp/e^x function. The optimizer is neither equivalent to nor a subclass of that function. This
+    relation does not interpret the matrix exponential as elementwise scalar exponentiation and does not
+    introduce neural activation or layer semantics.
+limitations:
+- The evidence owner is the eight-page 2010 author manuscript associated with the GECCO paper. Research
+  read native text on PDF pages 1–6 and 8 and visuals 4–6; root reading has its own ledger and visually
+  checked Algorithm 1. The alternate author-hosted PDF has different bytes and metadata but identical
+  extracted text on all eight pages. This is not a benchmark replication, full implementation audit or
+  author-issued erratum.
+- Use Algorithm 1 consistently with covariance A*A^T, samples mu+A*z, mean transport A and a right factor
+  exponential. The source Equation 8 on page 5 omits that mean transport. Equation 6 on page 4 displays
+  the ordinary Frobenius matrix score with a factor 1/2, whereas Algorithm 1 and expanded page-5 updates
+  use the unhalved natural-score sum. In ordinary symmetric-matrix coordinates the Fisher bilinear form
+  is tr(U*V)/2; its inverse accounts for this factor. The notation should not be mixed without that metric
+  qualification.
+- The displayed local log density on page 4 contains -tr(A), lacks the mean-offset dependence and the
+  trace-M normalizer, and its intermediate mean derivative does not consistently carry the local coordinate
+  transport. The coherent Algorithm 1 and its Gaussian score interpretation are used; these intermediate
+  displays are not certified. Section 4.2 also places the factor in the positive-definite symmetric cone,
+  although its general right update need not preserve factor symmetry. Positive definiteness concerns
+  the covariance.
+- The source prose assumes det(B)=1, while the Algorithm 1 initialization uses abs(det(A)). A positive-determinant
+  factor satisfies the prose convention; arbitrary nonsingular input instead preserves abs(det(B))=1.
+  The method requires a valid nonsingular initial factor and finite updates. Matrix exponential domain
+  preservation in exact arithmetic does not prevent numerical collapse or guarantee a useful search distribution.
+- 'Retained comparison context: Wierstra et al. 2014, Algorithm 5 at PDF page 16/printed 964, samples
+  using B^T but transports the mean with B and right-multiplies the factor. Its displayed covariance update
+  on PDF page 18/printed 966 also does not follow that right update under its A^T*A convention for a general
+  nonsymmetric factor. The 2011 SNES paper repeats this mixed convention in its xNES background. These
+  contextual discrepancies are not silently imported into the 2010 algorithm, and no repaired or executable
+  author-code version is claimed.'
+- The exact utility curve, population size, learning rates, tie handling, constraint policy and stopping
+  rule remain configuration choices. Table 1 supplies empirical defaults, not defining constants or optimality
+  guarantees. Rank shaping and centered utility baselines alter the finite sampled update; they should
+  not be described as unbiased raw-fitness gradients. A constant or uninformative ranking need not yield
+  useful progress.
+- Full-factor sampling and weighted outer-product accumulation require O(n*d^2) arithmetic for n offspring,
+  while a dense matrix exponential commonly costs O(d^3); sorting and objective evaluations add costs.
+  This loop accounting is not a runtime measurement. No dimension-independent whole-generation cost, universal
+  superiority, monotonic fitness improvement, finite-budget global optimum or general convergence rate
+  is asserted.
+- Generic NES, diagonal Gaussian SNES, full CMA-ES and the separately assessed IGO flow/Euler framework
+  remain distinct. Unequal block learning rates rescale natural-gradient components. The finite exponential
+  retraction is not an exact finite-time solution of a general IGO flow, and the first-order covariance
+  comparison does not equate default signed xNES utilities with every CMA-ES weighting scheme. Heavy-tailed,
+  hill-climber, adaptation-sampling and importance-mixing variants are not silently added.
+- Both discovered standalone author Python URLs returned HTTP 500 during this research. No author code
+  was acquired, executed or verified. The initial primary-download DNS failure and successful retry, publisher
+  access failures, exact PDF versions and hand-derived transpose witnesses remain in the research provenance.
+  This draft does not replace those failures with a successful implementation claim.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T04:48:29Z'
+  updated_at: '2026-10-15T04:48:29Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
