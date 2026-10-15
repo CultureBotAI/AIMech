@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informed backtracking repair · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Informed backtracking repair</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Informed backtracking repair</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:InformedBacktrackingRepair</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A finite-CSP repair-oriented backtracking controller that uses an existing complete assignment to order repairs while recursively extending a compatible repaired prefix.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The actual 2026-10-15 post-cohort 350 collection at commit f654ed4db7fe7277efa4478aa4e71eddd8085d97 covers 781 maintained and 442 generated records. Four fixed-word searches included ignored and hidden files across the original checkout and three retained discovery/recovery checkouts. All 20338 occurrences were reconstructed into 1167 distinct contents, freshly read by two attributed supporting readers. Root read 29 focused contents, all six normalized identity/definition rows and eleven contextual fields, every matching field and owner projection for 24 frontier objects, and both selected owners in full. Normalization covered 4861 identity-field occurrences. No candidate collision was found in this bounded scope. The controller uses complete assignments, separate LEFT ranking and DONE compatibility, and exhaustive restored-state backtracking. The maintained Min-conflicts record denotes its value-selection heuristic and explicitly excludes identity with this outer controller. Generic depth-first traversal does not fix these CSP repair rules. Reuse owner 287 and preserve other owners; no aliases are added.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#complete-assignment-and-repaired-prefix</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The procedure starts with an initial value for every variable. VARS-LEFT initially contains all variables and VARS-DONE is empty. Repairs extend a consistent repaired prefix while the assignments of unrepaired variables remain available to guide search; this is a complete-assignment repair controller rather than only a value-selection heuristic.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-minton1992-nasa">Minimizing Conflicts: A Heuristic Repair Method for Constraint-Satisfaction and Scheduling Problems</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, PDF pp. 9–10 / printed pp. 4–5; Figure 2 initialization and recursive arguments.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#conflicted-variable-and-ranked-domain</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At a nonsolution node, Figure 2 selects a currently conflicted variable from VARS-LEFT, removes it from that list and pushes it onto VARS-DONE. It considers the selected variable’s possible values in ascending number of conflicts with the remaining VARS-LEFT assignments. The figure does not mandate one particular conflicted-variable selector or tie order.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-minton1992-nasa">Minimizing Conflicts: A Heuristic Repair Method for Constraint-Satisfaction and Scheduling Problems</a></span>
+        <span>· <strong>Locator:</strong> Figure 2, PDF p. 10 / printed p. 5, variable selection, list movement and VALUES ordering; Section 3.2, PDF p. 9.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#repaired-prefix-compatibility-filter</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A value may be assigned and recursively explored only if it is compatible with the already repaired variables. Compatibility with the repaired prefix is a hard filter, separate from the conflict score against unrepaired variables. With binary constraints between distinct variables, extending a consistent repaired prefix this way preserves its consistency; a low remaining-variable conflict score alone is insufficient.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-minton1992-nasa">Minimizing Conflicts: A Heuristic Repair Method for Constraint-Satisfaction and Scheduling Problems</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 and Figure 2, PDF pp. 9–10 / printed pp. 4–5: the VARS-DONE admissibility test and recursive repair. The prefix invariant is the direct binary-CSP interpretation of that test.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#success-test-and-exhaustive-backtracking</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The success test checks whether all variables are consistent, not merely whether VARS-LEFT is empty. When choices fail, ordinary backtracking returns to earlier choices and tries alternatives. For finite variables and domains, exhaustive branch exploration with restoration of branch state gives the completeness characterized by the source: find a solution if one exists or report failure after exhaustion. This qualification does not cover a run stopped by an early budget.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-minton1992-nasa">Minimizing Conflicts: A Heuristic Repair Method for Constraint-Satisfaction and Scheduling Problems</a></span>
+        <span>· <strong>Locator:</strong> Figure 2 and Section 4 opening strategy comparison, PDF p. 10 / printed p. 5; Section 3.2, PDF p. 9. Branch-state restoration is implicit in the stated standard backtracking interpretation.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#repair-ordering-distinct-from-hill-climbing</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The controller combines backtracking with min-conflicts information; it does not require each accepted repair to reduce the total conflict count. The report distinguishes this controller from min-conflicts hill climbing and from its later Brelaz-based hybrid variable-ordering example. The later hybrid is not a mandatory step of Figure 2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-minton1992-nasa">Minimizing Conflicts: A Heuristic Repair Method for Constraint-Satisfaction and Scheduling Problems</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.2 and 4, PDF pp. 9–10 / printed pp. 4–5; hybrid and Section 4.4, PDF pp. 18–19 / printed pp. 13–14.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The completeness statement assumes finite domains, complete exploration and ordinary recursive restoration of assignments and list state. The printed pseudocode does not specify every copying, restoration or failure-return convention; it is not an executable implementation specification.</li>
+      <li>Figure 2 leaves the choice among conflicted variables and tied domain-order scores open. Random tie breaking in the separately boxed min-conflicts heuristic is not silently imposed on every backtracking choice.</li>
+      <li>Ranking against current VARS-LEFT assignments and compatibility with VARS-DONE are different operations. An admissible repair can increase total conflicts; no monotone whole-assignment descent or fixed conflict-reduction rate is guaranteed.</li>
+      <li>The direct operational scope is the binary-CSP formulation. General constraints require an explicit interpretation of conflict counts and repairs, as the source notes; arbitrary weighted or higher-order scoring is not fixed by Figure 2.</li>
+      <li>At-most-once repair applies along one recursive branch. Backtracking can reconsider earlier assignments, and exhaustive failure on a large problem can take a very long time. A cutoff without a solution does not establish unsatisfiability.</li>
+      <li>No universal speedup, benchmark reproduction or exhaustion of the backtracking family is claimed. Later hybrid orderings and the report’s simplified problem-specific analysis are not included as mandatory mechanisms of this controller.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No substantive AIO counterpart to the specified informed-backtracking repair controller was identified in the inspected snapshot. Its conflict scoring, generic traversal and neural inspiration do not by themselves identify the complete controller.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> The actual 2026-10-15 post-cohort 350 collection at commit f654ed4db7fe7277efa4478aa4e71eddd8085d97 covers 781 maintained and 442 generated records. Four fixed-word searches included ignored and hidden files across the original checkout and three retained discovery/recovery checkouts. All 20338 occurrences were reconstructed into 1167 distinct contents, freshly read by two attributed supporting readers. Root read 29 focused contents, all six normalized identity/definition rows and eleven contextual fields, every matching field and owner projection for 24 frontier objects, and both selected owners in full. Normalization covered 4861 identity-field occurrences. No candidate collision was found in this bounded scope. The ten exact pinned AIO CLASS identities, definitions, synonyms and graph contexts listed here were separately inspected in the accepted research. Generic task, training, function and neural/process classes do not identify this symbolic repair controller. No suitable target was found in the inspected snapshot and semantic scope; no universal upstream absence is claimed.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html"><code>AIO:ArtificialNeuralNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The symbolic repair controller is not a connected artificial-neuron architecture; neural inspiration does not identify its backtracking mechanism.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/HopfieldNetwork.html"><code>AIO:HopfieldNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target specifies a symmetric content-addressable neural network, not finite-CSP backtracking through repair choices.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RecurrentNeuralNetwork.html"><code>AIO:RecurrentNeuralNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target describes a dynamic neural network along a temporal sequence, not the symbolic repaired-prefix controller.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Network.html"><code>AIO:Network</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An interconnected-system genus does not supply a substantive mapping for this controller merely because a search tree can be represented as a graph.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Solving a finite CSP by the stated repair search does not itself build methods that learn from data.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The specified repair controller is neither preprocessing nor a strategy for training a machine-learning model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/AvailabilityHeuristicBias.html"><code>AIO:AvailabilityHeuristicBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This cognitive judgment bias is unrelated to the algorithmic use of min-conflicts ordering.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A possible stochastic model of choices is not the specified backtracking controller; no Markov-process equivalence is established.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The controller evaluates conflict and compatibility functions, but that does not identify the whole recursive search procedure with this generic mathematical-rule class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReasoningLLM.html"><code>AIO:ReasoningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The controller requires neither a language model nor language-task reasoning; the target explicitly does.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-minton1992-nasa">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">minton1992-nasa</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ntrs.nasa.gov/api/citations/19930006097/downloads/19930006097.pdf" target="_blank" rel="noopener">Minimizing Conflicts: A Heuristic Repair Method for Constraint-Satisfaction and Scheduling Problems</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Steven Minton, Mark D. Johnston, Andrew B. Philips, Philip Laird
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://ntrs.nasa.gov/citations/19930006097</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4548b61515c4…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T21:19:50Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T21:19:50Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/InformedBacktrackingRepair.yaml" target="_blank" rel="noopener">
+      <code>data/curated/InformedBacktrackingRepair.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
