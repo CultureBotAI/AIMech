@@ -1,0 +1,166 @@
+id: AIMech:EfficientGlobalOptimization
+name: Efficient Global Optimization
+concept_kind: algorithm
+definition: The original sequential optimization algorithm of Jones, Schonlau and Welch for expensive
+  deterministic scalar functions on bounded continuous boxes, combining a space-filling initial design,
+  fitted and diagnostically assessed DACE response models, expected-improvement acquisition search, objective
+  evaluation and model refitting.
+definition_evidence:
+- source_id: jones1998
+  locator: Section 4.2, PDF pp.19–22 / printed pp.473–476, original EGO procedure; Sections 2–4.1, PDF
+    pp.4–19 / printed pp.458–473, surrogate, diagnostics and EI dependencies.
+  relation: supports
+claims:
+- claim_id: space-filling-initial-design
+  kind: mechanism
+  statement: The original EGO procedure begins with evaluations of an expensive deterministic scalar objective
+    on a bounded rectangular search region using a space-filling Latin-hypercube design. The described
+    design search aims at nearly uniform one- and two-dimensional projections. These initial evaluations
+    supply the data for the first DACE fit; the suggested initial sample size is a heuristic, not a defining
+    fixed count or convergence condition.
+  evidence:
+  - source_id: jones1998
+    locator: Section 4.2, PDF p.19 / printed p.473, initial design and empirical sample-size discussion;
+      PDF p.22 / printed p.476, bounded-box setting.
+    relation: supports
+- claim_id: plug-in-dace-surrogate
+  kind: mechanism
+  statement: Fit a constant-mean DACE response model with a product-exponential distance correlation,
+    exp(-sum_h theta_h |x_h - x_prime_h|^p_h). Maximum likelihood estimates its parameters. The predictor
+    uses the correlation matrix R and candidate correlation vector r; its prediction-error expression
+    includes the constant-mean estimation term. The ordinary-inverse formulas require nonsingular R. Estimated
+    correlation and process-variance parameters are plugged in rather than fully integrated out.
+  evidence:
+  - source_id: jones1998
+    locator: Section 2, PDF pp.5–9 / printed pp.459–463, Eqs.1–9 and estimated-parameter qualification;
+      Section 4.2, PDF pp.19–20 / printed pp.473–474, maximum-likelihood fitting.
+    relation: supports
+- claim_id: diagnostics-and-response-scale
+  kind: mechanism
+  statement: Inspect cross-validated predictions and standardized residuals before the sequential search.
+    In the stated practical leave-one-out procedure, covariance parameters fitted to the full sample are
+    retained. If diagnostics are unsatisfactory, refit after a suitable response transformation, such
+    as the displayed log or reciprocal transformations on their applicable domains. Continue on the chosen
+    response scale only if diagnostics are satisfactory; the source would abandon the method if no satisfactory
+    transformation were found.
+  evidence:
+  - source_id: jones1998
+    locator: Section 3, PDF pp.12–15 / printed pp.466–469, practical cross-validation and transformations;
+      Section 4.2, PDF pp.19–20 / printed pp.473–474, diagnostic decision and response-scale choices.
+    relation: supports
+- claim_id: expected-improvement-box-search
+  kind: mechanism
+  statement: 'Choose an evaluation location by maximizing Gaussian expected improvement below the best
+    observed value on the modeled response scale. The full acquisition search uses rectangular branch
+    and bound: a lower bound on predictive mean and an upper bound on predictive standard deviation provide
+    an EI upper bound. The paper derives surrogate bounds through relaxations of the correlation constraints.
+    Its implemented strong predictor-bound construction and reported examples use p_h = 2; this does not
+    establish a ready implementation for every correlation exponent.'
+  evidence:
+  - source_id: jones1998
+    locator: Section 4.1, PDF pp.17–19 / printed pp.471–473, Eq.15 and bound; Section 4.2, PDF p.20 /
+      printed p.474, implemented p_h = 2 scope; Sections 4.3–4.4, PDF pp.22–26 / printed pp.476–480, bound
+      constructions.
+    relation: supports
+- claim_id: evaluate-refit-and-stop
+  kind: mechanism
+  statement: 'Evaluate the objective at the selected location, augment the data and re-estimate the DACE
+    parameters by maximum likelihood before the next acquisition. A tolerance on maximum expected improvement
+    controls stopping. The reported relative-change rule and its log-scale approximation are heuristics:
+    one-step expected gain under a fitted surrogate is not a certificate of the true error or the total
+    gain available from all further evaluations.'
+  evidence:
+  - source_id: jones1998
+    locator: Section 4.2, PDF pp.19–21 / printed pp.473–475, sampling/refitting loop, stopping rule, log-scale
+      approximation and stated limitations.
+    relation: supports
+- claim_id: limited-memory-acquisition-variant
+  kind: scope
+  statement: The reported six-dimensional Hartman run does not use the full acquisition search to convergence.
+    It retains only the best 50 branch-and-bound nodes, caps that search at 500 iterations, then refines
+    the result by local search. The source explicitly recognizes that this limited-memory variant can
+    miss the true EI maximum. Its behavior must be distinguished from the full bounding procedure; the
+    stated numerical limits are experimental settings, not a definition of every EGO run.
+  evidence:
+  - source_id: jones1998
+    locator: Section 4.2, PDF p.21 / printed p.475, limited-memory branch and bound and admitted acquisition-maximization
+      risk.
+    relation: supports
+identity_notes: EGO is the original sequential procedure for expensive deterministic objectives, combining
+  a design, Kriging model fitting, expected-improvement maximization and stopping. It is not just the
+  EI functional. Existing SMAC uses a random-forest configuration model and instance intensification;
+  ES/PES use optimizer-information acquisitions. Efficient Global Optimization in later paper titles does
+  not establish identity with the original Jones procedure.
+limitations:
+- This identity denotes the original deterministic scalar procedure, not every Bayesian optimizer or every
+  method using EI. No noisy-objective, nonlinear-constraint, derivative-enabled, multifidelity, batch
+  or multiobjective extension is absorbed. Section 6, PDF p.33 / printed p.487 discusses such extensions
+  separately and leaves noisy-function EGO unresolved. EI itself is a distinct acquisition rule; TPE and
+  SMAC use different model and search machinery.
+- The source does not prove global convergence. Conjecture 1 assumes correlation parameters theta_h bounded
+  away from zero, a continuous objective on a finite box and an indefinitely continued search; it remains
+  explicitly unproved (Section 4.2, PDF p.22 / printed p.476). Acquisition bounds, empirical examples
+  and a model-based stopping threshold do not establish finite-budget optimality or universal performance.
+- Nonlinear response transformations can change improvement magnitudes and query rankings. The literal
+  1% stopping rule needs a sign and scale convention when the incumbent is zero or negative; no absolute-value
+  replacement or numerical floor is silently supplied. The log-scale tolerance is described as an approximate
+  relative change. Plug-in uncertainty and one-step gain also limit interpretation of that stopping rule
+  (Section 4.2, PDF pp.19–21 / printed pp.473–475).
+- Very smooth responses and closely spaced inputs can make R nearly singular. The authors report singular-value
+  decomposition with small singular values set to zero, but the record does not certify a particular truncation
+  threshold, ordinary-inverse validity after truncation, or preservation of all interpolation and bounding
+  properties (Section 6, PDF p.32 / printed p.486).
+- Appendix 1, PDF p.36 / printed p.490, changes the negative cross term of the displayed quadratic into
+  a positive term in its derivative. Differentiation requires a minus sign to recover the stated predictor
+  Eq.7. The inspected discrepancy and separate exact sign witness are retained as source algebra context,
+  not an asserted author erratum or a repaired EGO implementation.
+- For fixed real symmetric positive-definite R, fixed nonnegative process variance and exact arithmetic,
+  the Eq.16 Hessian is positive semidefinite with a zero eigenvalue, so the Eq.17 alpha correction is
+  zero. The separate curator derivation uses A = R_inverse - (R_inverse 1)(R_inverse 1)^T/(1^T R_inverse
+  1). This qualifies the source discussion of a possible negative eigenvalue. Nonlinear constraints linking
+  r and x remain nonconvex; neither EI concavity, convexity of the full search problem nor a numerical
+  failure in the authors’ implementation follows (Section 4.3, PDF pp.22–24 / printed pp.476–478; Appendix
+  2, PDF p.36 / printed p.490).
+- Primary method evidence is the 38-page journal-layout mirror of the 1998 paper. The distinct 43-page
+  author manuscript was cover-inspected only; exact equivalence to that manuscript or an inaccessible
+  publisher download was not established. The cited Mockus et al. (1978) chapter was not read, so no earliest-invention
+  claim is made.
+- The supporting original calculations and separate root reproductions check bounded EI, interpolation
+  and source-sign examples. Exact rational checks are distinct from floating Gaussian, quadrature and
+  transformation calculations. The separate Hessian assessment is an analytic derivation under stated
+  assumptions. None executes author code, implements the complete EGO search, replicates its benchmarks
+  or supplies a formal erratum or convergence proof.
+evidence_sources:
+- source_id: jones1998
+  title: Efficient Global Optimization of Expensive Black-Box Functions
+  authors:
+  - Donald R. Jones
+  - Matthias Schonlau
+  - William J. Welch
+  source_type: primary_paper
+  url: https://openturns.github.io/openturns/papers/jones1998.pdf
+  persistent_id: doi:10.1023/A:1008306431147
+  version: Journal of Global Optimization 13 (1998), pp.455–492; 38-page journal-layout public mirror.
+    PDF metadata records creation on December 10, 1998 and modification on September 29, 2004; these are
+    file-build dates, not separate publication years.
+  access_level: full_text
+  accessed_at: '2026-10-15T01:07:21Z'
+  sha256: 356260d0303a7fa2c8cc4456f46ebc9f39c0bcf763b2e3982c2b78921eab4a57
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ActiveLearning
+  relation: related_match
+  rationale: Original EGO adaptively queries an objective and updates a data-derived response model, relating
+    it to the pinned concept of querying an information source for outputs. Deterministic black-box optimization
+    is not identical to a data-labeling task, and this qualified association imposes neither an annotation
+    requirement nor an upstream subclass or exact-match assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T04:14:51Z'
+  updated_at: '2026-10-15T04:14:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

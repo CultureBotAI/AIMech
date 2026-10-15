@@ -1,0 +1,201 @@
+id: AIMech:ProbabilityOfImprovementAcquisition
+name: Probability of improvement acquisition
+concept_kind: mathematical_method
+aliases: []
+definition: An acquisition criterion for scalar optimization that scores a candidate by the predictive
+  probability of meeting a specified improvement threshold under a stated direction and tie convention,
+  with a Gaussian cumulative-distribution form when the predictive law is Gaussian and its standard deviation
+  is positive.
+definition_evidence:
+- source_id: jones2001
+  locator: Section 6, PDF p.20 / printed p.364, improvement-threshold event and Eq.27.
+  relation: supports
+- source_id: snoek2012
+  locator: Section 2.2, PDF p.3, probability-of-improvement definition and Eq.1.
+  relation: supports
+claims:
+- claim_id: threshold-probability-event
+  kind: mechanism
+  statement: Probability of improvement scores a candidate by the predictive probability of meeting a
+    specified improvement threshold. For minimization, Jones defines the event Y(x) <= T with T below
+    the best observed value; Snoek and colleagues use improvement over the current-best value. The predictive
+    random variable expresses uncertainty about the candidate value. The direction, threshold and strict
+    or inclusive event convention must be stated; the criterion does not itself prescribe a unique target
+    schedule.
+  evidence:
+  - source_id: jones2001
+    locator: Section 6, PDF p.20 / printed p.364, definition of Y(x), T < f_min and the event Y(x) <=
+      T preceding Eq.27.
+    relation: supports
+  - source_id: snoek2012
+    locator: Section 2.2, PDF p.3, incumbent notation and probability-of-improvement definition preceding
+      Eq.1.
+    relation: supports
+- claim_id: gaussian-positive-deviation-score
+  kind: mechanism
+  statement: For a Gaussian predictive value with mean m and strictly positive standard deviation s, the
+    minimization score at threshold T is Phi((T - m)/s), where Phi is the standard normal cumulative distribution
+    function. For maximization the corresponding event has score Phi((m - T)/s). The maximization expression
+    follows by reversing the event direction. The denominator is the standard deviation, not the variance.
+    Strict and inclusive events have the same probability in this positive-variance Gaussian case.
+  evidence:
+  - source_id: jones2001
+    locator: Section 6, PDF p.20 / printed p.364, Eq.27 and standard-error definition; maximization and
+      continuity qualifications are direct event derivations.
+    relation: supports
+  - source_id: snoek2012
+    locator: Section 2.2, PDF p.3, Eq.1 and predictive variance notation sigma squared.
+    relation: supports
+- claim_id: probability-not-improvement-magnitude
+  kind: scope
+  statement: PI measures the probability of its threshold event rather than the magnitude of gain beyond
+    the threshold. Expected improvement instead averages a nonnegative improvement amount. Consequently
+    the two criteria can rank candidates differently even under Gaussian predictions and the same incumbent.
+    This distinction concerns their objectives and does not assert a universal performance ordering between
+    them.
+  evidence:
+  - source_id: snoek2012
+    locator: Section 2.2, PDF p.3, separate PI and EI definitions in Eqs.1–2; possible ranking difference
+      follows directly from the two formulas.
+    relation: supports
+  - source_id: jones2001
+    locator: Section 6, PDF p.20 / printed p.364, Eq.27; Section 7, PDF p.27 / printed p.371, Eqs.34–35.
+    relation: supports
+- claim_id: point-mass-event-boundary
+  kind: scope
+  statement: At zero predictive variance the random value equals m, so the minimization probability is
+    the indicator of m < T for a strict event or m <= T for an inclusive event. In particular, at m =
+    T these probabilities are zero and one, respectively. For every positive Gaussian standard deviation
+    at m = T, the CDF score is one half, even as s tends to zero. The singular point-mass case therefore
+    requires the declared event convention instead of division by zero or an unconditional zero rule.
+    These boundary statements are direct curator derivations from the event definition.
+  evidence:
+  - source_id: jones2001
+    locator: Section 6, PDF p.20 / printed p.364, inclusive event preceding Eq.27; the point-mass extension
+      is derived from that event, not a printed source algorithm.
+    relation: supports
+  - source_id: snoek2012
+    locator: Section 2.2, PDF p.3, Eq.1; its positive-standard-deviation expression supplies the tie-limit
+      comparison.
+    relation: supports
+- claim_id: fixed-event-hyperparameter-integration
+  kind: mechanism
+  statement: Snoek and colleagues explicitly integrate PI over the posterior distribution of Gaussian-process
+    hyperparameters. When the same threshold event is used for every hyperparameter setting, the average
+    conditional probability is the probability under the predictive mixture, by the law of total probability.
+    This does not require replacing the mixture by a Gaussian. Evaluating a Gaussian CDF using only the
+    mixture mean and variance is generally a different approximation. The latter distinction is a curator
+    qualification of the stated integration rule.
+  evidence:
+  - source_id: snoek2012
+    locator: Section 3.1, PDF p.4, Eq.6 and the following paragraph explicitly naming probability of improvement
+      and EI; fixed-event and moment-matching qualifications follow from the probability definition.
+    relation: supports
+- claim_id: criterion-within-query-selection
+  kind: scope
+  statement: Maximizing PI can supply a next-evaluation rule, but the scalar criterion alone does not
+    specify an initial design, predictive model fitting, numerical acquisition optimizer, stopping rule
+    or complete sequential search procedure. Jones combines the criterion with additional steps in Method
+    4 and describes a separate enhanced procedure with multiple targets. Those procedures are not exact
+    aliases for the criterion, and their empirical behavior or convergence properties are not inherited
+    by its definition.
+  evidence:
+  - source_id: snoek2012
+    locator: Section 2, PDF p.2, separate model and acquisition choices; Section 2.2, PDF p.3, next-query
+      maximization and PI Eq.1.
+    relation: supports
+  - source_id: jones2001
+    locator: Section 6, PDF pp.20–26 / printed pp.364–370, Method 4, target selection and Enhanced Method
+      4.
+    relation: supports
+identity_notes: PI is the predictive probability of meeting a stated improvement threshold, with an explicit
+  strict or inclusive event convention. Its positive-variance Gaussian CDF form is a model-specific evaluation
+  of that event, not the general definition of an optimizer. It differs from EI's expected gain and from
+  MES's information target; a bounded one-sample ranking relation does not make PI and MES identical.
+  The maintained PiModel is a semi-supervised consistency method and is unrelated.
+limitations:
+- For a minimization incumbent b and margin xi >= 0, setting T = b - xi gives gain > xi for a strict event
+  and gain >= xi for an inclusive event. Positive-variance Gaussian continuity makes their probabilities
+  equal, but this equality does not extend to arbitrary predictive atoms. The zero-variance event must
+  be evaluated directly; the printed formulas do not specify every degenerate convention.
+- Snoek Section 2.2, PDF p.3 observes noisy y_n but expresses the incumbent through latent f(x_n). The
+  inspected passage does not prescribe a unique operational noisy-incumbent estimator. A fixed data-derived
+  threshold, an uncertain latent incumbent and a future noisy measurement define different events. A random
+  incumbent requires its joint dependence with the prospective value; substituting its mean is not generally
+  equivalent. No particular noisy, batch, constrained or multiobjective extension is specified here.
+- The target policy is intentionally not reconstructed from the examples. Jones PDF p.21 / printed p.365
+  uses an observed-best target, whereas the captions on PDF pp.22–23 / printed pp.366–367 describe percentages
+  below the surface minimum; Enhanced Method 4 separately uses a surface-minimum and observed-range formula
+  on PDF p.23. The p.21 wording about T being too high and global search also conflicts with the decreasing-target
+  direction on p.23. These distinctions are retained as source ambiguities, not silently unified into
+  one schedule or presented as formal errata.
+- 'A high PI value is conditional on the chosen predictive model and event; it is not a calibrated guarantee
+  about the unknown objective or the remaining optimization error. Increasing predictive spread does not
+  universally increase PI: for a fixed minimization threshold its direction depends on the mean relative
+  to that threshold. The retained bounded examples separate probability and gain rankings without establishing
+  a universal advantage for either acquisition.'
+- Hyperparameter integration in Snoek PDF p.4 concerns averaging conditional acquisition values. For a
+  fixed event, probability averaging is valid; replacing the predictive mixture by a Gaussian using its
+  first two moments generally changes the score. If the threshold varies with hyperparameters or represents
+  a random incumbent, the joint event must be specified rather than identified with the same fixed-threshold
+  probability.
+- Jones PDF pp.25–26 / printed pp.369–370 derives a matching lower-confidence-bound coefficient from an
+  attained ratio optimum with positive standard errors. That coefficient depends on the target and current
+  predictive functions and need not be nonnegative. A fixed target is therefore not a fixed confidence-bound
+  policy. Snoek PDF p.3 also gives an unnegated lower-confidence expression alongside a generic acquisition-maximization
+  convention; that ancillary direction convention does not change PI Eq.1. Restricted ranking correspondences
+  do not make PI identical to confidence-bound or entropy-information acquisitions.
+- Evidence is the typeset 2001 Jones article on a university mirror and the official nine-page 2012 Snoek
+  proceedings PDF. Publication, PDF build and acquisition metadata are distinct. The cited Kushner (1964)
+  original PDF was not obtained after a publisher HTTP403 response, and no historical-priority or original-algorithm
+  reconstruction claim is made. Cited convergence results and complete empirical procedures were not reproduced
+  or adopted.
+- The separate original curator calculations use exact Fraction arithmetic for finite events and ratio
+  algebra, and floating Gaussian and entropy functions for bounded examples. They are not author-code
+  replication, a fitted Gaussian-process optimizer, a benchmark, a general convergence proof or validation
+  of extreme-tail numerical accuracy.
+evidence_sources:
+- source_id: jones2001
+  title: A Taxonomy of Global Optimization Methods Based on Response Surfaces
+  authors:
+  - Donald R. Jones
+  source_type: primary_paper
+  url: https://research.cs.wisc.edu/areas/ai/airg/jones01taxonomy.pdf
+  version: Journal of Global Optimization21(4):345–383, December2001. Typeset2001 article on a university
+    mirror,39 article pages plus a reproduction-rights notice at PDF40; build/modification/hosting timestamps
+    are not publication dates.
+  access_level: full_text
+  accessed_at: '2026-10-15T02:05:39Z'
+  sha256: 26035885efeda4fb970905f21d738d5e42962f7db1d6edba28a7f3f5748a0f5d
+- source_id: snoek2012
+  title: Practical Bayesian Optimization of Machine Learning Algorithms
+  authors:
+  - Jasper Snoek
+  - Hugo Larochelle
+  - Ryan P. Adams
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf
+  version: Advances in Neural Information Processing Systems25(2012), official metadata pages2951–2959;
+    PDF labels1–9. Official2012 proceedings PDF; no arXiv-version substitution. No PDF build dates supplied
+    in this file.
+  access_level: full_text
+  accessed_at: '2026-10-15T02:05:38Z'
+  sha256: 218a2ffbff18a6bf45132b9137f3a389f60ad4bd164fab5f4805a06b397a2255
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: related_match
+  rationale: PI assigns a scalar probability through a mathematical rule involving a predictive law, threshold
+    and event direction. This relates the specific acquisition criterion to the pinned mathematical-function
+    concept without equating it with that broad class, a predictive model, a neural layer or a complete
+    optimizer. No upstream subclass membership is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T04:14:51Z'
+  updated_at: '2026-10-15T04:14:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

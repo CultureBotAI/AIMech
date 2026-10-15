@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expected improvement acquisition · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Expected improvement acquisition</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Expected improvement acquisition</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:ExpectedImprovementAcquisition</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    An acquisition criterion for deterministic scalar minimization that scores a candidate evaluation by the predictive expected positive reduction below the best observed objective value, with a closed form in the predictive mean and standard deviation under Gaussian uncertainty.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Expected improvement is the expected nonnegative gain relative to a stated threshold; it is a criterion rather than a full optimizer. TPE implements a particular density-model ranking and SMAC uses expected-improvement proposals inside a broader configuration procedure. Neither maintained record is the general EI criterion. Probability of improvement measures an event probability rather than gain magnitude; EGO uses EI within a complete original optimization procedure.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#expected-positive-improvement</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For deterministic scalar minimization, let b be the smallest observed objective value and Y the predictive uncertainty about the value at a candidate input. Expected improvement is E[max(b - Y, 0)]. It weights each positive improvement by its predictive probability, retaining the amount of gain rather than only the probability P(Y &lt; b). The random variable represents uncertainty about an unevaluated deterministic function, not observation noise.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones1998">Efficient Global Optimization of Expensive Black-Box Functions</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, PDF p.17 / printed p.471, improvement definition and Eq.14.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#gaussian-standard-deviation-form</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    If Y is Gaussian with mean m and strictly positive standard deviation s, define z = (b - m)/s. Then EI = (b - m) Phi(z) + s phi(z), where Phi and phi are the standard normal distribution and density. The denominator and density multiplier use s, not the variance s squared. In the inspected EGO construction, m and s come from a fitted DACE predictor and its estimated prediction error.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones1998">Efficient Global Optimization of Expensive Black-Box Functions</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, PDF pp.17–18 / printed pp.471–472, Eq.15 and definitions of Y, s, Phi and phi.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fixed-incumbent-monotonicity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Holding the incumbent fixed with finite m and s &gt; 0, the partial derivatives are dEI/dm = -Phi(z) and dEI/ds = phi(z). EI therefore decreases with predictive mean and increases with predictive standard deviation when the other argument is fixed. A lower bound on m and an upper bound on s give an EI upper bound over an input box. These are partial derivatives of the score, not assertions of monotonicity in the input coordinates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones1998">Efficient Global Optimization of Expensive Black-Box Functions</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, PDF pp.18–19 / printed pp.472–473, displayed partial derivatives and rectangular-region bound.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#degenerate-prediction-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a degenerate predictive law with s = 0, Eq.14 gives EI = max(b - m, 0); division by s in Eq.15 is not defined there. Under exact noiseless interpolation at an already observed input, m equals its observed value and is at least b, so EI is zero. Zero variance by itself does not imply zero improvement at an arbitrary input. The general degenerate-law statement is a direct curator derivation from the defining expectation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones1998">Efficient Global Optimization of Expensive Black-Box Functions</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp.7–9 / printed pp.461–463, Eqs.7–11 and interpolation; Section 4.1, PDF pp.17–18 / printed pp.471–472, Eq.14 and zero-at-samples statement; general s = 0 qualification follows from Eq.14.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#one-evaluation-acquisition-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    EI assesses the gain from one prospective evaluation relative to the current incumbent. Its maximization supplies a query-selection rule, but the score alone does not specify a surrogate-fitting procedure, initial design, stopping policy or complete sequential optimizer. The original EGO algorithm combines this criterion with those additional stages; EI is not an exact alias for EGO.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones1998">Efficient Global Optimization of Expensive Black-Box Functions</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, PDF pp.17–19 / printed pp.471–473; Section 4.2, PDF pp.19–21 / printed pp.473–475, algorithm and one-additional-point limitation.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The inspected formulation uses noiseless observations and a fixed observed incumbent. With noisy data, the best observation need not be the best latent value, and expected improvement in a noisy measurement is not generally improvement in the underlying objective. Uncertainty in a latent incumbent would require an appropriate joint model. Section 6, PDF p.33 / printed p.487 explicitly leaves noisy-function optimization unresolved; no noisy, constrained, batch or multiobjective EI extension is specified here.</li>
+      <li>The DACE mean and prediction error use estimated correlation and variance parameters. Their uncertainty is not fully integrated, and the source notes that its standard error may be too small. Expected gain is conditional on that predictive approximation; it is neither a calibrated probability-of-success guarantee nor a bound on the true remaining optimization error (Section 2, PDF p.9 / printed p.463; Section 4.2, PDF pp.20–21 / printed pp.474–475).</li>
+      <li>Changing the objective by a nonlinear increasing transformation preserves its ordering but can change improvement magnitudes and acquisition rankings. The source actually fits transformed responses in EGO. EI on the transformed scale must not be identified with EI on the original scale or obtained by applying the transform to a predicted mean alone. The transformation distinction is supported by the inspected procedure and separate bounded curator examples, not by a universal invariance claim (Section 4.2, PDF pp.19–20 / printed pp.473–474).</li>
+      <li>EI depends on both predictive location and spread. It is distinct from probability of improvement, variance maximization and optimizer-information acquisitions. The original bounded curator checks separate exact rational interpolation from floating Gaussian CDF, quadrature, derivative and transformation examples; they do not implement EGO or establish numerical accuracy in extreme Gaussian tails.</li>
+      <li>Evidence is the 38-page journal-layout mirror of Jones, Schonlau and Welch (1998), not a verified byte-identical publisher download. The separate 43-page author manuscript was cover-inspected only, and the cited Mockus et al. (1978) chapter was not obtained. No earliest-invention claim is made. The source Appendix 1 derivative-sign discrepancy and fixed-correlation Hessian caveat concern separate surrogate derivations and do not change the defining EI expectation or its positive-standard-deviation formula.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html" style="font-weight: 600;"><code>AIO:MathematicalFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Mathematical Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            EI assigns an expected gain to a candidate through a mathematical rule involving a predictive law and incumbent. This relates the specific acquisition rule to the pinned mathematical-function concept without equating it with that broad class, an activation function or a complete optimizer. It asserts no upstream subclass.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-jones1998">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">jones1998</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openturns.github.io/openturns/papers/jones1998.pdf" target="_blank" rel="noopener">Efficient Global Optimization of Expensive Black-Box Functions</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Donald R. Jones, Matthias Schonlau, William J. Welch
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1023/A:1008306431147</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:356260d0303a…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T04:14:51Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T04:14:51Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ExpectedImprovementAcquisition.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ExpectedImprovementAcquisition.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

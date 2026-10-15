@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parallel predictive entropy search · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Parallel predictive entropy search</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Parallel predictive entropy search</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ParallelPredictiveEntropySearch</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A batch Bayesian optimization algorithm that jointly selects parallel evaluations of one scalar objective using approximate information gain about its maximizer location, with sampled optimizer locations and Gaussian expectation-propagation approximations to conditional batch observation covariance log determinants.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The original PPES method seeks joint information from a batch about a single-objective maximizer using sampled optimizer locations, EP and full batch predictive covariance. Scalar PES does not itself specify that joint-batch acquisition, and constrained multi-objective PPESMOC targets a different random object. Historical PPES abstract-only and future-extension mentions were research context, not a maintained record.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#joint-batch-optimizer-information</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Parallel predictive entropy search selects Q input locations together for parallel noisy evaluations of one scalar objective. In the source maximization convention, its ideal acquisition is I(x_star; Y_S | D), information about the global maximizer location from the joint batch observation vector. Assume a posterior over functions with a finite attained maximum on the compact search domain, a measurable maximizer selection rule when needed, and finite mutual information. Mutual information symmetry rewrites this target as joint predictive entropy minus expected joint entropy conditional on the maximizer. It remains a one-step information objective even though the batch is selected jointly.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-shah2015-ppes">Parallel Predictive Entropy Search for Batch Global Optimization of Expensive Objective Functions</a></span>
+        <span>· <strong>Locator:</strong> Section2, PDFp.2, problem and existence assumption; Section3, PDFp.3, Eqs1–2; Section5, PDFp.8, one-step versus within-batch distinction.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#relaxed-maximizer-conditioning</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a sampled maximizer location, relax the all-domain maximum condition to comparisons f(x_star) &gt;= f(x_q) at the Q proposed locations and a soft comparison with the largest observed noisy response y_max. For positive observation noise standard deviation sigma and a nonempty observation history, the relaxed latent density is proportional to the ordinary GP posterior over batch values and f(x_star), multiplied by the Q comparison indicators and Phi((f(x_star) - y_max)/sigma). Normalize this product. The noisy incumbent factor is a heuristic restriction; it neither checks every past latent function value nor excludes a larger unqueried value, and the result is not exact global-maximizer conditioning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-shah2015-ppes">Parallel Predictive Entropy Search for Batch Global Optimization of Expensive Objective Functions</a></span>
+        <span>· <strong>Locator:</strong> Section3.1, PDFpp.3–4, relaxed conditions and Eq 4; Eq 4 omits the required normalization.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-shah2015-ppes-supplement">Parallel Predictive Entropy Search for Batch Global Optimization of Expensive Objective Functions: Supplementary Material</a></span>
+        <span>· <strong>Locator:</strong> PDFp.1, Eq 1 states the relaxed product with proportionality.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#joint-gaussian-ep-projection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Approximate each hard comparison and the soft incumbent factor with a scaled Gaussian site along a linear projection of the Q + 1 latent values. Hard sites use f(x_star) - f(x_q), and the incumbent site uses f(x_star). EP updates projected cavity moments and site parameters. A proper resulting Gaussian supplies a full conditional covariance across all Q query locations by marginalizing out f(x_star). Add independent observation-noise covariance sigma^2 I after latent approximation. This keeps dependence among batch locations within the Gaussian approximation; it does not establish exact conditional moments or guaranteed EP convergence.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-shah2015-ppes">Parallel Predictive Entropy Search for Batch Global Optimization of Expensive Objective Functions</a></span>
+        <span>· <strong>Locator:</strong> Section3.1, PDFp.4, site directions, covariance part of Eq 5, Gaussian marginalization and observation-noise addition.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-shah2015-ppes-supplement">Parallel Predictive Entropy Search for Batch Global Optimization of Expensive Objective Functions: Supplementary Material</a></span>
+        <span>· <strong>Locator:</strong> PDFpp.1–2, Eqs1–4 and6–14, intended EP site/cavity/moment structure; literal formula defects are retained below.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#approximate-maximizer-samples</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a stationary kernel with a normalized spectral density, form random Fourier features with amplitude sqrt(2 alpha / m), sample linear feature weights from their Gaussian posterior and optimize the sampled feature function to approximate a posterior maximizer draw. Finite feature counts and local numerical maximization introduce approximation. The paper also describes using the maximizer of the posterior mean as a single-location plug-in; its identification of that location with the MAP of the optimizer distribution is not valid in general. The reported experiments use random features and reject draws leading to failed EP runs, a policy that can change the distribution of retained optimizer samples.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-shah2015-ppes">Parallel Predictive Entropy Search for Batch Global Optimization of Expensive Objective Functions</a></span>
+        <span>· <strong>Locator:</strong> Section3.2, PDFpp.4–5, posterior-mean plug-in, Eq 6 and feature posterior; Section4, PDFp.6, rejection of failed EP runs. The MAP identification is a source caveat, not adopted as an identity.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#joint-covariance-log-determinant-score</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each sampled hyperparameter setting and approximate maximizer, compute one half of the difference between log det(K + sigma^2 I) and log det(Sigma + sigma^2 I), where K is the ordinary latent batch covariance and Sigma is the EP conditional latent batch covariance. Average these differences over the samples as in Eq 7, with one half multiplying the whole difference. Positive-definite observation covariances are required for these finite Gaussian entropies. The Q-by-Q determinants retain batch correlation; they are generally different from a sum of single-query log-variance acquisitions and are unchanged by consistent permutation of batch indices. At Q = 1 the determinants reduce to variances. Hyperparameter averaging is an average of conditional information approximations, not generally the entropy difference of a fully marginalized predictive mixture.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-shah2015-ppes">Parallel Predictive Entropy Search for Batch Global Optimization of Expensive Objective Functions</a></span>
+        <span>· <strong>Locator:</strong> Section3, PDFp.3, Gaussian predictive entropy; Section3.1, PDFp.4, conditional entropy; Section3.3, PDFp.5, Eq 7 and hyperparameter sampling; Section4, PDFp.6, batch permutation symmetry.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#joint-approximate-acquisition-optimization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Optimize the approximate acquisition jointly over the Q times input dimension coordinates rather than filling the batch by independent single-query choices. The published covariance derivative in Eq 9 holds the fitted EP site variances fixed while differentiating the GP covariance. It is valid under that fixed-site convention; convergence of EP does not generally make the site parameters independent of GP parameters, so this expression is not certified as the derivative through refitted EP or of exact mutual information. The reported random initialization followed by gradient ascent is local numerical optimization and does not guarantee the globally best batch or an optimal multi-step evaluation policy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-shah2015-ppes">Parallel Predictive Entropy Search for Batch Global Optimization of Expensive Objective Functions</a></span>
+        <span>· <strong>Locator:</strong> Section3.3, PDFp.5, Eqs 8–9 and site-derivative assertion; Section4, PDFp.8, initialization and admitted local-optimization limitation; Section5, PDFp.8, one-step information objective.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Compactness alone does not guarantee finite attained maxima for arbitrary sample functions. A posterior maximizer target, tie-selection convention and finite information must be well defined. The displayed noisy-incumbent factor assumes a nonempty history and positive sigma; the record does not specify a general zero-noise, singular-covariance or empty-history implementation.</li>
+      <li>Official NIPS 2015 main PDF has 9 pages; its linked ZIP contains a separate 2 page supplement. arXiv 1511.07130v1 was submitted November 23, 2015 and has 12 pages including the appendix. The checked method and appendix displays retain the same substantive caveats; publication, submission and PDF build dates are kept distinct. No author implementation was inspected or executed.</li>
+      <li>Main Eq 4 on p.4 omits normalization, while supplement Eq 1 uses proportionality. Main Eq 5 and supplement Eq 3 give a malformed Gaussian mean update with a vector-plus-matrix sum and inverse. The covariance part is the supported precision-addition form. The record does not certify a literal implementation of the printed mean formula.</li>
+      <li>Supplement p.1 Eq 5 has a site sum stopping at Q despite Q+1 sites and inconsistent parameter notation. On p.2, Eq 7 uses projected inverse covariance instead of the projected covariance in the cavity-variance calculation; Eq 11 uses squared cavity mean where the derivative identity requires squared cavity variance; beta for the soft site contains an extra Phi; Eqs10–11 omit the soft-probit noise-dependent moment factors; Eq 13 inverts a natural-mean difference that should be multiplied by the site variance. These are inspected source algebra caveats, not a claimed author erratum or complete repaired PPES implementation.</li>
+      <li>The posterior-mean maximizer is not generally the posterior mode of the maximizer location. A finite three-point Gaussian example with means (1,0,0) and variances (0.01,100,100) gives the first point a win probability below one third, despite its uniquely highest mean; symmetry gives each other point a larger optimizer probability. The supporting audit uses an analytic upper bound and a differentiable-kernel realization, not Monte Carlo estimation.</li>
+      <li>Converged EP site parameters can depend on the prior. For one standard zero-threshold Gaussian truncation with prior variance v, the projected variance is c v, c = 1 - 2/pi, and site precision is (1/c - 1)/v. The derivative through refitting is c, whereas freezing the site gives c^2. This bounded counterexample refutes general site constancy; it does not implement the complete PPES acquisition or audit all hypotheses of its cited EP references.</li>
+      <li>Finite random features, approximate maximizer search, relaxed conditioning, Gaussian EP projection, rejected failed EP samples, Monte Carlo hyperparameters and local batch optimization all affect the operational approximation. The Figure 1 reference calculation itself uses discretization, rejection sampling and a kernel-density entropy estimate. The p.7 experimental prose says 200 random initializations while the Figure 3 caption on p.8 says 100; no aggregate empirical count or performance conclusion is adopted. No exact noisy information, unbiased accepted-sample, global-optimization, universal accuracy, runtime or superiority claim is made.</li>
+      <li>The original bounded checks in research/discovery/ppes-boundaries.py use rational matrices and finite information channels, plus explicitly floating Gaussian CDF, moment and entropy calculations. They are supporting algebra and counterexamples, not full EP inference, external-code execution, a GP benchmark or independent scientific approval. Scalar PES, scalar optimum-value MES/OPES and constrained multi-objective PPESMOC remain distinct operational identities; the Q = 1 ideal-information overlap does not identify their approximations.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ActiveLearning.html" style="font-weight: 600;"><code>AIO:ActiveLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Active Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PPES adaptively queries informative batches of objective evaluations. This relates to querying an information source, but scalar black-box optimization is not identical to the pinned task of labeling data for predictive learning. This qualified curator mapping asserts neither exact identity nor an upstream subclass relation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-shah2015-ppes">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">shah2015-ppes</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2015/file/57c0531e13f40b91b3b0f1a30b529a1d-Paper.pdf" target="_blank" rel="noopener">Parallel Predictive Entropy Search for Batch Global Optimization of Expensive Objective Functions</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Amar Shah, Zoubin Ghahramani
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:001c9bdbac5f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-shah2015-ppes-supplement">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">shah2015-ppes-supplement</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2015/file/57c0531e13f40b91b3b0f1a30b529a1d-Supplemental.zip" target="_blank" rel="noopener">Parallel Predictive Entropy Search for Batch Global Optimization of Expensive Objective Functions: Supplementary Material</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Amar Shah, Zoubin Ghahramani
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6047e004013d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T04:14:51Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T04:14:51Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ParallelPredictiveEntropySearch.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ParallelPredictiveEntropySearch.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

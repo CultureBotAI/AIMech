@@ -1,0 +1,226 @@
+id: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+name: Predictive entropy search for multi-objective Bayesian optimization with constraints
+concept_kind: algorithm
+definition: A Bayesian optimization algorithm for multiple objectives and unknown constraints that selects
+  evaluations using approximate information gain about the feasible Pareto set, estimated through sampled
+  feasible Pareto representatives and task-factorized Gaussian expectation propagation.
+definition_evidence:
+- source_id: garrido2019-pesmoc
+  locator: Sections2.2–2.4, institutional PDFpp.11–20, ideal feasible-Pareto information target, sampling
+    and EP approximation.
+  relation: supports
+claims:
+- claim_id: feasible-pareto-set-information
+  kind: mechanism
+  statement: PESMOC selects evaluations to learn the Pareto set in input space for multiple objectives
+    under unknown inequality constraints. In the source minimization convention, a point is feasible when
+    every constraint c_j(x) is nonnegative; a feasible point dominates another when it is no worse in
+    all objectives and strictly better in at least one. Assume a well-defined posterior over attained,
+    nonempty feasible Pareto sets and finite mutual information, with ties handled explicitly. At fixed
+    surrogate hyperparameters the ideal acquisition is I(X_star; y(x) | D), equivalently predictive entropy
+    minus its expected value conditional on the feasible Pareto set. The implemented score approximates
+    this target; it is not entropy of only the Pareto front or a scalar optimum value.
+  evidence:
+  - source_id: garrido2019-pesmoc
+    locator: Section1, institutional PDFpp.6–7 (printedpp.5–6), Eq1 and weak-plus-one-strict dominance
+      definition; Section2.2, PDFpp.11–13, Eqs4–6. Subsequent strict quantified characterization is qualified
+      below.
+    relation: supports
+- claim_id: objective-and-constraint-surrogates
+  kind: mechanism
+  statement: The method models each objective and each constraint with an independent Gaussian process
+    and Gaussian observation noise. Conditional on fixed independent model hyperparameters, the ordinary
+    predictive distribution factors over the objective and constraint tasks. Conditioning all tasks on
+    a shared feasible Pareto set generally introduces dependence, which the later Gaussian projection
+    does not retain across tasks. Averaging conditional acquisition values over sampled hyperparameters
+    is also an approximation, rather than the entropy of the resulting predictive mixture.
+  evidence:
+  - source_id: garrido2016-pesmoc
+    locator: SectionII, PDFp.2, independent GP priors and zero-mean Gaussian noise.
+    relation: supports
+  - source_id: garrido2019-pesmoc
+    locator: Section2.2, PDFp.12, Eq5 and noise paragraph; Section4, PDFp.33, acquisition averaging over
+      sampled hyperparameters.
+    relation: supports
+- claim_id: sampled-feasible-pareto-representatives
+  kind: mechanism
+  statement: Approximate the expectation over Pareto sets by sampling random-feature approximations to
+    both objective and constraint posteriors. For each draw, search candidate locations, discard locations
+    violating a sampled constraint, and retain a finite representation of the nondominated feasible locations.
+    The paper uses a grid and discusses evolutionary search for higher dimensions. Finite features, finite
+    search and compression of the Pareto set make these approximate samples. The paper does not specify
+    a general acquisition policy for posterior draws with no feasible solution; relaxing a reported recommendation
+    threshold is a separate operation.
+  evidence:
+  - source_id: garrido2019-pesmoc
+    locator: Section2.2, PDFp.14, random-feature sampling, grid search and feasibility filtering; Section2.5,
+      PDFp.22, finite Pareto representatives; Section4, PDFp.33, separate recommendation-threshold relaxation.
+    relation: supports
+- claim_id: finite-feasibility-and-comparison-ep
+  kind: mechanism
+  statement: 'For a retained feasible Pareto-set sample, approximate the conditioning calculation on the
+    union of sampled Pareto locations, previous evaluation locations and the candidate. Feasibility factors
+    constrain sampled Pareto locations; comparison factors couple objective comparisons with feasibility
+    of competing locations. Expectation propagation replaces these non-Gaussian factors by task-specific
+    Gaussian factors: univariate constraint factors and bivariate within-objective factors for location
+    pairs. Reuse the factors independent of the candidate and update candidate-dependent factors once
+    in the stated approximation. This projection discards cross-task dependence and is not exact whole-domain
+    feasible Pareto-set conditioning.'
+  evidence:
+  - source_id: garrido2019-pesmoc
+    locator: Sections2.3–2.4, PDFpp.14–17, Eqs8–14 and finite restriction/reuse paragraphs; literal self-pair
+      and constraint-location caveats are retained below.
+    relation: supports
+  - source_id: garrido2019-pesmoc-supplement
+    locator: Sections1–4, PDFpp.3–20, cavity, tilted moments, task-factorized sites and Gaussian reconstruction;
+      Section4.4, PDFpp.21–23, candidate computation.
+    relation: supports
+- claim_id: noisy-taskwise-variance-score
+  kind: mechanism
+  statement: Within the factorized Gaussian approximation, each task contributes one half of its ordinary
+    log predictive observation variance minus the sample average of its conditional log predictive observation
+    variance. Add that task’s observation-noise variance to the latent variance in both terms and require
+    positive logarithm arguments. Summing over objective and constraint tasks gives the coupled score.
+    The common factor one half follows Gaussian entropy; the main acquisition display omits it, which
+    preserves uncosted rankings but not numerical information units. Task additivity belongs to the approximation
+    and is not generally an exact decomposition of joint feasible-Pareto mutual information.
+  evidence:
+  - source_id: garrido2019-pesmoc
+    locator: Section2.4, PDFpp.18–19, Eqs15–18 and Gaussian-noise paragraph, read with Eq7 on PDFp.13
+      and the coefficient/index caveats below.
+    relation: supports
+  - source_id: garrido2019-pesmoc-supplement
+    locator: Section4.4, PDFpp.21–23, Eq54 and final noise-variance paragraph.
+    relation: supports
+  - source_id: pesmoc-implementation
+    locator: 'Pinned author implementation at commit fa54faf5b5d2e85878a1d20345898dcc0babcb80, evaluate_acquisition_function_given_EP_solution,
+      lines6304–6308 and6331–6346: supports objective/constraint noise addition and the pre-clipping half-log
+      variance terms only. Clipping before averaging is a separate version-specific choice retained in
+      limitations, not asserted equivalence to the paper acquisition.'
+    relation: supports
+- claim_id: coupled-and-decoupled-task-selection
+  kind: mechanism
+  statement: In coupled use, maximize the sum of task contributions to choose one location for evaluating
+    all objectives and constraints. When tasks can be evaluated separately, maximize their individual
+    approximate contributions and compare the maxima to select a task and location. Coupled and decoupled
+    selection are modes of PESMOC. The displayed comparison contains no evaluation-cost divisor and does
+    not guarantee an optimal scheduler or lower wall-clock cost when task costs differ. Multi-location
+    parallel batch selection requires a separate acquisition construction.
+  evidence:
+  - source_id: garrido2019-pesmoc
+    locator: Section2.4, PDFpp.18–20, Eqs16–18 and selection paragraphs; Section5, PDFpp.63–64, comparison
+      of individual acquisitions.
+    relation: supports
+  - source_id: garrido2016-pesmoc
+    locator: SectionIV, PDFp.6, parallel batch extension identified as future work.
+    relation: supports
+identity_notes: PESMOC targets a feasible Pareto set through objective dominance and constraint-feasibility
+  factors. This differs from unconstrained PESMO and from scalar PESC even though the methods share approximate
+  predictive-entropy reasoning. The single-query mechanism is distinct from the joint-batch covariance
+  construction of PPESMOC. Version-specific paper, appendix and implementation limitations remain explicit.
+limitations:
+- Existence and measurability of the feasible Pareto target require assumptions beyond boundedness of
+  the input domain. Distinguish no observed feasible incumbent, no feasible grid point in an approximate
+  search, and a posterior function draw whose feasible region is empty. The paper’s recommendation relaxation
+  on PDFp.33 is not a specified posterior-empty-draw acquisition policy. Per-constraint probability thresholds
+  also do not imply the same simultaneous feasibility probability.
+- The 2019 institutional author manuscript is dated May3,2019 and has a visible gap from printedp.8 to
+  printedp.10; the separate official supplement is dated May13,2019. The six-page September2016 arXivv2
+  is an earlier version. No claim of reading the inaccessible final publisher layout or the missing page
+  is made; relevant accessible methods and the earlier independent-prior assumptions are cited explicitly.
+- 'Main Eq8 on PDFp.15 includes self comparisons with Theta(0)=1, making the literal product zero for
+  any nonempty feasible supplied set; removing self comparisons still requires tie handling and does not
+  make nondominated-membership factors enforce equality to the complete Pareto set. Eq10 has the minimization
+  comparison orientation stated in the main text. The prose saying that every supplied Pareto point dominates
+  each other point is too strong: being better in one objective does not imply dominance.'
+- Main PDFp.17 Eq13 and supplement PDFp.9 Eq15 place constraint factors at the sampled Pareto location
+  although their exact comparison factors depend on competitor feasibility. Main Eq7 lacks a half coefficient
+  on the constraint log-variance terms; Eq15 lacks a common half coefficient; Eqs17–18 bind task indices
+  instead of the Pareto-sample index in the expectation. These displays are not certified literal executable
+  formulas.
+- The supplement contains further algebraic and notation defects, including the feasibility log-normalizer
+  curvature in PDFp.12 Eq22, the observation-first difference orientation in PDFp.15 Eq30, exponential
+  grouping in PDFpp.16–17 Eqs40/43, singular difference-Hessian inverses in PDFp.18 Eqs45–48, and covariance/precision
+  mixing in PDFp.22 Eq61. The same section first describes a precision diagonal as a variance and then
+  gives an inverse diagonal on p.23. Its damping prose on p.24 ends with non-positive definiteness as
+  the stopping state. The record preserves the supported EP mechanism without claiming a complete repaired
+  implementation or guaranteed convergence.
+- 'Selective inspection of a separately pinned May2020 author implementation provides context, not an
+  official erratum: it uses competitor constraint values, a minimization sign, zeroed self sites, half-log
+  entropy differences and inverse precision construction. It also caps retained observations, changes
+  candidate covariance, damps one candidate pass, and clips sampled task scores before averaging. The
+  empty-sample and numerical safeguards are version-specific. No author code was executed, and no equivalence
+  to every paper equation is asserted.'
+- Finite features, approximate search, finite Pareto representatives, EP factorization, limited candidate
+  updates and hyperparameter averaging introduce approximation. The original bounded checks in research/discovery/pesmoc-boundaries.py
+  establish selected finite and Gaussian counterexamples only; they are not a PESMOC implementation, empirical
+  validation, efficiency claim or universal convergence proof.
+evidence_sources:
+- source_id: garrido2019-pesmoc
+  title: Predictive Entropy Search for Multi-objective Bayesian Optimization with Constraints
+  authors:
+  - Eduardo C. Garrido-Merchan
+  - Daniel Hernandez-Lobato
+  source_type: primary_paper
+  url: https://repositorio.uam.es/bitstream/handle/10486/710115/predictive_garrido_neurocomputing_2019_ps.pdf?isAllowed=y&sequence=1
+  version: Institutional author manuscript dated May3,2019; wrapper identifies Neurocomputing361(2019):50–68;
+    journal publication2019-10-07. UAM wrapper built2024-01-22. Incomplete page sequence, not final typeset
+    article.
+  access_level: full_text
+  accessed_at: '2026-10-14T23:12:12Z'
+  sha256: 61320cfbed3777367cd5bf017880e5efbc8601e1230cff5e3c52a8f3555f4e87
+- source_id: garrido2019-pesmoc-supplement
+  title: 'Supplementary Material for: Predictive Entropy Search for Multi-objective Bayesian Optimization
+    with Constraints'
+  authors:
+  - Eduardo C. Garrido-Merchan
+  - Daniel Hernandez-Lobato
+  source_type: primary_paper
+  url: https://ars.els-cdn.com/content/image/1-s2.0-S0925231219308525-mmc1.pdf
+  version: Official Elsevier article-PII supplementary asset; title and both authors match; manuscript/date/PDFmetadata
+    May13,2019;31PDFpages. Retrieved using a conventional filename probe, not a link claimed observed
+    on inaccessible publisher page.
+  access_level: full_text
+  accessed_at: '2026-10-14T23:14:06Z'
+  sha256: 2d19afc6f7d54e3aa16e4069b6bffe56c2a5de4b7b7ad13cea5c8a055504acfe
+- source_id: garrido2016-pesmoc
+  title: Predictive Entropy Search for Multi-objective Bayesian Optimization with Constraints
+  authors:
+  - Eduardo C. Garrido-Merchan
+  - Daniel Hernandez-Lobato
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1609.01051v2
+  version: arXiv1609.01051v2, September26,2016 12:35:35UTC; v1 September5,2016 08:17:17UTC;6PDFpages;
+    PDFbuildSeptember27. Later journal metadata on abstract page does not make this the2019 text.
+  access_level: full_text
+  accessed_at: '2026-10-14T23:12:13Z'
+  sha256: 7c1637319e8da8bf3e0b849c0bbe57c1619fc5a3a3ca9e207a485f434f8a6fff
+- source_id: pesmoc-implementation
+  title: Author PESMOC implementation in Spearmint
+  authors:
+  - Eduardo Garrido-Merchan and Spearmint contributors
+  source_type: official_documentation
+  url: https://github.com/EduardoGarrido90/Spearmint/blob/fa54faf5b5d2e85878a1d20345898dcc0babcb80/spearmint/acquisition_functions/predictive_entropy_search_multiobjective_constraints.py
+  version: Later pinned author fork; README identifies PESMOC branch; selected code only, no execution
+    and no claim of an official paper erratum.
+  access_level: documentation
+  accessed_at: '2026-10-14T23:15:05Z'
+  sha256: 6ac60919d376b427da9093d507b4d7f3bea3464b253083a5f3a484716bebeb20
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ActiveLearning
+  relation: related_match
+  rationale: PESMOC adaptively queries informative objective and constraint evaluations. This relates
+    to the pinned task of querying an information source, but constrained multi-objective optimization
+    is not identical to labeling data for predictive learning. The mapping is a qualified curator assessment,
+    not an exact match or an asserted upstream subclass relation.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T04:14:51Z'
+  updated_at: '2026-10-15T04:14:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
