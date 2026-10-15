@@ -1,0 +1,223 @@
+concept_kind: algorithm
+aliases: []
+review_status: DRAFT
+id: AIMech:CrossEntropyImportanceSampling
+name: Cross-entropy rare-event importance sampling
+definition: A rare-event probability estimation algorithm that fits a parametric importance-sampling proposal
+  by cross-entropy minimization toward the nominal distribution conditioned on the event. Its multilevel
+  construction uses likelihood-ratio-weighted pilot fits at adaptive score thresholds, then a new sample
+  from the fitted proposal to estimate the fixed nominal event probability.
+definition_evidence:
+- source_id: deboer2005
+  locator: Section 1.1, PDF pp. 5–6 / printed pp. 23–24, Algorithm 1.1; Section 2.1, PDF pp. 9–13 / printed
+    pp. 27–31, Equations 9–23 and Algorithm 2.1.
+  relation: supports
+claims:
+- claim_id: fixed-nominal-event-and-ideal-proposal
+  kind: mechanism
+  statement: For a fixed nominal density or mass function f(x;u), score S and target gamma, the estimand
+    is ell=P_u(S(X)>=gamma). An admissible proposal is positive almost everywhere that the event-weighted
+    nominal density is positive. When ell>0, the ideal proposal g*(x)=I{S(x)>=gamma} f(x;u)/ell gives
+    a constant likelihood-ratio contribution ell, but depends on the unknown probability. This ideal motivates
+    proposal fitting rather than supplying a directly available zero-variance solution.
+  evidence:
+  - source_id: deboer2005
+    locator: Section 1.1, PDF p. 5 / printed p. 23, Equations 4–6 and support condition; Section 2.1,
+      PDF pp. 9–10 / printed pp. 27–28, Equations 9–10.
+    relation: supports
+- claim_id: forward-kl-weighted-proposal-fit
+  kind: mechanism
+  statement: Where the objectives are defined, minimizing KL(g* || f(.;v)) is equivalent to maximizing
+    E_u[I{S(X)>=gamma} log f(X;v)]. With pilot draws from f(.;w), its empirical counterpart maximizes
+    the sum of I{S(X_i)>=gamma} [f(X_i;u)/f(X_i;w)] log f(X_i;v). The nominal parameter u remains fixed
+    while the proposal changes. This is the indicated KL direction and an event- and likelihood-ratio-weighted
+    fit, not an unweighted elite fit or a generic variance-minimization objective.
+  evidence:
+  - source_id: deboer2005
+    locator: Section 2.1, PDF pp. 10–12 / printed pp. 28–30, Equations 11–17 and 21–22; Remark 2.2, PDF
+      p. 14 / printed p. 32, Equations 27–29.
+    relation: supports
+- claim_id: multilevel-pilot-thresholds
+  kind: mechanism
+  statement: Starting from v_0=u, draw a pilot sample under the preceding fitted proposal and sort its
+    scores increasingly. The stated finite-sample level is min(gamma, S_(ceil((1-rho)N))) for a usable
+    sample size and 0<rho<1. Fit the event-weighted likelihood using that same pilot sample at the current
+    level, retain the original nominal density in its likelihood ratios, and repeat while the capped level
+    is below gamma. These pilot levels temporarily replace the target event for fitting; they do not change
+    the final estimand.
+  evidence:
+  - source_id: deboer2005
+    locator: Section 2.1, PDF pp. 11–13 / printed pp. 29–31, Equations 18–22 and Algorithm 2.1 Steps 1–4;
+      Algorithm 1.1, PDF p. 5 / printed p. 23.
+    relation: supports
+- claim_id: exponential-mean-fit-example
+  kind: mechanism
+  statement: For the source example of independent exponential coordinates parametrized by positive means,
+    each fitted mean is the corresponding event- and likelihood-ratio-weighted coordinate average. This
+    formula requires positive total usable weight and a result in the admissible positive-mean domain.
+    It is an example-specific closed form; a different exponential family or parametrization requires
+    its own sufficient statistics and likelihood fit.
+  evidence:
+  - source_id: deboer2005
+    locator: Example 2.1, PDF p. 13 / printed p. 31, Equation 24, with Algorithm 1.1 Step 3 on PDF p.
+      5 / printed p. 23.
+    relation: supports
+- claim_id: fresh-final-likelihood-ratio-estimate
+  kind: mechanism
+  statement: After adaptation ends at T, the source generates a new sample from f(.;v_T) and estimates
+    ell by the ordinary average M^-1 sum_j I{S(Y_j)>=gamma} f(Y_j;u)/f(Y_j;v_T). This is not division
+    by the sum of importance weights. Conditional on the learned proposal, a fixed positive M of conditionally
+    independent draws with the stated proposal law and valid event support gives conditional expectation
+    ell, and hence unconditional expectation ell. This qualification does not require the fit to be an
+    exact KL optimum.
+  evidence:
+  - source_id: deboer2005
+    locator: Algorithm 1.1 Step 5, PDF p. 6 / printed p. 24; Section 2.1, Algorithm 2.1 Step 5 and Equation
+      23, PDF p. 13 / printed p. 31; direct change-of-measure and conditional-expectation consequence
+      of Equations 4–6.
+    relation: supports
+- claim_id: probability-estimation-versus-optimization
+  kind: scope
+  statement: The selected static formulation estimates a fixed nominal event probability after proposal
+    adaptation. The tutorial separately defines cross-entropy optimization by repeatedly redefining the
+    associated search problem and setting the fitting weights W to 1. Shared parametric fitting does not
+    identify the rare-event estimator with that optimizer, its FACE controller, self-normalized importance
+    sampling or a classifier cross-entropy loss.
+  evidence:
+  - source_id: deboer2005
+    locator: Section 2.1, Algorithm 2.1, PDF p. 13 / printed p. 31; Section 2.2, PDF pp. 15–16 / printed
+      pp. 33–34, Algorithm 2.3 and its W=1 instruction.
+    relation: supports
+limitations:
+- 'Proposal support is required on every event used in a change of measure, including lower pilot thresholds,
+  not only the final target event. The ideal conditional density requires ell>0. Valid support and an
+  unbiased final mean do not imply finite variance, low relative error or guaranteed variance reduction:
+  a finite second moment of the event likelihood ratio is an additional condition. Restricted-family KL
+  fitting is not generally the same as minimizing that second moment.'
+- The elementary final-estimator argument requires new draws with their stated conditional proposal law.
+  Reusing pilot observations with a denominator fitted from those same observations need not satisfy it,
+  even when all fitted proposals have full support. Adaptive final-sample stopping also needs separate
+  analysis. This does not claim that all reuse or adaptive importance-sampling schemes are invalid; it
+  limits the particular unadjusted averaging argument.
+- The weighted likelihood must have a suitable maximizer in the chosen admissible domain; zero usable
+  weights, singular fits, support collapse and numerical likelihood ratios need explicit policies. The
+  source calls a maximized weighted log likelihood convex on PDF p. 11, but a zero-gradient condition
+  is not a generic maximum certificate. In regular natural exponential-family coordinates the usual log
+  likelihood is concave; other parametrizations change curvature. Its following blanket raw-coordinate
+  mean statement on PDF p. 13 must be read through the relevant sufficient statistics and parametrization,
+  rather than transferred from the independent-exponential example to every family.
+- The empirical quantile convention, ties, finite pilot sizes and fitted-family restrictions can affect
+  the trajectory. Inclusive score thresholds need not select exactly rho N occurrences. The sample levels
+  need not improve monotonically or reach gamma in a finite run, and no universal fit, variance or convergence
+  guarantee is inferred. The exact-expectation deterministic counterpart is separate from this finite-sample
+  procedure; noisy scores and stochastic-process extensions require additional evidence and assumptions.
+- This is the static rare-event construction, not a generic identity for every importance sampler, annealed
+  importance-sampling path estimator, EDA or information-geometric optimizer. Some fitting substeps can
+  overlap without making the complete procedures equivalent. The source’s problem-specific timings and
+  error estimates do not establish universal speedups, sample efficiency or confidence guarantees for
+  arbitrary applications.
+- The selected source is the retained 49-page published 2005 tutorial; the separate 47-page 2003 manuscript
+  and earliest papers are not silently treated as equivalent or newly read. Source acquisition, PDF build
+  dates, publication year and later selective readings are distinct. The research inspected the defining
+  static method and selected context, not all application pages or all cited proofs. Author code, calculator-based
+  validation and benchmark reproduction were not part of this evidence. Historical owner 244 and the dated
+  identity assessment are research context, not a statement about uninspected future repository states.
+aio_no_match:
+  search_scope: Fresh collection at actual merged base c056d16ecdad4e240beaaf5cf04b36d7b34fe052 inspected
+    754 maintained and 442 pinned AIO identities. Four fixed-string word-boundary searches included ignored
+    and hidden files across all four recorded checkouts, retaining 13,592 occurrences in 773 content groups.
+    Root read all 505 probe-bearing passage sets, all 22 complete candidate-bearing contexts, four complete
+    long HTML scalar lines, all seven normalized context matches, and all 12 selected full frontier objects.
+    All 909 main and 393 nested objects were mechanically queried; this is not a manual read of all frontier
+    bodies. The same-author context assessment supplies exact occurrence reconstruction and dispositions.
+    No competing candidate identity was found within this bounded current collection. The historical scientific
+    assessment examined 14 exact pinned AIO class contexts and 53 incident-edge rows; this current identity
+    pass does not claim a new full ontology reading. Retain those explicit target-specific no-match reasons
+    and the unchanged pinned snapshot. No ontology-wide or source-family saturation is asserted.
+  rationale: No inspected AIO target supplies an informative correspondence for this complete non-neural
+    adaptive sampling procedure without adding optional model, task or network requirements. Individual
+    mathematical substeps and possible machine-learning applications do not alone identify the whole algorithm.
+  examined_targets:
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The exact class denotes a large language model; its related evolutionary-algorithms
+      synonym does not identify a general probability estimator or FACE optimizer.
+  - target: AIO:TrainingStrategy
+    rejection_reason: Neither fixed-nominal rare-event estimation nor generic FACE search inherently preprocesses
+      or trains a machine-learning model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Parametric proposal/search fitting is an internal algorithm operation, not sufficient
+      to equate the whole procedure with the pinned learning-task class.
+  - target: AIO:MetaLearning
+    rejection_reason: Adaptive sample allocation or likelihood fitting does not inherently use metadata
+      about machine-learning experiments.
+  - target: AIO:ActiveLearning
+    rejection_reason: Evaluating event/performance scores does not inherently query labels for predictive
+      learning.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Policy-learning applications are possible but are not required by these generic
+      procedures; score feedback alone does not establish this task identity.
+  - target: AIO:RandomForest
+    rejection_reason: No predictive decision-tree ensemble is a mandatory mechanism.
+  - target: AIO:EvaluationBias
+    rejection_reason: A possible sampling or finite-estimation limitation is not an identity relation
+      to a testing-population/metric bias concept.
+  - target: AIO:MarkovChain
+    rejection_reason: Neither construction requires target-invariant Markov transition kernels or the
+      pinned network representation. Encoding a stochastic algorithm state as a Markov process is too
+      generic to identify its defining mechanism.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The pinned class is a generic mathematical rule and is not restricted to scalar
+      inputs or outputs. Mere mathematical describability of the complete adaptive sampling, fitting and
+      termination procedure supplies no sufficiently specific named-rule correspondence at the chosen
+      algorithm scope.
+  - target: AIO:BayesianNetwork
+    rejection_reason: A particular sampling family may be graphical; no DAG is inherent to the generic
+      algorithm.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The pinned graph-expressed conditional-dependence task is optional representation,
+      not the whole method.
+  - target: AIO:RestrictedBoltzmannMachine
+    rejection_reason: No hidden-layer energy model or restricted Boltzmann family is mandatory.
+  - target: AIO:ExponentialFunction
+    rejection_reason: Exponential densities and optional performance transforms are examples. A mandatory
+      scalar exponential update is not part of either generic construction, unlike the specifically selected
+      xNES/SNES rules.
+identity_notes: Fresh collection at actual merged base c056d16ecdad4e240beaaf5cf04b36d7b34fe052 inspected
+  754 maintained and 442 pinned AIO identities. Four fixed-string word-boundary searches included ignored
+  and hidden files across all four recorded checkouts, retaining 13,592 occurrences in 773 content groups.
+  Root read all 505 probe-bearing passage sets, all 22 complete candidate-bearing contexts, four complete
+  long HTML scalar lines, all seven normalized context matches, and all 12 selected full frontier objects.
+  All 909 main and 393 nested objects were mechanically queried; this is not a manual read of all frontier
+  bodies. The same-author context assessment supplies exact occurrence reconstruction and dispositions.
+  No competing candidate identity was found within this bounded current collection. Reuse existing owner
+  244 for fixed-nominal rare-event proposal fitting followed by fresh final importance sampling. Current
+  CrossEntropyOptimization explicitly uses unit elite weights, whereas this algorithm uses nominal/current
+  likelihood-ratio fitting; AIS bridge-path weighting is also distinct. Shared tutorial citations do not
+  establish an existing complete identity.
+evidence_sources:
+- source_id: deboer2005
+  title: A Tutorial on the Cross-Entropy Method
+  authors:
+  - Pieter-Tjerk de Boer
+  - Dirk P. Kroese
+  - Shie Mannor
+  - Reuven Y. Rubinstein
+  source_type: primary_paper
+  url: https://people.smp.uq.edu.au/DirkKroese/ps/aortut.pdf
+  persistent_id: https://people.smp.uq.edu.au/DirkKroese/ps/aortut.pdf
+  version: Annals of Operations Research 134:19–67 (2005); retained 49-page published article hosted by
+    Dirk Kroese. Printed page = PDF page + 18. Distinct from the separate 47-page 2003 manuscript; manuscript
+    received/revised/accepted dates and PDF build metadata are not publication or new-access dates.
+  access_level: full_text
+  accessed_at: '2026-10-11T12:53:34Z'
+  sha256: f68c734c278951aef659e8e4a984af80390c83daf06f76b500c6a37f10b3ff78
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T11:59:01Z'
+  updated_at: '2026-10-15T11:59:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
