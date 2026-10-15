@@ -1,0 +1,1057 @@
+# Scientific author self-review of Predictive Entropy Search with Constraints
+
+- Review: 20261015T030526Z-predictive-entropy-search-with-constraints
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-15T02:44:55.970897Z
+- Finished UTC: 2026-10-15T03:05:26.320285Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+The narrow PESC acquisition is supported with explicit feasible-optimizer, factorization, sampling and source-formula limits. Its identity, related AIO mapping and source/calculation provenance remain qualified; DRAFT is unchanged.
+
+## Scope And Provenance
+
+All maintained fields of the selected record. Actual source scope: hernandez2015: Retained earlier all9 pages text; fresh postcapture text3–5 and visual3/5.. Core information target, finite sampling/indicators, Gaussian approximation, noise addition, early missing-half factor and independent-Gaussian rejection-sampling comparison reassessed. No benchmark replication or unqualified accuracy claim.; hernandez2015-supplement: Retained earlier all9 pages text; fresh postcapture text2–3/8 and visual3/8; separate pre-capture citation reread1–4/7–9.. Section2 finite-factor Gaussian site/product representation and Section5 product of Gaussians with matching marginal moments support the new structured citation. Preserved cavity, propagation, feasibility, candidate-variance and damping caveats remain bounded by previously inspected formulas and unchanged original calculator. No literal repaired implementation certified.; hernandez2016: Retained text1–3,12–22,41–49 (23 of53); fresh postcapture text13–14/21 and visual14/21.. Explicit approximation-induced additivity, half-log Gaussian entropy, stationary finite-basis sampler and operational PES distinction reassessed. Training-noise and appendix caveats remain retained from prior source/math inspection. No full53-page reading or PESC-F scheduling evidence imported.
+
+Selection: Exact maintained ID: AIMech:PredictiveEntropySearchWithConstraints
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base d7228251e568897cb5828b60a264ba458e112c1f.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:PredictiveEntropySearchWithConstraints | data/curated/PredictiveEntropySearchWithConstraints.yaml | maintained | Predictive Entropy Search with Constraints |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:PredictiveEntropySearchWithConstraints | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 589.24s (0:09:49)<br>Checked 442 record(s); 0 failed.<br>Checked 720 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 403 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 415,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:PredictiveEntropySearchWithConstraints | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| just render | passed | True | AIMech:PredictiveEntropySearchWithConstraints | Rendered AIMech site under /private/tmp/aimech-discovery-recovery-worktree-20261012/pages<br>uv run --locked python scripts/render_pages.py<br> |
+| just render-check | passed | True | AIMech:PredictiveEntropySearchWithConstraints | pages/ is current<br>uv run --locked python scripts/render_pages.py --check<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:PredictiveEntropySearchWithConstraints | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:PredictiveEntropySearchWithConstraints | Actual command exited zero without output. |
+| python3 research/discovery/pesc-boundaries.py | passed | True | AIMech:PredictiveEntropySearchWithConstraints | {<br>  "arithmetic": "Fraction for discrete and Gaussian natural-parameter identities; binary64 elementary functions for entropy/Gaussian constants; all isclose checks rel_tol=0 abs_tol=2e-14.",<br>  "candidate_constraint_moment": {<br>    "correct_variance": 0.9292644697369354,<br>    "direct_moment_variance": 0.9292644697369354,<br>    "interpretation": "Uses zero standardized means, resolving the source beta subscript ambiguity identically; printed missing inverse-Hessian expression gives a negative variance.",<br>    "printed_variance": -13.13716694115409<br>  },<br>  "category_count": 10,<br>  "conditional_coupling": {<br>    "conditional_indicator_covariance_given_s0": "1/9",<br>    "conditional_sign_information_given_s0": 0.17441604792151577,<br>    "finite_states": [<br>      {<br>        "optimizer_s": 0,<br>        "probability": "1/4",<br>        "u": 0,<br>        "v": 0<br>      },<br>      {<br>        "optimizer_s": 1,<br>        "probability": "1/4",<br>        "u": 0,<br>        "v": 1<br>      },<br>      {<br>        "optimizer_s": 0,<br>        "probability": "1/4",<br>        "u": 1,<br>        "v": 0<br>      },<br>      {<br>        "optimizer_s": 0,<br>        "probability": "1/4",<br>        "u": 1,<br>        "v": 1<br>      }<br>    ],<br>    "gaussian_conditional_covariance": 0.2829421210522584,<br>    "gaussian_conditional_mean_constraint": -0.2659615202676218,<br>    "gaussian_conditional_mean_delta": 0.2659615202676218,<br>    "gaussian_covariance_exact_expression": "8/(9*pi)",<br>    "joint_information": 0.5623351446188083,<br>    "optimizer_entropy": 0.5623351446188083,<br>    "sum_separate_information": 0.4315231086776713<br>  },<br>  "constrained_boundary": {<br>    "consequence": "A constrained optimum need not have zero objective gradient; no optimizer execution used.",<br>    "constraint": "c(x)=x-1/2&gt;=0",<br>    "domain": "[0,1]",<br>    "objective": "f(x)=x",<br>    "objective_gradient": "1",<br>    "unique_minimizer": "1/2"<br>  },<br>  "damping_epsilon_one": {<br>    "consequence": "Different ratios at two inputs refute equality even up to a normalization constant.",<br>    "printed_to_new_factor_ratios": [<br>      "2",<br>      "5"<br>    ]<br>  },<br>  "entropy_half_factor": {<br>    "correct_gain": 0.6931471805599453,<br>    "printed2015_gain": 1.3862943611198906,<br>    "relation": "printed2015 gain is twice the Gaussian information approximation; common positive scaling leaves argmax unchanged"<br>  },<br>  "finite_minimizer_indicator_cases": {<br>    "empty_feasible_set": 9,<br>    "tied_minimizers": 12,<br>    "total": 81,<br>    "unique_minimizer": 60<br>  },<br>  "gaussian_cavity": {<br>    "cavity_variance": "6",<br>    "correct_cavity_mean": "2",<br>    "jmlr2016_Eq39_literal_mean": "18",<br>    "supp2015_Eq18_literal_mean": "3"<br>  },<br>  "gaussian_propagation": [<br>    {<br>      "direct_total_variance": "1",<br>      "latent_variance": "1",<br>      "printed_variance": "-1"<br>    },<br>    {<br>      "direct_total_variance": "1/2",<br>      "latent_variance": "1/2",<br>      "printed_variance": "-1/2"<br>    }<br>  ],<br>  "limits": [<br>    "The indicator enumeration returns every tied minimizer; it does not supply a tie policy or a normalized optimizer density.",<br>    "Empty feasible posterior draws require a model/algorithm policy; none is invented here.",<br>    "The Gaussian coupling example is one finite conditional event, not a full PESC posterior calculation.",<br>    "Printed-formula counterexamples preserve source caveats; no repaired full EP algorithm or author implementation is certified.",<br>    "Later2016 report is selectively read, not all53 pages."<br>  ],<br>  "positive_feasibility_site": {<br>    "correct_logz_mean_derivative": 0.7978845608028654,<br>    "correct_site_precision": 1.7519383938841089,<br>    "jmlr2016_Eq54_literal_derivative": -0.7978845608028654,<br>    "supp2015_Eq30_literal_precision": -0.44379076287665614<br>  },<br>  "scope": "Ten bounded diagnostic categories. Not an EP implementation, full formula audit, GP training, optimizer, convergence or performance test.",<br>  "training_noise": {<br>    "correct_noisy_predictive_variance": "3/2",<br>    "literal2016_main_Eq10_variance": "1"<br>  }<br>}<br> |
+
+## Scientific And Domain Assessments
+
+### Predictive Entropy Search with Constraints
+
+identity: supported. Targets: AIMech:PredictiveEntropySearchWithConstraints.
+
+Retain the narrow DRAFT identity within the documented search scope.
+
+The primary method names PESC and defines a distinct operational approximation. PES uses different derivative and observed-objective constraints; the 2016 source explicitly says zero-constraint PESC is not identical to PES. MES and OPES target maximum value rather than constrained optimizer location. Monotonic GP surrogate constraints are distinct from unknown black-box feasibility constraints. Actual ES/PES/MES/OPES records and the complete current frontier are assessed as neighbors. No aliases or automatic PESC-F inclusion are adopted.
+
+### Definition and source scope
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchWithConstraints.
+
+The maintained definition is supported within its stated method scope.
+
+The definition identifies posterior constrained-optimizer samples, finite feasibility/optimality conditioning, Gaussian EP and predictive observation entropy. It does not reduce the algorithm to the generic optimizer-information target or imply an exact conditioned law. The official 2015 nine-page main paper and nine-page supplement support the core method. The 2016 expanded report is used only within retained pages 1–3, 12–22 and 41–49, not all 53 pages. Its explicit additivity and zero-constraint qualifications and revised entropy scale are cited without treating it as a wholesale formula repair. Actual root postcapture source rereads remain separate from the retained research scopes.
+
+### Related AIO mapping: AIO:ActiveLearning
+
+grounding: supported. Targets: AIMech:PredictiveEntropySearchWithConstraints.
+
+related_match expresses the scoped semantic association without equivalence or ontology inheritance.
+
+AIO:ActiveLearning is related through choosing informative queries and observing their outputs. Its labeling-oriented task does not equal a constrained optimizer acquisition. No exact equivalence, subclass relationship, annotation requirement or neural-network/layer inheritance is asserted.
+Alternatives:
+AIO:TrainingStrategy: General expensive black-box function optimization is not necessarily model training or preprocessing; training applications do not define this whole algorithm.
+AIO:RegressionAnalysis: The GP regression surrogate is a component, not the information-based sequential evaluation rule.
+AIO:SupervisedLearning: Generic input-output learning omits the constrained-optimizer information acquisition and sequential feasibility queries.
+AIO:UnsupervisedLearning: PESC collects objective and constraint observations and is not defined by unlabeled pattern learning.
+AIO:ReinforcementLearning: Exploration terminology does not identify a policy/environment reward-learning method or cumulative-regret objective.
+AIO:BayesianNetwork: A GP posterior and conditional information formula are not a DAG network architecture.
+AIO:Model: PESC denotes an evaluation-selection algorithm, not only its GP surrogate artifact.
+AIO:Network: No interconnected-node architecture defines this acquisition mechanism.
+AIO:MathematicalFunction: The acquisition expression alone omits optimizer sampling, finite conditioning and sequential evaluation.
+AIO:DeepActiveLearning: PESC does not require a deep neural network or the pinned annotation-focused architecture.
+AIO:KernelLayer: Use of covariance kernels does not make PESC a neural layer.
+AIO:MachineLearningTask: This broad task is less informative than the explicit query-learning association; it does not identify PESC.
+
+### constrained-optimizer-information-target
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchWithConstraints.
+
+Supported within the stated assumptions and inspected passages.
+
+2015 pp. 1 and 3, Equations 1 and 6–7, and 2016 p. 13 identify information about a feasible minimizer location and its predictive-entropy rearrangement. The draft explicitly requires attained feasibility and uniqueness or a measurable tie selection, with well-defined entropy terms. The finite indicator examples include tied and empty feasible cases; an observed feasible incumbent is a different condition. No empty-draw handling rule is manufactured.
+
+### approximate-constrained-optimizer-sampling
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchWithConstraints.
+
+Supported within the stated assumptions and inspected passages.
+
+2015 p. 3 and 2016 pp. 14, 20–22 and 49 support independent GP/noise assumptions, finite-basis posterior function draws and numerical constrained minimization. The finite average is not exact optimizer sampling, and stationary-kernel applicability remains explicit. Averaging conditional acquisition scores over hyperparameters need not equal fully marginalized information. No global numerical optimizer guarantee is asserted.
+
+### finite-feasibility-and-optimality-indicators
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchWithConstraints.
+
+Supported within the stated assumptions and inspected passages.
+
+2015 pp. 4–5, Equations 9–15, and 2016 pp. 16–19 and 21 define feasibility Gamma and no-better-feasible-point Psi. Equality at constraint zero is feasible. Restricting factors to finite represented inputs is an approximation to domain-wide optimality. The exact 81-case enumeration agrees with minimizer membership, including 12 tie and 9 empty cases; it does not normalize a continuous optimizer density or choose among ties.
+
+### factorized-ep-and-candidate-moments
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchWithConstraints.
+
+Supported within the stated assumptions and inspected passages.
+
+2015 pp. 4–5 and 2016 pp. 17–19 and 21–22 describe Gaussian sites, within-function covariance, reusable observed-input calculations and candidate marginal moment matching. Independent priors do not imply independence after optimizer conditioning. The finite sign witness and one Gaussian event demonstrate discarded conditional dependence. Observation noise is added after latent marginal approximation; these diagnostics do not validate full EP iterations.
+
+### taskwise-noisy-log-variance-score
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchWithConstraints.
+
+Supported within the stated assumptions and inspected passages.
+
+2015 Equations 8 and 16 omit the half factor that appears in 2016 Equations 9 and 11–14. The record states half-log noisy-variance differences for positive variances and positive sample count. Their common factor preserves the same score argmax while changing information units. The source explicitly attributes taskwise and subset additivity to the approximation; no exact mutual-information additivity or general independent-output claim is made.
+
+### boundary-optima-and-pes-distinction
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchWithConstraints.
+
+Supported within the stated assumptions and inspected passages.
+
+2016 p. 21, Section 4.5 explicitly distinguishes PESC at K=0 from PES. The draft retains different derivative and observed-comparison constraints. The elementary f(x)=x, c(x)=x−1/2 example on [0,1] has a boundary optimum with nonzero gradient, supporting why unconstrained interior stationarity must not be imposed universally. Shared ideal optimizer information does not establish operational identity.
+
+### The core PESC constrained-minimizer-location acquisition with finite feasibility/optimality indicators, Gaussian EP and taskwise approximate observation entropies. PESC-F and general resource scheduling remain separate.
+
+consistency: supported. Targets: AIMech:PredictiveEntropySearchWithConstraints.
+
+Mechanism, parameter assumptions and identity boundaries remain qualified.
+
+Feasible attainment and almost-sure uniqueness or a measurable tie rule are explicit assumptions; absence of an observed feasible incumbent does not settle empty feasible posterior draws. Finite function representations, numerical optimizer samples, finite optimality factors, Gaussian EP, task factorization, candidate moment matching and hyperparameter averaging remain separate approximations. Printed cavity, variance, derivative, damping and noise-matrix caveats are retained, not certified repaired code. PESC-F, complete 2016 reading, empirical superiority, universal convergence and full GP/EP execution are outside scope.
+
+### All captured maintained fields
+
+provenance: supported. Targets: AIMech:PredictiveEntropySearchWithConstraints.
+
+Root reassessed the complete current record after canonical capture; DRAFT remains.
+
+Root read every maintained YAML field, all six complete claim statements and citations, full prepared review narratives, rendered discovery report and CREATE history after actual capture. The definition and algorithm kind identify the operational PESC approximation. Feasible attainment, tie selection and well-defined entropy qualify the ideal information target; lack of an observed feasible incumbent does not solve empty posterior feasible draws. Finite optimizer functions/searches and indicator collections, EP sites, discarded conditional task dependence, candidate marginal moments and score-averaged hyperparameters remain distinct approximations. The explicit half-log noisy-variance score is supported by later source and direct Gaussian entropy, without silently endorsing early printed scale. Zero-constraint PESC is expressly distinct from PES. Supplement citation supports Gaussian task factorization and final marginal moment approximation; its incidental claim that propagated candidate moments do not depend on x is not adopted. Positive source metadata/access/versions, snapshot and related ActiveLearning mapping agree with previously read current corpus/AIO contexts and bounded ignored-inclusive identity assessment. No aliases, exact equivalence, upstream inheritance or DRAFT promotion occurs. Root read the full copied bounded calculator and actual reproduced output; the 81 finite cases and nine other categories remain examples, not an EP implementation or general correctness theorem. Actual integrity checks preserve all1161 baseline records, all900 old main and393 nested frontier objects, with only distinct PESC leaf900 appended. Original writer failure, fractional-timestamp preview rejection, successful whole-second preview and citation-only successor remain separate, with missing original timing explicit. No maintained-record defect was found in this scope; no historical issue closure is inferred. Rereads: Root freshly read text of 2015 main PDF3–5, supplement PDF2–3 and8, and 2016 JMLR PDF13–14 and21; visually inspected main3/5, supplement3/8, JMLR14/21. No additional full-document reading is claimed. Full earlier2015main/supplement and selective23/53JMLR reading remain separately dated in root-source-reading; pre-capture supplementary citation check additionally read1–4,7–9 and viewed3/8.
+
+### Source caveats and original calculation history
+
+provenance: supported. Targets: AIMech:PredictiveEntropySearchWithConstraints.
+
+Source interpretation, TEMP clarifications and actual calculation lineage remain distinct.
+
+The original curator-written PESC code, result and actual first/root execution receipts retain exact bytes. Its ten bounded categories combine exact rational algebra with floating elementary functions. The source formula counterexamples do not certify a repaired EP implementation or author software. The only handoff successor corrects two nearest-native spellings; original and current handoffs and the exact diff remain retained. Separately, one structured supplement citation was added after prewrite validation rejected an uncited source. The first fractional-timestamp preview failed schema checks; the later whole-second preview passed, with neither preview presented as canonical curation or a full gate. Raw acquisition precision is separate from whole-second metadata. No GP fitting, EP solver, acquisition optimization, benchmark replication, full 2016 reading or general performance guarantee is asserted.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261015T024219Z-predictive-entropy-search-with-constraints.json; identity_search and identity_assessment | supports | PESC is a constrained-minimizer-location information acquisition whose operational approximation uses finite feasibility/optimality indicators, task-factorized EP and noisy candidate moment matching. These distinguish it from unconstrained PES and maximum-value MES/OPES; merely setting the constraint count to zero does not establish operational PES equivalence. Taskwise acquisition is not the separate PESC-F scheduling policy. No acronym alias is adopted. Fresh complete canonical, semantic, frontier and ignored-inclusive assessments establish bounded distinctness before creation. |
+| mapping | research/discovery/20261015T024219Z-predictive-entropy-search-with-constraints.json; mapping_context per_record nodes/semantic/native contexts, post326_neighbors and mapping_assessment | supports | AIO:ActiveLearning is related through choosing informative queries and observing their outputs. Its labeling-oriented task does not equal a constrained optimizer acquisition. No exact equivalence, subclass relationship, annotation requirement or neural-network/layer inheritance is asserted. |
+| actual-record-reading | data/curated/PredictiveEntropySearchWithConstraints.yaml | supports | Root read every maintained YAML field, all six complete claim statements and citations, full prepared review narratives, rendered discovery report and CREATE history after actual capture. The definition and algorithm kind identify the operational PESC approximation. Feasible attainment, tie selection and well-defined entropy qualify the ideal information target; lack of an observed feasible incumbent does not solve empty posterior feasible draws. Finite optimizer functions/searches and indicator collections, EP sites, discarded conditional task dependence, candidate marginal moments and score-averaged hyperparameters remain distinct approximations. The explicit half-log noisy-variance score is supported by later source and direct Gaussian entropy, without silently endorsing early printed scale. Zero-constraint PESC is expressly distinct from PES. Supplement citation supports Gaussian task factorization and final marginal moment approximation; its incidental claim that propagated candidate moments do not depend on x is not adopted. Positive source metadata/access/versions, snapshot and related ActiveLearning mapping agree with previously read current corpus/AIO contexts and bounded ignored-inclusive identity assessment. No aliases, exact equivalence, upstream inheritance or DRAFT promotion occurs. Root read the full copied bounded calculator and actual reproduced output; the 81 finite cases and nine other categories remain examples, not an EP implementation or general correctness theorem. Actual integrity checks preserve all1161 baseline records, all900 old main and393 nested frontier objects, with only distinct PESC leaf900 appended. Original writer failure, fractional-timestamp preview rejection, successful whole-second preview and citation-only successor remain separate, with missing original timing explicit. No maintained-record defect was found in this scope; no historical issue closure is inferred. Actual post-capture source reread: Root freshly read text of 2015 main PDF3–5, supplement PDF2–3 and8, and 2016 JMLR PDF13–14 and21; visually inspected main3/5, supplement3/8, JMLR14/21. No additional full-document reading is claimed. Full earlier2015main/supplement and selective23/53JMLR reading remain separately dated in root-source-reading; pre-capture supplementary citation check additionally read1–4,7–9 and viewed3/8. |
+| hernandez2015 | https://proceedings.mlr.press/v37/hernandez-lobatob15.pdf; Section 3, PDF pp. 3–5, Equations 6–16; PDF p. 1, Equation 1 and introductory motivation; Section 3, PDF p. 3, Equations 6–7; Section 3, PDF p. 3, model assumptions and paragraph following Equation 8; Section 3, PDF pp. 4–5, Equations 9–15; original 81-case finite indicator diagnostic in research/discovery/pesc-boundaries.py; Section 3, PDF pp. 4–5, Equations 12–16; PDF p. 3, Equation 8; PDF p. 5, Equation 16 and the discussion of additive acquisitions; Section 3, PDF p. 4, Equations 9–13 | supports | Official ICML 2015 proceedings PDF, PMLR 37:1699–1707; nine PDF pages. Embedded PDF creation May 13, 2015; publication and actual retrieval remain distinct. Actual root reading: Core information target, finite sampling/indicators, Gaussian approximation, noise addition, early missing-half factor and independent-Gaussian rejection-sampling comparison reassessed. No benchmark replication or unqualified accuracy claim. |
+| hernandez2015-supplement | https://proceedings.mlr.press/v37/hernandez-lobatob15-supp.pdf; Section 2, supplement PDF pp. 2–3, Equations 3–10; Section 5, supplement PDF pp. 8–9, final product-Gaussian marginal moment approximation. Printed formula caveats remain in limitations. | supports | Official separate nine-page ICML 2015/PMLR supplement; locators use supplement PDF pagination. Embedded PDF creation May 12, 2015. Actual root reading: Section2 finite-factor Gaussian site/product representation and Section5 product of Gaussians with matching marginal moments support the new structured citation. Preserved cavity, propagation, feasibility, candidate-variance and damping caveats remain bounded by previously inspected formulas and unchanged original calculator. No literal repaired implementation certified. |
+| hernandez2016 | https://jmlr.org/papers/volume17/15-616/15-616.pdf; Section 4, PDF p. 13, Equations 7–8 and the optimizer sampling definition; Sections 4.1, 4.3 and 4.6, PDF pp. 14, 20–22, Equation 21; Appendix B.3, PDF p. 49; Section 4.2, PDF pp. 16–19, Equations 15–20; Section 4.6, PDF p. 21; Section 4.2, PDF pp. 17–19; Section 4.6, PDF pp. 21–22; original finite and Gaussian conditional-coupling diagnostics in research/discovery/pesc-boundaries.py; Section 4, PDF p. 13, explicit additivity qualification; Section 4.1, PDF pp. 14–15, Equations 9 and 11–14; Section 4.5, PDF p. 21; original constrained boundary example in research/discovery/pesc-boundaries.py | supports | Official JMLR 17(160):1–53 (2016) article. Front matter: submitted December 2015, revised April 2016, published September 2016; embedded PDF creation September 24, 2016. Distinct from the 2015 proceedings and supplement. Actual root reading: Explicit approximation-induced additivity, half-log Gaussian entropy, stationary finite-basis sampler and operational PES distinction reassessed. Training-noise and appendix caveats remain retained from prior source/math inspection. No full53-page reading or PESC-F scheduling evidence imported. |
+| calculation-pesc | research/discovery/pesc-boundaries.py; Saved report curator_calculations; category_count, finite_minimizer_indicator_cases, conditional_coupling, entropy_half_factor, gaussian_cavity, gaussian_propagation, positive_feasibility_site, candidate_constraint_moment, damping_epsilon_one, training_noise, constrained_boundary | supports | Original ten-category PESC diagnostic: finite probabilities and Gaussian natural-parameter algebra use exact Fraction arithmetic; entropy and Gaussian constants use binary64 elementary functions, with isclose rel_tol=0 and abs_tol=2e-14. Printed source expressions are bounded negative controls, not author-code replication or a repaired EP implementation; actual copied-script outputs checked against the full saved result. No author-code execution, model training, benchmark replication or universal proof. Selected results: {"category_count": 10, "finite_minimizer_indicator_cases": {"empty_feasible_set": 9, "tied_minimizers": 12, "total": 81, "unique_minimizer": 60}, "conditional_coupling": {"conditional_indicator_covariance_given_s0": "1/9", "conditional_sign_information_given_s0": 0.17441604792151577, "finite_states": [{"optimizer_s": 0, "probability": "1/4", "u": 0, "v": 0}, {"optimizer_s": 1, "probability": "1/4", "u": 0, "v": 1}, {"optimizer_s": 0, "probability": "1/4", "u": 1, "v": 0}, {"optimizer_s": 0, "probability": "1/4", "u": 1, "v": 1}], "gaussian_conditional_covariance": 0.2829421210522584, "gaussian_conditional_mean_constraint": -0.2659615202676218, "gaussian_conditional_mean_delta": 0.2659615202676218, "gaussian_covariance_exact_expression": "8/(9*pi)", "joint_information": 0.5623351446188083, "optimizer_entropy": 0.5623351446188083, "sum_separate_information": 0.4315231086776713}, "entropy_half_factor": {"correct_gain": 0.6931471805599453, "printed2015_gain": 1.3862943611198906, "relation": "printed2015 gain is twice the Gaussian information approximation; common positive scaling leaves argmax unchanged"}, "gaussian_cavity": {"cavity_variance": "6", "correct_cavity_mean": "2", "jmlr2016_Eq39_literal_mean": "18", "supp2015_Eq18_literal_mean": "3"}, "gaussian_propagation": [{"direct_total_variance": "1", "latent_variance": "1", "printed_variance": "-1"}, {"direct_total_variance": "1/2", "latent_variance": "1/2", "printed_variance": "-1/2"}], "positive_feasibility_site": {"correct_logz_mean_derivative": 0.7978845608028654, "correct_site_precision": 1.7519383938841089, "jmlr2016_Eq54_literal_derivative": -0.7978845608028654, "supp2015_Eq30_literal_precision": -0.44379076287665614}, "candidate_constraint_moment": {"correct_variance": 0.9292644697369354, "direct_moment_variance": 0.9292644697369354, "interpretation": "Uses zero standardized means, resolving the source beta subscript ambiguity identically; printed missing inverse-Hessian expression gives a negative variance.", "printed_variance": -13.13716694115409}, "damping_epsilon_one": {"consequence": "Different ratios at two inputs refute equality even up to a normalization constant.", "printed_to_new_factor_ratios": ["2", "5"]}, "training_noise": {"correct_noisy_predictive_variance": "3/2", "literal2016_main_Eq10_variance": "1"}, "constrained_boundary": {"consequence": "A constrained optimum need not have zero objective gradient; no optimizer execution used.", "constraint": "c(x)=x-1/2&gt;=0", "domain": "[0,1]", "objective": "f(x)=x", "objective_gradient": "1", "unique_minimizer": "1/2"}} |
+| source-math-provenance | research/discovery/20261015T024219Z-predictive-entropy-search-with-constraints.json; source_analysis.handoffs, root_readings and writer_preparation_reading | supports | Root assessed the separately attributed selective source readings and bounded mathematical research. Supporting agents are in the same author workflow and provide no independent scientific approval. |
+| source-error-original-lineage | research/discovery/20261015T024219Z-predictive-entropy-search-with-constraints.json; calculation_lineage.artifacts, curator_calculations, draft_wording_lineage, research_correction_lineage and source_analysis | supports | The original curator-written PESC diagnostic and its actual first and root executions retain exact bytes. Printed source expressions are negative controls with explicit finite examples, not repaired author software. The original and successor research handoffs retain the nearest-native spelling clarification. A separate citation-only draft successor resolves an actual prewrite uncited-source validation failure; original and whole-second TEMP preview attempts, exact diff and root source acceptance remain retained. Claim text and calculator are unchanged. Raw acquisition precision and source reading scopes remain explicit. No canonical finding or issue closure is invented. |
+
+## Limits And Additional Notes
+
+- Author self-review, not independent scientific approval or DRAFT promotion.
+- Feasible attainment and almost-sure uniqueness or a measurable tie rule are explicit assumptions; absence of an observed feasible incumbent does not settle empty feasible posterior draws. Finite function representations, numerical optimizer samples, finite optimality factors, Gaussian EP, task factorization, candidate moment matching and hyperparameter averaging remain separate approximations. Printed cavity, variance, derivative, damping and noise-matrix caveats are retained, not certified repaired code. PESC-F, complete 2016 reading, empirical superiority, universal convergence and full GP/EP execution are outside scope.
+- Qualified author self-review with supporting agents in the same workflow; no independent scientific approval or DRAFT promotion.
+- Current identity assessment covers 719 native and 442 AIO identities including scoped synonyms, four complete ignored/hidden-inclusive searches, actual ES/PES/MES/OPES neighbors and the full 900-row main/393-row nested frontier. This is bounded corpus absence, not universal novelty.
+- The original curator calculator and separate actual root reproduction retain exact bytes. It checks 81 finite indicator cases and nine other bounded categories; no GP fit, EP solver, acquisition optimizer, author implementation or benchmark was run.
+- Source formula caveats are distinguished from research corrections. The only research handoff successor corrects two nearest-native identifier spellings; the original handoff and exact diff remain retained. A separate citation-only draft successor resolves the actual prewrite uncited-source validation error; failed and corrected TEMP previews are retained. No claim text, calculator or canonical issue is changed.
+- Source access precision, whole-second schema metadata, bibliographic versions and actual reading times remain separate. Full 2015 main/supplement reading and selected 23 of 53 JMLR pages are attributed to the actual readers; PESC-F remains excluded.
+- Empty findings reflect actual root assessment of this selected captured record only; no unrelated finding closure or literature saturation is asserted.
+- Source caveats and preserved calculation or wording lineage remain distinct; no maintained-record finding or issue closure is invented from them.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261015T030526Z-predictive-entropy-search-with-constraints
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Predictive Entropy Search with Constraints
+started_at: '2026-10-15T02:44:55.970897Z'
+finished_at: '2026-10-15T03:05:26.320285Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root author reassessment with supporting source, mathematical
+    and integrity agents in the same author workflow; no independent scientific approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: The narrow PESC acquisition is supported with explicit feasible-optimizer,
+  factorization, sampling and source-formula limits. Its identity, related AIO mapping
+  and source/calculation provenance remain qualified; DRAFT is unchanged.
+source:
+  git_revision: d7228251e568897cb5828b60a264ba458e112c1f
+  state: working_tree
+  inputs:
+  - path: data/aio/ActiveLearning.yaml
+    sha256: a4d5b2c82df6f586fedc7290261bc978e7c8d17f1d844c5ee9efc8243e46bbaf
+    role: context
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/DeepActiveLearning.yaml
+    sha256: b04c9aa74728adbe1bd907cb3f0e15b263bda18ed29660babce092daeed2b4f9
+    role: context
+  - path: data/aio/KernelLayer.yaml
+    sha256: 0723e7f15d57807a1f922cd87b878593fb167757c7429dd06e99bde723290d43
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/Network.yaml
+    sha256: ec24eb397241fe903137b2d8c8f4081d0f9d246c296c247864f199e160a3ee30
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/BOHB.yaml
+    sha256: bb965b104107d30a9d74f4ac4eaa0aa72023cdf676afb53528d3a1b41bebf291
+    role: context
+  - path: data/curated/BarberAgakovBound.yaml
+    sha256: ac947a28b3c48611fdbf557cc0bca656e2e93db0d8e158785c579fbc8868076c
+    role: context
+  - path: data/curated/CrossEntropyOptimization.yaml
+    sha256: b2d993224f56b48738bbecc23df28fe0bc1e16e54c658979fdd28fc1924ba269
+    role: context
+  - path: data/curated/DerivativeObservationGaussianProcessRegression.yaml
+    sha256: 888850faa100e14b96057c516e7d65d01ed2932a142577d101660c73dbf90905
+    role: context
+  - path: data/curated/EntropySearch.yaml
+    sha256: 786a3633b1212b280a7d65b37c7c408ac267554f218daa68d70101651019fafd
+    role: context
+  - path: data/curated/FABOLAS.yaml
+    sha256: 800fb7787896a6cd3f0c2ced22fd70543a79d3a59502ff2c52cf4ae4f8ba0cb9
+    role: context
+  - path: data/curated/GaussianProcessRegression.yaml
+    sha256: d83d0de4a152e7db689636928f41eb5d3663281285585d835f2a5535403d6a0d
+    role: context
+  - path: data/curated/MaxValueEntropySearch.yaml
+    sha256: de6cb4b4f6a16b597a29dc3ff23eb923461352359d5222898b4c6df9fbbcf40b
+    role: context
+  - path: data/curated/MonotonicGaussianProcessWithVirtualDerivatives.yaml
+    sha256: 9b72af4401c813c1fb3d51aa894a080ca96b86b37a051d8e7bb86a73b54e9cfd
+    role: context
+  - path: data/curated/OutputSpacePredictiveEntropySearch.yaml
+    sha256: 03999fd49973345c8fd8ebabf6141c5944385965d6632b393f7ffd8eac407cd0
+    role: context
+  - path: data/curated/PredictiveEntropySearch.yaml
+    sha256: 359a11bbbb1efb522df8b3652ffe308ff20564e94fc5e20638b418c29b69de5d
+    role: context
+  - path: data/curated/PredictiveEntropySearchWithConstraints.yaml
+    sha256: 98bb35b375fd1a5b397a480c702ae018cfee661ce1a61e5ff06b22529528ae59
+    role: target
+  - path: data/curated/RandomSearchHyperparameterOptimization.yaml
+    sha256: 24dde2b9d19169c383b403742ea355727c2f167ae8aa21970fbda34e832c89fd
+    role: context
+  - path: data/curated/TreeStructuredParzenEstimator.yaml
+    sha256: bdd8130958b93502ecd3bf0cd73f411dfb4aecb5d6d2ab2e01454dee9bae2737
+    role: context
+  - path: research/discovery/20261015T024219Z-predictive-entropy-search-with-constraints.json
+    sha256: e2c06b6c572deafd20272bbbd98bf960f7f74478cc7bd4599be96f9dcd599fca
+    role: context
+  - path: research/discovery/20261015T024219Z-predictive-entropy-search-with-constraints.md
+    sha256: cff8f8d195f443e6e4b1d4b9934d66ad19abffe2349705840fa2b7c90f21b04f
+    role: context
+  - path: research/discovery/pesc-boundaries.py
+    sha256: 6f0ea66ad0d799b35ab553981d674e93c28838737d20d7e6e4391b3da4db2a3f
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/history.py
+    sha256: 4ff83e818c7f50ea25bfc6b8f2cae7ab29c814310b8b361a6f7af8160055aa91
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+  - path: src/aimech/validation.py
+    sha256: 274ed5e6bc97440515a1964b9b21927135a2e9a5a4808ae8daebccd3e172ffcc
+    role: context
+targets:
+- target_id: AIMech:PredictiveEntropySearchWithConstraints
+  path: data/curated/PredictiveEntropySearchWithConstraints.yaml
+  label: Predictive Entropy Search with Constraints
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PredictiveEntropySearchWithConstraints.yaml
+    role: maintained
+scope:
+  description: 'All maintained fields of the selected record. Actual source scope:
+    hernandez2015: Retained earlier all9 pages text; fresh postcapture text3–5 and
+    visual3/5.. Core information target, finite sampling/indicators, Gaussian approximation,
+    noise addition, early missing-half factor and independent-Gaussian rejection-sampling
+    comparison reassessed. No benchmark replication or unqualified accuracy claim.;
+    hernandez2015-supplement: Retained earlier all9 pages text; fresh postcapture
+    text2–3/8 and visual3/8; separate pre-capture citation reread1–4/7–9.. Section2
+    finite-factor Gaussian site/product representation and Section5 product of Gaussians
+    with matching marginal moments support the new structured citation. Preserved
+    cavity, propagation, feasibility, candidate-variance and damping caveats remain
+    bounded by previously inspected formulas and unchanged original calculator. No
+    literal repaired implementation certified.; hernandez2016: Retained text1–3,12–22,41–49
+    (23 of53); fresh postcapture text13–14/21 and visual14/21.. Explicit approximation-induced
+    additivity, half-log Gaussian entropy, stationary finite-basis sampler and operational
+    PES distinction reassessed. Training-noise and appendix caveats remain retained
+    from prior source/math inspection. No full53-page reading or PESC-F scheduling
+    evidence imported.'
+  selection: 'Exact maintained ID: AIMech:PredictiveEntropySearchWithConstraints'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  exclusions:
+  - target: Other batch entries and neighboring identities
+    reason: Read as identity/mapping context, not formal review targets.
+  - target: Uninspected source versions, general convergence and runtime claims
+    reason: Feasible attainment and almost-sure uniqueness or a measurable tie rule
+      are explicit assumptions; absence of an observed feasible incumbent does not
+      settle empty feasible posterior draws. Finite function representations, numerical
+      optimizer samples, finite optimality factors, Gaussian EP, task factorization,
+      candidate moment matching and hyperparameter averaging remain separate approximations.
+      Printed cavity, variance, derivative, damping and noise-matrix caveats are retained,
+      not certified repaired code. PESC-F, complete 2016 reading, empirical superiority,
+      universal convergence and full GP/EP execution are outside scope.
+  - target: Author implementation and benchmark replication
+    reason: Only bounded original calculations and project checks were executed.
+checks:
+- check_id: gate-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 589.24s (0:09:49)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 720 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 403 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 415,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+  scope_note: Actual execution completed 2026-10-15T03:03:57.386326Z; this generator
+    executes no recorded commands.
+- check_id: vendor-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+  scope_note: Actual execution completed 2026-10-15T02:46:13.251553Z; this generator
+    executes no recorded commands.
+- check_id: render-2
+  name: just render
+  command: just render
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Rendered AIMech site under /private/tmp/aimech-discovery-recovery-worktree-20261012/pages
+
+    uv run --locked python scripts/render_pages.py
+
+    '
+  scope_note: Actual execution completed 2026-10-15T02:48:26.709437Z; this generator
+    executes no recorded commands.
+- check_id: render-3
+  name: just render-check
+  command: just render-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'pages/ is current
+
+    uv run --locked python scripts/render_pages.py --check
+
+    '
+  scope_note: Actual execution completed 2026-10-15T02:49:03.713859Z; this generator
+    executes no recorded commands.
+- check_id: additional-4
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+  scope_note: Actual execution completed 2026-10-15T02:47:17.788228Z; this generator
+    executes no recorded commands.
+- check_id: additional-5
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Actual command exited zero without output.
+  scope_note: Actual execution completed 2026-10-15T02:47:20.662265Z; this generator
+    executes no recorded commands.
+- check_id: calculation-6
+  name: python3 research/discovery/pesc-boundaries.py
+  command: python3 research/discovery/pesc-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"arithmetic\": \"Fraction for discrete and Gaussian natural-parameter\
+    \ identities; binary64 elementary functions for entropy/Gaussian constants; all\
+    \ isclose checks rel_tol=0 abs_tol=2e-14.\",\n  \"candidate_constraint_moment\"\
+    : {\n    \"correct_variance\": 0.9292644697369354,\n    \"direct_moment_variance\"\
+    : 0.9292644697369354,\n    \"interpretation\": \"Uses zero standardized means,\
+    \ resolving the source beta subscript ambiguity identically; printed missing inverse-Hessian\
+    \ expression gives a negative variance.\",\n    \"printed_variance\": -13.13716694115409\n\
+    \  },\n  \"category_count\": 10,\n  \"conditional_coupling\": {\n    \"conditional_indicator_covariance_given_s0\"\
+    : \"1/9\",\n    \"conditional_sign_information_given_s0\": 0.17441604792151577,\n\
+    \    \"finite_states\": [\n      {\n        \"optimizer_s\": 0,\n        \"probability\"\
+    : \"1/4\",\n        \"u\": 0,\n        \"v\": 0\n      },\n      {\n        \"\
+    optimizer_s\": 1,\n        \"probability\": \"1/4\",\n        \"u\": 0,\n    \
+    \    \"v\": 1\n      },\n      {\n        \"optimizer_s\": 0,\n        \"probability\"\
+    : \"1/4\",\n        \"u\": 1,\n        \"v\": 0\n      },\n      {\n        \"\
+    optimizer_s\": 0,\n        \"probability\": \"1/4\",\n        \"u\": 1,\n    \
+    \    \"v\": 1\n      }\n    ],\n    \"gaussian_conditional_covariance\": 0.2829421210522584,\n\
+    \    \"gaussian_conditional_mean_constraint\": -0.2659615202676218,\n    \"gaussian_conditional_mean_delta\"\
+    : 0.2659615202676218,\n    \"gaussian_covariance_exact_expression\": \"8/(9*pi)\"\
+    ,\n    \"joint_information\": 0.5623351446188083,\n    \"optimizer_entropy\":\
+    \ 0.5623351446188083,\n    \"sum_separate_information\": 0.4315231086776713\n\
+    \  },\n  \"constrained_boundary\": {\n    \"consequence\": \"A constrained optimum\
+    \ need not have zero objective gradient; no optimizer execution used.\",\n   \
+    \ \"constraint\": \"c(x)=x-1/2>=0\",\n    \"domain\": \"[0,1]\",\n    \"objective\"\
+    : \"f(x)=x\",\n    \"objective_gradient\": \"1\",\n    \"unique_minimizer\": \"\
+    1/2\"\n  },\n  \"damping_epsilon_one\": {\n    \"consequence\": \"Different ratios\
+    \ at two inputs refute equality even up to a normalization constant.\",\n    \"\
+    printed_to_new_factor_ratios\": [\n      \"2\",\n      \"5\"\n    ]\n  },\n  \"\
+    entropy_half_factor\": {\n    \"correct_gain\": 0.6931471805599453,\n    \"printed2015_gain\"\
+    : 1.3862943611198906,\n    \"relation\": \"printed2015 gain is twice the Gaussian\
+    \ information approximation; common positive scaling leaves argmax unchanged\"\
+    \n  },\n  \"finite_minimizer_indicator_cases\": {\n    \"empty_feasible_set\"\
+    : 9,\n    \"tied_minimizers\": 12,\n    \"total\": 81,\n    \"unique_minimizer\"\
+    : 60\n  },\n  \"gaussian_cavity\": {\n    \"cavity_variance\": \"6\",\n    \"\
+    correct_cavity_mean\": \"2\",\n    \"jmlr2016_Eq39_literal_mean\": \"18\",\n \
+    \   \"supp2015_Eq18_literal_mean\": \"3\"\n  },\n  \"gaussian_propagation\": [\n\
+    \    {\n      \"direct_total_variance\": \"1\",\n      \"latent_variance\": \"\
+    1\",\n      \"printed_variance\": \"-1\"\n    },\n    {\n      \"direct_total_variance\"\
+    : \"1/2\",\n      \"latent_variance\": \"1/2\",\n      \"printed_variance\": \"\
+    -1/2\"\n    }\n  ],\n  \"limits\": [\n    \"The indicator enumeration returns\
+    \ every tied minimizer; it does not supply a tie policy or a normalized optimizer\
+    \ density.\",\n    \"Empty feasible posterior draws require a model/algorithm\
+    \ policy; none is invented here.\",\n    \"The Gaussian coupling example is one\
+    \ finite conditional event, not a full PESC posterior calculation.\",\n    \"\
+    Printed-formula counterexamples preserve source caveats; no repaired full EP algorithm\
+    \ or author implementation is certified.\",\n    \"Later2016 report is selectively\
+    \ read, not all53 pages.\"\n  ],\n  \"positive_feasibility_site\": {\n    \"correct_logz_mean_derivative\"\
+    : 0.7978845608028654,\n    \"correct_site_precision\": 1.7519383938841089,\n \
+    \   \"jmlr2016_Eq54_literal_derivative\": -0.7978845608028654,\n    \"supp2015_Eq30_literal_precision\"\
+    : -0.44379076287665614\n  },\n  \"scope\": \"Ten bounded diagnostic categories.\
+    \ Not an EP implementation, full formula audit, GP training, optimizer, convergence\
+    \ or performance test.\",\n  \"training_noise\": {\n    \"correct_noisy_predictive_variance\"\
+    : \"3/2\",\n    \"literal2016_main_Eq10_variance\": \"1\"\n  }\n}\n"
+  scope_note: Actual execution completed 2026-10-15T02:47:12.536724Z; this generator
+    executes no recorded commands.
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261015T024219Z-predictive-entropy-search-with-constraints.json
+  locator: identity_search and identity_assessment
+  accessed_at: '2026-10-15T02:48:15.138254Z'
+  snapshot_sha256: e2c06b6c572deafd20272bbbd98bf960f7f74478cc7bd4599be96f9dcd599fca
+  support: supports
+  summary: PESC is a constrained-minimizer-location information acquisition whose
+    operational approximation uses finite feasibility/optimality indicators, task-factorized
+    EP and noisy candidate moment matching. These distinguish it from unconstrained
+    PES and maximum-value MES/OPES; merely setting the constraint count to zero does
+    not establish operational PES equivalence. Taskwise acquisition is not the separate
+    PESC-F scheduling policy. No acronym alias is adopted. Fresh complete canonical,
+    semantic, frontier and ignored-inclusive assessments establish bounded distinctness
+    before creation.
+  search_scope: Canonical ID/name/alias/all-scoped-synonym checks and retained four
+    complete-checkout searches include ignored and hidden files. Bounded corpus scope,
+    not universal absence.
+- evidence_id: mapping
+  kind: record_content
+  reference: research/discovery/20261015T024219Z-predictive-entropy-search-with-constraints.json
+  locator: mapping_context per_record nodes/semantic/native contexts, post326_neighbors
+    and mapping_assessment
+  accessed_at: '2026-10-15T02:48:15.138254Z'
+  snapshot_sha256: e2c06b6c572deafd20272bbbd98bf960f7f74478cc7bd4599be96f9dcd599fca
+  support: supports
+  summary: AIO:ActiveLearning is related through choosing informative queries and
+    observing their outputs. Its labeling-oriented task does not equal a constrained
+    optimizer acquisition. No exact equivalence, subclass relationship, annotation
+    requirement or neural-network/layer inheritance is asserted.
+- evidence_id: actual-record-reading
+  kind: record_content
+  reference: data/curated/PredictiveEntropySearchWithConstraints.yaml
+  accessed_at: '2026-10-15T02:48:15.138254Z'
+  snapshot_sha256: 98bb35b375fd1a5b397a480c702ae018cfee661ce1a61e5ff06b22529528ae59
+  support: supports
+  summary: 'Root read every maintained YAML field, all six complete claim statements
+    and citations, full prepared review narratives, rendered discovery report and
+    CREATE history after actual capture. The definition and algorithm kind identify
+    the operational PESC approximation. Feasible attainment, tie selection and well-defined
+    entropy qualify the ideal information target; lack of an observed feasible incumbent
+    does not solve empty posterior feasible draws. Finite optimizer functions/searches
+    and indicator collections, EP sites, discarded conditional task dependence, candidate
+    marginal moments and score-averaged hyperparameters remain distinct approximations.
+    The explicit half-log noisy-variance score is supported by later source and direct
+    Gaussian entropy, without silently endorsing early printed scale. Zero-constraint
+    PESC is expressly distinct from PES. Supplement citation supports Gaussian task
+    factorization and final marginal moment approximation; its incidental claim that
+    propagated candidate moments do not depend on x is not adopted. Positive source
+    metadata/access/versions, snapshot and related ActiveLearning mapping agree with
+    previously read current corpus/AIO contexts and bounded ignored-inclusive identity
+    assessment. No aliases, exact equivalence, upstream inheritance or DRAFT promotion
+    occurs. Root read the full copied bounded calculator and actual reproduced output;
+    the 81 finite cases and nine other categories remain examples, not an EP implementation
+    or general correctness theorem. Actual integrity checks preserve all1161 baseline
+    records, all900 old main and393 nested frontier objects, with only distinct PESC
+    leaf900 appended. Original writer failure, fractional-timestamp preview rejection,
+    successful whole-second preview and citation-only successor remain separate, with
+    missing original timing explicit. No maintained-record defect was found in this
+    scope; no historical issue closure is inferred. Actual post-capture source reread:
+    Root freshly read text of 2015 main PDF3–5, supplement PDF2–3 and8, and 2016 JMLR
+    PDF13–14 and21; visually inspected main3/5, supplement3/8, JMLR14/21. No additional
+    full-document reading is claimed. Full earlier2015main/supplement and selective23/53JMLR
+    reading remain separately dated in root-source-reading; pre-capture supplementary
+    citation check additionally read1–4,7–9 and viewed3/8.'
+- evidence_id: hernandez2015
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v37/hernandez-lobatob15.pdf
+  locator: Section 3, PDF pp. 3–5, Equations 6–16; PDF p. 1, Equation 1 and introductory
+    motivation; Section 3, PDF p. 3, Equations 6–7; Section 3, PDF p. 3, model assumptions
+    and paragraph following Equation 8; Section 3, PDF pp. 4–5, Equations 9–15; original
+    81-case finite indicator diagnostic in research/discovery/pesc-boundaries.py;
+    Section 3, PDF pp. 4–5, Equations 12–16; PDF p. 3, Equation 8; PDF p. 5, Equation
+    16 and the discussion of additive acquisitions; Section 3, PDF p. 4, Equations
+    9–13
+  accessed_at: '2026-10-14T22:37:02Z'
+  snapshot_sha256: 7ca4b6853ba77576d70a6b46269610b101121ad08e9439c5edacd72ec1ad4e71
+  support: supports
+  summary: 'Official ICML 2015 proceedings PDF, PMLR 37:1699–1707; nine PDF pages.
+    Embedded PDF creation May 13, 2015; publication and actual retrieval remain distinct.
+    Actual root reading: Core information target, finite sampling/indicators, Gaussian
+    approximation, noise addition, early missing-half factor and independent-Gaussian
+    rejection-sampling comparison reassessed. No benchmark replication or unqualified
+    accuracy claim.'
+- evidence_id: hernandez2015-supplement
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v37/hernandez-lobatob15-supp.pdf
+  locator: Section 2, supplement PDF pp. 2–3, Equations 3–10; Section 5, supplement
+    PDF pp. 8–9, final product-Gaussian marginal moment approximation. Printed formula
+    caveats remain in limitations.
+  accessed_at: '2026-10-14T22:37:02Z'
+  snapshot_sha256: e16f3bcd49d4d56725c1687b797e4139210d5fc60d399eaaf0133692b99d9ce8
+  support: supports
+  summary: 'Official separate nine-page ICML 2015/PMLR supplement; locators use supplement
+    PDF pagination. Embedded PDF creation May 12, 2015. Actual root reading: Section2
+    finite-factor Gaussian site/product representation and Section5 product of Gaussians
+    with matching marginal moments support the new structured citation. Preserved
+    cavity, propagation, feasibility, candidate-variance and damping caveats remain
+    bounded by previously inspected formulas and unchanged original calculator. No
+    literal repaired implementation certified.'
+- evidence_id: hernandez2016
+  kind: primary_source
+  reference: https://jmlr.org/papers/volume17/15-616/15-616.pdf
+  locator: Section 4, PDF p. 13, Equations 7–8 and the optimizer sampling definition;
+    Sections 4.1, 4.3 and 4.6, PDF pp. 14, 20–22, Equation 21; Appendix B.3, PDF p.
+    49; Section 4.2, PDF pp. 16–19, Equations 15–20; Section 4.6, PDF p. 21; Section
+    4.2, PDF pp. 17–19; Section 4.6, PDF pp. 21–22; original finite and Gaussian conditional-coupling
+    diagnostics in research/discovery/pesc-boundaries.py; Section 4, PDF p. 13, explicit
+    additivity qualification; Section 4.1, PDF pp. 14–15, Equations 9 and 11–14; Section
+    4.5, PDF p. 21; original constrained boundary example in research/discovery/pesc-boundaries.py
+  accessed_at: '2026-10-14T22:37:03Z'
+  snapshot_sha256: bf1df88f424257b19f4dae9cfd70dfcaa9a322c8a317ac355fa689d004f9f177
+  support: supports
+  summary: 'Official JMLR 17(160):1–53 (2016) article. Front matter: submitted December
+    2015, revised April 2016, published September 2016; embedded PDF creation September
+    24, 2016. Distinct from the 2015 proceedings and supplement. Actual root reading:
+    Explicit approximation-induced additivity, half-log Gaussian entropy, stationary
+    finite-basis sampler and operational PES distinction reassessed. Training-noise
+    and appendix caveats remain retained from prior source/math inspection. No full53-page
+    reading or PESC-F scheduling evidence imported.'
+- evidence_id: calculation-pesc
+  kind: record_content
+  reference: research/discovery/pesc-boundaries.py
+  locator: Saved report curator_calculations; category_count, finite_minimizer_indicator_cases,
+    conditional_coupling, entropy_half_factor, gaussian_cavity, gaussian_propagation,
+    positive_feasibility_site, candidate_constraint_moment, damping_epsilon_one, training_noise,
+    constrained_boundary
+  accessed_at: '2026-10-15T02:48:15.138254Z'
+  snapshot_sha256: 6f0ea66ad0d799b35ab553981d674e93c28838737d20d7e6e4391b3da4db2a3f
+  support: supports
+  summary: 'Original ten-category PESC diagnostic: finite probabilities and Gaussian
+    natural-parameter algebra use exact Fraction arithmetic; entropy and Gaussian
+    constants use binary64 elementary functions, with isclose rel_tol=0 and abs_tol=2e-14.
+    Printed source expressions are bounded negative controls, not author-code replication
+    or a repaired EP implementation; actual copied-script outputs checked against
+    the full saved result. No author-code execution, model training, benchmark replication
+    or universal proof. Selected results: {"category_count": 10, "finite_minimizer_indicator_cases":
+    {"empty_feasible_set": 9, "tied_minimizers": 12, "total": 81, "unique_minimizer":
+    60}, "conditional_coupling": {"conditional_indicator_covariance_given_s0": "1/9",
+    "conditional_sign_information_given_s0": 0.17441604792151577, "finite_states":
+    [{"optimizer_s": 0, "probability": "1/4", "u": 0, "v": 0}, {"optimizer_s": 1,
+    "probability": "1/4", "u": 0, "v": 1}, {"optimizer_s": 0, "probability": "1/4",
+    "u": 1, "v": 0}, {"optimizer_s": 0, "probability": "1/4", "u": 1, "v": 1}], "gaussian_conditional_covariance":
+    0.2829421210522584, "gaussian_conditional_mean_constraint": -0.2659615202676218,
+    "gaussian_conditional_mean_delta": 0.2659615202676218, "gaussian_covariance_exact_expression":
+    "8/(9*pi)", "joint_information": 0.5623351446188083, "optimizer_entropy": 0.5623351446188083,
+    "sum_separate_information": 0.4315231086776713}, "entropy_half_factor": {"correct_gain":
+    0.6931471805599453, "printed2015_gain": 1.3862943611198906, "relation": "printed2015
+    gain is twice the Gaussian information approximation; common positive scaling
+    leaves argmax unchanged"}, "gaussian_cavity": {"cavity_variance": "6", "correct_cavity_mean":
+    "2", "jmlr2016_Eq39_literal_mean": "18", "supp2015_Eq18_literal_mean": "3"}, "gaussian_propagation":
+    [{"direct_total_variance": "1", "latent_variance": "1", "printed_variance": "-1"},
+    {"direct_total_variance": "1/2", "latent_variance": "1/2", "printed_variance":
+    "-1/2"}], "positive_feasibility_site": {"correct_logz_mean_derivative": 0.7978845608028654,
+    "correct_site_precision": 1.7519383938841089, "jmlr2016_Eq54_literal_derivative":
+    -0.7978845608028654, "supp2015_Eq30_literal_precision": -0.44379076287665614},
+    "candidate_constraint_moment": {"correct_variance": 0.9292644697369354, "direct_moment_variance":
+    0.9292644697369354, "interpretation": "Uses zero standardized means, resolving
+    the source beta subscript ambiguity identically; printed missing inverse-Hessian
+    expression gives a negative variance.", "printed_variance": -13.13716694115409},
+    "damping_epsilon_one": {"consequence": "Different ratios at two inputs refute
+    equality even up to a normalization constant.", "printed_to_new_factor_ratios":
+    ["2", "5"]}, "training_noise": {"correct_noisy_predictive_variance": "3/2", "literal2016_main_Eq10_variance":
+    "1"}, "constrained_boundary": {"consequence": "A constrained optimum need not
+    have zero objective gradient; no optimizer execution used.", "constraint": "c(x)=x-1/2>=0",
+    "domain": "[0,1]", "objective": "f(x)=x", "objective_gradient": "1", "unique_minimizer":
+    "1/2"}}'
+- evidence_id: source-math-provenance
+  kind: record_content
+  reference: research/discovery/20261015T024219Z-predictive-entropy-search-with-constraints.json
+  locator: source_analysis.handoffs, root_readings and writer_preparation_reading
+  accessed_at: '2026-10-15T02:48:15.138254Z'
+  snapshot_sha256: e2c06b6c572deafd20272bbbd98bf960f7f74478cc7bd4599be96f9dcd599fca
+  support: supports
+  summary: Root assessed the separately attributed selective source readings and bounded
+    mathematical research. Supporting agents are in the same author workflow and provide
+    no independent scientific approval.
+- evidence_id: source-error-original-lineage
+  kind: record_content
+  reference: research/discovery/20261015T024219Z-predictive-entropy-search-with-constraints.json
+  locator: calculation_lineage.artifacts, curator_calculations, draft_wording_lineage,
+    research_correction_lineage and source_analysis
+  accessed_at: '2026-10-15T02:48:15.138254Z'
+  snapshot_sha256: e2c06b6c572deafd20272bbbd98bf960f7f74478cc7bd4599be96f9dcd599fca
+  support: supports
+  summary: The original curator-written PESC diagnostic and its actual first and root
+    executions retain exact bytes. Printed source expressions are negative controls
+    with explicit finite examples, not repaired author software. The original and
+    successor research handoffs retain the nearest-native spelling clarification.
+    A separate citation-only draft successor resolves an actual prewrite uncited-source
+    validation failure; original and whole-second TEMP preview attempts, exact diff
+    and root source acceptance remain retained. Claim text and calculator are unchanged.
+    Raw acquisition precision and source reading scopes remain explicit. No canonical
+    finding or issue closure is invented.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Predictive Entropy Search with Constraints
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  evidence_ids:
+  - identity
+  - hernandez2015
+  - hernandez2015-supplement
+  - hernandez2016
+  summary: Retain the narrow DRAFT identity within the documented search scope.
+  details: The primary method names PESC and defines a distinct operational approximation.
+    PES uses different derivative and observed-objective constraints; the 2016 source
+    explicitly says zero-constraint PESC is not identical to PES. MES and OPES target
+    maximum value rather than constrained optimizer location. Monotonic GP surrogate
+    constraints are distinct from unknown black-box feasibility constraints. Actual
+    ES/PES/MES/OPES records and the complete current frontier are assessed as neighbors.
+    No aliases or automatic PESC-F inclusion are adopted.
+- assessment_id: definition
+  area: evidence
+  topic: Definition and source scope
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  evidence_ids:
+  - hernandez2015
+  - hernandez2015-supplement
+  - hernandez2016
+  - actual-record-reading
+  summary: The maintained definition is supported within its stated method scope.
+  details: The definition identifies posterior constrained-optimizer samples, finite
+    feasibility/optimality conditioning, Gaussian EP and predictive observation entropy.
+    It does not reduce the algorithm to the generic optimizer-information target or
+    imply an exact conditioned law. The official 2015 nine-page main paper and nine-page
+    supplement support the core method. The 2016 expanded report is used only within
+    retained pages 1–3, 12–22 and 41–49, not all 53 pages. Its explicit additivity
+    and zero-constraint qualifications and revised entropy scale are cited without
+    treating it as a wholesale formula repair. Actual root postcapture source rereads
+    remain separate from the retained research scopes.
+- assessment_id: mapping
+  area: grounding
+  topic: 'Related AIO mapping: AIO:ActiveLearning'
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  evidence_ids:
+  - mapping
+  - hernandez2015
+  - hernandez2015-supplement
+  - hernandez2016
+  summary: related_match expresses the scoped semantic association without equivalence
+    or ontology inheritance.
+  details: 'AIO:ActiveLearning is related through choosing informative queries and
+    observing their outputs. Its labeling-oriented task does not equal a constrained
+    optimizer acquisition. No exact equivalence, subclass relationship, annotation
+    requirement or neural-network/layer inheritance is asserted.
+
+    Alternatives:
+
+    AIO:TrainingStrategy: General expensive black-box function optimization is not
+    necessarily model training or preprocessing; training applications do not define
+    this whole algorithm.
+
+    AIO:RegressionAnalysis: The GP regression surrogate is a component, not the information-based
+    sequential evaluation rule.
+
+    AIO:SupervisedLearning: Generic input-output learning omits the constrained-optimizer
+    information acquisition and sequential feasibility queries.
+
+    AIO:UnsupervisedLearning: PESC collects objective and constraint observations
+    and is not defined by unlabeled pattern learning.
+
+    AIO:ReinforcementLearning: Exploration terminology does not identify a policy/environment
+    reward-learning method or cumulative-regret objective.
+
+    AIO:BayesianNetwork: A GP posterior and conditional information formula are not
+    a DAG network architecture.
+
+    AIO:Model: PESC denotes an evaluation-selection algorithm, not only its GP surrogate
+    artifact.
+
+    AIO:Network: No interconnected-node architecture defines this acquisition mechanism.
+
+    AIO:MathematicalFunction: The acquisition expression alone omits optimizer sampling,
+    finite conditioning and sequential evaluation.
+
+    AIO:DeepActiveLearning: PESC does not require a deep neural network or the pinned
+    annotation-focused architecture.
+
+    AIO:KernelLayer: Use of covariance kernels does not make PESC a neural layer.
+
+    AIO:MachineLearningTask: This broad task is less informative than the explicit
+    query-learning association; it does not identify PESC.'
+- assessment_id: constrained-optimizer-information-target
+  area: evidence
+  topic: constrained-optimizer-information-target
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  evidence_ids:
+  - hernandez2015
+  - hernandez2016
+  - calculation-pesc
+  summary: Supported within the stated assumptions and inspected passages.
+  details: 2015 pp. 1 and 3, Equations 1 and 6–7, and 2016 p. 13 identify information
+    about a feasible minimizer location and its predictive-entropy rearrangement.
+    The draft explicitly requires attained feasibility and uniqueness or a measurable
+    tie selection, with well-defined entropy terms. The finite indicator examples
+    include tied and empty feasible cases; an observed feasible incumbent is a different
+    condition. No empty-draw handling rule is manufactured.
+- assessment_id: approximate-constrained-optimizer-sampling
+  area: evidence
+  topic: approximate-constrained-optimizer-sampling
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  evidence_ids:
+  - hernandez2015
+  - hernandez2016
+  summary: Supported within the stated assumptions and inspected passages.
+  details: 2015 p. 3 and 2016 pp. 14, 20–22 and 49 support independent GP/noise assumptions,
+    finite-basis posterior function draws and numerical constrained minimization.
+    The finite average is not exact optimizer sampling, and stationary-kernel applicability
+    remains explicit. Averaging conditional acquisition scores over hyperparameters
+    need not equal fully marginalized information. No global numerical optimizer guarantee
+    is asserted.
+- assessment_id: finite-feasibility-and-optimality-indicators
+  area: evidence
+  topic: finite-feasibility-and-optimality-indicators
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  evidence_ids:
+  - hernandez2015
+  - hernandez2016
+  - calculation-pesc
+  summary: Supported within the stated assumptions and inspected passages.
+  details: 2015 pp. 4–5, Equations 9–15, and 2016 pp. 16–19 and 21 define feasibility
+    Gamma and no-better-feasible-point Psi. Equality at constraint zero is feasible.
+    Restricting factors to finite represented inputs is an approximation to domain-wide
+    optimality. The exact 81-case enumeration agrees with minimizer membership, including
+    12 tie and 9 empty cases; it does not normalize a continuous optimizer density
+    or choose among ties.
+- assessment_id: factorized-ep-and-candidate-moments
+  area: evidence
+  topic: factorized-ep-and-candidate-moments
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  evidence_ids:
+  - hernandez2015
+  - hernandez2016
+  - hernandez2015-supplement
+  - calculation-pesc
+  summary: Supported within the stated assumptions and inspected passages.
+  details: 2015 pp. 4–5 and 2016 pp. 17–19 and 21–22 describe Gaussian sites, within-function
+    covariance, reusable observed-input calculations and candidate marginal moment
+    matching. Independent priors do not imply independence after optimizer conditioning.
+    The finite sign witness and one Gaussian event demonstrate discarded conditional
+    dependence. Observation noise is added after latent marginal approximation; these
+    diagnostics do not validate full EP iterations.
+- assessment_id: taskwise-noisy-log-variance-score
+  area: evidence
+  topic: taskwise-noisy-log-variance-score
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  evidence_ids:
+  - hernandez2015
+  - hernandez2016
+  - calculation-pesc
+  summary: Supported within the stated assumptions and inspected passages.
+  details: 2015 Equations 8 and 16 omit the half factor that appears in 2016 Equations
+    9 and 11–14. The record states half-log noisy-variance differences for positive
+    variances and positive sample count. Their common factor preserves the same score
+    argmax while changing information units. The source explicitly attributes taskwise
+    and subset additivity to the approximation; no exact mutual-information additivity
+    or general independent-output claim is made.
+- assessment_id: boundary-optima-and-pes-distinction
+  area: evidence
+  topic: boundary-optima-and-pes-distinction
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  evidence_ids:
+  - hernandez2015
+  - hernandez2016
+  - calculation-pesc
+  summary: Supported within the stated assumptions and inspected passages.
+  details: 2016 p. 21, Section 4.5 explicitly distinguishes PESC at K=0 from PES.
+    The draft retains different derivative and observed-comparison constraints. The
+    elementary f(x)=x, c(x)=x−1/2 example on [0,1] has a boundary optimum with nonzero
+    gradient, supporting why unconstrained interior stationarity must not be imposed
+    universally. Shared ideal optimizer information does not establish operational
+    identity.
+- assessment_id: scope-and-boundaries
+  area: consistency
+  topic: The core PESC constrained-minimizer-location acquisition with finite feasibility/optimality
+    indicators, Gaussian EP and taskwise approximate observation entropies. PESC-F
+    and general resource scheduling remain separate.
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  evidence_ids:
+  - hernandez2015
+  - hernandez2015-supplement
+  - hernandez2016
+  - calculation-pesc
+  - source-math-provenance
+  summary: Mechanism, parameter assumptions and identity boundaries remain qualified.
+  details: Feasible attainment and almost-sure uniqueness or a measurable tie rule
+    are explicit assumptions; absence of an observed feasible incumbent does not settle
+    empty feasible posterior draws. Finite function representations, numerical optimizer
+    samples, finite optimality factors, Gaussian EP, task factorization, candidate
+    moment matching and hyperparameter averaging remain separate approximations. Printed
+    cavity, variance, derivative, damping and noise-matrix caveats are retained, not
+    certified repaired code. PESC-F, complete 2016 reading, empirical superiority,
+    universal convergence and full GP/EP execution are outside scope.
+- assessment_id: actual-maintained-fields
+  area: provenance
+  topic: All captured maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  evidence_ids:
+  - actual-record-reading
+  - identity
+  - mapping
+  - hernandez2015
+  - hernandez2015-supplement
+  - hernandez2016
+  summary: Root reassessed the complete current record after canonical capture; DRAFT
+    remains.
+  details: 'Root read every maintained YAML field, all six complete claim statements
+    and citations, full prepared review narratives, rendered discovery report and
+    CREATE history after actual capture. The definition and algorithm kind identify
+    the operational PESC approximation. Feasible attainment, tie selection and well-defined
+    entropy qualify the ideal information target; lack of an observed feasible incumbent
+    does not solve empty posterior feasible draws. Finite optimizer functions/searches
+    and indicator collections, EP sites, discarded conditional task dependence, candidate
+    marginal moments and score-averaged hyperparameters remain distinct approximations.
+    The explicit half-log noisy-variance score is supported by later source and direct
+    Gaussian entropy, without silently endorsing early printed scale. Zero-constraint
+    PESC is expressly distinct from PES. Supplement citation supports Gaussian task
+    factorization and final marginal moment approximation; its incidental claim that
+    propagated candidate moments do not depend on x is not adopted. Positive source
+    metadata/access/versions, snapshot and related ActiveLearning mapping agree with
+    previously read current corpus/AIO contexts and bounded ignored-inclusive identity
+    assessment. No aliases, exact equivalence, upstream inheritance or DRAFT promotion
+    occurs. Root read the full copied bounded calculator and actual reproduced output;
+    the 81 finite cases and nine other categories remain examples, not an EP implementation
+    or general correctness theorem. Actual integrity checks preserve all1161 baseline
+    records, all900 old main and393 nested frontier objects, with only distinct PESC
+    leaf900 appended. Original writer failure, fractional-timestamp preview rejection,
+    successful whole-second preview and citation-only successor remain separate, with
+    missing original timing explicit. No maintained-record defect was found in this
+    scope; no historical issue closure is inferred. Rereads: Root freshly read text
+    of 2015 main PDF3–5, supplement PDF2–3 and8, and 2016 JMLR PDF13–14 and21; visually
+    inspected main3/5, supplement3/8, JMLR14/21. No additional full-document reading
+    is claimed. Full earlier2015main/supplement and selective23/53JMLR reading remain
+    separately dated in root-source-reading; pre-capture supplementary citation check
+    additionally read1–4,7–9 and viewed3/8.'
+- assessment_id: source-error-and-original-lineage
+  area: provenance
+  topic: Source caveats and original calculation history
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchWithConstraints
+  evidence_ids:
+  - source-error-original-lineage
+  summary: Source interpretation, TEMP clarifications and actual calculation lineage
+    remain distinct.
+  details: The original curator-written PESC code, result and actual first/root execution
+    receipts retain exact bytes. Its ten bounded categories combine exact rational
+    algebra with floating elementary functions. The source formula counterexamples
+    do not certify a repaired EP implementation or author software. The only handoff
+    successor corrects two nearest-native spellings; original and current handoffs
+    and the exact diff remain retained. Separately, one structured supplement citation
+    was added after prewrite validation rejected an uncited source. The first fractional-timestamp
+    preview failed schema checks; the later whole-second preview passed, with neither
+    preview presented as canonical curation or a full gate. Raw acquisition precision
+    is separate from whole-second metadata. No GP fitting, EP solver, acquisition
+    optimization, benchmark replication, full 2016 reading or general performance
+    guarantee is asserted.
+findings: []
+actions: []
+limitations:
+- Author self-review, not independent scientific approval or DRAFT promotion.
+- Feasible attainment and almost-sure uniqueness or a measurable tie rule are explicit
+  assumptions; absence of an observed feasible incumbent does not settle empty feasible
+  posterior draws. Finite function representations, numerical optimizer samples, finite
+  optimality factors, Gaussian EP, task factorization, candidate moment matching and
+  hyperparameter averaging remain separate approximations. Printed cavity, variance,
+  derivative, damping and noise-matrix caveats are retained, not certified repaired
+  code. PESC-F, complete 2016 reading, empirical superiority, universal convergence
+  and full GP/EP execution are outside scope.
+- Qualified author self-review with supporting agents in the same workflow; no independent
+  scientific approval or DRAFT promotion.
+- Current identity assessment covers 719 native and 442 AIO identities including scoped
+  synonyms, four complete ignored/hidden-inclusive searches, actual ES/PES/MES/OPES
+  neighbors and the full 900-row main/393-row nested frontier. This is bounded corpus
+  absence, not universal novelty.
+- The original curator calculator and separate actual root reproduction retain exact
+  bytes. It checks 81 finite indicator cases and nine other bounded categories; no
+  GP fit, EP solver, acquisition optimizer, author implementation or benchmark was
+  run.
+- Source formula caveats are distinguished from research corrections. The only research
+  handoff successor corrects two nearest-native identifier spellings; the original
+  handoff and exact diff remain retained. A separate citation-only draft successor
+  resolves the actual prewrite uncited-source validation error; failed and corrected
+  TEMP previews are retained. No claim text, calculator or canonical issue is changed.
+- Source access precision, whole-second schema metadata, bibliographic versions and
+  actual reading times remain separate. Full 2015 main/supplement reading and selected
+  23 of 53 JMLR pages are attributed to the actual readers; PESC-F remains excluded.
+notes:
+- Empty findings reflect actual root assessment of this selected captured record only;
+  no unrelated finding closure or literature saturation is asserted.
+- Source caveats and preserved calculation or wording lineage remain distinct; no
+  maintained-record finding or issue closure is invented from them.
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+- bayesian-optimization
+- constrained-optimizer-information
+- pesc
+```
