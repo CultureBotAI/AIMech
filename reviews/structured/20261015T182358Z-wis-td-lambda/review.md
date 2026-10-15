@@ -1,0 +1,1307 @@
+# Scientific self-review of WIS-TD(lambda)
+
+- Review: 20261015T182358Z-wis-td-lambda
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-15T18:13:55.589113Z
+- Finished UTC: 2026-10-15T18:23:58.264440Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain source-defined WIS-TD(lambda) as the specified linear off-policy state-value prediction algorithm. All six claims, seven individual limitations and one exact primary artifact are assessed through attributed source/math reading and actual canonical correspondence. The qualified ReinforcementLearning mapping denotes prediction machinery used in the broader task. Actual capture, owner preservation, generated pages and six completed required checks are bound; no independent approval or residual exhaustion is implied.
+
+## Scope And Provenance
+
+Complete explicitly selected one-record cohort in the captured current canonical state.
+
+Selection: Exact ID: AIMech:WISTDLambda.
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 25128d9a277af9dfb7f7f06e2eeb9ab1588798db.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:WISTDLambda | data/curated/WISTDLambda.yaml | maintained | WIS-TD(lambda) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:WISTDLambda | Actual successful command; exact output is retained. |
+| just vendored-check | passed | True | AIMech:WISTDLambda | Actual successful command; exact output is retained. |
+| uv run --locked aimech check-source | passed | True | AIMech:WISTDLambda | Actual successful command; exact output is retained. |
+| just render | passed | True | AIMech:WISTDLambda | Actual successful command; exact output is retained. |
+| just render-check | passed | True | AIMech:WISTDLambda | Actual successful command; exact output is retained. |
+| git diff --check | passed | True | AIMech:WISTDLambda | Actual successful command; exact output is retained. |
+
+## Scientific And Domain Assessments
+
+### Claim linear-off-policy-usage-adaptation
+
+evidence: supported. Targets: AIMech:WISTDLambda.
+
+Section 3 specifies the prediction setting, policy ratio and discount domain; Section 5 gives the lambda domain and explicitly names WIS-TD as an extension of the WIS-SGD-2 target. No control rule or ordinary tabular WIS identity is claimed.
+
+### Claim usage-state-and-step-size
+
+evidence: supported. Targets: AIMech:WISTDLambda.
+
+Equations 22–24 and Algorithm 1 agree on the two usage recurrences and new component step. Both old-v dependencies are preserved. The additional theta-minus-one initialization is explicitly supplied by Equation 17, not invented from the box.
+
+### Claim component-scaled-dutch-trace
+
+evidence: supported. Targets: AIMech:WISTDLambda.
+
+Equation 25 uses new alpha, old trace and the extra rho inside the correction. The b_t abbreviation is an exact algebraic substitution. The paper separately discusses an optional auxiliary vector; it is not the provisional d used here.
+
+### Claim coupled-parameter-and-provisional-update
+
+evidence: supported. Targets: AIMech:WISTDLambda.
+
+Equations 26–27 and Algorithm 1 match the b/C/B abbreviations term by term. Old d appears on both right sides; d_next does not feed the current theta update. The innovation without gamma_next is also supported by Appendix A.6 rather than silently repaired.
+
+### Claim specified-forward-backward-correspondence
+
+evidence: supported. Targets: AIMech:WISTDLambda.
+
+Theorems 5–6 state the matched forward/backward correspondence; Theorem 3 and Appendix A.3–6 supply the generalized target-difference construction. The claim confines equality to the specified replay and does not certify every proof transformation.
+
+### Claim linear-dense-update-cost
+
+evidence: supported. Targets: AIMech:WISTDLambda.
+
+The source states O(n) time and memory after Equation 27. The fixed number of dense vector states supports that bookkeeping claim, without including feature generation or asserting a sparse/wall-clock bound.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:WISTDLambda.
+
+The source explicitly defines WIS-TD as a linear prediction method with usage, Dutch and provisional states. Forward-target wording avoids claiming exact ordinary tabular WIS for its WIS-SGD-2-based construction.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:WISTDLambda.
+
+The algorithm estimates policy state values from reward transitions, potentially sampled under a different behavior policy, and supplies prediction machinery used in reinforcement learning. The pinned class is a broader learning task; this is a qualified association, not exact identity, an algorithm-to-task subclass edge, action selection, policy improvement or convergence.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:WISTDLambda.
+
+One combined author artifact supplies the selected main method and appendix algorithm. Its first ten native-text pages match the official main paper and its final eight match the official supplement; the retained comparison establishes text correspondence, not an independently verified revision date. The raw fractional acquisition, failed initial access and successful retry are preserved. Local display qualifications remain bounded to their passages, without inferring that the entire algorithm or proofs are invalid. Source-agent historical reading: all ten official-main native pages and author appendix pages 11–18, with original visuals 3–6 and author visuals 17–18; official supplement visual 8 and exact text comparisons retained separately. Preparation revisited selected method and appendix locators. Later supporting math reading covers official native 3–6, author 6/17, supplement 6–7, visuals official 6, author 17–18 and supplement 8, then author native 9 and the complete selected module/support. Root reading covers official native 1–10, author native 15–16 and visuals official 6/author 17–18, as stated in its acceptance. These are separately attributed scopes, not independent approval or full proof/software certification.
+
+### identity assessment
+
+identity: supported. Targets: AIMech:WISTDLambda.
+
+Retain the source-defined WIS-TD(lambda) linear off-policy prediction algorithm separately from its Dutch trace component, true-online TD/GTD/Sarsa hosts, ordinary importance sampling and the separately named WIS-GTD and usage-based methods. The matched rho=1 specialization does not make complete algorithms aliases. WIS-TO-GTD remains a separately scoped unresolved display issue. Existing owner 264 remains partially addressed, retaining six prior IDs and four complete resolutions; no new frontier leaf or family exhaustion follows. The actual captured identity notes implement the root current collection decisions; the original preview scope remains historical and is recorded in context_changes. Existing owner 264 stays partial, with six prior IDs and all four prior resolution objects retained.
+
+### kind-and-status assessment
+
+scope: supported. Targets: AIMech:WISTDLambda.
+
+The algorithm kind selects the complete source-defined linear state-value prediction procedure, not its isolated trace or a generic estimator. DRAFT status remains; qualified RL association does not assert control, exact task identity or an algorithm-to-task subclass.
+
+### Individual limitation 1
+
+scope: supported. Targets: AIMech:WISTDLambda.
+
+The separately named variants differ in traces and provisional/auxiliary states. Rho=1 removes the extra provisional term and yields the on-policy theta specialization under matched states; endpoint overlap is not identity of entire algorithms. Locator: Section 6, author PDF p. 7; Appendix A.7, p. 18, Algorithms 1–5.
+
+### Individual limitation 2
+
+scope: supported. Targets: AIMech:WISTDLambda.
+
+The source leaves convergence analysis for future work. Matched finite replay neither proves behavior coverage and finite moments nor upgrades a prediction method to policy optimization. Locator: Sections 3, 5 and 8, author PDF pp. 3–4, 6 and 9; retained analytical boundaries.
+
+### Individual limitation 3
+
+scope: supported. Targets: AIMech:WISTDLambda.
+
+The paper itself withdraws exact tabular WIS correspondence for WIS-SGD-2. The retained overlapping-feature hand example and general self-normalization boundary prevent transferring the earlier restricted averaging result. Locator: Sections 2–3, author PDF pp. 3–5, Theorems 1–2 and the explicit WIS-SGD-2 qualification.
+
+### Individual limitation 4
+
+scope: supported. Targets: AIMech:WISTDLambda.
+
+The retained scalar usage witness demonstrates that unconstrained eta can produce zero or negative usage. The stated sufficient coordinate condition applies with the nonnegative forward weights and initialization, while zero division remains an explicit convention. Locator: Section 2, author PDF p. 3; Section 5, p. 6, Equations 18–24; Appendix A.7, p. 18.
+
+### Individual limitation 5
+
+scope: supported. Targets: AIMech:WISTDLambda.
+
+The prior-theta cancellation in the first theta update does not remove its appearance in the first provisional innovation. The exact update timing and literal missing discount in d are intentionally retained. Locator: Section 5, author PDF p. 6, Equations 17 and 22–27; Appendix A.6–7, pp. 17–18.
+
+### Individual limitation 6
+
+scope: supported. Targets: AIMech:WISTDLambda.
+
+Linear fixed-feature replay and vector arithmetic are scoped to the source construction. No nonlinear-feature, generic Monte Carlo, control, sparse-current-feature or universal timing guarantee is inferred. Locator: Sections 2, 4 and 5, author PDF pp. 2 and 5–6; Appendix A.3–6, pp. 13–17.
+
+### Individual limitation 7
+
+scope: supported. Targets: AIMech:WISTDLambda.
+
+The declared combined author bytes support both main equations and the appendix box; duplicate source copies are provenance context rather than redundant native declarations. Display observations remain local and do not establish a failed implementation or a certified proof. Locator: Version comparison; author PDF pp. 4–6, 12 and 17; experiments/discussion pp. 7–9.
+
+### Actual canonical, capture, frontier, history, rendered-page and check correspondence
+
+provenance: supported. Targets: AIMech:WISTDLambda.
+
+The current record equals the actual write/report entry and accepted science: six claims, seven individual limitations and one exact primary artifact. Four files were created and one CREATE history records the session. Only owner 264 changed; six prior IDs and cohort 343/344/345/346 resolutions remain, with 908 other main and 393 nested objects unchanged. Every captured input and actual rendered page hash was checked. Six required checks passed; DRAFT and partial residual scope remain.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:WISTDLambda. Retain the source-defined WIS-TD(lambda) linear off-policy prediction algorithm separately from its Dutch trace component, true-online TD/GTD/Sarsa hosts, ordinary importance sampling and the separately named WIS-GTD and usage-based methods. The matched rho=1 specialization does not make complete algorithms aliases. WIS-TO-GTD remains a separately scoped unresolved display issue. Existing owner 264 remains partially addressed, retaining six prior IDs and four complete resolutions; no new frontier leaf or family exhaustion follows.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| preview-wis | /private/tmp/aimech-wis-td-draft-preparation-20261015/native-preview.json | context_only | Actual accepted TEMP native payload; canonical correspondence is assessed separately. |
+| support-wis | /private/tmp/aimech-wis-td-draft-preparation-20261015/scientific-support.final.json | context_only | Exact six-claim and seven-limit static support with separate historical reading and locator-refinement lineage. |
+| draft-acceptance-wis | /private/tmp/aimech-wis-td-draft-preparation-20261015/root-draft-acceptance.json | context_only | Root read complete data-only module, final inputs, all six exact claim and seven individual limitation support narratives, definition, mappings, historical identity, source metadata and time projection, plus exact-draft math addendum. Prior root primary/visual reading and version assessment remain separate in research acceptance. Accept for TEMP invocation/native validation only; current merged-base identity and canonical curation remain separate. |
+| preview-validation-wis | /private/tmp/aimech-wis-td-draft-preparation-20261015/native-preview-validation.json | context_only | Actual TEMP native validation only; no canonical addition, current identity clearance, gate or independent scientific approval. |
+| root-research-acceptance | /private/tmp/aimech-wis-td-research-20261015/root-research-acceptance.json | context_only | Actual root research acceptance and its separately recorded primary/visual, identity and mapping scopes. |
+| source-reading-wis | /private/tmp/aimech-wis-td-research-20261015/reading.json | context_only | Source-agent historical reading: all ten official-main native pages and author appendix pages 11–18, with original visuals 3–6 and author visuals 17–18; official supplement visual 8 and exact text comparisons retained separately. Preparation revisited selected method and appendix locators. Later supporting math reading covers official native 3–6, author 6/17, supplement 6–7, visuals official 6, author 17–18 and supplement 8, then author native 9 and the complete selected module/support. Root reading covers official native 1–10, author native 15–16 and visuals official 6/author 17–18, as stated in its acceptance. These are separately attributed scopes, not independent approval or full proof/software certification. |
+| source-times-wis | /private/tmp/aimech-wis-td-draft-preparation-20261015/source-time-projection.json | context_only | Original fractional source acquisition and whole-second UTC native projection, preserved separately from review access. |
+| historical-identity-wis | /private/tmp/aimech-wis-td-research-20261015/identity/assessment.json | context_only | Dated historical identity interpretation; the actual merged-base assessment is bound separately. |
+| source-version-comparison | /private/tmp/aimech-wis-td-research-20261015/source-version-comparison.json | context_only | Retained exact native-text correspondence among author main/appendix and official main/supplement; no verified revision date inferred. |
+| preparation-refinements | /private/tmp/aimech-wis-td-draft-preparation-20261015/preparation-refinements.json | context_only | Pre-invocation source locator and explanatory refinements; original bytes and exact differences retained. |
+| support-locator-refinement | /private/tmp/aimech-wis-td-draft-preparation-20261015/support-locator-refinement.json | context_only | Two supporting locator-range refinements only; selected module unchanged. |
+| wis-source-math | /private/tmp/aimech-wis-td-supporting-math-20261015/assessment.json | context_only | Later bounded same-author source/math assessment, predating its separate exact-draft read; no code experiment or complete proof certification. |
+| wis-draft-math | /private/tmp/aimech-wis-td-supporting-math-20261015/draft-addendum.json | context_only | Later complete exact-module/support assessment of six claims/seven limits, plus author native page 9. No new identity or native invocation claimed. |
+| src-mahmood2015-author | https://armahmood.github.io/files/MS-WIS-O(n)-UAI-2015.pdf; Sections 2–6 and 8, author PDF pp. 3–7 and 9; Appendix A.6–A.7, pp. 16–18, especially Algorithm 1 on p. 18. Source-agent historical reading: all ten official-main native pages and author appendix pages 11–18, with original visuals 3–6 and author visuals 17–18; official supplement visual 8 and exact text comparisons retained separately. Preparation revisited selected method and appendix locators. Later supporting math reading covers official native 3–6, author 6/17, supplement 6–7, visuals official 6, author 17–18 and supplement 8, then author native 9 and the complete selected module/support. Root reading covers official native 1–10, author native 15–16 and visuals official 6/author 17–18, as stated in its acceptance. These are separately attributed scopes, not independent approval or full proof/software certification. | supports | Author-catalog-linked eighteen-page combined UAI 2015 paper and Appendix A. Native text on PDF pp. 1–10 matches the official ten-page proceedings paper, and pp. 11–18 match its official eight-page supplement. The embedded 2016 PDF creation date is not treated as a verified scientific revision date; source-local PDF pagination is used. |
+| actual-write | /private/tmp/aimech-wis-td-cohort347-write.json | context_only | Actual exclusive creation receipt: one record, report pair and one CREATE history. |
+| captured-inputs | /private/tmp/aimech-wis-td-cohort347-capture.json | context_only | Actual canonical inspection; every current input hash and maintained target was checked. |
+| postcapture-reading | /private/tmp/aimech-cohort347-root-postcapture-reading.v2.json | context_only | Root read the complete accepted preview and actual canonical YAML, all six claims and seven limitations, current report Markdown, CREATE history and full current owner 264. Root verified all 31 captured input hashes, canonical/write/report correspondence and preservation of 908 other main and 393 nested frontier objects. Root read the complete actual scientific assessment and complete governance narratives/check summary and rendered-page manifest. Earlier root research acceptance explicitly records official-main native pages 1–10, author native pages 15–16, official-main visual page 6 and author visual pages 17–18; later residual-family reading is separately attributed in its acceptance. No new primary reading was performed during this postcapture audit; no full proof certification or browser layout inspection. Same-author source and governance agent readings remain separately attributed. |
+| governance-assessment | /private/tmp/aimech-cohort347-governance-audit-20261015/assessment.json | context_only | Actual byte preservation, owner/frontier, history and parsed-page audit; no independent approval. |
+| rendered-pages | /private/tmp/aimech-cohort347-governance-audit-20261015/rendered-pages.json | context_only | Actual generated page paths and bytes, with parsed-content correspondence; no browser/layout inspection. |
+| actual-scientific-assessment | /private/tmp/aimech-cohort347-actual-scientific-audit-20261015/assessment.json | context_only | Same-author actual-record adversarial assessment with separately attributed primary reading. |
+| current-identity-collection | /private/tmp/aimech-cohort347-identity-20261015/collection.json | context_only | Current four-root ignored- and hidden-inclusive identity collection; mechanical coverage is distinct from attributed semantic reading. |
+| current-context-assessment | /private/tmp/aimech-cohort347-supporting-context-assessment-20261015/assessment.json | context_only | Actual supporting interpretation of retained matched contexts; root and supporting scopes remain separate. |
+| root-decisions | /private/tmp/aimech-cohort347-root-decisions.final.json | context_only | Actual root identity/owner/source-lead decisions, retaining owner 264 partial residuals. |
+| scientific-support | /private/tmp/aimech-wis-td-cohort347-review-preparation-20261015/scientific-support.prepared.json | context_only | Exact accepted claim and limitation support; historical and later source/math scopes remain separate. |
+| discovery-report | /private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T181241Z-wis-td-lambda.json | context_only | Current record/context/owner mirrors; no added frontier leaf. |
+| creation-history | /private/tmp/aimech-discovery-recovery-worktree-20261012/history/reports/wis-td-lambda/2026-10-15T181252Z-codex-5f35fa.yaml | context_only | Actual CREATE report history for the one-record cohort; predecessor creation lineage remains separate. |
+| record-wis | /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/WISTDLambda.yaml | context_only | Complete current DRAFT record equals accepted science and actual root identity decisions. |
+| check-gate | /private/tmp/aimech-wis-td-cohort347-check-gate.json | context_only | Actual required command completed successfully before this review generation. |
+| check-vendor | /private/tmp/aimech-wis-td-cohort347-check-vendor.json | context_only | Actual required command completed successfully before this review generation. |
+| check-check-source | /private/tmp/aimech-wis-td-cohort347-check-check-source.json | context_only | Actual required command completed successfully before this review generation. |
+| check-render | /private/tmp/aimech-wis-td-cohort347-check-render.json | context_only | Actual required command completed successfully before this review generation. |
+| check-render-check | /private/tmp/aimech-wis-td-cohort347-check-render-check.json | context_only | Actual required command completed successfully before this review generation. |
+| check-diff | /private/tmp/aimech-wis-td-cohort347-check-diff.json | context_only | Actual required command completed successfully before this review generation. |
+
+## Limits And Additional Notes
+
+- Same-author source/math support and root review are not independent approval; acquisition, selective primary reading, hand analysis and native validation are separate events.
+- The exact WIS-TD timing and previous-weight initialization remain source-scoped. The provisional innovation is not silently changed to insert the next discount, and its provisional weights are not a GTD auxiliary-weight state.
+- Finite matched-sequence correspondence does not establish ordinary tabular WIS, unbiased objective gradients, convergence, monotonic improvement, nonlinear control or universal Monte Carlo endpoint equivalence.
+- Feature-usage nonnegativity needs the stated coordinate factors and forward-weight assumptions; eta &gt;= 0 alone is insufficient. The zero reciprocal convention does not prove positive or bounded steps.
+- The combined author source has verified text correspondence to the official main/supplement. Embedded PDF metadata is not a verified scientific revision date. Source-local formula/display caveats are retained without a complete-proof invalidity claim.
+- Historical ignored-inclusive research is dated to its inspected snapshot. The actual merged-base collection and root interpretation are bound separately; no global absence or family exhaustion follows.
+- Preparation locator refinements and later supporting math assessments are immutable attributed lineage, distinct from the root accepted preview and actual canonical correspondence.
+- Actual four creation outputs, one CREATE history, 6 generated pages and 31 capture inputs are assessed through separate receipts. Six required checks passed; any failed attempts remain explicit. Parsed HTML is not browser/layout inspection. Canonical review save/check and publication remain separate actions.
+- Root read the complete accepted preview and actual canonical YAML, all six claims and seven limitations, current report Markdown, CREATE history and full current owner 264. Root verified all 31 captured input hashes, canonical/write/report correspondence and preservation of 908 other main and 393 nested frontier objects. Root read the complete actual scientific assessment and complete governance narratives/check summary and rendered-page manifest. Earlier root research acceptance explicitly records official-main native pages 1–10, author native pages 15–16, official-main visual page 6 and author visual pages 17–18; later residual-family reading is separately attributed in its acceptance. No new primary reading was performed during this postcapture audit; no full proof certification or browser layout inspection. Same-author source and governance agent readings remain separately attributed.
+- Current merged-base four-root ignored- and hidden-inclusive collection covers 1,216 identity rows and 4,396 matched occurrences grouped into 877 unique contents. Root read all eight candidate-named contents, 11 normalized definitions/21 context fields and complete owners 264/265/266/269. Two supporting agents separately read disjoint groups 0–449 and 450–876; root read their assessment narratives and metadata, not every raw content in those partitions. No whole-corpus semantic rereading or frontier exhaustion is claimed.
+- The exact combined author UAI 2015 paper and Appendix A support WIS-TD as a separate linear off-policy prediction algorithm under existing eligibility owner 264. The source-defined WIS-GTD, usage-based TD and usage-based true online TD methods have separately assessed recurrences and remain further curation candidates; their complete scopes are not aliases of this record. WIS-TO-GTD remains unresolved because its printed correction-trace history and described host specialization require clarification. Preserve generic eligibility organization, soft-cut and other control/off-policy residuals, together with separate owners 265 and 266. No new frontier leaf is needed and this source family is not exhausted.
+- Source access, dated historical identity, source-agent reading, later WIS hand analysis, native validation and actual root postcapture assessment retain separate scopes and timestamps. The root science reading may precede some gates; actual logs independently establish completed checks.
+- The accepted final WIS inputs and support retain their earlier locator-refinement lineage. Historical identity evidence is dated, while the actual merged-base assessment is bound separately. No original receipt is rewritten.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261015T182358Z-wis-td-lambda
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of WIS-TD(lambda)
+started_at: '2026-10-15T18:13:55.589113Z'
+finished_at: '2026-10-15T18:23:58.264440Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root author assessment with attributed same-author source and
+    mathematical supporting agents; no independent scientific approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain source-defined WIS-TD(lambda) as the specified linear off-policy state-value
+  prediction algorithm. All six claims, seven individual limitations and one exact
+  primary artifact are assessed through attributed source/math reading and actual
+  canonical correspondence. The qualified ReinforcementLearning mapping denotes prediction
+  machinery used in the broader task. Actual capture, owner preservation, generated
+  pages and six completed required checks are bound; no independent approval or residual
+  exhaustion is implied.
+source:
+  git_revision: 25128d9a277af9dfb7f7f06e2eeb9ab1588798db
+  state: working_tree
+  inputs:
+  - path: .claude/skills/review-category/SKILL.md
+    sha256: 553c3870c1dfc127f90f196b7b212b644706d4c26e2a578ab615ccce588070d7
+    role: context
+  - path: data/aio/Layer.yaml
+    sha256: 46b533d2f0afcbdeadb7c35f8c382d66e51e0f5edf90b0c3552767687d34fa87
+    role: context
+  - path: data/aio/LinearFunction.yaml
+    sha256: 773be0c041b8b1f0f386ec64c794388eff2b482c81f8f828bca0ae27a173811c
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/DutchEligibilityTraces.yaml
+    sha256: fd2401fee93665799a7e71c268caac3609dc5fcdb5a542ef9606fd61d272e5ba
+    role: context
+  - path: data/curated/ReplacingEligibilityTraces.yaml
+    sha256: 81300bc3c4616459fa62d21c03c575bbba8fc5a207edbb78d0a7e46c7724b00c
+    role: context
+  - path: data/curated/Sarsa.yaml
+    sha256: 8ac6efbbcfeda82ce462fbc7f6d641a9eab36b8749c6bdb0b7713ba43496e041
+    role: context
+  - path: data/curated/TemporalDifferenceLearning.yaml
+    sha256: edd02cd7a9f2b8b916ba684f7aa8cb4c8d49b81a1896912dc5297370d24f348a
+    role: context
+  - path: data/curated/TrueOnlineGTDLambda.yaml
+    sha256: fa6e70693e933196af56de2688d5c57d8e9da2fa48af27a64c44e8e45c7a29d2
+    role: context
+  - path: data/curated/TrueOnlineSarsaLambda.yaml
+    sha256: a7101fe8024215197f6ebb008b334d0c7098ca1eccf8bb0fe181cb746c840206
+    role: context
+  - path: data/curated/TrueOnlineTDLambda.yaml
+    sha256: 1841e5ccc400f0fb82633bc768a2ad5531ddf5c53fcd603dddb562899d8a1346
+    role: context
+  - path: data/curated/WISTDLambda.yaml
+    sha256: 68d677b3f3cd1092c4f570b374df709f23024e2e5dc4bd346874b90748095de2
+    role: target
+  - path: data/curated/WatkinsHardCutMultistepQLearning.yaml
+    sha256: 29b2c3331660910f574b5ed8ba7c1153070f187588cd8360e96ec03e3bd9cee1
+    role: context
+  - path: docs/curated-concepts.md
+    sha256: 79c497b615b9ba703d67ccfc1a925f5d5c3c527aff6ab323cd271aec8e5a40dc
+    role: context
+  - path: docs/record-review-profile.md
+    sha256: 2d3e3a73264523c78930d17b0812e2d22887e25423fe7c38e0ddce922d9cec9d
+    role: context
+  - path: docs/record-reviews.md
+    sha256: 452a19ab688276747b7c4308523a14d4d99c1c39ef6909ae8a90b85b7a9b3e9b
+    role: context
+  - path: history/reports/wis-td-lambda/2026-10-15T181252Z-codex-5f35fa.yaml
+    sha256: 776379ab0f1086e3aea01908ca12952cf6802ababb5b49bfe6ceb72bb88dcda1
+    role: context
+  - path: justfile
+    sha256: 2d9c1b68c1c80d53aa44a6b8b5e916efe8b493650ff59a3fc7479a42be37f400
+    role: context
+  - path: research/discovery/20261015T181241Z-wis-td-lambda.json
+    sha256: f04edb4fe722068d25729c455654cbb710137f91d277cb6c5210c51d2f9b74c0
+    role: context
+  - path: research/discovery/20261015T181241Z-wis-td-lambda.md
+    sha256: eeb846e393b20bb48e0dd46ec555c619d2c10b2619a1880087cc41fdf0f06306
+    role: context
+  - path: schema/record_review.yaml
+    sha256: 229baf9b69118a1fe318e4c31085c0820e4e3d1365e7b04d6ace451b7c35f9bb
+    role: context
+  - path: scripts/record_review.py
+    sha256: 95a4ec41e38ec47ba3578e76838c46a0adbf47e49ad3636524735d08cfcb1c4d
+    role: context
+  - path: scripts/render_pages.py
+    sha256: 81fae327c4670e269e8928b53f0370e2853767ec8e1b495f6206216ac03f304a
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: 3826f6a7643d6a0140cf60bb52a1d3ac2fbab4811b4fd8d1d178a13c3341fa3f
+    role: context
+  - path: src/aimech/validation.py
+    sha256: 274ed5e6bc97440515a1964b9b21927135a2e9a5a4808ae8daebccd3e172ffcc
+    role: context
+targets:
+- target_id: AIMech:WISTDLambda
+  label: WIS-TD(lambda)
+  path: data/curated/WISTDLambda.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/WISTDLambda.yaml
+    role: maintained native concept record
+scope:
+  description: Complete explicitly selected one-record cohort in the captured current
+    canonical state.
+  selection: 'Exact ID: AIMech:WISTDLambda.'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:WISTDLambda
+  exclusions:
+  - target: WIS-GTD, WIS-TO-GTD, usage-based TD and usage-based true-online TD
+    reason: Separately named residual methods; endpoint overlap does not establish
+      identity.
+  - target: Full proof certification, author code and benchmarks
+    reason: No such comprehensive certification or execution is claimed.
+checks:
+- check_id: check-gate
+  name: just check
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:WISTDLambda
+  command: just check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-gate
+- check_id: check-vendor
+  name: just vendored-check
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:WISTDLambda
+  command: just vendored-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-vendor
+- check_id: check-check-source
+  name: uv run --locked aimech check-source
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:WISTDLambda
+  command: uv run --locked aimech check-source
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-check-source
+- check_id: check-render
+  name: just render
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:WISTDLambda
+  command: just render
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render
+- check_id: check-render-check
+  name: just render-check
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:WISTDLambda
+  command: just render-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render-check
+- check_id: check-diff
+  name: git diff --check
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:WISTDLambda
+  command: git diff --check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-diff
+evidence:
+- evidence_id: preview-wis
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-draft-preparation-20261015/native-preview.json
+  snapshot_sha256: 8bd8c7ce955c51b71101955286906b4265a67f341ef198f23f3fb603565ef34b
+  accessed_at: '2026-10-15T17:35:21.318720Z'
+  support: context_only
+  summary: Actual accepted TEMP native payload; canonical correspondence is assessed
+    separately.
+- evidence_id: support-wis
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-draft-preparation-20261015/scientific-support.final.json
+  snapshot_sha256: d9f174440c310cbfcd1aca1efe4afa0f4b025fa4c16cff24c42ff4fb4511d0cd
+  accessed_at: '2026-10-15T17:24:24.391070Z'
+  support: context_only
+  summary: Exact six-claim and seven-limit static support with separate historical
+    reading and locator-refinement lineage.
+- evidence_id: draft-acceptance-wis
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-draft-preparation-20261015/root-draft-acceptance.json
+  snapshot_sha256: f81f36b4ff93b0d4aca8500bbc9041526dab4728a8e5f63517dd90551ed1329a
+  accessed_at: '2026-10-15T17:35:20Z'
+  support: context_only
+  summary: Root read complete data-only module, final inputs, all six exact claim
+    and seven individual limitation support narratives, definition, mappings, historical
+    identity, source metadata and time projection, plus exact-draft math addendum.
+    Prior root primary/visual reading and version assessment remain separate in research
+    acceptance. Accept for TEMP invocation/native validation only; current merged-base
+    identity and canonical curation remain separate.
+- evidence_id: preview-validation-wis
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-draft-preparation-20261015/native-preview-validation.json
+  snapshot_sha256: a8fb9f5a8d712bd2bb754630e2ed44f172d27e218fb5c53ed00860cb406209f0
+  accessed_at: '2026-10-15T17:35:21.318720Z'
+  support: context_only
+  summary: Actual TEMP native validation only; no canonical addition, current identity
+    clearance, gate or independent scientific approval.
+- evidence_id: root-research-acceptance
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-research-20261015/root-research-acceptance.json
+  snapshot_sha256: 3b9158315732e5cb6e551d4cf22c19a41834d42162252928a7d76b2ddf6d9bb8
+  accessed_at: '2026-10-15T17:41:53.208686Z'
+  support: context_only
+  summary: Actual root research acceptance and its separately recorded primary/visual,
+    identity and mapping scopes.
+- evidence_id: source-reading-wis
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-research-20261015/reading.json
+  snapshot_sha256: db0ed19ebc68b026aeec28d669d9d98a917f91bc5546cdd03d1820c628f1b72c
+  accessed_at: '2026-10-15T17:41:53.208686Z'
+  support: context_only
+  summary: 'Source-agent historical reading: all ten official-main native pages and
+    author appendix pages 11–18, with original visuals 3–6 and author visuals 17–18;
+    official supplement visual 8 and exact text comparisons retained separately. Preparation
+    revisited selected method and appendix locators. Later supporting math reading
+    covers official native 3–6, author 6/17, supplement 6–7, visuals official 6, author
+    17–18 and supplement 8, then author native 9 and the complete selected module/support.
+    Root reading covers official native 1–10, author native 15–16 and visuals official
+    6/author 17–18, as stated in its acceptance. These are separately attributed scopes,
+    not independent approval or full proof/software certification.'
+- evidence_id: source-times-wis
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-draft-preparation-20261015/source-time-projection.json
+  snapshot_sha256: be85c0bf7a657588e4bcf8834a76443bcb42cddba24d2d056973231e680b19df
+  accessed_at: '2026-10-15T17:41:53.208686Z'
+  support: context_only
+  summary: Original fractional source acquisition and whole-second UTC native projection,
+    preserved separately from review access.
+- evidence_id: historical-identity-wis
+  kind: search
+  reference: /private/tmp/aimech-wis-td-research-20261015/identity/assessment.json
+  snapshot_sha256: cfb2e0e9fee39d50d254c4323e70712d8fabba4cf90942eb6a543c9720977250
+  accessed_at: '2026-10-15T17:41:53.208686Z'
+  support: context_only
+  summary: Dated historical identity interpretation; the actual merged-base assessment
+    is bound separately.
+  search_scope: Selects the source-defined WIS-TD(lambda) state-value prediction algorithm
+    with its usage vectors, scaled Dutch trace and provisional weights. It is not
+    an exact alias of WIS-GTD, WIS-TO-GTD, usage-based TD or usage-based true online
+    TD. Historical research on 15 October 2026 at 17:03:02–17:04:06 UTC inspected
+    772 native and 442 pinned AIO records. Four fixed-string, word-boundary searches
+    included ignored and hidden paths and retained 255 occurrences in 95 exact contents;
+    all meaningful matching contents were read, including complete decoded long HTML
+    attributes. IDs, local IDs, names, aliases and scoped synonyms were compared mechanically,
+    including proposed named-variant identities; normalized hits were context fields
+    for true-online TD and Sarsa, not a candidate collision. All 909 main and 393
+    nested frontier objects were queried for the source and named variants. Semantic
+    reading covered 17 selected definitions, three nearest scientific record projections,
+    four eligibility/control frontier objects and eleven adaptation-related objects.
+    Seven exact AIO classes and 43 incident edges were assessed. Existing owner 264
+    retained four prior IDs and three resolutions in that snapshot, plus an off-policy
+    residual and its historical Sutton 1988 discovery pointer. This is a dated bounded
+    research assessment, not a manual reading of every record, absence beyond the
+    inspected scope, or clearance of a later merged base. Subsequent maintained outcomes
+    and current owner reconciliation are separate from this historical research.
+- evidence_id: source-version-comparison
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-research-20261015/source-version-comparison.json
+  snapshot_sha256: 2c434d270e9f8e75f284cec972861329ff5657eb0c59e2151554bc14ffff964f
+  accessed_at: '2026-10-15T17:41:53.208686Z'
+  support: context_only
+  summary: Retained exact native-text correspondence among author main/appendix and
+    official main/supplement; no verified revision date inferred.
+- evidence_id: preparation-refinements
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-draft-preparation-20261015/preparation-refinements.json
+  snapshot_sha256: 4b855aef484a8f808db880925b8c71577c7f6969bedcb7e69305070af818b832
+  accessed_at: '2026-10-15T17:41:53.208686Z'
+  support: context_only
+  summary: Pre-invocation source locator and explanatory refinements; original bytes
+    and exact differences retained.
+- evidence_id: support-locator-refinement
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-draft-preparation-20261015/support-locator-refinement.json
+  snapshot_sha256: b1c029eb50f63c90f21392bd4c58d6102598943f877a0ecf335d7eb92e4638ec
+  accessed_at: '2026-10-15T17:41:53.208686Z'
+  support: context_only
+  summary: Two supporting locator-range refinements only; selected module unchanged.
+- evidence_id: wis-source-math
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-supporting-math-20261015/assessment.json
+  snapshot_sha256: 0a0e9131602108cceee3ea5a57871f4a8a9366124ebf91b53d47e61161bc583a
+  accessed_at: '2026-10-15T17:41:53.208686Z'
+  support: context_only
+  summary: Later bounded same-author source/math assessment, predating its separate
+    exact-draft read; no code experiment or complete proof certification.
+- evidence_id: wis-draft-math
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-supporting-math-20261015/draft-addendum.json
+  snapshot_sha256: 16433f734d7dcb3a3df12eb988d1a5e4369cdf2722fb1c12eb4936d57ddf3606
+  accessed_at: '2026-10-15T17:41:53.208686Z'
+  support: context_only
+  summary: Later complete exact-module/support assessment of six claims/seven limits,
+    plus author native page 9. No new identity or native invocation claimed.
+- evidence_id: src-mahmood2015-author
+  kind: primary_source
+  reference: https://armahmood.github.io/files/MS-WIS-O(n)-UAI-2015.pdf
+  snapshot_sha256: 9f30489028c8473a6e45d44e16604ae80a0ac485e181388274dcff73b57e1767
+  accessed_at: '2026-10-15T17:02:13Z'
+  support: supports
+  locator: 'Sections 2–6 and 8, author PDF pp. 3–7 and 9; Appendix A.6–A.7, pp. 16–18,
+    especially Algorithm 1 on p. 18. Source-agent historical reading: all ten official-main
+    native pages and author appendix pages 11–18, with original visuals 3–6 and author
+    visuals 17–18; official supplement visual 8 and exact text comparisons retained
+    separately. Preparation revisited selected method and appendix locators. Later
+    supporting math reading covers official native 3–6, author 6/17, supplement 6–7,
+    visuals official 6, author 17–18 and supplement 8, then author native 9 and the
+    complete selected module/support. Root reading covers official native 1–10, author
+    native 15–16 and visuals official 6/author 17–18, as stated in its acceptance.
+    These are separately attributed scopes, not independent approval or full proof/software
+    certification.'
+  summary: Author-catalog-linked eighteen-page combined UAI 2015 paper and Appendix
+    A. Native text on PDF pp. 1–10 matches the official ten-page proceedings paper,
+    and pp. 11–18 match its official eight-page supplement. The embedded 2016 PDF
+    creation date is not treated as a verified scientific revision date; source-local
+    PDF pagination is used.
+- evidence_id: actual-write
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-cohort347-write.json
+  snapshot_sha256: 8b86d5aab4d85301c940de21613c0816230622e51e07f591aa17b650df1bcb76
+  accessed_at: '2026-10-15T18:23:58.261063Z'
+  support: context_only
+  summary: 'Actual exclusive creation receipt: one record, report pair and one CREATE
+    history.'
+- evidence_id: captured-inputs
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-cohort347-capture.json
+  snapshot_sha256: 0e634397745ed5ed866c01622e70473f23920aad67dc4abed1c02bbb440afc6b
+  accessed_at: '2026-10-15T18:23:58.261096Z'
+  support: context_only
+  summary: Actual canonical inspection; every current input hash and maintained target
+    was checked.
+- evidence_id: postcapture-reading
+  kind: record_content
+  reference: /private/tmp/aimech-cohort347-root-postcapture-reading.v2.json
+  snapshot_sha256: 08f9b9d2d3120cc0f2841d5328a6be70c81d504b128641cae363bdfe93bea991
+  accessed_at: '2026-10-15T18:23:58.261109Z'
+  support: context_only
+  summary: Root read the complete accepted preview and actual canonical YAML, all
+    six claims and seven limitations, current report Markdown, CREATE history and
+    full current owner 264. Root verified all 31 captured input hashes, canonical/write/report
+    correspondence and preservation of 908 other main and 393 nested frontier objects.
+    Root read the complete actual scientific assessment and complete governance narratives/check
+    summary and rendered-page manifest. Earlier root research acceptance explicitly
+    records official-main native pages 1–10, author native pages 15–16, official-main
+    visual page 6 and author visual pages 17–18; later residual-family reading is
+    separately attributed in its acceptance. No new primary reading was performed
+    during this postcapture audit; no full proof certification or browser layout inspection.
+    Same-author source and governance agent readings remain separately attributed.
+- evidence_id: governance-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-cohort347-governance-audit-20261015/assessment.json
+  snapshot_sha256: 79a604b2056b6ef17afbedf9a722d9562167c337355a4b01a14af95d35fe6b20
+  accessed_at: '2026-10-15T18:23:58.261118Z'
+  support: context_only
+  summary: Actual byte preservation, owner/frontier, history and parsed-page audit;
+    no independent approval.
+- evidence_id: rendered-pages
+  kind: record_content
+  reference: /private/tmp/aimech-cohort347-governance-audit-20261015/rendered-pages.json
+  snapshot_sha256: 088cedbb4032920147dbc9487ba4526e659728a130efbd25652f4b29544993d2
+  accessed_at: '2026-10-15T18:23:58.261126Z'
+  support: context_only
+  summary: Actual generated page paths and bytes, with parsed-content correspondence;
+    no browser/layout inspection.
+- evidence_id: actual-scientific-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-cohort347-actual-scientific-audit-20261015/assessment.json
+  snapshot_sha256: 1bbd70ca42d5411ee683badec7c24213d4232e6ce8ccf8c31bfcf4027d73f481
+  accessed_at: '2026-10-15T18:23:58.261134Z'
+  support: context_only
+  summary: Same-author actual-record adversarial assessment with separately attributed
+    primary reading.
+- evidence_id: current-identity-collection
+  kind: search
+  reference: /private/tmp/aimech-cohort347-identity-20261015/collection.json
+  snapshot_sha256: a783e37433d36e23fe1783adb22666daab1fe2f816abeead284cad07a08b9888
+  accessed_at: '2026-10-15T18:23:58.261143Z'
+  support: context_only
+  summary: Current four-root ignored- and hidden-inclusive identity collection; mechanical
+    coverage is distinct from attributed semantic reading.
+  search_scope: Current merged-base four-root ignored- and hidden-inclusive collection
+    covers 1,216 identity rows and 4,396 matched occurrences grouped into 877 unique
+    contents. Root read all eight candidate-named contents, 11 normalized definitions/21
+    context fields and complete owners 264/265/266/269. Two supporting agents separately
+    read disjoint groups 0–449 and 450–876; root read their assessment narratives
+    and metadata, not every raw content in those partitions. No whole-corpus semantic
+    rereading or frontier exhaustion is claimed.
+- evidence_id: current-context-assessment
+  kind: search
+  reference: /private/tmp/aimech-cohort347-supporting-context-assessment-20261015/assessment.json
+  snapshot_sha256: 8f83e802dbd248b44fe126ec8b143f2e199254238617f705b0700d9eb527e89b
+  accessed_at: '2026-10-15T18:23:58.261161Z'
+  support: context_only
+  summary: Actual supporting interpretation of retained matched contexts; root and
+    supporting scopes remain separate.
+  search_scope: Current merged-base four-root ignored- and hidden-inclusive collection
+    covers 1,216 identity rows and 4,396 matched occurrences grouped into 877 unique
+    contents. Root read all eight candidate-named contents, 11 normalized definitions/21
+    context fields and complete owners 264/265/266/269. Two supporting agents separately
+    read disjoint groups 0–449 and 450–876; root read their assessment narratives
+    and metadata, not every raw content in those partitions. No whole-corpus semantic
+    rereading or frontier exhaustion is claimed.
+- evidence_id: root-decisions
+  kind: record_content
+  reference: /private/tmp/aimech-cohort347-root-decisions.final.json
+  snapshot_sha256: d2afded232d364b7ee35b2fb8789ef6980e96a588d7ae1cf98ef53368ca2dac2
+  accessed_at: '2026-10-15T18:23:58.261171Z'
+  support: context_only
+  summary: Actual root identity/owner/source-lead decisions, retaining owner 264 partial
+    residuals.
+- evidence_id: scientific-support
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-cohort347-review-preparation-20261015/scientific-support.prepared.json
+  snapshot_sha256: c0da7f5dbf253eb05a35a9c405c795fcb21f7dd1b8d01d061130c29889adc0d0
+  accessed_at: '2026-10-15T18:23:58.261180Z'
+  support: context_only
+  summary: Exact accepted claim and limitation support; historical and later source/math
+    scopes remain separate.
+- evidence_id: discovery-report
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T181241Z-wis-td-lambda.json
+  snapshot_sha256: f04edb4fe722068d25729c455654cbb710137f91d277cb6c5210c51d2f9b74c0
+  accessed_at: '2026-10-15T18:23:58.263933Z'
+  support: context_only
+  summary: Current record/context/owner mirrors; no added frontier leaf.
+- evidence_id: creation-history
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/history/reports/wis-td-lambda/2026-10-15T181252Z-codex-5f35fa.yaml
+  snapshot_sha256: 776379ab0f1086e3aea01908ca12952cf6802ababb5b49bfe6ceb72bb88dcda1
+  accessed_at: '2026-10-15T18:23:58.264165Z'
+  support: context_only
+  summary: Actual CREATE report history for the one-record cohort; predecessor creation
+    lineage remains separate.
+- evidence_id: record-wis
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/WISTDLambda.yaml
+  snapshot_sha256: 68d677b3f3cd1092c4f570b374df709f23024e2e5dc4bd346874b90748095de2
+  accessed_at: '2026-10-15T18:23:58.264339Z'
+  support: context_only
+  summary: Complete current DRAFT record equals accepted science and actual root identity
+    decisions.
+- evidence_id: check-gate
+  kind: validation
+  reference: /private/tmp/aimech-wis-td-cohort347-check-gate.json
+  snapshot_sha256: a194fc118de7d15fccef202e473d6fefbd5f541cbcd7c6c11acf21e72e68c4ae
+  accessed_at: '2026-10-15T18:22:20.011141Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-vendor
+  kind: validation
+  reference: /private/tmp/aimech-wis-td-cohort347-check-vendor.json
+  snapshot_sha256: 4a796bda8379b30d5f4d3c7be6ed862fe85f7cec08c29a4a9bb1e10d0f076f2d
+  accessed_at: '2026-10-15T18:22:22.849205Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-check-source
+  kind: validation
+  reference: /private/tmp/aimech-wis-td-cohort347-check-check-source.json
+  snapshot_sha256: db3a602a463442f1f03a1a7c5911029e06aed9d1f79ed6d40ec056f9c1f0a01c
+  accessed_at: '2026-10-15T18:22:26.401955Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-render
+  kind: validation
+  reference: /private/tmp/aimech-wis-td-cohort347-check-render.json
+  snapshot_sha256: f042984a95d275db0ef223285d19a0afb718ea9320d2edeaba381af5042f9d64
+  accessed_at: '2026-10-15T18:13:55.268369Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-render-check
+  kind: validation
+  reference: /private/tmp/aimech-wis-td-cohort347-check-render-check.json
+  snapshot_sha256: dd01cd4b9b2928f1da51e669e50381357026971d0f3fe8b10bdc5376230f7901
+  accessed_at: '2026-10-15T18:22:46.549754Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-diff
+  kind: validation
+  reference: /private/tmp/aimech-wis-td-cohort347-check-diff.json
+  snapshot_sha256: 73b1b3244023bd3140e87ecdf7c5117479b3e8b38812bf42a02c2a8b89225819
+  accessed_at: '2026-10-15T18:22:46.770884Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+assessments:
+- assessment_id: wis-linear-off-policy-usage-adaptation
+  area: evidence
+  topic: Claim linear-off-policy-usage-adaptation
+  outcome: supported
+  summary: Section 3 specifies the prediction setting, policy ratio and discount domain;
+    Section 5 gives the lambda domain and explicitly names WIS-TD as an extension
+    of the WIS-SGD-2 target. No control rule or ordinary tabular WIS identity is claimed.
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-usage-state-and-step-size
+  area: evidence
+  topic: Claim usage-state-and-step-size
+  outcome: supported
+  summary: Equations 22–24 and Algorithm 1 agree on the two usage recurrences and
+    new component step. Both old-v dependencies are preserved. The additional theta-minus-one
+    initialization is explicitly supplied by Equation 17, not invented from the box.
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-component-scaled-dutch-trace
+  area: evidence
+  topic: Claim component-scaled-dutch-trace
+  outcome: supported
+  summary: Equation 25 uses new alpha, old trace and the extra rho inside the correction.
+    The b_t abbreviation is an exact algebraic substitution. The paper separately
+    discusses an optional auxiliary vector; it is not the provisional d used here.
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-coupled-parameter-and-provisional-update
+  area: evidence
+  topic: Claim coupled-parameter-and-provisional-update
+  outcome: supported
+  summary: Equations 26–27 and Algorithm 1 match the b/C/B abbreviations term by term.
+    Old d appears on both right sides; d_next does not feed the current theta update.
+    The innovation without gamma_next is also supported by Appendix A.6 rather than
+    silently repaired.
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-specified-forward-backward-correspondence
+  area: evidence
+  topic: Claim specified-forward-backward-correspondence
+  outcome: supported
+  summary: Theorems 5–6 state the matched forward/backward correspondence; Theorem
+    3 and Appendix A.3–6 supply the generalized target-difference construction. The
+    claim confines equality to the specified replay and does not certify every proof
+    transformation.
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-linear-dense-update-cost
+  area: evidence
+  topic: Claim linear-dense-update-cost
+  outcome: supported
+  summary: The source states O(n) time and memory after Equation 27. The fixed number
+    of dense vector states supports that bookkeeping claim, without including feature
+    generation or asserting a sparse/wall-clock bound.
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: The source explicitly defines WIS-TD as a linear prediction method with
+    usage, Dutch and provisional states. Forward-target wording avoids claiming exact
+    ordinary tabular WIS for its WIS-SGD-2-based construction.
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: The algorithm estimates policy state values from reward transitions, potentially
+    sampled under a different behavior policy, and supplies prediction machinery used
+    in reinforcement learning. The pinned class is a broader learning task; this is
+    a qualified association, not exact identity, an algorithm-to-task subclass edge,
+    action selection, policy improvement or convergence.
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: 'One combined author artifact supplies the selected main method and appendix
+    algorithm. Its first ten native-text pages match the official main paper and its
+    final eight match the official supplement; the retained comparison establishes
+    text correspondence, not an independently verified revision date. The raw fractional
+    acquisition, failed initial access and successful retry are preserved. Local display
+    qualifications remain bounded to their passages, without inferring that the entire
+    algorithm or proofs are invalid. Source-agent historical reading: all ten official-main
+    native pages and author appendix pages 11–18, with original visuals 3–6 and author
+    visuals 17–18; official supplement visual 8 and exact text comparisons retained
+    separately. Preparation revisited selected method and appendix locators. Later
+    supporting math reading covers official native 3–6, author 6/17, supplement 6–7,
+    visuals official 6, author 17–18 and supplement 8, then author native 9 and the
+    complete selected module/support. Root reading covers official native 1–10, author
+    native 15–16 and visuals official 6/author 17–18, as stated in its acceptance.
+    These are separately attributed scopes, not independent approval or full proof/software
+    certification.'
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - source-times-wis
+  - source-version-comparison
+  - root-research-acceptance
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-identity-assessment
+  area: identity
+  topic: identity assessment
+  outcome: supported
+  summary: Retain the source-defined WIS-TD(lambda) linear off-policy prediction algorithm
+    separately from its Dutch trace component, true-online TD/GTD/Sarsa hosts, ordinary
+    importance sampling and the separately named WIS-GTD and usage-based methods.
+    The matched rho=1 specialization does not make complete algorithms aliases. WIS-TO-GTD
+    remains a separately scoped unresolved display issue. Existing owner 264 remains
+    partially addressed, retaining six prior IDs and four complete resolutions; no
+    new frontier leaf or family exhaustion follows. The actual captured identity notes
+    implement the root current collection decisions; the original preview scope remains
+    historical and is recorded in context_changes. Existing owner 264 stays partial,
+    with six prior IDs and all four prior resolution objects retained.
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - historical-identity-wis
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+  - current-identity-collection
+  - current-context-assessment
+  - root-decisions
+- assessment_id: wis-kind-and-status-assessment
+  area: scope
+  topic: kind-and-status assessment
+  outcome: supported
+  summary: The algorithm kind selects the complete source-defined linear state-value
+    prediction procedure, not its isolated trace or a generic estimator. DRAFT status
+    remains; qualified RL association does not assert control, exact task identity
+    or an algorithm-to-task subclass.
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-limitation-1
+  area: scope
+  topic: Individual limitation 1
+  outcome: supported
+  summary: 'The separately named variants differ in traces and provisional/auxiliary
+    states. Rho=1 removes the extra provisional term and yields the on-policy theta
+    specialization under matched states; endpoint overlap is not identity of entire
+    algorithms. Locator: Section 6, author PDF p. 7; Appendix A.7, p. 18, Algorithms
+    1–5.'
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-limitation-2
+  area: scope
+  topic: Individual limitation 2
+  outcome: supported
+  summary: 'The source leaves convergence analysis for future work. Matched finite
+    replay neither proves behavior coverage and finite moments nor upgrades a prediction
+    method to policy optimization. Locator: Sections 3, 5 and 8, author PDF pp. 3–4,
+    6 and 9; retained analytical boundaries.'
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-limitation-3
+  area: scope
+  topic: Individual limitation 3
+  outcome: supported
+  summary: 'The paper itself withdraws exact tabular WIS correspondence for WIS-SGD-2.
+    The retained overlapping-feature hand example and general self-normalization boundary
+    prevent transferring the earlier restricted averaging result. Locator: Sections
+    2–3, author PDF pp. 3–5, Theorems 1–2 and the explicit WIS-SGD-2 qualification.'
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-limitation-4
+  area: scope
+  topic: Individual limitation 4
+  outcome: supported
+  summary: 'The retained scalar usage witness demonstrates that unconstrained eta
+    can produce zero or negative usage. The stated sufficient coordinate condition
+    applies with the nonnegative forward weights and initialization, while zero division
+    remains an explicit convention. Locator: Section 2, author PDF p. 3; Section 5,
+    p. 6, Equations 18–24; Appendix A.7, p. 18.'
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-limitation-5
+  area: scope
+  topic: Individual limitation 5
+  outcome: supported
+  summary: 'The prior-theta cancellation in the first theta update does not remove
+    its appearance in the first provisional innovation. The exact update timing and
+    literal missing discount in d are intentionally retained. Locator: Section 5,
+    author PDF p. 6, Equations 17 and 22–27; Appendix A.6–7, pp. 17–18.'
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-limitation-6
+  area: scope
+  topic: Individual limitation 6
+  outcome: supported
+  summary: 'Linear fixed-feature replay and vector arithmetic are scoped to the source
+    construction. No nonlinear-feature, generic Monte Carlo, control, sparse-current-feature
+    or universal timing guarantee is inferred. Locator: Sections 2, 4 and 5, author
+    PDF pp. 2 and 5–6; Appendix A.3–6, pp. 13–17.'
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-limitation-7
+  area: scope
+  topic: Individual limitation 7
+  outcome: supported
+  summary: 'The declared combined author bytes support both main equations and the
+    appendix box; duplicate source copies are provenance context rather than redundant
+    native declarations. Display observations remain local and do not establish a
+    failed implementation or a certified proof. Locator: Version comparison; author
+    PDF pp. 4–6, 12 and 17; experiments/discussion pp. 7–9.'
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - record-wis
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: actual-correspondence
+  area: provenance
+  topic: Actual canonical, capture, frontier, history, rendered-page and check correspondence
+  outcome: supported
+  summary: 'The current record equals the actual write/report entry and accepted science:
+    six claims, seven individual limitations and one exact primary artifact. Four
+    files were created and one CREATE history records the session. Only owner 264
+    changed; six prior IDs and cohort 343/344/345/346 resolutions remain, with 908
+    other main and 393 nested objects unchanged. Every captured input and actual rendered
+    page hash was checked. Six required checks passed; DRAFT and partial residual
+    scope remain.'
+  target_ids:
+  - AIMech:WISTDLambda
+  evidence_ids:
+  - actual-write
+  - captured-inputs
+  - postcapture-reading
+  - governance-assessment
+  - rendered-pages
+  - actual-scientific-assessment
+  - creation-history
+  - root-decisions
+  - check-gate
+  - check-vendor
+  - check-check-source
+  - check-render
+  - check-render-check
+  - check-diff
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:WISTDLambda
+  rationale: Retain the source-defined WIS-TD(lambda) linear off-policy prediction
+    algorithm separately from its Dutch trace component, true-online TD/GTD/Sarsa
+    hosts, ordinary importance sampling and the separately named WIS-GTD and usage-based
+    methods. The matched rho=1 specialization does not make complete algorithms aliases.
+    WIS-TO-GTD remains a separately scoped unresolved display issue. Existing owner
+    264 remains partially addressed, retaining six prior IDs and four complete resolutions;
+    no new frontier leaf or family exhaustion follows.
+  evidence_ids:
+  - preview-wis
+  - support-wis
+  - draft-acceptance-wis
+  - preview-validation-wis
+  - source-reading-wis
+  - src-mahmood2015-author
+  - wis-source-math
+  - wis-draft-math
+  - historical-identity-wis
+  - root-decisions
+  - current-identity-collection
+limitations:
+- Same-author source/math support and root review are not independent approval; acquisition,
+  selective primary reading, hand analysis and native validation are separate events.
+- The exact WIS-TD timing and previous-weight initialization remain source-scoped.
+  The provisional innovation is not silently changed to insert the next discount,
+  and its provisional weights are not a GTD auxiliary-weight state.
+- Finite matched-sequence correspondence does not establish ordinary tabular WIS,
+  unbiased objective gradients, convergence, monotonic improvement, nonlinear control
+  or universal Monte Carlo endpoint equivalence.
+- Feature-usage nonnegativity needs the stated coordinate factors and forward-weight
+  assumptions; eta >= 0 alone is insufficient. The zero reciprocal convention does
+  not prove positive or bounded steps.
+- The combined author source has verified text correspondence to the official main/supplement.
+  Embedded PDF metadata is not a verified scientific revision date. Source-local formula/display
+  caveats are retained without a complete-proof invalidity claim.
+- Historical ignored-inclusive research is dated to its inspected snapshot. The actual
+  merged-base collection and root interpretation are bound separately; no global absence
+  or family exhaustion follows.
+- Preparation locator refinements and later supporting math assessments are immutable
+  attributed lineage, distinct from the root accepted preview and actual canonical
+  correspondence.
+- Actual four creation outputs, one CREATE history, 6 generated pages and 31 capture
+  inputs are assessed through separate receipts. Six required checks passed; any failed
+  attempts remain explicit. Parsed HTML is not browser/layout inspection. Canonical
+  review save/check and publication remain separate actions.
+tags:
+- scientific-review
+- self-review
+- source-scoped
+- off-policy-prediction
+notes:
+- Root read the complete accepted preview and actual canonical YAML, all six claims
+  and seven limitations, current report Markdown, CREATE history and full current
+  owner 264. Root verified all 31 captured input hashes, canonical/write/report correspondence
+  and preservation of 908 other main and 393 nested frontier objects. Root read the
+  complete actual scientific assessment and complete governance narratives/check summary
+  and rendered-page manifest. Earlier root research acceptance explicitly records
+  official-main native pages 1–10, author native pages 15–16, official-main visual
+  page 6 and author visual pages 17–18; later residual-family reading is separately
+  attributed in its acceptance. No new primary reading was performed during this postcapture
+  audit; no full proof certification or browser layout inspection. Same-author source
+  and governance agent readings remain separately attributed.
+- Current merged-base four-root ignored- and hidden-inclusive collection covers 1,216
+  identity rows and 4,396 matched occurrences grouped into 877 unique contents. Root
+  read all eight candidate-named contents, 11 normalized definitions/21 context fields
+  and complete owners 264/265/266/269. Two supporting agents separately read disjoint
+  groups 0–449 and 450–876; root read their assessment narratives and metadata, not
+  every raw content in those partitions. No whole-corpus semantic rereading or frontier
+  exhaustion is claimed.
+- The exact combined author UAI 2015 paper and Appendix A support WIS-TD as a separate
+  linear off-policy prediction algorithm under existing eligibility owner 264. The
+  source-defined WIS-GTD, usage-based TD and usage-based true online TD methods have
+  separately assessed recurrences and remain further curation candidates; their complete
+  scopes are not aliases of this record. WIS-TO-GTD remains unresolved because its
+  printed correction-trace history and described host specialization require clarification.
+  Preserve generic eligibility organization, soft-cut and other control/off-policy
+  residuals, together with separate owners 265 and 266. No new frontier leaf is needed
+  and this source family is not exhausted.
+- Source access, dated historical identity, source-agent reading, later WIS hand analysis,
+  native validation and actual root postcapture assessment retain separate scopes
+  and timestamps. The root science reading may precede some gates; actual logs independently
+  establish completed checks.
+- The accepted final WIS inputs and support retain their earlier locator-refinement
+  lineage. Historical identity evidence is dated, while the actual merged-base assessment
+  is bound separately. No original receipt is rewritten.
+```

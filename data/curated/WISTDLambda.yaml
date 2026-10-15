@@ -1,0 +1,174 @@
+id: AIMech:WISTDLambda
+name: WIS-TD(lambda)
+concept_kind: algorithm
+aliases: []
+definition: A linear off-policy state-value prediction algorithm that combines component step sizes from
+  feature usage, a scaled Dutch eligibility trace and provisional weights to implement its specified forward
+  target with importance weighting.
+definition_evidence:
+- source_id: mahmood2015-author
+  locator: Section 5, author PDF pp. 5–6, Equations 17–27 and Theorems 5–6; Appendix A.7, p. 18, Algorithm
+    1.
+  relation: supports
+claims:
+- claim_id: linear-off-policy-usage-adaptation
+  kind: mechanism
+  statement: WIS-TD(lambda) is a linear state-value prediction algorithm for a target policy pi using
+    transitions sampled from a behavior policy b. It uses V_t(s)=theta_t^T*phi(s), rho_t=pi(A_t|S_t)/b(A_t|S_t),
+    state-dependent discount gamma and bootstrapping lambda in [0,1], and component step sizes derived
+    from a feature-usage estimate. The source constructs its forward target from WIS-SGD-2; the method
+    is not an action-selection or policy-improvement rule.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: 'Sections 3 and 5, author PDF pp. 3–6: linear policy-evaluation setting and importance ratios
+      on pp. 3–4, lambda domain on p. 5, Equation 17 and the WIS-TD(lambda) forward view, Equations 18–21,
+      on p. 6.'
+    relation: supports
+- claim_id: usage-state-and-step-size
+  kind: mechanism
+  statement: Write elementwise multiplication as ⊙, let a_t=1-eta*(phi_t⊙phi_t), and let q_t=gamma_t*lambda_t.
+    Update u_(t+1)=a_t⊙u_t+rho_t*(phi_t⊙phi_t)+(rho_t-1)*q_t*(a_t⊙v_t) and v_(t+1)=q_t*rho_t*(a_t⊙v_t)+rho_t*(phi_t⊙phi_t).
+    Both right sides use old v_t. Then set alpha_(t+1) to the componentwise reciprocal of u_(t+1), using
+    the source convention that a reciprocal at zero is zero. Algorithm 1 initializes u_0=u_init*1, v_0=0,
+    e_(-1)=0 and d_0=0, with chosen theta_0, u_init>=0 and eta>=0. Equation 17 additionally specifies
+    theta_(-1)=0.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 5, author PDF p. 6, Equation 17 initialization and Equations 22–24; Appendix A.7,
+      p. 18, Algorithm 1. Componentwise division convention in Section 2, p. 3.
+    relation: supports
+- claim_id: component-scaled-dutch-trace
+  kind: mechanism
+  statement: With b_t=alpha_(t+1)⊙phi_t and q_t=gamma_t*lambda_t, the trace is e_t=rho_t*b_t+q_t*rho_t*(e_(t-1)-rho_t*b_t*(phi_t^T*e_(t-1))).
+    It uses the newly computed component step vector and the old trace in its inner product. This is a
+    step-size-weighted Dutch trace; it is distinct from the provisional weight vector d_t and from an
+    auxiliary GTD gradient-correction estimate.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 5, author PDF p. 6, Equation 25 and the auxiliary-vector discussion after Equation
+      27; Appendix A.7, p. 18, Algorithm 1. Dutch-trace construction in Section 4, p. 5.
+    relation: supports
+- claim_id: coupled-parameter-and-provisional-update
+  kind: mechanism
+  statement: Let b_t=alpha_(t+1)⊙phi_t, q_t=gamma_t*lambda_t, C_t=theta_(t-1)^T*phi_t, and B_t=d_t-rho_t*b_t*(phi_t^T*d_t).
+    Using the new e_t, update theta_(t+1)=theta_t+rho_t*b_t*(C_t-theta_t^T*phi_t)+(R_(t+1)+gamma_(t+1)*theta_t^T*phi_(t+1)-C_t)*e_t+(rho_t-1)*q_t*B_t.
+    The provisional state is d_(t+1)=q_t*rho_t*B_t+(R_(t+1)+theta_t^T*phi_(t+1)-C_t)*e_t. Both right sides
+    use old theta_t and d_t. The provisional innovation has no gamma_(t+1) factor in the source, and C_t
+    preserves the preceding-weight prediction timing.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 5, author PDF p. 6, Equations 26–27; Appendix A.6, p. 17, provisional-vector derivation;
+      Appendix A.7, p. 18, Algorithm 1.
+    relation: supports
+- claim_id: specified-forward-backward-correspondence
+  kind: scope
+  statement: Theorems 5 and 6 identify the backward step sizes and weights with the source-defined forward
+    constructions, for the same realized linear feature sequence, initial states and causal step choices.
+    The forward view uses the return of Equation 17, discount- and bootstrapping-aware importance weighting
+    in Equations 18–20, and the weight update of Equation 21. Its generalized online-equivalence construction
+    includes a second target-difference term, which is represented by the provisional state in the backward
+    procedure. This is correspondence to the specified finite-horizon replay.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 4, author PDF p. 5, Theorem 3; Section 5, p. 6, Equations 17–27 and Theorems 5–6;
+      Appendix A.3–6, pp. 13–17.
+    relation: supports
+- claim_id: linear-dense-update-cost
+  kind: scope
+  statement: The backward WIS-TD(lambda) procedure uses O(n) arithmetic and O(n) vector state per transition
+    for n dense features, instead of replaying all past forward updates at each new horizon. The usage
+    vectors, eligibility trace, parameter vector and provisional vector have fixed dimension; the cost
+    statement concerns this backward bookkeeping rather than feature generation or an entire control system.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 5, author PDF p. 6, paragraph following Equation 27; Appendix A.7, p. 18, Algorithm
+      1; forward-replay cost discussion in Sections 3–4, pp. 4–5.
+    relation: supports
+limitations:
+- The selected identity is WIS-TD(lambda), not WIS-GTD, WIS-TO-GTD, usage-based TD, usage-based true online
+  TD, WIS-LSTD, an isolated Dutch trace or a generic importance-sampling estimator. When all rho values
+  are one and states and step-size conventions are matched, its theta update specializes to usage-based
+  true online TD; this endpoint does not make the full algorithms exact aliases. The separately named
+  variants retain their own recurrences and source questions.
+- Finite-horizon replay correspondence does not establish an unbiased objective-gradient step, convergence,
+  stability, monotonic improvement, optimal policy learning or universal superiority. The source explicitly
+  leaves convergence analysis for future work. Target-policy action support under behavior and well-defined
+  returns, ratios and relevant moments are separate statistical requirements.
+- The source explicitly states that WIS-SGD-2 no longer reduces to ordinary tabular WIS. Its WIS-SGD-1
+  weighted-average result requires the stated one-hot, initialization and recency conditions; it must
+  not be transferred to every WIS-named algorithm. For general overlapping features, reciprocal usage
+  is not a full least-squares solve or a guarantee of an exact sample average, and self-normalization
+  alone does not generally imply finite-sample unbiasedness.
+- Bare eta>=0 does not guarantee positive usage for arbitrary feature magnitudes. Conditions such as eta*phi_t(i)^2<=1,
+  together with nonnegative importance weights and matched nonnegative usage initialization, support nonnegative
+  forward usage; zero components can still occur. The source reciprocal-at-zero convention does not prove
+  positivity, bounded steps or statistical validity. Importance ratios can exceed one, and traces and
+  provisional weights are not coordinatewise clipped.
+- The old-v, old-d and old-weight dependencies and the new alpha_(t+1) timing are part of the construction.
+  Equation 17 sets theta_(-1)=0 although Algorithm 1 does not repeat that initialization. Cancellation
+  of the first theta correction does not make this prior prediction irrelevant to the first provisional
+  d update. Adding a next-discount factor to the printed provisional innovation, substituting a GTD auxiliary
+  update, or recomputing prior predictions with current weights changes the specified procedure.
+- The forward/backward derivation concerns the specified linear representation and matched realized feature/target
+  sequence. Generic nonlinear or parameter-dependent feature learning does not automatically inherit it.
+  State-value prediction is distinct from action-value control, and a lambda endpoint alone does not identify
+  the method with every off-policy Monte Carlo construction. Dense linear bookkeeping does not imply cost
+  only in the current nonzero features or a universal wall-clock advantage.
+- The declared evidence is the acquired author combined paper and Appendix A. Its first ten native-text
+  pages match the official paper and its last eight match the official supplement; an embedded 2016 creation
+  date is not a verified revision date. The source has bounded display issues in the Equation 12 horizon
+  notation and nearby unrolling, the lambda-zero bootstrap illustration on p. 6, and intermediate Appendix
+  A.2/A.6 lines. The explicit final WIS-TD recurrences remain separately identifiable; no complete proof
+  certification, official erratum, author-code correctness or benchmark reproduction is asserted. Experimental
+  comparisons retain their reported task, representation and parameter-search scope.
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The algorithm estimates policy state values from reward transitions, potentially sampled
+    under a different behavior policy, and supplies prediction machinery used in reinforcement learning.
+    The pinned class is a broader learning task; this is a qualified association, not exact identity,
+    an algorithm-to-task subclass edge, action selection, policy improvement or convergence.
+review_status: DRAFT
+identity_notes: The selected identity is the source-defined WIS-TD(lambda) linear off-policy state-value
+  prediction algorithm, with inverse feature-usage step sizes, a scaled Dutch trace and a provisional
+  correction state. The fresh post-merge collection on 15 October 2026 at 17:56:44–17:57:57 UTC covered
+  774 maintained native and 442 pinned AIO records. IDs, local IDs, names, aliases and scoped synonym
+  values supplied 4,840 identity fields; candidate names and explicit source spellings, including Greek
+  lambda, had no normalized collision. Four fixed-string searches included ignored and hidden paths and
+  retained 4,396 occurrences in 877 distinct content groups. Two supporting agents read the complete grouped
+  contents in disjoint partitions; root separately read all eight WIS-TD-named groups, the eleven normalized
+  neighbor definitions and current owners 264,265,266 and269. Candidate-named hits are unresolved source-lead/history
+  references, not an existing WIS-TD record. Generic TD prediction, base true-online TD/GTD, Dutch and
+  replacing trace components, and the separate Sarsa/Q-learning control methods have different complete
+  scopes. The WIS-GTD and usage-based methods remain separately specified residuals, while the WIS-TO-GTD
+  printed recurrence remains unresolved. The historical 1,214-row research inventory and two intervening
+  Dutch/GTD additions were verified at the actual merged base. This is bounded identity evidence for the
+  retained roots/probes/snapshot, not a manual semantic review of every record or global absence. Existing
+  eligibility owner 264 retains its six IDs, all four prior resolution objects and its historical Sutton
+  1988 discovery pointer; the separately inspected Mahmood–Sutton 2015 paper defines this addition.
+evidence_sources:
+- source_id: mahmood2015-author
+  title: Off-policy learning based on weighted importance sampling with linear computational complexity
+  authors:
+  - A. Rupam Mahmood
+  - Richard S. Sutton
+  version: Author-catalog-linked eighteen-page combined UAI 2015 paper and Appendix A. Native text on
+    PDF pp. 1–10 matches the official ten-page proceedings paper, and pp. 11–18 match its official eight-page
+    supplement. The embedded 2016 PDF creation date is not treated as a verified scientific revision date;
+    source-local PDF pagination is used.
+  persistent_id: https://proceedings.mlr.press/r13/mahmood15a.html
+  source_type: primary_paper
+  url: https://armahmood.github.io/files/MS-WIS-O(n)-UAI-2015.pdf
+  access_level: full_text
+  accessed_at: '2026-10-15T17:02:13Z'
+  sha256: 9f30489028c8473a6e45d44e16604ae80a0ac485e181388274dcff73b57e1767
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T18:12:41Z'
+  updated_at: '2026-10-15T18:12:41Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
