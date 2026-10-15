@@ -97,7 +97,12 @@ def test_curated_kind_pages():
     curated_docs = [yaml.safe_load(p.read_text()) for p in CURATED_DIR.glob("*.yaml")]
     unique_kinds = {d["concept_kind"] for d in curated_docs if d.get("concept_kind")}
 
-    assert len(unique_kinds) == 9
+    schema = yaml.safe_load(
+        (REPO_ROOT / "src/aimech/schema/curated_concept.yaml").read_text()
+    )
+    declared_kinds = set(schema["enums"]["ConceptKind"]["permissible_values"])
+    assert unique_kinds <= declared_kinds
+    assert {p.stem for p in kinds_dir.glob("*.html")} == unique_kinds
     for kind in unique_kinds:
         kind_file = kinds_dir / f"{kind}.html"
         assert kind_file.is_file(), f"Missing kind page: {kind_file}"

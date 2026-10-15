@@ -37,6 +37,8 @@ KIND_LABELS = {
     "evaluation_criterion": "Evaluation Criteria",
     "evaluation_method": "Evaluation Methods",
     "learning_paradigm": "Learning Paradigms",
+    "coordination_mechanism": "Coordination Mechanisms",
+    "computational_paradigm": "Computational Paradigms",
     "preprocessing_method": "Preprocessing Methods",
 }
 
@@ -49,6 +51,8 @@ KIND_BLURBS = {
     "evaluation_criterion": "Defined conditions and loss metrics used to assess model behavior or predictions.",
     "evaluation_method": "Empirical protocols and test methodologies for measuring AI system performance.",
     "learning_paradigm": "High-level training frameworks such as contrastive or self-supervised learning.",
+    "coordination_mechanism": "Source-defined computational designs that coordinate activity through specified information or state changes.",
+    "computational_paradigm": "Source-defined approaches to organizing computational problem solving through shared design principles.",
     "preprocessing_method": "Feature engineering, data augmentation, and tokenization procedures.",
 }
 
