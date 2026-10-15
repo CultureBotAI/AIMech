@@ -1,0 +1,187 @@
+id: AIMech:VariableNeighborhoodSearch
+name: Variable neighborhood search
+concept_kind: algorithm
+aliases: []
+definition: A local-search metaheuristic that repeatedly perturbs an incumbent through an indexed collection
+  of neighborhoods, locally optimizes the perturbed point, resets the neighborhood index after strict
+  incumbent improvement and advances it after failure, under a declared stopping rule.
+definition_evidence:
+- source_id: mladenovic1997
+  locator: Section 2, PDF pp. 1–2 / printed pp. 1097–1098, especially the basic VNS algorithm on p. 1098.
+  relation: supports
+claims:
+- claim_id: configured-neighborhood-controller
+  kind: scope
+  statement: Choose an initial feasible incumbent x and a finite indexed collection of shaking neighborhood
+    structures N_1 through N_kmax. The basic VNS controller varies which neighborhood supplies the next
+    perturbed starting point. Successive neighborhoods are often nested, but nesting is not required by
+    the stated method.
+  evidence:
+  - source_id: mladenovic1997
+    locator: Section 2, PDF pp. 1–2 / printed pp. 1097–1098, neighborhood questions, initialization and
+      paragraph after the main step.
+    relation: supports
+- claim_id: random-shaking-and-local-optimization
+  kind: mechanism
+  statement: At the current neighborhood index k, generate x_prime at random from N_k(x), then apply a
+    configured local-search method with x_prime as its initial solution. Denote its locally optimized
+    result by x_double_prime. The source does not prescribe a uniform sampling distribution, and the shaken
+    point need not improve the incumbent.
+  evidence:
+  - source_id: mladenovic1997
+    locator: Section 2, PDF p. 2 / printed p. 1098, main step 2(a–b) and the subsequent descent characterization.
+    relation: supports
+- claim_id: strict-improvement-reset
+  kind: mechanism
+  statement: In the basic descent version, if x_double_prime is strictly better than the incumbent, replace
+    x by x_double_prime and reset k to 1. Otherwise retain the incumbent and advance k by one. The improvement
+    test is applied after local optimization; it is not a requirement that every intermediate perturbation
+    improve the objective.
+  evidence:
+  - source_id: mladenovic1997
+    locator: Section 2, PDF p. 2 / printed p. 1098, main step 2(c) and characterization as a descent,
+      first-improvement method.
+    relation: supports
+- claim_id: separate-local-search-neighborhood
+  kind: mechanism
+  statement: The baseline local-search routine may use a fixed neighborhood distinct from the shaking
+    neighborhoods, and that neighborhood need not belong to the selected collection N_1 through N_kmax.
+    The source also discusses changing local-search neighborhoods as an extension; the basic controller
+    does not require that extension.
+  evidence:
+  - source_id: mladenovic1997
+    locator: Section 2, PDF p. 2 / printed p. 1098, variant (iii), distinction between steps 2(a) and
+      2(b).
+    relation: supports
+- claim_id: repeated-budgeted-main-cycle
+  kind: scope
+  statement: The main neighborhood cycle can be repeated until a declared stopping condition, such as
+    a maximum iteration count, CPU-time allowance or iterations without improvement. The basic strict-improvement
+    controller is distinguished from the paper’s optional descent-ascent, best-neighborhood and generalized
+    index-schedule variants.
+  evidence:
+  - source_id: mladenovic1997
+    locator: Section 2, PDF p. 2 / printed p. 1098, paragraph following the main step and variants (i–iii);
+      Section 4, PDF p. 4 / printed p. 1100.
+    relation: supports
+limitations:
+- The printed main loop says until k=k_max although initialization lists N_1 through N_kmax. That endpoint
+  wording does not unambiguously specify whether the last listed neighborhood is processed, especially
+  when k_max=1. The mechanism description preserves the reset and advancement rules without claiming a
+  uniquely reconstructed executable loop.
+- Random sampling is not specified as uniform and does not guarantee that samples never repeat. The anti-cycling
+  motivation is not a proof of cycle freedom. An unsuccessful shaken point followed by local search does
+  not exhaust its shaking neighborhood or certify that no improving point exists there.
+- Strictly improving accepted incumbents imply only finitely many accepted improvements when the feasible
+  solution set is finite. This hand consequence does not ensure termination of an arbitrary inner optimizer
+  or an outer loop lacking a finite stopping rule, and does not prove convergence to a global optimum
+  or a finite-run optimality certificate.
+- Neighborhood feasibility, coverage, sampling, the inner optimizer and its stopping convention must be
+  declared. A local optimum is relative to that inner method’s neighborhood and accuracy, not automatically
+  to every shaking neighborhood. Nested neighborhoods and connectivity are not supplied as universal guarantees
+  by the basic description.
+- The source’s optional floor-based neighborhood-increment expression can give zero. It is outside the
+  selected basic k:=k+1 schedule and is not silently repaired or promoted to a verified executable variant.
+  Accepting worsening incumbents, taking the best among multiple neighborhoods or adding tabu-style mechanisms
+  likewise requires its separately stated variant choices.
+- Evidence here is the four-page 1997 article and its basic controller, not an author-code execution or
+  benchmark reproduction. GENIUS/TSP and traveling-salesman-with-backhauls comparisons do not establish
+  universal speed, quality or complexity claims. Detailed GENI formulas and numerical table values extracted
+  from the scanned pages are not asserted as exact implementation specifications.
+aio_no_match:
+  search_scope: 'Fresh collection at actual merged base 2fea41895243fec301f372eb2a2e1247cf76e708 on 15
+    October 2026, 13:57:03–13:57:48 UTC, compared all 760 native and 442 pinned AIO records: 4,798 ID/local-ID/name/alias/scoped-synonym
+    occurrences and 3,667 normalized values, with zero candidate collisions and 17 contextual fields.
+    Four checkout searches included ignored and hidden files and returned 2,858, 2,876, 7,119 and 8,022
+    occurrences (20,875 total), retained as 880 distinct matching contents. Root read the 19 focused candidate-content
+    projections, all 17 normalized context fields, all 13 matched frontier objects, ten neighboring identity/definition/mechanism
+    projections and fourteen exact AIO CLASS nodes with 59 incident-edge entries. This is bounded semantic
+    inspection; root does not claim a verbatim reading of every broad context-only occurrence or all 880
+    groups. All 909 main and 393 nested objects were queried recursively for candidate/context fields.
+    Historical primary and draft inspections retain their separately recorded source scopes. The fourteen
+    inspected targets are MathematicalFunction, TrainingStrategy, ReinforcementLearning, ReinforcementLearningLLM,
+    SupervisedLearning, UnsupervisedLearning, MetaLearning, MachineLearningTask, KnearestNeighborAlgorithm,
+    EnsembleLearning, ArtificialNeuralNetwork, PolicyLayer, ActiveLearning and ExponentialFunction. Their
+    retained individual rejection reasons are unchanged; no absence beyond this pinned snapshot or examined
+    semantic neighborhood is asserted.'
+  rationale: No informative positive AIO mapping is supported for the general 1997 basic VNS controller
+    among the 14 inspected targets. This bounded result does not assert that no mapping could exist in
+    a different ontology or later snapshot.
+  examined_targets:
+  - target: AIO:MathematicalFunction
+    rejection_reason: The pinned class is a broad rule from inputs to outputs, not restricted to scalar
+      outputs. Treating a configurable stochastic search controller as a function of all inputs and random
+      bits supplies no informative mapping for this named algorithm; no single defining closed rule is
+      being curated as a mathematical_method.
+  - target: AIO:TrainingStrategy
+    rejection_reason: General neighborhood optimization is not inherently the pinned preprocessing/training
+      procedure for machine-learning models; an optional training application does not establish the relation.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Random exploration and objective feedback alone do not specify a reward-learning
+      policy/value method or the pinned learning-task identity.
+  - target: AIO:ReinforcementLearningLLM
+    rejection_reason: No fine-tuned language model is required.
+  - target: AIO:SupervisedLearning
+    rejection_reason: The algorithm need not infer a predictive function from labeled examples.
+  - target: AIO:UnsupervisedLearning
+    rejection_reason: Searching a supplied objective is not inherently learning structure from unlabeled
+      data.
+  - target: AIO:MetaLearning
+    rejection_reason: The algorithm requires no learning from metadata about machine-learning experiments.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The method is a general optimizer, not necessarily a process of learning from data.
+  - target: AIO:KnearestNeighborAlgorithm
+    rejection_reason: A search neighborhood over feasible solutions is not nearest-neighbor classification
+      or regression.
+  - target: AIO:EnsembleLearning
+    rejection_reason: Multiple neighborhoods do not form an ensemble of predictive models.
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: No network of trainable units is a required component.
+  - target: AIO:PolicyLayer
+    rejection_reason: An index and acceptance rule are not a network layer producing action probabilities.
+  - target: AIO:ActiveLearning
+    rejection_reason: Choosing candidate solutions is not querying labels for data points.
+  - target: AIO:ExponentialFunction
+    rejection_reason: The basic VNS loop has no mandatory scalar exponential update; optional simulated-annealing
+      extensions do not define the baseline.
+review_status: DRAFT
+identity_notes: 'The selected identity is the basic 1997 Mladenovic–Hansen VNS controller: configured
+  shaking neighborhoods, a separately declared inner local search and strict-improvement neighborhood
+  reset. It is not an exact alias of ILS, FLS, GLS, tabu search, simulated annealing, HillClimbing or
+  ParamILS; overlap and hybrid composition remain possible. Historical owner278 retains its handbook discovery
+  pointer separately from the accepted 1997 Computers & Operations Research paper. Fresh collection at
+  actual merged base 2fea41895243fec301f372eb2a2e1247cf76e708 on 15 October 2026, 13:57:03–13:57:48 UTC,
+  compared all 760 native and 442 pinned AIO records: 4,798 ID/local-ID/name/alias/scoped-synonym occurrences
+  and 3,667 normalized values, with zero candidate collisions and 17 contextual fields. Four checkout
+  searches included ignored and hidden files and returned 2,858, 2,876, 7,119 and 8,022 occurrences (20,875
+  total), retained as 880 distinct matching contents. Root read the 19 focused candidate-content projections,
+  all 17 normalized context fields, all 13 matched frontier objects, ten neighboring identity/definition/mechanism
+  projections and fourteen exact AIO CLASS nodes with 59 incident-edge entries. This is bounded semantic
+  inspection; root does not claim a verbatim reading of every broad context-only occurrence or all 880
+  groups. All 909 main and 393 nested objects were queried recursively for candidate/context fields. Historical
+  primary and draft inspections retain their separately recorded source scopes.'
+evidence_sources:
+- source_id: mladenovic1997
+  title: Variable neighborhood search
+  authors:
+  - N. Mladenović
+  - P. Hansen
+  source_type: primary_paper
+  url: https://sci2s.ugr.es/sites/default/files/files/Teaching/GraduatesCourses/Metaheuristicas/Bibliography/HansenVNS.pdf
+  persistent_id: https://doi.org/10.1016/S0305-0548(97)00031-2
+  version: Computers & Operations Research 24(11), 1097–1100, November 1997; four-page university-hosted
+    scan of the published article. Publication month is supported by the retained Crossref metadata; no
+    publication day is inferred. PDF scan creation dates are not publication dates.
+  access_level: full_text
+  accessed_at: '2026-10-15T12:28:40Z'
+  sha256: 0f00c954f45af2794a565cb207569a8cc6c78756149869f52d128086aaffd30d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T14:06:22Z'
+  updated_at: '2026-10-15T14:06:22Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

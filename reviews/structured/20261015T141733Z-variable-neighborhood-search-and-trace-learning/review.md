@@ -1,0 +1,1882 @@
+# Scientific self-review of variable neighborhood search and two trace-learning methods
+
+- Review: 20261015T141733Z-variable-neighborhood-search-and-trace-learning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-15T14:08:10.836645Z
+- Finished UTC: 2026-10-15T14:17:33.166994Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+The explicitly selected heterogeneous cohort is assessed through 17 source-linked claims, 20 individual limitations and three primary source rows. Retain original basic VNS, neural MCQ-L and tabular Peng–Williams Q(lambda) separately. VNS retains fourteen examined no-match targets; the two control methods retain qualified related ReinforcementLearning mappings. All records remain DRAFT. This review binds the actual creation, canonical capture, postcapture root assessment and six completed required checks. Its conclusions are limited to those inspected bytes and the stated source-reading scopes.
+
+## Scope And Provenance
+
+Complete explicitly selected heterogeneous cohort: a configured neighborhood optimizer and two distinct original trace-learning control algorithms; shared review does not assert a common algorithm family.
+
+Selection: Exact maintained IDs AIMech:VariableNeighborhoodSearch, AIMech:ModifiedConnectionistQLearning, AIMech:PengWilliamsQLambda from actual cohort342 creation.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 2fea41895243fec301f372eb2a2e1247cf76e708.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:VariableNeighborhoodSearch | data/curated/VariableNeighborhoodSearch.yaml | maintained | Variable neighborhood search |
+| AIMech:ModifiedConnectionistQLearning | data/curated/ModifiedConnectionistQLearning.yaml | maintained | Modified Connectionist Q-Learning |
+| AIMech:PengWilliamsQLambda | data/curated/PengWilliamsQLambda.yaml | maintained | Peng and Williams Q(lambda) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:VariableNeighborhoodSearch, AIMech:ModifiedConnectionistQLearning, AIMech:PengWilliamsQLambda | Actual command completed with exit0; exact output is retained. |
+| just vendored-check | passed | True | AIMech:VariableNeighborhoodSearch, AIMech:ModifiedConnectionistQLearning, AIMech:PengWilliamsQLambda | Actual command completed with exit0; exact output is retained. |
+| uv run --locked aimech check-source | passed | True | AIMech:VariableNeighborhoodSearch, AIMech:ModifiedConnectionistQLearning, AIMech:PengWilliamsQLambda | Actual command completed with exit0; exact output is retained. |
+| just render | passed | True | AIMech:VariableNeighborhoodSearch, AIMech:ModifiedConnectionistQLearning, AIMech:PengWilliamsQLambda | Actual command completed with exit0; exact output is retained. |
+| just render-check | passed | True | AIMech:VariableNeighborhoodSearch, AIMech:ModifiedConnectionistQLearning, AIMech:PengWilliamsQLambda | Actual command completed with exit0; exact output is retained. |
+| git diff --check | passed | True | AIMech:VariableNeighborhoodSearch, AIMech:ModifiedConnectionistQLearning, AIMech:PengWilliamsQLambda | Actual command completed with exit0; exact output is retained. |
+
+## Scientific And Domain Assessments
+
+### Claim configured-neighborhood-controller
+
+evidence: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+The initialization and basic main step establish the indexed shaking-neighborhood controller; the following paragraph says nesting is often used, not mandatory.
+
+### Claim random-shaking-and-local-optimization
+
+evidence: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+Main step 2(a–b) explicitly draws a random point and starts local search there. No uniform distribution or pre-local-search improvement requirement is stated.
+
+### Claim strict-improvement-reset
+
+evidence: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+Main step 2(c) replaces the incumbent only on improvement and resets the index; otherwise the incumbent stays while the index advances. The source identifies the basic form as descent/first improvement.
+
+### Claim separate-local-search-neighborhood
+
+evidence: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+Variant (iii) explicitly separates the local-search neighborhood from the perturbation collection and permits a fixed inner neighborhood outside that collection.
+
+### Claim repeated-budgeted-main-cycle
+
+evidence: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+The paragraph after the main step gives stopping examples, while the following variants change acceptance, selection or index schedules. This claim does not resolve the printed endpoint ambiguity.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+The original basic shaking/local-optimization/reset controller is a named algorithm; it is neither every local-search metaheuristic nor one particular TSP implementation. The printed endpoint remains in the limitations.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+Root accepted the explicit 14-target no-match after exact AIO context reading. MathematicalFunction is treated as a broad input/output rule class, not scalar-only; generic describability does not identify this complete configurable controller.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+The sole declared source mladenovic1997 supports the definition and all five claims; it is cited structurally. Crossref is bibliography context, not an unused declared method source.
+
+### limitations assessment
+
+scope: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+All 6 individual limitations are retained exactly and assessed separately below. The basic controller leaves the endpoint, sampling and local-search conventions qualified; finite strict improvements do not certify global optimality or complete neighborhood exhaustion.
+
+### Concept boundary and actual owner
+
+identity: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+The maintained concept retains its accepted algorithm scope with its exact accepted aliases []. Actual root decisions retain owner 278 and distinct residuals. The supporting historical identity scope is: This record selects the basic VNS controller in the 1997 Mladenović–Hansen article, not every later variable-neighborhood variant or a particular GENIUS implementation. The explicit shaking-neighborhood schedule and improvement reset distinguish it from the general ILS framework; FLS activation bits, GLS feature penalties, tabu memory and annealing acceptance are not mandatory components. Particular hybrids or matching special cases do not establish exact aliases. Historical research on 15 October 2026 at 12:27:59–12:28:26 UTC compared 757 native and 442 pinned AIO identities. Four checkout searches included ignored and hidden files; 2,185 occurrences for three research leads were reconstructed into 32 exact content groups; the source agent read all 32 unique contents, not every repeated occurrence individually. The VNS-specific content was its carried frontier label. A recursive query of every string field in all 909 main and 393 nested objects found only existing owner 278 for the VNS probes. Fifty-two selected definitions, six local-search neighbor semantic projections and all 14 exact AIO contexts with 59 incident-edge entries were assessed. These are bounded historical observations, not absence beyond the inspected snapshot and contexts. Existing owner 278 supplied the lead through a later Springer chapter URL; that pointer remains historical context, while the actual method evidence is the original 1997 article. No additional frontier owner is inferred.
+
+### Retained limitation 1
+
+scope: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+The source wording is retained rather than normalized into an unambiguous inclusive or exclusive implementation.
+
+### Retained limitation 2
+
+scope: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+A random draw may repeat and failure for one draw does not quantify every point in the neighborhood. No anti-cycling theorem is inferred.
+
+### Retained limitation 3
+
+scope: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+A strict sequence over a finite objective-image set has finitely many accepted changes; this says nothing by itself about work between changes or success at the global optimum.
+
+### Retained limitation 4
+
+scope: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+The inner local optimum and outer shaking sets have distinct scopes; approximations and feasibility conventions must not be silently certified.
+
+### Retained limitation 5
+
+scope: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+The optional expression can evaluate to zero; it is excluded from the basic advancement claim, not rewritten as an author-endorsed fix.
+
+### Retained limitation 6
+
+scope: supported. Targets: AIMech:VariableNeighborhoodSearch.
+
+The limited experiments and scan extraction do not establish universal results or an inspected implementation.
+
+### Claim selected-next-action-error
+
+evidence: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+Equation 9 replaces the next-state maximum with the selected next-action value. This is a mechanism for ongoing transitions; terminal and online timing conventions are separately limited.
+
+### Claim accumulating-neural-gradient-trace
+
+evidence: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+The displayed recursion and Figure 1 support accumulation and error-weighted updates. The inconsistent summation index in Equation 13 is not adopted. Historical gradients and changing online parameters are distinguished.
+
+### Claim printed-online-operation-order
+
+evidence: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+The weight update is step 4, the gradient calculation step 5 and the trace update step 6. Step 7 executes the action. The source does not fully resolve every cached-output/recomputation or terminal convention.
+
+### Claim single-trace-and-inactive-action-networks
+
+evidence: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+The separate-network zero-gradient statement and Equation 14 give the inactive-trace multiplier. Decay is qualified at the permitted endpoint; shared weights need not isolate output changes.
+
+### Claim zero-trace-and-greedy-special-cases
+
+evidence: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+Substitution in the finite recurrence gives the lambda-zero boundary; equality of selected and maximum values requires a greedy choice and does not equate complete methods.
+
+### Claim neural-control-method-scope
+
+evidence: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+The claim selects the original named neural learning procedure and avoids treating experimental hyperparameters or comparative results as defining requirements.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+The accepted source-specific identity follows the named method and inspected update construction; neighboring one-step/special-case overlaps and source timing/endpoint limitations remain explicit.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+One qualified related match to ReinforcementLearning is accepted. The task is not the algorithm; no network/PolicyLayer or scalar-exponential mapping is forced from optional representation or behavior-policy choices. MathematicalFunction is not treated as scalar-only.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+The sole declared primary source supports definition and all six claims and is cited structurally. Other version/source discussion remains context, not an uncited method source.
+
+### limitations assessment
+
+scope: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+All 7 individual limitations are retained exactly and assessed separately below. The selected original algorithm retains its exact update order, parameter/domain restrictions, source discrepancies and limited convergence scope. No imported convergence theorem or uninspected implementation certification is supplied.
+
+### Concept boundary and actual owner
+
+identity: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+The maintained concept retains its accepted algorithm scope with its exact accepted aliases []. Actual root decisions retain owner 265 and distinct residuals. The supporting historical identity scope is: This record selects the original neural MCQ-L procedure in the directly inspected Rummery–Niranjan report. It is not an exact alias of every Sarsa(lambda) implementation, the maintained one-step tabular Sarsa record, Watkins-style trace cutting or the Peng–Williams two-error update. Shared one-step errors or greedy special cases do not equate complete representation, timing and trace policies. Historical research on 15 October 2026 at 12:27:59–12:28:26 UTC compared 757 native and 442 pinned AIO identities. Four ignored- and hidden-inclusive checkout scans produced 2,185 occurrences in 32 exact content groups for the three research leads; the source agent read all 32 unique contents, not each repeated occurrence individually. Recursive candidate-string queries covered every string field in all 909 main and 393 nested frontier objects and found the two existing trace owners 265 and 266. Fifty-two selected definitions, five complete native-neighbor semantic projections, and all 14 exact AIO contexts with 59 incident-edge entries were assessed. An initial ASCII-only lambda normalization false match to Sarsa was retained and corrected by Unicode-aware lambda handling. These are bounded historical observations, not absence beyond the inspected snapshot or a later merged base. Retain existing owner 265 with its historical report pointer. Generic eligibility variants and the separate owners for Peng–Williams, TD(lambda), policy-gradient and other trace methods are not resolved by this record.
+
+### Retained limitation 1
+
+scope: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+The visual source discrepancy was directly inspected and is distinct from corrupted native text extraction.
+
+### Retained limitation 2
+
+scope: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+The printed caption and terminal stopping sequence are explicit; no author implementation was inspected to settle the omitted convention.
+
+### Retained limitation 3
+
+scope: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+This is a bounded algebraic qualification of online parameter changes and an infinite-series endpoint, not a certification of a forward/backward theorem.
+
+### Retained limitation 4
+
+scope: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+The source permits the endpoint. Decay and existence of an undiscounted return require separate conditions; no new algorithm is introduced.
+
+### Retained limitation 5
+
+scope: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+Early convergence rhetoric is bounded by the report’s own later qualifications and the stated approximation/policy assumptions.
+
+### Retained limitation 6
+
+scope: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+Month precision and visible footnote are retained without inventing an explanation for later attribution differences.
+
+### Retained limitation 7
+
+scope: supported. Targets: AIMech:ModifiedConnectionistQLearning.
+
+Reading and hand reasoning are distinguished from implementation verification, benchmark reproduction and original-proof certification.
+
+### Claim tabular-values-traces-and-behavior
+
+evidence: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The primary baseline is tabular, with a separately chosen behavior policy. The greedy maximum defines V, not necessarily the action that is taken.
+
+### Claim two-preupdate-errors
+
+evidence: supported. Targets: AIMech:PengWilliamsQLambda.
+
+Both errors are computed before any Q update. Their difference follows directly and concerns the current selected action, not the next selected behavior action.
+
+### Claim decay-old-credit-before-direct-update
+
+evidence: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The update order is literal Figure 1: decay and propagate older credit, direct current update, then accumulate the new visit. It is not a replacing-trace construction.
+
+### Claim retained-traces-through-exploration
+
+evidence: supported. Targets: AIMech:PengWilliamsQLambda.
+
+Greedy maxima inside the errors are distinguished from the behavior trajectory. No claim that the retained multi-step return is an unbiased evaluation of the greedy policy is made.
+
+### Claim zero-product-one-step-boundary
+
+evidence: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The zero-product result follows by direct substitution in step F. This corrects the overbroad reading that every positive-lambda case necessarily retains multi-step credit.
+
+### Claim trace-work-and-pruning-scope
+
+evidence: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The table-wide worst case and optional significant-trace retention are stated in the primary; no implementation complexity or empirical superiority is generalized.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The accepted source-specific identity follows the named method and inspected update construction; neighboring one-step/special-case overlaps and source timing/endpoint limitations remain explicit.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:PengWilliamsQLambda.
+
+One qualified related match to ReinforcementLearning is accepted. The task is not the algorithm; no network/PolicyLayer or scalar-exponential mapping is forced from optional representation or behavior-policy choices. MathematicalFunction is not treated as scalar-only.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The sole declared primary source supports definition and all six claims and is cited structurally. Other version/source discussion remains context, not an uncited method source.
+
+### limitations assessment
+
+scope: supported. Targets: AIMech:PengWilliamsQLambda.
+
+All 7 individual limitations are retained exactly and assessed separately below. The selected original algorithm retains its exact update order, parameter/domain restrictions, source discrepancies and limited convergence scope. No imported convergence theorem or uninspected implementation certification is supplied.
+
+### Concept boundary and actual owner
+
+identity: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The maintained concept retains its accepted algorithm scope with its exact accepted aliases []. Actual root decisions retain owner 266 and distinct residuals. The supporting historical identity scope is: This record selects the directly inspected 1996 Peng–Williams tabular Q(lambda) procedure. Its two-error update and retained older credit distinguish it from selected-next-action MCQ-L/Sarsa(lambda), automatic trace cutting, and generic eligibility-trace machinery. The zero-product boundary overlaps one-step Q-learning without equating every multi-step configuration. The uninspected 1994 precursor is not declared an exact specification alias. Historical research on 15 October 2026 at 12:27:59–12:28:26 UTC compared 757 native and 442 pinned AIO identities. Four ignored- and hidden-inclusive checkout scans produced 2,185 occurrences in 32 exact content groups for the three research leads; the source agent read all 32 unique contents, not each repeated occurrence individually. Recursive candidate-string queries covered every string field in all 909 main and 393 nested frontier objects and found the two existing trace owners 265 and 266. Fifty-two selected definitions, five complete native-neighbor semantic projections, and all 14 exact AIO contexts with 59 incident-edge entries were assessed. An initial ASCII-only lambda normalization false match to Sarsa was retained and corrected by Unicode-aware lambda handling. These are bounded historical observations, not absence beyond the inspected snapshot or a later merged base. Retain existing owner 266 and its historical Cambridge/Peng reference context. The 1996 primary supplies this source-scoped mechanism; owner 265, generic eligibility variants and unrelated trace methods remain separate.
+
+### Retained limitation 1
+
+scope: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The source’s experimentation-sensitivity statement is qualified by the permitted gamma=0 counter-boundary without importing a theorem for the boundary update.
+
+### Retained limitation 2
+
+scope: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The dynamic-estimate residual is retained rather than discarded as an exact algebraic identity.
+
+### Retained limitation 3
+
+scope: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The endpoint and repeated-visit distinctions follow from the primary domains and recurrence; gamma=1 is not silently added to this source’s scope.
+
+### Retained limitation 4
+
+scope: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The record is scoped to the directly inspected 1996 table update; cross-source neural generalization is not presumed.
+
+### Retained limitation 5
+
+scope: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The displayed operations support the selected update order but do not settle all deployment conventions.
+
+### Retained limitation 6
+
+scope: supported. Targets: AIMech:PengWilliamsQLambda.
+
+The directly read publication is distinguished from an uninspected earlier version and from transport metadata.
+
+### Retained limitation 7
+
+scope: supported. Targets: AIMech:PengWilliamsQLambda.
+
+Source results remain attributed; the draft’s mechanism does not inherit general performance or necessity claims.
+
+### Captured bytes, accepted science and frontier accounting
+
+consistency: supported. Targets: AIMech:VariableNeighborhoodSearch, AIMech:ModifiedConnectionistQLearning, AIMech:PengWilliamsQLambda.
+
+All three captured records equal the actual write payloads and report entries. Exact support covers 17 claims and 20 limitations. Only existing owners 265, 266 and 278 changed; all 906 other prior main and 393 nested values remain unchanged. All three accepted method scopes reuse their existing owners, with no appended leaf. Six required checks passed. No global exhaustion or DRAFT promotion is inferred.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:VariableNeighborhoodSearch. Retain existing owner 278 and its historical Springer pointer as provenance. Distinguish the basic VNS controller from maintained ILS/FLS/GLS/tabu/SA/ParamILS without denying overlapping instances or hybrid composition. No new leaf or sibling exhaustion follows.
+- retain: AIMech:ModifiedConnectionistQLearning. Retain existing owner 265 with its historical report pointer. Generic eligibility variants and the separate owners for Peng–Williams, TD(lambda), policy-gradient and other trace methods are not resolved by this record.
+- retain: AIMech:PengWilliamsQLambda. Retain existing owner 266 and its historical Cambridge/Peng reference context. The 1996 primary supplies this source-scoped mechanism; owner 265, generic eligibility variants and unrelated trace methods remain separate.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| captured-inputs | /private/tmp/aimech-vns-trace-cohort342-capture.json | context_only | Actual canonical inspect output; all captured input hashes rechecked. Inspection alone is not scientific approval. |
+| postcapture-reading | /private/tmp/aimech-vns-trace-cohort342-root-postcapture-reading.json | context_only | Actual root full-target assessment after capture and completed checks; selective primary scopes are stated separately. |
+| scientific-support | /private/tmp/aimech-vns-trace-cohort342-review-preparation-20261015/scientific-support.runtime-tense.structure.json | context_only | Attributed same-author support of all 17 accepted claims and 20 individual limitations. This is preparation DATA, not itself an actual canonical capture. |
+| actual-write | /private/tmp/aimech-vns-trace-cohort342-write.json | context_only | Actual creation receipt binds three records, report pair and CREATE history. |
+| discovery-report | research/discovery/20261015T140622Z-variable-neighborhood-search-and-trace-learning.json | context_only | Record mirrors are exact. Only existing owners 265, 266 and 278 changed; all 906 other prior main and 393 nested objects are unchanged. Each target reuses its existing pending owner; no new frontier leaf was appended. |
+| creation-history | history/reports/variable-neighborhood-search-and-trace-learning/2026-10-15T140636Z-codex-d4010a.yaml | context_only | Actual append-only CREATE sidecar; review and publication are separate later actions. |
+| pinned-aio | sources/aio/aio.json; Exact AIO:ReinforcementLearning plus all fourteen accepted VNS rejected targets and retained incident-edge contexts. Positive mapping directions and no-match reasons retain their distinct meanings. | context_only | Exact snapshot supports two qualified related ReinforcementLearning mappings and one explicit fourteen-target VNS no-match assessment; no upstream equivalence or subclass assertion. |
+| identity-assessment | /private/tmp/aimech-cohort342-root-decisions-20261015.json | context_only | Actual root decisions bind fresh ignored/hidden-inclusive scans and existing owners 265/266/278, including any explicitly assessed context-only matches; no manual rereading of every hit by this generator is claimed. |
+| vns-preparation-prose-refinement | /private/tmp/aimech-vns-draft-preparation-20261015/readback-prose-refinement.json; Exact original/prepared successor references and recorded difference; TEMP preparation only, not a canonical review finding. | context_only | Retained VNS stable historical-scope prose refinement; exact preimage and one-field change precede the actual accepted native preview. |
+| trace-preparation-refinements | /private/tmp/aimech-trace-learning-draft-preparation-20261015/readback-refinements.json; Exact original/prepared successor references and recorded difference; TEMP preparation only, not a canonical review finding. | context_only | Retained MCQ-L stable limitation wording and Peng explicit residual wording refinements; originals/diffs remain separate from later root acceptance and native previews. |
+| vns-journal-preparation-correction | /private/tmp/aimech-vns-trace-cohort342-preparation-20261015/journal-correction.json; owner_source_notes/278; original and corrected manifest plus exact diff; actual preparation timestamp separately retained. | context_only | The prepared owner-source note incorrectly expanded the journal name as Operations Research Letters. Its separately retained correction restores Computers &amp; Operations Research, as already present in accepted native metadata. Accepted scientific records are unchanged; this was detected before any cohort342 invocation. |
+| src-mladenovic1997 | https://sci2s.ugr.es/sites/default/files/files/Teaching/GraduatesCourses/Metaheuristicas/Bibliography/HansenVNS.pdf; Source agent: all 4 native text pages, visuals 1–2. Root: all 4 native texts, visual 2. Core page 2 text reread during drafting. Detailed GENI formulas/tables, author implementation and experiments were not executed or certified. Detailed historical roles and page ranges: {"mladenovic1997": "Complete four-page native-text reading with source-agent visuals 1–2 and separately attributed root visual 2; core Section 2 is directly checked."} | supports | Computers &amp; Operations Research 24(11), 1097–1100, November 1997; four-page university-hosted scan of the published article. Publication month is supported by the retained Crossref metadata; no publication day is inferred. PDF scan creation dates are not publication dates. Acquisition time is access metadata, not a claim of full reading. |
+| src-rummery1994 | https://mi.eng.cam.ac.uk/reports/svr-ftp/auto-pdf/rummery_tr166.pdf; Source-agent earlier full OCR/native reading, fresh boundary audit, present selective drafting reread and root selective reading remain separately attributed. Root did not read all 21/8 pages or all 32 historical search contents. No independent peer source approval or author-code execution. Detailed historical roles and page ranges: {"rummery1994": "Source-agent all 21 OCR pages after unusable native extraction, original visuals 7–9 and 20, later boundary-audit visuals 4,5,7,9; present drafting OCR 7–10 and visual 9. Root OCR 7–10 and17, visuals4,5,7,8,9; no full root21-page claim."} | supports | Cambridge University Engineering Department technical report CUED/F-INFENG/TR 166. 21-page Cambridge-hosted report with September 1994 cover; naming chronology discussed in limits. Publication precision: month from report cover; no day inferred. Acquisition time is access metadata, not a claim of full reading. |
+| src-peng1996 | https://link.springer.com/content/pdf/10.1007/BF00114731.pdf; Source-agent earlier full OCR/native reading, fresh boundary audit, present selective drafting reread and root selective reading remain separately attributed. Root did not read all 21/8 pages or all 32 historical search contents. No independent peer source approval or author-code execution. Detailed historical roles and page ranges: {"peng1996": "Source-agent all 8 native pages, original visuals4–6, later audit native2–4/visual2,4; present drafting native2–5 and7 plus visual5. Root native2–5 and7, visual5; no full root8-page claim."} | supports | Machine Learning 22, 283–290 (1996), technical note. Eight-page publisher journal PDF. The effective response URL contains a cookies_not_supported query, but the retained body is a valid, successfully opened eight-page PDF. Publication precision: year in the PDF and retained Crossref record; received/accepted/manuscript dates are not substituted for publication. Acquisition time is access metadata, not a claim of full reading. |
+| record-vns | data/curated/VariableNeighborhoodSearch.yaml | supports | Complete maintained DRAFT record assessed by root after capture and matched to accepted scientific support. |
+| preview-acceptance-vns | /private/tmp/aimech-vns-draft-preparation-20261015/root-preview-acceptance.json | context_only | Exact semantic comparison of actual successful native preview to the fully root-read static draft, supplied identity/sources/snapshot and actual native timestamp. No claim of a separate verbatim rereading of duplicated scientific text. Historical TEMP acceptance is separate from the actual postcapture review; no independent approval. |
+| supporting-context-vns | /private/tmp/aimech-trace-vns-discovery-20261015/vns/scientific-assessment.json | context_only | Attributed historical same-author scientific assessment and bounded hand arguments; no new primary reading by this review-data assembler, independent approval, or author-code execution. Source agent: all 4 native text pages, visuals 1–2. Root: all 4 native texts, visual 2. Core page 2 text reread during drafting. Detailed GENI formulas/tables, author implementation and experiments were not executed or certified. |
+| record-mcql | data/curated/ModifiedConnectionistQLearning.yaml | supports | Complete maintained DRAFT record assessed by root after capture and matched to accepted scientific support. |
+| preview-acceptance-mcql | /private/tmp/aimech-trace-learning-draft-preparation-20261015/mcql/root-preview-acceptance.json | context_only | Root mechanically compared every static scientific field to the fully read final module through AST literal extraction, and exact identity/source/snapshot inputs; then read all actual curation metadata and successful native receipt. This is a comparison-based preview assessment, not a second verbatim reading or independent scientific approval. Future actual merged-base identity, canonical validation and saved scientific review remain required. Historical TEMP acceptance is separate from the actual postcapture review; no independent approval. |
+| supporting-context-mcql | /private/tmp/aimech-trace-vns-discovery-20261015/trace-adversarial-audit/assessment.json | context_only | Attributed historical same-author scientific assessment and bounded hand arguments; no new primary reading by this review-data assembler, independent approval, or author-code execution. Source-agent earlier full OCR/native reading, fresh boundary audit, present selective drafting reread and root selective reading remain separately attributed. Root did not read all 21/8 pages or all 32 historical search contents. No independent peer source approval or author-code execution. |
+| record-peng | data/curated/PengWilliamsQLambda.yaml | supports | Complete maintained DRAFT record assessed by root after capture and matched to accepted scientific support. |
+| preview-acceptance-peng | /private/tmp/aimech-trace-learning-draft-preparation-20261015/peng/root-preview-acceptance.json | context_only | Root mechanically compared every static scientific field to the fully read final module through AST literal extraction, and exact identity/source/snapshot inputs; then read all actual curation metadata and successful native receipt. This is a comparison-based preview assessment, not a second verbatim reading or independent scientific approval. Future actual merged-base identity, canonical validation and saved scientific review remain required. Historical TEMP acceptance is separate from the actual postcapture review; no independent approval. |
+| supporting-context-peng | /private/tmp/aimech-trace-vns-discovery-20261015/trace-adversarial-audit/assessment.json | context_only | Attributed historical same-author scientific assessment and bounded hand arguments; no new primary reading by this review-data assembler, independent approval, or author-code execution. Source-agent earlier full OCR/native reading, fresh boundary audit, present selective drafting reread and root selective reading remain separately attributed. Root did not read all 21/8 pages or all 32 historical search contents. No independent peer source approval or author-code execution. |
+| check-gate | /private/tmp/aimech-vns-trace-cohort342-check-gate.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-vendor | /private/tmp/aimech-vns-trace-cohort342-check-vendor.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-check-source | /private/tmp/aimech-vns-trace-cohort342-check-check-source.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-render | /private/tmp/aimech-vns-trace-cohort342-check-render.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-render-check | /private/tmp/aimech-vns-trace-cohort342-check-render-check.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-diff | /private/tmp/aimech-vns-trace-cohort342-check-diff.json | context_only | Actual completed command and retained output before this new review was saved. |
+
+## Limits And Additional Notes
+
+- Author self-review with attributed supporting agents is not independent approval. Source full-text access and an accepted preview do not imply every source page, cited proof or implementation was read.
+- Basic VNS uses configured shaking and a declared inner local search with strict incumbent improvement. Sampling is not necessarily uniform; one unsuccessful sample does not exhaust a neighborhood. Printed endpoint and optional zero-increment qualifications remain explicit; no universal optimality or termination guarantee follows.
+- MCQ-L retains the selected next-action error, accumulating parameter-gradient trace and printed operation order. Old gradients and changing parameters prevent an unqualified fixed-weight forward/backward equivalence. Source indexing, caption, terminal-flush and product-one decay boundaries remain explicit.
+- Peng–Williams Q(lambda) retains its tabular two-error order and exploratory traces. The product gamma*lambda, evolving values, admissible domains and sparse-trace qualifications matter; positive lambda alone does not preserve older credit when gamma is zero, and no arbitrary-policy convergence theorem is asserted.
+- Three actual primary PDFs have distinct publication/access and reading histories. The VNS handbook URL is a carried discovery pointer, not its accepted 1997 journal paper. Rummery has a September 1994 cover without settled SARSA naming chronology. Peng evidence is the inspected 1996 paper, not its uninspected 1994 precursor.
+- Root draft acceptances follow full static draft readings with separately scoped primary reading. All three actual preview acceptances are exact field/metadata comparisons to those drafts, not additional verbatim science readings or independent approvals.
+- VNS and trace drafting refinements and the journal-name preparation correction retain their originals and exact differences. No canonical scientific finding or failed native preview is invented from those preparation changes.
+- The two related ReinforcementLearning mappings are algorithm-to-task relations, not identity or subclass assertions. All fourteen VNS rejection reasons remain exact. The refreshed root-provided dated search scope and the three identity/timestamp contexts are explicitly recorded; the remaining accepted scientific fields are unchanged.
+- The actual merged-base identity and full frontier accounting are bound to the retained collection, root decisions and captured records. The six required checks passed; any retained failed attempts remain distinct from their later successful replacements. These bounded results do not establish global absence, saturation or DRAFT promotion.
+- Root personally read all three actual canonical records, all17 claims and20 limitations, metadata/mappings, actual report owner deltas and CREATE history after capture. Root historical primary reading: VNS text all4 pages and visual2; MCQ-L OCR7–10,17 and visuals4,5,7–9; Peng text2–5,7 and visual5. This continuation read the complete supporting actual-source audit with its separately attributed fresh reading. Root did not re-read all primary PDFs or certify all proofs. Root identity reading covers19 focused candidate contexts, current inventory/neighbor/AIO projections; broader880-group classification is a separately attributed supporting audit. Visible rendered text was mechanically compared; no browser layout review.
+- All17 mechanisms/scope claims and20 limits are supported within their stated source/timing/parameter boundaries. Definitions and related ReinforcementLearning mappings remain narrow; VNS has a fourteen-target bounded no-match. Exact accepted-preview science, actual six creation outputs,41 captured inputs and eight rendered pages agree. Only owners265,266,278 change;906 other main and393 nested entries remain exact, no new leaf. Current-source/identity fields and CREATE history record the completed dated refresh. The report scientific_context retains pre-write preparation prose mentioning a future refresh and later steps; those sentences describe retained preparation scope, not the actual completion state. Actual write/capture/current-field deltas and completed check receipts establish that state. Root read the retained preparation correction lineage, including journal-name and runtime-review tense corrections; no new concrete finding remains. All six required checks succeeded before this reading receipt. This is a same-author scientific review with supporting adversarial passes, not independent approval, full-family coverage or discovery exhaustion.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+title: Scientific self-review of variable neighborhood search and two trace-learning
+  methods
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root author assessment with attributed same-author supporting
+    source and mathematical agents. No external or independent scientific approval
+    is asserted.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: The explicitly selected heterogeneous cohort is assessed through 17 source-linked
+  claims, 20 individual limitations and three primary source rows. Retain original
+  basic VNS, neural MCQ-L and tabular Peng–Williams Q(lambda) separately. VNS retains
+  fourteen examined no-match targets; the two control methods retain qualified related
+  ReinforcementLearning mappings. All records remain DRAFT. This review binds the
+  actual creation, canonical capture, postcapture root assessment and six completed
+  required checks. Its conclusions are limited to those inspected bytes and the stated
+  source-reading scopes.
+scope:
+  description: 'Complete explicitly selected heterogeneous cohort: a configured neighborhood
+    optimizer and two distinct original trace-learning control algorithms; shared
+    review does not assert a common algorithm family.'
+  selection: Exact maintained IDs AIMech:VariableNeighborhoodSearch, AIMech:ModifiedConnectionistQLearning,
+    AIMech:PengWilliamsQLambda from actual cohort342 creation.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  - AIMech:ModifiedConnectionistQLearning
+  - AIMech:PengWilliamsQLambda
+  exclusions:
+  - target: Generic local search, VND, GENI, simulated annealing and other VNS extensions
+    reason: Distinct configurations or extensions; no extra record, executable reconstruction
+      or benchmark certification.
+  - target: One-step Sarsa/Q-learning, Watkins trace cutting, replacing traces, true-online
+      methods and generic TD(lambda)
+    reason: Nearby constructions remain distinct; overlapping component recurrences
+      do not establish whole-algorithm identity.
+  - target: Uninspected 1994 Peng precursor, author code and complete cited convergence
+      proofs
+    reason: Outside the explicitly retained source-version and reading scopes.
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  rationale: Retain existing owner 278 and its historical Springer pointer as provenance.
+    Distinguish the basic VNS controller from maintained ILS/FLS/GLS/tabu/SA/ParamILS
+    without denying overlapping instances or hybrid composition. No new leaf or sibling
+    exhaustion follows.
+  evidence_ids:
+  - record-vns
+  - src-mladenovic1997
+  - identity-assessment
+  - pinned-aio
+- action: retain
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  rationale: Retain existing owner 265 with its historical report pointer. Generic
+    eligibility variants and the separate owners for Peng–Williams, TD(lambda), policy-gradient
+    and other trace methods are not resolved by this record.
+  evidence_ids:
+  - record-mcql
+  - src-rummery1994
+  - identity-assessment
+  - pinned-aio
+- action: retain
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  rationale: Retain existing owner 266 and its historical Cambridge/Peng reference
+    context. The 1996 primary supplies this source-scoped mechanism; owner 265, generic
+    eligibility variants and unrelated trace methods remain separate.
+  evidence_ids:
+  - record-peng
+  - src-peng1996
+  - identity-assessment
+  - pinned-aio
+limitations:
+- Author self-review with attributed supporting agents is not independent approval.
+  Source full-text access and an accepted preview do not imply every source page,
+  cited proof or implementation was read.
+- Basic VNS uses configured shaking and a declared inner local search with strict
+  incumbent improvement. Sampling is not necessarily uniform; one unsuccessful sample
+  does not exhaust a neighborhood. Printed endpoint and optional zero-increment qualifications
+  remain explicit; no universal optimality or termination guarantee follows.
+- MCQ-L retains the selected next-action error, accumulating parameter-gradient trace
+  and printed operation order. Old gradients and changing parameters prevent an unqualified
+  fixed-weight forward/backward equivalence. Source indexing, caption, terminal-flush
+  and product-one decay boundaries remain explicit.
+- Peng–Williams Q(lambda) retains its tabular two-error order and exploratory traces.
+  The product gamma*lambda, evolving values, admissible domains and sparse-trace qualifications
+  matter; positive lambda alone does not preserve older credit when gamma is zero,
+  and no arbitrary-policy convergence theorem is asserted.
+- Three actual primary PDFs have distinct publication/access and reading histories.
+  The VNS handbook URL is a carried discovery pointer, not its accepted 1997 journal
+  paper. Rummery has a September 1994 cover without settled SARSA naming chronology.
+  Peng evidence is the inspected 1996 paper, not its uninspected 1994 precursor.
+- Root draft acceptances follow full static draft readings with separately scoped
+  primary reading. All three actual preview acceptances are exact field/metadata comparisons
+  to those drafts, not additional verbatim science readings or independent approvals.
+- VNS and trace drafting refinements and the journal-name preparation correction retain
+  their originals and exact differences. No canonical scientific finding or failed
+  native preview is invented from those preparation changes.
+- The two related ReinforcementLearning mappings are algorithm-to-task relations,
+  not identity or subclass assertions. All fourteen VNS rejection reasons remain exact.
+  The refreshed root-provided dated search scope and the three identity/timestamp
+  contexts are explicitly recorded; the remaining accepted scientific fields are unchanged.
+- The actual merged-base identity and full frontier accounting are bound to the retained
+  collection, root decisions and captured records. The six required checks passed;
+  any retained failed attempts remain distinct from their later successful replacements.
+  These bounded results do not establish global absence, saturation or DRAFT promotion.
+- 'Root personally read all three actual canonical records, all17 claims and20 limitations,
+  metadata/mappings, actual report owner deltas and CREATE history after capture.
+  Root historical primary reading: VNS text all4 pages and visual2; MCQ-L OCR7–10,17
+  and visuals4,5,7–9; Peng text2–5,7 and visual5. This continuation read the complete
+  supporting actual-source audit with its separately attributed fresh reading. Root
+  did not re-read all primary PDFs or certify all proofs. Root identity reading covers19
+  focused candidate contexts, current inventory/neighbor/AIO projections; broader880-group
+  classification is a separately attributed supporting audit. Visible rendered text
+  was mechanically compared; no browser layout review.'
+tags:
+- scientific-review
+- self-review
+- heterogeneous-batch
+- source-scoped
+schema_version: 1.0.0
+review_id: 20261015T141733Z-variable-neighborhood-search-and-trace-learning
+kind: batch
+repository: CultureBotAI/AIMech
+started_at: '2026-10-15T14:08:10.836645Z'
+finished_at: '2026-10-15T14:17:33.166994Z'
+source:
+  git_revision: 2fea41895243fec301f372eb2a2e1247cf76e708
+  state: working_tree
+  inputs:
+  - path: .claude/skills/review-category/SKILL.md
+    sha256: 553c3870c1dfc127f90f196b7b212b644706d4c26e2a578ab615ccce588070d7
+    role: context
+  - path: data/aio/ActiveLearning.yaml
+    sha256: a4d5b2c82df6f586fedc7290261bc978e7c8d17f1d844c5ee9efc8243e46bbaf
+    role: context
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/EnsembleLearning.yaml
+    sha256: cf9435e5a799d84072222190c2d681c53b22bf9e7094891405008ebe398a39ed
+    role: context
+  - path: data/aio/ExponentialFunction.yaml
+    sha256: a9e6fe9954dee5c61f799631c1892a99a891468e81e725e584d1a3dc06d84239
+    role: context
+  - path: data/aio/KnearestNeighborAlgorithm.yaml
+    sha256: cdb4ab16dea60d54981c94dd2474ac427ffd0e35b728b6356e12cecf87b7a5c0
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/MetaLearning.yaml
+    sha256: 4a1835675f779c8f924cfe085f1b5def3b5c6a2c111596385c61063056f3b8a6
+    role: context
+  - path: data/aio/PolicyLayer.yaml
+    sha256: 5bd260a08b56658940d21561cad7ee515e2f031ea860cb040406f102d98252bf
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/ReinforcementLearningLLM.yaml
+    sha256: e386376b9b1a9c78349d66e8609a655e273620d8bc607978c728ac3b7ce3808a
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/FastLocalSearch.yaml
+    sha256: 2344a8d777fa40a5b41ae91d57337d9883c197b9fe3a13a991a79f2bc616a963
+    role: context
+  - path: data/curated/GuidedLocalSearch.yaml
+    sha256: 91618dff5e0ed6681aad81deb9be9c8e35ed43b42acad285ef473916852cdebc
+    role: context
+  - path: data/curated/HillClimbing.yaml
+    sha256: 1f63c3e6341fecd3c78e00ae3ced9898c070ba9565dccc5511f3c67e6ea29476
+    role: context
+  - path: data/curated/IteratedLocalSearch.yaml
+    sha256: 15a6a25711dabac3dff72b612cf7daa7a2ae5f9660a9a677c2d21163335f2ef0
+    role: context
+  - path: data/curated/ModifiedConnectionistQLearning.yaml
+    sha256: 8986696e751e7ab7206755f5cfc32b125b6216feac3043f105b354b2b49f4428
+    role: target
+  - path: data/curated/ParamILS.yaml
+    sha256: 8cb2244b7c067b3379e607b3df01a571623c1700c89ff951469d762a72539fa3
+    role: context
+  - path: data/curated/PengWilliamsQLambda.yaml
+    sha256: 58dd0266b45fd8602081d1b468d55a2456de3dd7488c3a9891c080bb587b0bd5
+    role: target
+  - path: data/curated/QLearning.yaml
+    sha256: bcbd0f51f46e91ba6d88c9dc84baa9656aef82282c5c56d887ca81ff5182eb95
+    role: context
+  - path: data/curated/Sarsa.yaml
+    sha256: 8ac6efbbcfeda82ce462fbc7f6d641a9eab36b8749c6bdb0b7713ba43496e041
+    role: context
+  - path: data/curated/SimulatedAnnealing.yaml
+    sha256: 7e77f553c8b2afc4563dc7ef6cba2b53719f22b1fd02ed37d22de9821079d42c
+    role: context
+  - path: data/curated/TabuSearch.yaml
+    sha256: 6dae782f4d0c0b2a7195f471b7f73acb38fa036fb43ec15bacfa8f9a0264b844
+    role: context
+  - path: data/curated/TemporalDifferenceLearning.yaml
+    sha256: edd02cd7a9f2b8b916ba684f7aa8cb4c8d49b81a1896912dc5297370d24f348a
+    role: context
+  - path: data/curated/VariableNeighborhoodSearch.yaml
+    sha256: 103c2e6fadc4e2a74740e3da3e6b19c87654be54533fb8c230876149f15a1306
+    role: target
+  - path: docs/curated-concepts.md
+    sha256: 1a3db0915791b0e90b02cd1f83c35850bfc3c97b18edfd8b946c91030578ccb8
+    role: context
+  - path: docs/record-review-profile.md
+    sha256: 2d3e3a73264523c78930d17b0812e2d22887e25423fe7c38e0ddce922d9cec9d
+    role: context
+  - path: docs/record-reviews.md
+    sha256: 452a19ab688276747b7c4308523a14d4d99c1c39ef6909ae8a90b85b7a9b3e9b
+    role: context
+  - path: history/reports/variable-neighborhood-search-and-trace-learning/2026-10-15T140636Z-codex-d4010a.yaml
+    sha256: dbbc2297bfb4d4d3445882b17dc167590cca30ee57e2853ca4c0fa8b2badbc25
+    role: context
+  - path: justfile
+    sha256: 2d9c1b68c1c80d53aa44a6b8b5e916efe8b493650ff59a3fc7479a42be37f400
+    role: context
+  - path: research/discovery/20261015T140622Z-variable-neighborhood-search-and-trace-learning.json
+    sha256: 98fa294a6423bbb7b5908a557f1ca4fdee2ce2a40b59f09ea8bded8a2962e440
+    role: context
+  - path: research/discovery/20261015T140622Z-variable-neighborhood-search-and-trace-learning.md
+    sha256: 47a7025a54654d9fb4ca0c03bcd40107a263f0d99c7550d590982790915341c1
+    role: context
+  - path: schema/record_review.yaml
+    sha256: 229baf9b69118a1fe318e4c31085c0820e4e3d1365e7b04d6ace451b7c35f9bb
+    role: context
+  - path: scripts/record_review.py
+    sha256: 95a4ec41e38ec47ba3578e76838c46a0adbf47e49ad3636524735d08cfcb1c4d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:VariableNeighborhoodSearch
+  path: data/curated/VariableNeighborhoodSearch.yaml
+  label: Variable neighborhood search
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/VariableNeighborhoodSearch.yaml
+    role: maintained native concept record
+- target_id: AIMech:ModifiedConnectionistQLearning
+  path: data/curated/ModifiedConnectionistQLearning.yaml
+  label: Modified Connectionist Q-Learning
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ModifiedConnectionistQLearning.yaml
+    role: maintained native concept record
+- target_id: AIMech:PengWilliamsQLambda
+  path: data/curated/PengWilliamsQLambda.yaml
+  label: Peng and Williams Q(lambda)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PengWilliamsQLambda.yaml
+    role: maintained native concept record
+checks:
+- check_id: check-gate
+  name: just check
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  - AIMech:ModifiedConnectionistQLearning
+  - AIMech:PengWilliamsQLambda
+  command: just check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-gate
+- check_id: check-vendor
+  name: just vendored-check
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  - AIMech:ModifiedConnectionistQLearning
+  - AIMech:PengWilliamsQLambda
+  command: just vendored-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-vendor
+- check_id: check-check-source
+  name: uv run --locked aimech check-source
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  - AIMech:ModifiedConnectionistQLearning
+  - AIMech:PengWilliamsQLambda
+  command: uv run --locked aimech check-source
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-check-source
+- check_id: check-render
+  name: just render
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  - AIMech:ModifiedConnectionistQLearning
+  - AIMech:PengWilliamsQLambda
+  command: just render
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render
+- check_id: check-render-check
+  name: just render-check
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  - AIMech:ModifiedConnectionistQLearning
+  - AIMech:PengWilliamsQLambda
+  command: just render-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render-check
+- check_id: check-diff
+  name: git diff --check
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  - AIMech:ModifiedConnectionistQLearning
+  - AIMech:PengWilliamsQLambda
+  command: git diff --check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-diff
+evidence:
+- evidence_id: captured-inputs
+  kind: record_content
+  reference: /private/tmp/aimech-vns-trace-cohort342-capture.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: Actual canonical inspect output; all captured input hashes rechecked. Inspection
+    alone is not scientific approval.
+  snapshot_sha256: 0e180cdfbc0b6d6212fc305983bb1d6c873d96c79f97945db8e8f71d21e40672
+- evidence_id: postcapture-reading
+  kind: record_content
+  reference: /private/tmp/aimech-vns-trace-cohort342-root-postcapture-reading.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: Actual root full-target assessment after capture and completed checks;
+    selective primary scopes are stated separately.
+  snapshot_sha256: 57f8552ac60bec972bf67e1a3f1c33fed9d867a7a24ce7ae12f0f8cbd0aa0d0b
+- evidence_id: scientific-support
+  kind: record_content
+  reference: /private/tmp/aimech-vns-trace-cohort342-review-preparation-20261015/scientific-support.runtime-tense.structure.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: Attributed same-author support of all 17 accepted claims and 20 individual
+    limitations. This is preparation DATA, not itself an actual canonical capture.
+  snapshot_sha256: 0adf858da31d23ade051d6e7256597dd78661916f62e290f9cc59c8b93ac249d
+- evidence_id: actual-write
+  kind: record_content
+  reference: /private/tmp/aimech-vns-trace-cohort342-write.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: Actual creation receipt binds three records, report pair and CREATE history.
+  snapshot_sha256: 49596658e9544871aecc31943774e8fce4b420cd70dc2d2e7f75fa2a53cd9f64
+- evidence_id: discovery-report
+  kind: record_content
+  reference: research/discovery/20261015T140622Z-variable-neighborhood-search-and-trace-learning.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: Record mirrors are exact. Only existing owners 265, 266 and 278 changed;
+    all 906 other prior main and 393 nested objects are unchanged. Each target reuses
+    its existing pending owner; no new frontier leaf was appended.
+  snapshot_sha256: 98fa294a6423bbb7b5908a557f1ca4fdee2ce2a40b59f09ea8bded8a2962e440
+- evidence_id: creation-history
+  kind: record_content
+  reference: history/reports/variable-neighborhood-search-and-trace-learning/2026-10-15T140636Z-codex-d4010a.yaml
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: Actual append-only CREATE sidecar; review and publication are separate
+    later actions.
+  snapshot_sha256: dbbc2297bfb4d4d3445882b17dc167590cca30ee57e2853ca4c0fa8b2badbc25
+- evidence_id: pinned-aio
+  kind: database
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: Exact snapshot supports two qualified related ReinforcementLearning mappings
+    and one explicit fourteen-target VNS no-match assessment; no upstream equivalence
+    or subclass assertion.
+  locator: Exact AIO:ReinforcementLearning plus all fourteen accepted VNS rejected
+    targets and retained incident-edge contexts. Positive mapping directions and no-match
+    reasons retain their distinct meanings.
+  snapshot_sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+- evidence_id: identity-assessment
+  kind: search
+  reference: /private/tmp/aimech-cohort342-root-decisions-20261015.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: Actual root decisions bind fresh ignored/hidden-inclusive scans and existing
+    owners 265/266/278, including any explicitly assessed context-only matches; no
+    manual rereading of every hit by this generator is claimed.
+  snapshot_sha256: 97528d6bfea56d7702311d337fe6c940699d1aeb9a6cfb891e024885b088bc48
+  search_scope: Exact captured inventory, full carried frontier and four retained
+    checkouts searched including ignored and hidden files; no worldwide absence or
+    exhaustion claim.
+- evidence_id: vns-preparation-prose-refinement
+  kind: record_content
+  reference: /private/tmp/aimech-vns-draft-preparation-20261015/readback-prose-refinement.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: Retained VNS stable historical-scope prose refinement; exact preimage and
+    one-field change precede the actual accepted native preview.
+  locator: Exact original/prepared successor references and recorded difference; TEMP
+    preparation only, not a canonical review finding.
+  snapshot_sha256: 7ecb61f36a5705f02e155494fb13205e13437a09a2940e01a8727b5026272a20
+- evidence_id: trace-preparation-refinements
+  kind: record_content
+  reference: /private/tmp/aimech-trace-learning-draft-preparation-20261015/readback-refinements.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: Retained MCQ-L stable limitation wording and Peng explicit residual wording
+    refinements; originals/diffs remain separate from later root acceptance and native
+    previews.
+  locator: Exact original/prepared successor references and recorded difference; TEMP
+    preparation only, not a canonical review finding.
+  snapshot_sha256: 67c0423e11a216ba55962b77a79a1eb2e3072da7cd4c300d9bbfb581e1ea140d
+- evidence_id: vns-journal-preparation-correction
+  kind: record_content
+  reference: /private/tmp/aimech-vns-trace-cohort342-preparation-20261015/journal-correction.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: The prepared owner-source note incorrectly expanded the journal name as
+    Operations Research Letters. Its separately retained correction restores Computers
+    & Operations Research, as already present in accepted native metadata. Accepted
+    scientific records are unchanged; this was detected before any cohort342 invocation.
+  locator: owner_source_notes/278; original and corrected manifest plus exact diff;
+    actual preparation timestamp separately retained.
+  snapshot_sha256: caadcc8486fdabde201ca06859c26b81c888ade5814d9f5a86f7b4db7b3c95a0
+- evidence_id: src-mladenovic1997
+  kind: primary_source
+  reference: https://sci2s.ugr.es/sites/default/files/files/Teaching/GraduatesCourses/Metaheuristicas/Bibliography/HansenVNS.pdf
+  accessed_at: '2026-10-15T12:28:40Z'
+  support: supports
+  summary: Computers & Operations Research 24(11), 1097–1100, November 1997; four-page
+    university-hosted scan of the published article. Publication month is supported
+    by the retained Crossref metadata; no publication day is inferred. PDF scan creation
+    dates are not publication dates. Acquisition time is access metadata, not a claim
+    of full reading.
+  locator: 'Source agent: all 4 native text pages, visuals 1–2. Root: all 4 native
+    texts, visual 2. Core page 2 text reread during drafting. Detailed GENI formulas/tables,
+    author implementation and experiments were not executed or certified. Detailed
+    historical roles and page ranges: {"mladenovic1997": "Complete four-page native-text
+    reading with source-agent visuals 1–2 and separately attributed root visual 2;
+    core Section 2 is directly checked."}'
+  snapshot_sha256: 0f00c954f45af2794a565cb207569a8cc6c78756149869f52d128086aaffd30d
+- evidence_id: src-rummery1994
+  kind: primary_source
+  reference: https://mi.eng.cam.ac.uk/reports/svr-ftp/auto-pdf/rummery_tr166.pdf
+  accessed_at: '2026-10-15T12:28:42Z'
+  support: supports
+  summary: 'Cambridge University Engineering Department technical report CUED/F-INFENG/TR
+    166. 21-page Cambridge-hosted report with September 1994 cover; naming chronology
+    discussed in limits. Publication precision: month from report cover; no day inferred.
+    Acquisition time is access metadata, not a claim of full reading.'
+  locator: 'Source-agent earlier full OCR/native reading, fresh boundary audit, present
+    selective drafting reread and root selective reading remain separately attributed.
+    Root did not read all 21/8 pages or all 32 historical search contents. No independent
+    peer source approval or author-code execution. Detailed historical roles and page
+    ranges: {"rummery1994": "Source-agent all 21 OCR pages after unusable native extraction,
+    original visuals 7–9 and 20, later boundary-audit visuals 4,5,7,9; present drafting
+    OCR 7–10 and visual 9. Root OCR 7–10 and17, visuals4,5,7,8,9; no full root21-page
+    claim."}'
+  snapshot_sha256: c9434f056d1706febaee9821fa52f47a3711af874e276723e7113ed3a3d0a1f6
+- evidence_id: src-peng1996
+  kind: primary_source
+  reference: https://link.springer.com/content/pdf/10.1007/BF00114731.pdf
+  accessed_at: '2026-10-15T12:29:44Z'
+  support: supports
+  summary: 'Machine Learning 22, 283–290 (1996), technical note. Eight-page publisher
+    journal PDF. The effective response URL contains a cookies_not_supported query,
+    but the retained body is a valid, successfully opened eight-page PDF. Publication
+    precision: year in the PDF and retained Crossref record; received/accepted/manuscript
+    dates are not substituted for publication. Acquisition time is access metadata,
+    not a claim of full reading.'
+  locator: 'Source-agent earlier full OCR/native reading, fresh boundary audit, present
+    selective drafting reread and root selective reading remain separately attributed.
+    Root did not read all 21/8 pages or all 32 historical search contents. No independent
+    peer source approval or author-code execution. Detailed historical roles and page
+    ranges: {"peng1996": "Source-agent all 8 native pages, original visuals4–6, later
+    audit native2–4/visual2,4; present drafting native2–5 and7 plus visual5. Root
+    native2–5 and7, visual5; no full root8-page claim."}'
+  snapshot_sha256: cb2dcf4802a3a3004726257308f5d2a379a008da66f5249ad8b7c609813f149c
+- evidence_id: record-vns
+  kind: record_content
+  reference: data/curated/VariableNeighborhoodSearch.yaml
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: supports
+  summary: Complete maintained DRAFT record assessed by root after capture and matched
+    to accepted scientific support.
+  snapshot_sha256: 103c2e6fadc4e2a74740e3da3e6b19c87654be54533fb8c230876149f15a1306
+- evidence_id: preview-acceptance-vns
+  kind: record_content
+  reference: /private/tmp/aimech-vns-draft-preparation-20261015/root-preview-acceptance.json
+  accessed_at: '2026-10-15T12:51:56.792003Z'
+  support: context_only
+  summary: Exact semantic comparison of actual successful native preview to the fully
+    root-read static draft, supplied identity/sources/snapshot and actual native timestamp.
+    No claim of a separate verbatim rereading of duplicated scientific text. Historical
+    TEMP acceptance is separate from the actual postcapture review; no independent
+    approval.
+  snapshot_sha256: 9801f412138759e7c91f672bd509be9f8932970e9f8439a266c8de0f84ee5d61
+- evidence_id: supporting-context-vns
+  kind: record_content
+  reference: /private/tmp/aimech-trace-vns-discovery-20261015/vns/scientific-assessment.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: 'Attributed historical same-author scientific assessment and bounded hand
+    arguments; no new primary reading by this review-data assembler, independent approval,
+    or author-code execution. Source agent: all 4 native text pages, visuals 1–2.
+    Root: all 4 native texts, visual 2. Core page 2 text reread during drafting. Detailed
+    GENI formulas/tables, author implementation and experiments were not executed
+    or certified.'
+  snapshot_sha256: 5ea0a7a349533b0478a1ecee03e564d9388e8b40e8db5013c206a0b1aa37b56b
+- evidence_id: record-mcql
+  kind: record_content
+  reference: data/curated/ModifiedConnectionistQLearning.yaml
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: supports
+  summary: Complete maintained DRAFT record assessed by root after capture and matched
+    to accepted scientific support.
+  snapshot_sha256: 8986696e751e7ab7206755f5cfc32b125b6216feac3043f105b354b2b49f4428
+- evidence_id: preview-acceptance-mcql
+  kind: record_content
+  reference: /private/tmp/aimech-trace-learning-draft-preparation-20261015/mcql/root-preview-acceptance.json
+  accessed_at: '2026-10-15T13:20:00.731656Z'
+  support: context_only
+  summary: Root mechanically compared every static scientific field to the fully read
+    final module through AST literal extraction, and exact identity/source/snapshot
+    inputs; then read all actual curation metadata and successful native receipt.
+    This is a comparison-based preview assessment, not a second verbatim reading or
+    independent scientific approval. Future actual merged-base identity, canonical
+    validation and saved scientific review remain required. Historical TEMP acceptance
+    is separate from the actual postcapture review; no independent approval.
+  snapshot_sha256: 90774c48accba383c56c30d4ed0ccf4d60a91b5a299eab2adcdfc595bb2134f0
+- evidence_id: supporting-context-mcql
+  kind: record_content
+  reference: /private/tmp/aimech-trace-vns-discovery-20261015/trace-adversarial-audit/assessment.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: Attributed historical same-author scientific assessment and bounded hand
+    arguments; no new primary reading by this review-data assembler, independent approval,
+    or author-code execution. Source-agent earlier full OCR/native reading, fresh
+    boundary audit, present selective drafting reread and root selective reading remain
+    separately attributed. Root did not read all 21/8 pages or all 32 historical search
+    contents. No independent peer source approval or author-code execution.
+  snapshot_sha256: 9af059b1820111972f1a9ae946ecf47ae05a3eff21178f5e61f2e804711ec6ce
+- evidence_id: record-peng
+  kind: record_content
+  reference: data/curated/PengWilliamsQLambda.yaml
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: supports
+  summary: Complete maintained DRAFT record assessed by root after capture and matched
+    to accepted scientific support.
+  snapshot_sha256: 58dd0266b45fd8602081d1b468d55a2456de3dd7488c3a9891c080bb587b0bd5
+- evidence_id: preview-acceptance-peng
+  kind: record_content
+  reference: /private/tmp/aimech-trace-learning-draft-preparation-20261015/peng/root-preview-acceptance.json
+  accessed_at: '2026-10-15T13:20:00.733500Z'
+  support: context_only
+  summary: Root mechanically compared every static scientific field to the fully read
+    final module through AST literal extraction, and exact identity/source/snapshot
+    inputs; then read all actual curation metadata and successful native receipt.
+    This is a comparison-based preview assessment, not a second verbatim reading or
+    independent scientific approval. Future actual merged-base identity, canonical
+    validation and saved scientific review remain required. Historical TEMP acceptance
+    is separate from the actual postcapture review; no independent approval.
+  snapshot_sha256: 15bacd67a2143c35270271039375e29bc7f1dbd25fe299042408f4efbac583f0
+- evidence_id: supporting-context-peng
+  kind: record_content
+  reference: /private/tmp/aimech-trace-vns-discovery-20261015/trace-adversarial-audit/assessment.json
+  accessed_at: '2026-10-15T14:17:32.741107Z'
+  support: context_only
+  summary: Attributed historical same-author scientific assessment and bounded hand
+    arguments; no new primary reading by this review-data assembler, independent approval,
+    or author-code execution. Source-agent earlier full OCR/native reading, fresh
+    boundary audit, present selective drafting reread and root selective reading remain
+    separately attributed. Root did not read all 21/8 pages or all 32 historical search
+    contents. No independent peer source approval or author-code execution.
+  snapshot_sha256: 9af059b1820111972f1a9ae946ecf47ae05a3eff21178f5e61f2e804711ec6ce
+- evidence_id: check-gate
+  kind: validation
+  reference: /private/tmp/aimech-vns-trace-cohort342-check-gate.json
+  accessed_at: '2026-10-15T14:16:30.172598Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: 3640cd1b2a2b225a50a9d9931466267324cecd0d23d89cb611765ab4e058709d
+- evidence_id: check-vendor
+  kind: validation
+  reference: /private/tmp/aimech-vns-trace-cohort342-check-vendor.json
+  accessed_at: '2026-10-15T14:16:34.056584Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: ab6b0532a7909fc8732f5eec4a1857a68d3c36ee4892be7859df7ec0b0ad86c3
+- evidence_id: check-check-source
+  kind: validation
+  reference: /private/tmp/aimech-vns-trace-cohort342-check-check-source.json
+  accessed_at: '2026-10-15T14:16:35.451306Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: 593460fafd95c5d58579dc716ab14118799d57c989816883af3a6362a5a47ce3
+- evidence_id: check-render
+  kind: validation
+  reference: /private/tmp/aimech-vns-trace-cohort342-check-render.json
+  accessed_at: '2026-10-15T14:07:41.577270Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: 5fa8d39a0213f43aa6aa8df22dacb709f36afe93b4e124eed20838003ceb62ba
+- evidence_id: check-render-check
+  kind: validation
+  reference: /private/tmp/aimech-vns-trace-cohort342-check-render-check.json
+  accessed_at: '2026-10-15T14:16:44.639971Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: fbb0074dc2a9e6f41d7501b04115e32afa93ac9b17a592b6d485eec4e8f81045
+- evidence_id: check-diff
+  kind: validation
+  reference: /private/tmp/aimech-vns-trace-cohort342-check-diff.json
+  accessed_at: '2026-10-15T14:16:44.769527Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: d9c974f50f1b165dd624540354c36ea82b6dcc1b18ebae56147b62c2d8f79031
+assessments:
+- assessment_id: vns-configured-neighborhood-controller
+  area: evidence
+  topic: Claim configured-neighborhood-controller
+  outcome: supported
+  summary: The initialization and basic main step establish the indexed shaking-neighborhood
+    controller; the following paragraph says nesting is often used, not mandatory.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - preview-acceptance-vns
+  - src-mladenovic1997
+- assessment_id: vns-random-shaking-and-local-optimization
+  area: evidence
+  topic: Claim random-shaking-and-local-optimization
+  outcome: supported
+  summary: Main step 2(a–b) explicitly draws a random point and starts local search
+    there. No uniform distribution or pre-local-search improvement requirement is
+    stated.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - preview-acceptance-vns
+  - src-mladenovic1997
+- assessment_id: vns-strict-improvement-reset
+  area: evidence
+  topic: Claim strict-improvement-reset
+  outcome: supported
+  summary: Main step 2(c) replaces the incumbent only on improvement and resets the
+    index; otherwise the incumbent stays while the index advances. The source identifies
+    the basic form as descent/first improvement.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - preview-acceptance-vns
+  - src-mladenovic1997
+- assessment_id: vns-separate-local-search-neighborhood
+  area: evidence
+  topic: Claim separate-local-search-neighborhood
+  outcome: supported
+  summary: Variant (iii) explicitly separates the local-search neighborhood from the
+    perturbation collection and permits a fixed inner neighborhood outside that collection.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - preview-acceptance-vns
+  - src-mladenovic1997
+- assessment_id: vns-repeated-budgeted-main-cycle
+  area: evidence
+  topic: Claim repeated-budgeted-main-cycle
+  outcome: supported
+  summary: The paragraph after the main step gives stopping examples, while the following
+    variants change acceptance, selection or index schedules. This claim does not
+    resolve the printed endpoint ambiguity.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - preview-acceptance-vns
+  - src-mladenovic1997
+- assessment_id: vns-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: The original basic shaking/local-optimization/reset controller is a named
+    algorithm; it is neither every local-search metaheuristic nor one particular TSP
+    implementation. The printed endpoint remains in the limitations.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - src-mladenovic1997
+- assessment_id: vns-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: Root accepted the explicit 14-target no-match after exact AIO context reading.
+    MathematicalFunction is treated as a broad input/output rule class, not scalar-only;
+    generic describability does not identify this complete configurable controller.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - pinned-aio
+- assessment_id: vns-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: The sole declared source mladenovic1997 supports the definition and all
+    five claims; it is cited structurally. Crossref is bibliography context, not an
+    unused declared method source.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - src-mladenovic1997
+- assessment_id: vns-limitations-assessment
+  area: scope
+  topic: limitations assessment
+  outcome: supported
+  summary: All 6 individual limitations are retained exactly and assessed separately
+    below. The basic controller leaves the endpoint, sampling and local-search conventions
+    qualified; finite strict improvements do not certify global optimality or complete
+    neighborhood exhaustion.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - src-mladenovic1997
+- assessment_id: vns-identity
+  area: identity
+  topic: Concept boundary and actual owner
+  outcome: supported
+  summary: 'The maintained concept retains its accepted algorithm scope with its exact
+    accepted aliases []. Actual root decisions retain owner 278 and distinct residuals.
+    The supporting historical identity scope is: This record selects the basic VNS
+    controller in the 1997 Mladenović–Hansen article, not every later variable-neighborhood
+    variant or a particular GENIUS implementation. The explicit shaking-neighborhood
+    schedule and improvement reset distinguish it from the general ILS framework;
+    FLS activation bits, GLS feature penalties, tabu memory and annealing acceptance
+    are not mandatory components. Particular hybrids or matching special cases do
+    not establish exact aliases. Historical research on 15 October 2026 at 12:27:59–12:28:26
+    UTC compared 757 native and 442 pinned AIO identities. Four checkout searches
+    included ignored and hidden files; 2,185 occurrences for three research leads
+    were reconstructed into 32 exact content groups; the source agent read all 32
+    unique contents, not every repeated occurrence individually. The VNS-specific
+    content was its carried frontier label. A recursive query of every string field
+    in all 909 main and 393 nested objects found only existing owner 278 for the VNS
+    probes. Fifty-two selected definitions, six local-search neighbor semantic projections
+    and all 14 exact AIO contexts with 59 incident-edge entries were assessed. These
+    are bounded historical observations, not absence beyond the inspected snapshot
+    and contexts. Existing owner 278 supplied the lead through a later Springer chapter
+    URL; that pointer remains historical context, while the actual method evidence
+    is the original 1997 article. No additional frontier owner is inferred.'
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - identity-assessment
+  - postcapture-reading
+- assessment_id: vns-limitation-1
+  area: scope
+  topic: Retained limitation 1
+  outcome: supported
+  summary: The source wording is retained rather than normalized into an unambiguous
+    inclusive or exclusive implementation.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - src-mladenovic1997
+- assessment_id: vns-limitation-2
+  area: scope
+  topic: Retained limitation 2
+  outcome: supported
+  summary: A random draw may repeat and failure for one draw does not quantify every
+    point in the neighborhood. No anti-cycling theorem is inferred.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - src-mladenovic1997
+- assessment_id: vns-limitation-3
+  area: scope
+  topic: Retained limitation 3
+  outcome: supported
+  summary: A strict sequence over a finite objective-image set has finitely many accepted
+    changes; this says nothing by itself about work between changes or success at
+    the global optimum.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - src-mladenovic1997
+- assessment_id: vns-limitation-4
+  area: scope
+  topic: Retained limitation 4
+  outcome: supported
+  summary: The inner local optimum and outer shaking sets have distinct scopes; approximations
+    and feasibility conventions must not be silently certified.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - src-mladenovic1997
+- assessment_id: vns-limitation-5
+  area: scope
+  topic: Retained limitation 5
+  outcome: supported
+  summary: The optional expression can evaluate to zero; it is excluded from the basic
+    advancement claim, not rewritten as an author-endorsed fix.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - src-mladenovic1997
+- assessment_id: vns-limitation-6
+  area: scope
+  topic: Retained limitation 6
+  outcome: supported
+  summary: The limited experiments and scan extraction do not establish universal
+    results or an inspected implementation.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  evidence_ids:
+  - record-vns
+  - scientific-support
+  - src-mladenovic1997
+- assessment_id: mcql-selected-next-action-error
+  area: evidence
+  topic: Claim selected-next-action-error
+  outcome: supported
+  summary: Equation 9 replaces the next-state maximum with the selected next-action
+    value. This is a mechanism for ongoing transitions; terminal and online timing
+    conventions are separately limited.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - preview-acceptance-mcql
+  - src-rummery1994
+- assessment_id: mcql-accumulating-neural-gradient-trace
+  area: evidence
+  topic: Claim accumulating-neural-gradient-trace
+  outcome: supported
+  summary: The displayed recursion and Figure 1 support accumulation and error-weighted
+    updates. The inconsistent summation index in Equation 13 is not adopted. Historical
+    gradients and changing online parameters are distinguished.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - preview-acceptance-mcql
+  - src-rummery1994
+- assessment_id: mcql-printed-online-operation-order
+  area: evidence
+  topic: Claim printed-online-operation-order
+  outcome: supported
+  summary: The weight update is step 4, the gradient calculation step 5 and the trace
+    update step 6. Step 7 executes the action. The source does not fully resolve every
+    cached-output/recomputation or terminal convention.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - preview-acceptance-mcql
+  - src-rummery1994
+- assessment_id: mcql-single-trace-and-inactive-action-networks
+  area: evidence
+  topic: Claim single-trace-and-inactive-action-networks
+  outcome: supported
+  summary: The separate-network zero-gradient statement and Equation 14 give the inactive-trace
+    multiplier. Decay is qualified at the permitted endpoint; shared weights need
+    not isolate output changes.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - preview-acceptance-mcql
+  - src-rummery1994
+- assessment_id: mcql-zero-trace-and-greedy-special-cases
+  area: evidence
+  topic: Claim zero-trace-and-greedy-special-cases
+  outcome: supported
+  summary: Substitution in the finite recurrence gives the lambda-zero boundary; equality
+    of selected and maximum values requires a greedy choice and does not equate complete
+    methods.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - preview-acceptance-mcql
+  - src-rummery1994
+- assessment_id: mcql-neural-control-method-scope
+  area: evidence
+  topic: Claim neural-control-method-scope
+  outcome: supported
+  summary: The claim selects the original named neural learning procedure and avoids
+    treating experimental hyperparameters or comparative results as defining requirements.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - preview-acceptance-mcql
+  - src-rummery1994
+- assessment_id: mcql-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: The accepted source-specific identity follows the named method and inspected
+    update construction; neighboring one-step/special-case overlaps and source timing/endpoint
+    limitations remain explicit.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - src-rummery1994
+- assessment_id: mcql-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: One qualified related match to ReinforcementLearning is accepted. The task
+    is not the algorithm; no network/PolicyLayer or scalar-exponential mapping is
+    forced from optional representation or behavior-policy choices. MathematicalFunction
+    is not treated as scalar-only.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - pinned-aio
+- assessment_id: mcql-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: The sole declared primary source supports definition and all six claims
+    and is cited structurally. Other version/source discussion remains context, not
+    an uncited method source.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - src-rummery1994
+- assessment_id: mcql-limitations-assessment
+  area: scope
+  topic: limitations assessment
+  outcome: supported
+  summary: All 7 individual limitations are retained exactly and assessed separately
+    below. The selected original algorithm retains its exact update order, parameter/domain
+    restrictions, source discrepancies and limited convergence scope. No imported
+    convergence theorem or uninspected implementation certification is supplied.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - src-rummery1994
+- assessment_id: mcql-identity
+  area: identity
+  topic: Concept boundary and actual owner
+  outcome: supported
+  summary: 'The maintained concept retains its accepted algorithm scope with its exact
+    accepted aliases []. Actual root decisions retain owner 265 and distinct residuals.
+    The supporting historical identity scope is: This record selects the original
+    neural MCQ-L procedure in the directly inspected Rummery–Niranjan report. It is
+    not an exact alias of every Sarsa(lambda) implementation, the maintained one-step
+    tabular Sarsa record, Watkins-style trace cutting or the Peng–Williams two-error
+    update. Shared one-step errors or greedy special cases do not equate complete
+    representation, timing and trace policies. Historical research on 15 October 2026
+    at 12:27:59–12:28:26 UTC compared 757 native and 442 pinned AIO identities. Four
+    ignored- and hidden-inclusive checkout scans produced 2,185 occurrences in 32
+    exact content groups for the three research leads; the source agent read all 32
+    unique contents, not each repeated occurrence individually. Recursive candidate-string
+    queries covered every string field in all 909 main and 393 nested frontier objects
+    and found the two existing trace owners 265 and 266. Fifty-two selected definitions,
+    five complete native-neighbor semantic projections, and all 14 exact AIO contexts
+    with 59 incident-edge entries were assessed. An initial ASCII-only lambda normalization
+    false match to Sarsa was retained and corrected by Unicode-aware lambda handling.
+    These are bounded historical observations, not absence beyond the inspected snapshot
+    or a later merged base. Retain existing owner 265 with its historical report pointer.
+    Generic eligibility variants and the separate owners for Peng–Williams, TD(lambda),
+    policy-gradient and other trace methods are not resolved by this record.'
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - identity-assessment
+  - postcapture-reading
+- assessment_id: mcql-limitation-1
+  area: scope
+  topic: Retained limitation 1
+  outcome: supported
+  summary: The visual source discrepancy was directly inspected and is distinct from
+    corrupted native text extraction.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - src-rummery1994
+- assessment_id: mcql-limitation-2
+  area: scope
+  topic: Retained limitation 2
+  outcome: supported
+  summary: The printed caption and terminal stopping sequence are explicit; no author
+    implementation was inspected to settle the omitted convention.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - src-rummery1994
+- assessment_id: mcql-limitation-3
+  area: scope
+  topic: Retained limitation 3
+  outcome: supported
+  summary: This is a bounded algebraic qualification of online parameter changes and
+    an infinite-series endpoint, not a certification of a forward/backward theorem.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - src-rummery1994
+- assessment_id: mcql-limitation-4
+  area: scope
+  topic: Retained limitation 4
+  outcome: supported
+  summary: The source permits the endpoint. Decay and existence of an undiscounted
+    return require separate conditions; no new algorithm is introduced.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - src-rummery1994
+- assessment_id: mcql-limitation-5
+  area: scope
+  topic: Retained limitation 5
+  outcome: supported
+  summary: Early convergence rhetoric is bounded by the report’s own later qualifications
+    and the stated approximation/policy assumptions.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - src-rummery1994
+- assessment_id: mcql-limitation-6
+  area: scope
+  topic: Retained limitation 6
+  outcome: supported
+  summary: Month precision and visible footnote are retained without inventing an
+    explanation for later attribution differences.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - src-rummery1994
+- assessment_id: mcql-limitation-7
+  area: scope
+  topic: Retained limitation 7
+  outcome: supported
+  summary: Reading and hand reasoning are distinguished from implementation verification,
+    benchmark reproduction and original-proof certification.
+  target_ids:
+  - AIMech:ModifiedConnectionistQLearning
+  evidence_ids:
+  - record-mcql
+  - scientific-support
+  - src-rummery1994
+- assessment_id: peng-tabular-values-traces-and-behavior
+  area: evidence
+  topic: Claim tabular-values-traces-and-behavior
+  outcome: supported
+  summary: The primary baseline is tabular, with a separately chosen behavior policy.
+    The greedy maximum defines V, not necessarily the action that is taken.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - preview-acceptance-peng
+  - src-peng1996
+- assessment_id: peng-two-preupdate-errors
+  area: evidence
+  topic: Claim two-preupdate-errors
+  outcome: supported
+  summary: Both errors are computed before any Q update. Their difference follows
+    directly and concerns the current selected action, not the next selected behavior
+    action.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - preview-acceptance-peng
+  - src-peng1996
+- assessment_id: peng-decay-old-credit-before-direct-update
+  area: evidence
+  topic: Claim decay-old-credit-before-direct-update
+  outcome: supported
+  summary: 'The update order is literal Figure 1: decay and propagate older credit,
+    direct current update, then accumulate the new visit. It is not a replacing-trace
+    construction.'
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - preview-acceptance-peng
+  - src-peng1996
+- assessment_id: peng-retained-traces-through-exploration
+  area: evidence
+  topic: Claim retained-traces-through-exploration
+  outcome: supported
+  summary: Greedy maxima inside the errors are distinguished from the behavior trajectory.
+    No claim that the retained multi-step return is an unbiased evaluation of the
+    greedy policy is made.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - preview-acceptance-peng
+  - src-peng1996
+- assessment_id: peng-zero-product-one-step-boundary
+  area: evidence
+  topic: Claim zero-product-one-step-boundary
+  outcome: supported
+  summary: The zero-product result follows by direct substitution in step F. This
+    corrects the overbroad reading that every positive-lambda case necessarily retains
+    multi-step credit.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - preview-acceptance-peng
+  - src-peng1996
+- assessment_id: peng-trace-work-and-pruning-scope
+  area: evidence
+  topic: Claim trace-work-and-pruning-scope
+  outcome: supported
+  summary: The table-wide worst case and optional significant-trace retention are
+    stated in the primary; no implementation complexity or empirical superiority is
+    generalized.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - preview-acceptance-peng
+  - src-peng1996
+- assessment_id: peng-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: The accepted source-specific identity follows the named method and inspected
+    update construction; neighboring one-step/special-case overlaps and source timing/endpoint
+    limitations remain explicit.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - src-peng1996
+- assessment_id: peng-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: One qualified related match to ReinforcementLearning is accepted. The task
+    is not the algorithm; no network/PolicyLayer or scalar-exponential mapping is
+    forced from optional representation or behavior-policy choices. MathematicalFunction
+    is not treated as scalar-only.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - pinned-aio
+- assessment_id: peng-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: The sole declared primary source supports definition and all six claims
+    and is cited structurally. Other version/source discussion remains context, not
+    an uncited method source.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - src-peng1996
+- assessment_id: peng-limitations-assessment
+  area: scope
+  topic: limitations assessment
+  outcome: supported
+  summary: All 7 individual limitations are retained exactly and assessed separately
+    below. The selected original algorithm retains its exact update order, parameter/domain
+    restrictions, source discrepancies and limited convergence scope. No imported
+    convergence theorem or uninspected implementation certification is supplied.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - src-peng1996
+- assessment_id: peng-identity
+  area: identity
+  topic: Concept boundary and actual owner
+  outcome: supported
+  summary: 'The maintained concept retains its accepted algorithm scope with its exact
+    accepted aliases []. Actual root decisions retain owner 266 and distinct residuals.
+    The supporting historical identity scope is: This record selects the directly
+    inspected 1996 Peng–Williams tabular Q(lambda) procedure. Its two-error update
+    and retained older credit distinguish it from selected-next-action MCQ-L/Sarsa(lambda),
+    automatic trace cutting, and generic eligibility-trace machinery. The zero-product
+    boundary overlaps one-step Q-learning without equating every multi-step configuration.
+    The uninspected 1994 precursor is not declared an exact specification alias. Historical
+    research on 15 October 2026 at 12:27:59–12:28:26 UTC compared 757 native and 442
+    pinned AIO identities. Four ignored- and hidden-inclusive checkout scans produced
+    2,185 occurrences in 32 exact content groups for the three research leads; the
+    source agent read all 32 unique contents, not each repeated occurrence individually.
+    Recursive candidate-string queries covered every string field in all 909 main
+    and 393 nested frontier objects and found the two existing trace owners 265 and
+    266. Fifty-two selected definitions, five complete native-neighbor semantic projections,
+    and all 14 exact AIO contexts with 59 incident-edge entries were assessed. An
+    initial ASCII-only lambda normalization false match to Sarsa was retained and
+    corrected by Unicode-aware lambda handling. These are bounded historical observations,
+    not absence beyond the inspected snapshot or a later merged base. Retain existing
+    owner 266 and its historical Cambridge/Peng reference context. The 1996 primary
+    supplies this source-scoped mechanism; owner 265, generic eligibility variants
+    and unrelated trace methods remain separate.'
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - identity-assessment
+  - postcapture-reading
+- assessment_id: peng-limitation-1
+  area: scope
+  topic: Retained limitation 1
+  outcome: supported
+  summary: The source’s experimentation-sensitivity statement is qualified by the
+    permitted gamma=0 counter-boundary without importing a theorem for the boundary
+    update.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - src-peng1996
+- assessment_id: peng-limitation-2
+  area: scope
+  topic: Retained limitation 2
+  outcome: supported
+  summary: The dynamic-estimate residual is retained rather than discarded as an exact
+    algebraic identity.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - src-peng1996
+- assessment_id: peng-limitation-3
+  area: scope
+  topic: Retained limitation 3
+  outcome: supported
+  summary: The endpoint and repeated-visit distinctions follow from the primary domains
+    and recurrence; gamma=1 is not silently added to this source’s scope.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - src-peng1996
+- assessment_id: peng-limitation-4
+  area: scope
+  topic: Retained limitation 4
+  outcome: supported
+  summary: The record is scoped to the directly inspected 1996 table update; cross-source
+    neural generalization is not presumed.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - src-peng1996
+- assessment_id: peng-limitation-5
+  area: scope
+  topic: Retained limitation 5
+  outcome: supported
+  summary: The displayed operations support the selected update order but do not settle
+    all deployment conventions.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - src-peng1996
+- assessment_id: peng-limitation-6
+  area: scope
+  topic: Retained limitation 6
+  outcome: supported
+  summary: The directly read publication is distinguished from an uninspected earlier
+    version and from transport metadata.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - src-peng1996
+- assessment_id: peng-limitation-7
+  area: scope
+  topic: Retained limitation 7
+  outcome: supported
+  summary: Source results remain attributed; the draft’s mechanism does not inherit
+    general performance or necessity claims.
+  target_ids:
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - record-peng
+  - scientific-support
+  - src-peng1996
+- assessment_id: actual-correspondence
+  area: consistency
+  topic: Captured bytes, accepted science and frontier accounting
+  outcome: supported
+  summary: All three captured records equal the actual write payloads and report entries.
+    Exact support covers 17 claims and 20 limitations. Only existing owners 265, 266
+    and 278 changed; all 906 other prior main and 393 nested values remain unchanged.
+    All three accepted method scopes reuse their existing owners, with no appended
+    leaf. Six required checks passed. No global exhaustion or DRAFT promotion is inferred.
+  target_ids:
+  - AIMech:VariableNeighborhoodSearch
+  - AIMech:ModifiedConnectionistQLearning
+  - AIMech:PengWilliamsQLambda
+  evidence_ids:
+  - captured-inputs
+  - postcapture-reading
+  - discovery-report
+  - creation-history
+  - vns-preparation-prose-refinement
+  - trace-preparation-refinements
+  - vns-journal-preparation-correction
+  - check-gate
+  - check-vendor
+  - check-check-source
+  - check-render
+  - check-render-check
+  - check-diff
+findings: []
+actions: []
+notes:
+- All17 mechanisms/scope claims and20 limits are supported within their stated source/timing/parameter
+  boundaries. Definitions and related ReinforcementLearning mappings remain narrow;
+  VNS has a fourteen-target bounded no-match. Exact accepted-preview science, actual
+  six creation outputs,41 captured inputs and eight rendered pages agree. Only owners265,266,278
+  change;906 other main and393 nested entries remain exact, no new leaf. Current-source/identity
+  fields and CREATE history record the completed dated refresh. The report scientific_context
+  retains pre-write preparation prose mentioning a future refresh and later steps;
+  those sentences describe retained preparation scope, not the actual completion state.
+  Actual write/capture/current-field deltas and completed check receipts establish
+  that state. Root read the retained preparation correction lineage, including journal-name
+  and runtime-review tense corrections; no new concrete finding remains. All six required
+  checks succeeded before this reading receipt. This is a same-author scientific review
+  with supporting adversarial passes, not independent approval, full-family coverage
+  or discovery exhaustion.
+```
