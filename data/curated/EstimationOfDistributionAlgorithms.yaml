@@ -1,0 +1,262 @@
+id: AIMech:EstimationOfDistributionAlgorithms
+name: Estimation of distribution algorithms
+concept_kind: algorithm
+aliases: []
+definition: A family of population-based optimization algorithms whose central offspring-generation mechanism
+  estimates a search distribution from selected evaluated candidates and samples new candidates from that
+  distribution. The family leaves the distribution model, estimation rule and selection policy to concrete
+  algorithms; it is not one fully specified optimizer.
+definition_evidence:
+- source_id: muhlenbein-author-index
+  locator: Mathematical models (Estimation of Distribution), opening paragraph naming the family and its
+    estimation-and-sampling abstraction.
+  relation: supports
+- source_id: muhlenbein1996
+  locator: Introduction, PDF p. 1; Section 3, PDF pp. 3–4, UMDA construction.
+  relation: supports
+- source_id: muhlenbein-mahnig-chapter
+  locator: Introduction, internal/PDF p. 2; Section 3, internal/PDF pp. 9–10; Section 7, internal/PDF
+    p. 31, fitting and sampling steps.
+  relation: supports
+claims:
+- claim_id: selected-population-distribution-sampling
+  kind: mechanism
+  statement: The defining variation step estimates a probability law from selected evaluated candidates
+    and generates new candidates by sampling it. In the inspected binary procedures, evaluation and selection
+    supply the data used by the next distribution estimate. This replaces pairwise chromosome recombination
+    as the central offspring-generation mechanism. It does not make every method that samples candidates
+    an estimation of distribution algorithm, or prohibit additional operators in later hybrid methods.
+  evidence:
+  - source_id: muhlenbein-author-index
+    locator: Mathematical models (Estimation of Distribution), opening paragraph.
+    relation: supports
+  - source_id: muhlenbein1996
+    locator: Introduction, PDF p. 1; Section 3, PDF pp. 3–4, UMDA Steps 1–3.
+    relation: supports
+- claim_id: model-structure-is-an-algorithm-choice
+  kind: mechanism
+  statement: The distribution model determines which dependencies the fitted search law can represent.
+    The original UMDA uses a product of univariate binary marginals, whereas the later chapter describes
+    factorized models with conditional distributions for interacting variables. Model structure can be
+    supplied or estimated in particular procedures. A Bayesian network, learned graph or independent-coordinate
+    model is therefore not mandatory for the entire family.
+  evidence:
+  - source_id: muhlenbein-mahnig-chapter
+    locator: Section 3, internal/PDF pp. 9–10, Equation 13 and UMDA; Section 7, internal/PDF pp. 30–31,
+      Equations 60–62 and FDA discussion; Section 9, internal/PDF p. 35, structure search.
+    relation: supports
+- claim_id: selection-and-estimation-are-distinct-choices
+  kind: mechanism
+  statement: A selection policy determines which evaluated candidates, or their weighted population law,
+    contribute to distribution estimation. The inspected chapter distinguishes fitness-proportionate selection
+    from truncation and tournament selection, and separately studies Boltzmann selection. Changing that
+    policy changes the distribution being estimated. The family does not require one universal elite fraction,
+    fitness weighting, objective direction or treatment of ties.
+  evidence:
+  - source_id: muhlenbein1996
+    locator: Section 3, PDF p. 4, selection schedule in UMDA Step 1 and separately qualified Theorem 3.
+    relation: supports
+  - source_id: muhlenbein-mahnig-chapter
+    locator: Section 3.2, internal/PDF p. 13, selection alternatives; Section 7, internal/PDF p. 30, Definition
+      7 and Equation 58.
+    relation: supports
+- claim_id: refitting-and-incremental-memory-are-distinct
+  kind: scope
+  statement: Replacing binary marginals by the selected empirical frequencies and blending those frequencies
+    with the preceding parameter vector are different update choices. Original UMDA uses the replacement
+    rule. The 1996 paper separately describes SUMDA with p_new=p+lambda*(r-p); the later chapter discusses
+    that blend as a PBIL update and identifies lambda=1 with the unsmoothed rule. This formula-level boundary
+    does not identify every full PBIL implementation, with its selection and optional mutation rules,
+    as UMDA.
+  evidence:
+  - source_id: muhlenbein1996
+    locator: Section 3, PDF p. 4, UMDA; Section 4, PDF p. 6, Equation 14 and SUMDA.
+    relation: supports
+  - source_id: muhlenbein-mahnig-chapter
+    locator: Section 4, internal/PDF p. 16, Equations 38–39 and the lambda=1 statement.
+    relation: supports
+- claim_id: population-theory-does-not-remove-sampling-error
+  kind: limitation
+  statement: An exact search-distribution recurrence and a finite run that estimates the distribution
+    from sampled candidates are different objects. The chapter explicitly conditions its UMDA proportionate-selection
+    equations on infinite populations and separately discusses finite-population fixation. Consequently
+    the family abstraction supplies no universal finite population size, convergence rate or guarantee
+    that useful values and dependencies remain represented after sampling and selection.
+  evidence:
+  - source_id: muhlenbein-mahnig-chapter
+    locator: Introduction, internal/PDF p. 2, infinite-population theory and finite-sample scope; Section
+      3, internal/PDF p. 10, Theorem 5; Section 8, internal/PDF pp. 32–34, finite-population fixation
+      and qualified sample-size discussion.
+    relation: supports
+- claim_id: family-and-concrete-optimizer-boundary
+  kind: scope
+  statement: The family name denotes a construction pattern, while a runnable member must specify its
+    candidate domain, selection rule, model and estimation rule, sampling procedure, initialization and
+    stopping policy. The inspected sources instantiate this pattern with binary marginal procedures and
+    discuss richer conditional models. These examples support the family identity without asserting that
+    all members share UMDA equations, graphical-model structure, numerical behavior or optimization guarantees.
+  evidence:
+  - source_id: muhlenbein-author-index
+    locator: Mathematical models (Estimation of Distribution), opening family definition and linked method
+      descriptions.
+    relation: supports
+  - source_id: muhlenbein1996
+    locator: Section 3, PDF pp. 3–4, binary domain and UMDA steps; Section 5, PDF p. 8, explicitly incomplete
+      CDA description.
+    relation: supports
+  - source_id: muhlenbein-mahnig-chapter
+    locator: Section 3, internal/PDF pp. 9–10, UMDA steps; Section 7, internal/PDF p. 31, model and sampling
+      choices.
+    relation: supports
+limitations:
+- This is a named algorithm family, not one executable procedure or a claim that every stochastic optimizer
+  is a member. The inspected method evidence is concentrated on binary search. It does not establish a
+  universal continuous, constrained, noisy or mixed-variable implementation.
+- Concrete methods can overlap under matched model, selection and update choices without being exact identities.
+  In particular, a matching unsmoothed product-Bernoulli cross-entropy update can coincide with UMDA,
+  while incremental PBIL with additional mutation has a different full procedure. Distribution fitting
+  alone does not equate this family with natural evolution strategies or information-geometric optimization.
+- 'The 1996 article expressly does not fully describe its conditional distribution algorithm. Its statement
+  that full conditional laws determine a unique joint law requires support qualifications: laws supported
+  only on 00 and 11 can share deterministic full conditionals while assigning different masses to the
+  two points. This is a bounded mathematical caveat, not an independent audit or erratum of the cited
+  Besag work.'
+- The later author chapter prints FDA Step 5 as a return to Step 2, bypassing the separately listed selection
+  step. It maximizes the displayed BIC score in Section 9 but describes minimization in its conclusion.
+  Neither a repaired FDA/LFDA implementation nor general score superiority is asserted by this family
+  record.
+- Infinite-population equations, selected finite-population examples and empirical sample-size discussions
+  do not establish global optimization, universal preservation of dependencies, an optimal population
+  size or superiority over other optimizers. No optimizer, author implementation or benchmark was executed
+  for this assessment.
+- The 1996 source is a ten-page author-hosted proceedings copy; its PDF build date is not its 1996 publication
+  date. The later source is an author PostScript manuscript indexed as 2000 for a chapter published in
+  2001. Its 39-page reading PDF was derived after removing only a trailing MIME delimiter after the unique
+  document EOF; the original PostScript and conversion failures remain separately retained. Publisher-byte
+  equivalence is not established. The author webpage supports the family name, not a historical priority
+  claim.
+aio_no_match:
+  search_scope: On 2026-10-15, the fresh merged-base inventory covered all 739 maintained and 442 pinned
+    AIO identities, with IDs, names, aliases and scoped synonyms; the 31 exact/related probes had no normalized
+    identity collision. Four full-checkout fixed-string word searches included ignored and hidden files
+    and produced 280, 283, 787 and 829 occurrences, representing ten distinct matching contents. Root
+    read all ten complete content strings, the collection and selected owner context; exact reconstruction
+    accounts for all 2179 occurrences, without claiming individual manual reading of every duplicate line.
+    Hits are existing candidate leads and the continuous-SMOTE record or its derived historical representations,
+    not existing records for these three identities. The earlier research separately inspected 159 selected
+    semantic definitions and four full optimizer neighbors, and thirteen exact AIO CLASS nodes with all
+    47 incident edges; root additionally read selected identity, definition, claim and limitation fields
+    of PBIL, cross-entropy optimization, NES, IGO and continuous SMOTE. This is bounded snapshot and neighborhood
+    evidence, not exhaustive equivalence testing across all possible methods or ontologies.
+  rationale: The selected AIO targets describe learning tasks, particular models or mathematical components
+    rather than this optimization family. Optional applications, graphical representations or scalar formulas
+    do not justify a forced mapping. This no-match applies only to the inspected snapshot and targets.
+  examined_targets:
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The exact class is an evolutionary large language model; its related evolutionary-algorithms
+      synonym is not an exact/broad identity for general distribution-based optimization.
+  - target: AIO:TrainingStrategy
+    rejection_reason: General objective search need not preprocess or train a machine-learning model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Fitting search distributions is an internal optimization operation; the general
+      optimizer is not identified with the pinned task of building methods that learn from data.
+  - target: AIO:MetaLearning
+    rejection_reason: Neither family nor UMDA inherently learns from metadata about machine-learning experiments.
+  - target: AIO:ActiveLearning
+    rejection_reason: Evaluating black-box objective values is not necessarily querying labels for data
+      points.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A policy/environment learning problem is not required; an application to it would
+      not identify the general optimizer.
+  - target: AIO:RandomForest
+    rejection_reason: Regression trees are mentioned only in the incompletely specified CDA extension;
+      no predictive tree ensemble is required by the family or UMDA.
+  - target: AIO:ContinualLearning
+    rejection_reason: The target is a deep network learning sequential tasks without forgetting, not updating
+      a search distribution.
+  - target: AIO:MarkovChain
+    rejection_reason: An optional stochastic-state representation does not ground the optimization identity
+      in the target network/model or make it a target-invariant Monte Carlo sampler.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The concepts are iterative selection/model-estimation/sampling procedures, not a
+      stand-alone mathematical function or covariance/acquisition component; the generic availability
+      of a formula is insufficient.
+  - target: AIO:BayesianNetwork
+    rejection_reason: FDA/LFDA use graphical representations, and a product law may be represented by
+      an edgeless network, but this does not make the general optimization family or whole UMDA algorithm
+      a Bayesian network.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The pinned graph-expressed conditional-dependence task is optional model structure,
+      not the whole optimizer; an explicit graph is not a mandatory mechanism of UMDA.
+  - target: AIO:ExponentialFunction
+    rejection_reason: Boltzmann selection is one studied policy; exponential weighting or scalar exponential
+      adaptation is not mandatory for the family or UMDA.
+review_status: DRAFT
+identity_notes: Fresh identity inventory and ignored/hidden-inclusive searches at merged base 50d9a115a61f9a8d40db79fef421ce23c3409bd9
+  covered 739 maintained and 442 pinned AIO records. There was no normalized identity collision for the
+  candidate probes. All ten distinct hit contents were read and identify prior leads or existing continuous-SMOTE
+  context, not a canonical record for this identity. The scoped no-match rationale and thirteen exact
+  AIO target assessments remain those established from the pinned source and primary method evidence.
+  This record denotes the named family of optimization procedures that estimate a search distribution
+  from selected candidates and resample. It is broader than original binary UMDA and distinct from a requirement
+  to use natural-gradient NES/IGO, a particular incremental PBIL update, or any standalone probabilistic
+  model. Specific overlapping choices in CEM or PBIL do not identify every whole algorithm with this family
+  definition. The schema algorithm type is used with explicit family-level definition; no acronym alias
+  is asserted.
+evidence_sources:
+- source_id: muhlenbein1996
+  title: From recombination of genes to the estimation of distributions I. Binary parameters
+  authors:
+  - Heinz Mühlenbein
+  - Gerhard Paaß
+  source_type: primary_paper
+  url: http://www.muehlenbein.org/estbin96.pdf
+  persistent_id: https://doi.org/10.1007/3-540-61723-X_982
+  version: PPSN IV (1996), LNCS 1141, pp. 178–187. Ten-page author-hosted copy with internally unnumbered
+    pages; locators use PDF page numbers. PDF distillation metadata dated 2007 and publisher online metadata
+    dated 2005 do not replace the 1996 proceedings year. Byte identity to the publisher PDF is not established.
+    Native font extraction was garbled; OCR was used with visual checks of defining methods.
+  access_level: full_text
+  accessed_at: '2026-10-15T06:55:01Z'
+  sha256: 4834a0d8e4ded7ad6d80046b29fc37dc54a452a76fe58657add06b5f1adaf7a9
+- source_id: muhlenbein-mahnig-chapter
+  title: 'Evolutionary Algorithms: From Recombination to Search Distributions'
+  authors:
+  - Heinz Mühlenbein
+  - Thilo Mahnig
+  source_type: author_technical_report
+  url: http://www.muehlenbein.org/ecdistribution.ps
+  persistent_id: https://doi.org/10.1007/978-3-662-04448-3_7
+  version: Author PostScript manuscript indexed as 2000; associated published chapter is dated 2001 in
+    Theoretical Aspects of Evolutionary Computing, pp. 135–173. This source SHA identifies the original
+    acquired PostScript, including its trailing MIME delimiter. A separate derivative removed only the
+    suffix after the unique %%EOF; successful headless conversion produced the inspected 39-page PDF,
+    SHA-256 72ecf752466d97f086da79338ba03a2e660fcd92cdfffb69622684c8178530b1. Locators use internal/PDF
+    pages 1–39, not an inferred publisher offset. Original bytes, failed conversions and the exact derivative
+    transformation are retained. Publisher-text or publisher-byte equivalence is not certified.
+  access_level: full_text
+  accessed_at: '2026-10-15T06:55:01Z'
+  sha256: 078e7787fb89f8b4431789e7ce5a01b5c7a8bb91ad9e43a6163199ca017ea52b
+- source_id: muhlenbein-author-index
+  title: Heinz Mühlenbein author research and publications index
+  authors:
+  - Heinz Mühlenbein
+  source_type: official_documentation
+  url: http://www.muehlenbein.org/
+  version: Public author webpage acquired on 15 October 2026; its live HTTP body is byte-identical to
+    the separately retrieved public archive capture dated 29 November 2023. The Mathematical models (Estimation
+    of Distribution) subsection explicitly names and describes the family. No publication-priority date
+    or source-wide update date is inferred.
+  access_level: documentation
+  accessed_at: '2026-10-15T06:53:47Z'
+  sha256: 11749b4ab415a9aa9c50055481f2379a73b3d31fea1afd072208801d1d4b4be3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T07:33:19Z'
+  updated_at: '2026-10-15T07:33:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
