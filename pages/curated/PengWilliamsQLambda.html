@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peng and Williams Q(lambda) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Peng and Williams Q(lambda)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Peng and Williams Q(lambda)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PengWilliamsQLambda</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    The 1996 tabular incremental Q(lambda) algorithm that combines a direct one-step Q-learning update for the current state-action pair with a second greedy-state prediction error propagated through decayed accumulating activity traces, without automatically cutting traces on exploratory actions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The selected identity is the tabular two-error Peng–Williams method in the inspected 1996 paper, preserving old-trace/current-pair update order and exploration without Watkins-style cutting. It is not an exact alias of one-step QLearning, neural MCQ-L, generic Q(lambda) or the uninspected 1994 precursor. Historical owner266 retains its Cambridge/Rummery discovery pointer separately from the directly inspected 1996 journal paper. Fresh collection at actual merged base 2fea41895243fec301f372eb2a2e1247cf76e708 on 15 October 2026, 13:57:03–13:57:48 UTC, compared all 760 native and 442 pinned AIO records: 4,798 ID/local-ID/name/alias/scoped-synonym occurrences and 3,667 normalized values, with zero candidate collisions and 17 contextual fields. Four checkout searches included ignored and hidden files and returned 2,858, 2,876, 7,119 and 8,022 occurrences (20,875 total), retained as 880 distinct matching contents. Root read the 19 focused candidate-content projections, all 17 normalized context fields, all 13 matched frontier objects, ten neighboring identity/definition/mechanism projections and fourteen exact AIO CLASS nodes with 59 incident-edge entries. This is bounded semantic inspection; root does not claim a verbatim reading of every broad context-only occurrence or all 880 groups. All 909 main and 393 nested objects were queried recursively for candidate/context fields. Historical primary and draft inspections retain their separately recorded source scopes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#tabular-values-traces-and-behavior</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The inspected baseline maintains a table Q(x,a) and an accumulating activity trace Tr(x,a), both initialized to zero in Figure 1. At each step it chooses an action using the current exploration policy, executes that action and observes the immediate reward and next state. Its state-value estimate is V(x)=max_a Q(x,a).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-peng1996">Incremental Multi-Step Q-Learning</a></span>
+        <span>· <strong>Locator:</strong> Sections 3–4, PDF pp. 3–5 / printed pp. 285–287; Figure 1 initialization and steps A–C.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#two-preupdate-errors</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Using the same pre-update Q and V values for a transition (x,a,r,y), compute e_prime = r + gamma*V(y) - Q(x,a) and e = r + gamma*V(y) - V(x). The current-pair error e_prime and older-credit error e generally differ when the current action is not greedy; algebraically e_prime-e = V(x)-Q(x,a).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-peng1996">Incremental Multi-Step Q-Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF p. 4 / printed p. 286, Equations 6–7; Figure 1 steps D–E, PDF p. 5 / printed p. 287.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#decay-old-credit-before-direct-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    First multiply every existing trace by gamma*lambda and add alpha*Tr(x,a)*e, using the decayed trace, to its Q entry. Next add alpha*e_prime separately to the current state-action pair. Only after both value updates increment the current pair’s trace by one. A revisited current pair can therefore receive both its older-trace contribution and the direct current-pair update.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-peng1996">Incremental Multi-Step Q-Learning</a></span>
+        <span>· <strong>Locator:</strong> Figure 1 steps F–H, PDF p. 5 / printed p. 287.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#retained-traces-through-exploration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The displayed core does not automatically zero traces after a nongreedy action. Older credit is driven by reward plus the discounted next-state maximum minus the current-state maximum, while rewards still come from the trajectory actually followed. This differs from selected-next-action MCQ-L and from a scheme that cuts prior traces whenever exploration chooses a nongreedy action.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-peng1996">Incremental Multi-Step Q-Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp. 4–5 / printed pp. 286–287, Equations 6–8, exploration discussion and Figure 1.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#zero-product-one-step-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Whenever gamma*lambda=0, including lambda=0 or the permitted gamma=0 boundary, every old-trace contribution in Figure 1 vanishes. Only the direct one-step Q-learning update remains for the current pair; at gamma=0 this is alpha*(r-Q(x,a)). Equality of this update does not by itself supply a convergence theorem without the relevant sampling and learning-rate assumptions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-peng1996">Incremental Multi-Step Q-Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 2 / printed p. 284, discount domain; Sections 3–4, PDF pp. 3–5 / printed pp. 285–287, Equation 4 and Figure 1.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#trace-work-and-pruning-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Incremental value propagation avoids requiring a complete trajectory replay before each update, but the set of active state-action traces can grow to the entire table. The article discusses retaining only sufficiently significant traces when gamma*lambda&lt;1. Such pruning is an approximation requiring its own threshold and conventions, not a proof that the exact update has constant per-step cost.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-peng1996">Incremental Multi-Step Q-Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp. 5–6 / printed pp. 287–288, activity-trace work and pruning discussion; Section 5, PDF p. 7 / printed p. 289, incremental versus replay comparison.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>With active multi-step credit (gamma*lambda&gt;0), exploratory rewards need not evaluate the policy implicit in the greedy maxima. The article therefore does not guarantee convergence to Q-star under arbitrary continuing exploration. Its suggestions to reduce lambda or Boltzmann temperature are not a universal convergence proof. The zero-product boundary is separately described and is not covered by a blanket positive-lambda warning.</li>
+      <li>Equation 8 includes an additional summation caused by changing value estimates. The small-learning-rate discussion does not establish exact forward/backward equality for arbitrary online updates, a uniform finite-step residual bound or convergence of every nonlinear extension.</li>
+      <li>The source discount domain is 0&lt;=gamma&lt;1, with trace parameter lambda in [0,1]. The finite recurrence remains meaningful at lambda=1, but that endpoint is not justified by literally substituting lambda=1 into the displayed (1-lambda)-weighted infinite mixture. Return convergence and any limiting interpretation require their own conditions. Repeated visits add new trace mass, so attenuation of old credit is not monotonic decay of the total accumulated trace.</li>
+      <li>The selected primary algorithm is the tabular Figure 1 baseline. The paper discusses connectionist implementation, and Rummery’s report presents a separate neural extension with its own timing. Neither mention establishes that all neural approximators share the tabular update guarantees or that the two papers are interchangeable specifications.</li>
+      <li>Figure 1 is a continuing do-forever loop and does not specify every episodic terminal bootstrap, trace reset or final-update convention. Sparse pruning, replacing traces, clipping and finite-precision choices alter or approximate the literal recurrence and require explicit choices. No complete runnable implementation is reconstructed here.</li>
+      <li>Evidence is the eight-page 1996 journal technical note. The 1994 Peng–Williams precursor cited by Rummery was not acquired or read; no claim is made that all indexing, timing or theoretical statements match that precursor. The received/accepted dates and the retrieval URL’s cookie-related query are not substituted for the publication year or for the valid retained PDF’s identity.</li>
+      <li>The reported task comparisons and claims about faster learning or the necessity of multi-step propagation are not universal results over environments, representations or computational budgets. No author software, benchmark run or original convergence proof was executed or certified by this evidence assessment.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html" style="font-weight: 600;"><code>AIO:ReinforcementLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Reinforcement Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method learns action values from actions, rewards and transitions for control. The pinned AIO target is a learning task; this qualified algorithm-to-task relation is neither exact identity nor a subclass assertion, a trained model instance or a transferable convergence guarantee.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-peng1996">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">peng1996</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://link.springer.com/content/pdf/10.1007/BF00114731.pdf" target="_blank" rel="noopener">Incremental Multi-Step Q-Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jing Peng, Ronald J. Williams
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/BF00114731</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cb2dcf4802a3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T14:06:22Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T14:06:22Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PengWilliamsQLambda.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PengWilliamsQLambda.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
