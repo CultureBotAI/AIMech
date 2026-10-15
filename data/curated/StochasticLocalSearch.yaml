@@ -1,0 +1,220 @@
+id: AIMech:StochasticLocalSearch
+name: Stochastic local search
+concept_kind: algorithm
+aliases: []
+definition: A configurable family of combinatorial search algorithms that initializes a search position
+  and any memory, then applies a specified neighborhood transition rule until a stopping criterion holds;
+  randomized choices are permitted, with deterministic choices included as degenerate cases.
+definition_evidence:
+- source_id: hoos1998
+  locator: 'Section 3.1, PDF pp. 59–60, printed pp. 53–54: local-search working principle and components.'
+  relation: supports
+- source_id: hoos-stutzle2015
+  locator: 'Section 54.1, PDF pp. 3–4, printed pp. 1087–1088: explicit memory, stopping and deterministic
+    special cases.'
+  relation: supports
+claims:
+- claim_id: neighborhood-search-framework
+  kind: mechanism
+  statement: 'The selected combinatorial framework specifies a search space, a solution set, a neighborhood
+    relation, initialization, and a step rule. In the authors’ later explicit exposition, the framework
+    also specifies memory and a termination predicate: initialization selects a position and memory state,
+    and each step selects a neighboring position and updated memory according to the specified rule.'
+  evidence:
+  - source_id: hoos1998
+    locator: 'Section 3.1, physical PDF pp. 59–60, printed pp. 53–54: initialization, neighborhood moves
+      and the five listed components.'
+    relation: supports
+  - source_id: hoos-stutzle2015
+    locator: 'Section 54.1, PDF pp. 3–4, printed pp. 1087–1088: seven components, explicit memory and
+      termination, and the working principle.'
+    relation: supports
+- claim_id: randomized-and-deterministic-decisions
+  kind: scope
+  statement: Initialization and search steps may use randomized decisions. The framework also includes
+    deterministic local-search procedures by representing deterministic choices as degenerate probability
+    distributions; it does not require uniform sampling or a random decision at every step.
+  evidence:
+  - source_id: hoos-stutzle2015
+    locator: 'Section 54.1, PDF pp. 3–4, printed pp. 1087–1088: randomized decisions, probability-distribution
+      interpretation, and deterministic special cases.'
+    relation: supports
+- claim_id: guidance-memory-and-nonimproving-moves
+  kind: mechanism
+  statement: 'An evaluation function may guide search, but it need not equal the optimization objective
+    and may change during a run. Memory may influence the next step. Strict improvement of the current
+    candidate is not a requirement of the family: the exposition includes methods that accept worsening
+    moves, while treating iterative improvement as a narrower procedure.'
+  evidence:
+  - source_id: hoos-stutzle2015
+    locator: Introduction, PDF p. 2, printed p. 1086, worsening moves and modified evaluation; Section
+      54.1, PDF pp. 3–4, memory and guidance; Section 54.2, PDF p. 5, printed p. 1089, the separate iterative-improvement
+      procedure.
+    relation: supports
+- claim_id: constructive-perturbative-and-population-positions
+  kind: scope
+  statement: 'Search positions can encode complete candidate solutions, partial constructions, or sets
+    of candidates. This permits perturbative, constructive and population-based procedures within the
+    same formal framework: extending a partial solution or updating an encoded population can constitute
+    a neighborhood step. These representations do not make the distinct procedures exact aliases.'
+  evidence:
+  - source_id: hoos1998
+    locator: 'Section 3.1, PDF p. 60, printed p. 54: search spaces need not consist only of complete candidate
+      solutions.'
+    relation: supports
+  - source_id: hoos-stutzle2015
+    locator: 'Section 54.1, PDF pp. 3–4, printed pp. 1087–1088: partial-solution neighborhoods and population-valued
+      search positions with set-valued steps.'
+    relation: supports
+- claim_id: termination-and-best-encountered-solution
+  kind: mechanism
+  statement: A run initializes its search state and applies the step rule until the supplied termination
+    criterion holds. Under the exposition’s optimization convention, it retains the best feasible solution
+    encountered for return, when such a solution has been encountered. For decision problems, it typically
+    stops upon finding a feasible solution or satisfying another stopping criterion. These conventions
+    specify bookkeeping and termination behavior rather than certify global success.
+  evidence:
+  - source_id: hoos-stutzle2015
+    locator: 'Section 54.1, PDF pp. 3–4, printed pp. 1087–1088: solution-set conventions, termination
+      predicate, best-so-far return and decision stopping. The feasible-incumbent qualification makes
+      explicit the case in which a returnable solution exists.'
+    relation: supports
+- claim_id: family-and-search-control-boundary
+  kind: scope
+  statement: 'The neighborhood-search family includes simple procedures as well as methods controlled
+    by higher-level strategies. It is not an exact synonym of metaheuristic: the exposition distinguishes
+    simple SLS procedures from high-level guidance and notes that some metaheuristics also use systematic
+    search. The thesis separately introduces generalized local search machines as a way to organize search
+    strategies and their control, rather than making that control representation the definition of every
+    SLS procedure.'
+  evidence:
+  - source_id: hoos1998
+    locator: 'Chapter 3 introduction and Sections 3.1–3.2 boundary, PDF pp. 59–61, printed pp. 53–55:
+      pure search strategies, higher search control and the GLSM representation.'
+    relation: supports
+  - source_id: hoos-stutzle2015
+    locator: 'Section 54.1, PDF pp. 4–5, printed pp. 1088–1089: explicit contrast between SLS algorithms
+      and metaheuristics.'
+    relation: supports
+limitations:
+- This record selects the named combinatorial neighborhood-search framework in the inspected thesis and
+  chapter. The bare term local search is often used more narrowly for perturbative search, and its use
+  as the name of an arbitrary embedded optimization routine does not establish the same identity. Continuous-search
+  conventions and the full generalized-local-search-machine model are outside this scoped definition.
+- This is a configurable algorithm family, not a complete executable instance. A concrete procedure must
+  specify its representation, neighborhood, initialization, step and memory rules, evaluation, stopping,
+  tie handling and feasibility conventions. If no feasible solution has been encountered, a best-feasible-solution
+  return is unavailable unless an additional failure or fallback convention is supplied.
+- Current search positions can worsen or recur. Keeping the best encountered value of a fixed, consistently
+  evaluated objective makes that recorded incumbent value non-worsening when an incumbent exists; it does
+  not make every search step improving or prove global optimality. A changing guidance function need not
+  have the same monotonicity.
+- Randomization alone does not guarantee reachability of a solution, irreducibility, finite termination,
+  probabilistic completeness or an approximation guarantee. Such conclusions require additional assumptions
+  on the problem, neighborhood, transition probabilities, initialization and stopping rule. A run stopped
+  by a resource budget can return without finding a feasible or optimal solution.
+- The current search position alone need not be a Markov state when the procedure uses memory or time-dependent
+  rules. An adequate state description may include memory and a clock; this representation does not by
+  itself imply stationarity, detailed balance or sampling from a specified target distribution.
+- Allowing partial solutions and population-valued positions is a formal inclusion, not an assertion that
+  constructive search, evolutionary algorithms, ant-colony methods, strict hill climbing and their particular
+  controllers are identical. The family boundary also differs from the looser term metaheuristic; individual
+  mechanisms and named compositions retain separate identities.
+- The 1998 dissertation supplies the underlying search-space, neighborhood and search-control distinctions;
+  the 2015 author-hosted overview supplies explicit memory, stopping and representation exposition without
+  establishing invention priority. Evidence assessment is limited to the inspected defining passages and
+  selected visuals, not the full dissertation, an unread book definition, all GLSM proofs, author software
+  or benchmark reproduction. No universal performance ranking follows from the framework.
+aio_no_match:
+  search_scope: The fresh merged-base collection compared442 pinned AIO identities and763 native identities
+    with ignored- and hidden-inclusive searches of four checkouts and recursive matching across909main
+    and393nested frontier objects. Root assessed39 focused candidate contexts,15 normalized context fields
+    and20 full matching frontier objects; broader text matches are not all claimed as root-read. Historical
+    exact inspection of eight pinned AIO CLASS nodes and44incident edges remains applicable because the
+    snapshot bytes are unchanged (commit397851c547d1c4d8f06ef184f63c1d40bc86937a); all eight rejection
+    rationales are preserved. This is bounded snapshot absence, not worldwide coverage or saturation.
+  rationale: The inspected AIO candidates do not adequately identify this generic combinatorial neighborhood-search
+    family. Model-training and learning-task classes require a scope that is not mandatory here. A possible
+    augmented-state Markov representation or use of mathematical functions is too generic to distinguish
+    the whole algorithm family. No positive mapping is forced.
+  examined_targets:
+  - target: AIO:TrainingStrategy
+    rejection_reason: The target denotes preprocessing/training of machine-learning models. Generic combinatorial
+      neighborhood search need not train a model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target is a process for building methods that learn from data; this search framework
+      also solves fixed combinatorial instances without learning from data.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Exploration and feedback terminology alone does not make all SLS a reinforcement-learning
+      task; no action-value, policy or environmental-response learning rule is mandatory.
+  - target: AIO:UnsupervisedLearning
+    rejection_reason: The framework need not learn patterns from unlabeled observations; optimizing a
+      fixed constraint/objective is insufficient.
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The related synonym evolutionary algorithms is attached to an LLM class. Population-valued
+      SLS encodings do not require a language model.
+  - target: AIO:ReasoningLLM
+    rejection_reason: SAT and constraint applications do not require an LLM or language-task reasoning
+      architecture.
+  - target: AIO:MarkovChain
+    rejection_reason: An appropriately augmented search state may have Markov transition semantics, but
+      the pinned node is exported as a stochastic network/model with a probabilistic hidden-layer part.
+      That representation alone is too generic to map the algorithm family; memoryless current-position
+      behavior is not mandatory.
+  - target: AIO:MathematicalFunction
+    rejection_reason: Problem-specific evaluation and transition functions are ingredients, not a distinctive
+      mathematical function defining this entire algorithm family.
+review_status: DRAFT
+identity_notes: This record selects the source-defined combinatorial neighborhood-search family, including
+  configured memory and deterministic degenerate choices. Strict hill climbing, ILS/VNS/GLS/Tabu/annealing
+  controllers and SAT-specific methods remain distinct narrower procedures. The historical ILS pointer
+  is discovery context and does not equate every embedded optimizer with this family. Prior HillClimbing
+  progress is preserved under owner270; continuous/terminological and full GLSM residuals remain. Fresh
+  collection on 15 October 2026 at14:35:54–14:37:34 UTC at actual merged base 73729051e58d582f36c9af9296a92b393be0a679
+  compared all763 native and442 pinned AIO records (4,807 identity-field occurrences,3,674 normalized
+  values), with zero candidate collisions and15 context-only fields across eight neighboring records.
+  Four ignored- and hidden-inclusive checkout searches retained3,967/3,981/9,015/10,567 occurrences (27,530
+  total), grouped into1,338 exact matching contents. Root read all39 focused candidate-bearing decoded
+  contexts, all15 normalized contextual fields/eight definitions, all20 full matching frontier objects
+  and the three newly merged342 definitions. This is bounded semantic inspection; root does not claim
+  a verbatim reading of all1,084 broader decoded contexts or every repeated occurrence. All909main and393nested
+  objects were queried recursively; historic primary/AIO and supporting inspections retain their separately
+  documented scopes.
+evidence_sources:
+- source_id: hoos1998
+  title: Stochastic Local Search – Methods, Models, Applications
+  authors:
+  - Holger H. Hoos
+  source_type: author_technical_report
+  url: https://www.cs.ubc.ca/~hoos/ps/phd-thesis.pdf
+  version: Author-hosted Darmstadt doctoral dissertation, 1998; title page records submission on 30 September
+    1998 and defense on 11 November 1998. The acquired file has 224 physical PDF pages; the author index
+    describes 218 pages. Locators distinguish physical PDF from printed pages. This is the thesis, not
+    a later book edition.
+  access_level: full_text
+  accessed_at: '2026-10-15T13:55:29Z'
+  sha256: a338da187d332f533a288d0e49e56606ae4a47b2366df1ebf6a23e62aae3183e
+- source_id: hoos-stutzle2015
+  title: 'Stochastic Local Search Algorithms: An Overview'
+  authors:
+  - Holger H. Hoos
+  - Thomas Stützle
+  source_type: author_technical_report
+  url: https://ada.liacs.nl/papers/HooStu15b.pdf
+  persistent_id: https://doi.org/10.1007/978-3-662-43505-2_54
+  version: Author-hosted scholarly handbook chapter 54, 2015, printed pp. 1085–1105, in a 21-page PDF.
+    Institutional metadata gives January 2015 without a publication day. Used as the authors’ framework
+    exposition, not as an invention-priority claim or evidence of having read the book cited by the chapter.
+  access_level: full_text
+  accessed_at: '2026-10-15T13:55:33Z'
+  sha256: 2203b7888ea15b17f145a5401b4767057c155d0d7d5f44d6a4cb9e68d59f08ee
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T14:45:47Z'
+  updated_at: '2026-10-15T14:45:47Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
