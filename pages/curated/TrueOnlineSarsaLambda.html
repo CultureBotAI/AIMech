@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>True online Sarsa(lambda) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>True online Sarsa(lambda)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">True online Sarsa(lambda)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:TrueOnlineSarsaLambda</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A linear on-policy action-value control algorithm that combines a Dutch eligibility trace with a correction for changing predictions, using the next action selected by its behavior policy and preserving the specified pre-update action and prediction timing.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Selects the linear on-policy action-value control algorithm combining a Dutch trace, prediction correction and the specified preupdate successor-action/value timing. It is distinct from true-online state-value TD prediction, replacing traces, MCQ-L, Peng–Williams and Watkins methods. Finite-time equivalence is conditional on the same realized sequence, not convergence. Existing owner 264 retains its prior three record IDs and both earlier resolutions. The fresh collection on 15 October 2026 at 16:12:44–16:13:52 UTC covers 769 native and 442 pinned AIO records at merged base 41221e5f8916ff024296a8ed34622bda702c276d, with only the five reviewed schema/renderer/docs/test edits applied. All 4,825 identity fields (3,687 normalized values), including local IDs and the explicit Sarsa lambda source spellings, were compared. No candidate identity collision was found. Four ignored- and hidden-inclusive checkout scans retained 4,432 occurrences in 367 exact contents. Root read all 304 newly encountered contents, all 11 contextual fields and nine neighboring definitions, and seven complete matching frontier owners. The supporting assessment read all 367 contents, including 63 historical ones, and reconstructed every occurrence. All 909 main and 393 nested frontier objects were mechanically queried. This is a dated, bounded identity assessment, not global absence or discovery saturation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#linear-on-policy-control</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    True online Sarsa(lambda) applies the true online temporal-difference construction to a linear action-value estimate Q(s,a)=theta^T psi(s,a), with lambda in [0,1]. Its behavior policy uses the current action-value estimates, for example through epsilon-greedy selection. The source gives action-specific blocks of state features as a common representation, not as a required feature layout.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-vanseijen2014">True Online TD(lambda)</a></span>
+        <span>· <strong>Locator:</strong> Section 5, PDF pp. 7–8, state-action feature extension and control example.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-vanseijen2016">True Online Temporal-Difference Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3, PDF pp. 14–15, action-value control, behavior selection and action-feature construction.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#selected-successor-action</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Execute the currently carried action A and observe reward R and successor state S_next. Before changing theta, select A_next using the behavior policy and obtain psi_next=psi(S_next,A_next). Compute Q=theta^T psi and Q_next=theta^T psi_next with the pre-update weights, and delta=R+gamma*Q_next-Q. For a terminal successor, use psi_next=0. The bootstrap uses the selected successor action rather than a maximum over successor actions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-vanseijen2016">True Online Temporal-Difference Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3, PDF p. 15, Algorithm 3 from action execution through the TD-error assignment.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dutch-trace-plus-correction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With constant step size alpha and the unscaled trace convention, update e=gamma*lambda*e_old+psi-alpha*gamma*lambda*(e_old^T psi)*psi. Then update theta_new=theta+alpha*(delta+Q-Q_old)*e-alpha*(Q-Q_old)*psi. The inner product in the trace update uses e_old, while the weight update uses the newly updated e. Both the Dutch trace and the prediction correction are part of the method; changing only the trace in ordinary Sarsa does not generally yield this update.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-vanseijen2016">True Online Temporal-Difference Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3, PDF p. 15, Algorithm 3 trace and weight assignments; Section 4.1, p. 12, Equations 10–12 for the underlying unscaled recurrence.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#stored-prediction-and-carried-action</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After the weight update, set Q_old to the already computed Q_next, then carry psi_next and A_next into the following transition. Q_old therefore retains a prediction made with the preceding weights; it is not recomputed using theta_new. At the start of each episode reset e=0 and Q_old=0 while retaining the learned weights across episodes. The initially zero trace gives e=psi on the first update, so the dependence on the initial stored prediction cancels in that first weight update.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-vanseijen2016">True Online Temporal-Difference Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3, PDF p. 15, Algorithm 3 episode initialization and final assignments. First-step cancellation is a direct algebraic consequence of its trace and weight recurrences.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#specified-finite-time-correspondence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a fixed linear feature mapping, matched initial weights and step size, and the same realized action-feature-reward sequence, the Sarsa backward recurrence inherits the specified online lambda-return forward sequence’s finite-horizon weight correspondence. This comparison holds the realized sequence fixed rather than reselecting actions at intermediate forward-replay weights. At lambda=0, e=psi and the separate prediction correction cancels, giving the corresponding one-step linear Sarsa update.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-vanseijen2014">True Online TD(lambda)</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF pp. 4–5, online truncated lambda-return sequence; Section 5, pp. 7–8, state-action extension. The shared realized-sequence restriction states the algebraic scope of applying that extension.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-vanseijen2016">True Online Temporal-Difference Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, PDF pp. 7–8, online forward sequence; Sections 4.1–4.3, pp. 11–15, backward recurrence and Sarsa extension. The lambda-zero reduction follows directly from Algorithm 3.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#continued-credit-and-feature-cost</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Algorithm 3 continues its Dutch-trace recurrence without a Watkins nongreedy-action trace reset or a replacing-control rule that clears other actions’ credit. For a linear action-feature vector of dimension d, the dense trace and weight updates use O(d) arithmetic and vector storage per transition. Feature construction and behavior-policy action selection have additional costs; an action-block representation can make d depend on the number of actions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-vanseijen2016">True Online Temporal-Difference Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, PDF pp. 11–12, vector recurrence and computation discussion; Section 4.3, p. 15, Algorithm 3 and action-block features; Section 6.2, p. 24, the separate Watkins Algorithm 5.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This identity is the linear on-policy action-value control algorithm, not fixed-policy state-value prediction, the whole Sarsa or TD family, an isolated Dutch trace, original neural MCQ-L, Peng–Williams two-error control, or a greedy Watkins variant. Shared endpoints and source papers do not establish exact aliases.</li>
+      <li>Algorithm 3 uses the constant-alpha unscaled trace convention. A naive varying-alpha substitution is not justified by that pseudocode; a varying-step-size Sarsa extension requires its own matched scaled-trace derivation. Source-display problems documented for the separate Watkins Algorithm 5 are not automatically defects of Sarsa Algorithm 3.</li>
+      <li>Finite-time algebraic correspondence on a matched realized sequence does not establish convergence, monotone policy improvement, optimal control, stationary-policy value accuracy or universal exploration. Replaying a different action sequence changes the comparison. Epsilon-greedy is an example of behavior selection, not by itself a guarantee of coverage or a useful learned policy.</li>
+      <li>The successor action and its prediction are selected and computed before the current weight update. The carried action may cease to be greedy under the updated weights. At a terminal successor, the zero feature vector removes the bootstrap; the printed pseudocode still selects the successor action before its terminal-feature note, so a dummy terminal action or guard is an implementation convention rather than a required real terminal environment action.</li>
+      <li>At lambda=1, interim forward targets can still bootstrap. The terminal full-return forward replay is sequential and does not turn the online procedure into a wait-until-end Monte Carlo algorithm. Continuing undiscounted rewards need appropriate return assumptions. Constant alpha=0 freezes the weights but does not establish a learned solution.</li>
+      <li>The exact backward derivation depends on linearity in the learned weights and a fixed feature mapping. Tabular, binary or real features are compatible, but generic nonlinear or parameter-dependent features do not automatically inherit that correspondence. Dutch traces can be negative or exceed one. Dense O(d) update cost does not imply current-feature-sparsity cost, action-count-free cost or equal wall-clock performance.</li>
+      <li>The 2014 paper names the control extension and reports a mountain-car comparison; the 2016 article supplies the explicit Sarsa pseudocode and further selected experiments. Their empirical claims do not establish universal superiority. Previously retained proof-display qualifications in the 2014 prediction derivation are separate source context, not a new Sarsa implementation defect or an official erratum. The recorded reading is bounded to primary text and selected visuals; no author software or benchmark reproduction is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html" style="font-weight: 600;"><code>AIO:ReinforcementLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Reinforcement Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source-scoped algorithm learns state-action values from reward transitions and uses those estimates for behavior selection, with exploration such as epsilon-greedy. This supports a qualified association with the pinned reinforcement-learning task. It asserts neither exact identity nor an algorithm-to-task subclass relation, and it supplies no guarantee of exploration, convergence or optimal control.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-vanseijen2014">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">vanseijen2014</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v32/seijen14.pdf" target="_blank" rel="noopener">True Online TD(lambda)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Harm van Seijen, Richard S. Sutton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v32/seijen14.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c8f93a80ad42…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-vanseijen2016">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">vanseijen2016</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.jmlr.org/papers/volume17/15-599/15-599.pdf" target="_blank" rel="noopener">True Online Temporal-Difference Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Harm van Seijen, A. Rupam Mahmood, Patrick M. Pilarski, Marlos C. Machado, Richard S. Sutton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.jmlr.org/papers/v17/15-599.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:905d228fcd5e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T16:28:32Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T16:28:32Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TrueOnlineSarsaLambda.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TrueOnlineSarsaLambda.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
