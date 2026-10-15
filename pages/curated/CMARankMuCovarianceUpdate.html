@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CMA rank-mu covariance update · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>CMA rank-mu covariance update</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">CMA rank-mu covariance update</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:CMARankMuCovarianceUpdate</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A covariance-valued update component introduced in the 2003 CMA-ES construction that forms an equal-weight second moment of selected mutation steps about the old sampling mean and blends it with an evolution-path outer product and the previous search covariance.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record isolates the original 2003 equal-weight selected-step second-moment covariance update and its path blend. The maintained 2001 CMA-ES record explicitly excludes this extension; IGO and xNES retain qualified rank-mu correspondences rather than this defining finite component. It is not the whole optimizer, a modern weighted or active covariance rule, or an IPOP restart policy. Fresh postmerge collection at a7303d92795cc371954c527372fce9117342d7b5 checked all 735 native and 442 pinned AIO record identities and bytes. Four searches included ignored and hidden files, yielding 1,529 occurrences grouped into 45 exact contents, all reconciled with earlier research; root read all 45 complete contents. No normalized ID, label, alias or scoped-synonym collision was found for the explicit candidate probes. This is bounded to the pinned inventory and inspected semantic neighborhoods, not an exhaustive absence claim about AI literature. Existing frontier owner 200 is resolved in place; owner 201 and other distinct variants remain separate.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#selected-old-mean-second-moment</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For integer search dimension n&gt;=1, current mean m, positive global scale sigma and covariance C=B*D^2*B^T, write each selected offspring step as y_i=(x_i-m)/sigma=B*D*z_i. With an integer mu&gt;=1 selected offspring, the original equal-weight construction forms Z=(1/mu)*sum_i(y_i*y_i^T). The steps use the old sampling mean and scale. Z is their uncentered second moment, not their covariance about the newly selected mean and not the outer product of their average step.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hansen2003">Reducing the Time Complexity of the Derandomized Evolution Strategy with Covariance Matrix Adaptation (CMA-ES)</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 4 / printed p. 3, Equations 1–4; Section 3, PDF p. 6 / printed p. 5, Equation 10. The centering distinction is a direct algebraic reading of these formulas.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#path-and-population-covariance-blend</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source retains the evolution path p_new=(1-c_c)*p+sqrt(c_c*(2-c_c))*sqrt(mu)*mean_i(y_i), then updates the search covariance by C_new=(1-c_cov)*C+c_cov*(alpha*p_new*p_new^T+(1-alpha)*Z). Here alpha is the source alpha_cov in [0,1]. The path outer product represents accumulated mean-step information, while Z uses individual selected steps from the current generation. This is a covariance-update component, not a complete initialization, sampling, selection or termination algorithm.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hansen2003">Reducing the Time Complexity of the Derandomized Evolution Strategy with Covariance Matrix Adaptation (CMA-ES)</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 4 / printed p. 3, Equations 5–6; Section 3, PDF p. 6 / printed p. 5, Equations 10–11.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#blend-endpoints-and-host-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At alpha=1 the blend recovers the rank-one covariance rule reviewed in the source; alpha=0 uses Z as the sole added moment, and alpha=1/mu is the hybrid configuration studied there. The paper labels these Orig-CMA, New-CMA and Hybr-CMA. These are configurations of the construction, not asserted exact aliases for its component identity. The modification leaves the host global step-size adaptation unchanged, so its scalar exponential update is outside the defining Eq. 10–11 component.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hansen2003">Reducing the Time Complexity of the Derandomized Evolution Strategy with Covariance Matrix Adaptation (CMA-ES)</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF pp. 5–6 / printed pp. 4–5, unchanged global step-size statement and text following Equation 11; Section 6 opening paragraph, PDF p. 8 / printed p. 7, variant names.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#rank-and-positive-definite-domain</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Z is positive semidefinite and has rank at most min(mu,n). Equality requires the selected vectors to have the corresponding span; the source’s equality statement is interpreted with this generic full-span qualification. For positive-definite C, alpha in [0,1] and 0&lt;=c_cov&lt;1, the blend remains positive definite. At c_cov=1, the positively weighted path and selected steps must together span the space to ensure positive definiteness. These are exact-arithmetic consequences of the outer-product blend, not numerical-conditioning guarantees.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hansen2003">Reducing the Time Complexity of the Derandomized Evolution Strategy with Covariance Matrix Adaptation (CMA-ES)</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF p. 6 / printed p. 5, Equation 10 and its rank statement, followed by Equation 11. The rank bound and positive-definiteness conditions are explicit curator linear-algebra consequences.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#neutral-selection-and-path-initialization-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the paper’s neutral-selection or unchanged selected-law idealization, independent zero-mean selected Gaussian steps with covariance C give E[Z]=C. This is not an unbiasedness claim under arbitrary fitness selection. The analogous path second moment additionally depends on its distribution: with frozen C, p_0=0 and 0&lt;c_c&lt;=1, the first path has E[p_1*p_1^T]=c_c*(2-c_c)*C. Consequently the first covariance expectation is [1-c_cov*alpha*(1-c_c)^2]*C. This bounded curator derivation distinguishes zero initialization from a stationary path idealization; it is not a theorem about the full adaptive run.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hansen2003">Reducing the Time Complexity of the Derandomized Evolution Strategy with Covariance Matrix Adaptation (CMA-ES)</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equation 5, PDF p. 4 / printed p. 3, and zero-path initialization on PDF p. 5 / printed p. 4; Section 3, Equations 13–14 on PDF p. 6 / printed p. 5 and the expectation paragraph continuing on PDF p. 7 / printed p. 6. The first-step expectations are curator algebra under the stated frozen-law assumptions.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#empirically-chosen-covariance-rate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source couples the new covariance mechanism to an empirical learning-rate prescription: Equation 12 blends the original rate 2/(n+sqrt(2))^2 with min(1,(2*mu-1)/((n+2)^2+mu)), using alpha and 1-alpha. Section 4 obtains this expression by trial and error on ellipsoidal tests and chooses conservative rates below the measured optima. Its experimental choice lambda=4*mu is not a universal requirement of the covariance formula, and the prescription is not asserted optimal for arbitrary objectives.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hansen2003">Reducing the Time Complexity of the Derandomized Evolution Strategy with Covariance Matrix Adaptation (CMA-ES)</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Equation 12, PDF p. 6 / printed p. 5; Section 4, PDF p. 7 / printed p. 6, experimental rate selection and Equation 15; Section 5 continuation, PDF p. 8 / printed p. 7, population-size setting.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This record is restricted to the 2003 equal-weight selected-step moment and nonnegative path/moment blend. Arbitrary unequal or negative weights, active covariance updates, later safeguards, restart schemes, limited-memory variants and modern implementations are not established by this source scope. The alpha=1 endpoint recovers the source’s reviewed host rule without making the new component identical to the whole maintained 2001 CMA-ES algorithm.</li>
+      <li>The source’s rank=min(mu,n) wording requires a generic full-span qualification. Degenerate supplied steps or finite precision can reduce rank. Positive-semidefinite arithmetic and a retained positive old-covariance coefficient do not guarantee good conditioning, stable eigendecompositions or an admissible numerical implementation. The boundary c_cov=1 requires adequate positive span; the ordinary positive-definite domain cannot be assumed there.</li>
+      <li>The neutral-model expectation argument on PDF pp. 6–7 / printed pp. 5–6 does not establish conditional martingale behavior or stationarity throughout an adaptive optimization run. The zero-path first-step calculation is curator hand algebra under fixed C and independent neutral steps, not an author-issued erratum or a claim to have disproved the separate Hansen 1998 argument cited by the paper. That thesis proof was not acquired or audited here.</li>
+      <li>The new term uses old-mean normalized individual steps. Replacing it by covariance around the selected mean, by an outer product of the selected mean step or by a generic elite maximum-likelihood covariance changes the rule. Connections to IGO or natural-gradient search require their own distribution, utility and finite-update assumptions; neither a first-order resemblance nor a shared Gaussian family makes these methods exact aliases.</li>
+      <li>Equation 12 is an empirically selected rate, not a universal optimum. Reported time-complexity results count generations in the stated parallel experiments; they do not establish linear dense-matrix arithmetic, a universal speedup or a convergence guarantee. No numerical performance result or benchmark replication is imported.</li>
+      <li>Section 7, PDF pp. 18–19 / printed pp. 17–18, reports excessive shrinkage of overall variance and difficulties with global step-size control for large populations and rates. Smaller covariance rates and covariance renormalization are discussed as possible responses, not silently added to this component as mandatory safeguards. Positive-definite covariance alone does not prevent these problems.</li>
+      <li>The acquired article has 19 PDF pages including a courtesy cover; printed pages 1–18 therefore occur at PDF pages 2–19. Core formulas were inspected visually because native formula extraction is garbled. The author’s separately retained errata correct test-function separability and a summation index, not Equations 10–11. The full empirical table/figure analysis and cited theoretical dependencies were not audited; no general historical-priority claim is made.</li>
+      <li>The primary publication year and author-hosted copy are retained without inferring a publication day from file metadata. Initial sandbox DNS failures and separate successful acquisition retries remain in the source provenance. Historical research assessed 733 native and 442 pinned AIO records and associated this component with existing frontier owner 200. That dated scope is not a claim of current frontier absence. No author code, calculator, optimizer or benchmark was executed in that research.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html" style="font-weight: 600;"><code>AIO:MathematicalFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Mathematical Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The defining equations give an explicit matrix-valued mathematical rule: specified covariance, updated path, selected-step moment and scalar blend/rate inputs determine the new covariance. This is an informative relation to the broad pinned function definition, not merely the generic computability of a whole optimizer. It does not assert equivalence, an upstream subclass edge or a scalar activation, and does not import the host’s exponential step-size operation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-hansen2003">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">hansen2003</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cmap.polytechnique.fr/~nikolaus.hansen/evco_11_1_1_0.pdf" target="_blank" rel="noopener">Reducing the Time Complexity of the Derandomized Evolution Strategy with Covariance Matrix Adaptation (CMA-ES)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nikolaus Hansen, Sibylle D. Müller, Petros Koumoutsakos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1162/106365603321828970</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1e3e35799fda…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T06:13:45Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T06:13:45Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CMARankMuCovarianceUpdate.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CMARankMuCovarianceUpdate.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
