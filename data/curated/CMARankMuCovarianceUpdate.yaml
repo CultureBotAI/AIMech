@@ -1,0 +1,177 @@
+id: AIMech:CMARankMuCovarianceUpdate
+name: CMA rank-mu covariance update
+concept_kind: mathematical_method
+aliases: []
+definition: A covariance-valued update component introduced in the 2003 CMA-ES construction that forms
+  an equal-weight second moment of selected mutation steps about the old sampling mean and blends it with
+  an evolution-path outer product and the previous search covariance.
+definition_evidence:
+- source_id: hansen2003
+  locator: Section 3, PDF pp. 5–6 / printed pp. 4–5, motivation and Equations 10–11; Section 2, PDF p.
+    4 / printed p. 3, sampling and evolution-path definitions.
+  relation: supports
+claims:
+- claim_id: selected-old-mean-second-moment
+  kind: mechanism
+  statement: For integer search dimension n>=1, current mean m, positive global scale sigma and covariance
+    C=B*D^2*B^T, write each selected offspring step as y_i=(x_i-m)/sigma=B*D*z_i. With an integer mu>=1
+    selected offspring, the original equal-weight construction forms Z=(1/mu)*sum_i(y_i*y_i^T). The steps
+    use the old sampling mean and scale. Z is their uncentered second moment, not their covariance about
+    the newly selected mean and not the outer product of their average step.
+  evidence:
+  - source_id: hansen2003
+    locator: Section 2, PDF p. 4 / printed p. 3, Equations 1–4; Section 3, PDF p. 6 / printed p. 5, Equation
+      10. The centering distinction is a direct algebraic reading of these formulas.
+    relation: supports
+- claim_id: path-and-population-covariance-blend
+  kind: mechanism
+  statement: The source retains the evolution path p_new=(1-c_c)*p+sqrt(c_c*(2-c_c))*sqrt(mu)*mean_i(y_i),
+    then updates the search covariance by C_new=(1-c_cov)*C+c_cov*(alpha*p_new*p_new^T+(1-alpha)*Z). Here
+    alpha is the source alpha_cov in [0,1]. The path outer product represents accumulated mean-step information,
+    while Z uses individual selected steps from the current generation. This is a covariance-update component,
+    not a complete initialization, sampling, selection or termination algorithm.
+  evidence:
+  - source_id: hansen2003
+    locator: Section 2, PDF p. 4 / printed p. 3, Equations 5–6; Section 3, PDF p. 6 / printed p. 5, Equations
+      10–11.
+    relation: supports
+- claim_id: blend-endpoints-and-host-boundary
+  kind: scope
+  statement: At alpha=1 the blend recovers the rank-one covariance rule reviewed in the source; alpha=0
+    uses Z as the sole added moment, and alpha=1/mu is the hybrid configuration studied there. The paper
+    labels these Orig-CMA, New-CMA and Hybr-CMA. These are configurations of the construction, not asserted
+    exact aliases for its component identity. The modification leaves the host global step-size adaptation
+    unchanged, so its scalar exponential update is outside the defining Eq. 10–11 component.
+  evidence:
+  - source_id: hansen2003
+    locator: Section 3, PDF pp. 5–6 / printed pp. 4–5, unchanged global step-size statement and text following
+      Equation 11; Section 6 opening paragraph, PDF p. 8 / printed p. 7, variant names.
+    relation: supports
+- claim_id: rank-and-positive-definite-domain
+  kind: scope
+  statement: Z is positive semidefinite and has rank at most min(mu,n). Equality requires the selected
+    vectors to have the corresponding span; the source’s equality statement is interpreted with this generic
+    full-span qualification. For positive-definite C, alpha in [0,1] and 0<=c_cov<1, the blend remains
+    positive definite. At c_cov=1, the positively weighted path and selected steps must together span
+    the space to ensure positive definiteness. These are exact-arithmetic consequences of the outer-product
+    blend, not numerical-conditioning guarantees.
+  evidence:
+  - source_id: hansen2003
+    locator: Section 3, PDF p. 6 / printed p. 5, Equation 10 and its rank statement, followed by Equation
+      11. The rank bound and positive-definiteness conditions are explicit curator linear-algebra consequences.
+    relation: supports
+- claim_id: neutral-selection-and-path-initialization-scope
+  kind: scope
+  statement: 'Under the paper’s neutral-selection or unchanged selected-law idealization, independent
+    zero-mean selected Gaussian steps with covariance C give E[Z]=C. This is not an unbiasedness claim
+    under arbitrary fitness selection. The analogous path second moment additionally depends on its distribution:
+    with frozen C, p_0=0 and 0<c_c<=1, the first path has E[p_1*p_1^T]=c_c*(2-c_c)*C. Consequently the
+    first covariance expectation is [1-c_cov*alpha*(1-c_c)^2]*C. This bounded curator derivation distinguishes
+    zero initialization from a stationary path idealization; it is not a theorem about the full adaptive
+    run.'
+  evidence:
+  - source_id: hansen2003
+    locator: Section 2, Equation 5, PDF p. 4 / printed p. 3, and zero-path initialization on PDF p. 5
+      / printed p. 4; Section 3, Equations 13–14 on PDF p. 6 / printed p. 5 and the expectation paragraph
+      continuing on PDF p. 7 / printed p. 6. The first-step expectations are curator algebra under the
+      stated frozen-law assumptions.
+    relation: supports
+- claim_id: empirically-chosen-covariance-rate
+  kind: scope
+  statement: 'The source couples the new covariance mechanism to an empirical learning-rate prescription:
+    Equation 12 blends the original rate 2/(n+sqrt(2))^2 with min(1,(2*mu-1)/((n+2)^2+mu)), using alpha
+    and 1-alpha. Section 4 obtains this expression by trial and error on ellipsoidal tests and chooses
+    conservative rates below the measured optima. Its experimental choice lambda=4*mu is not a universal
+    requirement of the covariance formula, and the prescription is not asserted optimal for arbitrary
+    objectives.'
+  evidence:
+  - source_id: hansen2003
+    locator: Section 3, Equation 12, PDF p. 6 / printed p. 5; Section 4, PDF p. 7 / printed p. 6, experimental
+      rate selection and Equation 15; Section 5 continuation, PDF p. 8 / printed p. 7, population-size
+      setting.
+    relation: supports
+identity_notes: This record isolates the original 2003 equal-weight selected-step second-moment covariance
+  update and its path blend. The maintained 2001 CMA-ES record explicitly excludes this extension; IGO
+  and xNES retain qualified rank-mu correspondences rather than this defining finite component. It is
+  not the whole optimizer, a modern weighted or active covariance rule, or an IPOP restart policy. Fresh
+  postmerge collection at a7303d92795cc371954c527372fce9117342d7b5 checked all 735 native and 442 pinned
+  AIO record identities and bytes. Four searches included ignored and hidden files, yielding 1,529 occurrences
+  grouped into 45 exact contents, all reconciled with earlier research; root read all 45 complete contents.
+  No normalized ID, label, alias or scoped-synonym collision was found for the explicit candidate probes.
+  This is bounded to the pinned inventory and inspected semantic neighborhoods, not an exhaustive absence
+  claim about AI literature. Existing frontier owner 200 is resolved in place; owner 201 and other distinct
+  variants remain separate.
+evidence_sources:
+- source_id: hansen2003
+  title: Reducing the Time Complexity of the Derandomized Evolution Strategy with Covariance Matrix Adaptation
+    (CMA-ES)
+  authors:
+  - Nikolaus Hansen
+  - Sibylle D. Müller
+  - Petros Koumoutsakos
+  source_type: primary_paper
+  url: https://www.cmap.polytechnique.fr/~nikolaus.hansen/evco_11_1_1_0.pdf
+  persistent_id: https://doi.org/10.1162/106365603321828970
+  version: Evolutionary Computation 11(1):1–18, 2003; author-hosted typeset article with MIT courtesy
+    cover, 19 PDF pages; printed page p is PDF p+1.
+  access_level: full_text
+  accessed_at: '2026-10-15T05:12:47Z'
+  sha256: 1e3e35799fda200ca496998652182cf3da7c95e093b5c637930bca4ac72b60a6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: related_match
+  rationale: 'The defining equations give an explicit matrix-valued mathematical rule: specified covariance,
+    updated path, selected-step moment and scalar blend/rate inputs determine the new covariance. This
+    is an informative relation to the broad pinned function definition, not merely the generic computability
+    of a whole optimizer. It does not assert equivalence, an upstream subclass edge or a scalar activation,
+    and does not import the host’s exponential step-size operation.'
+limitations:
+- This record is restricted to the 2003 equal-weight selected-step moment and nonnegative path/moment
+  blend. Arbitrary unequal or negative weights, active covariance updates, later safeguards, restart schemes,
+  limited-memory variants and modern implementations are not established by this source scope. The alpha=1
+  endpoint recovers the source’s reviewed host rule without making the new component identical to the
+  whole maintained 2001 CMA-ES algorithm.
+- The source’s rank=min(mu,n) wording requires a generic full-span qualification. Degenerate supplied
+  steps or finite precision can reduce rank. Positive-semidefinite arithmetic and a retained positive
+  old-covariance coefficient do not guarantee good conditioning, stable eigendecompositions or an admissible
+  numerical implementation. The boundary c_cov=1 requires adequate positive span; the ordinary positive-definite
+  domain cannot be assumed there.
+- The neutral-model expectation argument on PDF pp. 6–7 / printed pp. 5–6 does not establish conditional
+  martingale behavior or stationarity throughout an adaptive optimization run. The zero-path first-step
+  calculation is curator hand algebra under fixed C and independent neutral steps, not an author-issued
+  erratum or a claim to have disproved the separate Hansen 1998 argument cited by the paper. That thesis
+  proof was not acquired or audited here.
+- The new term uses old-mean normalized individual steps. Replacing it by covariance around the selected
+  mean, by an outer product of the selected mean step or by a generic elite maximum-likelihood covariance
+  changes the rule. Connections to IGO or natural-gradient search require their own distribution, utility
+  and finite-update assumptions; neither a first-order resemblance nor a shared Gaussian family makes
+  these methods exact aliases.
+- Equation 12 is an empirically selected rate, not a universal optimum. Reported time-complexity results
+  count generations in the stated parallel experiments; they do not establish linear dense-matrix arithmetic,
+  a universal speedup or a convergence guarantee. No numerical performance result or benchmark replication
+  is imported.
+- Section 7, PDF pp. 18–19 / printed pp. 17–18, reports excessive shrinkage of overall variance and difficulties
+  with global step-size control for large populations and rates. Smaller covariance rates and covariance
+  renormalization are discussed as possible responses, not silently added to this component as mandatory
+  safeguards. Positive-definite covariance alone does not prevent these problems.
+- The acquired article has 19 PDF pages including a courtesy cover; printed pages 1–18 therefore occur
+  at PDF pages 2–19. Core formulas were inspected visually because native formula extraction is garbled.
+  The author’s separately retained errata correct test-function separability and a summation index, not
+  Equations 10–11. The full empirical table/figure analysis and cited theoretical dependencies were not
+  audited; no general historical-priority claim is made.
+- The primary publication year and author-hosted copy are retained without inferring a publication day
+  from file metadata. Initial sandbox DNS failures and separate successful acquisition retries remain
+  in the source provenance. Historical research assessed 733 native and 442 pinned AIO records and associated
+  this component with existing frontier owner 200. That dated scope is not a claim of current frontier
+  absence. No author code, calculator, optimizer or benchmark was executed in that research.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T06:13:45Z'
+  updated_at: '2026-10-15T06:13:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
