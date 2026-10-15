@@ -1,0 +1,18 @@
+# Guided Fast Local Search and Peng–Williams source enrichment
+
+2026-10-15T20:34:02Z
+
+- AIMech:GuidedFastLocalSearch (create)
+- AIMech:PengWilliamsQLambda (enrich)
+
+Guided Fast Local Search is the source-defined penalty-to-activation controller joining Guided Local Search and Fast Local Search. It initializes feature penalties to zero and activation bits to one, performs strict local improvement under the current augmented objective, updates selected maximum-utility feature penalties and reactivates affected subneighborhoods. Incumbent comparison uses the original objective. Configuration, neighborhood coverage, reactivation and stopping boundaries remain explicit; this is not a guarantee of a global optimum or an alias for either component.
+
+The existing Peng and Williams Q(lambda) record retains the 1996 journal method as its operational definition, all six claim statements, its qualified ReinforcementLearning mapping and its original source row. Authenticated 1994 author-manuscript evidence is added to the existing trace-order claim. A version limitation distinguishes the earlier greedy-action wording and exploration prose, displayed arg max and missing plus, and separate experimental learning rates and trial resets. These observations are not a formal erratum or a new concept identity.
+
+The accepted Peng proposal changes exactly four semantic paths. Its original timestamp-only native-validation failure and the separately dated passing TEMP projection remain retained. Actual application refreshes updated_at and current identity context while preserving created_at. GFLS retains the accepted nine-target no-match rationale and rejection reasons; only its current search scope, current identity context and actual curation times are refreshed.
+
+Existing owners 266 and 275 receive separate bounded outcomes without new frontier leaves. The historical Cambridge/Rummery discovery pointer is distinct from the acquired Peng papers, and the GFLS chapter/manuscript evidence is distinct from the unacquired Bentley primary. Historical source reading and same-author supporting assessments remain separately attributed. No algorithm execution, completed gate, formal review, family exhaustion or independent approval is implied by this preparation.
+
+Current source-lead assessment: The inspected 2010 author chapter and 1999 primary paper support the named GFLS penalty-to-activation controller with explicit initialization, tie, neighborhood-coverage and convergence limits. The authenticated 1994 Peng author manuscript strengthens the existing 1996 two-error method; preserve its printed equation/action-selection ambiguities and version differences without declaring an erratum. Owner275 is resolved within that bounded controller scope; Bentley approximate 2-opt owner279 remains separate and pending. Owner266 resolves the precursor comparison with explicit limitations, while other trace methods retain their own owners. Two older unrelated pending pointers (Soft Q-learning and Enforced hill climbing/LSS-LRTA-star) are retained in the root reading/decision for separate semantic ownership reconciliation; they do not establish novel concepts or new leaves here.
+
+Existing owners 266 and 275 were updated in place according to the explicit current root decisions. All prior IDs and resolutions, all 907 other main objects and all 393 nested objects remain unchanged. No frontier leaf was appended. Both records remain DRAFT. The Peng operational definition and claim statements remain unchanged; source enrichment is not a correction of a previously unsupported 1996 claim. Gate and formal-review completion are outside this write event.
