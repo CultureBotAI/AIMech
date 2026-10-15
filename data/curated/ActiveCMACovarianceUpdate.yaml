@@ -1,0 +1,162 @@
+id: AIMech:ActiveCMACovarianceUpdate
+name: Active CMA covariance update
+concept_kind: mathematical_method
+aliases: []
+definition: A matrix-valued covariance-update component from the original 2006 active CMA construction
+  that combines retained search covariance and an evolution-path outer product with an equal-weight best-minus-worst
+  mutation-step second moment.
+definition_evidence:
+- source_id: jastrebski2006
+  locator: Section II, PDF p. 2, mutation-step and evolution-path definitions; Section III, PDF p. 3,
+    Equations 5–6.
+  relation: supports
+claims:
+- claim_id: signed-old-mean-mutation-moments
+  kind: mechanism
+  statement: For integer dimension n>=1, positive scale sigma and current positive-definite C=B*D^2*B^T,
+    with orthogonal B and positive diagonal D, write each mutation step as u_i=(offspring_i-old_mean)/sigma=B*D*z_i,
+    where the z_i are independent standard-normal vectors. The source ranks lambda=4*mu offspring, with
+    integer mu>=1, and forms Z=(1/mu)*sum_best_mu(u_i*u_i^T)-(1/mu)*sum_worst_mu(u_i*u_i^T). The two groups
+    have equal weight magnitudes and opposite signs; intermediate ranks do not enter Z. Both moments use
+    the old sampling mean and scale. They are not covariances centered on their selected-group means,
+    and the negative covariance weights do not replace the source mean update with negative recombination
+    weights.
+  evidence:
+  - source_id: jastrebski2006
+    locator: Section II, PDF p. 2, sampling and ranking steps 1–4; Section III, PDF p. 3, Equation 5 and
+      the distinction from weighted mean recombination.
+    relation: supports
+- claim_id: active-path-and-population-update
+  kind: mechanism
+  statement: The source accumulates the selected mean step into p_new=(1-c_C)*p_old+sqrt(mu*c_C*(2-c_C))*mean_best_mu(u_i),
+    with c_C=4/(n+4), and uses C_new=(1-c_cov)*C+c_cov*p_new*p_new^T+beta*Z. The updated path represents
+    accumulated selected mean-step information, whereas Z uses the current generation’s individual best
+    and worst steps. Equation 6 replaces the baseline hybrid coefficient arrangement; it is not obtained
+    by retaining the old alpha mixture unchanged while merely assigning a negative sign to an extra step.
+  evidence:
+  - source_id: jastrebski2006
+    locator: Section II, PDF p. 2, step 5 and Equation 2; Section III, PDF p. 3, Equations 5–6.
+    relation: supports
+- claim_id: source-rates-and-empirical-beta
+  kind: scope
+  statement: For this active rule, the paper sets c_cov=2/(n+sqrt(2))^2 and beta=(4*mu-2)/((n+12)^2+4*mu).
+    The beta expression was fitted after multiplying experimentally selected values by 0.6, using ellipsoid
+    tests at n in {2,3,5,10,20,40,80} and mu in {2,n}, then rounding the fitted coefficients. This is
+    an empirical parameter prescription, not a universally optimal rate or a guarantee that every updated
+    matrix remains positive definite.
+  evidence:
+  - source_id: jastrebski2006
+    locator: Section III, PDF p. 3, c_cov expression following Equation 6; PDF p. 4, beta fitting discussion
+      and Equation 7.
+    relation: supports
+- claim_id: signed-moment-and-definiteness-boundary
+  kind: scope
+  statement: Z is symmetric but can be indefinite, with rank at most min(n,2*mu). The negative summand
+    subtracts the worst-step second moment relative to the same update without that summand; the full
+    update need not decrease every direction. A bounded curator hand example uses n=mu=2, lambda=8, C=I,
+    old_mean=0, sigma=1 and p_old=0, ranking by squared Euclidean norm. Let the best steps be ±(1/2)e2,
+    the middle steps ±e1 and ±2e1, and the worst steps ±6e1. Then p_new=0 and Z=diag(-36,1/4). With the
+    source rates, the first diagonal of C_new is 2*sqrt(2)-52/17<0. Thus even these parameter settings
+    do not preserve positive definiteness for every supplied generation.
+  evidence:
+  - source_id: jastrebski2006
+    locator: Section III, PDF p. 3, Equations 5–6; PDF p. 4, Equation 7 and explicit positive-definiteness
+      warning. The rank bound, directional qualification and two-dimensional example are curator linear
+      algebra from these formulas, not reported author experiments.
+    relation: supports
+- claim_id: neutral-selection-and-zero-path-scope
+  kind: scope
+  statement: 'With a fixed pre-update C, independent zero-mean Gaussian mutation steps with covariance
+    C, and ranking randomized independently of those steps, the best and worst groups have equal expected
+    second moments, so E[Z]=0. This need not hold under fitness-based selection. With p_old=0 under the
+    same neutral law, the first path has E[p_new*p_new^T]=c_C*(2-c_C)*C, giving E[C_new]=[1-c_cov*(1-c_C)^2]*C.
+    This curator first-step calculation qualifies the source’s stationarity motivation: zero initialization
+    is different from a stationary-path idealization. It is not a claim about the full adaptive run.'
+  evidence:
+  - source_id: jastrebski2006
+    locator: Section II, PDF p. 2, zero-path initialization and step 5; Section III, PDF p. 3, random-selection
+      discussion between Equations 5–6. The zero-path expectation is curator algebra under the stated
+      frozen-law assumptions.
+    relation: supports
+- claim_id: original-component-and-host-boundary
+  kind: scope
+  statement: This identity is the original 2006 equal-weight signed covariance-update component, not the
+    whole Active-CMA-ES optimizer. The source host uses unweighted best-offspring mean recombination and
+    a separate cumulative step-size rule with a scalar exponential. That host operation is outside the
+    defining Equations 5–6 component. The new subtractive moment differs from the reviewed positive rank-one
+    or nonnegative hybrid covariance rules. The paper leaves weighted recombination for future work; arbitrary
+    weighted-negative updates and later safeguards are not identified with this original construction.
+  evidence:
+  - source_id: jastrebski2006
+    locator: Section II, PDF pp. 2–3, Equations 1–4 and step 7; Section III, PDF p. 3, Equations 5–6 and
+      exclusion of weighted mean recombination; Section V, PDF pp. 7–8, conclusions and future weighted-recombination
+      work.
+    relation: supports
+identity_notes: This record isolates the original 2006 equal-weight signed covariance component, with
+  best-minus-worst old-mean moments and its combined path update. It is distinct from the maintained 2001
+  CMA base, 2003 nonnegative rank-mu blend, whole Active-CMA-ES, restart controllers and later negative-weight
+  safeguards. Fresh postmerge collection at 1031c6b1f1f4492fbebec6eee1db5a6c68672d9e checked all 737 native
+  and 442 pinned AIO record identities and bytes. Four searches included ignored and hidden files, yielding
+  1,463 occurrences grouped into 26 exact contents; root read all 26 complete contents. No normalized
+  ID, label, alias or scoped-synonym collision was found for the explicit probes. The matches are carried
+  active-covariance leads, unrelated Gaussian-process cross-covariance language, and existing IPOP boundary
+  context. This finding is bounded to the pinned inventory and inspected semantic neighborhoods, not all
+  AI literature. Existing owner 201 is resolved in place with later variants retained.
+evidence_sources:
+- source_id: jastrebski2006
+  title: Improving Evolution Strategies through Active Covariance Matrix Adaptation
+  authors:
+  - Grahame A. Jastrebski
+  - Dirk V. Arnold
+  source_type: primary_paper
+  url: https://web.archive.org/web/20240415103246if_/https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=8f7ccc273a844f585289159793e00dbce0365207
+  persistent_id: https://doi.org/10.1109/CEC.2006.1688662
+  version: IEEE Congress on Evolutionary Computation, 2006; eight-page archived CiteSeer copy. Not asserted
+    byte-identical to an author-hosted or publisher copy. Use PDF-page locators; differing CEC/WCCI proceedings
+    pagination remains unresolved. PDF metadata build date 2006-04-12 is not a publication date.
+  access_level: full_text
+  accessed_at: '2026-10-15T05:58:56Z'
+  sha256: 12328a58db10213cdf23f1b2846a286442371499ffecde408716cad8e4e5ccea
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: related_match
+  rationale: Equations 5–6 define an explicit matrix-valued rule from the current covariance, supplied
+    updated path, ranked mutation steps and scalar rates to a new symmetric matrix. This specific mathematical
+    construction supports the relation, rather than generic computability of a whole optimizer. It asserts
+    neither equivalence nor an upstream subclass edge, scalar activation semantics or universal positive-definite
+    output. The host’s separate exponential step-size operation is not imported.
+limitations:
+- The scope is the original equal-weight best/worst moment and combined covariance rule. The whole Active-CMA-ES
+  optimizer, later unequal-weight negative updates, the distinct (1+1) active method, restart policies
+  and modern implementations are not exact aliases of this component.
+- A positive-definite input matrix does not ensure a positive-definite output. The source says a detected
+  loss can be fixed but does not specify an executable repair. Eigenvalue clipping, step normalization,
+  negative-weight rescaling or exponential covariance updates are not silently added. Good conditioning
+  and stable finite-precision eigendecomposition are separate concerns.
+- A rank or tie policy is required to define the selected groups in general. The source does not fully
+  specify a tie convention. In the hand example, objective ties occur only within pairs whose order does
+  not alter the top or bottom group. This example is not a sampled failure rate or a benchmark replication.
+- The neutral-selection expectation and zero-path calculation use explicitly fixed pre-update covariance
+  and independent random ranking. They do not certify martingale behavior or stationarity throughout an
+  adaptive run. The calculation is curator hand algebra, not an author erratum or an audit of the separate
+  2005 thesis argument cited by the paper.
+- The beta fit and reported comparisons concern the source’s specified tests. Neither the empirical absence
+  of covariance failure in those runs nor the selected rates establish universal stability, speedup, objective
+  improvement or global convergence. No optimizer, author code or benchmark was run, and numerical plot
+  results are not curated here.
+- The primary bytes are an eight-page archived CiteSeer copy, not certified as identical to an author-hosted
+  or publisher copy. Locators use PDF pages; the file’s build date is not the publication date, and differing
+  external proceedings pagination is not resolved by the PDF labels. All eight native-text pages and the
+  defining pages 1–4 visually were inspected in supporting research. The cited thesis and later active-method
+  papers were not fully inspected.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T06:52:10Z'
+  updated_at: '2026-10-15T06:52:10Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
