@@ -1,0 +1,2472 @@
+# Scientific self-review of LPGA, Minimin alpha pruning and historical pointer restoration
+
+- Review: 20261015T222801Z-lpga-minimin-and-historical-pointer-restoration
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-15T22:13:59.877521Z
+- Finished UTC: 2026-10-15T22:28:01.642968Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the source-specific LPGA v3 and Minimin alpha-pruning planner as separate DRAFT concepts. All ten claims and fourteen individual limitations are assessed with exact version and reading scopes. Three declared rows refer to three primary artifacts. LPGA has a qualified Network relation and Minimin a bounded ten-target no-match. Three historical pointers were restored as pending accounting, with existing owner 291 unchanged. The actual LPGA correction, capture, owner preservation, pages and six completed checks are bound. No algorithm execution, global guarantee, independent approval or family exhaustion is implied.
+
+## Scope And Provenance
+
+Complete explicitly selected two-record cohort in the captured current canonical state.
+
+Selection: Exact accepted LowerPowerGeneticAlgorithm v3 and MiniminAlphaPruning candidates, with separately reconciled pending Soft Q-learning, enforced hill-climbing and LSS-LRTA* pointers.
+Coverage: full; 2 reviewed / 2 in the declared population.
+Source: working_tree at Git base 8481972c496a6f9a40d645bb60e25800b6e5f8c3.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:LowerPowerGeneticAlgorithm | data/curated/LowerPowerGeneticAlgorithm.yaml | maintained | Lower Power Genetic Algorithm |
+| AIMech:MiniminAlphaPruning | data/curated/MiniminAlphaPruning.yaml | maintained | Minimin search with alpha pruning |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:LowerPowerGeneticAlgorithm, AIMech:MiniminAlphaPruning | Actual successful command; exact output is retained. |
+| just vendored-check | passed | True | AIMech:LowerPowerGeneticAlgorithm, AIMech:MiniminAlphaPruning | Actual successful command; exact output is retained. |
+| uv run --locked aimech check-source | passed | True | AIMech:LowerPowerGeneticAlgorithm, AIMech:MiniminAlphaPruning | Actual successful command; exact output is retained. |
+| just render | passed | True | AIMech:LowerPowerGeneticAlgorithm, AIMech:MiniminAlphaPruning | Actual successful command; exact output is retained. |
+| just render-check | passed | True | AIMech:LowerPowerGeneticAlgorithm, AIMech:MiniminAlphaPruning | Actual successful command; exact output is retained. |
+| git diff --check | passed | True | AIMech:LowerPowerGeneticAlgorithm, AIMech:MiniminAlphaPruning | Actual successful command; exact output is retained. |
+
+## Scientific And Domain Assessments
+
+### Claim processor-encoding-and-staged-controller
+
+evidence: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+The final statement explicitly applies the accepted refinement: every first-phase schema position is write-enabled, and only the optional CPA-guided phase protects selected positions. The source-specific encoding, finite generation budget and final cut are retained; no connectivity or optimality theorem is asserted.
+
+### Claim swap-only-variation
+
+evidence: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Supported. Swapping entries preserves the label multiset; the source explicitly rejects self-assignment/protected positions and retries. The wording correctly avoids crossover, uniformity, guaranteed nontrivial change or a finite retry guarantee. This is a constrained swap engine for the stated representation, not all genetic algorithms.
+
+### Claim rank-grouped-offspring-and-survival
+
+evidence: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Supported at the printed granularity. The detailed rule sorts by fitness with random ties, assigns k through one quotas and samples one through the assigned maximum; this qualifies the loose proportional-to-fitness prose. Page 5 re-evaluates the parent/offspring pool and retains fitter members. The precise transformation from the minimized reported distance to a descending fitness rank is not supplied, so no reciprocal, sign or exact sampling distribution should be invented.
+
+### Claim critical-path-hit-table-and-protected-schema
+
+evidence: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Supported. All-shortest-path counts are computed first, whereas the hit table selects one path per pair. With multiple paths the chosen path must contain a maximum-count link among that set, not maximize a path sum and not necessarily use an evolving hit count. Ordering by cardinality and configurable popularity retention are faithfully stated. Ties and rounding remain unspecified.
+
+### Claim controller-port-link-removal
+
+evidence: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Supported. Section 3.4 chooses a least-popular link in the hit table and frees its two endpoint channels. The source presents limited deterioration as the aim, not an optimality theorem; the proposal preserves that distinction. CPA remains relevant to cutting even when the optional second GA phase is omitted.
+
+### Limitation 1
+
+scope: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Retain. Visual Equation 1 has the finite upper limit d_max and denominator N squared. It cannot be silently substituted for the unrestricted all-pair mean. Equation 2 separately counts beyond-threshold distances. Native/visual p. 2 has adjacent distance one, while p. 3 defines intermediate processors; the fitness-direction/normalization convention should remain unresolved, not repaired by conjecture. Locator: PDF pp. 2–3, Equations 1–2
+
+### Limitation 2
+
+scope: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Retain. The six-node witness is valid for the source multichannel representation: each of two triples stores each other label once per row, every label appears twice, no self-assignment occurs, and each component gives degree four when stored bidirectional links are counted. The explicit string checks therefore do not entail connectivity. This is not an observed author implementation failure. Locator: PDF p. 3 Figures 4–6; p. 4 mutation checks
+
+### Limitation 3
+
+scope: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Retain. The printed experiment has population 20 and maximum quota k=3; literal equal integer group sizes are impossible. A rounding policy is needed but no particular convention follows. Unspecified row/tie policies do not justify uniformity assumptions. Locator: PDF pp. 4–5
+
+### Limitation 4
+
+scope: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Retain the protection/retry and reachability limits with corrected scope. All-protected schemas can preclude any permissible pair; full writability avoids that protection-induced rejection but does not guarantee a nontrivial mutation for every valid representation. The separate hand witness has only no-op legal swaps in a three-processor example. This is not an observed failure in the 32–40-node trials or at 25% retention. Fixed generations do not certify an optimum. Locator: PDF pp. 4–5
+
+### Limitation 5
+
+scope: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Retain. Shortest-path multiplicity and selected-path hit estimates are internal graph heuristics, not measured traffic. Least hit count need not prove minimum objective deterioration, and enumerating all shortest paths has no general small-cost guarantee. Low/Lower Power is the paper’s simplicity/cost motivation, not physical energy minimization. Locator: PDF p. 5 Sections 3.3–4
+
+### Limitation 6
+
+scope: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Retain. Visual Table 1 confirms n=36 distances 2.39 for LPGA(CPA) versus 2.38 for GAcSP(HC); Table 2 confirms n=34 overshoots 4 versus 3 and further rows where CPA is worse. Page 5 distinguishes five-run mean distance/time from best-observed overshoots and gives no AMP runtime. The dossier appropriately rejects universal consistently-best and speed conclusions. Locator: PDF pp. 5–7; Tables 1–2 visually checked p. 6
+
+### Limitation 7
+
+scope: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Retain. Section 3.1 says Lower Power; Section 4 says Low Power and motivates simplicity/computational cost. The acquired 1996 eight-page method remains the defining version. The retained 1997 PDF receipt reports a scoped 403 attempt, not global inaccessibility. Later GGA pp. 9–10 describe generalization to dynamic penalty-based templates; that does not establish exact 1997 identity or import GGA machinery into the 1996 controller. Locator: PDF pp. 3,5; retained 1997 failure; GGA contextual native pp. 9–10
+
+### Definition and concept granularity
+
+identity: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+The definition selects the 1996 source-specific processor-configuration optimizer: symmetry-based processor-link string encoding, constrained swap mutation, rank-grouped offspring and a final link cut, with an optional CPA-protected second phase. It is not every genetic algorithm or a learned neural network.
+
+### Identity and dated search scope
+
+identity: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Retain LPGA separately from generic GeneticAlgorithm, GuidedGeneticAlgorithm and GuidedLocalSearch. Its problem-specific encoding, offspring selection and optional protection phase define the inspected 1996 method. AMP and GAcSP mentions and the exact 1997 version remain residual context under owner 284, without new records or a family-exhaustion claim. The actual captured identity notes implement the root current collection decisions; the original preview scope remains historical and is recorded in context_changes. Existing owner 284 has the current bounded disposition partially_addressed, with all prior IDs, discovery pointers and resolution objects retained.
+
+### AIO relation direction or explicit no-match
+
+grounding: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+The Network related match is cross-level: the algorithm constructs a processor communication configuration, while the pinned target describes the network being designed. The optimizer itself is not a subclass of that object. Its exact target definition and surrounding inspected nodes support this qualified relation, not an equivalence claim.
+
+### Primary versions, access and reading scope
+
+evidence: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+One declared primary-paper row refers to the acquired 1996 author manuscript. Later 1997 and 2001 context is not substituted for the defining source. Exact bytes, actual acquisition time, page locators and the accepted v3 correction remain bound; full-text access is distinct from benchmark reproduction. The research author and supporting research audit read all eight native-text pages of the defining 1996 paper; visual checks covered pages 3–6. Root separately read all eight native pages and visuals 3–6 under its research acceptance. Root later read the complete v2 draft, the concrete mutation-boundary finding and exact v3 deltas, comparing the v3 preview and support through the static science digest; this is not a claimed second verbatim reading of unchanged v3 science. The 2001 context and the uninspected exact 1997 version remain distinct. No author algorithm, experiments or benchmark reproduction were run. This review-data assembly adds no new primary reading.
+
+### Concept kind and scientific boundaries
+
+scope: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+Algorithm denotes the complete optimization procedure, including its final link-cut step even when the optional second phase is omitted. In the first phase all positions are write-enabled; that avoids protection-induced rejection but does not guarantee a nontrivial mutation. Finite generation limits provide no local- or global-optimality certificate.
+
+### Claim bounded-minimum-backup
+
+evidence: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Supported as a bounded planning computation. Both source versions distinguish one-agent minimum backup from minimax. The path cost is relative to the current planning root; move depth is not a uniform cost threshold. The clipped 1990 p. 4 text is corroborated by the clean 1988 p. 1, not silently reconstructed as pristine.
+
+### Claim terminal-evaluation
+
+evidence: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Supported by the 1990 terminal conventions. A goal contributes zero remaining heuristic but keeps its path cost; a nongoal dead end gets infinity. The conditional finite-alternative phrasing avoids inferring a viable action when all options are infinite or missing.
+
+### Claim monotonic-alpha-cutoff
+
+evidence: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Supported under the stated path monotonicity. For a fixed heuristic and path-cost reference, edge consistency gives f(child)-f(parent)=edge cost+h(child)-h(parent)&gt;=0. An incumbent from an actually evaluated terminal/frontier therefore rules out a strictly better descendant behind a cutoff. The hand witness shows admissibility alone is insufficient; tied minimizers need not all survive.
+
+### Claim complete-child-values
+
+evidence: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Supported by the explicit 1990 per-child reset. A shared incumbent can identify the best direction while leaving another child with only a bound; that is insufficient for the separate RTA* second-best bookkeeping. Each child must use a consistent path-cost origin so its incoming edge is counted once.
+
+### Claim planning-component-boundary
+
+evidence: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Supported as a concept boundary rather than a guarantee transfer. The planner can supply an improved heuristic; execution tables, repeated-trial learning and the 1988 recursive graph-correction sketch are distinct mechanisms. Their eventual-goal or convergence statements are not inherited by minimin pruning alone.
+
+### Limitation 1
+
+scope: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Retain. The edge-consistency condition is explicit in the 1990 account. The finite positive-cost hand witness has admissible estimates yet f decreases below a pruned interior value, so admissibility alone cannot establish cutoff correctness. This is a constructed boundary, not an observed implementation failure. Locator: 1990 PDF pp. 5–6,12
+
+### Limitation 2
+
+scope: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Retain. Cutting on equality can discard tied leaves while retaining the minimum value. All-infinite or empty choices do not establish a solution; finite-precision tolerance and failure/tie policies are not supplied by the mathematical cutoff. Locator: 1990 PDF pp. 5–6
+
+### Limitation 3
+
+scope: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Retain. A depth-one root with a goal at cost 5 and a non-goal at cost 1, all h=0, has consistent estimates yet selects the non-goal frontier. Thus the p. 10 goal-in-horizon wording does not support an unrestricted nonuniform-cost theorem. This is a bounded hand qualification, not a formal erratum. Locator: 1990 PDF pp. 5,10
+
+### Limitation 4
+
+scope: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Retain. The positive reversible x-y cost-one link and x-goal cost-100 link, with h=0 and depth one, make memoryless replanning alternate x and y. RTA* execution memory or LRTA* learning is additional machinery, not part of the alpha cutoff. Locator: 1990 PDF pp. 10–12,18–19
+
+### Limitation 5
+
+scope: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Retain. Fixed move depth bounds work only under finite bounded branching and evaluation costs, with an unpruned tree potentially exponential in depth. Branch order changes cutoff work. The source reports immediate-f ordering overhead, not a general faster procedure. Locator: 1990 PDF pp. 8–10
+
+### Limitation 6
+
+scope: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Retain. The independent zero/one-increment analytic model has explicit assumptions and the 1990 text reports mismatch with the sliding-tile experiments. Neither branching-factor nor lookahead-depth gains are universal. The preparation makes no new empirical reproduction or figure-value certification. Locator: 1990 PDF pp. 7–9,16–18
+
+### Limitation 7
+
+scope: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Retain. The source versions differ in monotonicity wording and empirical/model emphasis. The 1988 graph-correction sketch explicitly omits its proof; the 1990 paper does not supply a complete replacement specification and qualifies graph local optimality. That residual belongs to owner 291 and is not resolved by this planner record. Locator: 1988 PDF pp. 1,3–4; 1990 PDF pp. 5,8,15
+
+### Definition and concept granularity
+
+identity: supported. Targets: AIMech:MiniminAlphaPruning.
+
+The definition selects bounded single-agent lookahead with minimum backup, an incumbent alpha cutoff under heuristic consistency, and the stated per-immediate-child reset. It is a planning procedure rather than RTA* execution control or LRTA* learning.
+
+### Identity and dated search scope
+
+identity: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Retain Minimin alpha pruning separately from RTA*, LRTA*, A*, IDA* and graph-corrected RTA*. Shared heuristic values or tree exploration do not equate these planning, execution and learning mechanisms. Owner 290 addresses the bounded lookahead/pruning question with limitations; the separately scoped graph-correction lead at owner 291 stays unchanged. The actual captured identity notes implement the root current collection decisions; the original preview scope remains historical and is recorded in context_changes. Existing owner 290 has the current bounded disposition addressed_with_limitations, with all prior IDs, discovery pointers and resolution objects retained.
+
+### AIO relation direction or explicit no-match
+
+grounding: supported. Targets: AIMech:MiniminAlphaPruning.
+
+The ten exact pinned AIO definitions do not identify this bounded search planner. A state graph alone does not substantiate a Network mapping, function evaluation alone does not identify MathematicalFunction, and simulated lookahead does not require reinforcement learning or language modeling. The explicit no-match is limited to the inspected nodes and actual refreshed scope. The actual no-match search_scope is the separately recorded current root assessment; its accepted rationale and ten examined-target rejections remain unchanged.
+
+### Primary versions, access and reading scope
+
+evidence: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Two declared primary-paper rows retain the acquired 1990 operational account and 1988 precursor. The latter metric shorthand, optimistic model discussion and omitted graph-correction proof do not replace the later consistency formulation. Actual October 11 acquisition times remain historical; no new source download or performance reproduction is implied. The research author read native text of the 23-page 1990 article and six-page 1988 paper, with visual checks of 1990 pages 4–6, 8, 10 and 15 and 1988 pages 1 and 4. Root separately read 1990 native pages 1–12 and 15–19 with visuals 4–6, 10 and 15, and 1988 native/visual pages 1 and 4. Garbled extraction was checked against defining formula/page images rather than treated as reliable typography throughout. The per-immediate-child witness addendum is separate from the original hand analysis. No complete proof certification, figure-value reproduction, execution or independent peer primary pass is claimed. This review-data assembly adds no new source reading.
+
+### Concept kind and scientific boundaries
+
+scope: supported. Targets: AIMech:MiniminAlphaPruning.
+
+Algorithm denotes a bounded tree exploration and minimum-backup procedure with a consistency-dependent cutoff. It is not an optimality, execution-completeness or real-time complexity guarantee. Equal minima may be pruned, and per-child incumbent reset preserves separate child estimates rather than imposing one unqualified global cutoff.
+
+### Soft Q-learning main pointer
+
+provenance: supported. Targets: AIMech:LowerPowerGeneticAlgorithm, AIMech:MiniminAlphaPruning.
+
+Soft Q-learning main pointer was restored exactly from the retained proposal after current root reconciliation. It remains pending inspection, not a native method acceptance or a newly discovered lead. Root current reconciliation: The historical source pointer remains explicit in older reports and contextual carry notes, but the current complete frontier label projection and scoped normalized identities contain no equivalent explicit owner or record. Restore the original SAC-paper provenance as one pending main pointer, linked to existing SAC and Q-learning; later TEMP research is separate from this accounting repair.
+
+### Enforced hill-climbing main pointer
+
+provenance: supported. Targets: AIMech:LowerPowerGeneticAlgorithm, AIMech:MiniminAlphaPruning.
+
+Enforced hill-climbing main pointer was restored exactly from the retained proposal after current root reconciliation. It remains pending inspection, not a native method acceptance or a newly discovered lead. Root current reconciliation: The old composite EHC/LSS pointer is retained in historical reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not resolve the named breadth-first escape controller or whole-FF boundary. Restore one pending EHC main pointer with the original comparison URL and original-primary next check; preserve both old owners.
+
+### LSS-LRTA* nested residual
+
+provenance: supported. Targets: AIMech:LowerPowerGeneticAlgorithm, AIMech:MiniminAlphaPruning.
+
+LSS-LRTA* nested residual was restored exactly from the retained proposal after current root reconciliation. It remains pending inspection, not a native method acceptance or a newly discovered lead. Root current reconciliation: Current owners 8 and 3 already retain broader real-time-search residuals and owner 286 represents basic LRTA*. Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved graph-correction owner 291; no independent second responsible owner or source-method acceptance is created.
+
+### LPGA mutation-boundary finding and issue 394
+
+scope: supported. Targets: AIMech:LowerPowerGeneticAlgorithm.
+
+The actual LPGA record contains the accepted v3 limitation: fully writable phase-one positions remove protection-induced rejection but do not guarantee a nontrivial mutation. The concrete v2 finding, manual witness, correction, original validation and later exact root acceptance remain retained. The actual scientific/governance assessments bind the corrected canonical science. Issue 394 closure remains a subsequent reviewed-PR action; no historical formal finding or independent approval is invented.
+
+### Actual record, restored accounting, history, capture, pages and checks
+
+provenance: supported. Targets: AIMech:LowerPowerGeneticAlgorithm, AIMech:MiniminAlphaPruning.
+
+The two current records equal the actual write/report entries and accepted science: ten claims and fourteen individual limitations from three distinct primary papers. Five files were created, including one CREATE report history. Only existing owners 284 and 290 changed; 907 other main objects and all 393 old nested objects are preserved, including owner 291. Two exact historical main pointers and one nested residual were appended as pending accounting; new_frontier is empty. LPGA v3 resolves the retained mutation-boundary wording finding without promising a useful swap. Every captured input and actual rendered-page hash was checked and six required checks passed. Two separate historical ownership findings remain explicitly pending in the root decisions and issues 397/398; this is not a globally findings-free ledger. No family exhaustion or independent approval is implied.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:LowerPowerGeneticAlgorithm. Retain LPGA separately from generic GeneticAlgorithm, GuidedGeneticAlgorithm and GuidedLocalSearch. Its problem-specific encoding, offspring selection and optional protection phase define the inspected 1996 method. AMP and GAcSP mentions and the exact 1997 version remain residual context under owner 284, without new records or a family-exhaustion claim.
+- retain: AIMech:MiniminAlphaPruning. Retain Minimin alpha pruning separately from RTA*, LRTA*, A*, IDA* and graph-corrected RTA*. Shared heuristic values or tree exploration do not equate these planning, execution and learning mechanisms. Owner 290 addresses the bounded lookahead/pruning question with limitations; the separately scoped graph-correction lead at owner 291 stays unchanged.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| preview-lpga | /private/tmp/aimech-lpga-mutation-boundary-successor-20261015/native-preview.json | context_only | Actual authorized TEMP native preview; canonical correspondence requires later actual bytes. |
+| support-lpga | /private/tmp/aimech-lpga-mutation-boundary-successor-20261015/scientific-support.v3.json | context_only | Exact claim and individual limitation support. Historical null acceptance fields retain their preparation meaning. |
+| draft-acceptance-lpga | /private/tmp/aimech-lpga-mutation-boundary-successor-20261015/root-draft-acceptance.json | context_only | Later exact root acceptance with its stated reading scope; the actual native validation preceded it. |
+| preview-validation-lpga | /private/tmp/aimech-lpga-mutation-boundary-successor-20261015/native-preview-validation.json | context_only | Actual single TEMP data assembly and native schema validation, not source-algorithm execution or current identity clearance. |
+| source-reading-lpga | /private/tmp/aimech-lpga-draft-preparation-20261015/reading.json | context_only | The research author and supporting research audit read all eight native-text pages of the defining 1996 paper; visual checks covered pages 3–6. Root separately read all eight native pages and visuals 3–6 under its research acceptance. Root later read the complete v2 draft, the concrete mutation-boundary finding and exact v3 deltas, comparing the v3 preview and support through the static science digest; this is not a claimed second verbatim reading of unchanged v3 science. The 2001 context and the uninspected exact 1997 version remain distinct. No author algorithm, experiments or benchmark reproduction were run. This review-data assembly adds no new primary reading. |
+| preparation-reading-lpga | /private/tmp/aimech-lpga-draft-preparation-20261015/reading.json | context_only | Original preparation reading ledger; this review-data assembly adds no primary pass. |
+| root-research-lpga | /private/tmp/aimech-lpga-research-20261015/root-research-acceptance.json | context_only | Actual scoped root research acceptance, separate from exact draft acceptance and future canonical creation. |
+| source-version-lpga | /private/tmp/aimech-lpga-draft-preparation-20261015/source-context.json | context_only | One declared primary-paper row refers to the acquired 1996 author manuscript. Later 1997 and 2001 context is not substituted for the defining source. Exact bytes, actual acquisition time, page locators and the accepted v3 correction remain bound; full-text access is distinct from benchmark reproduction. |
+| hand-analysis-lpga | /private/tmp/aimech-lpga-supporting-research-audit-20261015/hand-analysis.json | context_only | Bounded source interpretations and manual witnesses, not executed algorithms or complete proof certification. |
+| historical-identity-lpga | /private/tmp/aimech-lpga-research-20261015/identity/collection.json | context_only | Dated ignored- and hidden-inclusive research collection; no future merged-base clearance. |
+| preview-minimin | /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/native-preview.json | context_only | Actual authorized TEMP native preview; canonical correspondence requires later actual bytes. |
+| support-minimin | /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/scientific-support.v2.json | context_only | Exact claim and individual limitation support. Historical null acceptance fields retain their preparation meaning. |
+| draft-acceptance-minimin | /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/root-draft-acceptance.json | context_only | Later exact root acceptance with its stated reading scope; the actual native validation preceded it. |
+| preview-validation-minimin | /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/native-preview-validation.json | context_only | Actual single TEMP data assembly and native schema validation, not source-algorithm execution or current identity clearance. |
+| source-reading-minimin | /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/reading.json | context_only | The research author read native text of the 23-page 1990 article and six-page 1988 paper, with visual checks of 1990 pages 4–6, 8, 10 and 15 and 1988 pages 1 and 4. Root separately read 1990 native pages 1–12 and 15–19 with visuals 4–6, 10 and 15, and 1988 native/visual pages 1 and 4. Garbled extraction was checked against defining formula/page images rather than treated as reliable typography throughout. The per-immediate-child witness addendum is separate from the original hand analysis. No complete proof certification, figure-value reproduction, execution or independent peer primary pass is claimed. This review-data assembly adds no new source reading. |
+| preparation-reading-minimin | /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/reading.json | context_only | Original preparation reading ledger; this review-data assembly adds no primary pass. |
+| root-research-minimin | /private/tmp/aimech-minimin-alpha-research-20261015/root-research-acceptance.json | context_only | Actual scoped root research acceptance, separate from exact draft acceptance and future canonical creation. |
+| source-version-minimin | /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/source-context.json | context_only | Two declared primary-paper rows retain the acquired 1990 operational account and 1988 precursor. The latter metric shorthand, optimistic model discussion and omitted graph-correction proof do not replace the later consistency formulation. Actual October 11 acquisition times remain historical; no new source download or performance reproduction is implied. |
+| hand-analysis-minimin | /private/tmp/aimech-minimin-alpha-research-20261015/hand-analysis.json | context_only | Bounded source interpretations and manual witnesses, not executed algorithms or complete proof certification. |
+| historical-identity-minimin | /private/tmp/aimech-minimin-alpha-research-20261015/identity/collection.json | context_only | Dated ignored- and hidden-inclusive research collection; no future merged-base clearance. |
+| src-lau-tsang1996 | /private/tmp/aimech-lpga-research-20261015/lau-tsang1996-author.pdf | supports | 1996 ICTAI author-hosted eight-page conference manuscript. Locators use physical PDF pages 1–8; final IEEE pages 17–24 are publication metadata and are not printed on this acquired artifact. The research author and supporting research audit read all eight native-text pages of the defining 1996 paper; visual checks covered pages 3–6. Root separately read all eight native pages and visuals 3–6 under its research acceptance. Root later read the complete v2 draft, the concrete mutation-boundary finding and exact v3 deltas, comparing the v3 preview and support through the static science digest; this is not a claimed second verbatim reading of unchanged v3 science. The 2001 context and the uninspected exact 1997 version remain distinct. No author algorithm, experiments or benchmark reproduction were run. This review-data assembly adds no new primary reading. |
+| src-korf1990 | /private/tmp/aimech-round64-papers/korf1990.pdf | supports | Artificial Intelligence 42 (1990), 189–211. Journal scan; received October 1987, revised September 1988. DOI 10.1016/0004-3702(90)90054-4. The 23 physical PDF pages correspond to printed 189–211. The research author read native text of the 23-page 1990 article and six-page 1988 paper, with visual checks of 1990 pages 4–6, 8, 10 and 15 and 1988 pages 1 and 4. Root separately read 1990 native pages 1–12 and 15–19 with visuals 4–6, 10 and 15, and 1988 native/visual pages 1 and 4. Garbled extraction was checked against defining formula/page images rather than treated as reliable typography throughout. The per-immediate-child witness addendum is separate from the original hand analysis. No complete proof certification, figure-value reproduction, execution or independent peer primary pass is claimed. This review-data assembly adds no new source reading. |
+| src-korf1988 | /private/tmp/aimech-round64-papers/korf1988.pdf | supports | AAAI-88 proceedings, 139–144; six-page conference paper. The graph-correction sketch in Section 3.2 is explicitly version-specific. The research author read native text of the 23-page 1990 article and six-page 1988 paper, with visual checks of 1990 pages 4–6, 8, 10 and 15 and 1988 pages 1 and 4. Root separately read 1990 native pages 1–12 and 15–19 with visuals 4–6, 10 and 15, and 1988 native/visual pages 1 and 4. Garbled extraction was checked against defining formula/page images rather than treated as reliable typography throughout. The per-immediate-child witness addendum is separate from the original hand analysis. No complete proof certification, figure-value reproduction, execution or independent peer primary pass is claimed. This review-data assembly adds no new source reading. |
+| restoration-proposal | /private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json | context_only | Historical provenance or bounded supporting analysis; not primary mechanism evidence. |
+| issue-soft-q | /private/tmp/aimech-20261015-soft-q-issue-publication.json | context_only | Historical provenance or bounded supporting analysis; not primary mechanism evidence. |
+| issue-ehc-lss | /private/tmp/aimech-20261015-ehc-lss-issue-publication.json | context_only | Historical provenance or bounded supporting analysis; not primary mechanism evidence. |
+| issue-lpga | /private/tmp/aimech-20261015-lpga-issue-publication.json | context_only | Historical provenance or bounded supporting analysis; not primary mechanism evidence. |
+| lpga-v2-finding | /private/tmp/aimech-lpga-draft-peer-audit-20261015/assessment.v2.json | context_only | Historical provenance or bounded supporting analysis; not primary mechanism evidence. |
+| lpga-successor-assessment | /private/tmp/aimech-lpga-mutation-boundary-successor-20261015/successor-assessment.json | context_only | Historical provenance or bounded supporting analysis; not primary mechanism evidence. |
+| lpga-correction | /private/tmp/aimech-lpga-mutation-boundary-successor-20261015/correction.prevalidation.json | context_only | Historical provenance or bounded supporting analysis; not primary mechanism evidence. |
+| minimin-per-child-addendum | /private/tmp/aimech-minimin-alpha-research-20261015/hand-analysis-per-child-addendum.json | context_only | Historical provenance or bounded supporting analysis; not primary mechanism evidence. |
+| actual-write | /private/tmp/aimech-lpga-minimin-cohort352-write.json | context_only | Actual exclusive creation receipt: two records, report pair and one CREATE history. |
+| captured-inputs | /private/tmp/aimech-cohort352-capture.json | context_only | Actual canonical inspection; every current input hash and maintained target was checked. |
+| postcapture-reading | /private/tmp/aimech-cohort352-postcapture-root-reading.json | context_only | Historical root reading receipt, recorded 2026-10-15T22:16:49.624074Z: Root read the complete actual two YAML records, report Markdown and CREATE history; current report metadata/context substitutions, selected and restoration owners, complete restoration projection, deferred397398 findings and exact actual capture metadata/46refs. Prior accepted primary readings and all source-scoped claim/limitation/mapping content remain attributed. Actual scientific assessment read with truncated middle recovered; auditor-only hash-representation correction retained. Actual governance633checks and seven-page parsed content audit read; no browser or blanket fresh reading of all46implementation/context files claimed. Static review narratives are undergoing correction before generation/save; those corrections require distinct exact-data acceptance. The governance reading ledger time22:15UTC is approximate wording, not a separate event timestamp; receipt timestamps establish execution order. Required command logs independently establish any future gate result. Any future-event wording belongs to that earlier receipt; the later six check logs establish completion before this review was generated, while canonical save remains subsequent. |
+| governance-assessment | /private/tmp/aimech-cohort352-governance-audit-20261015/assessment.json | context_only | Actual byte preservation, owner/frontier, history and parsed-page audit; no independent approval. |
+| rendered-pages | /private/tmp/aimech-cohort352-governance-audit-20261015/rendered-pages.json | context_only | Actual generated page paths and bytes, with parsed-content correspondence; no browser/layout inspection. |
+| actual-scientific-assessment | /private/tmp/aimech-cohort352-actual-scientific-audit-v2-20261015/assessment.json | context_only | Same-author actual-record adversarial assessment with separately attributed primary reading. |
+| current-identity-collection | /private/tmp/aimech-cohort352-identity-20261015/collection.json | context_only | Current four-root ignored- and hidden-inclusive identity collection; mechanical coverage is distinct from attributed semantic reading. |
+| current-context-assessment | /private/tmp/aimech-cohort352-combined-identity-assessment-20261015/assessment.json | context_only | Actual supporting interpretation of retained matched contexts; root and supporting scopes remain separate. |
+| root-decisions | /private/tmp/aimech-cohort352-identity-20261015/root-decisions.json | context_only | Actual root identity, owner and source-lead decisions: owner 284 remains partial, owner 290 addresses bounded Minimin scope, owner 291 stays unchanged, and three historical pending pointers are separately reconciled. |
+| scientific-support | /private/tmp/aimech-cohort352-review-narrative-successor-20261015/scientific-support.prepared.json | context_only | Exact accepted claim and limitation support; historical and later source/math scopes remain separate. |
+| discovery-report | /private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T220733Z-lpga-minimin-and-restored-historical-pointers.json | context_only | Current record/context/owner mirrors and exactly three restored pending pointers. Two additional historical ownership gaps are retained explicitly for separate repair; no newly established concept is inferred from them. |
+| deferred-accounting-findings | /private/tmp/aimech-cohort352-context350-699-20261015/historical-accounting-followups.json | context_only | Two pre-existing historical ownership findings with exact original objects and bounded current comparisons, retained for separate reconciliation. |
+| deferred-accounting-issues | /private/tmp/aimech-cohort352-historical-review-issue-posting.json | context_only | Actual posting of issues 397 and 398; this review does not assert those separate repairs or close their issues. |
+| creation-history | /private/tmp/aimech-discovery-recovery-worktree-20261012/history/reports/lpga-minimin-and-restored-historical-pointers/2026-10-15T220806Z-codex-7e6e51.yaml | context_only | Actual CREATE report history covers two new records and restored historical accounting; no old report is edited. |
+| record-lpga | /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/LowerPowerGeneticAlgorithm.yaml | context_only | Complete current DRAFT record equals accepted science and actual root identity decisions. |
+| record-minimin | /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/MiniminAlphaPruning.yaml | context_only | Complete current DRAFT record equals accepted science and actual root identity decisions. |
+| check-gate | /private/tmp/aimech-cohort352-check-gate.json | context_only | Actual required command completed successfully before this review generation. |
+| check-vendor | /private/tmp/aimech-cohort352-check-vendor.json | context_only | Actual required command completed successfully before this review generation. |
+| check-check-source | /private/tmp/aimech-cohort352-check-check-source.json | context_only | Actual required command completed successfully before this review generation. |
+| check-render | /private/tmp/aimech-cohort352-check-render.json | context_only | Actual required command completed successfully before this review generation. |
+| check-render-check | /private/tmp/aimech-cohort352-check-render-check.json | context_only | Actual required command completed successfully before this review generation. |
+| check-diff | /private/tmp/aimech-cohort352-check-diff.json | context_only | Actual required command completed successfully before this review generation. |
+| review-narrative-findings | /private/tmp/aimech-cohort352-review-narrative-successor-20261015/findings.json | context_only | Two TEMP review source-fidelity findings, corrected before saving; canonical records were unaffected. |
+| review-narrative-correction | /private/tmp/aimech-cohort352-review-narrative-successor-20261015/root-acceptance.json | context_only | Root read and accepted five narrow DATA field corrections with originals and exact diffs retained. |
+| review-narrative-issue | /private/tmp/aimech-cohort352-review-narrative-issue-posting.json | context_only | Actual issue399 posting; closure remains a subsequent reviewed merge action. |
+
+## Limits And Additional Notes
+
+- Source, root and supporting assessments remain separately attributed; this is a self-review, not independent approval.
+- LPGA is the source-specific 1996 optimizer. Its fully writable first phase can have no nontrivial valid swap, while legal within-row no-op swaps remain in the stated witness. A restrictive schema can instead leave no legal pair. A finite generation budget gives no optimality certificate.
+- The original LPGA v2 mutation-boundary finding, its actual accepted v3 correction and issue 394 remain retained. The captured canonical statement equals that corrected limitation; issue closure remains a subsequent reviewed-PR action.
+- Minimin cutoff validity requires consistency along searched edges, not merely admissibility. The per-child-reset hand witness is explicitly embedded beneath a positive-cost prefix; original and added analysis remain distinct.
+- Finite lookahead neither certifies globally shortest solutions nor imports RTA* execution completeness or LRTA* learning. Source experiments and the independent increment model have stated boundaries; no numerical reproduction or algorithm execution is claimed.
+- Three declared source rows refer to three distinct acquired primary papers. The exact 1997 LPGA version remains unread; the 1988 and 1990 Minimin accounts retain their version-specific qualifications.
+- Authorized native validation preceded exact root draft acceptance. Original static null fields remain historical, and later actual acceptance binds the original validation without backdating.
+- The three restored pointers remain pending inspection, are not newly discovered methods and do not create native records. Existing owner objects are retained except the explicit 284/290 outcome changes; owner 291 remains unchanged.
+- Historical research identity scopes remain dated. Fresh actual collection and root decisions are required for current candidate clearance and pointer reconciliation.
+- Two source-fidelity errors in the prepared review were corrected before save: unsupported linked-list terminology and conflation of no nontrivial valid swap with no legal pair. Exact original artifacts and five-field successor deltas are retained under issue399; canonical science was already correct. Issue closure requires the actual reviewed merge.
+- Actual five creation outputs, one CREATE history, 7 generated pages and 46 capture inputs are assessed through separate receipts. Six required checks passed; any failed attempts remain explicit. Parsed HTML is not browser/layout inspection. Canonical review save/check and publication remain separate actions.
+- Historical root reading receipt, recorded 2026-10-15T22:16:49.624074Z: Root read the complete actual two YAML records, report Markdown and CREATE history; current report metadata/context substitutions, selected and restoration owners, complete restoration projection, deferred397398 findings and exact actual capture metadata/46refs. Prior accepted primary readings and all source-scoped claim/limitation/mapping content remain attributed. Actual scientific assessment read with truncated middle recovered; auditor-only hash-representation correction retained. Actual governance633checks and seven-page parsed content audit read; no browser or blanket fresh reading of all46implementation/context files claimed. Static review narratives are undergoing correction before generation/save; those corrections require distinct exact-data acceptance. The governance reading ledger time22:15UTC is approximate wording, not a separate event timestamp; receipt timestamps establish execution order. Required command logs independently establish any future gate result. Any future-event wording belongs to that earlier receipt; the later six check logs establish completion before review generation, while canonical save remains subsequent.
+- Four current ignored/hidden-inclusive roots;23247occurrences in1030 distinct contents, all content read in three attributed supporting partitions. Root focused candidate/restoration full-content reading, eight normalized identity/definition rows14contextfields, every matching field for43frontierobjects, selected owners284/290 and all six restoration context owners. Findings[] pertains to current candidate failures; two historical accounting findings remain open397398. Selected ten pinned AIO context definitions/synonyms/edges assessed in earlier accepted primary research; no universal absence claim.
+- The fully inspected 1996 LPGA paper supports the processor-configuration two-phase genetic algorithm; the exact 1997 version remains unread and owner 284 stays partial. The v3 limitation preserves the fully writable phase counterexample without asserting experimental failure. Korf 1988 and 1990 support Minimin alpha-pruned lookahead with explicit consistency and per-child incumbent-reset conditions; RTA* execution and owner 291 graph correction remain distinct. Restore the historical Soft Q, enforced hill climbing and LSS-LRTA* accounting with original source provenance and pending method dispositions. Their restoration does not add three concepts or establish scientific novelty. Subsequent Soft Q TEMP research is separately retained and does not change this bounded accounting-only restoration or constitute canonical acceptance. No family exhaustion is asserted. The current complete matching-content audit also found two pre-existing historical ownership gaps: the MREC/MA-star/SMA-star/iterative-threshold family and Russell 1992 Iterative expansion. Their complete findings and next checks are retained in deferred_historical_accounting_findings and open issues 397/398 for a separate reconciled ledger repair. They are not counted as newly established concepts or silently discarded. The Korf 1986 erratum remains an existing IDA*/DFID source-access residual.
+- Source acquisition, historical identity, selected primary reading, hand analysis, native validation and exact root acceptance retain separate scopes and timestamps. This generator adds no new primary reading.
+- Both native validations preceded exact draft acceptance and retain their original null root_draft_acceptance fields. Later actual acceptances bind those original previews without backdating or a new invocation.
+- The LPGA v2 finding and accepted v3 correction remain explicit. Fully writable positions do not guarantee a nontrivial mutation. The exact 1997 version and AMP/GAcSP context remain residual under owner 284.
+- Minimin consistency and per-child reset bound pruning; the positive-prefix witness addendum remains separate. Owner 291 graph correction is untouched.
+- Soft Q-learning and enforced hill climbing are restored pending main pointers; LSS-LRTA* is a pending nested residual under owner 8 with cross-links to 3 and 286. Restoring accounting is not original-method acceptance or discovery of three new concepts. Issues 392, 393 and 394 may close only through the actual reviewed publication after this state is verified.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261015T222801Z-lpga-minimin-and-historical-pointer-restoration
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of LPGA, Minimin alpha pruning and historical pointer
+  restoration
+started_at: '2026-10-15T22:13:59.877521Z'
+finished_at: '2026-10-15T22:28:01.642968Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root author assessment with attributed same-author source and
+    mathematical supporting agents; no independent scientific approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the source-specific LPGA v3 and Minimin alpha-pruning planner as separate
+  DRAFT concepts. All ten claims and fourteen individual limitations are assessed
+  with exact version and reading scopes. Three declared rows refer to three primary
+  artifacts. LPGA has a qualified Network relation and Minimin a bounded ten-target
+  no-match. Three historical pointers were restored as pending accounting, with existing
+  owner 291 unchanged. The actual LPGA correction, capture, owner preservation, pages
+  and six completed checks are bound. No algorithm execution, global guarantee, independent
+  approval or family exhaustion is implied.
+source:
+  git_revision: 8481972c496a6f9a40d645bb60e25800b6e5f8c3
+  state: working_tree
+  inputs:
+  - path: .claude/skills/review-category/SKILL.md
+    sha256: 553c3870c1dfc127f90f196b7b212b644706d4c26e2a578ab615ccce588070d7
+    role: context
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/GraphLanguageModel.yaml
+    sha256: 1cdda6f7d19946e0672835185e179e2336832225c180e2b70d7860b0c96fc2a8
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/Network.yaml
+    sha256: ec24eb397241fe903137b2d8c8f4081d0f9d246c296c247864f199e160a3ee30
+    role: context
+  - path: data/aio/NeuroSymbolicLLM.yaml
+    sha256: d82fe65db45394cc57d77160a5a2176b1244d54000acff6f9362809c8c8524fb
+    role: context
+  - path: data/aio/ReasoningLLM.yaml
+    sha256: 5ceb143da4d5ac2c3bdc430596e21d48943caaa848ae20abf92c791d69a90bfd
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/AStarSearch.yaml
+    sha256: 685cfd5d6b4eaf0811d597e93e117ad065857d5707f0040420d3e6885f520b8d
+    role: context
+  - path: data/curated/BreadthFirstSearch.yaml
+    sha256: 25594b4ff18b87ff44d5a00667bf64b06aac662f55baaf6190c2d170d6408748
+    role: context
+  - path: data/curated/CovarianceMatrixAdaptationEvolutionStrategy.yaml
+    sha256: 7018c9916e78f34ba32a3a9d46e694d2a78c17a6e7222d9050d305eedf96ed06
+    role: context
+  - path: data/curated/DepthFirstSearch.yaml
+    sha256: 060134862e6bb35089311a0fc2b1c7cd91f408556660f856d11e8bc4762ab6a6
+    role: context
+  - path: data/curated/FastLocalSearch.yaml
+    sha256: 2344a8d777fa40a5b41ae91d57337d9883c197b9fe3a13a991a79f2bc616a963
+    role: context
+  - path: data/curated/GeneticAlgorithm.yaml
+    sha256: d40bf1a03e29a3ca6bf88f6553f18c6b1559baf56da6a21d63b54163f4752ceb
+    role: context
+  - path: data/curated/GuidedGeneticAlgorithm.yaml
+    sha256: 836ba491e26b23b5b8d6f42c966b2853b363ece1306bc26ef7cb9f7443f0ea57
+    role: context
+  - path: data/curated/GuidedLocalSearch.yaml
+    sha256: 91618dff5e0ed6681aad81deb9be9c8e35ed43b42acad285ef473916852cdebc
+    role: context
+  - path: data/curated/HillClimbing.yaml
+    sha256: 1f63c3e6341fecd3c78e00ae3ced9898c070ba9565dccc5511f3c67e6ea29476
+    role: context
+  - path: data/curated/IterativeDeepeningAStar.yaml
+    sha256: 0a9b9b571f3e7179658db63ce60f2e4febac10c4470212b5b0270b86b9eeac6c
+    role: context
+  - path: data/curated/LearningRealTimeAStar.yaml
+    sha256: 189cfd138de434f3bf350bcf5a18684712c602fc96b3f4ba0abeed5f80e65ceb
+    role: context
+  - path: data/curated/LowerPowerGeneticAlgorithm.yaml
+    sha256: 824294a192b8249d3cf64e579bb95200e03cb9d6b77af576865f442666979859
+    role: target
+  - path: data/curated/MiniminAlphaPruning.yaml
+    sha256: 505221f4325e60c6de5494ccd0afac193b394c57bf3687d334741327eeb461a3
+    role: target
+  - path: data/curated/PopulationBasedIncrementalLearning.yaml
+    sha256: fb2500f70c8a0cf57639b33f7f89acf9f141adf75a238aa248e784afc09866d2
+    role: context
+  - path: data/curated/QLearning.yaml
+    sha256: bcbd0f51f46e91ba6d88c9dc84baa9656aef82282c5c56d887ca81ff5182eb95
+    role: context
+  - path: data/curated/RealTimeAStar.yaml
+    sha256: 4c3378011e027f000c548f4fc56cd67b139c821cc157efe2f1bcf19d6ee3e7d3
+    role: context
+  - path: data/curated/SoftActorCritic.yaml
+    sha256: fd4dd468f1b4a139c0166eab39944608314e42e7cf4dc0f8d750d3cf4802fe85
+    role: context
+  - path: data/curated/StochasticLocalSearch.yaml
+    sha256: f4ae6fc7e1599ac08d77a99b2adcb54498cc41f9c184b13bf0e8c9a0297a789e
+    role: context
+  - path: data/curated/WeightedAStar.yaml
+    sha256: a5bf05341f6076ecdd8f1ee22f4f6edb8fd87307320d2998a63bee1da8982ae2
+    role: context
+  - path: docs/curated-concepts.md
+    sha256: 79c497b615b9ba703d67ccfc1a925f5d5c3c527aff6ab323cd271aec8e5a40dc
+    role: context
+  - path: docs/record-review-profile.md
+    sha256: 2d3e3a73264523c78930d17b0812e2d22887e25423fe7c38e0ddce922d9cec9d
+    role: context
+  - path: docs/record-reviews.md
+    sha256: 452a19ab688276747b7c4308523a14d4d99c1c39ef6909ae8a90b85b7a9b3e9b
+    role: context
+  - path: history/reports/lpga-minimin-and-restored-historical-pointers/2026-10-15T220806Z-codex-7e6e51.yaml
+    sha256: b75b93e05bd0dd1a9f90cafd17e24b1dd16614a8f71d06e5191c8a9b5b286d84
+    role: context
+  - path: justfile
+    sha256: 2d9c1b68c1c80d53aa44a6b8b5e916efe8b493650ff59a3fc7479a42be37f400
+    role: context
+  - path: research/discovery/20261015T220733Z-lpga-minimin-and-restored-historical-pointers.json
+    sha256: 70390ddcefe988c8db1883ad3c798d430425ca4d9c487ea0944de8bce5b9fa32
+    role: context
+  - path: research/discovery/20261015T220733Z-lpga-minimin-and-restored-historical-pointers.md
+    sha256: cc76c09be07fec60ec80864192a1dcf685d84545bbf057197a8ed0c12b849e07
+    role: context
+  - path: schema/record_review.yaml
+    sha256: 229baf9b69118a1fe318e4c31085c0820e4e3d1365e7b04d6ace451b7c35f9bb
+    role: context
+  - path: scripts/record_review.py
+    sha256: 95a4ec41e38ec47ba3578e76838c46a0adbf47e49ad3636524735d08cfcb1c4d
+    role: context
+  - path: scripts/render_pages.py
+    sha256: 81fae327c4670e269e8928b53f0370e2853767ec8e1b495f6206216ac03f304a
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: 3826f6a7643d6a0140cf60bb52a1d3ac2fbab4811b4fd8d1d178a13c3341fa3f
+    role: context
+  - path: src/aimech/validation.py
+    sha256: 274ed5e6bc97440515a1964b9b21927135a2e9a5a4808ae8daebccd3e172ffcc
+    role: context
+scope:
+  description: Complete explicitly selected two-record cohort in the captured current
+    canonical state.
+  selection: Exact accepted LowerPowerGeneticAlgorithm v3 and MiniminAlphaPruning
+    candidates, with separately reconciled pending Soft Q-learning, enforced hill-climbing
+    and LSS-LRTA* pointers.
+  coverage: full
+  population_size: 2
+  reviewed_target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  - AIMech:MiniminAlphaPruning
+  exclusions:
+  - target: Original methods behind the three restored pointers
+    reason: Pending accounting is not native method acceptance; original defining-method
+      inspection remains required.
+  - target: LPGA 1997/AMP/GAcSP and graph-corrected RTA* owner 291
+    reason: These version or mechanism leads remain explicitly unresolved; no family
+      exhaustion is claimed.
+checks:
+- check_id: check-gate
+  name: just check
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  - AIMech:MiniminAlphaPruning
+  command: just check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-gate
+- check_id: check-vendor
+  name: just vendored-check
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  - AIMech:MiniminAlphaPruning
+  command: just vendored-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-vendor
+- check_id: check-check-source
+  name: uv run --locked aimech check-source
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  - AIMech:MiniminAlphaPruning
+  command: uv run --locked aimech check-source
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-check-source
+- check_id: check-render
+  name: just render
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  - AIMech:MiniminAlphaPruning
+  command: just render
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render
+- check_id: check-render-check
+  name: just render-check
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  - AIMech:MiniminAlphaPruning
+  command: just render-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render-check
+- check_id: check-diff
+  name: git diff --check
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  - AIMech:MiniminAlphaPruning
+  command: git diff --check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-diff
+findings: []
+actions: []
+limitations:
+- Source, root and supporting assessments remain separately attributed; this is a
+  self-review, not independent approval.
+- LPGA is the source-specific 1996 optimizer. Its fully writable first phase can have
+  no nontrivial valid swap, while legal within-row no-op swaps remain in the stated
+  witness. A restrictive schema can instead leave no legal pair. A finite generation
+  budget gives no optimality certificate.
+- The original LPGA v2 mutation-boundary finding, its actual accepted v3 correction
+  and issue 394 remain retained. The captured canonical statement equals that corrected
+  limitation; issue closure remains a subsequent reviewed-PR action.
+- Minimin cutoff validity requires consistency along searched edges, not merely admissibility.
+  The per-child-reset hand witness is explicitly embedded beneath a positive-cost
+  prefix; original and added analysis remain distinct.
+- Finite lookahead neither certifies globally shortest solutions nor imports RTA*
+  execution completeness or LRTA* learning. Source experiments and the independent
+  increment model have stated boundaries; no numerical reproduction or algorithm execution
+  is claimed.
+- Three declared source rows refer to three distinct acquired primary papers. The
+  exact 1997 LPGA version remains unread; the 1988 and 1990 Minimin accounts retain
+  their version-specific qualifications.
+- Authorized native validation preceded exact root draft acceptance. Original static
+  null fields remain historical, and later actual acceptance binds the original validation
+  without backdating.
+- The three restored pointers remain pending inspection, are not newly discovered
+  methods and do not create native records. Existing owner objects are retained except
+  the explicit 284/290 outcome changes; owner 291 remains unchanged.
+- Historical research identity scopes remain dated. Fresh actual collection and root
+  decisions are required for current candidate clearance and pointer reconciliation.
+- 'Two source-fidelity errors in the prepared review were corrected before save: unsupported
+  linked-list terminology and conflation of no nontrivial valid swap with no legal
+  pair. Exact original artifacts and five-field successor deltas are retained under
+  issue399; canonical science was already correct. Issue closure requires the actual
+  reviewed merge.'
+- Actual five creation outputs, one CREATE history, 7 generated pages and 46 capture
+  inputs are assessed through separate receipts. Six required checks passed; any failed
+  attempts remain explicit. Parsed HTML is not browser/layout inspection. Canonical
+  review save/check and publication remain separate actions.
+tags:
+- scientific-review
+- self-review
+- source-scoped
+- optimization
+- heuristic-search
+- historical-pointer-restoration
+notes:
+- 'Historical root reading receipt, recorded 2026-10-15T22:16:49.624074Z: Root read
+  the complete actual two YAML records, report Markdown and CREATE history; current
+  report metadata/context substitutions, selected and restoration owners, complete
+  restoration projection, deferred397398 findings and exact actual capture metadata/46refs.
+  Prior accepted primary readings and all source-scoped claim/limitation/mapping content
+  remain attributed. Actual scientific assessment read with truncated middle recovered;
+  auditor-only hash-representation correction retained. Actual governance633checks
+  and seven-page parsed content audit read; no browser or blanket fresh reading of
+  all46implementation/context files claimed. Static review narratives are undergoing
+  correction before generation/save; those corrections require distinct exact-data
+  acceptance. The governance reading ledger time22:15UTC is approximate wording, not
+  a separate event timestamp; receipt timestamps establish execution order. Required
+  command logs independently establish any future gate result. Any future-event wording
+  belongs to that earlier receipt; the later six check logs establish completion before
+  review generation, while canonical save remains subsequent.'
+- Four current ignored/hidden-inclusive roots;23247occurrences in1030 distinct contents,
+  all content read in three attributed supporting partitions. Root focused candidate/restoration
+  full-content reading, eight normalized identity/definition rows14contextfields,
+  every matching field for43frontierobjects, selected owners284/290 and all six restoration
+  context owners. Findings[] pertains to current candidate failures; two historical
+  accounting findings remain open397398. Selected ten pinned AIO context definitions/synonyms/edges
+  assessed in earlier accepted primary research; no universal absence claim.
+- 'The fully inspected 1996 LPGA paper supports the processor-configuration two-phase
+  genetic algorithm; the exact 1997 version remains unread and owner 284 stays partial.
+  The v3 limitation preserves the fully writable phase counterexample without asserting
+  experimental failure. Korf 1988 and 1990 support Minimin alpha-pruned lookahead
+  with explicit consistency and per-child incumbent-reset conditions; RTA* execution
+  and owner 291 graph correction remain distinct. Restore the historical Soft Q, enforced
+  hill climbing and LSS-LRTA* accounting with original source provenance and pending
+  method dispositions. Their restoration does not add three concepts or establish
+  scientific novelty. Subsequent Soft Q TEMP research is separately retained and does
+  not change this bounded accounting-only restoration or constitute canonical acceptance.
+  No family exhaustion is asserted. The current complete matching-content audit also
+  found two pre-existing historical ownership gaps: the MREC/MA-star/SMA-star/iterative-threshold
+  family and Russell 1992 Iterative expansion. Their complete findings and next checks
+  are retained in deferred_historical_accounting_findings and open issues 397/398
+  for a separate reconciled ledger repair. They are not counted as newly established
+  concepts or silently discarded. The Korf 1986 erratum remains an existing IDA*/DFID
+  source-access residual.'
+- Source acquisition, historical identity, selected primary reading, hand analysis,
+  native validation and exact root acceptance retain separate scopes and timestamps.
+  This generator adds no new primary reading.
+- Both native validations preceded exact draft acceptance and retain their original
+  null root_draft_acceptance fields. Later actual acceptances bind those original
+  previews without backdating or a new invocation.
+- The LPGA v2 finding and accepted v3 correction remain explicit. Fully writable positions
+  do not guarantee a nontrivial mutation. The exact 1997 version and AMP/GAcSP context
+  remain residual under owner 284.
+- Minimin consistency and per-child reset bound pruning; the positive-prefix witness
+  addendum remains separate. Owner 291 graph correction is untouched.
+- Soft Q-learning and enforced hill climbing are restored pending main pointers; LSS-LRTA*
+  is a pending nested residual under owner 8 with cross-links to 3 and 286. Restoring
+  accounting is not original-method acceptance or discovery of three new concepts.
+  Issues 392, 393 and 394 may close only through the actual reviewed publication after
+  this state is verified.
+targets:
+- target_id: AIMech:LowerPowerGeneticAlgorithm
+  label: Lower Power Genetic Algorithm
+  path: data/curated/LowerPowerGeneticAlgorithm.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LowerPowerGeneticAlgorithm.yaml
+    role: maintained native concept record
+- target_id: AIMech:MiniminAlphaPruning
+  label: Minimin search with alpha pruning
+  path: data/curated/MiniminAlphaPruning.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MiniminAlphaPruning.yaml
+    role: maintained native concept record
+evidence:
+- evidence_id: preview-lpga
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-mutation-boundary-successor-20261015/native-preview.json
+  snapshot_sha256: f8013f9b009346ada388173b1aa58dc63ed6aa2e790449e229f0d21c1cf53b5c
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Actual authorized TEMP native preview; canonical correspondence requires
+    later actual bytes.
+- evidence_id: support-lpga
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-mutation-boundary-successor-20261015/scientific-support.v3.json
+  snapshot_sha256: 11243dab1b844a37fa05b783099054b742eca8cfec30eb0f0365ce017d707376
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Exact claim and individual limitation support. Historical null acceptance
+    fields retain their preparation meaning.
+- evidence_id: draft-acceptance-lpga
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-mutation-boundary-successor-20261015/root-draft-acceptance.json
+  snapshot_sha256: 261d458c7cf9116853f8c32189e551962c5b3e6f2a5260c7a3086d897ec0eb74
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Later exact root acceptance with its stated reading scope; the actual native
+    validation preceded it.
+- evidence_id: preview-validation-lpga
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-mutation-boundary-successor-20261015/native-preview-validation.json
+  snapshot_sha256: b49909be6a71f6def21c2c849f812b577e9ccdc17667c381a4ebb6a921448bd4
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Actual single TEMP data assembly and native schema validation, not source-algorithm
+    execution or current identity clearance.
+- evidence_id: source-reading-lpga
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-draft-preparation-20261015/reading.json
+  snapshot_sha256: 05e49807205f28d42c516951155158d23277682c94ad06200cf6391908e79a59
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: The research author and supporting research audit read all eight native-text
+    pages of the defining 1996 paper; visual checks covered pages 3–6. Root separately
+    read all eight native pages and visuals 3–6 under its research acceptance. Root
+    later read the complete v2 draft, the concrete mutation-boundary finding and exact
+    v3 deltas, comparing the v3 preview and support through the static science digest;
+    this is not a claimed second verbatim reading of unchanged v3 science. The 2001
+    context and the uninspected exact 1997 version remain distinct. No author algorithm,
+    experiments or benchmark reproduction were run. This review-data assembly adds
+    no new primary reading.
+- evidence_id: preparation-reading-lpga
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-draft-preparation-20261015/reading.json
+  snapshot_sha256: 05e49807205f28d42c516951155158d23277682c94ad06200cf6391908e79a59
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Original preparation reading ledger; this review-data assembly adds no
+    primary pass.
+- evidence_id: root-research-lpga
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-research-20261015/root-research-acceptance.json
+  snapshot_sha256: 07e6eb03898b7cd5ae6d8e899a69f02b23fc2a53d99f0fce38990004a8737845
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Actual scoped root research acceptance, separate from exact draft acceptance
+    and future canonical creation.
+- evidence_id: source-version-lpga
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-draft-preparation-20261015/source-context.json
+  snapshot_sha256: 4d62fcb19f0dde47182ce5425bbc727e1f50dca55f82c1f496f466a94cab0460
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: One declared primary-paper row refers to the acquired 1996 author manuscript.
+    Later 1997 and 2001 context is not substituted for the defining source. Exact
+    bytes, actual acquisition time, page locators and the accepted v3 correction remain
+    bound; full-text access is distinct from benchmark reproduction.
+- evidence_id: hand-analysis-lpga
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-supporting-research-audit-20261015/hand-analysis.json
+  snapshot_sha256: b76ae412d7b29f82057db01886931e70b42b8ed599bafd06ff166681e23cec95
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Bounded source interpretations and manual witnesses, not executed algorithms
+    or complete proof certification.
+- evidence_id: historical-identity-lpga
+  kind: search
+  reference: /private/tmp/aimech-lpga-research-20261015/identity/collection.json
+  snapshot_sha256: 6ad8959f2b68461f64c3e95c02171c339f66d82a8621980dcff83e0bb7b66dcf
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Dated ignored- and hidden-inclusive research collection; no future merged-base
+    clearance.
+  search_scope: 'This draft selects the processor-configuration method defined in
+    the inspected 1996 ICTAI author manuscript. Lower Power Genetic Algorithm, Low
+    Power Genetic Algorithm and LPGA are source spellings; the native aliases list
+    remains empty. It is distinct from a generic genetic algorithm, GGA adaptive penalties,
+    and GLS/FLS activation controllers. The dated 15 October 2026 research collection
+    at 20:14:56–20:15:18 UTC compared 780 maintained and 442 pinned AIO records, including
+    normalized IDs, names, aliases and scoped synonyms. Four fixed-string searches
+    included ignored and hidden files; the research author assessed all ten distinct
+    matching contents across 1,404 occurrences and relevant frontier context. The
+    existing owner 284 remains the same lead: its historical GGA article URL is a
+    discovery pointer, while the acquired 1996 paper is the defining source. A future
+    bounded curation would only partially address owner 284, retaining the unread
+    1997 version comparison and AMP/GAcSP original-method and ownership follow-ups
+    without asserting new identities or new frontier leaves. This dated research is
+    not a later merged-base identity clearance. The inspected AIO:Network target denotes
+    the mandatory processor communication system optimized by LPGA, so the qualified
+    mapping is related_match across abstraction levels, not an is-a or exact match.'
+- evidence_id: preview-minimin
+  kind: record_content
+  reference: /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/native-preview.json
+  snapshot_sha256: 8cbce60241adf88c75f0b21a3c2d8f552b7a327d6dd7bcf9d796ba46de8eb182
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Actual authorized TEMP native preview; canonical correspondence requires
+    later actual bytes.
+- evidence_id: support-minimin
+  kind: record_content
+  reference: /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/scientific-support.v2.json
+  snapshot_sha256: bcfa56756187cae2fb5bda88f3ff7c12930b3757719b2d8e7d93304cb819971a
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Exact claim and individual limitation support. Historical null acceptance
+    fields retain their preparation meaning.
+- evidence_id: draft-acceptance-minimin
+  kind: record_content
+  reference: /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/root-draft-acceptance.json
+  snapshot_sha256: d2aa7dceab01150757bf11773f9ebcb52be924474242220da47c679e7f0d073e
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Later exact root acceptance with its stated reading scope; the actual native
+    validation preceded it.
+- evidence_id: preview-validation-minimin
+  kind: record_content
+  reference: /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/native-preview-validation.json
+  snapshot_sha256: d1a78331cd41d0d505da22ae5493f97c5cc159f3d775f2b5e9170d4ce01a70fa
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Actual single TEMP data assembly and native schema validation, not source-algorithm
+    execution or current identity clearance.
+- evidence_id: source-reading-minimin
+  kind: record_content
+  reference: /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/reading.json
+  snapshot_sha256: fbc4d3192200c46682301b59a5465332e67d5a062eccfeee549385daad4ba5b9
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: The research author read native text of the 23-page 1990 article and six-page
+    1988 paper, with visual checks of 1990 pages 4–6, 8, 10 and 15 and 1988 pages
+    1 and 4. Root separately read 1990 native pages 1–12 and 15–19 with visuals 4–6,
+    10 and 15, and 1988 native/visual pages 1 and 4. Garbled extraction was checked
+    against defining formula/page images rather than treated as reliable typography
+    throughout. The per-immediate-child witness addendum is separate from the original
+    hand analysis. No complete proof certification, figure-value reproduction, execution
+    or independent peer primary pass is claimed. This review-data assembly adds no
+    new source reading.
+- evidence_id: preparation-reading-minimin
+  kind: record_content
+  reference: /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/reading.json
+  snapshot_sha256: fbc4d3192200c46682301b59a5465332e67d5a062eccfeee549385daad4ba5b9
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Original preparation reading ledger; this review-data assembly adds no
+    primary pass.
+- evidence_id: root-research-minimin
+  kind: record_content
+  reference: /private/tmp/aimech-minimin-alpha-research-20261015/root-research-acceptance.json
+  snapshot_sha256: d8028c9b988aaebd64af1d8f0fdef0b9b2b5eff46f258368ec9b5a0a4625fbc5
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Actual scoped root research acceptance, separate from exact draft acceptance
+    and future canonical creation.
+- evidence_id: source-version-minimin
+  kind: record_content
+  reference: /private/tmp/aimech-minimin-alpha-draft-preparation-20261015/source-context.json
+  snapshot_sha256: 4da63c11104b7b7cb8a775d7f15aee9fb02e6bb937e70189caf0b2393c17d1c0
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Two declared primary-paper rows retain the acquired 1990 operational account
+    and 1988 precursor. The latter metric shorthand, optimistic model discussion and
+    omitted graph-correction proof do not replace the later consistency formulation.
+    Actual October 11 acquisition times remain historical; no new source download
+    or performance reproduction is implied.
+- evidence_id: hand-analysis-minimin
+  kind: record_content
+  reference: /private/tmp/aimech-minimin-alpha-research-20261015/hand-analysis.json
+  snapshot_sha256: ca6c47eeb5bb9d1c72e455a475f9a2e096cd104980481b01bb9079d0965301f0
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Bounded source interpretations and manual witnesses, not executed algorithms
+    or complete proof certification.
+- evidence_id: historical-identity-minimin
+  kind: search
+  reference: /private/tmp/aimech-minimin-alpha-research-20261015/identity/collection.json
+  snapshot_sha256: 21e8553158aeca76b6e7eee1955649373edb867905bf8092e51cf6cf882eb3a3
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Dated ignored- and hidden-inclusive research collection; no future merged-base
+    clearance.
+  search_scope: This candidate denotes the bounded single-agent minimin lookahead
+    planner with consistency-dependent alpha pruning, using the inspected 1990 operational
+    account and the 1988 corroborating presentation. It is distinct from the maintained
+    RealTimeAStar execution controller, LearningRealTimeAStar learning updates, A*/IDA*
+    search procedures and the unresolved 1988 graph-corrected RTA* sketch. The dated
+    research collection ran from 2026-10-15T20:41:31.412070Z to 2026-10-15T20:41:49.779750Z
+    on a working snapshot of 781 maintained and 442 pinned AIO records. All ID/name/alias/scoped-synonym
+    fields were normalized; four roots were searched with ignored and hidden files
+    included; all 46 distinct matching contents and the retained matching frontier
+    fields were assessed. No separate maintained candidate identity was identified
+    within that bounded scope. Existing owner 290 supplies this lead. Owner 291 remains
+    a separate unresolved version/proof question; no new frontier leaf is proposed.
+    The historical result is not future merged-base identity clearance, global source
+    exhaustion or approval to create the record.
+- evidence_id: src-lau-tsang1996
+  kind: primary_source
+  reference: /private/tmp/aimech-lpga-research-20261015/lau-tsang1996-author.pdf
+  snapshot_sha256: d72bc73be4484f95fef7c14fd8875f0ea9109f73cb37169ccad3a5c55bf781a4
+  accessed_at: '2026-10-15T20:13:47Z'
+  support: supports
+  summary: 1996 ICTAI author-hosted eight-page conference manuscript. Locators use
+    physical PDF pages 1–8; final IEEE pages 17–24 are publication metadata and are
+    not printed on this acquired artifact. The research author and supporting research
+    audit read all eight native-text pages of the defining 1996 paper; visual checks
+    covered pages 3–6. Root separately read all eight native pages and visuals 3–6
+    under its research acceptance. Root later read the complete v2 draft, the concrete
+    mutation-boundary finding and exact v3 deltas, comparing the v3 preview and support
+    through the static science digest; this is not a claimed second verbatim reading
+    of unchanged v3 science. The 2001 context and the uninspected exact 1997 version
+    remain distinct. No author algorithm, experiments or benchmark reproduction were
+    run. This review-data assembly adds no new primary reading.
+- evidence_id: src-korf1990
+  kind: primary_source
+  reference: /private/tmp/aimech-round64-papers/korf1990.pdf
+  snapshot_sha256: 8cf1b89fb48727bf945a2cb709dcccdf786529544a12a4a6ac71f27ed3dc2a92
+  accessed_at: '2026-10-11T14:56:19Z'
+  support: supports
+  summary: Artificial Intelligence 42 (1990), 189–211. Journal scan; received October
+    1987, revised September 1988. DOI 10.1016/0004-3702(90)90054-4. The 23 physical
+    PDF pages correspond to printed 189–211. The research author read native text
+    of the 23-page 1990 article and six-page 1988 paper, with visual checks of 1990
+    pages 4–6, 8, 10 and 15 and 1988 pages 1 and 4. Root separately read 1990 native
+    pages 1–12 and 15–19 with visuals 4–6, 10 and 15, and 1988 native/visual pages
+    1 and 4. Garbled extraction was checked against defining formula/page images rather
+    than treated as reliable typography throughout. The per-immediate-child witness
+    addendum is separate from the original hand analysis. No complete proof certification,
+    figure-value reproduction, execution or independent peer primary pass is claimed.
+    This review-data assembly adds no new source reading.
+- evidence_id: src-korf1988
+  kind: primary_source
+  reference: /private/tmp/aimech-round64-papers/korf1988.pdf
+  snapshot_sha256: ab17a837c83ea0deb4dff951e4da929824f832f5085661f51d3dbf841108aca8
+  accessed_at: '2026-10-11T14:55:51Z'
+  support: supports
+  summary: AAAI-88 proceedings, 139–144; six-page conference paper. The graph-correction
+    sketch in Section 3.2 is explicitly version-specific. The research author read
+    native text of the 23-page 1990 article and six-page 1988 paper, with visual checks
+    of 1990 pages 4–6, 8, 10 and 15 and 1988 pages 1 and 4. Root separately read 1990
+    native pages 1–12 and 15–19 with visuals 4–6, 10 and 15, and 1988 native/visual
+    pages 1 and 4. Garbled extraction was checked against defining formula/page images
+    rather than treated as reliable typography throughout. The per-immediate-child
+    witness addendum is separate from the original hand analysis. No complete proof
+    certification, figure-value reproduction, execution or independent peer primary
+    pass is claimed. This review-data assembly adds no new source reading.
+- evidence_id: restoration-proposal
+  kind: record_content
+  reference: /private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json
+  snapshot_sha256: 2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Historical provenance or bounded supporting analysis; not primary mechanism
+    evidence.
+- evidence_id: issue-soft-q
+  kind: record_content
+  reference: /private/tmp/aimech-20261015-soft-q-issue-publication.json
+  snapshot_sha256: 1ee714fa8125a59396f91bc2354fe455acb516f7fd97238947ca673972ecf48a
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Historical provenance or bounded supporting analysis; not primary mechanism
+    evidence.
+- evidence_id: issue-ehc-lss
+  kind: record_content
+  reference: /private/tmp/aimech-20261015-ehc-lss-issue-publication.json
+  snapshot_sha256: 0f0290b67cd281a54a99bc8b8c82eed3390a72eef3b495d562c6dfa9ee9d1de0
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Historical provenance or bounded supporting analysis; not primary mechanism
+    evidence.
+- evidence_id: issue-lpga
+  kind: record_content
+  reference: /private/tmp/aimech-20261015-lpga-issue-publication.json
+  snapshot_sha256: 49608c65b1f2abad526d57607d01e215ae36f10a38deddca94efb38bfc2d7695
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Historical provenance or bounded supporting analysis; not primary mechanism
+    evidence.
+- evidence_id: lpga-v2-finding
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-draft-peer-audit-20261015/assessment.v2.json
+  snapshot_sha256: 25629bedde1c33d9ddb54061eb5dcb3dd62c0d004c14ac085ca711f06dfe3748
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Historical provenance or bounded supporting analysis; not primary mechanism
+    evidence.
+- evidence_id: lpga-successor-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-mutation-boundary-successor-20261015/successor-assessment.json
+  snapshot_sha256: 04d1349b6d6cb01d749f9038f26debf7aee94c9232c76193b66af6f181db2d6f
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Historical provenance or bounded supporting analysis; not primary mechanism
+    evidence.
+- evidence_id: lpga-correction
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-mutation-boundary-successor-20261015/correction.prevalidation.json
+  snapshot_sha256: c07f0691ddfb3256150ad51b102fcc1beb7c06fc8e05a0fa147dd59c2000fe42
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Historical provenance or bounded supporting analysis; not primary mechanism
+    evidence.
+- evidence_id: minimin-per-child-addendum
+  kind: record_content
+  reference: /private/tmp/aimech-minimin-alpha-research-20261015/hand-analysis-per-child-addendum.json
+  snapshot_sha256: bc343cc908af6083cf0afdddad2db7b24581b1b4f0b8391e638fef268e9026c8
+  accessed_at: '2026-10-15T21:18:32.028959Z'
+  support: context_only
+  summary: Historical provenance or bounded supporting analysis; not primary mechanism
+    evidence.
+- evidence_id: actual-write
+  kind: record_content
+  reference: /private/tmp/aimech-lpga-minimin-cohort352-write.json
+  snapshot_sha256: 6c3782b88f98deb893486cb6e3d1dfae674186663f1735c1c898482c55ada973
+  accessed_at: '2026-10-15T22:28:01.637278Z'
+  support: context_only
+  summary: 'Actual exclusive creation receipt: two records, report pair and one CREATE
+    history.'
+- evidence_id: captured-inputs
+  kind: record_content
+  reference: /private/tmp/aimech-cohort352-capture.json
+  snapshot_sha256: b8090d32409ea50c91e21d3f6c07bb16ab14ff9acc2f3d22dadd2bc40514d6e7
+  accessed_at: '2026-10-15T22:28:01.637334Z'
+  support: context_only
+  summary: Actual canonical inspection; every current input hash and maintained target
+    was checked.
+- evidence_id: postcapture-reading
+  kind: record_content
+  reference: /private/tmp/aimech-cohort352-postcapture-root-reading.json
+  snapshot_sha256: 1f32e0e3247e1f266f88e942da8a305bab4a4657aea45c112b5052b6ba847d2a
+  accessed_at: '2026-10-15T22:28:01.637351Z'
+  support: context_only
+  summary: 'Historical root reading receipt, recorded 2026-10-15T22:16:49.624074Z:
+    Root read the complete actual two YAML records, report Markdown and CREATE history;
+    current report metadata/context substitutions, selected and restoration owners,
+    complete restoration projection, deferred397398 findings and exact actual capture
+    metadata/46refs. Prior accepted primary readings and all source-scoped claim/limitation/mapping
+    content remain attributed. Actual scientific assessment read with truncated middle
+    recovered; auditor-only hash-representation correction retained. Actual governance633checks
+    and seven-page parsed content audit read; no browser or blanket fresh reading
+    of all46implementation/context files claimed. Static review narratives are undergoing
+    correction before generation/save; those corrections require distinct exact-data
+    acceptance. The governance reading ledger time22:15UTC is approximate wording,
+    not a separate event timestamp; receipt timestamps establish execution order.
+    Required command logs independently establish any future gate result. Any future-event
+    wording belongs to that earlier receipt; the later six check logs establish completion
+    before this review was generated, while canonical save remains subsequent.'
+- evidence_id: governance-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-cohort352-governance-audit-20261015/assessment.json
+  snapshot_sha256: 9703889675f340b2d0fd61fb271c83522fd3eac995d0ece9fe241cc71923ea8d
+  accessed_at: '2026-10-15T22:28:01.637362Z'
+  support: context_only
+  summary: Actual byte preservation, owner/frontier, history and parsed-page audit;
+    no independent approval.
+- evidence_id: rendered-pages
+  kind: record_content
+  reference: /private/tmp/aimech-cohort352-governance-audit-20261015/rendered-pages.json
+  snapshot_sha256: aa980540907e53c100a19445a71e7fb9660c6aa0ba2d30bb4d2d55d0fe8b26a4
+  accessed_at: '2026-10-15T22:28:01.637371Z'
+  support: context_only
+  summary: Actual generated page paths and bytes, with parsed-content correspondence;
+    no browser/layout inspection.
+- evidence_id: actual-scientific-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-cohort352-actual-scientific-audit-v2-20261015/assessment.json
+  snapshot_sha256: 579eac19131a730dbe52ae64542e49dfb1d75460a190b1f8f5407f46a19a9dba
+  accessed_at: '2026-10-15T22:28:01.637388Z'
+  support: context_only
+  summary: Same-author actual-record adversarial assessment with separately attributed
+    primary reading.
+- evidence_id: current-identity-collection
+  kind: search
+  reference: /private/tmp/aimech-cohort352-identity-20261015/collection.json
+  snapshot_sha256: 224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570
+  accessed_at: '2026-10-15T22:28:01.637399Z'
+  support: context_only
+  summary: Current four-root ignored- and hidden-inclusive identity collection; mechanical
+    coverage is distinct from attributed semantic reading.
+  search_scope: Four current ignored/hidden-inclusive roots;23247occurrences in1030
+    distinct contents, all content read in three attributed supporting partitions.
+    Root focused candidate/restoration full-content reading, eight normalized identity/definition
+    rows14contextfields, every matching field for43frontierobjects, selected owners284/290
+    and all six restoration context owners. Findings[] pertains to current candidate
+    failures; two historical accounting findings remain open397398. Selected ten pinned
+    AIO context definitions/synonyms/edges assessed in earlier accepted primary research;
+    no universal absence claim.
+- evidence_id: current-context-assessment
+  kind: search
+  reference: /private/tmp/aimech-cohort352-combined-identity-assessment-20261015/assessment.json
+  snapshot_sha256: 4c4104c7774316f08d05b6ccc78e994f13916a589eae559ab1721a4b4f259177
+  accessed_at: '2026-10-15T22:28:01.637411Z'
+  support: context_only
+  summary: Actual supporting interpretation of retained matched contexts; root and
+    supporting scopes remain separate.
+  search_scope: Four current ignored/hidden-inclusive roots;23247occurrences in1030
+    distinct contents, all content read in three attributed supporting partitions.
+    Root focused candidate/restoration full-content reading, eight normalized identity/definition
+    rows14contextfields, every matching field for43frontierobjects, selected owners284/290
+    and all six restoration context owners. Findings[] pertains to current candidate
+    failures; two historical accounting findings remain open397398. Selected ten pinned
+    AIO context definitions/synonyms/edges assessed in earlier accepted primary research;
+    no universal absence claim.
+- evidence_id: root-decisions
+  kind: record_content
+  reference: /private/tmp/aimech-cohort352-identity-20261015/root-decisions.json
+  snapshot_sha256: a8bb9ba4f9d3805e368c8e123cbc2fc01458eed04e8ab500469fab6f716805e3
+  accessed_at: '2026-10-15T22:28:01.637423Z'
+  support: context_only
+  summary: 'Actual root identity, owner and source-lead decisions: owner 284 remains
+    partial, owner 290 addresses bounded Minimin scope, owner 291 stays unchanged,
+    and three historical pending pointers are separately reconciled.'
+- evidence_id: scientific-support
+  kind: record_content
+  reference: /private/tmp/aimech-cohort352-review-narrative-successor-20261015/scientific-support.prepared.json
+  snapshot_sha256: b148e11720a301dc0f3012f7b7186466d867fdcdcf487f6775af5deb0a9e41eb
+  accessed_at: '2026-10-15T22:28:01.637432Z'
+  support: context_only
+  summary: Exact accepted claim and limitation support; historical and later source/math
+    scopes remain separate.
+- evidence_id: discovery-report
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T220733Z-lpga-minimin-and-restored-historical-pointers.json
+  snapshot_sha256: 70390ddcefe988c8db1883ad3c798d430425ca4d9c487ea0944de8bce5b9fa32
+  accessed_at: '2026-10-15T22:28:01.640606Z'
+  support: context_only
+  summary: Current record/context/owner mirrors and exactly three restored pending
+    pointers. Two additional historical ownership gaps are retained explicitly for
+    separate repair; no newly established concept is inferred from them.
+- evidence_id: deferred-accounting-findings
+  kind: record_content
+  reference: /private/tmp/aimech-cohort352-context350-699-20261015/historical-accounting-followups.json
+  snapshot_sha256: 5fb10bbb4b04e3f1b6d9f7e73ed89152a06d3cf3d1d196e40ab9b87f3f5eeeb2
+  accessed_at: '2026-10-15T22:28:01.640637Z'
+  support: context_only
+  summary: Two pre-existing historical ownership findings with exact original objects
+    and bounded current comparisons, retained for separate reconciliation.
+- evidence_id: deferred-accounting-issues
+  kind: record_content
+  reference: /private/tmp/aimech-cohort352-historical-review-issue-posting.json
+  snapshot_sha256: 727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224
+  accessed_at: '2026-10-15T22:28:01.640649Z'
+  support: context_only
+  summary: Actual posting of issues 397 and 398; this review does not assert those
+    separate repairs or close their issues.
+- evidence_id: creation-history
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/history/reports/lpga-minimin-and-restored-historical-pointers/2026-10-15T220806Z-codex-7e6e51.yaml
+  snapshot_sha256: b75b93e05bd0dd1a9f90cafd17e24b1dd16614a8f71d06e5191c8a9b5b286d84
+  accessed_at: '2026-10-15T22:28:01.640861Z'
+  support: context_only
+  summary: Actual CREATE report history covers two new records and restored historical
+    accounting; no old report is edited.
+- evidence_id: record-lpga
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/LowerPowerGeneticAlgorithm.yaml
+  snapshot_sha256: 824294a192b8249d3cf64e579bb95200e03cb9d6b77af576865f442666979859
+  accessed_at: '2026-10-15T22:28:01.641029Z'
+  support: context_only
+  summary: Complete current DRAFT record equals accepted science and actual root identity
+    decisions.
+- evidence_id: record-minimin
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/MiniminAlphaPruning.yaml
+  snapshot_sha256: 505221f4325e60c6de5494ccd0afac193b394c57bf3687d334741327eeb461a3
+  accessed_at: '2026-10-15T22:28:01.641230Z'
+  support: context_only
+  summary: Complete current DRAFT record equals accepted science and actual root identity
+    decisions.
+- evidence_id: check-gate
+  kind: validation
+  reference: /private/tmp/aimech-cohort352-check-gate.json
+  snapshot_sha256: 1434b5b6529722b15702777c91574f44ad2c588af4b56ef80b5544f695ea83fa
+  accessed_at: '2026-10-15T22:26:40.172058Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-vendor
+  kind: validation
+  reference: /private/tmp/aimech-cohort352-check-vendor.json
+  snapshot_sha256: 19e7c70592e98c5ace240757366a0578382c02fc83263840ebce2f0679ce0d57
+  accessed_at: '2026-10-15T22:26:44.599565Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-check-source
+  kind: validation
+  reference: /private/tmp/aimech-cohort352-check-check-source.json
+  snapshot_sha256: c32b43a50e7e02666b36fa6b19a3b0c0b199418c15263234cc108abbc0ff2a3e
+  accessed_at: '2026-10-15T22:26:48.155005Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-render
+  kind: validation
+  reference: /private/tmp/aimech-cohort352-check-render.json
+  snapshot_sha256: d0654b7e6495889ca548df421139b001c5d2ef0bd44e06d916cee08117bcdba4
+  accessed_at: '2026-10-15T22:11:31.824611Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-render-check
+  kind: validation
+  reference: /private/tmp/aimech-cohort352-check-render-check.json
+  snapshot_sha256: 2809a61fa8933cb153535f25b1749b5929c7f94b0d86b0d9c1420b8d8481fc6f
+  accessed_at: '2026-10-15T22:27:05.984052Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-diff
+  kind: validation
+  reference: /private/tmp/aimech-cohort352-check-diff.json
+  snapshot_sha256: cb28eb8562491d423e244d6dae9a704076aa4626bcf49399849ea0e5a582bb63
+  accessed_at: '2026-10-15T22:27:06.384394Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: review-narrative-findings
+  kind: record_content
+  reference: /private/tmp/aimech-cohort352-review-narrative-successor-20261015/findings.json
+  snapshot_sha256: cc974d28d74f2d1c532eb2ed7e9fed2383175e167d00885434662d00d1fe2c8b
+  accessed_at: '2026-10-15T22:28:01.642898Z'
+  support: context_only
+  summary: Two TEMP review source-fidelity findings, corrected before saving; canonical
+    records were unaffected.
+- evidence_id: review-narrative-correction
+  kind: record_content
+  reference: /private/tmp/aimech-cohort352-review-narrative-successor-20261015/root-acceptance.json
+  snapshot_sha256: e8cea99f6360391bd974a4f49673f6160b14d64b3b2536b0468085a9889ee631
+  accessed_at: '2026-10-15T22:28:01.642921Z'
+  support: context_only
+  summary: Root read and accepted five narrow DATA field corrections with originals
+    and exact diffs retained.
+- evidence_id: review-narrative-issue
+  kind: record_content
+  reference: /private/tmp/aimech-cohort352-review-narrative-issue-posting.json
+  snapshot_sha256: dffa7a0c306120cfbcd572dab5fc5c1f20b81e28f2c82686587e1602851e3028
+  accessed_at: '2026-10-15T22:28:01.642934Z'
+  support: context_only
+  summary: Actual issue399 posting; closure remains a subsequent reviewed merge action.
+assessments:
+- assessment_id: lpga-claim-processor-encoding-and-staged-controller
+  area: evidence
+  topic: Claim processor-encoding-and-staged-controller
+  outcome: supported
+  summary: 'The final statement explicitly applies the accepted refinement: every
+    first-phase schema position is write-enabled, and only the optional CPA-guided
+    phase protects selected positions. The source-specific encoding, finite generation
+    budget and final cut are retained; no connectivity or optimality theorem is asserted.'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-claim-swap-only-variation
+  area: evidence
+  topic: Claim swap-only-variation
+  outcome: supported
+  summary: Supported. Swapping entries preserves the label multiset; the source explicitly
+    rejects self-assignment/protected positions and retries. The wording correctly
+    avoids crossover, uniformity, guaranteed nontrivial change or a finite retry guarantee.
+    This is a constrained swap engine for the stated representation, not all genetic
+    algorithms.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-claim-rank-grouped-offspring-and-survival
+  area: evidence
+  topic: Claim rank-grouped-offspring-and-survival
+  outcome: supported
+  summary: Supported at the printed granularity. The detailed rule sorts by fitness
+    with random ties, assigns k through one quotas and samples one through the assigned
+    maximum; this qualifies the loose proportional-to-fitness prose. Page 5 re-evaluates
+    the parent/offspring pool and retains fitter members. The precise transformation
+    from the minimized reported distance to a descending fitness rank is not supplied,
+    so no reciprocal, sign or exact sampling distribution should be invented.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-claim-critical-path-hit-table-and-protected-schema
+  area: evidence
+  topic: Claim critical-path-hit-table-and-protected-schema
+  outcome: supported
+  summary: Supported. All-shortest-path counts are computed first, whereas the hit
+    table selects one path per pair. With multiple paths the chosen path must contain
+    a maximum-count link among that set, not maximize a path sum and not necessarily
+    use an evolving hit count. Ordering by cardinality and configurable popularity
+    retention are faithfully stated. Ties and rounding remain unspecified.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-claim-controller-port-link-removal
+  area: evidence
+  topic: Claim controller-port-link-removal
+  outcome: supported
+  summary: Supported. Section 3.4 chooses a least-popular link in the hit table and
+    frees its two endpoint channels. The source presents limited deterioration as
+    the aim, not an optimality theorem; the proposal preserves that distinction. CPA
+    remains relevant to cutting even when the optional second GA phase is omitted.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-limitation-1
+  area: scope
+  topic: Limitation 1
+  outcome: supported
+  summary: 'Retain. Visual Equation 1 has the finite upper limit d_max and denominator
+    N squared. It cannot be silently substituted for the unrestricted all-pair mean.
+    Equation 2 separately counts beyond-threshold distances. Native/visual p. 2 has
+    adjacent distance one, while p. 3 defines intermediate processors; the fitness-direction/normalization
+    convention should remain unresolved, not repaired by conjecture. Locator: PDF
+    pp. 2–3, Equations 1–2'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-limitation-2
+  area: scope
+  topic: Limitation 2
+  outcome: supported
+  summary: 'Retain. The six-node witness is valid for the source multichannel representation:
+    each of two triples stores each other label once per row, every label appears
+    twice, no self-assignment occurs, and each component gives degree four when stored
+    bidirectional links are counted. The explicit string checks therefore do not entail
+    connectivity. This is not an observed author implementation failure. Locator:
+    PDF p. 3 Figures 4–6; p. 4 mutation checks'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-limitation-3
+  area: scope
+  topic: Limitation 3
+  outcome: supported
+  summary: 'Retain. The printed experiment has population 20 and maximum quota k=3;
+    literal equal integer group sizes are impossible. A rounding policy is needed
+    but no particular convention follows. Unspecified row/tie policies do not justify
+    uniformity assumptions. Locator: PDF pp. 4–5'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-limitation-4
+  area: scope
+  topic: Limitation 4
+  outcome: supported
+  summary: 'Retain the protection/retry and reachability limits with corrected scope.
+    All-protected schemas can preclude any permissible pair; full writability avoids
+    that protection-induced rejection but does not guarantee a nontrivial mutation
+    for every valid representation. The separate hand witness has only no-op legal
+    swaps in a three-processor example. This is not an observed failure in the 32–40-node
+    trials or at 25% retention. Fixed generations do not certify an optimum. Locator:
+    PDF pp. 4–5'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-limitation-5
+  area: scope
+  topic: Limitation 5
+  outcome: supported
+  summary: 'Retain. Shortest-path multiplicity and selected-path hit estimates are
+    internal graph heuristics, not measured traffic. Least hit count need not prove
+    minimum objective deterioration, and enumerating all shortest paths has no general
+    small-cost guarantee. Low/Lower Power is the paper’s simplicity/cost motivation,
+    not physical energy minimization. Locator: PDF p. 5 Sections 3.3–4'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-limitation-6
+  area: scope
+  topic: Limitation 6
+  outcome: supported
+  summary: 'Retain. Visual Table 1 confirms n=36 distances 2.39 for LPGA(CPA) versus
+    2.38 for GAcSP(HC); Table 2 confirms n=34 overshoots 4 versus 3 and further rows
+    where CPA is worse. Page 5 distinguishes five-run mean distance/time from best-observed
+    overshoots and gives no AMP runtime. The dossier appropriately rejects universal
+    consistently-best and speed conclusions. Locator: PDF pp. 5–7; Tables 1–2 visually
+    checked p. 6'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-limitation-7
+  area: scope
+  topic: Limitation 7
+  outcome: supported
+  summary: 'Retain. Section 3.1 says Lower Power; Section 4 says Low Power and motivates
+    simplicity/computational cost. The acquired 1996 eight-page method remains the
+    defining version. The retained 1997 PDF receipt reports a scoped 403 attempt,
+    not global inaccessibility. Later GGA pp. 9–10 describe generalization to dynamic
+    penalty-based templates; that does not establish exact 1997 identity or import
+    GGA machinery into the 1996 controller. Locator: PDF pp. 3,5; retained 1997 failure;
+    GGA contextual native pp. 9–10'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-definition-assessment
+  area: identity
+  topic: Definition and concept granularity
+  outcome: supported
+  summary: 'The definition selects the 1996 source-specific processor-configuration
+    optimizer: symmetry-based processor-link string encoding, constrained swap mutation,
+    rank-grouped offspring and a final link cut, with an optional CPA-protected second
+    phase. It is not every genetic algorithm or a learned neural network.'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+  - review-narrative-findings
+  - review-narrative-correction
+  - review-narrative-issue
+- assessment_id: lpga-identity-assessment
+  area: identity
+  topic: Identity and dated search scope
+  outcome: supported
+  summary: Retain LPGA separately from generic GeneticAlgorithm, GuidedGeneticAlgorithm
+    and GuidedLocalSearch. Its problem-specific encoding, offspring selection and
+    optional protection phase define the inspected 1996 method. AMP and GAcSP mentions
+    and the exact 1997 version remain residual context under owner 284, without new
+    records or a family-exhaustion claim. The actual captured identity notes implement
+    the root current collection decisions; the original preview scope remains historical
+    and is recorded in context_changes. Existing owner 284 has the current bounded
+    disposition partially_addressed, with all prior IDs, discovery pointers and resolution
+    objects retained.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - historical-identity-lpga
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+  - current-identity-collection
+  - current-context-assessment
+  - root-decisions
+- assessment_id: lpga-mapping-assessment
+  area: grounding
+  topic: AIO relation direction or explicit no-match
+  outcome: supported
+  summary: 'The Network related match is cross-level: the algorithm constructs a processor
+    communication configuration, while the pinned target describes the network being
+    designed. The optimizer itself is not a subclass of that object. Its exact target
+    definition and surrounding inspected nodes support this qualified relation, not
+    an equivalence claim.'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - historical-identity-lpga
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-source-assessment
+  area: evidence
+  topic: Primary versions, access and reading scope
+  outcome: supported
+  summary: One declared primary-paper row refers to the acquired 1996 author manuscript.
+    Later 1997 and 2001 context is not substituted for the defining source. Exact
+    bytes, actual acquisition time, page locators and the accepted v3 correction remain
+    bound; full-text access is distinct from benchmark reproduction. The research
+    author and supporting research audit read all eight native-text pages of the defining
+    1996 paper; visual checks covered pages 3–6. Root separately read all eight native
+    pages and visuals 3–6 under its research acceptance. Root later read the complete
+    v2 draft, the concrete mutation-boundary finding and exact v3 deltas, comparing
+    the v3 preview and support through the static science digest; this is not a claimed
+    second verbatim reading of unchanged v3 science. The 2001 context and the uninspected
+    exact 1997 version remain distinct. No author algorithm, experiments or benchmark
+    reproduction were run. This review-data assembly adds no new primary reading.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: lpga-kind-assessment
+  area: scope
+  topic: Concept kind and scientific boundaries
+  outcome: supported
+  summary: Algorithm denotes the complete optimization procedure, including its final
+    link-cut step even when the optional second phase is omitted. In the first phase
+    all positions are write-enabled; that avoids protection-induced rejection but
+    does not guarantee a nontrivial mutation. Finite generation limits provide no
+    local- or global-optimality certificate.
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-claim-bounded-minimum-backup
+  area: evidence
+  topic: Claim bounded-minimum-backup
+  outcome: supported
+  summary: Supported as a bounded planning computation. Both source versions distinguish
+    one-agent minimum backup from minimax. The path cost is relative to the current
+    planning root; move depth is not a uniform cost threshold. The clipped 1990 p.
+    4 text is corroborated by the clean 1988 p. 1, not silently reconstructed as pristine.
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - src-korf1988
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-claim-terminal-evaluation
+  area: evidence
+  topic: Claim terminal-evaluation
+  outcome: supported
+  summary: Supported by the 1990 terminal conventions. A goal contributes zero remaining
+    heuristic but keeps its path cost; a nongoal dead end gets infinity. The conditional
+    finite-alternative phrasing avoids inferring a viable action when all options
+    are infinite or missing.
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-claim-monotonic-alpha-cutoff
+  area: evidence
+  topic: Claim monotonic-alpha-cutoff
+  outcome: supported
+  summary: Supported under the stated path monotonicity. For a fixed heuristic and
+    path-cost reference, edge consistency gives f(child)-f(parent)=edge cost+h(child)-h(parent)>=0.
+    An incumbent from an actually evaluated terminal/frontier therefore rules out
+    a strictly better descendant behind a cutoff. The hand witness shows admissibility
+    alone is insufficient; tied minimizers need not all survive.
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - src-korf1988
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-claim-complete-child-values
+  area: evidence
+  topic: Claim complete-child-values
+  outcome: supported
+  summary: Supported by the explicit 1990 per-child reset. A shared incumbent can
+    identify the best direction while leaving another child with only a bound; that
+    is insufficient for the separate RTA* second-best bookkeeping. Each child must
+    use a consistent path-cost origin so its incoming edge is counted once.
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-claim-planning-component-boundary
+  area: evidence
+  topic: Claim planning-component-boundary
+  outcome: supported
+  summary: Supported as a concept boundary rather than a guarantee transfer. The planner
+    can supply an improved heuristic; execution tables, repeated-trial learning and
+    the 1988 recursive graph-correction sketch are distinct mechanisms. Their eventual-goal
+    or convergence statements are not inherited by minimin pruning alone.
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - src-korf1988
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-limitation-1
+  area: scope
+  topic: Limitation 1
+  outcome: supported
+  summary: 'Retain. The edge-consistency condition is explicit in the 1990 account.
+    The finite positive-cost hand witness has admissible estimates yet f decreases
+    below a pruned interior value, so admissibility alone cannot establish cutoff
+    correctness. This is a constructed boundary, not an observed implementation failure.
+    Locator: 1990 PDF pp. 5–6,12'
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-limitation-2
+  area: scope
+  topic: Limitation 2
+  outcome: supported
+  summary: 'Retain. Cutting on equality can discard tied leaves while retaining the
+    minimum value. All-infinite or empty choices do not establish a solution; finite-precision
+    tolerance and failure/tie policies are not supplied by the mathematical cutoff.
+    Locator: 1990 PDF pp. 5–6'
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-limitation-3
+  area: scope
+  topic: Limitation 3
+  outcome: supported
+  summary: 'Retain. A depth-one root with a goal at cost 5 and a non-goal at cost
+    1, all h=0, has consistent estimates yet selects the non-goal frontier. Thus the
+    p. 10 goal-in-horizon wording does not support an unrestricted nonuniform-cost
+    theorem. This is a bounded hand qualification, not a formal erratum. Locator:
+    1990 PDF pp. 5,10'
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-limitation-4
+  area: scope
+  topic: Limitation 4
+  outcome: supported
+  summary: 'Retain. The positive reversible x-y cost-one link and x-goal cost-100
+    link, with h=0 and depth one, make memoryless replanning alternate x and y. RTA*
+    execution memory or LRTA* learning is additional machinery, not part of the alpha
+    cutoff. Locator: 1990 PDF pp. 10–12,18–19'
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-limitation-5
+  area: scope
+  topic: Limitation 5
+  outcome: supported
+  summary: 'Retain. Fixed move depth bounds work only under finite bounded branching
+    and evaluation costs, with an unpruned tree potentially exponential in depth.
+    Branch order changes cutoff work. The source reports immediate-f ordering overhead,
+    not a general faster procedure. Locator: 1990 PDF pp. 8–10'
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-limitation-6
+  area: scope
+  topic: Limitation 6
+  outcome: supported
+  summary: 'Retain. The independent zero/one-increment analytic model has explicit
+    assumptions and the 1990 text reports mismatch with the sliding-tile experiments.
+    Neither branching-factor nor lookahead-depth gains are universal. The preparation
+    makes no new empirical reproduction or figure-value certification. Locator: 1990
+    PDF pp. 7–9,16–18'
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-limitation-7
+  area: scope
+  topic: Limitation 7
+  outcome: supported
+  summary: 'Retain. The source versions differ in monotonicity wording and empirical/model
+    emphasis. The 1988 graph-correction sketch explicitly omits its proof; the 1990
+    paper does not supply a complete replacement specification and qualifies graph
+    local optimality. That residual belongs to owner 291 and is not resolved by this
+    planner record. Locator: 1988 PDF pp. 1,3–4; 1990 PDF pp. 5,8,15'
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - src-korf1988
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-definition-assessment
+  area: identity
+  topic: Definition and concept granularity
+  outcome: supported
+  summary: The definition selects bounded single-agent lookahead with minimum backup,
+    an incumbent alpha cutoff under heuristic consistency, and the stated per-immediate-child
+    reset. It is a planning procedure rather than RTA* execution control or LRTA*
+    learning.
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - src-korf1988
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-identity-assessment
+  area: identity
+  topic: Identity and dated search scope
+  outcome: supported
+  summary: Retain Minimin alpha pruning separately from RTA*, LRTA*, A*, IDA* and
+    graph-corrected RTA*. Shared heuristic values or tree exploration do not equate
+    these planning, execution and learning mechanisms. Owner 290 addresses the bounded
+    lookahead/pruning question with limitations; the separately scoped graph-correction
+    lead at owner 291 stays unchanged. The actual captured identity notes implement
+    the root current collection decisions; the original preview scope remains historical
+    and is recorded in context_changes. Existing owner 290 has the current bounded
+    disposition addressed_with_limitations, with all prior IDs, discovery pointers
+    and resolution objects retained.
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - src-korf1988
+  - historical-identity-minimin
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+  - current-identity-collection
+  - current-context-assessment
+  - root-decisions
+- assessment_id: minimin-mapping-assessment
+  area: grounding
+  topic: AIO relation direction or explicit no-match
+  outcome: supported
+  summary: The ten exact pinned AIO definitions do not identify this bounded search
+    planner. A state graph alone does not substantiate a Network mapping, function
+    evaluation alone does not identify MathematicalFunction, and simulated lookahead
+    does not require reinforcement learning or language modeling. The explicit no-match
+    is limited to the inspected nodes and actual refreshed scope. The actual no-match
+    search_scope is the separately recorded current root assessment; its accepted
+    rationale and ten examined-target rejections remain unchanged.
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - src-korf1988
+  - historical-identity-minimin
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+  - current-identity-collection
+  - current-context-assessment
+  - root-decisions
+- assessment_id: minimin-source-assessment
+  area: evidence
+  topic: Primary versions, access and reading scope
+  outcome: supported
+  summary: Two declared primary-paper rows retain the acquired 1990 operational account
+    and 1988 precursor. The latter metric shorthand, optimistic model discussion and
+    omitted graph-correction proof do not replace the later consistency formulation.
+    Actual October 11 acquisition times remain historical; no new source download
+    or performance reproduction is implied. The research author read native text of
+    the 23-page 1990 article and six-page 1988 paper, with visual checks of 1990 pages
+    4–6, 8, 10 and 15 and 1988 pages 1 and 4. Root separately read 1990 native pages
+    1–12 and 15–19 with visuals 4–6, 10 and 15, and 1988 native/visual pages 1 and
+    4. Garbled extraction was checked against defining formula/page images rather
+    than treated as reliable typography throughout. The per-immediate-child witness
+    addendum is separate from the original hand analysis. No complete proof certification,
+    figure-value reproduction, execution or independent peer primary pass is claimed.
+    This review-data assembly adds no new source reading.
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - src-korf1988
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: minimin-kind-assessment
+  area: scope
+  topic: Concept kind and scientific boundaries
+  outcome: supported
+  summary: Algorithm denotes a bounded tree exploration and minimum-backup procedure
+    with a consistency-dependent cutoff. It is not an optimality, execution-completeness
+    or real-time complexity guarantee. Equal minima may be pruned, and per-child incumbent
+    reset preserves separate child estimates rather than imposing one unqualified
+    global cutoff.
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - src-korf1988
+  - record-minimin
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: restoration-soft-q
+  area: provenance
+  topic: Soft Q-learning main pointer
+  outcome: supported
+  summary: 'Soft Q-learning main pointer was restored exactly from the retained proposal
+    after current root reconciliation. It remains pending inspection, not a native
+    method acceptance or a newly discovered lead. Root current reconciliation: The
+    historical source pointer remains explicit in older reports and contextual carry
+    notes, but the current complete frontier label projection and scoped normalized
+    identities contain no equivalent explicit owner or record. Restore the original
+    SAC-paper provenance as one pending main pointer, linked to existing SAC and Q-learning;
+    later TEMP research is separate from this accounting repair.'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - restoration-proposal
+  - issue-soft-q
+  - actual-write
+  - discovery-report
+  - creation-history
+  - root-decisions
+  - current-identity-collection
+  - current-context-assessment
+  - governance-assessment
+  - postcapture-reading
+- assessment_id: restoration-enforced-hill-climbing
+  area: provenance
+  topic: Enforced hill-climbing main pointer
+  outcome: supported
+  summary: 'Enforced hill-climbing main pointer was restored exactly from the retained
+    proposal after current root reconciliation. It remains pending inspection, not
+    a native method acceptance or a newly discovered lead. Root current reconciliation:
+    The old composite EHC/LSS pointer is retained in historical reports. Current strict
+    HillClimbing owner 271 and broader SLS owner 270 do not resolve the named breadth-first
+    escape controller or whole-FF boundary. Restore one pending EHC main pointer with
+    the original comparison URL and original-primary next check; preserve both old
+    owners.'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - restoration-proposal
+  - issue-ehc-lss
+  - actual-write
+  - discovery-report
+  - creation-history
+  - root-decisions
+  - current-identity-collection
+  - current-context-assessment
+  - governance-assessment
+  - postcapture-reading
+- assessment_id: restoration-lss-lrta
+  area: provenance
+  topic: LSS-LRTA* nested residual
+  outcome: supported
+  summary: 'LSS-LRTA* nested residual was restored exactly from the retained proposal
+    after current root reconciliation. It remains pending inspection, not a native
+    method acceptance or a newly discovered lead. Root current reconciliation: Current
+    owners 8 and 3 already retain broader real-time-search residuals and owner 286
+    represents basic LRTA*. Restore LSS-LRTA* as one explicitly named nested residual
+    assigned to responsible owner 8, with cross-links to 3 and 286. Preserve their
+    old objects and unresolved graph-correction owner 291; no independent second responsible
+    owner or source-method acceptance is created.'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - restoration-proposal
+  - issue-ehc-lss
+  - actual-write
+  - discovery-report
+  - creation-history
+  - root-decisions
+  - current-identity-collection
+  - current-context-assessment
+  - governance-assessment
+  - postcapture-reading
+- assessment_id: lpga-v3-correction
+  area: scope
+  topic: LPGA mutation-boundary finding and issue 394
+  outcome: supported
+  summary: 'The actual LPGA record contains the accepted v3 limitation: fully writable
+    phase-one positions remove protection-induced rejection but do not guarantee a
+    nontrivial mutation. The concrete v2 finding, manual witness, correction, original
+    validation and later exact root acceptance remain retained. The actual scientific/governance
+    assessments bind the corrected canonical science. Issue 394 closure remains a
+    subsequent reviewed-PR action; no historical formal finding or independent approval
+    is invented.'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  evidence_ids:
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - issue-lpga
+  - draft-acceptance-lpga
+  - src-lau-tsang1996
+  - record-lpga
+  - postcapture-reading
+  - actual-scientific-assessment
+  - governance-assessment
+  - review-narrative-findings
+  - review-narrative-correction
+  - review-narrative-issue
+- assessment_id: actual-correspondence
+  area: provenance
+  topic: Actual record, restored accounting, history, capture, pages and checks
+  outcome: supported
+  summary: 'The two current records equal the actual write/report entries and accepted
+    science: ten claims and fourteen individual limitations from three distinct primary
+    papers. Five files were created, including one CREATE report history. Only existing
+    owners 284 and 290 changed; 907 other main objects and all 393 old nested objects
+    are preserved, including owner 291. Two exact historical main pointers and one
+    nested residual were appended as pending accounting; new_frontier is empty. LPGA
+    v3 resolves the retained mutation-boundary wording finding without promising a
+    useful swap. Every captured input and actual rendered-page hash was checked and
+    six required checks passed. Two separate historical ownership findings remain
+    explicitly pending in the root decisions and issues 397/398; this is not a globally
+    findings-free ledger. No family exhaustion or independent approval is implied.'
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  - AIMech:MiniminAlphaPruning
+  evidence_ids:
+  - actual-write
+  - captured-inputs
+  - postcapture-reading
+  - governance-assessment
+  - rendered-pages
+  - actual-scientific-assessment
+  - creation-history
+  - root-decisions
+  - restoration-proposal
+  - lpga-correction
+  - deferred-accounting-findings
+  - deferred-accounting-issues
+  - check-gate
+  - check-vendor
+  - check-check-source
+  - check-render
+  - check-render-check
+  - check-diff
+  - review-narrative-findings
+  - review-narrative-correction
+  - review-narrative-issue
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:LowerPowerGeneticAlgorithm
+  rationale: Retain LPGA separately from generic GeneticAlgorithm, GuidedGeneticAlgorithm
+    and GuidedLocalSearch. Its problem-specific encoding, offspring selection and
+    optional protection phase define the inspected 1996 method. AMP and GAcSP mentions
+    and the exact 1997 version remain residual context under owner 284, without new
+    records or a family-exhaustion claim.
+  evidence_ids:
+  - preview-lpga
+  - support-lpga
+  - draft-acceptance-lpga
+  - preview-validation-lpga
+  - source-reading-lpga
+  - preparation-reading-lpga
+  - root-research-lpga
+  - source-version-lpga
+  - hand-analysis-lpga
+  - lpga-v2-finding
+  - lpga-successor-assessment
+  - lpga-correction
+  - src-lau-tsang1996
+  - historical-identity-lpga
+  - root-decisions
+  - current-identity-collection
+- action: retain
+  target_ids:
+  - AIMech:MiniminAlphaPruning
+  rationale: Retain Minimin alpha pruning separately from RTA*, LRTA*, A*, IDA* and
+    graph-corrected RTA*. Shared heuristic values or tree exploration do not equate
+    these planning, execution and learning mechanisms. Owner 290 addresses the bounded
+    lookahead/pruning question with limitations; the separately scoped graph-correction
+    lead at owner 291 stays unchanged.
+  evidence_ids:
+  - preview-minimin
+  - support-minimin
+  - draft-acceptance-minimin
+  - preview-validation-minimin
+  - source-reading-minimin
+  - preparation-reading-minimin
+  - root-research-minimin
+  - source-version-minimin
+  - hand-analysis-minimin
+  - minimin-per-child-addendum
+  - src-korf1990
+  - src-korf1988
+  - historical-identity-minimin
+  - root-decisions
+  - current-identity-collection
+```
