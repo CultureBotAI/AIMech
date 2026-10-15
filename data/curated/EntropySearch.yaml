@@ -1,0 +1,171 @@
+id: AIMech:EntropySearch
+name: Entropy Search
+concept_kind: algorithm
+definition: A Bayesian global optimization algorithm that approximates the location of a function minimum
+  on sampled representer points using expectation propagation, and chooses evaluations by an approximate
+  expected reduction in relative-entropy loss for that minimizer belief.
+definition_evidence:
+- source_id: hennig2012
+  locator: Sections 2.2–2.7, PDF pp. 8–15 / printed pp. 1816–1823; Algorithm 1, PDF p. 19 / printed p.
+    1827
+  relation: supports
+claims:
+- claim_id: objective-surrogate-and-minimizer-belief
+  kind: mechanism
+  statement: The source models an unknown objective on a bounded continuous domain with a Gaussian process
+    and a specified observation likelihood; Gaussian observation noise gives the analytically tractable
+    core. It seeks a belief over the location of the minimum under regularity assumptions that make this
+    optimizer law meaningful. The evaluation policy aims to improve that belief, rather than always evaluating
+    a minimizer of the posterior mean. This probabilistic target is different from observing the true
+    optimizer or certifying a global optimum.
+  evidence:
+  - source_id: hennig2012
+    locator: Sections 1.1 and 2.1, PDF pp. 2, 5–7 / printed pp. 1810, 1813–1815; Appendix A, PDF p. 26
+      / printed p. 1834
+    relation: supports
+- claim_id: nonuniform-representer-point-approximation
+  kind: mechanism
+  statement: A finite set of representer points approximates the continuous minimizer law. The sampling
+    proposal is required to assign nonzero mass to every open neighborhood of the domain; the source discusses
+    probability-of-improvement and expected-improvement shaped proposals as heuristics. These proposal
+    values control the discretization and its density correction. They are neither the minimizer probabilities
+    themselves nor the final information acquisition. Numerical optimization of the next evaluation location
+    need not select one of the representer points.
+  evidence:
+  - source_id: hennig2012
+    locator: Section 2.2, PDF p. 8 / printed p. 1816; Section 2.5, PDF p. 13 / printed p. 1821; Algorithm
+      1, PDF p. 19 / printed p. 1827
+    relation: supports
+- claim_id: expectation-propagation-minimum-probabilities
+  kind: mechanism
+  statement: Restricting the Gaussian process to the representer points gives a multivariate Gaussian
+    over their function values. In the usual no-tie finite Gaussian setting, for each point the event
+    that its value is no greater than the other represented values is a set of pairwise inequalities.
+    Expectation propagation approximates the corresponding Gaussian integrals and provides derivatives
+    of the resulting finite minimizer-probability approximation with respect to the Gaussian mean and
+    covariance. Finite representation and expectation propagation are separate approximations; neither
+    constitutes exact inference of the continuous optimizer law.
+  evidence:
+  - source_id: hennig2012
+    locator: Section 2.3, PDF pp. 8–10 / printed pp. 1816–1818; Algorithm 1, PDF p. 19 / printed p. 1827
+    relation: supports
+- claim_id: relative-entropy-loss-and-information-target
+  kind: mechanism
+  statement: The source uses negative Kullback–Leibler divergence from the minimizer belief to a fixed
+    uniform base as its loss. On the nonuniform discretization, the varying part of the approximate loss
+    is H(q)-sum_i q_i log u_i, where q is the finite minimizer-probability representation and u_i are
+    the unnormalized proposal values. The omitted terms are constant for that fixed discretization and
+    uniform base. Entropy of the categorical weights alone therefore omits the proposal correction. With
+    exact Bayesian updating, fixed hyperparameters and well-defined finite entropy quantities, the ideal
+    expected loss reduction is information between optimizer location and a future noisy observation.
+    It is the same ideal information objective rearranged by PES, after consistently changing minimum
+    to maximum. This identity does not equate their inference approximations.
+  evidence:
+  - source_id: hennig2012
+    locator: Section 2.5, PDF pp. 12–13 / printed pp. 1820–1821; small original probability illustrations
+      in research/discovery/entropy-search-boundaries.py
+    relation: supports
+  - source_id: hernandez2014
+    locator: Section 2, PDF pp. 2–3, Equations 2–3 and comparison with the earlier Entropy Search approximation
+    relation: supports
+- claim_id: approximate-prospective-loss-and-greedy-query
+  kind: mechanism
+  statement: Prospective Gaussian-process mean and covariance changes are combined with derivatives from
+    the minimizer-probability approximation to approximate the expected change of loss. The source uses
+    an expansion and Monte Carlo integration over observation innovations, keeping the sampled innovations
+    fixed while numerically optimizing the candidate location. After evaluating the selected location,
+    the algorithm updates its data and repeats. This is a greedy one-step policy, rather than optimization
+    of all remaining evaluations jointly. This claim describes the method; it does not adopt the unresolved
+    literal innovation and Taylor notation as a verified implementation.
+  evidence:
+  - source_id: hennig2012
+    locator: Sections 2.4 and 2.6–2.7, PDF pp. 11, 13–15 / printed pp. 1819, 1821–1823; Algorithm 1, PDF
+      p. 19 / printed p. 1827
+    relation: supports
+- claim_id: hyperparameter-and-final-decision-scope
+  kind: scope
+  statement: The paper discusses learning kernel and likelihood hyperparameters by maximum likelihood
+    or Bayesian sampling. To reuse the Gaussian-process calculation after Bayesian hyperparameter learning,
+    it proposes approximating a mixture of Gaussian processes by a single process using expected mean
+    and covariance functions. It leaves the full hierarchical learning process in the evaluation decision
+    outside its scope. At its horizon, Algorithm 1 returns the approximate minimizer belief for a final
+    decision. The method is therefore not defined by a claim that hyperparameters can never be learned,
+    or by a guaranteed final optimum.
+  evidence:
+  - source_id: hennig2012
+    locator: Section 2.8.2, PDF p. 16 / printed p. 1824; Algorithm 1, PDF p. 19 / printed p. 1827
+    relation: supports
+identity_notes: This record maintains the original ES representer-point, expectation-propagation and prospective
+  relative-loss algorithm. It shares an ideal fixed-hyperparameter optimizer-information target with PES
+  after consistent min/max conversion, while its operational approximations differ. Existing FABOLAS uses
+  an ES-related acquisition within a dataset-size/cost procedure and does not cover this original identity.
+  GP regression, cross-entropy elite refitting and generic active learning are distinct. No acronym alias
+  is adopted; actual current identity and ignored-inclusive searches are refreshed before creation.
+evidence_sources:
+- source_id: hennig2012
+  title: Entropy Search for Information-Efficient Global Optimization
+  authors:
+  - Philipp Hennig
+  - Christian J. Schuler
+  version: Official JMLR 13(57):1809–1837 (2012) journal PDF; 29 PDF pages, submitted December 2011 and
+    published June 2012. Locators distinguish PDF and printed pagination.
+  source_type: primary_paper
+  url: https://jmlr.org/papers/volume13/hennig12a/hennig12a.pdf
+  access_level: full_text
+  accessed_at: '2026-10-14T21:42:10Z'
+  sha256: c1141315e0cee37ebb2de1e6a87e1e7a64cd7bb54e4812b591fef57031e8e5f2
+- source_id: hernandez2014
+  title: Predictive Entropy Search for Efficient Global Optimization of Black-box Functions
+  authors:
+  - José Miguel Hernández-Lobato
+  - Matthew W. Hoffman
+  - Zoubin Ghahramani
+  version: Official Advances in Neural Information Processing Systems 27 (2014) proceedings PDF, nine
+    pages; retrieved proceedings.neurips.cc bytes equal the retained papers.nips.cc PDF.
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2014/file/6488484c982e9af5c35689523ba1abfe-Paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-14T22:00:05Z'
+  sha256: 82eb9e614937fe9e90273705bd0c5379fafbd5dc76e7227992246af5c52ca658
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ActiveLearning
+  relation: related_match
+  rationale: The pinned class describes interactive querying of an information source for outputs. This
+    algorithm chooses informative objective evaluations to update its surrogate and optimizer belief.
+    The relation records that query-learning association. It does not equate black-box optimization with
+    annotation or pool-based classification, assert subclass membership, or identify the specific acquisition
+    with the broad AIO class.
+limitations:
+- This record denotes the original representer-point and expectation propagation algorithm, not all information-based
+  Bayesian optimization. Predictive Entropy Search uses different optimizer sampling and predictive-entropy
+  approximations. Shared ideal information does not imply identical acquisitions on every problem or justify
+  a claim that their selected points always differ.
+- Figure 2 on PDF p. 7 explicitly allows atoms at a domain boundary. An optimizer law with such atoms
+  is not a Lebesgue density, and its KL divergence to a purely continuous uniform base is infinite. The
+  ideal density-entropy calculation requires appropriate measures and finite quantities; the finite discretized
+  loss is an approximation. Appendix A does not provide a general existence or convergence theorem for
+  every objective prior. Degenerate priors, singular finite covariances and tied optimizer values require
+  explicit handling beyond the ordinary no-tie Gaussian calculation.
+- Section 2.4 on PDF p. 11 and Equation 6 on PDF p. 13 leave literal signed covariance innovation, noise
+  placement and second-mean-derivative coefficient questions for implementation audit. This record neither
+  silently repairs those expressions nor claims to reproduce them numerically.
+- The expected-improvement comparator on PDF p. 4 prints min{0,eta-f} although its closed form is the
+  nonnegative improvement expression. The optional logarithmic-likelihood discussion on PDF p. 17 calls
+  logarithm convex and prints a positive second derivative where the stated likelihood gives -y^2/sigma^2
+  at g=log(y). Those contextual discrepancies are not adopted as core Entropy Search formulas.
+- The retained curator calculator checks 27 small positive binary channels and separate constructed boundary
+  examples. Probability masses use exact rational arithmetic; entropy uses floating logarithms. These
+  checks illustrate information identities and limitations. They do not run Gaussian-process fitting,
+  expectation propagation, acquisition optimization or author code, and establish no general accuracy,
+  runtime, regret or global convergence guarantee.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T00:57:14Z'
+  updated_at: '2026-10-15T00:57:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
