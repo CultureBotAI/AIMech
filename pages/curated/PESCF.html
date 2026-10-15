@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PESC-F · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>PESC-F</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">PESC-F</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PESCF</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    An adaptive computation variant of Predictive Entropy Search with Constraints that alternates full inference and acquisition updates with partial updates reusing GP hyperparameter samples, constrained optimizer samples and Gaussian site information, while reducing acquisition optimization effort.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      PESC-F is the named adaptive full/partial PESC computation mechanism, changing cached inference refresh and acquisition search effort. Full PESC acquisition, task/resource graph configurations and CD-F experimental scheduling are distinct context; no separate scheduler or component identity is created. Later pinned author-code timing conventions are distinguished from contradictory printed pseudocode and are not called an erratum. No aliases are adopted. Fresh whole-corpus, semantic, ignored-inclusive and full-frontier assessments establish bounded distinctness before creation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#full-and-partial-update-levels</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    PESC-F retains the PESC constrained-optimizer information acquisition and introduces two levels of work between function evaluations. A full update refreshes GP hyperparameter samples, approximate constrained optimizer samples and EP solutions, then optimizes the acquisition. A partial update incorporates new data while reusing selected inference quantities and spending less effort on acquisition optimization. This changes the acquisition approximation and its refresh schedule; it is not merely an exact faster evaluation of every full PESC update. Algorithm 2 presents the competitive decoupled case, with individual objective and constraint tasks sharing one evaluation resource.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hernandez2016">A General Framework for Constrained Bayesian Optimization using Information-based Search</a></span>
+        <span>· <strong>Locator:</strong> Sections 5–5.1, PDF pp. 22–24, Algorithm 2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fixed-hyperparameters-with-new-data</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    During a partial update, the earlier GP hyperparameter samples are retained while the GP model is conditioned on the new observations. Retaining hyperparameters does not mean freezing predictive means and covariances. When appending one input leaves the old covariance block unchanged and the enlarged matrix positive definite, the paper describes updating its Cholesky factor using a bordered calculation with quadratic work instead of a full cubic factorization. This algebraic possibility requires the fixed old block and a positive Schur complement; it is not a general runtime guarantee. The inspected author GP cache still calls a full Cholesky factorization, so the proposed saving is not asserted to occur in that code path.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hernandez2016">A General Framework for Constrained Bayesian Optimization using Information-based Search</a></span>
+        <span>· <strong>Locator:</strong> PDF p. 23, first reduction of update cost; Appendix B.4, PDF pp. 49–50; original bordered-factor diagnostic in research/discovery/pesc-fast-boundaries.py</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pesc-gp">Spearmint PESC author source — spearmint/models/gp.py</a></span>
+        <span>· <strong>Locator:</strong> GP.fit lines 517–569 and _prepare_cache lines 271–283 at the pinned commit, read only</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#optimizer-and-site-reuse</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Partial updates reuse previously sampled constrained optimizer locations and previously fitted EP site parameters. In the inspected author implementation, the fast path recomputes predictive Gaussian quantities from the updated models and combines them with the retained sites, without resampling optimizer locations or rerunning the complete EP refinement. New objective input positions receive zero entries when embedding the retained site parameters. Thus cached site reuse does not freeze the whole Gaussian approximation and need not agree with freshly fitted sites. The code requires a preceding full update to initialize these caches.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hernandez2016">A General Framework for Constrained Bayesian Optimization using Information-based Search</a></span>
+        <span>· <strong>Locator:</strong> PDF p. 23, second reduction of update cost; Algorithm 2, PDF p. 24, lines 9–10 and 15–16</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pesc-acquisition">Spearmint PESC author source — spearmint/acquisition_functions/predictive_entropy_search.py</a></span>
+        <span>· <strong>Locator:</strong> updateEPsolution lines 553–639; create_acquisition_function lines 1271–1285; performEPandXstarSamplingForOneState lines 1348–1389 at the pinned commit, read only</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#reduced-acquisition-search-effort</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The partial computation can reduce acquisition search effort through a coarser stopping tolerance, a smaller initial grid or fewer restarts. These changes trade optimization precision for computation and do not guarantee the same suggested query as a full update. The inspected chooser selects different grid sizes for full and partial updates and, on its NLopt path, different absolute tolerances and evaluation limits. Those are configurable implementation choices, not universal numerical settings or a guarantee that every backend uses the same stopping rule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hernandez2016">A General Framework for Constrained Bayesian Optimization using Information-based Search</a></span>
+        <span>· <strong>Locator:</strong> PDF p. 23, third reduction of update cost; Algorithm 2, PDF p. 24, lines 13 and 17</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pesc-chooser">Spearmint PESC author source — spearmint/choosers/default_chooser.py</a></span>
+        <span>· <strong>Locator:</strong> suggest lines 504–536; compute_acquisition_function lines 664–774, especially 723–724 and the separate fallback path, at the pinned commit, read only</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#versioned-timing-trigger</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the inspected author-code convention, let e be elapsed time since the previous full update completed, s its measured duration and g&gt;=0 the thoughtfulness parameter. With fast updates enabled, the chooser uses a partial update when e*g&lt;s and a full update otherwise, including equality. Its full-update completion time is recorded after the acquisition-based suggestion. Initial equal start and end sentinels give s=0 and select a full update before cached partial updates. Disabling fast updates selects full updates directly. This versioned convention agrees with the paper prose that larger rationality levels favor more full computation, but differs from its printed Equation 22 and Algorithm 2 condition e/s&gt;gamma. The discrepancy and the boundary difference are retained rather than silently equated.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hernandez2016">A General Framework for Constrained Bayesian Optimization using Information-based Search</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1, PDF p. 23, Equation 22; Algorithm 2, PDF p. 24; Section 7.3, PDF pp. 36–38</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pesc-chooser">Spearmint PESC author source — spearmint/choosers/default_chooser.py</a></span>
+        <span>· <strong>Locator:</strong> Initialization lines 247–255; fit lines 305–322; suggestion completion lines 653–658 at the pinned commit; original exact trigger diagnostic in research/discovery/pesc-fast-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#heuristic-computation-budget</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The switching rule is a heuristic for balancing decision computation with black-box evaluation time. It does not optimize the value of computation or guarantee a fixed upper bound on total BO time divided by evaluation time. Partial-update time also contributes to elapsed time, past full-update duration need not predict the next duration, and sufficiently cheap evaluations can be dominated even by partial updates. PESC-F reduces to the full-update regime when every decision satisfies the chosen full-update condition; this is conditional on the timing convention and parameter, not an unconditional consequence of one evaluation being slower than a previous update. The paper leaves optimal rationality selection and theoretical analysis for future work.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hernandez2016">A General Framework for Constrained Bayesian Optimization using Information-based Search</a></span>
+        <span>· <strong>Locator:</strong> Sections 5.1–5.3, PDF pp. 23–25; Table 1 and discussion on p. 38; future work on p. 40; original timing-budget counterexample in research/discovery/pesc-fast-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The official 2016 paper was read in full native text, with selected method and experiment visuals. Author code was read selectively at the November 13, 2016 commit b5722e5134becc10523ff8f4bd8ef453b40faf69. It was not imported or executed. This code version is later than the September PDF and is not an author-issued erratum or proof of exact reproduction of the published experiments.</li>
+      <li>Printed Equation 22 reverses the parameter direction relative to the prose and experimental endpoint labels. Algorithm 2 initializes a denominator to zero and records its full-update timer before expensive acquisition optimization, contrary to the prose duration definition. The separately pinned code avoids these literal forms; the record does not merge the versions into one exact pseudocode claim.</li>
+      <li>Full PESC computations already approximate constrained optimizer sampling and conditional observation entropy. PESC-F adds stale samples, retained sites and cheaper search. No exact mutual-information, approximation-error, global optimizer or EP convergence guarantee follows.</li>
+      <li>PESC assumes an attained feasible optimizer with uniqueness or a specified tie policy. The narrow PESC-F mechanism does not supply a general policy for empty feasible sets or certify every printed PESC appendix formula.</li>
+      <li>The paper resource graph and Algorithm 1 are surrounding framework context: they greedily choose eligible task/input pairs for available resources, with a model update for pending work. They are not a proof of jointly optimal scheduling, and multiple simultaneously required resources are left to future work. Competitive and non-competitive decoupling are problem configurations, not exact aliases for PESC-F. No separate scheduler identity is asserted here.</li>
+      <li>The wall-clock experiment uses one synthetic problem, specified artificial evaluation delays and a particular implementation. No universal speedup, quality guarantee, resource fairness or exact time-budget bound is claimed. The retained original calculator checks seven finite algebraic and scheduling boundaries, not author benchmarks.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ActiveLearning.html" style="font-weight: 600;"><code>AIO:ActiveLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Active Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The connection is choosing informative queries. The pinned AIO term is a labeling-oriented task, while this algorithm adapts the computation used to choose objective and constraint evaluations. The mapping is related only, without equivalence, subclass, network or layer inheritance.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-hernandez2016">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">hernandez2016</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://jmlr.org/papers/volume17/15-616/15-616.pdf" target="_blank" rel="noopener">A General Framework for Constrained Bayesian Optimization using Information-based Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            José Miguel Hernández-Lobato, Michael A. Gelbart, Ryan P. Adams, Matthew W. Hoffman, Zoubin Ghahramani
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bf1df88f4242…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-pesc-chooser">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">pesc-chooser</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/HIPS/Spearmint/blob/b5722e5134becc10523ff8f4bd8ef453b40faf69/spearmint/choosers/default_chooser.py" target="_blank" rel="noopener">Spearmint PESC author source — spearmint/choosers/default_chooser.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ryan P. Adams, Michael Gelbart, Jasper Snoek, Kevin Swersky, Hugo Larochelle
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3313349bc4d1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-pesc-acquisition">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">pesc-acquisition</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/HIPS/Spearmint/blob/b5722e5134becc10523ff8f4bd8ef453b40faf69/spearmint/acquisition_functions/predictive_entropy_search.py" target="_blank" rel="noopener">Spearmint PESC author source — spearmint/acquisition_functions/predictive_entropy_search.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ryan P. Adams, Michael Gelbart, Jasper Snoek, Kevin Swersky, Hugo Larochelle
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1124d3cadc0d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-pesc-gp">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">pesc-gp</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/HIPS/Spearmint/blob/b5722e5134becc10523ff8f4bd8ef453b40faf69/spearmint/models/gp.py" target="_blank" rel="noopener">Spearmint PESC author source — spearmint/models/gp.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ryan P. Adams, Michael Gelbart, Jasper Snoek, Kevin Swersky, Hugo Larochelle
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f96c6b695303…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T03:26:23Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T03:26:23Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PESCF.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PESCF.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
