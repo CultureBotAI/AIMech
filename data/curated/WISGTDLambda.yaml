@@ -1,0 +1,164 @@
+id: AIMech:WISGTDLambda
+name: WIS-GTD(lambda)
+concept_kind: algorithm
+aliases: []
+definition: A linear off-policy state-value prediction algorithm that combines an importance-weighted
+  accumulating eligibility trace and an auxiliary GTD correction with componentwise main-weight step sizes
+  derived from feature usage, retaining a separate scalar step size for the auxiliary weights.
+definition_evidence:
+- source_id: mahmood2015-author
+  locator: Section 6, author PDF p. 7, WIS-GTD(lambda) extension; Appendix A.7, p. 18, Algorithm 2; shared
+    usage Equations 22–24 on p. 6.
+  relation: supports
+claims:
+- claim_id: linear-off-policy-gtd-host
+  kind: mechanism
+  statement: WIS-GTD(lambda) evaluates a target policy pi from transitions sampled under a behavior policy
+    b using a fixed linear state-value representation V_t(s)=theta_t^T*phi(s). It uses the current action
+    ratio rho_t=pi(A_t|S_t)/b(A_t|S_t), state-dependent discount gamma and bootstrapping lambda in [0,1],
+    and the source-defined usage schedule for its main parameter vector. It is a policy-evaluation procedure,
+    not an action-selection or policy-improvement rule.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: 'Sections 3 and 5, author PDF pp. 3–5: linear policy-evaluation setting, importance ratios
+      and lambda domain; Section 6, p. 7; Appendix A.7, p. 18, Algorithm 2.'
+    relation: supports
+- claim_id: shared-usage-state-and-new-step
+  kind: mechanism
+  statement: Let ⊙ denote componentwise multiplication, h_t=1-eta*(phi_t⊙phi_t), and q_t=gamma_t*lambda_t.
+    Update u_(t+1)=h_t⊙u_t+rho_t*(phi_t⊙phi_t)+(rho_t-1)*q_t*(h_t⊙v_t) and v_(t+1)=q_t*rho_t*(h_t⊙v_t)+rho_t*(phi_t⊙phi_t),
+    using old v_t in both right sides. Set alpha_(t+1) to the componentwise reciprocal of new u_(t+1),
+    with the source convention that a reciprocal at zero is zero. The algorithm initializes u_0=u_init*1,
+    v_0=0 and e_(-1)=0, with chosen theta_0, w_0, u_init>=0, eta>=0 and beta>=0.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Equations 22–24 and Theorem 5, author PDF p. 6; Appendix A.7, p. 18, Algorithm 2. Componentwise
+      division and reciprocal-zero convention in Section 2, p. 3.
+    relation: supports
+- claim_id: importance-weighted-accumulating-trace
+  kind: mechanism
+  statement: The eligibility trace is e_t=rho_t*(gamma_t*lambda_t*e_(t-1)+phi_t). Form delta_t=R_(t+1)+gamma_(t+1)*theta_t^T*phi_(t+1)-theta_t^T*phi_t
+    from pre-update theta_t. This accumulating trace uses the current ratio rho_t and current gamma_t*lambda_t;
+    it is not the component-scaled Dutch trace of WIS-TD or a stored previous-ratio trace.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Appendix A.7, author PDF p. 18, Algorithm 2, eligibility and TD-error lines; Section 6, p.
+      7, distinct GTD and true-online GTD extensions.
+    relation: supports
+- claim_id: main-and-auxiliary-update-timing
+  kind: mechanism
+  statement: Using new e_t and alpha_(t+1), update theta_(t+1)=theta_t+alpha_(t+1)⊙(delta_t*e_t)-alpha_(t+1)⊙[gamma_(t+1)*(1-lambda_(t+1))*(e_t^T*w_t)*phi_(t+1)]
+    and w_(t+1)=w_t+beta*[delta_t*e_t-(w_t^T*phi_t)*phi_t]. Both right sides use old w_t and the same
+    pre-update theta_t through delta_t. The main correction uses the next-state gamma and lambda. Beta
+    remains scalar; the source leaves usage adaptation of the auxiliary update outside this algorithm.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 6, author PDF p. 7, main versus auxiliary step-size paragraph; Appendix A.7, p. 18,
+      Algorithm 2, theta and w update lines.
+    relation: supports
+- claim_id: qualified-on-policy-usage-td-reduction
+  kind: scope
+  statement: When all rho values are one, the v-dependent correction disappears from the usage update
+    and the eligibility recurrence is on-policy accumulating TD. With beta=0 and w_0=0, w remains zero
+    and the complete main update reduces to usage-based TD(lambda), under matching initial values and
+    feature sequence. Beta=0 alone freezes an arbitrary w_0 and does not in general remove the main auxiliary
+    correction.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 6, author PDF p. 7, on-policy relationship paragraph; Appendix A.7, p. 18, Algorithms
+      2 and 4. The explicit zero-w condition follows directly from the displayed auxiliary and main recurrences.
+    relation: supports
+- claim_id: usage-forward-scope-and-linear-cost
+  kind: scope
+  statement: The usage schedule is the backward recurrence whose step sizes Theorem 5 equates with the
+    specified forward usage construction in Equations 18–20. This shared step-size correspondence does
+    not identify WIS-GTD weights with the separate WIS-TD forward weight update of Theorem 6. Algorithm
+    2 uses a fixed number of length-n vectors and O(n) dense arithmetic and storage per transition; this
+    concerns its update bookkeeping.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Author PDF p. 6, Equations 18–24 and Theorems 5–6; Section 6, p. 7; Appendix A.7, p. 18,
+      Algorithm 2. Dense cost follows the finite vector and inner-product operations in the printed O(n)
+      method.
+    relation: supports
+limitations:
+- This identity is the source-defined usage-adapted accumulating GTD algorithm. It is not base GTD, WIS-TD
+  with Dutch and provisional state, true online GTD, WIS-TO-GTD or an isolated usage operator. Shared
+  state-value targets and parameter specializations do not make the complete methods aliases.
+- The source leaves convergence analysis of the new algorithms for future work. Usage equality does not
+  establish an unbiased objective-gradient step, stable weights, monotonic improvement, optimality or
+  universal empirical superiority. Target-policy action support under behavior and well-defined finite
+  ratios, returns and relevant moments remain separate requirements.
+- Bare eta>=0 does not guarantee positive usage for arbitrary feature magnitudes. For example, the scalar
+  on-policy recurrence with phi=1, u_init=0 and eta=3 gives usage 1 and then -1. Conditions such as 0<=1-eta*phi_t(i)^2<=1,
+  nonnegative ratios, gamma*lambda in [0,1] and matched u>=v>=0 initialization support nonnegative usage;
+  they do not ensure strictly positive usage, bounded reciprocal steps or convergence. The reciprocal-zero
+  convention is not a stability result.
+- On-policy beta=0 does not remove a nonzero initial auxiliary vector. At lambda_t=0 the eligibility is
+  rho_t*phi_t, but the next-state auxiliary correction generally remains. When the next lambda is one
+  its correction multiplier vanishes, yet the main method still uses the accumulating host. Neither endpoint
+  alone makes the method an exact Monte Carlo average or an exact self-normalized WIS estimator.
+- Old v, old w and pre-update theta timing are part of the construction. Using newly updated w in the
+  main correction, adapting beta with the main usage vector, or substituting a Dutch trace changes the
+  displayed algorithm. Finite-horizon usage correspondence is not permission to transfer WIS-TD main-weight
+  or objective claims to this host.
+- The selected method uses fixed linear features and predicts state values. Arbitrary nonlinear or learned
+  representations, action-value control and policy improvement require separate assessment. O(n) dense
+  vector bookkeeping excludes feature construction and environment interaction and does not guarantee
+  active-feature-only cost or a universal wall-clock advantage.
+- The evidence is the acquired eighteen-page author combined paper and Appendix A, whose native text matches
+  the retained official main paper and supplement. The embedded 2016 file-creation date is not a verified
+  scientific revision date. Section 6 and Algorithm 2 specify this method; the separate Algorithm 3 WIS-TO-GTD
+  correction-trace ambiguity is not silently resolved here. Reported finite prediction-task comparisons
+  do not certify source code, all proofs or benchmark reproducibility.
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The algorithm estimates target-policy state values from reward transitions sampled under
+    a behavior policy and supplies prediction machinery used in reinforcement learning. The pinned target
+    is a broader exploration/performance-oriented learning task; this is a qualified association, not
+    exact identity, a subclass edge, action selection, policy improvement or convergence.
+review_status: DRAFT
+identity_notes: The selected source-defined linear off-policy prediction algorithm combines inverse feature-usage
+  main step sizes, an ordinary importance-weighted accumulating trace and a scalar auxiliary GTD update.
+  Its complete update differs from WIS-TD with provisional weights, the three-trace true-online GTD host
+  and the two on-policy usage-based methods. Conditional reductions do not make those algorithms exact
+  aliases. Existing eligibility owner 264 retains seven earlier IDs and five resolutions; its historical
+  Sutton pointer is discovery context, while Mahmood and Sutton 2015 supplies this method. The fresh collection
+  after PR389 merged, on 15 October 2026 at 18:42:28–18:45:19 UTC, covered 775 maintained native and 442
+  pinned AIO records. IDs, local IDs, names, aliases and scoped synonyms supplied 4,843 identity fields.
+  Canonical names and explicit source spellings, including Greek lambda, produced no normalized candidate
+  collision. Four fixed-string searches included ignored and hidden paths and retained 6,064 occurrences
+  in 1,351 distinct content groups. Two supporting agents read all grouped contents in disjoint partitions;
+  root read all 37 filtered candidate-named groups, twelve normalized neighbor definitions, 29 fields
+  and full owners 264,265,266 and269. Candidate-named matches are source-lead, history, review and existing-neighbor
+  context. All 1,216 pre-WIS-TD inventory rows and the newly merged WIS-TD record were reconciled at the
+  actual base. Historical research snapshots remain separately dated. This supports a bounded identity
+  decision for these roots, probes and pinned AIO snapshot; it does not claim a manual semantic reading
+  of every corpus record or worldwide absence.
+evidence_sources:
+- source_id: mahmood2015-author
+  title: Off-policy learning based on weighted importance sampling with linear computational complexity
+  authors:
+  - A. Rupam Mahmood
+  - Richard S. Sutton
+  version: Author-catalog-linked eighteen-page combined UAI 2015 paper and Appendix A. Native text on
+    PDF pp. 1–10 matches the official ten-page proceedings paper, and pp. 11–18 match its official eight-page
+    supplement. The embedded 2016 PDF creation date is not treated as a verified scientific revision date;
+    source-local PDF pagination is used.
+  persistent_id: https://proceedings.mlr.press/r13/mahmood15a.html
+  source_type: primary_paper
+  url: https://armahmood.github.io/files/MS-WIS-O(n)-UAI-2015.pdf
+  access_level: full_text
+  accessed_at: '2026-10-15T17:02:13Z'
+  sha256: 9f30489028c8473a6e45d44e16604ae80a0ac485e181388274dcff73b57e1767
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T18:58:39Z'
+  updated_at: '2026-10-15T18:58:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
