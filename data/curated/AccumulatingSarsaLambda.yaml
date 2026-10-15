@@ -1,0 +1,290 @@
+id: AIMech:AccumulatingSarsaLambda
+name: Accumulating Sarsa(lambda)
+concept_kind: algorithm
+aliases: []
+definition: An episodic tabular on-policy control algorithm that propagates each selected-next-action
+  temporal-difference error through accumulating state-action eligibility traces, retaining learned action
+  values and resetting traces between episodes.
+definition_evidence:
+- source_id: sutton-barto1998-s75
+  locator: Section 7.5, introductory on-policy description and Figure 7.11 caption.
+  relation: supports
+- source_id: sutton-barto1998-algorithm
+  locator: 'Section 7.5, Figure 7.11, linked pseudotmp12.png: complete tabular procedure, with the episode
+    reset corrected by the official errata.'
+  relation: supports
+- source_id: sutton-barto1998-errata
+  locator: 'Entry for boxed algorithms on pp. 174, 181, 184, 200, 212 and 213: move eligibility zeroing
+    inside the episode loop.'
+  relation: supports
+claims:
+- claim_id: tabular-on-policy-control
+  kind: mechanism
+  statement: The selected episodic tabular Sarsa(lambda) procedure learns an action-value table Q(s,a)
+    and derives an exploratory behavior policy from its current values, for example an epsilon-greedy
+    policy. It assigns credit using an accumulating eligibility trace for each state-action pair rather
+    than only the current pair.
+  evidence:
+  - source_id: sutton-barto1998-s75
+    locator: Section 7.5, introduction and on-policy discussion preceding Figure 7.11.
+    relation: supports
+  - source_id: sutton-barto1998-algorithm
+    locator: 'Section 7.5, Figure 7.11, linked pseudotmp12.png: table initialization, selected actions
+      and state-action trace loop.'
+    relation: supports
+- claim_id: selected-next-action-error
+  kind: mechanism
+  statement: After executing A_t in S_t and observing R_(t+1) and a nonterminal S_(t+1), select A_(t+1)
+    from the policy derived from the pre-update table Q_t. Form delta_t=R_(t+1)+gamma*Q_t(S_(t+1),A_(t+1))-Q_t(S_t,A_t),
+    then carry that already selected action into the next transition. The bootstrap uses the selected
+    action value, not a maximum over actions or an expected action value.
+  evidence:
+  - source_id: sutton-barto1998-td-error
+    locator: Section 7.5, unnumbered TD-error display immediately before Equation 7.13, linked imgtmp57.png.
+    relation: supports
+  - source_id: sutton-barto1998-algorithm
+    locator: 'Figure 7.11, linked pseudotmp12.png: choose a-prime before computing delta and updating
+      Q; assign a <- a-prime after the trace loop.'
+    relation: supports
+- claim_id: accumulating-trace-credit
+  kind: mechanism
+  statement: Let E_t be the trace used in the value update at time t, with E_(-1)=0 at an episode start.
+    For every tabulated pair, E_t(s,a)=gamma*lambda*E_(t-1)(s,a)+1{(s,a)=(S_t,A_t)} and Q_(t+1)(s,a)=Q_t(s,a)+alpha*delta_t*E_t(s,a).
+    The Q values used to compute delta_t are pre-update values. Figure 7.11 implements this recurrence
+    by incrementing the stored current-pair trace, updating Q using the resulting traces, and then decaying
+    the stored traces by gamma*lambda; that decay is not applied again before the next increment.
+  evidence:
+  - source_id: sutton-barto1998-trace
+    locator: 'Section 7.5, Equation 7.13, linked numeqtmp40.png: current-pair increment and decay for
+      all other pairs.'
+    relation: supports
+  - source_id: sutton-barto1998-q-update
+    locator: Section 7.5, unnumbered action-value update preceding the TD-error display, linked imgtmp56.png.
+    relation: supports
+  - source_id: sutton-barto1998-algorithm
+    locator: 'Section 7.5, Figure 7.11, linked pseudotmp12.png: increment, value update, then stored-trace
+      decay; episode initialization is corrected by the separately cited author errata.'
+    relation: supports
+  - source_id: sutton-barto1998-errata
+    locator: 'Entry for boxed algorithms on pp. 174, 181, 184, 200, 212 and 213: move eligibility zeroing
+      inside the episode loop.'
+    relation: supports
+- claim_id: episodic-terminal-and-reset
+  kind: mechanism
+  statement: Initialize Q before learning and retain its learned entries between episodes. Reset all eligibility
+    traces to zero at each episode start, following the author errata. At a terminal successor, use zero
+    continuation value, so the final error is R_(t+1)-Q_t(S_t,A_t); apply that reward update to all eligible
+    pairs before starting the next episode. No further environment action is executed from the terminal
+    state.
+  evidence:
+  - source_id: sutton-barto1998-terminal
+    locator: 'Section 6.4, paragraph immediately after Equation 6.5: the successor action value is defined
+      as zero at a terminal state. The linked terminal symbols are retained separately from the HTML bytes.'
+    relation: supports
+  - source_id: sutton-barto1998-algorithm
+    locator: 'Section 7.5, Figure 7.11, linked pseudotmp12.png: Q initialization, episode loop, value
+      updates and terminal stopping test.'
+    relation: supports
+  - source_id: sutton-barto1998-errata
+    locator: 'Entry for boxed algorithms on pp. 174, 181, 184, 200, 212 and 213: eligibility traces are
+      zeroed inside each episode loop, not only before the first episode.'
+    relation: supports
+- claim_id: trace-memory-and-one-step-limit
+  kind: scope
+  statement: 'From zero episode traces, a pair receives the discounted sum of its visit indicators: E_t(s,a)=sum_(k=0..t)(gamma*lambda)^(t-k)*1{(S_k,A_k)=(s,a)}.
+    Repeated visits therefore accumulate credit rather than resetting the chosen trace to one. At lambda=0,
+    only the current pair receives credit, giving one-step tabular Sarsa under the same action timing
+    and terminal convention. Selecting an exploratory action does not by itself cut the traces in this
+    accumulating rule.'
+  evidence:
+  - source_id: sutton-barto1998-trace
+    locator: Section 7.5, Equation 7.13, linked numeqtmp40.png. The finite-sum expansion and lambda-zero
+      specialization are direct algebraic consequences of this recurrence with zero episode initialization.
+    relation: supports
+  - source_id: sutton-barto1998-algorithm
+    locator: 'Figure 7.11, linked pseudotmp12.png: exploratory policy selection and unconditional trace
+      update; no action-greediness trace-cut branch.'
+    relation: supports
+- claim_id: table-update-and-sparse-boundary
+  kind: scope
+  statement: The literal tabular algorithm visits every state-action entry to update its value and trace
+    at each transition. An implementation can omit operations on exactly zero trace entries without changing
+    these updates. Discarding small but nonzero traces is an approximation; neither the recurrence nor
+    sparse storage guarantees a fixed small number of active pairs.
+  evidence:
+  - source_id: sutton-barto1998-algorithm
+    locator: 'Section 7.5, Figure 7.11, linked pseudotmp12.png: the explicit for-all-state-action-pairs
+      loop.'
+    relation: supports
+  - source_id: sutton-barto1998-implementation
+    locator: 'Section 7.9, Implementation Issues, first two paragraphs and Exercise 7.9: full-table expense,
+      tracking nonzero traces and a positive trace threshold. Exact-zero versus nonzero truncation is
+      an algebraic qualification of that discussion.'
+    relation: supports
+limitations:
+- This identity is the corrected episodic tabular accumulating Sarsa(lambda) procedure. It does not denote
+  the whole Sarsa family, original neural MCQ-L, an isolated eligibility component, replacing-trace control
+  or true online Sarsa. Shared selected-action errors, one-hot representations and endpoint coincidences
+  do not establish exact whole-method aliases or disjointness.
+- The acquired Figure 7.11 places trace zeroing before the episode loop. The separately acquired official
+  first-edition errata moves it inside that loop, and the selected scope incorporates that explicit correction.
+  The original image is retained; this observation does not establish a defect in uninspected author software.
+- In the neighboring Section 7.8, the prose resets the selected replacing trace to one, while its acquired
+  Equation 7.17 image prints one plus the decayed old trace for that pair. This local image/prose conflict
+  is not used to redefine Equation 7.13 or the selected accumulating algorithm. The separately linked
+  function-approximation correction is context, not its defining procedure.
+- Finite-step online accumulating updates do not generally equal an offline lambda-return update that
+  freezes the values used in all returns, including at lambda=1. Exact online forward-view guarantees
+  of true-online methods cannot be transferred to this procedure. With gamma=lambda=1, repeated visits
+  can make traces grow and continuing returns need not be finite.
+- For 0<=gamma*lambda<1 and zero initial traces, the visit-sum representation bounds each trace by 1/(1-gamma*lambda),
+  but it does not bound Q or establish stable control or convergence. Exploration, coverage, step sizes,
+  reward and episode assumptions still matter. No universal convergence, optimality or performance superiority
+  follows, and the book's historically unpublished convergence discussion is not a current-theory conclusion.
+- The selected procedure is tabular. Neural or general nonlinear approximation, off-policy corrections,
+  arbitrary replacement of the trace, variable-parameter conventions and function-approximation variants
+  require separate method assessment. The original neural MCQ-L account remains a historically related
+  realization whose operation ordering and boundary conditions are not identified with this record.
+- The defining evidence is the author-hosted 1998 first-edition HTML, separately retained equation and
+  algorithm image bytes, and official errata. Each artifact checksum covers only that file; an HTML checksum
+  does not cover externally linked images. The 2005 conversion footer is not the publication year. The
+  acquired September 2016 book draft lacks a Sarsa(lambda) section in its contents, and JMLR 2016 pp.
+  14–15 serve only as contextual comparison. No complete-book reading, code execution, benchmark reproduction
+  or complete-proof certification is asserted.
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The selected algorithm learns action values from environmental reward while selecting exploratory
+    actions to improve control. The pinned target is a machine-learning task emphasizing exploration/exploitation,
+    not this update procedure; related_match avoids equivalence or a subclass assertion.
+review_status: DRAFT
+identity_notes: The selected source-defined episodic tabular on-policy control algorithm uses the pre-update
+  selected next action, accumulating state-action traces and the official first-edition correction resetting
+  traces inside each episode. It differs from one-step Sarsa, neural MCQ-L gradient traces, true-online
+  Sarsa with Dutch traces, replacing-trace variants, and the max-target Watkins and two-error Peng–Williams
+  constructions. Unqualified Sarsa(lambda) references are contextual family mentions rather than exact
+  aliases. Owner 265 retains MCQ-L and its cohort342 resolution and historical Cambridge pointer; the
+  selected source is Sutton and Barto 1998 with official errata. The fresh collection after PR389 merged,
+  on 15 October 2026 at 18:42:28–18:45:19 UTC, covered 775 maintained native and 442 pinned AIO records.
+  IDs, local IDs, names, aliases and scoped synonyms supplied 4,843 identity fields. Canonical names and
+  explicit source spellings, including Greek lambda, produced no normalized candidate collision. Four
+  fixed-string searches included ignored and hidden paths and retained 6,064 occurrences in 1,351 distinct
+  content groups. Two supporting agents read all grouped contents in disjoint partitions; root read all
+  37 filtered candidate-named groups, twelve normalized neighbor definitions, 29 fields and full owners
+  264,265,266 and269. Candidate-named matches are source-lead, history, review and existing-neighbor context.
+  All 1,216 pre-WIS-TD inventory rows and the newly merged WIS-TD record were reconciled at the actual
+  base. Historical research snapshots remain separately dated. This supports a bounded identity decision
+  for these roots, probes and pinned AIO snapshot; it does not claim a manual semantic reading of every
+  corpus record or worldwide absence.
+evidence_sources:
+- source_id: sutton-barto1998-s75
+  title: 'Reinforcement Learning: An Introduction — Section 7.5, Sarsa(lambda), HTML'
+  authors:
+  - Richard S. Sutton
+  - Andrew G. Barto
+  version: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005
+    is not the publication date. HTML body only; linked image bodies are separately declared artifacts.
+  source_type: primary_monograph
+  url: http://incompleteideas.net/book/first/ebook/node77.html
+  access_level: full_text
+  accessed_at: '2026-10-15T17:34:02Z'
+  sha256: 546b8fe905635fad5417ce064a21faa9ff1b5f64d670c335be6751d25274fe5f
+- source_id: sutton-barto1998-q-update
+  title: 'Reinforcement Learning: An Introduction — Section 7.5, action-value update image'
+  authors:
+  - Richard S. Sutton
+  - Andrew G. Barto
+  version: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005
+    is not the publication date. Unnumbered action-value update preceding the TD-error display; exact
+    linked PNG bytes.
+  source_type: primary_monograph
+  url: http://incompleteideas.net/book/ebook/imgtmp56.png
+  access_level: full_text
+  accessed_at: '2026-10-15T17:30:18Z'
+  sha256: 2af9e9fb5f53fae39c85d86effd5753357eb3092b82eed07c5c8c053be54b7d0
+- source_id: sutton-barto1998-td-error
+  title: 'Reinforcement Learning: An Introduction — Section 7.5, selected-action TD-error image'
+  authors:
+  - Richard S. Sutton
+  - Andrew G. Barto
+  version: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005
+    is not the publication date. Unnumbered TD-error display immediately before Equation 7.13; exact linked
+    PNG bytes.
+  source_type: primary_monograph
+  url: http://incompleteideas.net/book/ebook/imgtmp57.png
+  access_level: full_text
+  accessed_at: '2026-10-15T17:30:18Z'
+  sha256: 6f0f40b2db9bf76b05077c8d11230b19d9b65355e9cffb930d92c4caebdd8ef4
+- source_id: sutton-barto1998-trace
+  title: 'Reinforcement Learning: An Introduction — Section 7.5, Equation 7.13 image'
+  authors:
+  - Richard S. Sutton
+  - Andrew G. Barto
+  version: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005
+    is not the publication date. Accumulating state-action trace equation; exact linked PNG bytes.
+  source_type: primary_monograph
+  url: http://incompleteideas.net/book/ebook/numeqtmp40.png
+  access_level: full_text
+  accessed_at: '2026-10-15T17:30:18Z'
+  sha256: 54257b2eca7478b800b52bc7c98b7409f228d531e8b2f62952b313ead9b2b6ee
+- source_id: sutton-barto1998-algorithm
+  title: 'Reinforcement Learning: An Introduction — Section 7.5, Figure 7.11 image'
+  authors:
+  - Richard S. Sutton
+  - Andrew G. Barto
+  version: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005
+    is not the publication date. Original tabular Sarsa(lambda) box, retaining its episode-reset placement
+    error. Official errata is a separate source row; exact linked PNG bytes.
+  source_type: primary_monograph
+  url: http://incompleteideas.net/book/ebook/pseudotmp12.png
+  access_level: full_text
+  accessed_at: '2026-10-15T17:30:18Z'
+  sha256: 5900f3d7eb1b8dfc84969e05070e7b0471becd0f7f9ebe106de52d813dda9941
+- source_id: sutton-barto1998-terminal
+  title: 'Reinforcement Learning: An Introduction — Section 6.4, Sarsa: On-Policy TD Control, HTML'
+  authors:
+  - Richard S. Sutton
+  - Andrew G. Barto
+  version: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005
+    is not the publication date. Terminal continuation convention following Equation 6.5. HTML bytes only;
+    the two terminal-symbol PNGs are retained separately in the draft source projection.
+  source_type: primary_monograph
+  url: http://incompleteideas.net/book/ebook/node64.html
+  access_level: full_text
+  accessed_at: '2026-10-15T17:30:17Z'
+  sha256: e390c9b3185d0823364365ba163ab1430f5f31e47203ec6ce3b29d23e6970078
+- source_id: sutton-barto1998-implementation
+  title: 'Reinforcement Learning: An Introduction — Section 7.9, Implementation Issues, HTML'
+  authors:
+  - Richard S. Sutton
+  - Andrew G. Barto
+  version: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005
+    is not the publication date. Full-table and sparse-trace discussion. HTML bytes only; no external
+    image bytes are included in this checksum.
+  source_type: primary_monograph
+  url: http://incompleteideas.net/book/ebook/node81.html
+  access_level: full_text
+  accessed_at: '2026-10-15T17:30:18Z'
+  sha256: 92cfb4ed08a9d400d3144870c4eabd237638aa40d5551620e4301b32834eb439
+- source_id: sutton-barto1998-errata
+  title: 'Reinforcement Learning: An Introduction — Official first-edition errata'
+  authors:
+  - Richard S. Sutton
+  - Andrew G. Barto
+  version: Undated author-maintained errata retrieved 15 October 2026. The pp. 174, 181, 184, 200, 212
+    and 213 entry moves trace zeroing into each episode loop. No erratum publication date is inferred.
+  source_type: official_documentation
+  url: http://incompleteideas.net/book/first/errata.html
+  access_level: documentation
+  accessed_at: '2026-10-15T17:34:01Z'
+  sha256: d0b2da4a7d852985547248cdd6414e35cc23640be99f8e637d46674a96c5ddc9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T18:58:39Z'
+  updated_at: '2026-10-15T18:58:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,159 @@
+id: AIMech:UsageBasedTDLambda
+name: Usage-based TD(lambda)
+concept_kind: algorithm
+aliases: []
+definition: An on-policy linear state-value prediction algorithm that combines ordinary accumulating TD
+  eligibility traces with componentwise step sizes equal to reciprocals of a recency-adjusted feature-usage
+  vector.
+definition_evidence:
+- source_id: mahmood2015-author
+  locator: Section 6, author PDF p. 7, usage-based TD(lambda); Appendix A.7, p. 18, Algorithm 4; usage
+    Equations 5–6 on p. 3.
+  relation: supports
+claims:
+- claim_id: on-policy-accumulating-prediction
+  kind: mechanism
+  statement: Usage-based TD(lambda), called U-TD(lambda) in the source, evaluates state values from on-policy
+    reward transitions with a fixed linear representation V_t(s)=theta_t^T*phi(s). It combines the specified
+    feature-usage step schedule with the ordinary accumulating TD(lambda) host; it is not a control or
+    action-selection procedure.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 6, author PDF p. 7, named on-policy extensions; Appendix A.7, p. 18, Algorithm 4;
+      linear policy-evaluation setting in Section 3, pp. 3–4.
+    relation: supports
+- claim_id: on-policy-feature-usage-step
+  kind: mechanism
+  statement: With ⊙ denoting componentwise multiplication, update u_(t+1)=(1-eta*(phi_t⊙phi_t))⊙u_t+phi_t⊙phi_t,
+    then set alpha_(t+1) to the componentwise reciprocal of new u_(t+1). A reciprocal at zero is defined
+    as zero by the source. Algorithm 4 initializes u_0=u_init*1 and e_(-1)=0, with chosen theta_0, u_init>=0
+    and eta>=0.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 2, author PDF p. 3, Equations 5–6 and componentwise division convention; Appendix
+      A.7, p. 18, Algorithm 4, initialization and usage lines.
+    relation: supports
+- claim_id: ordinary-eligibility-and-current-error
+  kind: mechanism
+  statement: The accumulating trace is e_t=gamma_t*lambda_t*e_(t-1)+phi_t. Compute delta_t=R_(t+1)+gamma_(t+1)*theta_t^T*phi_(t+1)-theta_t^T*phi_t
+    using pre-update theta_t. Current gamma_t*lambda_t governs trace carry-over, while gamma_(t+1) discounts
+    the next-state value in the target. The step-size vector is not part of this ordinary trace recurrence.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Appendix A.7, author PDF p. 18, Algorithm 4, eligibility and TD-error lines; state-dependent
+      discount and lambda setting in Sections 3 and 5, pp. 3–5.
+    relation: supports
+- claim_id: component-scaled-main-increment
+  kind: mechanism
+  statement: After computing new alpha_(t+1), new e_t and delta_t, update theta_(t+1)=theta_t+alpha_(t+1)⊙(delta_t*e_t).
+    Algorithm 4 requires the usage, eligibility and value-weight vectors but no importance ratio, secondary
+    usage vector v, auxiliary GTD weights w, provisional weights d or stored previous-weight prediction.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Appendix A.7, author PDF p. 18, complete Algorithm 4; Section 6, p. 7, combination with the
+      ordinary on-policy TD host.
+    relation: supports
+- claim_id: one-step-and-qualified-gtd-specializations
+  kind: scope
+  statement: When gamma_t*lambda_t=0, the eligibility is phi_t and the update is the one-step usage-scaled
+    TD increment alpha_(t+1)⊙(delta_t*phi_t). With matching states and initialization, Algorithm 4 is
+    also obtained from WIS-GTD(lambda) by setting all rho to one, beta=0 and w_0=0. Those conditions remove
+    the off-policy usage correction and keep the auxiliary correction zero.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Appendix A.7, author PDF p. 18, Algorithms 2 and 4; Section 6, p. 7, on-policy relationship
+      paragraph. Zero-decay and zero-w qualifications follow directly from the recurrences.
+    relation: supports
+- claim_id: linear-bookkeeping-and-usage-scope
+  kind: scope
+  statement: The printed U-TD(lambda) update uses a fixed number of length-n vectors and O(n) dense arithmetic
+    and storage per transition for n features. Its feature-usage recurrence is shared with U-SGD, but
+    the host update uses a temporal-difference target and an accumulating trace. The sample-average identity
+    stated for U-SGD in Theorem 1 is not thereby a theorem for arbitrary online U-TD histories.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 2, author PDF p. 3, Equations 5–7 and Theorem 1; Section 6, p. 7; Appendix A.7, p.
+      18, Algorithm 4; Section 7, p. 9, O(n) on-policy comparison. Dense resource scope follows the displayed
+      vector bookkeeping.
+    relation: supports
+limitations:
+- This identity is the named 2015 usage schedule combined with the ordinary accumulating TD host. It is
+  not the unrestricted TD(lambda) family, U-SGD, usage-based true online TD, accumulating Sarsa control,
+  an isolated trace or off-policy WIS-GTD. Shared steps and parameter specializations do not establish
+  complete-method aliases.
+- The source explicitly leaves convergence analysis of its new algorithms for future work. The usage schedule
+  and a linear representation do not guarantee bounded weights, monotonic error reduction, convergence
+  or universal performance. The reported on-policy experiments are bounded prediction tasks with specified
+  representations and parameter searches.
+- The printed eta>=0 range alone does not ensure positive usage for arbitrary feature magnitudes. For
+  scalar phi=1 and u_init=0, eta=3 gives usage 1 then -1, and eta=2 gives zero on the second update. The
+  reciprocal-zero convention is defined but is not a positivity or stability proof; feature scale and
+  initialization matter.
+- Theorem 1 is an algebraic statement about U-SGD for the observed target sequence under tabular representation,
+  zero initial usage and weights, and 0<=eta<1. It does not require invented independence or exogeneity
+  assumptions. Its update is not the arbitrary bootstrapped accumulating TD host here; lambda=1 or inverse
+  usage alone does not establish a sample-average or Monte Carlo identity. A finite repeated-feature example
+  separates U-TD from usage-based true online TD even at lambda=1.
+- The componentwise reciprocal is computed after updating usage, and it scales the new accumulating trace
+  in the main increment. Moving it into a Dutch trace, using old usage, changing the target to a prior-weight
+  prediction or adding an auxiliary correction changes the procedure. Variable feature or parameter conventions
+  require explicit reassessment.
+- The selected method is on-policy linear state-value prediction. It does not implement importance-sampling
+  correction, nonlinear representation learning, action-value Sarsa control or policy improvement. Dense
+  O(n) bookkeeping does not mean cost only in current nonzero features, nor does it include feature construction
+  or environment interaction.
+- The defining evidence is the acquired eighteen-page author combined paper and Appendix A, with native-text
+  correspondence to the retained official main paper and supplement. Its embedded 2016 creation date is
+  not a scientific revision date. Algorithm 4 is separately identifiable from the unresolved WIS-TO-GTD
+  Algorithm 3. No complete proof, source-code correctness or benchmark reproduction is certified by this
+  evidence scope.
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The algorithm estimates state values from on-policy reward transitions and supplies prediction
+    machinery used in reinforcement learning. The pinned target is a broader exploration/performance-oriented
+    learning task; this is a qualified association, not exact identity, a subclass edge, an action-selection
+    procedure or a policy-improvement guarantee.
+review_status: DRAFT
+identity_notes: The selected source-defined linear on-policy prediction algorithm applies newly computed
+  inverse feature-usage step sizes outside an ordinary accumulating TD trace. It differs from usage-based
+  true online TD, whose Dutch trace contains the step vector and whose update corrects changing predictions,
+  and from the broader temporal-difference family and off-policy WIS hosts. Special cases do not identify
+  complete algorithms. Existing owner 264 retains seven prior IDs and five resolutions; the source is
+  Mahmood and Sutton 2015. The fresh collection after PR389 merged, on 15 October 2026 at 18:42:28–18:45:19
+  UTC, covered 775 maintained native and 442 pinned AIO records. IDs, local IDs, names, aliases and scoped
+  synonyms supplied 4,843 identity fields. Canonical names and explicit source spellings, including Greek
+  lambda, produced no normalized candidate collision. Four fixed-string searches included ignored and
+  hidden paths and retained 6,064 occurrences in 1,351 distinct content groups. Two supporting agents
+  read all grouped contents in disjoint partitions; root read all 37 filtered candidate-named groups,
+  twelve normalized neighbor definitions, 29 fields and full owners 264,265,266 and269. Candidate-named
+  matches are source-lead, history, review and existing-neighbor context. All 1,216 pre-WIS-TD inventory
+  rows and the newly merged WIS-TD record were reconciled at the actual base. Historical research snapshots
+  remain separately dated. This supports a bounded identity decision for these roots, probes and pinned
+  AIO snapshot; it does not claim a manual semantic reading of every corpus record or worldwide absence.
+evidence_sources:
+- source_id: mahmood2015-author
+  title: Off-policy learning based on weighted importance sampling with linear computational complexity
+  authors:
+  - A. Rupam Mahmood
+  - Richard S. Sutton
+  version: Author-catalog-linked eighteen-page combined UAI 2015 paper and Appendix A. Native text on
+    PDF pp. 1–10 matches the official ten-page proceedings paper, and pp. 11–18 match its official eight-page
+    supplement. The embedded 2016 PDF creation date is not treated as a verified scientific revision date;
+    source-local PDF pagination is used.
+  persistent_id: https://proceedings.mlr.press/r13/mahmood15a.html
+  source_type: primary_paper
+  url: https://armahmood.github.io/files/MS-WIS-O(n)-UAI-2015.pdf
+  access_level: full_text
+  accessed_at: '2026-10-15T17:02:13Z'
+  sha256: 9f30489028c8473a6e45d44e16604ae80a0ac485e181388274dcff73b57e1767
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T18:58:39Z'
+  updated_at: '2026-10-15T18:58:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

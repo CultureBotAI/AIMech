@@ -1,0 +1,162 @@
+id: AIMech:UsageBasedTrueOnlineTDLambda
+name: Usage-based true online TD(lambda)
+concept_kind: algorithm
+aliases: []
+definition: An on-policy linear state-value prediction algorithm that combines componentwise inverse feature-usage
+  step sizes with a component-scaled Dutch eligibility trace and a correction using the previous weight
+  vector’s prediction at the current feature.
+definition_evidence:
+- source_id: mahmood2015-author
+  locator: Section 6, author PDF p. 7, usage-based true online TD(lambda); Appendix A.7, p. 18, Algorithm
+    5; on-policy specialization of Equations 22–26 on p. 6.
+  relation: supports
+claims:
+- claim_id: on-policy-usage-true-online-host
+  kind: mechanism
+  statement: Usage-based true online TD(lambda), called U-TO-TD(lambda) in the source, is an on-policy
+    linear state-value prediction algorithm with a specified adaptive componentwise step schedule. The
+    source combines the usage schedule with true-online TD and gives a component-scaled trace and prior-prediction
+    correction. It does not define a control or action-selection rule.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 6, author PDF p. 7, named on-policy extensions; Appendix A.7, p. 18, Algorithm 5;
+      linear policy-evaluation context in Section 3, pp. 3–4.
+    relation: supports
+- claim_id: usage-before-component-step
+  kind: mechanism
+  statement: Using componentwise multiplication ⊙, update u_(t+1)=(1-eta*(phi_t⊙phi_t))⊙u_t+phi_t⊙phi_t,
+    then compute alpha_(t+1) as the componentwise reciprocal of new u_(t+1), with a reciprocal at zero
+    defined as zero. Algorithm 5 initializes u_0=u_init*1 and e_(-1)=0, with chosen theta_0, u_init>=0
+    and eta>=0.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 2, author PDF p. 3, Equations 5–6 and division convention; Appendix A.7, p. 18, Algorithm
+      5, initialization and usage lines.
+    relation: supports
+- claim_id: component-scaled-dutch-eligibility
+  kind: mechanism
+  statement: Let a_t=alpha_(t+1)⊙phi_t and q_t=gamma_t*lambda_t. The trace is e_t=a_t+q_t*[e_(t-1)-a_t*(phi_t^T*e_(t-1))].
+    The new step-size vector enters both the current-feature term and the correction to the old trace.
+    This scaled Dutch recurrence differs from an ordinary accumulating trace followed by componentwise
+    scaling of its final update.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Appendix A.7, author PDF p. 18, Algorithm 5, eligibility line; Section 6, p. 7; on-policy
+      specialization of Equation 25, p. 6.
+    relation: supports
+- claim_id: stored-prediction-weight-correction
+  kind: mechanism
+  statement: Define C_t=theta_(t-1)^T*phi_t and a_t=alpha_(t+1)⊙phi_t. With new e_t, update theta_(t+1)=theta_t+a_t*(C_t-theta_t^T*phi_t)+(R_(t+1)+gamma_(t+1)*theta_t^T*phi_(t+1)-C_t)*e_t.
+    All theta_t predictions use pre-update weights. C_t is the previous weight vector evaluated at the
+    current feature, not the current-weight prediction or a next-state prediction recomputed after updating.
+    Algorithm 5 has no auxiliary GTD weights or provisional state.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Appendix A.7, author PDF p. 18, complete Algorithm 5, especially the theta update; on-policy
+      specialization of Equation 26, p. 6.
+    relation: supports
+- claim_id: matched-on-policy-forward-specialization
+  kind: scope
+  statement: Setting all importance ratios to one in WIS-TD(lambda) removes the provisional correction
+    from its main update and gives the usage, eligibility and weight recurrences of Algorithm 5. With
+    the same linear realized feature sequence, initialization and causal step choices, the source-defined
+    finite-horizon WIS-TD forward/backward correspondence specializes to this on-policy construction.
+    This is correspondence to that specified forward update, not a convergence assertion.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Section 6, author PDF p. 7, WIS-TD to U-TO-TD relationship; Section 5, p. 6, Equations 17–26
+      and Theorems 5–6; Appendix A.7, p. 18, Algorithms 1 and 5.
+    relation: supports
+- claim_id: zero-decay-and-initial-cancellation
+  kind: scope
+  statement: For defined finite step vectors and predictions, gamma_t*lambda_t=0 makes e_t=a_t=alpha_(t+1)⊙phi_t,
+    so the two old-prediction terms cancel and the weight increment is a_t*delta_t, where delta_t=R_(t+1)+gamma_(t+1)*theta_t^T*phi_(t+1)-theta_t^T*phi_t.
+    With e_(-1)=0, the first trace is also a_0 and the first weight update has the same cancellation for
+    any finite initial old prediction. These statements do not identify the complete algorithm with accumulating
+    usage-based TD at other trace settings.
+  evidence:
+  - source_id: mahmood2015-author
+    locator: Appendix A.7, author PDF p. 18, Algorithm 5. Direct substitution and cancellation in the
+      displayed trace and weight recurrences; separately retained bounded hand analysis.
+    relation: supports
+limitations:
+- This identity is the named usage-based true-online prediction algorithm with its specified componentwise
+  schedule. It is not arbitrary adaptive true online TD, a standalone Dutch trace, accumulating usage-based
+  TD, true online Sarsa control or WIS-TO-GTD. Its on-policy overlap with WIS-TD is a specialization,
+  not an exact whole-scope alias.
+- Finite-horizon linear forward/backward correspondence does not establish convergence, stable weights,
+  an unbiased objective-gradient step, monotonic improvement or universal empirical advantage. The source
+  explicitly leaves convergence analysis of the new algorithms for future work. The reported on-policy
+  task comparisons retain their representation and parameter-search scope.
+- Bare eta>=0 does not ensure positive usage for arbitrary feature magnitudes. The scalar phi=1, u_init=0,
+  eta=3 recurrence gives usage 1 then -1. Feature-scaled decay restrictions and nonnegative initialization
+  can support nonnegative usage, but zero usage can still occur. Mapping its reciprocal to zero does not
+  guarantee bounded steps or stable value predictions.
+- The varying componentwise step must remain inside the printed scaled Dutch recurrence. Moving it outside
+  an ordinary trace, substituting a constant-step unscaled convention or recomputing C_t using current
+  weights changes the method. The previous-weight prediction is a timing dependency, not a claim that
+  feature generation may depend arbitrarily on the changing weights.
+- Algorithm 5 does not explicitly initialize theta_(-1). Its first theta update cancels any finite old
+  prediction when the initial trace is zero, but an executable specification must still initialize stored
+  state explicitly. Unlike WIS-TD, this algorithm has no provisional d update whose first value depends
+  on that old prediction; the two initialization questions must not be conflated.
+- Theorems and tabular endpoint statements retain their source assumptions about representation, initialization,
+  observed targets and return construction. Theorem 1 does not require invented independent or exogenous
+  targets, and lambda=1 alone is not an exact sample-average guarantee for arbitrary features or another
+  host. Linear prediction is distinct from nonlinear representation learning and action-value control.
+  Dense O(n) vector bookkeeping excludes feature construction and does not imply active-feature-only complexity.
+- The evidence is the acquired eighteen-page author combined paper and Appendix A, with native-text correspondence
+  to the retained official main paper and supplement; the embedded 2016 creation timestamp does not establish
+  a scientific revision. This record follows Algorithm 5. The literal previous-Dutch-trace term in the
+  separate WIS-TO-GTD Algorithm 3 remains unresolved rather than silently repaired. No complete proof,
+  author-code correctness or benchmark reproduction is certified.
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The algorithm estimates state values from on-policy reward transitions and supplies prediction
+    machinery used in reinforcement learning. The pinned target is a broader exploration/performance-oriented
+    learning task; this is a qualified association, not exact identity, a subclass edge, an action-selection
+    procedure or a policy-improvement guarantee.
+review_status: DRAFT
+identity_notes: The selected source-defined linear on-policy prediction algorithm combines inverse feature-usage
+  steps with a scaled Dutch trace and a changing-prediction correction. It differs from the base true-online
+  TD host through its usage adaptation and from usage-based ordinary TD through trace scaling and the
+  correction. The matched on-policy specialization of WIS-TD does not make the full off-policy algorithm
+  an exact alias. Existing owner 264 retains seven prior IDs and five resolutions; Mahmood and Sutton
+  2015 specifies this adaptation. The fresh collection after PR389 merged, on 15 October 2026 at 18:42:28–18:45:19
+  UTC, covered 775 maintained native and 442 pinned AIO records. IDs, local IDs, names, aliases and scoped
+  synonyms supplied 4,843 identity fields. Canonical names and explicit source spellings, including Greek
+  lambda, produced no normalized candidate collision. Four fixed-string searches included ignored and
+  hidden paths and retained 6,064 occurrences in 1,351 distinct content groups. Two supporting agents
+  read all grouped contents in disjoint partitions; root read all 37 filtered candidate-named groups,
+  twelve normalized neighbor definitions, 29 fields and full owners 264,265,266 and269. Candidate-named
+  matches are source-lead, history, review and existing-neighbor context. All 1,216 pre-WIS-TD inventory
+  rows and the newly merged WIS-TD record were reconciled at the actual base. Historical research snapshots
+  remain separately dated. This supports a bounded identity decision for these roots, probes and pinned
+  AIO snapshot; it does not claim a manual semantic reading of every corpus record or worldwide absence.
+evidence_sources:
+- source_id: mahmood2015-author
+  title: Off-policy learning based on weighted importance sampling with linear computational complexity
+  authors:
+  - A. Rupam Mahmood
+  - Richard S. Sutton
+  version: Author-catalog-linked eighteen-page combined UAI 2015 paper and Appendix A. Native text on
+    PDF pp. 1–10 matches the official ten-page proceedings paper, and pp. 11–18 match its official eight-page
+    supplement. The embedded 2016 PDF creation date is not treated as a verified scientific revision date;
+    source-local PDF pagination is used.
+  persistent_id: https://proceedings.mlr.press/r13/mahmood15a.html
+  source_type: primary_paper
+  url: https://armahmood.github.io/files/MS-WIS-O(n)-UAI-2015.pdf
+  access_level: full_text
+  accessed_at: '2026-10-15T17:02:13Z'
+  sha256: 9f30489028c8473a6e45d44e16604ae80a0ac485e181388274dcff73b57e1767
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T18:58:39Z'
+  updated_at: '2026-10-15T18:58:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

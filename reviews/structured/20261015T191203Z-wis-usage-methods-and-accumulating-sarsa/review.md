@@ -1,0 +1,3909 @@
+# Scientific self-review of WIS-GTD, usage-based TD methods and accumulating Sarsa
+
+- Review: 20261015T191203Z-wis-usage-methods-and-accumulating-sarsa
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-15T18:59:31.321375Z
+- Finished UTC: 2026-10-15T19:12:03.065888Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain three source-defined WIS/usage-adapted linear prediction algorithms and the corrected episodic tabular accumulating Sarsa control procedure. All twenty-four claims and twenty-eight individual limitations are assessed through attributed primary reading, hand analysis and actual canonical correspondence. Eleven declared rows represent nine distinct artifacts, not eleven publications. Qualified ReinforcementLearning mappings distinguish prediction machinery from the broader task and selected tabular control from task identity. Actual capture, owner preservation, generated pages and completed required checks are bound; no independent approval or residual exhaustion is implied.
+
+## Scope And Provenance
+
+Complete explicitly selected four-record cohort in the captured current canonical state.
+
+Selection: Exact four accepted candidate IDs.
+Coverage: full; 4 reviewed / 4 in the declared population.
+Source: working_tree at Git base a286cc1329754c54dc6f3fa09dc6b6bc8233b1aa.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:WISGTDLambda | data/curated/WISGTDLambda.yaml | maintained | WIS-GTD(lambda) |
+| AIMech:UsageBasedTDLambda | data/curated/UsageBasedTDLambda.yaml | maintained | Usage-based TD(lambda) |
+| AIMech:UsageBasedTrueOnlineTDLambda | data/curated/UsageBasedTrueOnlineTDLambda.yaml | maintained | Usage-based true online TD(lambda) |
+| AIMech:AccumulatingSarsaLambda | data/curated/AccumulatingSarsaLambda.yaml | maintained | Accumulating Sarsa(lambda) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:WISGTDLambda, AIMech:UsageBasedTDLambda, AIMech:UsageBasedTrueOnlineTDLambda, AIMech:AccumulatingSarsaLambda | Actual successful command; exact output is retained. |
+| just vendored-check | passed | True | AIMech:WISGTDLambda, AIMech:UsageBasedTDLambda, AIMech:UsageBasedTrueOnlineTDLambda, AIMech:AccumulatingSarsaLambda | Actual successful command; exact output is retained. |
+| uv run --locked aimech check-source | passed | True | AIMech:WISGTDLambda, AIMech:UsageBasedTDLambda, AIMech:UsageBasedTrueOnlineTDLambda, AIMech:AccumulatingSarsaLambda | Actual successful command; exact output is retained. |
+| just render | passed | True | AIMech:WISGTDLambda, AIMech:UsageBasedTDLambda, AIMech:UsageBasedTrueOnlineTDLambda, AIMech:AccumulatingSarsaLambda | Actual successful command; exact output is retained. |
+| just render-check | passed | True | AIMech:WISGTDLambda, AIMech:UsageBasedTDLambda, AIMech:UsageBasedTrueOnlineTDLambda, AIMech:AccumulatingSarsaLambda | Actual successful command; exact output is retained. |
+| git diff --check | passed | True | AIMech:WISGTDLambda, AIMech:UsageBasedTDLambda, AIMech:UsageBasedTrueOnlineTDLambda, AIMech:AccumulatingSarsaLambda | Actual successful command; exact output is retained. |
+| Historical attempt: just vendored-check | failed | False | AIMech:WISGTDLambda, AIMech:UsageBasedTDLambda, AIMech:UsageBasedTrueOnlineTDLambda, AIMech:AccumulatingSarsaLambda | Retained failed attempt; actual successful replacement cited separately. |
+
+## Scientific And Domain Assessments
+
+### Claim linear-off-policy-gtd-host
+
+evidence: supported. Targets: AIMech:WISGTDLambda.
+
+Sections 3 and 6 establish fixed linear off-policy prediction and the named ordinary GTD host. Ratios are current action ratios; the paragraph does not attach control or convergence capability.
+
+### Claim shared-usage-state-and-new-step
+
+evidence: supported. Targets: AIMech:WISGTDLambda.
+
+The exact two usage recurrences and initialization match Algorithm 2. Both use old v, followed by a reciprocal of new u. The declared domain and reciprocal convention preserve the source while the usage limitation supplies the necessary caution.
+
+### Claim importance-weighted-accumulating-trace
+
+evidence: supported. Targets: AIMech:WISGTDLambda.
+
+The eligibility and error match the printed Algorithm 2. Distinguishing current rho from stored-ratio and Dutch constructions prevents accidental import of Algorithm 3 or the base true-online GTD trace.
+
+### Claim main-and-auxiliary-update-timing
+
+evidence: supported. Targets: AIMech:WISGTDLambda.
+
+The main and auxiliary updates both use old w and old theta. The source explicitly preserves scalar beta and next-state gamma/lambda in the correction. The retained old-w hand witness shows why simultaneous right-side timing matters.
+
+### Claim qualified-on-policy-usage-td-reduction
+
+evidence: supported. Targets: AIMech:WISGTDLambda.
+
+The source relationship needs the explicit zero-w qualification. The retained scalar beta-zero counterexample shows that freezing w0=1 leaves a nonzero main correction; with w0=0 and beta=0, induction keeps the correction zero.
+
+### Claim usage-forward-scope-and-linear-cost
+
+evidence: supported. Targets: AIMech:WISGTDLambda.
+
+Theorem 5 supports shared usage equality under its matching construction. Theorem 6 names WIS-TD weights, so the statement expressly avoids transferring it. Dense linear resource cost follows the fixed number of vector updates and inner products.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:WISGTDLambda.
+
+Sections 3 and 6 establish fixed linear off-policy prediction and the named ordinary GTD host. Ratios are current action ratios; the paragraph does not attach control or convergence capability.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:WISGTDLambda.
+
+The exact retained ReinforcementLearning node is a broader exploration/performance-oriented learning task. Policy state-value prediction is associated machinery, so related_match is qualified; no exact, subclass or action-selection relation is inferred.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:WISGTDLambda.
+
+One eighteen-page combined author artifact supplies the named methods and Appendix A.7 Algorithms 2, 4 and 5 on page 18. Native text correspondence to the official main and supplement is retained; embedded PDF metadata is not a verified scientific revision date. The source has local display and initialization qualifications, kept bounded without declaring the complete methods or proofs invalid. The original source-agent ledger records all ten main native pages and the author appendix, with selected main and appendix formula visuals and exact official/author text correspondence. The residual-method research and static drafting separately revisit the named hosts and source caveats. The later same-author adversarial pass freshly read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18, then all eighteen selected claims and twenty-one limitations. Root primary and draft reading remain attributed to their exact acceptance receipts. No source acquisition, new PDF reading, algorithm execution or complete proof certification is asserted by this review-data assembly.
+
+### identity assessment
+
+identity: supported. Targets: AIMech:WISGTDLambda.
+
+Retain the source-defined WIS-GTD(lambda) usage-adapted accumulating GTD host separately from WIS-TD, true online GTD, the on-policy usage hosts and the unresolved WIS-TO-GTD display. On-policy specialization also requires beta=0 and zero auxiliary weights for the stated U-TD reduction; overlap does not make whole methods aliases. The actual captured identity notes implement the root current collection decisions; the original preview scope remains historical and is recorded in context_changes. Existing owner 264 stays partial, with all its prior IDs and resolution objects retained.
+
+### kind and status assessment
+
+scope: supported. Targets: AIMech:WISGTDLambda.
+
+Algorithm kind selects a complete fixed-linear state-value prediction procedure, not an isolated usage/trace operator or action-selection policy. DRAFT status and the qualified RL association do not imply convergence or control.
+
+### Individual limitation 1
+
+scope: supported. Targets: AIMech:WISGTDLambda.
+
+The full Algorithm 2 state and host differ from the named neighboring methods; the boundary preserves endpoint overlap without exact aliasing. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 2
+
+scope: supported. Targets: AIMech:WISGTDLambda.
+
+Section 8 leaves convergence analysis open. Ratio-support and statistical validity are not supplied by algebraic correspondence or a WIS name. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 3
+
+scope: supported. Targets: AIMech:WISGTDLambda.
+
+The eta=3 example and the u-v nonnegativity invariant were hand checked in the accepted dossier and separate support. They bound interpretation, not the printed parameter syntax. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 4
+
+scope: supported. Targets: AIMech:WISGTDLambda.
+
+The retained beta-zero witness and direct lambda substitutions show the stated endpoint qualifications. The U-TD/U-TO two-step witness also prevents unqualified Monte Carlo transfer. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 5
+
+scope: supported. Targets: AIMech:WISGTDLambda.
+
+Algorithm 2 and the accepted hand old-w example establish the old/new-state dependency. Auxiliary adaptation was explicitly excluded in Section 6. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 6
+
+scope: supported. Targets: AIMech:WISGTDLambda.
+
+Fixed linear state-value prediction and dense bookkeeping are the inspected scope; no nonlinear, control or wall-clock result is inferred. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 7
+
+scope: supported. Targets: AIMech:WISGTDLambda.
+
+The source/version ledger binds the exact combined artifact and separately retained official copies. Algorithm 3 remains a separate unresolved residual, not a hidden correction to Algorithm 2. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Claim on-policy-accumulating-prediction
+
+evidence: supported. Targets: AIMech:UsageBasedTDLambda.
+
+Section 6 explicitly names U-TD and combines the usage schedule with an on-policy TD host. Algorithm 4 is a complete state-value update rather than a generic family or control rule.
+
+### Claim on-policy-feature-usage-step
+
+evidence: supported. Targets: AIMech:UsageBasedTDLambda.
+
+The usage equation, new reciprocal and initialization match the source. The zero-reciprocal convention is explicitly on page 3 and is kept distinct from nonnegativity or stability.
+
+### Claim ordinary-eligibility-and-current-error
+
+evidence: supported. Targets: AIMech:UsageBasedTDLambda.
+
+The accumulating trace has no alpha factor. Current gamma/lambda and next gamma have different roles, and both value predictions use the same pre-update theta.
+
+### Claim component-scaled-main-increment
+
+evidence: supported. Targets: AIMech:UsageBasedTDLambda.
+
+The exact main increment matches Algorithm 4. Its complete state list confirms the absence of the distinct off-policy, provisional, auxiliary and prior-weight states from neighboring algorithms.
+
+### Claim one-step-and-qualified-gtd-specializations
+
+evidence: supported. Targets: AIMech:UsageBasedTDLambda.
+
+Direct zero-decay substitution gives one-step usage-scaled TD. The on-policy WIS-GTD reduction needs the retained zero-w qualification, as confirmed by the accepted counterexample.
+
+### Claim linear-bookkeeping-and-usage-scope
+
+evidence: supported. Targets: AIMech:UsageBasedTDLambda.
+
+The finite vector operations give dense linear cost. Theorem 1 belongs to U-SGD’s particular algebraic update for observed targets; the statement does not invent target independence or transfer the result to this accumulating host.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:UsageBasedTDLambda.
+
+Section 6 explicitly names U-TD and combines the usage schedule with an on-policy TD host. Algorithm 4 is a complete state-value update rather than a generic family or control rule.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:UsageBasedTDLambda.
+
+The exact retained ReinforcementLearning node is a broader exploration/performance-oriented learning task. Policy state-value prediction is associated machinery, so related_match is qualified; no exact, subclass or action-selection relation is inferred.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:UsageBasedTDLambda.
+
+One eighteen-page combined author artifact supplies the named methods and Appendix A.7 Algorithms 2, 4 and 5 on page 18. Native text correspondence to the official main and supplement is retained; embedded PDF metadata is not a verified scientific revision date. The source has local display and initialization qualifications, kept bounded without declaring the complete methods or proofs invalid. The original source-agent ledger records all ten main native pages and the author appendix, with selected main and appendix formula visuals and exact official/author text correspondence. The residual-method research and static drafting separately revisit the named hosts and source caveats. The later same-author adversarial pass freshly read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18, then all eighteen selected claims and twenty-one limitations. Root primary and draft reading remain attributed to their exact acceptance receipts. No source acquisition, new PDF reading, algorithm execution or complete proof certification is asserted by this review-data assembly.
+
+### identity assessment
+
+identity: supported. Targets: AIMech:UsageBasedTDLambda.
+
+Retain usage-based TD(lambda) as the named ordinary accumulating on-policy prediction host with its usage-derived component steps. It is distinct from U-TO-TD at finite step sizes, WIS-TD off-policy correction and a standalone usage operator. Shared one-step cases or a qualified GTD specialization do not establish exact aliases. The actual captured identity notes implement the root current collection decisions; the original preview scope remains historical and is recorded in context_changes. Existing owner 264 stays partial, with all its prior IDs and resolution objects retained.
+
+### kind and status assessment
+
+scope: supported. Targets: AIMech:UsageBasedTDLambda.
+
+Algorithm kind selects a complete fixed-linear state-value prediction procedure, not an isolated usage/trace operator or action-selection policy. DRAFT status and the qualified RL association do not imply convergence or control.
+
+### Individual limitation 1
+
+scope: supported. Targets: AIMech:UsageBasedTDLambda.
+
+The named complete algorithm has a specified schedule and ordinary trace; relation to other hosts is not exact whole-method identity. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 2
+
+scope: supported. Targets: AIMech:UsageBasedTDLambda.
+
+Section 8 leaves convergence open. Task-specific observations on page 9 are not universal empirical or stability guarantees. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 3
+
+scope: supported. Targets: AIMech:UsageBasedTDLambda.
+
+The scalar eta witnesses in accepted hand analysis show why reciprocal usage needs domain qualifications. No calculator or optimizer was used. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 4
+
+scope: supported. Targets: AIMech:UsageBasedTDLambda.
+
+The peer clarification is incorporated exactly: the target-sequence identity is algebraic under stated source assumptions. The two-step U-TD/U-TO witness refutes unqualified host transfer without imposing independence or exogeneity. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 5
+
+scope: supported. Targets: AIMech:UsageBasedTDLambda.
+
+Algorithm 4 fixes usage-before-reciprocal and new-trace timing. These distinctions prevent drift into Algorithm 5 or an auxiliary-gradient method. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 6
+
+scope: supported. Targets: AIMech:UsageBasedTDLambda.
+
+Linear on-policy prediction and dense vector cost are the inspected scope, not control, nonlinear or active-feature-only behavior. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 7
+
+scope: supported. Targets: AIMech:UsageBasedTDLambda.
+
+The exact source version and Algorithm 4 are retained without treating file metadata as revision evidence or silently resolving the separate Algorithm 3 ambiguity. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Claim on-policy-usage-true-online-host
+
+evidence: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+Section 6 names this specific usage-based true-online host; Algorithm 5 fixes the complete recurrence. The definition is not an arbitrary step-adaptation family or a control rule.
+
+### Claim usage-before-component-step
+
+evidence: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+The on-policy usage recurrence and subsequent inverse of new usage match Algorithm 5 and the page 3 reciprocal convention. Parameter syntax is not treated as a positivity theorem.
+
+### Claim component-scaled-dutch-eligibility
+
+evidence: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+The componentwise step enters both Dutch terms and the inner product uses old trace. The accepted U-TD/U-TO witness confirms that simply scaling an accumulating trace does not preserve the host.
+
+### Claim stored-prediction-weight-correction
+
+evidence: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+Algorithm 5 uses the old weight vector on current features and pre-update theta_t for the target. Its complete state does not include the separate auxiliary or provisional vectors.
+
+### Claim matched-on-policy-forward-specialization
+
+evidence: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+The rho-one specialization is directly supported by Section 6 and the displayed recurrences. The source-specific forward identity is qualified to matched linear realized data and initialization; this does not certify all proof displays or convergence.
+
+### Claim zero-decay-and-initial-cancellation
+
+evidence: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+The accepted hand derivation writes the increment as a(C-v)+(z-C)e. With e=a, C cancels, giving a(z-v). The first trace is also a from zero history. Finite operands and the absence of an all-lambda accumulating equivalence are explicit.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+Section 6 names this specific usage-based true-online host; Algorithm 5 fixes the complete recurrence. The definition is not an arbitrary step-adaptation family or a control rule.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+The exact retained ReinforcementLearning node is a broader exploration/performance-oriented learning task. Policy state-value prediction is associated machinery, so related_match is qualified; no exact, subclass or action-selection relation is inferred.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+One eighteen-page combined author artifact supplies the named methods and Appendix A.7 Algorithms 2, 4 and 5 on page 18. Native text correspondence to the official main and supplement is retained; embedded PDF metadata is not a verified scientific revision date. The source has local display and initialization qualifications, kept bounded without declaring the complete methods or proofs invalid. The original source-agent ledger records all ten main native pages and the author appendix, with selected main and appendix formula visuals and exact official/author text correspondence. The residual-method research and static drafting separately revisit the named hosts and source caveats. The later same-author adversarial pass freshly read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18, then all eighteen selected claims and twenty-one limitations. Root primary and draft reading remain attributed to their exact acceptance receipts. No source acquisition, new PDF reading, algorithm execution or complete proof certification is asserted by this review-data assembly.
+
+### identity assessment
+
+identity: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+Retain usage-based true online TD(lambda) as the named on-policy scaled-Dutch prediction host with the previous-prediction correction and specified usage schedule. Matched rho=1 specialization of WIS-TD does not identify general off-policy methods, ordinary accumulating TD or the isolated Dutch component. The source Algorithm 5 initialization omission remains explicit. The actual captured identity notes implement the root current collection decisions; the original preview scope remains historical and is recorded in context_changes. Existing owner 264 stays partial, with all its prior IDs and resolution objects retained.
+
+### kind and status assessment
+
+scope: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+Algorithm kind selects a complete fixed-linear state-value prediction procedure, not an isolated usage/trace operator or action-selection policy. DRAFT status and the qualified RL association do not imply convergence or control.
+
+### Individual limitation 1
+
+scope: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+Algorithm 5 is a full specific host, while the related methods differ in traces, state, control role or off-policy scope. Partial parameter overlap is retained without aliasing. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 2
+
+scope: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+Section 8 leaves convergence analysis open. Linear finite-horizon identity is not a statistical or empirical universal guarantee. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 3
+
+scope: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+The accepted eta witness constrains the broad printed parameter range. Reciprocal-zero handling is not a bounded-step theorem. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 4
+
+scope: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+The source scaled convention and old prediction are both essential. The draft does not silently substitute the constant-alpha unscaled true-online form. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 5
+
+scope: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+The omitted explicit theta_-1 line is honestly distinguished from the exact first-theta cancellation and from the d initialization in WIS-TD. No software defect is claimed. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 6
+
+scope: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+The peer Theorem 1 precision is preserved without adding independence or exogeneity. The source linear finite-dimensional scope does not cover arbitrary nonlinear or control variants. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Individual limitation 7
+
+scope: supported. Targets: AIMech:UsageBasedTrueOnlineTDLambda.
+
+The exact artifact/version and Algorithm 5 define the evidence scope. Algorithm 3 remains deferred and no implementation or complete proof certification is asserted. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.
+
+### Claim tabular-on-policy-control
+
+evidence: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+The Section 7.5 prose explicitly names an on-policy control method over action values, and the figure supplies a full tabular interaction loop. The selected accumulating qualifier follows Equation 7.13 and distinguishes this source-scoped procedure from the broader Sarsa family.
+
+### Claim selected-next-action-error
+
+evidence: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+The visual TD-error image uses Q_t for both action values. In the figure, the next action is selected before the error and table updates and is then carried. Restricting this selection claim to a nonterminal successor keeps the separate zero-continuation convention explicit.
+
+### Claim accumulating-trace-credit
+
+evidence: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+Freshly viewed update, trace and algorithm images agree after separating the stored pre-increment trace from E_t used by the value update. With q=gamma*lambda, the figure has E_t=z_t+I_t and z_(t+1)=q*E_t. This is the same recurrence as Equation 7.13, with no second decay. The author errata supplies each episode reset.
+
+### Claim episodic-terminal-and-reset
+
+evidence: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+The official errata explicitly moves only trace zeroing inside the episode loop; Q initialization remains outside. Section 6.4 and the two separately viewed terminal symbols define the successor action value as zero. The final reward still updates all eligible pairs before the terminal stopping test; no extra environment action is required.
+
+### Claim trace-memory-and-one-step-limit
+
+evidence: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+Inductively unrolling Equation 7.13 gives the finite visit sum. Its lambda-zero specialization has only current-pair credit with matched initialization and timing. The figure has no non-greedy-action trace-cut condition. These are bounded algebraic consequences, not an equivalence to all Sarsa/Monte Carlo variants.
+
+### Claim table-update-and-sparse-boundary
+
+evidence: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+The figure explicitly iterates over every state-action pair. Section 7.9 discusses sparse nonzero traces and thresholding; omitting exactly zero products preserves the recurrence, whereas omitting nonzero products generally changes it. No fixed active-set bound or measured speedup is inferred.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+The book supplies the tabular selected-action-error/accumulating-credit control procedure. Resetting traces between episodes is explicitly justified by the official errata, while learned Q persists. This definition selects that corrected scope without a naming-priority or whole-family claim.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+The selected algorithm learns action values through reward-driven interaction and exploratory actions. The exact pinned ReinforcementLearning node is a broad machine-learning task, so only a qualified related_match is selected. No task-equivalence, subclass edge, scalar-only MathematicalFunction restriction or additional mapping is asserted.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+Eight native source rows represent seven separately hashed HTML/PNG excerpts from one 1998 monograph and one official errata document. The HTML digest does not authenticate externally linked images. Four defining formula/algorithm images each have their own source row; contextual terminal symbols and the neighboring replacing image remain separately retained. The 2005 conversion footer is not the publication year. The episode reset incorporates an explicit author correction, not an undocumented repair. The research author read the defining first-edition HTML and formula/algorithm images, author errata, and retained contextual copies within its ledger. Static drafting freshly read Section 7.5 and all four defining images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and Section 7.8 with Equation 7.17. The later supporting audit separately reread the defining HTML/images/errata and all six claims/seven limitations. Root reading remains exactly attributed to its research and draft receipts. No whole-book reading or new primary reading is claimed by this review-data assembly.
+
+### identity assessment
+
+identity: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+Retain corrected episodic tabular accumulating Sarsa(lambda) as the selected complete on-policy control procedure. The carried selected action, terminal zero continuation, single trace decay and author-corrected episode reset distinguish its specified operation ordering from original neural MCQ-L, true-online Sarsa, replacing/Dutch components and greedy trace-cut control; this does not assert disjoint kernels. The actual captured identity notes implement the root current collection decisions; the original preview scope remains historical and is recorded in context_changes. Existing owner 265 stays partial, with all its prior IDs and resolution objects retained.
+
+### kind and status assessment
+
+scope: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+Algorithm kind selects the complete corrected episodic tabular control procedure, not an isolated trace or every Sarsa realization. DRAFT status and related RL mapping do not claim optimality or universal convergence.
+
+### Individual limitation 1
+
+scope: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+The record denotes the corrected complete tabular control procedure. Sharing an error or a possible representation does not equate its full operation ordering with original MCQ-L, true-online Sarsa or a standalone trace component. Source/context locator: Section 7.5 and Figure 7.11; accepted identity assessment and neighboring-method comparison.
+
+### Individual limitation 2
+
+scope: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+Both original box and author correction were freshly read. The correction is incorporated openly rather than silently replacing source bytes or certifying software. Source/context locator: Figure 7.11, pseudotmp12.png; official errata entry for boxed algorithms pp. 174, 181, 184, 200, 212 and 213.
+
+### Individual limitation 3
+
+scope: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+The fresh prose/image comparison confirms the selected-pair branch shows 1+gamma*lambda*old_trace while the adjacent prose says reset to one. This source-local conflict concerns a neighbor, not Equation 7.13. The FA correction remains an attributed contextual artifact; this drafter did not newly read that PDF. Source/context locator: Section 7.8 replacing-control prose and linked Equation 7.17 numeqtmp44.png; errata link to sarsaFA2.pdf as separately attributed context.
+
+### Individual limitation 4
+
+scope: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+The accepted hand witness uses one repeated nonterminal state, rewards 1,0,0, gamma=lambda=1 and Q0=0. Online updates produce a-3a^2 while summing fixed-initial-value full-return errors gives a. This refutes that unqualified finite-step equality under those conventions, not every Monte Carlo variant or a control convergence theorem. Source/context locator: Equation 7.13/Figure 7.11; retained hand-analysis finite-alpha-monte-carlo-caveat.
+
+### Individual limitation 5
+
+scope: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+A geometric-series trace bound for q in [0,1) says nothing by itself about rewards, errors or Q. The source Section 6.4 describes a historical unpublished convergence statement for Sarsa; it is not promoted to a current universal theorem or to every lambda/step schedule. Source/context locator: Equation 7.13 finite visit sum; Section 6.4 convergence discussion; accepted hand analysis.
+
+### Individual limitation 6
+
+scope: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+The source box explicitly uses a table. The retained neural MCQ-L and later true-online contexts support relatedness without authorizing arbitrary trace substitutions, nonlinear/off-policy extensions or full-algorithm aliasing. Source/context locator: Section 7.5 tabular Figure 7.11; accepted research method/identity boundaries; contextual Section 7.9.
+
+### Individual limitation 7
+
+scope: supported. Targets: AIMech:AccumulatingSarsaLambda.
+
+The native evidence has eight separately hashed artifacts: seven excerpts/images from one monograph and one errata page. HTML digests do not authenticate linked files; four defining PNGs have their own native rows and two terminal-symbol bytes remain separately bound. Publication, conversion and access dates remain distinct. Later PDF contexts are attributed rather than newly reread. Source/context locator: Author first-edition index, HTML footer and separate artifact acquisition ledger; research reading ledger for the 2016 contextual copies.
+
+### Actual canonical, capture, frontier, history, rendered-page and check correspondence
+
+provenance: supported. Targets: AIMech:WISGTDLambda, AIMech:UsageBasedTDLambda, AIMech:UsageBasedTrueOnlineTDLambda, AIMech:AccumulatingSarsaLambda.
+
+All four current records equal the actual write/report entries and accepted science: twenty-four claims and twenty-eight individual limitations. Eleven declared source rows represent nine distinct artifacts: one shared author paper and seven monograph components plus official errata. Seven files were created, including one CREATE history. Only owners 264 and 265 changed, with all prior IDs/resolutions and 907 other main/393 nested objects preserved. Every captured input and actual rendered-page hash was checked. Six required checks passed; DRAFT status and partial residual scope remain.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:WISGTDLambda. Retain the source-defined WIS-GTD(lambda) usage-adapted accumulating GTD host separately from WIS-TD, true online GTD, the on-policy usage hosts and the unresolved WIS-TO-GTD display. On-policy specialization also requires beta=0 and zero auxiliary weights for the stated U-TD reduction; overlap does not make whole methods aliases.
+- retain: AIMech:UsageBasedTDLambda. Retain usage-based TD(lambda) as the named ordinary accumulating on-policy prediction host with its usage-derived component steps. It is distinct from U-TO-TD at finite step sizes, WIS-TD off-policy correction and a standalone usage operator. Shared one-step cases or a qualified GTD specialization do not establish exact aliases.
+- retain: AIMech:UsageBasedTrueOnlineTDLambda. Retain usage-based true online TD(lambda) as the named on-policy scaled-Dutch prediction host with the previous-prediction correction and specified usage schedule. Matched rho=1 specialization of WIS-TD does not identify general off-policy methods, ordinary accumulating TD or the isolated Dutch component. The source Algorithm 5 initialization omission remains explicit.
+- retain: AIMech:AccumulatingSarsaLambda. Retain corrected episodic tabular accumulating Sarsa(lambda) as the selected complete on-policy control procedure. The carried selected action, terminal zero continuation, single trace decay and author-corrected episode reset distinguish its specified operation ordering from original neural MCQ-L, true-online Sarsa, replacing/Dutch components and greedy trace-cut control; this does not assert disjoint kernels.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| preview-wis-gtd | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/wis-gtd/native-preview.json | context_only | Actual accepted TEMP native payload; actual canonical correspondence is assessed separately. |
+| support-wis-gtd | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/wis-gtd/scientific-support.json | context_only | Exact accepted six-claim and seven-limit support with separately attributed reading. |
+| draft-acceptance-wis-gtd | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/wis-gtd/root-draft-acceptance.json | context_only | Historical root draft acceptance recorded at 2026-10-15T18:12:03Z stated: “Root read complete pure module and all six claim/seven limitation narratives, definition/mapping/historical identity and input scope/source metadata/time projection. A combined first read truncated middle material; all claim/limitation narratives and identity scopes were recovered in a separate complete compact read. Source and input references were verified mechanically; prior source/visual reading and research acceptance remain separately attributed. Accept exact draft for TEMP invocation/native validation only. Current identity and canonical addition remain separate; an additional draft adversarial pass is ongoing and no result is inferred.” This quotation preserves the receipt’s scope at that time. The later completed supporting draft assessment is bound separately as wis-residual-draft-audit; actual merged-base identity and canonical correspondence are separately assessed from the current runtime evidence. |
+| preview-validation-wis-gtd | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/wis-gtd/native-preview-validation.json | context_only | Actual native validation with science correspondence; no current cohort identity clearance or independent approval. |
+| source-reading-wis-gtd | /private/tmp/aimech-wis-residual-methods-research-20261015/source-and-reading.json | context_only | The original source-agent ledger records all ten main native pages and the author appendix, with selected main and appendix formula visuals and exact official/author text correspondence. The residual-method research and static drafting separately revisit the named hosts and source caveats. The later same-author adversarial pass freshly read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18, then all eighteen selected claims and twenty-one limitations. Root primary and draft reading remain attributed to their exact acceptance receipts. No source acquisition, new PDF reading, algorithm execution or complete proof certification is asserted by this review-data assembly. |
+| preparation-reading-wis-gtd | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/reading.json | context_only | Historical static-draft reading scope, distinct from this assembly and actual postcapture reading. |
+| root-research-wis-gtd | /private/tmp/aimech-wis-residual-methods-research-20261015/root-research-acceptance.json | context_only | Actual bounded root research acceptance; source, identity and mathematical scopes remain attributed. |
+| source-times-wis-gtd | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/source-time-projection.json | context_only | Retained fractional acquisitions and whole-second native UTC projection; no new acquisition implied. |
+| historical-identity-wis-gtd | /private/tmp/aimech-wis-residual-methods-research-20261015/identity-and-mapping-assessment.json | context_only | Dated historical identity interpretation; the actual merged-base assessment is bound separately. |
+| src-mahmood2015-author | https://armahmood.github.io/files/MS-WIS-O(n)-UAI-2015.pdf; Sections 2–6 and 8, PDF pp. 3–7 and 9; Appendix A.1 p. 11 and A.7 p. 18, Algorithms 2, 4 and 5. The original source-agent ledger records all ten main native pages and the author appendix, with selected main and appendix formula visuals and exact official/author text correspondence. The residual-method research and static drafting separately revisit the named hosts and source caveats. The later same-author adversarial pass freshly read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18, then all eighteen selected claims and twenty-one limitations. Root primary and draft reading remain attributed to their exact acceptance receipts. No source acquisition, new PDF reading, algorithm execution or complete proof certification is asserted by this review-data assembly. | supports | Author-catalog-linked eighteen-page combined UAI 2015 paper and Appendix A. Native text on PDF pp. 1–10 matches the official ten-page proceedings paper, and pp. 11–18 match its official eight-page supplement. The embedded 2016 PDF creation date is not treated as a verified scientific revision date; source-local PDF pagination is used. |
+| preview-usage-td | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-td/native-preview.json | context_only | Actual accepted TEMP native payload; actual canonical correspondence is assessed separately. |
+| support-usage-td | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-td/scientific-support.json | context_only | Exact accepted six-claim and seven-limit support with separately attributed reading. |
+| draft-acceptance-usage-td | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-td/root-draft-acceptance.json | context_only | Historical root draft acceptance recorded at 2026-10-15T18:12:04Z stated: “Root read complete pure module and all six claim/seven limitation narratives, definition/mapping/historical identity and input scope/source metadata/time projection. A combined first read truncated middle material; all claim/limitation narratives and identity scopes were recovered in a separate complete compact read. Source and input references were verified mechanically; prior source/visual reading and research acceptance remain separately attributed. Accept exact draft for TEMP invocation/native validation only. Current identity and canonical addition remain separate; an additional draft adversarial pass is ongoing and no result is inferred.” This quotation preserves the receipt’s scope at that time. The later completed supporting draft assessment is bound separately as wis-residual-draft-audit; actual merged-base identity and canonical correspondence are separately assessed from the current runtime evidence. |
+| preview-validation-usage-td | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-td/native-preview-validation.json | context_only | Actual native validation with science correspondence; no current cohort identity clearance or independent approval. |
+| source-reading-usage-td | /private/tmp/aimech-wis-residual-methods-research-20261015/source-and-reading.json | context_only | The original source-agent ledger records all ten main native pages and the author appendix, with selected main and appendix formula visuals and exact official/author text correspondence. The residual-method research and static drafting separately revisit the named hosts and source caveats. The later same-author adversarial pass freshly read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18, then all eighteen selected claims and twenty-one limitations. Root primary and draft reading remain attributed to their exact acceptance receipts. No source acquisition, new PDF reading, algorithm execution or complete proof certification is asserted by this review-data assembly. |
+| preparation-reading-usage-td | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/reading.json | context_only | Historical static-draft reading scope, distinct from this assembly and actual postcapture reading. |
+| root-research-usage-td | /private/tmp/aimech-wis-residual-methods-research-20261015/root-research-acceptance.json | context_only | Actual bounded root research acceptance; source, identity and mathematical scopes remain attributed. |
+| source-times-usage-td | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/source-time-projection.json | context_only | Retained fractional acquisitions and whole-second native UTC projection; no new acquisition implied. |
+| historical-identity-usage-td | /private/tmp/aimech-wis-residual-methods-research-20261015/identity-and-mapping-assessment.json | context_only | Dated historical identity interpretation; the actual merged-base assessment is bound separately. |
+| preview-usage-true-online-td | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-true-online-td/native-preview.json | context_only | Actual accepted TEMP native payload; actual canonical correspondence is assessed separately. |
+| support-usage-true-online-td | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-true-online-td/scientific-support.json | context_only | Exact accepted six-claim and seven-limit support with separately attributed reading. |
+| draft-acceptance-usage-true-online-td | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-true-online-td/root-draft-acceptance.json | context_only | Historical root draft acceptance recorded at 2026-10-15T18:12:04Z stated: “Root read complete pure module and all six claim/seven limitation narratives, definition/mapping/historical identity and input scope/source metadata/time projection. A combined first read truncated middle material; all claim/limitation narratives and identity scopes were recovered in a separate complete compact read. Source and input references were verified mechanically; prior source/visual reading and research acceptance remain separately attributed. Accept exact draft for TEMP invocation/native validation only. Current identity and canonical addition remain separate; an additional draft adversarial pass is ongoing and no result is inferred.” This quotation preserves the receipt’s scope at that time. The later completed supporting draft assessment is bound separately as wis-residual-draft-audit; actual merged-base identity and canonical correspondence are separately assessed from the current runtime evidence. |
+| preview-validation-usage-true-online-td | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-true-online-td/native-preview-validation.json | context_only | Actual native validation with science correspondence; no current cohort identity clearance or independent approval. |
+| source-reading-usage-true-online-td | /private/tmp/aimech-wis-residual-methods-research-20261015/source-and-reading.json | context_only | The original source-agent ledger records all ten main native pages and the author appendix, with selected main and appendix formula visuals and exact official/author text correspondence. The residual-method research and static drafting separately revisit the named hosts and source caveats. The later same-author adversarial pass freshly read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18, then all eighteen selected claims and twenty-one limitations. Root primary and draft reading remain attributed to their exact acceptance receipts. No source acquisition, new PDF reading, algorithm execution or complete proof certification is asserted by this review-data assembly. |
+| preparation-reading-usage-true-online-td | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/reading.json | context_only | Historical static-draft reading scope, distinct from this assembly and actual postcapture reading. |
+| root-research-usage-true-online-td | /private/tmp/aimech-wis-residual-methods-research-20261015/root-research-acceptance.json | context_only | Actual bounded root research acceptance; source, identity and mathematical scopes remain attributed. |
+| source-times-usage-true-online-td | /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/source-time-projection.json | context_only | Retained fractional acquisitions and whole-second native UTC projection; no new acquisition implied. |
+| historical-identity-usage-true-online-td | /private/tmp/aimech-wis-residual-methods-research-20261015/identity-and-mapping-assessment.json | context_only | Dated historical identity interpretation; the actual merged-base assessment is bound separately. |
+| preview-sarsa | /private/tmp/aimech-accumulating-sarsa-lambda-draft-preparation-20261015/native-preview.json | context_only | Actual accepted TEMP native payload; actual canonical correspondence is assessed separately. |
+| support-sarsa | /private/tmp/aimech-accumulating-sarsa-lambda-draft-preparation-20261015/scientific-support.json | context_only | Exact accepted six-claim and seven-limit support with separately attributed reading. |
+| draft-acceptance-sarsa | /private/tmp/aimech-accumulating-sarsa-lambda-draft-preparation-20261015/root-draft-acceptance.json | context_only | Historical root draft acceptance recorded at 2026-10-15T17:59:31Z stated: “Root read complete pure module, inputs, six exact claim and seven limitation narratives, all eight source metadata rows, source-time projection and historical identity. Prior root primary HTML/image and errata reading is recorded in research acceptance. Accept for TEMP invocation/native validation only. Eight artifacts are seven monograph excerpts and separate errata, not eight independent works. Current post-merge identity clearance and canonical curation remain separate.” This quotation preserves the receipt’s scope at that time. The completed supporting draft assessment, recorded at 2026-10-15T17:59:14.061123Z before this acceptance, is bound separately as sarsa-draft-audit; actual merged-base identity and canonical correspondence are separately assessed from the current runtime evidence. |
+| preview-validation-sarsa | /private/tmp/aimech-accumulating-sarsa-lambda-draft-preparation-20261015/native-preview-validation.json | context_only | Actual native validation with science correspondence; no current cohort identity clearance or independent approval. |
+| source-reading-sarsa | /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/reading.json | context_only | The research author read the defining first-edition HTML and formula/algorithm images, author errata, and retained contextual copies within its ledger. Static drafting freshly read Section 7.5 and all four defining images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and Section 7.8 with Equation 7.17. The later supporting audit separately reread the defining HTML/images/errata and all six claims/seven limitations. Root reading remains exactly attributed to its research and draft receipts. No whole-book reading or new primary reading is claimed by this review-data assembly. |
+| preparation-reading-sarsa | /private/tmp/aimech-accumulating-sarsa-lambda-draft-preparation-20261015/reading.json | context_only | Historical static-draft reading scope, distinct from this assembly and actual postcapture reading. |
+| root-research-sarsa | /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/root-research-acceptance.json | context_only | Actual bounded root research acceptance; source, identity and mathematical scopes remain attributed. |
+| source-times-sarsa | /private/tmp/aimech-accumulating-sarsa-lambda-draft-preparation-20261015/source-time-projection.json | context_only | Retained fractional acquisitions and whole-second native UTC projection; no new acquisition implied. |
+| historical-identity-sarsa | /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/identity/assessment.json | context_only | Dated historical identity interpretation; the actual merged-base assessment is bound separately. |
+| src-sutton-barto1998-s75 | http://incompleteideas.net/book/first/ebook/node77.html; Source-local HTML section, equation image, algorithm image or errata entry as cited in the exact native claims. The research author read the defining first-edition HTML and formula/algorithm images, author errata, and retained contextual copies within its ledger. Static drafting freshly read Section 7.5 and all four defining images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and Section 7.8 with Equation 7.17. The later supporting audit separately reread the defining HTML/images/errata and all six claims/seven limitations. Root reading remains exactly attributed to its research and draft receipts. No whole-book reading or new primary reading is claimed by this review-data assembly. | supports | First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005 is not the publication date. HTML body only; linked image bodies are separately declared artifacts. |
+| src-sutton-barto1998-q-update | http://incompleteideas.net/book/ebook/imgtmp56.png; Source-local HTML section, equation image, algorithm image or errata entry as cited in the exact native claims. The research author read the defining first-edition HTML and formula/algorithm images, author errata, and retained contextual copies within its ledger. Static drafting freshly read Section 7.5 and all four defining images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and Section 7.8 with Equation 7.17. The later supporting audit separately reread the defining HTML/images/errata and all six claims/seven limitations. Root reading remains exactly attributed to its research and draft receipts. No whole-book reading or new primary reading is claimed by this review-data assembly. | supports | First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005 is not the publication date. Unnumbered action-value update preceding the TD-error display; exact linked PNG bytes. |
+| src-sutton-barto1998-td-error | http://incompleteideas.net/book/ebook/imgtmp57.png; Source-local HTML section, equation image, algorithm image or errata entry as cited in the exact native claims. The research author read the defining first-edition HTML and formula/algorithm images, author errata, and retained contextual copies within its ledger. Static drafting freshly read Section 7.5 and all four defining images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and Section 7.8 with Equation 7.17. The later supporting audit separately reread the defining HTML/images/errata and all six claims/seven limitations. Root reading remains exactly attributed to its research and draft receipts. No whole-book reading or new primary reading is claimed by this review-data assembly. | supports | First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005 is not the publication date. Unnumbered TD-error display immediately before Equation 7.13; exact linked PNG bytes. |
+| src-sutton-barto1998-trace | http://incompleteideas.net/book/ebook/numeqtmp40.png; Source-local HTML section, equation image, algorithm image or errata entry as cited in the exact native claims. The research author read the defining first-edition HTML and formula/algorithm images, author errata, and retained contextual copies within its ledger. Static drafting freshly read Section 7.5 and all four defining images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and Section 7.8 with Equation 7.17. The later supporting audit separately reread the defining HTML/images/errata and all six claims/seven limitations. Root reading remains exactly attributed to its research and draft receipts. No whole-book reading or new primary reading is claimed by this review-data assembly. | supports | First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005 is not the publication date. Accumulating state-action trace equation; exact linked PNG bytes. |
+| src-sutton-barto1998-algorithm | http://incompleteideas.net/book/ebook/pseudotmp12.png; Source-local HTML section, equation image, algorithm image or errata entry as cited in the exact native claims. The research author read the defining first-edition HTML and formula/algorithm images, author errata, and retained contextual copies within its ledger. Static drafting freshly read Section 7.5 and all four defining images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and Section 7.8 with Equation 7.17. The later supporting audit separately reread the defining HTML/images/errata and all six claims/seven limitations. Root reading remains exactly attributed to its research and draft receipts. No whole-book reading or new primary reading is claimed by this review-data assembly. | supports | First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005 is not the publication date. Original tabular Sarsa(lambda) box, retaining its episode-reset placement error. Official errata is a separate source row; exact linked PNG bytes. |
+| src-sutton-barto1998-terminal | http://incompleteideas.net/book/ebook/node64.html; Source-local HTML section, equation image, algorithm image or errata entry as cited in the exact native claims. The research author read the defining first-edition HTML and formula/algorithm images, author errata, and retained contextual copies within its ledger. Static drafting freshly read Section 7.5 and all four defining images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and Section 7.8 with Equation 7.17. The later supporting audit separately reread the defining HTML/images/errata and all six claims/seven limitations. Root reading remains exactly attributed to its research and draft receipts. No whole-book reading or new primary reading is claimed by this review-data assembly. | supports | First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005 is not the publication date. Terminal continuation convention following Equation 6.5. HTML bytes only; the two terminal-symbol PNGs are retained separately in the draft source projection. |
+| src-sutton-barto1998-implementation | http://incompleteideas.net/book/ebook/node81.html; Source-local HTML section, equation image, algorithm image or errata entry as cited in the exact native claims. The research author read the defining first-edition HTML and formula/algorithm images, author errata, and retained contextual copies within its ledger. Static drafting freshly read Section 7.5 and all four defining images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and Section 7.8 with Equation 7.17. The later supporting audit separately reread the defining HTML/images/errata and all six claims/seven limitations. Root reading remains exactly attributed to its research and draft receipts. No whole-book reading or new primary reading is claimed by this review-data assembly. | supports | First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion footer dated 2005 is not the publication date. Full-table and sparse-trace discussion. HTML bytes only; no external image bytes are included in this checksum. |
+| src-sutton-barto1998-errata | http://incompleteideas.net/book/first/errata.html; Source-local HTML section, equation image, algorithm image or errata entry as cited in the exact native claims. The research author read the defining first-edition HTML and formula/algorithm images, author errata, and retained contextual copies within its ledger. Static drafting freshly read Section 7.5 and all four defining images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and Section 7.8 with Equation 7.17. The later supporting audit separately reread the defining HTML/images/errata and all six claims/seven limitations. Root reading remains exactly attributed to its research and draft receipts. No whole-book reading or new primary reading is claimed by this review-data assembly. | supports | Undated author-maintained errata retrieved 15 October 2026. The pp. 174, 181, 184, 200, 212 and 213 entry moves trace zeroing into each episode loop. No erratum publication date is inferred. |
+| wis-residual-draft-audit | /private/tmp/aimech-wis-residual-drafts-adversarial-20261015/assessment.json | context_only | Later same-author fresh source and complete three-draft audit; eighteen claims and twenty-one limitations, with explicit old/new-state, positivity, initialization and finite-step boundary checks. No module invocation or full proof certification. |
+| sarsa-draft-audit | /private/tmp/aimech-accumulating-sarsa-draft-supporting-audit-20261015/assessment.json | context_only | Later supporting draft audit with fresh defining HTML, images and errata plus all six claims/seven limits. Same-author team support, not independent approval. |
+| wis-version-comparison | /private/tmp/aimech-wis-td-research-20261015/source-version-comparison.json | context_only | Native-text correspondence among official main/supplement and combined author artifact; embedded creation metadata is not a verified revision date. |
+| sarsa-source-ledger | /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/source-ledger.json | context_only | Exact individual HTML/PNG/PDF acquisition records; contextual artifacts do not increase the native source count. |
+| sarsa-identity-count-correction | /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/identity/collection-presentation-correction.json | context_only | Retained historical count-presentation correction; original snapshot and actual search contents are unchanged. |
+| sarsa-context-replacing-prose | /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/first-edition/node80.html; Section 7.8 neighboring replacing-trace prose, not the selected accumulating recurrence. | context_only | Retained context-only source artifact; not a native source row. |
+| sarsa-context-replacing-equation | /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/first-edition/numeqtmp44.png; Section 7.8 Equation 7.17 neighboring selected-pair display conflict, not a repair of Equation 7.13. | context_only | Retained context-only source artifact; not a native source row. |
+| sarsa-context-terminal-symbol1 | /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/first-edition/inimgtmp1016.png; Section 6.4 terminal-state symbol accompanying zero-continuation prose. | context_only | Retained context-only source artifact; not a native source row. |
+| sarsa-context-terminal-symbol2 | /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/first-edition/inimgtmp1017.png; Section 6.4 zero terminal successor action-value symbol. | context_only | Retained context-only source artifact; not a native source row. |
+| actual-write | /private/tmp/aimech-wis-usage-sarsa-cohort348-write.json | context_only | Actual exclusive creation receipt: four records, report pair and one CREATE history. |
+| captured-inputs | /private/tmp/aimech-wis-usage-sarsa-cohort348-capture.json | context_only | Actual canonical inspection; every current input hash and maintained target was checked. |
+| postcapture-reading | /private/tmp/aimech-cohort348-root-postcapture-reading.json | context_only | Root freshly read all four complete actual canonical YAML records after capture: definitions/evidence, all24 claims and28 individual limitations,11 source rows, mappings, identity and curation. Root read the report Markdown and CREATE history, then current JSON metadata, all context-change narratives, both full current owners264/265 and current source-lead assessment. Repeated embedded accepted manifest and root decisions were compared exactly rather than represented as freshly read in full; all37 captured inputs and7 write outputs were hash-verified, report records equaled the full YAML records, and907 other main/393 nested objects matched the predecessor. Root read the actual supporting scientific assessment, recovering truncated middle sections by bounded projections, and the complete governance/page manifests. These same-author supporting scopes, prior accepted primary reading and root earlier exact-draft reading remain separately attributed. No new source acquisition, full-proof certification, algorithm execution, visual page inspection, saved-review completion or gate result is implied by this reading. |
+| governance-assessment | /private/tmp/aimech-cohort348-governance-audit-20261015/assessment.json | context_only | Actual byte preservation, owner/frontier, history and parsed-page audit; no independent approval. |
+| rendered-pages | /private/tmp/aimech-cohort348-governance-audit-20261015/rendered-pages.json | context_only | Actual generated page paths and bytes, with parsed-content correspondence; no browser/layout inspection. |
+| actual-scientific-assessment | /private/tmp/aimech-cohort348-actual-scientific-audit-20261015/assessment.json | context_only | Same-author actual-record adversarial assessment with separately attributed primary reading. |
+| current-identity-collection | /private/tmp/aimech-cohort348-identity-20261015/collection.json | context_only | Current four-root ignored- and hidden-inclusive identity collection; mechanical coverage is distinct from attributed semantic reading. |
+| current-context-assessment | /private/tmp/aimech-cohort348-collection-assessment.json | context_only | Actual supporting interpretation of retained matched contexts; root and supporting scopes remain separate. |
+| root-decisions | /private/tmp/aimech-cohort348-root-decisions.json | context_only | Actual root identity/owner/source-lead decisions, retaining both owners 264 and 265 and their partial residuals. |
+| scientific-support | /private/tmp/aimech-cohort348-review-preparation-20261015/scientific-support.prepared.json | context_only | Exact accepted claim and limitation support; historical and later source/math scopes remain separate. |
+| discovery-report | /private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T185839Z-wis-gtd-usage-based-td-and-accumulating-sarsa.json | context_only | Current record/context/owner mirrors; no added frontier leaf. |
+| creation-history | /private/tmp/aimech-discovery-recovery-worktree-20261012/history/reports/wis-gtd-usage-based-td-and-accumulating-sarsa/2026-10-15T185852Z-codex-1e35f9.yaml | context_only | Actual CREATE report history for the four-record cohort; predecessor creation lineage remains separate. |
+| record-wis-gtd | /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/WISGTDLambda.yaml | context_only | Complete current DRAFT record equals accepted science and actual root identity decisions. |
+| record-usage-td | /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/UsageBasedTDLambda.yaml | context_only | Complete current DRAFT record equals accepted science and actual root identity decisions. |
+| record-usage-true-online-td | /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/UsageBasedTrueOnlineTDLambda.yaml | context_only | Complete current DRAFT record equals accepted science and actual root identity decisions. |
+| record-sarsa | /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/AccumulatingSarsaLambda.yaml | context_only | Complete current DRAFT record equals accepted science and actual root identity decisions. |
+| check-gate | /private/tmp/aimech-wis-usage-sarsa-cohort348-check-gate.json | context_only | Actual required command completed successfully before this review generation. |
+| check-vendor | /private/tmp/aimech-wis-usage-sarsa-cohort348-check-vendor-retry1.json | context_only | Actual required command completed successfully before this review generation. |
+| check-check-source | /private/tmp/aimech-wis-usage-sarsa-cohort348-check-check-source.json | context_only | Actual required command completed successfully before this review generation. |
+| check-render | /private/tmp/aimech-wis-usage-sarsa-cohort348-check-render.json | context_only | Actual required command completed successfully before this review generation. |
+| check-render-check | /private/tmp/aimech-wis-usage-sarsa-cohort348-check-render-check.json | context_only | Actual required command completed successfully before this review generation. |
+| check-diff | /private/tmp/aimech-wis-usage-sarsa-cohort348-check-diff.json | context_only | Actual required command completed successfully before this review generation. |
+| historical-check-attempt-1 | /private/tmp/aimech-wis-usage-sarsa-cohort348-check-vendor.json | context_only | Actual failed attempt, retained with its later successful same-command replacement. |
+
+## Limits And Additional Notes
+
+- Same-author source and mathematical support and root review are not independent approval. Acquisitions, selective primary reading, hand analysis, native validation and actual current-state assessment are separate events.
+- WIS-GTD, U-TD and U-TO-TD are source-defined complete hosts with distinct states and timing. Shared usage formulas and endpoint specializations do not establish aliases. The WIS-TO-GTD Algorithm 3 ambiguity is not silently repaired.
+- Theorem 1 concerns its stated tabular observed-target construction; feature-usage correspondence and matched forward-view scope do not establish ordinary tabular WIS for every host, unbiased gradients, convergence, monotonic improvement or arbitrary Monte Carlo endpoint equivalence.
+- Usage nonnegativity requires the stated coordinate factors and forward-weight conditions; eta &gt;= 0 alone is insufficient. Zero reciprocal conventions do not guarantee positive or bounded steps. Auxiliary initialization, old/new state and Algorithm 5 previous-weight qualifications remain explicit.
+- Accumulating Sarsa is the corrected episodic tabular procedure. Selected-next-action timing, single trace decay, terminal zero continuation and per-episode trace reset remain explicit. Neighboring replacing-image conflicts do not redefine the selected accumulating method.
+- Twenty-four claims and twenty-eight native limitations cite eleven record-level source rows representing nine distinct artifacts: one shared WIS paper/appendix PDF and seven excerpts from one monograph plus official errata. Four additional contextual Sarsa image/prose artifacts are retained separately; HTML hashes do not authenticate linked images.
+- Historical ignored-inclusive research is dated to its inspected snapshots. Actual merged-base identity and owner decisions are bound separately, with no global absence or family-exhaustion claim.
+- No complete-book or proof certification, author-code execution, benchmark reproduction or browser/layout inspection is claimed. Exact source-version, acquisition and prior correction scopes remain attributed.
+- Actual seven creation outputs, one CREATE history, 9 generated pages and 37 capture inputs are assessed through separate receipts. Six required checks passed; any failed attempts remain explicit. Parsed HTML is not browser/layout inspection. Canonical review save/check and publication remain separate actions.
+- Root freshly read all four complete actual canonical YAML records after capture: definitions/evidence, all24 claims and28 individual limitations,11 source rows, mappings, identity and curation. Root read the report Markdown and CREATE history, then current JSON metadata, all context-change narratives, both full current owners264/265 and current source-lead assessment. Repeated embedded accepted manifest and root decisions were compared exactly rather than represented as freshly read in full; all37 captured inputs and7 write outputs were hash-verified, report records equaled the full YAML records, and907 other main/393 nested objects matched the predecessor. Root read the actual supporting scientific assessment, recovering truncated middle sections by bounded projections, and the complete governance/page manifests. These same-author supporting scopes, prior accepted primary reading and root earlier exact-draft reading remain separately attributed. No new source acquisition, full-proof certification, algorithm execution, visual page inspection, saved-review completion or gate result is implied by this reading.
+- Actual18:42:28–18:45:19UTC post-PR389 collection covered four specified ignored/hidden-inclusive roots,775 native and442 pinned AIO records,4,843 identity fields,6,064 occurrences and1,351 distinct matched contents. Supporting agents read disjoint partitions covering all contents; root separately read all37 filtered candidate-named contents,12 normalized neighbor definitions,29 fields, matching frontier and full owners264/265/266/269 before writing the current decisions. No normalized candidate collision was found within those roots/probes/pinned snapshot. Prewrite repeat searches preserved each content multiset; this is bounded identity clearance, not corpus-wide manual reading or global saturation.
+- The inspected 2015 paper separately specifies WIS-GTD, usage-based TD and usage-based true online TD; the inspected first-edition monograph and official errata support corrected episodic accumulating Sarsa. These are four distinct methods under existing owners264 and265. The subsequent WIS-TO-GTD dossier has located commit-pinned author implementation evidence and explicitly retains its correction-history, zero-reciprocal and episode-state differences from the printed algorithm; a qualified draft is being assessed separately, not asserted as a record or formal erratum here. General eligibility organization, soft-cut, other usage/importance-sampling and control variants and the owner266 precursor remain residual work. No new frontier leaf is needed for these bounded findings and no source-family exhaustion is claimed.
+- Source access, dated historical identity, source-agent reading, later supporting draft audits, native validation and actual root postcapture assessment retain separate scopes and timestamps. Root science reading may precede some gates; actual logs independently establish completed checks.
+- The three WIS records cite one shared author work. Sarsa cites seven monograph excerpts and official errata, with four context-only prose/image artifacts separately retained. HTML checksums do not cover linked images. Historical identity summaries describe their dated scope; actual merged-base evidence is bound separately. No original receipt is rewritten.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261015T191203Z-wis-usage-methods-and-accumulating-sarsa
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of WIS-GTD, usage-based TD methods and accumulating
+  Sarsa
+started_at: '2026-10-15T18:59:31.321375Z'
+finished_at: '2026-10-15T19:12:03.065888Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root author assessment with attributed same-author source and
+    mathematical supporting agents; no independent scientific approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain three source-defined WIS/usage-adapted linear prediction algorithms
+  and the corrected episodic tabular accumulating Sarsa control procedure. All twenty-four
+  claims and twenty-eight individual limitations are assessed through attributed primary
+  reading, hand analysis and actual canonical correspondence. Eleven declared rows
+  represent nine distinct artifacts, not eleven publications. Qualified ReinforcementLearning
+  mappings distinguish prediction machinery from the broader task and selected tabular
+  control from task identity. Actual capture, owner preservation, generated pages
+  and completed required checks are bound; no independent approval or residual exhaustion
+  is implied.
+source:
+  git_revision: a286cc1329754c54dc6f3fa09dc6b6bc8233b1aa
+  state: working_tree
+  inputs:
+  - path: .claude/skills/review-category/SKILL.md
+    sha256: 553c3870c1dfc127f90f196b7b212b644706d4c26e2a578ab615ccce588070d7
+    role: context
+  - path: data/aio/Layer.yaml
+    sha256: 46b533d2f0afcbdeadb7c35f8c382d66e51e0f5edf90b0c3552767687d34fa87
+    role: context
+  - path: data/aio/LinearFunction.yaml
+    sha256: 773be0c041b8b1f0f386ec64c794388eff2b482c81f8f828bca0ae27a173811c
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/AccumulatingSarsaLambda.yaml
+    sha256: d1a06f0316bc288f9a1af333c06ce6cc678481e46dc20888938678df45ae6d48
+    role: target
+  - path: data/curated/DutchEligibilityTraces.yaml
+    sha256: fd2401fee93665799a7e71c268caac3609dc5fcdb5a542ef9606fd61d272e5ba
+    role: context
+  - path: data/curated/ModifiedConnectionistQLearning.yaml
+    sha256: 8986696e751e7ab7206755f5cfc32b125b6216feac3043f105b354b2b49f4428
+    role: context
+  - path: data/curated/PengWilliamsQLambda.yaml
+    sha256: 58dd0266b45fd8602081d1b468d55a2456de3dd7488c3a9891c080bb587b0bd5
+    role: context
+  - path: data/curated/ReplacingEligibilityTraces.yaml
+    sha256: 81300bc3c4616459fa62d21c03c575bbba8fc5a207edbb78d0a7e46c7724b00c
+    role: context
+  - path: data/curated/Sarsa.yaml
+    sha256: 8ac6efbbcfeda82ce462fbc7f6d641a9eab36b8749c6bdb0b7713ba43496e041
+    role: context
+  - path: data/curated/TemporalDifferenceLearning.yaml
+    sha256: edd02cd7a9f2b8b916ba684f7aa8cb4c8d49b81a1896912dc5297370d24f348a
+    role: context
+  - path: data/curated/TrueOnlineGTDLambda.yaml
+    sha256: fa6e70693e933196af56de2688d5c57d8e9da2fa48af27a64c44e8e45c7a29d2
+    role: context
+  - path: data/curated/TrueOnlineSarsaLambda.yaml
+    sha256: a7101fe8024215197f6ebb008b334d0c7098ca1eccf8bb0fe181cb746c840206
+    role: context
+  - path: data/curated/TrueOnlineTDLambda.yaml
+    sha256: 1841e5ccc400f0fb82633bc768a2ad5531ddf5c53fcd603dddb562899d8a1346
+    role: context
+  - path: data/curated/UsageBasedTDLambda.yaml
+    sha256: c0b0cc8b1cc61cc31feae3ad9338b5fdd6f81cff9300f46c76685e17828077d6
+    role: target
+  - path: data/curated/UsageBasedTrueOnlineTDLambda.yaml
+    sha256: b85db86ff6dc112e20878a51718e17d31139814ebc4213a79f38f4abfd4a793b
+    role: target
+  - path: data/curated/WISGTDLambda.yaml
+    sha256: 378b67bf3802eb112681d103eeb634ca56047c84147fc303f9f1bb091dd14cea
+    role: target
+  - path: data/curated/WISTDLambda.yaml
+    sha256: 68d677b3f3cd1092c4f570b374df709f23024e2e5dc4bd346874b90748095de2
+    role: context
+  - path: data/curated/WatkinsHardCutMultistepQLearning.yaml
+    sha256: 29b2c3331660910f574b5ed8ba7c1153070f187588cd8360e96ec03e3bd9cee1
+    role: context
+  - path: docs/curated-concepts.md
+    sha256: 79c497b615b9ba703d67ccfc1a925f5d5c3c527aff6ab323cd271aec8e5a40dc
+    role: context
+  - path: docs/record-review-profile.md
+    sha256: 2d3e3a73264523c78930d17b0812e2d22887e25423fe7c38e0ddce922d9cec9d
+    role: context
+  - path: docs/record-reviews.md
+    sha256: 452a19ab688276747b7c4308523a14d4d99c1c39ef6909ae8a90b85b7a9b3e9b
+    role: context
+  - path: history/reports/wis-gtd-usage-based-td-and-accumulating-sarsa/2026-10-15T185852Z-codex-1e35f9.yaml
+    sha256: b1d8542a5bdca73ace9a46001f6096d0f0189dcafe0e6d13776aaf9299767354
+    role: context
+  - path: justfile
+    sha256: 2d9c1b68c1c80d53aa44a6b8b5e916efe8b493650ff59a3fc7479a42be37f400
+    role: context
+  - path: research/discovery/20261015T185839Z-wis-gtd-usage-based-td-and-accumulating-sarsa.json
+    sha256: bcbcc142fc32833fd49f7aae8fee73c4a51886b6e4c1c53e19dd5015591e8f4e
+    role: context
+  - path: research/discovery/20261015T185839Z-wis-gtd-usage-based-td-and-accumulating-sarsa.md
+    sha256: 238171e23b99094d853beb344f105bf773392c583146a7d2afcf330f7368ddb1
+    role: context
+  - path: schema/record_review.yaml
+    sha256: 229baf9b69118a1fe318e4c31085c0820e4e3d1365e7b04d6ace451b7c35f9bb
+    role: context
+  - path: scripts/record_review.py
+    sha256: 95a4ec41e38ec47ba3578e76838c46a0adbf47e49ad3636524735d08cfcb1c4d
+    role: context
+  - path: scripts/render_pages.py
+    sha256: 81fae327c4670e269e8928b53f0370e2853767ec8e1b495f6206216ac03f304a
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: 3826f6a7643d6a0140cf60bb52a1d3ac2fbab4811b4fd8d1d178a13c3341fa3f
+    role: context
+  - path: src/aimech/validation.py
+    sha256: 274ed5e6bc97440515a1964b9b21927135a2e9a5a4808ae8daebccd3e172ffcc
+    role: context
+targets:
+- target_id: AIMech:WISGTDLambda
+  label: WIS-GTD(lambda)
+  path: data/curated/WISGTDLambda.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/WISGTDLambda.yaml
+    role: maintained native concept record
+- target_id: AIMech:UsageBasedTDLambda
+  label: Usage-based TD(lambda)
+  path: data/curated/UsageBasedTDLambda.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/UsageBasedTDLambda.yaml
+    role: maintained native concept record
+- target_id: AIMech:UsageBasedTrueOnlineTDLambda
+  label: Usage-based true online TD(lambda)
+  path: data/curated/UsageBasedTrueOnlineTDLambda.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/UsageBasedTrueOnlineTDLambda.yaml
+    role: maintained native concept record
+- target_id: AIMech:AccumulatingSarsaLambda
+  label: Accumulating Sarsa(lambda)
+  path: data/curated/AccumulatingSarsaLambda.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AccumulatingSarsaLambda.yaml
+    role: maintained native concept record
+scope:
+  description: Complete explicitly selected four-record cohort in the captured current
+    canonical state.
+  selection: Exact four accepted candidate IDs.
+  coverage: full
+  population_size: 4
+  reviewed_target_ids:
+  - AIMech:WISGTDLambda
+  - AIMech:UsageBasedTDLambda
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  - AIMech:AccumulatingSarsaLambda
+  exclusions:
+  - target: WIS-TO-GTD, broader TD/GTD/Sarsa families and isolated usage or trace
+      components
+    reason: The selected complete host algorithms do not settle those residual identities
+      or the source Algorithm 3 ambiguity.
+  - target: Complete proofs, author implementations and performance reproduction
+    reason: No such certification, software execution or benchmark inference is included.
+checks:
+- check_id: check-gate
+  name: just check
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:WISGTDLambda
+  - AIMech:UsageBasedTDLambda
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  - AIMech:AccumulatingSarsaLambda
+  command: just check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-gate
+- check_id: check-vendor
+  name: just vendored-check
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:WISGTDLambda
+  - AIMech:UsageBasedTDLambda
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  - AIMech:AccumulatingSarsaLambda
+  command: just vendored-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-vendor
+- check_id: check-check-source
+  name: uv run --locked aimech check-source
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:WISGTDLambda
+  - AIMech:UsageBasedTDLambda
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  - AIMech:AccumulatingSarsaLambda
+  command: uv run --locked aimech check-source
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-check-source
+- check_id: check-render
+  name: just render
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:WISGTDLambda
+  - AIMech:UsageBasedTDLambda
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  - AIMech:AccumulatingSarsaLambda
+  command: just render
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render
+- check_id: check-render-check
+  name: just render-check
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:WISGTDLambda
+  - AIMech:UsageBasedTDLambda
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  - AIMech:AccumulatingSarsaLambda
+  command: just render-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render-check
+- check_id: check-diff
+  name: git diff --check
+  status: passed
+  required: true
+  summary: Actual successful command; exact output is retained.
+  target_ids:
+  - AIMech:WISGTDLambda
+  - AIMech:UsageBasedTDLambda
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  - AIMech:AccumulatingSarsaLambda
+  command: git diff --check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-diff
+- check_id: historical-check-attempt-1
+  name: 'Historical attempt: just vendored-check'
+  status: failed
+  required: false
+  summary: Retained failed attempt; actual successful replacement cited separately.
+  target_ids:
+  - AIMech:WISGTDLambda
+  - AIMech:UsageBasedTDLambda
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  - AIMech:AccumulatingSarsaLambda
+  command: just vendored-check
+  exit_code: 1
+  expected_exit_code: 0
+  evidence_ids:
+  - historical-check-attempt-1
+evidence:
+- evidence_id: preview-wis-gtd
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/wis-gtd/native-preview.json
+  snapshot_sha256: 05f39ca79c6dd70a885b56107a0d87bebaa38d00b7816f7242f776b47fcda439
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Actual accepted TEMP native payload; actual canonical correspondence is
+    assessed separately.
+- evidence_id: support-wis-gtd
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/wis-gtd/scientific-support.json
+  snapshot_sha256: 4c5499cbf361f900bf4c515311d2d626dfed8bfc98fcaa36ee30e52d30042eaf
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Exact accepted six-claim and seven-limit support with separately attributed
+    reading.
+- evidence_id: draft-acceptance-wis-gtd
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/wis-gtd/root-draft-acceptance.json
+  snapshot_sha256: b53251563c8c4b8d5de7cce78f1a28fd924e2c396dcce8a59deeae8f909525e8
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: 'Historical root draft acceptance recorded at 2026-10-15T18:12:03Z stated:
+    “Root read complete pure module and all six claim/seven limitation narratives,
+    definition/mapping/historical identity and input scope/source metadata/time projection.
+    A combined first read truncated middle material; all claim/limitation narratives
+    and identity scopes were recovered in a separate complete compact read. Source
+    and input references were verified mechanically; prior source/visual reading and
+    research acceptance remain separately attributed. Accept exact draft for TEMP
+    invocation/native validation only. Current identity and canonical addition remain
+    separate; an additional draft adversarial pass is ongoing and no result is inferred.”
+    This quotation preserves the receipt’s scope at that time. The later completed
+    supporting draft assessment is bound separately as wis-residual-draft-audit; actual
+    merged-base identity and canonical correspondence are separately assessed from
+    the current runtime evidence.'
+- evidence_id: preview-validation-wis-gtd
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/wis-gtd/native-preview-validation.json
+  snapshot_sha256: 753fe13d17d1cc0d876cf77999d0d5b6251c67f78183364426cef268a9625229
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Actual native validation with science correspondence; no current cohort
+    identity clearance or independent approval.
+- evidence_id: source-reading-wis-gtd
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-research-20261015/source-and-reading.json
+  snapshot_sha256: 2b43494a833977ead9c28913e6d6c135dd9b25cb85abac264d7daa9ea7907061
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: The original source-agent ledger records all ten main native pages and
+    the author appendix, with selected main and appendix formula visuals and exact
+    official/author text correspondence. The residual-method research and static drafting
+    separately revisit the named hosts and source caveats. The later same-author adversarial
+    pass freshly read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18,
+    then all eighteen selected claims and twenty-one limitations. Root primary and
+    draft reading remain attributed to their exact acceptance receipts. No source
+    acquisition, new PDF reading, algorithm execution or complete proof certification
+    is asserted by this review-data assembly.
+- evidence_id: preparation-reading-wis-gtd
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/reading.json
+  snapshot_sha256: 574d98d2899d22893a5d25c49d087f8567bf9e2c9742231330fb00d6a2314a9d
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Historical static-draft reading scope, distinct from this assembly and
+    actual postcapture reading.
+- evidence_id: root-research-wis-gtd
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-research-20261015/root-research-acceptance.json
+  snapshot_sha256: 287f4308d342d180c8e4974243566d66cf528d634c2afa82ab5cf69fd6f42556
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Actual bounded root research acceptance; source, identity and mathematical
+    scopes remain attributed.
+- evidence_id: source-times-wis-gtd
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/source-time-projection.json
+  snapshot_sha256: f083727bf4dd586b0daa17ef4190f3d6d0784444c6d9d71aebc7d24b96c9c62b
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Retained fractional acquisitions and whole-second native UTC projection;
+    no new acquisition implied.
+- evidence_id: historical-identity-wis-gtd
+  kind: search
+  reference: /private/tmp/aimech-wis-residual-methods-research-20261015/identity-and-mapping-assessment.json
+  snapshot_sha256: 904d6d2a1222752d1d58320625fa2d2a74befd1e71b72f5584cfc6898a57400c
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Dated historical identity interpretation; the actual merged-base assessment
+    is bound separately.
+  search_scope: 'Historical research scope recorded at 2026-10-15T17:52:39.554835Z:
+    The selected identity is WIS-GTD(lambda), the separately named 2015 Algorithm
+    2 host and its specified usage schedule. It is distinct in scope from WIS-TD,
+    the broader TD/GTD families, the other usage-based host and the unresolved WIS-TO-GTD
+    recurrence; parameter specializations do not establish exact whole-method aliases.
+    The retained source-agent identity search at 17:03:02–17:04:06 UTC on 15 October
+    2026 covered four ignored/hidden-inclusive roots with 772 native and 442 AIO records,
+    255 occurrences and 95 groups. That search is historical attributed evidence,
+    not a fresh clearance for these final three candidate IDs. The later bounded residual
+    research freshly read the working cohort 346 owner 264 with six prior IDs and
+    all cohort 343–346 resolutions, and seven retained exact AIO nodes with 43 edges.
+    At that research date, owner 264 was the existing eligibility-family owner, with
+    its Sutton 1988 discovery pointer, prior outcomes and unresolved residuals retained.
+    The defining selected source here is Mahmood and Sutton''s combined 2015 paper
+    and Appendix A, not that older discovery pointer. The cohort 347 observations
+    recorded there, including WIS-TD preparation, provided context rather than current
+    clearance of these three candidates. Current-base reconciliation of additions
+    and source spellings was outside that historical assessment. The actual merged-base
+    collection and root interpretation are bound separately; no new leaf or exhaustive
+    family coverage follows from the historical scope.'
+- evidence_id: src-mahmood2015-author
+  kind: primary_source
+  reference: https://armahmood.github.io/files/MS-WIS-O(n)-UAI-2015.pdf
+  snapshot_sha256: 9f30489028c8473a6e45d44e16604ae80a0ac485e181388274dcff73b57e1767
+  accessed_at: '2026-10-15T17:02:13Z'
+  support: supports
+  summary: Author-catalog-linked eighteen-page combined UAI 2015 paper and Appendix
+    A. Native text on PDF pp. 1–10 matches the official ten-page proceedings paper,
+    and pp. 11–18 match its official eight-page supplement. The embedded 2016 PDF
+    creation date is not treated as a verified scientific revision date; source-local
+    PDF pagination is used.
+  locator: Sections 2–6 and 8, PDF pp. 3–7 and 9; Appendix A.1 p. 11 and A.7 p. 18,
+    Algorithms 2, 4 and 5. The original source-agent ledger records all ten main native
+    pages and the author appendix, with selected main and appendix formula visuals
+    and exact official/author text correspondence. The residual-method research and
+    static drafting separately revisit the named hosts and source caveats. The later
+    same-author adversarial pass freshly read author native pages 2–7, 9, 11 and 18
+    and visuals 3 and 18, then all eighteen selected claims and twenty-one limitations.
+    Root primary and draft reading remain attributed to their exact acceptance receipts.
+    No source acquisition, new PDF reading, algorithm execution or complete proof
+    certification is asserted by this review-data assembly.
+- evidence_id: preview-usage-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-td/native-preview.json
+  snapshot_sha256: 3797df9c0b63bb50e3e13935566adb41dfbeddd9306e88d23317d0cf53967290
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Actual accepted TEMP native payload; actual canonical correspondence is
+    assessed separately.
+- evidence_id: support-usage-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-td/scientific-support.json
+  snapshot_sha256: 371f23f4ab81987f7a4512fadf8e9e3640f608db923d483c5adfa719422cc2af
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Exact accepted six-claim and seven-limit support with separately attributed
+    reading.
+- evidence_id: draft-acceptance-usage-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-td/root-draft-acceptance.json
+  snapshot_sha256: 192d69543ea35df2efe31b33e21b10fc2e4c015634947d69bc81205974c51e3f
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: 'Historical root draft acceptance recorded at 2026-10-15T18:12:04Z stated:
+    “Root read complete pure module and all six claim/seven limitation narratives,
+    definition/mapping/historical identity and input scope/source metadata/time projection.
+    A combined first read truncated middle material; all claim/limitation narratives
+    and identity scopes were recovered in a separate complete compact read. Source
+    and input references were verified mechanically; prior source/visual reading and
+    research acceptance remain separately attributed. Accept exact draft for TEMP
+    invocation/native validation only. Current identity and canonical addition remain
+    separate; an additional draft adversarial pass is ongoing and no result is inferred.”
+    This quotation preserves the receipt’s scope at that time. The later completed
+    supporting draft assessment is bound separately as wis-residual-draft-audit; actual
+    merged-base identity and canonical correspondence are separately assessed from
+    the current runtime evidence.'
+- evidence_id: preview-validation-usage-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-td/native-preview-validation.json
+  snapshot_sha256: cae9c15244c39b0cf4fb378515d9a52007825dfba7d4da964fbb126e90ba7a6f
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Actual native validation with science correspondence; no current cohort
+    identity clearance or independent approval.
+- evidence_id: source-reading-usage-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-research-20261015/source-and-reading.json
+  snapshot_sha256: 2b43494a833977ead9c28913e6d6c135dd9b25cb85abac264d7daa9ea7907061
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: The original source-agent ledger records all ten main native pages and
+    the author appendix, with selected main and appendix formula visuals and exact
+    official/author text correspondence. The residual-method research and static drafting
+    separately revisit the named hosts and source caveats. The later same-author adversarial
+    pass freshly read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18,
+    then all eighteen selected claims and twenty-one limitations. Root primary and
+    draft reading remain attributed to their exact acceptance receipts. No source
+    acquisition, new PDF reading, algorithm execution or complete proof certification
+    is asserted by this review-data assembly.
+- evidence_id: preparation-reading-usage-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/reading.json
+  snapshot_sha256: 574d98d2899d22893a5d25c49d087f8567bf9e2c9742231330fb00d6a2314a9d
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Historical static-draft reading scope, distinct from this assembly and
+    actual postcapture reading.
+- evidence_id: root-research-usage-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-research-20261015/root-research-acceptance.json
+  snapshot_sha256: 287f4308d342d180c8e4974243566d66cf528d634c2afa82ab5cf69fd6f42556
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Actual bounded root research acceptance; source, identity and mathematical
+    scopes remain attributed.
+- evidence_id: source-times-usage-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/source-time-projection.json
+  snapshot_sha256: f083727bf4dd586b0daa17ef4190f3d6d0784444c6d9d71aebc7d24b96c9c62b
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Retained fractional acquisitions and whole-second native UTC projection;
+    no new acquisition implied.
+- evidence_id: historical-identity-usage-td
+  kind: search
+  reference: /private/tmp/aimech-wis-residual-methods-research-20261015/identity-and-mapping-assessment.json
+  snapshot_sha256: 904d6d2a1222752d1d58320625fa2d2a74befd1e71b72f5584cfc6898a57400c
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Dated historical identity interpretation; the actual merged-base assessment
+    is bound separately.
+  search_scope: 'Historical research scope recorded at 2026-10-15T17:52:39.554835Z:
+    The selected identity is Usage-based TD(lambda), the separately named 2015 Algorithm
+    4 host and its specified usage schedule. It is distinct in scope from WIS-TD,
+    the broader TD/GTD families, the other usage-based host and the unresolved WIS-TO-GTD
+    recurrence; parameter specializations do not establish exact whole-method aliases.
+    The retained source-agent identity search at 17:03:02–17:04:06 UTC on 15 October
+    2026 covered four ignored/hidden-inclusive roots with 772 native and 442 AIO records,
+    255 occurrences and 95 groups. That search is historical attributed evidence,
+    not a fresh clearance for these final three candidate IDs. The later bounded residual
+    research freshly read the working cohort 346 owner 264 with six prior IDs and
+    all cohort 343–346 resolutions, and seven retained exact AIO nodes with 43 edges.
+    At that research date, owner 264 was the existing eligibility-family owner, with
+    its Sutton 1988 discovery pointer, prior outcomes and unresolved residuals retained.
+    The defining selected source here is Mahmood and Sutton''s combined 2015 paper
+    and Appendix A, not that older discovery pointer. The cohort 347 observations
+    recorded there, including WIS-TD preparation, provided context rather than current
+    clearance of these three candidates. Current-base reconciliation of additions
+    and source spellings was outside that historical assessment. The actual merged-base
+    collection and root interpretation are bound separately; no new leaf or exhaustive
+    family coverage follows from the historical scope.'
+- evidence_id: preview-usage-true-online-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-true-online-td/native-preview.json
+  snapshot_sha256: b1731dd1ed6c285cf58bacb4636ab8a098a3299818b3dc7181c8b1fb2b13eeb0
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Actual accepted TEMP native payload; actual canonical correspondence is
+    assessed separately.
+- evidence_id: support-usage-true-online-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-true-online-td/scientific-support.json
+  snapshot_sha256: 404be1ff21d33d056e054a2a1e50d76f90fe8fd4acf6d48972f1202a43daca86
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Exact accepted six-claim and seven-limit support with separately attributed
+    reading.
+- evidence_id: draft-acceptance-usage-true-online-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-true-online-td/root-draft-acceptance.json
+  snapshot_sha256: 1b576aecce7d79ae64496d0d2388cbf03384fb2763aa1469311a24814f921be0
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: 'Historical root draft acceptance recorded at 2026-10-15T18:12:04Z stated:
+    “Root read complete pure module and all six claim/seven limitation narratives,
+    definition/mapping/historical identity and input scope/source metadata/time projection.
+    A combined first read truncated middle material; all claim/limitation narratives
+    and identity scopes were recovered in a separate complete compact read. Source
+    and input references were verified mechanically; prior source/visual reading and
+    research acceptance remain separately attributed. Accept exact draft for TEMP
+    invocation/native validation only. Current identity and canonical addition remain
+    separate; an additional draft adversarial pass is ongoing and no result is inferred.”
+    This quotation preserves the receipt’s scope at that time. The later completed
+    supporting draft assessment is bound separately as wis-residual-draft-audit; actual
+    merged-base identity and canonical correspondence are separately assessed from
+    the current runtime evidence.'
+- evidence_id: preview-validation-usage-true-online-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/usage-true-online-td/native-preview-validation.json
+  snapshot_sha256: 8ee262cff88c5aadb3c91aa78657ec8634f8358e5f624259c6182c89258cca64
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Actual native validation with science correspondence; no current cohort
+    identity clearance or independent approval.
+- evidence_id: source-reading-usage-true-online-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-research-20261015/source-and-reading.json
+  snapshot_sha256: 2b43494a833977ead9c28913e6d6c135dd9b25cb85abac264d7daa9ea7907061
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: The original source-agent ledger records all ten main native pages and
+    the author appendix, with selected main and appendix formula visuals and exact
+    official/author text correspondence. The residual-method research and static drafting
+    separately revisit the named hosts and source caveats. The later same-author adversarial
+    pass freshly read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18,
+    then all eighteen selected claims and twenty-one limitations. Root primary and
+    draft reading remain attributed to their exact acceptance receipts. No source
+    acquisition, new PDF reading, algorithm execution or complete proof certification
+    is asserted by this review-data assembly.
+- evidence_id: preparation-reading-usage-true-online-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/reading.json
+  snapshot_sha256: 574d98d2899d22893a5d25c49d087f8567bf9e2c9742231330fb00d6a2314a9d
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Historical static-draft reading scope, distinct from this assembly and
+    actual postcapture reading.
+- evidence_id: root-research-usage-true-online-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-research-20261015/root-research-acceptance.json
+  snapshot_sha256: 287f4308d342d180c8e4974243566d66cf528d634c2afa82ab5cf69fd6f42556
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Actual bounded root research acceptance; source, identity and mathematical
+    scopes remain attributed.
+- evidence_id: source-times-usage-true-online-td
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-methods-draft-preparation-20261015/source-time-projection.json
+  snapshot_sha256: f083727bf4dd586b0daa17ef4190f3d6d0784444c6d9d71aebc7d24b96c9c62b
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Retained fractional acquisitions and whole-second native UTC projection;
+    no new acquisition implied.
+- evidence_id: historical-identity-usage-true-online-td
+  kind: search
+  reference: /private/tmp/aimech-wis-residual-methods-research-20261015/identity-and-mapping-assessment.json
+  snapshot_sha256: 904d6d2a1222752d1d58320625fa2d2a74befd1e71b72f5584cfc6898a57400c
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Dated historical identity interpretation; the actual merged-base assessment
+    is bound separately.
+  search_scope: 'Historical research scope recorded at 2026-10-15T17:52:39.554835Z:
+    The selected identity is Usage-based true online TD(lambda), the separately named
+    2015 Algorithm 5 host and its specified usage schedule. It is distinct in scope
+    from WIS-TD, the broader TD/GTD families, the other usage-based host and the unresolved
+    WIS-TO-GTD recurrence; parameter specializations do not establish exact whole-method
+    aliases. The retained source-agent identity search at 17:03:02–17:04:06 UTC on
+    15 October 2026 covered four ignored/hidden-inclusive roots with 772 native and
+    442 AIO records, 255 occurrences and 95 groups. That search is historical attributed
+    evidence, not a fresh clearance for these final three candidate IDs. The later
+    bounded residual research freshly read the working cohort 346 owner 264 with six
+    prior IDs and all cohort 343–346 resolutions, and seven retained exact AIO nodes
+    with 43 edges. At that research date, owner 264 was the existing eligibility-family
+    owner, with its Sutton 1988 discovery pointer, prior outcomes and unresolved residuals
+    retained. The defining selected source here is Mahmood and Sutton''s combined
+    2015 paper and Appendix A, not that older discovery pointer. The cohort 347 observations
+    recorded there, including WIS-TD preparation, provided context rather than current
+    clearance of these three candidates. Current-base reconciliation of additions
+    and source spellings was outside that historical assessment. The actual merged-base
+    collection and root interpretation are bound separately; no new leaf or exhaustive
+    family coverage follows from the historical scope.'
+- evidence_id: preview-sarsa
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-draft-preparation-20261015/native-preview.json
+  snapshot_sha256: acec9dae9cf6b0c2227491ead4a433430c234a2b61c2396f79340b8ea22971a4
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Actual accepted TEMP native payload; actual canonical correspondence is
+    assessed separately.
+- evidence_id: support-sarsa
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-draft-preparation-20261015/scientific-support.json
+  snapshot_sha256: b968f03b10ee8cad88783512873bbb60d10876ccfec86d1de110ad9ac5fe051f
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Exact accepted six-claim and seven-limit support with separately attributed
+    reading.
+- evidence_id: draft-acceptance-sarsa
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-draft-preparation-20261015/root-draft-acceptance.json
+  snapshot_sha256: 976f253c17ec7fb2d28e6029eddfb26ba9d5fcda173a433299d742947f5a72f9
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: 'Historical root draft acceptance recorded at 2026-10-15T17:59:31Z stated:
+    “Root read complete pure module, inputs, six exact claim and seven limitation
+    narratives, all eight source metadata rows, source-time projection and historical
+    identity. Prior root primary HTML/image and errata reading is recorded in research
+    acceptance. Accept for TEMP invocation/native validation only. Eight artifacts
+    are seven monograph excerpts and separate errata, not eight independent works.
+    Current post-merge identity clearance and canonical curation remain separate.”
+    This quotation preserves the receipt’s scope at that time. The completed supporting
+    draft assessment, recorded at 2026-10-15T17:59:14.061123Z before this acceptance,
+    is bound separately as sarsa-draft-audit; actual merged-base identity and canonical
+    correspondence are separately assessed from the current runtime evidence.'
+- evidence_id: preview-validation-sarsa
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-draft-preparation-20261015/native-preview-validation.json
+  snapshot_sha256: 0968dd9c7b1c44444ea199791384b762717b26fcb5b9c88cc022fd82b7974c64
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Actual native validation with science correspondence; no current cohort
+    identity clearance or independent approval.
+- evidence_id: source-reading-sarsa
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/reading.json
+  snapshot_sha256: 890b802ec86319198a7ee1df7766ba85185463f8a4de4645d9fb33b69422dfeb
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: The research author read the defining first-edition HTML and formula/algorithm
+    images, author errata, and retained contextual copies within its ledger. Static
+    drafting freshly read Section 7.5 and all four defining images, Section 6.4 and
+    two terminal-symbol images, Section 7.9, the errata, and Section 7.8 with Equation
+    7.17. The later supporting audit separately reread the defining HTML/images/errata
+    and all six claims/seven limitations. Root reading remains exactly attributed
+    to its research and draft receipts. No whole-book reading or new primary reading
+    is claimed by this review-data assembly.
+- evidence_id: preparation-reading-sarsa
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-draft-preparation-20261015/reading.json
+  snapshot_sha256: 48d6a894c8499ad48ff993a536cf03b9f10f501e8733c2424ad5439611489ba7
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Historical static-draft reading scope, distinct from this assembly and
+    actual postcapture reading.
+- evidence_id: root-research-sarsa
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/root-research-acceptance.json
+  snapshot_sha256: 686cff24a24d72a179f1cc24f6a91c9c0d04bca10228e5c4048c5a83586b9eca
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Actual bounded root research acceptance; source, identity and mathematical
+    scopes remain attributed.
+- evidence_id: source-times-sarsa
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-draft-preparation-20261015/source-time-projection.json
+  snapshot_sha256: 10d73de5412192158f6191b0f9647dd144d86cdbf592ad1a1f9361cee9042a0d
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Retained fractional acquisitions and whole-second native UTC projection;
+    no new acquisition implied.
+- evidence_id: historical-identity-sarsa
+  kind: search
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/identity/assessment.json
+  snapshot_sha256: 977ce8f912cdea5b1f6a42f0e43bbdf43ddb5fbdc9e2f62589055f89914b0e06
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Dated historical identity interpretation; the actual merged-base assessment
+    is bound separately.
+  search_scope: The selected identity is the corrected episodic tabular accumulating
+    Sarsa(lambda) control procedure, distinct in scope from one-step Sarsa, original
+    neural MCQ-L, replacing or Dutch trace components, true online Sarsa and Peng/Watkins
+    control. Shared selected-action errors and possible tabular specializations do
+    not establish exact whole-method aliases or disjointness. The accepted research
+    snapshot on 15 October 2026 at 17:35:27–17:36:05 UTC contained 774 maintained
+    native records and 442 pinned AIO records during working cohort 346. Its four
+    fixed-string word searches included ignored and hidden paths and retained 1,995
+    occurrences in 496 exact content groups. The research author read all matching
+    contents and checked semantic identity fields, final chosen-name spellings, relevant
+    definitions and full frontier objects; that scope is attributed here, not represented
+    as a fresh full-corpus reading by the draft preparer. The later count-presentation
+    correction records 425 nested history files and restricts identity-field counts
+    to IDs, local IDs, names, aliases and actual synonym values. The assessment found
+    no selected candidate collision within its inspected scope. Existing owner 265
+    already contained ModifiedConnectionistQLearning and its cohort 342 resolution;
+    its Cambridge/Rummery URL is a historical discovery pointer, while the defining
+    tabular source here is Sutton and Barto 1998 plus official errata. This dated
+    research is not absence beyond the inspected scope or clearance of a later merged
+    base.
+- evidence_id: src-sutton-barto1998-s75
+  kind: primary_source
+  reference: http://incompleteideas.net/book/first/ebook/node77.html
+  snapshot_sha256: 546b8fe905635fad5417ce064a21faa9ff1b5f64d670c335be6751d25274fe5f
+  accessed_at: '2026-10-15T17:34:02Z'
+  support: supports
+  summary: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion
+    footer dated 2005 is not the publication date. HTML body only; linked image bodies
+    are separately declared artifacts.
+  locator: Source-local HTML section, equation image, algorithm image or errata entry
+    as cited in the exact native claims. The research author read the defining first-edition
+    HTML and formula/algorithm images, author errata, and retained contextual copies
+    within its ledger. Static drafting freshly read Section 7.5 and all four defining
+    images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and
+    Section 7.8 with Equation 7.17. The later supporting audit separately reread the
+    defining HTML/images/errata and all six claims/seven limitations. Root reading
+    remains exactly attributed to its research and draft receipts. No whole-book reading
+    or new primary reading is claimed by this review-data assembly.
+- evidence_id: src-sutton-barto1998-q-update
+  kind: primary_source
+  reference: http://incompleteideas.net/book/ebook/imgtmp56.png
+  snapshot_sha256: 2af9e9fb5f53fae39c85d86effd5753357eb3092b82eed07c5c8c053be54b7d0
+  accessed_at: '2026-10-15T17:30:18Z'
+  support: supports
+  summary: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion
+    footer dated 2005 is not the publication date. Unnumbered action-value update
+    preceding the TD-error display; exact linked PNG bytes.
+  locator: Source-local HTML section, equation image, algorithm image or errata entry
+    as cited in the exact native claims. The research author read the defining first-edition
+    HTML and formula/algorithm images, author errata, and retained contextual copies
+    within its ledger. Static drafting freshly read Section 7.5 and all four defining
+    images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and
+    Section 7.8 with Equation 7.17. The later supporting audit separately reread the
+    defining HTML/images/errata and all six claims/seven limitations. Root reading
+    remains exactly attributed to its research and draft receipts. No whole-book reading
+    or new primary reading is claimed by this review-data assembly.
+- evidence_id: src-sutton-barto1998-td-error
+  kind: primary_source
+  reference: http://incompleteideas.net/book/ebook/imgtmp57.png
+  snapshot_sha256: 6f0f40b2db9bf76b05077c8d11230b19d9b65355e9cffb930d92c4caebdd8ef4
+  accessed_at: '2026-10-15T17:30:18Z'
+  support: supports
+  summary: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion
+    footer dated 2005 is not the publication date. Unnumbered TD-error display immediately
+    before Equation 7.13; exact linked PNG bytes.
+  locator: Source-local HTML section, equation image, algorithm image or errata entry
+    as cited in the exact native claims. The research author read the defining first-edition
+    HTML and formula/algorithm images, author errata, and retained contextual copies
+    within its ledger. Static drafting freshly read Section 7.5 and all four defining
+    images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and
+    Section 7.8 with Equation 7.17. The later supporting audit separately reread the
+    defining HTML/images/errata and all six claims/seven limitations. Root reading
+    remains exactly attributed to its research and draft receipts. No whole-book reading
+    or new primary reading is claimed by this review-data assembly.
+- evidence_id: src-sutton-barto1998-trace
+  kind: primary_source
+  reference: http://incompleteideas.net/book/ebook/numeqtmp40.png
+  snapshot_sha256: 54257b2eca7478b800b52bc7c98b7409f228d531e8b2f62952b313ead9b2b6ee
+  accessed_at: '2026-10-15T17:30:18Z'
+  support: supports
+  summary: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion
+    footer dated 2005 is not the publication date. Accumulating state-action trace
+    equation; exact linked PNG bytes.
+  locator: Source-local HTML section, equation image, algorithm image or errata entry
+    as cited in the exact native claims. The research author read the defining first-edition
+    HTML and formula/algorithm images, author errata, and retained contextual copies
+    within its ledger. Static drafting freshly read Section 7.5 and all four defining
+    images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and
+    Section 7.8 with Equation 7.17. The later supporting audit separately reread the
+    defining HTML/images/errata and all six claims/seven limitations. Root reading
+    remains exactly attributed to its research and draft receipts. No whole-book reading
+    or new primary reading is claimed by this review-data assembly.
+- evidence_id: src-sutton-barto1998-algorithm
+  kind: primary_source
+  reference: http://incompleteideas.net/book/ebook/pseudotmp12.png
+  snapshot_sha256: 5900f3d7eb1b8dfc84969e05070e7b0471becd0f7f9ebe106de52d813dda9941
+  accessed_at: '2026-10-15T17:30:18Z'
+  support: supports
+  summary: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion
+    footer dated 2005 is not the publication date. Original tabular Sarsa(lambda)
+    box, retaining its episode-reset placement error. Official errata is a separate
+    source row; exact linked PNG bytes.
+  locator: Source-local HTML section, equation image, algorithm image or errata entry
+    as cited in the exact native claims. The research author read the defining first-edition
+    HTML and formula/algorithm images, author errata, and retained contextual copies
+    within its ledger. Static drafting freshly read Section 7.5 and all four defining
+    images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and
+    Section 7.8 with Equation 7.17. The later supporting audit separately reread the
+    defining HTML/images/errata and all six claims/seven limitations. Root reading
+    remains exactly attributed to its research and draft receipts. No whole-book reading
+    or new primary reading is claimed by this review-data assembly.
+- evidence_id: src-sutton-barto1998-terminal
+  kind: primary_source
+  reference: http://incompleteideas.net/book/ebook/node64.html
+  snapshot_sha256: e390c9b3185d0823364365ba163ab1430f5f31e47203ec6ce3b29d23e6970078
+  accessed_at: '2026-10-15T17:30:17Z'
+  support: supports
+  summary: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion
+    footer dated 2005 is not the publication date. Terminal continuation convention
+    following Equation 6.5. HTML bytes only; the two terminal-symbol PNGs are retained
+    separately in the draft source projection.
+  locator: Source-local HTML section, equation image, algorithm image or errata entry
+    as cited in the exact native claims. The research author read the defining first-edition
+    HTML and formula/algorithm images, author errata, and retained contextual copies
+    within its ledger. Static drafting freshly read Section 7.5 and all four defining
+    images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and
+    Section 7.8 with Equation 7.17. The later supporting audit separately reread the
+    defining HTML/images/errata and all six claims/seven limitations. Root reading
+    remains exactly attributed to its research and draft receipts. No whole-book reading
+    or new primary reading is claimed by this review-data assembly.
+- evidence_id: src-sutton-barto1998-implementation
+  kind: primary_source
+  reference: http://incompleteideas.net/book/ebook/node81.html
+  snapshot_sha256: 92cfb4ed08a9d400d3144870c4eabd237638aa40d5551620e4301b32834eb439
+  accessed_at: '2026-10-15T17:30:18Z'
+  support: supports
+  summary: First edition, MIT Press, 1998; author-hosted excerpt. The HTML conversion
+    footer dated 2005 is not the publication date. Full-table and sparse-trace discussion.
+    HTML bytes only; no external image bytes are included in this checksum.
+  locator: Source-local HTML section, equation image, algorithm image or errata entry
+    as cited in the exact native claims. The research author read the defining first-edition
+    HTML and formula/algorithm images, author errata, and retained contextual copies
+    within its ledger. Static drafting freshly read Section 7.5 and all four defining
+    images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and
+    Section 7.8 with Equation 7.17. The later supporting audit separately reread the
+    defining HTML/images/errata and all six claims/seven limitations. Root reading
+    remains exactly attributed to its research and draft receipts. No whole-book reading
+    or new primary reading is claimed by this review-data assembly.
+- evidence_id: src-sutton-barto1998-errata
+  kind: primary_source
+  reference: http://incompleteideas.net/book/first/errata.html
+  snapshot_sha256: d0b2da4a7d852985547248cdd6414e35cc23640be99f8e637d46674a96c5ddc9
+  accessed_at: '2026-10-15T17:34:01Z'
+  support: supports
+  summary: Undated author-maintained errata retrieved 15 October 2026. The pp. 174,
+    181, 184, 200, 212 and 213 entry moves trace zeroing into each episode loop. No
+    erratum publication date is inferred.
+  locator: Source-local HTML section, equation image, algorithm image or errata entry
+    as cited in the exact native claims. The research author read the defining first-edition
+    HTML and formula/algorithm images, author errata, and retained contextual copies
+    within its ledger. Static drafting freshly read Section 7.5 and all four defining
+    images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and
+    Section 7.8 with Equation 7.17. The later supporting audit separately reread the
+    defining HTML/images/errata and all six claims/seven limitations. Root reading
+    remains exactly attributed to its research and draft receipts. No whole-book reading
+    or new primary reading is claimed by this review-data assembly.
+- evidence_id: wis-residual-draft-audit
+  kind: record_content
+  reference: /private/tmp/aimech-wis-residual-drafts-adversarial-20261015/assessment.json
+  snapshot_sha256: 55bd1be228bfc3f998ca15d3aeabaf43d9895d28885b49e58a3b6d9e6278b6bf
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Later same-author fresh source and complete three-draft audit; eighteen
+    claims and twenty-one limitations, with explicit old/new-state, positivity, initialization
+    and finite-step boundary checks. No module invocation or full proof certification.
+- evidence_id: sarsa-draft-audit
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-draft-supporting-audit-20261015/assessment.json
+  snapshot_sha256: 906f3452fbb54271c252317bcffb4221d2c3fde069874bfeecad597414ad6f3b
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Later supporting draft audit with fresh defining HTML, images and errata
+    plus all six claims/seven limits. Same-author team support, not independent approval.
+- evidence_id: wis-version-comparison
+  kind: record_content
+  reference: /private/tmp/aimech-wis-td-research-20261015/source-version-comparison.json
+  snapshot_sha256: 2c434d270e9f8e75f284cec972861329ff5657eb0c59e2151554bc14ffff964f
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Native-text correspondence among official main/supplement and combined
+    author artifact; embedded creation metadata is not a verified revision date.
+- evidence_id: sarsa-source-ledger
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/source-ledger.json
+  snapshot_sha256: d68a165ab30801bfca8cb75d298e66a4da4d64b780fd1a32864e05cd5b2e5a6c
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Exact individual HTML/PNG/PDF acquisition records; contextual artifacts
+    do not increase the native source count.
+- evidence_id: sarsa-identity-count-correction
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/identity/collection-presentation-correction.json
+  snapshot_sha256: 3b72f4400ebc0b46eab57ee88ac6e8cc192cd25dc8552ec76d46facaa61ffa71
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Retained historical count-presentation correction; original snapshot and
+    actual search contents are unchanged.
+- evidence_id: sarsa-context-replacing-prose
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/first-edition/node80.html
+  snapshot_sha256: 8987d4818e4e64f27c7c2721bc91e1e6a0183672af15fdca03614aa3fa32d4a1
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Retained context-only source artifact; not a native source row.
+  locator: Section 7.8 neighboring replacing-trace prose, not the selected accumulating
+    recurrence.
+- evidence_id: sarsa-context-replacing-equation
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/first-edition/numeqtmp44.png
+  snapshot_sha256: c9cb75a4ecae510551a526d31dd0578740cefc802011b5ba6ef5548968d76231
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Retained context-only source artifact; not a native source row.
+  locator: Section 7.8 Equation 7.17 neighboring selected-pair display conflict, not
+    a repair of Equation 7.13.
+- evidence_id: sarsa-context-terminal-symbol1
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/first-edition/inimgtmp1016.png
+  snapshot_sha256: 6d7c9b62ce6c0542deaa497d0320ce66ce396fb086ad126f20c1ee119e83135b
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Retained context-only source artifact; not a native source row.
+  locator: Section 6.4 terminal-state symbol accompanying zero-continuation prose.
+- evidence_id: sarsa-context-terminal-symbol2
+  kind: record_content
+  reference: /private/tmp/aimech-accumulating-sarsa-lambda-research-20261015/first-edition/inimgtmp1017.png
+  snapshot_sha256: 988280571a924df6b9b3369bda89d46641487f07dc17c9e9e3db02ad4fed5946
+  accessed_at: '2026-10-15T18:25:29.281396Z'
+  support: context_only
+  summary: Retained context-only source artifact; not a native source row.
+  locator: Section 6.4 zero terminal successor action-value symbol.
+- evidence_id: actual-write
+  kind: record_content
+  reference: /private/tmp/aimech-wis-usage-sarsa-cohort348-write.json
+  snapshot_sha256: 232d3565b4267dc45118139956003a5c4b60b62bbb364b0c417433cc9c56cb23
+  accessed_at: '2026-10-15T19:12:03.059317Z'
+  support: context_only
+  summary: 'Actual exclusive creation receipt: four records, report pair and one CREATE
+    history.'
+- evidence_id: captured-inputs
+  kind: record_content
+  reference: /private/tmp/aimech-wis-usage-sarsa-cohort348-capture.json
+  snapshot_sha256: 70a166309aaa68df7b676d80d7066d00327d2f043b6934402a2da93b1eee801f
+  accessed_at: '2026-10-15T19:12:03.059367Z'
+  support: context_only
+  summary: Actual canonical inspection; every current input hash and maintained target
+    was checked.
+- evidence_id: postcapture-reading
+  kind: record_content
+  reference: /private/tmp/aimech-cohort348-root-postcapture-reading.json
+  snapshot_sha256: f8b2291d4c1267992047007d8e4999d7158a7cc3e45df63923d725fbf6374dc4
+  accessed_at: '2026-10-15T19:12:03.059398Z'
+  support: context_only
+  summary: 'Root freshly read all four complete actual canonical YAML records after
+    capture: definitions/evidence, all24 claims and28 individual limitations,11 source
+    rows, mappings, identity and curation. Root read the report Markdown and CREATE
+    history, then current JSON metadata, all context-change narratives, both full
+    current owners264/265 and current source-lead assessment. Repeated embedded accepted
+    manifest and root decisions were compared exactly rather than represented as freshly
+    read in full; all37 captured inputs and7 write outputs were hash-verified, report
+    records equaled the full YAML records, and907 other main/393 nested objects matched
+    the predecessor. Root read the actual supporting scientific assessment, recovering
+    truncated middle sections by bounded projections, and the complete governance/page
+    manifests. These same-author supporting scopes, prior accepted primary reading
+    and root earlier exact-draft reading remain separately attributed. No new source
+    acquisition, full-proof certification, algorithm execution, visual page inspection,
+    saved-review completion or gate result is implied by this reading.'
+- evidence_id: governance-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-cohort348-governance-audit-20261015/assessment.json
+  snapshot_sha256: fd780c1c188c68baa073cd2b57ee9d13fbfb38796ddac979e5a13b62e06e4dff
+  accessed_at: '2026-10-15T19:12:03.059424Z'
+  support: context_only
+  summary: Actual byte preservation, owner/frontier, history and parsed-page audit;
+    no independent approval.
+- evidence_id: rendered-pages
+  kind: record_content
+  reference: /private/tmp/aimech-cohort348-governance-audit-20261015/rendered-pages.json
+  snapshot_sha256: 2ee48ac78492f0088901a199391c4598c77b1ea280e54947d837b3fbae747050
+  accessed_at: '2026-10-15T19:12:03.059448Z'
+  support: context_only
+  summary: Actual generated page paths and bytes, with parsed-content correspondence;
+    no browser/layout inspection.
+- evidence_id: actual-scientific-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-cohort348-actual-scientific-audit-20261015/assessment.json
+  snapshot_sha256: 1395e75e1cacfad456453034ab3484420e55180192e3b04ca814367fc5752975
+  accessed_at: '2026-10-15T19:12:03.059472Z'
+  support: context_only
+  summary: Same-author actual-record adversarial assessment with separately attributed
+    primary reading.
+- evidence_id: current-identity-collection
+  kind: search
+  reference: /private/tmp/aimech-cohort348-identity-20261015/collection.json
+  snapshot_sha256: 387771d44d784decb7cd36b38083bea58e7d85118438e6d2ecdd6c9e1256b9bd
+  accessed_at: '2026-10-15T19:12:03.059496Z'
+  support: context_only
+  summary: Current four-root ignored- and hidden-inclusive identity collection; mechanical
+    coverage is distinct from attributed semantic reading.
+  search_scope: Actual18:42:28–18:45:19UTC post-PR389 collection covered four specified
+    ignored/hidden-inclusive roots,775 native and442 pinned AIO records,4,843 identity
+    fields,6,064 occurrences and1,351 distinct matched contents. Supporting agents
+    read disjoint partitions covering all contents; root separately read all37 filtered
+    candidate-named contents,12 normalized neighbor definitions,29 fields, matching
+    frontier and full owners264/265/266/269 before writing the current decisions.
+    No normalized candidate collision was found within those roots/probes/pinned snapshot.
+    Prewrite repeat searches preserved each content multiset; this is bounded identity
+    clearance, not corpus-wide manual reading or global saturation.
+- evidence_id: current-context-assessment
+  kind: search
+  reference: /private/tmp/aimech-cohort348-collection-assessment.json
+  snapshot_sha256: f3f6cd940dbddc7de39830de37aa5e79bfdda68a16451372bebf1635f44d93ec
+  accessed_at: '2026-10-15T19:12:03.059522Z'
+  support: context_only
+  summary: Actual supporting interpretation of retained matched contexts; root and
+    supporting scopes remain separate.
+  search_scope: Actual18:42:28–18:45:19UTC post-PR389 collection covered four specified
+    ignored/hidden-inclusive roots,775 native and442 pinned AIO records,4,843 identity
+    fields,6,064 occurrences and1,351 distinct matched contents. Supporting agents
+    read disjoint partitions covering all contents; root separately read all37 filtered
+    candidate-named contents,12 normalized neighbor definitions,29 fields, matching
+    frontier and full owners264/265/266/269 before writing the current decisions.
+    No normalized candidate collision was found within those roots/probes/pinned snapshot.
+    Prewrite repeat searches preserved each content multiset; this is bounded identity
+    clearance, not corpus-wide manual reading or global saturation.
+- evidence_id: root-decisions
+  kind: record_content
+  reference: /private/tmp/aimech-cohort348-root-decisions.json
+  snapshot_sha256: 6114988bd6aedfc3545352b0d335aafdb2fbbf2c0d63ca552d2d3d4d15b3b746
+  accessed_at: '2026-10-15T19:12:03.059547Z'
+  support: context_only
+  summary: Actual root identity/owner/source-lead decisions, retaining both owners
+    264 and 265 and their partial residuals.
+- evidence_id: scientific-support
+  kind: record_content
+  reference: /private/tmp/aimech-cohort348-review-preparation-20261015/scientific-support.prepared.json
+  snapshot_sha256: 92a3e35c077c1b3fa0572e9e9c0b443536a8781472fca34c6065dd1d871c62b1
+  accessed_at: '2026-10-15T19:12:03.059568Z'
+  support: context_only
+  summary: Exact accepted claim and limitation support; historical and later source/math
+    scopes remain separate.
+- evidence_id: discovery-report
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T185839Z-wis-gtd-usage-based-td-and-accumulating-sarsa.json
+  snapshot_sha256: bcbcc142fc32833fd49f7aae8fee73c4a51886b6e4c1c53e19dd5015591e8f4e
+  accessed_at: '2026-10-15T19:12:03.064215Z'
+  support: context_only
+  summary: Current record/context/owner mirrors; no added frontier leaf.
+- evidence_id: creation-history
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/history/reports/wis-gtd-usage-based-td-and-accumulating-sarsa/2026-10-15T185852Z-codex-1e35f9.yaml
+  snapshot_sha256: b1d8542a5bdca73ace9a46001f6096d0f0189dcafe0e6d13776aaf9299767354
+  accessed_at: '2026-10-15T19:12:03.064496Z'
+  support: context_only
+  summary: Actual CREATE report history for the four-record cohort; predecessor creation
+    lineage remains separate.
+- evidence_id: record-wis-gtd
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/WISGTDLambda.yaml
+  snapshot_sha256: 378b67bf3802eb112681d103eeb634ca56047c84147fc303f9f1bb091dd14cea
+  accessed_at: '2026-10-15T19:12:03.064747Z'
+  support: context_only
+  summary: Complete current DRAFT record equals accepted science and actual root identity
+    decisions.
+- evidence_id: record-usage-td
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/UsageBasedTDLambda.yaml
+  snapshot_sha256: c0b0cc8b1cc61cc31feae3ad9338b5fdd6f81cff9300f46c76685e17828077d6
+  accessed_at: '2026-10-15T19:12:03.065045Z'
+  support: context_only
+  summary: Complete current DRAFT record equals accepted science and actual root identity
+    decisions.
+- evidence_id: record-usage-true-online-td
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/UsageBasedTrueOnlineTDLambda.yaml
+  snapshot_sha256: b85db86ff6dc112e20878a51718e17d31139814ebc4213a79f38f4abfd4a793b
+  accessed_at: '2026-10-15T19:12:03.065329Z'
+  support: context_only
+  summary: Complete current DRAFT record equals accepted science and actual root identity
+    decisions.
+- evidence_id: record-sarsa
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/AccumulatingSarsaLambda.yaml
+  snapshot_sha256: d1a06f0316bc288f9a1af333c06ce6cc678481e46dc20888938678df45ae6d48
+  accessed_at: '2026-10-15T19:12:03.065643Z'
+  support: context_only
+  summary: Complete current DRAFT record equals accepted science and actual root identity
+    decisions.
+- evidence_id: check-gate
+  kind: validation
+  reference: /private/tmp/aimech-wis-usage-sarsa-cohort348-check-gate.json
+  snapshot_sha256: da1a08b5a3fb963c2c77018f68ab6c1a834cea792b6616386086104fdb0acb47
+  accessed_at: '2026-10-15T19:10:44.084644Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-vendor
+  kind: validation
+  reference: /private/tmp/aimech-wis-usage-sarsa-cohort348-check-vendor-retry1.json
+  snapshot_sha256: d1abd9332eb4205da377073579b8ad2dcef3f7b20575d291e41730157adc9822
+  accessed_at: '2026-10-15T19:11:32.073295Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-check-source
+  kind: validation
+  reference: /private/tmp/aimech-wis-usage-sarsa-cohort348-check-check-source.json
+  snapshot_sha256: 354a0205aafc18fb1e3a4ea45a06bf94d03a7aa729da7c4f323453920c439de8
+  accessed_at: '2026-10-15T19:11:35.095407Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-render
+  kind: validation
+  reference: /private/tmp/aimech-wis-usage-sarsa-cohort348-check-render.json
+  snapshot_sha256: 12fb8f573371dea673557374cfc97a0fac9354f2a243ebae2d8c9ac212d2ddfb
+  accessed_at: '2026-10-15T18:59:23.888779Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-render-check
+  kind: validation
+  reference: /private/tmp/aimech-wis-usage-sarsa-cohort348-check-render-check.json
+  snapshot_sha256: 379bb3f3e9aa2a0aeead0ffd7e302199ee749b8122bb8692553c619c59cce08d
+  accessed_at: '2026-10-15T19:11:53.496279Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: check-diff
+  kind: validation
+  reference: /private/tmp/aimech-wis-usage-sarsa-cohort348-check-diff.json
+  snapshot_sha256: 4319a024fb52ca42c187aa1e4ddcbb67daf141b873d10d6e1f06e81cc8c75744
+  accessed_at: '2026-10-15T19:11:53.931232Z'
+  support: context_only
+  summary: Actual required command completed successfully before this review generation.
+- evidence_id: historical-check-attempt-1
+  kind: validation
+  reference: /private/tmp/aimech-wis-usage-sarsa-cohort348-check-vendor.json
+  snapshot_sha256: c90ea1f89a693112cd0ca24e48a1983186c2c804ea0543097ec7f27da2f7955e
+  accessed_at: '2026-10-15T19:10:44.656360Z'
+  support: context_only
+  summary: Actual failed attempt, retained with its later successful same-command
+    replacement.
+assessments:
+- assessment_id: wis-gtd-claim-linear-off-policy-gtd-host
+  area: evidence
+  topic: Claim linear-off-policy-gtd-host
+  outcome: supported
+  summary: Sections 3 and 6 establish fixed linear off-policy prediction and the named
+    ordinary GTD host. Ratios are current action ratios; the paragraph does not attach
+    control or convergence capability.
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-claim-shared-usage-state-and-new-step
+  area: evidence
+  topic: Claim shared-usage-state-and-new-step
+  outcome: supported
+  summary: The exact two usage recurrences and initialization match Algorithm 2. Both
+    use old v, followed by a reciprocal of new u. The declared domain and reciprocal
+    convention preserve the source while the usage limitation supplies the necessary
+    caution.
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-claim-importance-weighted-accumulating-trace
+  area: evidence
+  topic: Claim importance-weighted-accumulating-trace
+  outcome: supported
+  summary: The eligibility and error match the printed Algorithm 2. Distinguishing
+    current rho from stored-ratio and Dutch constructions prevents accidental import
+    of Algorithm 3 or the base true-online GTD trace.
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-claim-main-and-auxiliary-update-timing
+  area: evidence
+  topic: Claim main-and-auxiliary-update-timing
+  outcome: supported
+  summary: The main and auxiliary updates both use old w and old theta. The source
+    explicitly preserves scalar beta and next-state gamma/lambda in the correction.
+    The retained old-w hand witness shows why simultaneous right-side timing matters.
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-claim-qualified-on-policy-usage-td-reduction
+  area: evidence
+  topic: Claim qualified-on-policy-usage-td-reduction
+  outcome: supported
+  summary: The source relationship needs the explicit zero-w qualification. The retained
+    scalar beta-zero counterexample shows that freezing w0=1 leaves a nonzero main
+    correction; with w0=0 and beta=0, induction keeps the correction zero.
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-claim-usage-forward-scope-and-linear-cost
+  area: evidence
+  topic: Claim usage-forward-scope-and-linear-cost
+  outcome: supported
+  summary: Theorem 5 supports shared usage equality under its matching construction.
+    Theorem 6 names WIS-TD weights, so the statement expressly avoids transferring
+    it. Dense linear resource cost follows the fixed number of vector updates and
+    inner products.
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: Sections 3 and 6 establish fixed linear off-policy prediction and the named
+    ordinary GTD host. Ratios are current action ratios; the paragraph does not attach
+    control or convergence capability.
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: The exact retained ReinforcementLearning node is a broader exploration/performance-oriented
+    learning task. Policy state-value prediction is associated machinery, so related_match
+    is qualified; no exact, subclass or action-selection relation is inferred.
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: One eighteen-page combined author artifact supplies the named methods and
+    Appendix A.7 Algorithms 2, 4 and 5 on page 18. Native text correspondence to the
+    official main and supplement is retained; embedded PDF metadata is not a verified
+    scientific revision date. The source has local display and initialization qualifications,
+    kept bounded without declaring the complete methods or proofs invalid. The original
+    source-agent ledger records all ten main native pages and the author appendix,
+    with selected main and appendix formula visuals and exact official/author text
+    correspondence. The residual-method research and static drafting separately revisit
+    the named hosts and source caveats. The later same-author adversarial pass freshly
+    read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18, then all eighteen
+    selected claims and twenty-one limitations. Root primary and draft reading remain
+    attributed to their exact acceptance receipts. No source acquisition, new PDF
+    reading, algorithm execution or complete proof certification is asserted by this
+    review-data assembly.
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - wis-version-comparison
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-identity-assessment
+  area: identity
+  topic: identity assessment
+  outcome: supported
+  summary: Retain the source-defined WIS-GTD(lambda) usage-adapted accumulating GTD
+    host separately from WIS-TD, true online GTD, the on-policy usage hosts and the
+    unresolved WIS-TO-GTD display. On-policy specialization also requires beta=0 and
+    zero auxiliary weights for the stated U-TD reduction; overlap does not make whole
+    methods aliases. The actual captured identity notes implement the root current
+    collection decisions; the original preview scope remains historical and is recorded
+    in context_changes. Existing owner 264 stays partial, with all its prior IDs and
+    resolution objects retained.
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - historical-identity-wis-gtd
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+  - current-identity-collection
+  - current-context-assessment
+  - root-decisions
+- assessment_id: wis-gtd-kind-and-status-assessment
+  area: scope
+  topic: kind and status assessment
+  outcome: supported
+  summary: Algorithm kind selects a complete fixed-linear state-value prediction procedure,
+    not an isolated usage/trace operator or action-selection policy. DRAFT status
+    and the qualified RL association do not imply convergence or control.
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-limitation-1
+  area: scope
+  topic: Individual limitation 1
+  outcome: supported
+  summary: 'The full Algorithm 2 state and host differ from the named neighboring
+    methods; the boundary preserves endpoint overlap without exact aliasing. Source/context
+    locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p.
+    18, selected algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-limitation-2
+  area: scope
+  topic: Individual limitation 2
+  outcome: supported
+  summary: 'Section 8 leaves convergence analysis open. Ratio-support and statistical
+    validity are not supplied by algebraic correspondence or a WIS name. Source/context
+    locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p.
+    18, selected algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-limitation-3
+  area: scope
+  topic: Individual limitation 3
+  outcome: supported
+  summary: 'The eta=3 example and the u-v nonnegativity invariant were hand checked
+    in the accepted dossier and separate support. They bound interpretation, not the
+    printed parameter syntax. Source/context locator: Sections 2, 5, 6 and 8, author
+    PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method
+    comparisons.'
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-limitation-4
+  area: scope
+  topic: Individual limitation 4
+  outcome: supported
+  summary: 'The retained beta-zero witness and direct lambda substitutions show the
+    stated endpoint qualifications. The U-TD/U-TO two-step witness also prevents unqualified
+    Monte Carlo transfer. Source/context locator: Sections 2, 5, 6 and 8, author PDF
+    pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method
+    comparisons.'
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-limitation-5
+  area: scope
+  topic: Individual limitation 5
+  outcome: supported
+  summary: 'Algorithm 2 and the accepted hand old-w example establish the old/new-state
+    dependency. Auxiliary adaptation was explicitly excluded in Section 6. Source/context
+    locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p.
+    18, selected algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-limitation-6
+  area: scope
+  topic: Individual limitation 6
+  outcome: supported
+  summary: 'Fixed linear state-value prediction and dense bookkeeping are the inspected
+    scope; no nonlinear, control or wall-clock result is inferred. Source/context
+    locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p.
+    18, selected algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: wis-gtd-limitation-7
+  area: scope
+  topic: Individual limitation 7
+  outcome: supported
+  summary: 'The source/version ledger binds the exact combined artifact and separately
+    retained official copies. Algorithm 3 remains a separate unresolved residual,
+    not a hidden correction to Algorithm 2. Source/context locator: Sections 2, 5,
+    6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm
+    and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:WISGTDLambda
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-wis-gtd
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-claim-on-policy-accumulating-prediction
+  area: evidence
+  topic: Claim on-policy-accumulating-prediction
+  outcome: supported
+  summary: Section 6 explicitly names U-TD and combines the usage schedule with an
+    on-policy TD host. Algorithm 4 is a complete state-value update rather than a
+    generic family or control rule.
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-claim-on-policy-feature-usage-step
+  area: evidence
+  topic: Claim on-policy-feature-usage-step
+  outcome: supported
+  summary: The usage equation, new reciprocal and initialization match the source.
+    The zero-reciprocal convention is explicitly on page 3 and is kept distinct from
+    nonnegativity or stability.
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-claim-ordinary-eligibility-and-current-error
+  area: evidence
+  topic: Claim ordinary-eligibility-and-current-error
+  outcome: supported
+  summary: The accumulating trace has no alpha factor. Current gamma/lambda and next
+    gamma have different roles, and both value predictions use the same pre-update
+    theta.
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-claim-component-scaled-main-increment
+  area: evidence
+  topic: Claim component-scaled-main-increment
+  outcome: supported
+  summary: The exact main increment matches Algorithm 4. Its complete state list confirms
+    the absence of the distinct off-policy, provisional, auxiliary and prior-weight
+    states from neighboring algorithms.
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-claim-one-step-and-qualified-gtd-specializations
+  area: evidence
+  topic: Claim one-step-and-qualified-gtd-specializations
+  outcome: supported
+  summary: Direct zero-decay substitution gives one-step usage-scaled TD. The on-policy
+    WIS-GTD reduction needs the retained zero-w qualification, as confirmed by the
+    accepted counterexample.
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-claim-linear-bookkeeping-and-usage-scope
+  area: evidence
+  topic: Claim linear-bookkeeping-and-usage-scope
+  outcome: supported
+  summary: The finite vector operations give dense linear cost. Theorem 1 belongs
+    to U-SGD’s particular algebraic update for observed targets; the statement does
+    not invent target independence or transfer the result to this accumulating host.
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: Section 6 explicitly names U-TD and combines the usage schedule with an
+    on-policy TD host. Algorithm 4 is a complete state-value update rather than a
+    generic family or control rule.
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: The exact retained ReinforcementLearning node is a broader exploration/performance-oriented
+    learning task. Policy state-value prediction is associated machinery, so related_match
+    is qualified; no exact, subclass or action-selection relation is inferred.
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: One eighteen-page combined author artifact supplies the named methods and
+    Appendix A.7 Algorithms 2, 4 and 5 on page 18. Native text correspondence to the
+    official main and supplement is retained; embedded PDF metadata is not a verified
+    scientific revision date. The source has local display and initialization qualifications,
+    kept bounded without declaring the complete methods or proofs invalid. The original
+    source-agent ledger records all ten main native pages and the author appendix,
+    with selected main and appendix formula visuals and exact official/author text
+    correspondence. The residual-method research and static drafting separately revisit
+    the named hosts and source caveats. The later same-author adversarial pass freshly
+    read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18, then all eighteen
+    selected claims and twenty-one limitations. Root primary and draft reading remain
+    attributed to their exact acceptance receipts. No source acquisition, new PDF
+    reading, algorithm execution or complete proof certification is asserted by this
+    review-data assembly.
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - wis-version-comparison
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-identity-assessment
+  area: identity
+  topic: identity assessment
+  outcome: supported
+  summary: Retain usage-based TD(lambda) as the named ordinary accumulating on-policy
+    prediction host with its usage-derived component steps. It is distinct from U-TO-TD
+    at finite step sizes, WIS-TD off-policy correction and a standalone usage operator.
+    Shared one-step cases or a qualified GTD specialization do not establish exact
+    aliases. The actual captured identity notes implement the root current collection
+    decisions; the original preview scope remains historical and is recorded in context_changes.
+    Existing owner 264 stays partial, with all its prior IDs and resolution objects
+    retained.
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - historical-identity-usage-td
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+  - current-identity-collection
+  - current-context-assessment
+  - root-decisions
+- assessment_id: usage-td-kind-and-status-assessment
+  area: scope
+  topic: kind and status assessment
+  outcome: supported
+  summary: Algorithm kind selects a complete fixed-linear state-value prediction procedure,
+    not an isolated usage/trace operator or action-selection policy. DRAFT status
+    and the qualified RL association do not imply convergence or control.
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-limitation-1
+  area: scope
+  topic: Individual limitation 1
+  outcome: supported
+  summary: 'The named complete algorithm has a specified schedule and ordinary trace;
+    relation to other hosts is not exact whole-method identity. Source/context locator:
+    Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected
+    algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-limitation-2
+  area: scope
+  topic: Individual limitation 2
+  outcome: supported
+  summary: 'Section 8 leaves convergence open. Task-specific observations on page
+    9 are not universal empirical or stability guarantees. Source/context locator:
+    Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected
+    algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-limitation-3
+  area: scope
+  topic: Individual limitation 3
+  outcome: supported
+  summary: 'The scalar eta witnesses in accepted hand analysis show why reciprocal
+    usage needs domain qualifications. No calculator or optimizer was used. Source/context
+    locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p.
+    18, selected algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-limitation-4
+  area: scope
+  topic: Individual limitation 4
+  outcome: supported
+  summary: 'The peer clarification is incorporated exactly: the target-sequence identity
+    is algebraic under stated source assumptions. The two-step U-TD/U-TO witness refutes
+    unqualified host transfer without imposing independence or exogeneity. Source/context
+    locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p.
+    18, selected algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-limitation-5
+  area: scope
+  topic: Individual limitation 5
+  outcome: supported
+  summary: 'Algorithm 4 fixes usage-before-reciprocal and new-trace timing. These
+    distinctions prevent drift into Algorithm 5 or an auxiliary-gradient method. Source/context
+    locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p.
+    18, selected algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-limitation-6
+  area: scope
+  topic: Individual limitation 6
+  outcome: supported
+  summary: 'Linear on-policy prediction and dense vector cost are the inspected scope,
+    not control, nonlinear or active-feature-only behavior. Source/context locator:
+    Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected
+    algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-td-limitation-7
+  area: scope
+  topic: Individual limitation 7
+  outcome: supported
+  summary: 'The exact source version and Algorithm 4 are retained without treating
+    file metadata as revision evidence or silently resolving the separate Algorithm
+    3 ambiguity. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3,
+    6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method
+    comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-claim-on-policy-usage-true-online-host
+  area: evidence
+  topic: Claim on-policy-usage-true-online-host
+  outcome: supported
+  summary: Section 6 names this specific usage-based true-online host; Algorithm 5
+    fixes the complete recurrence. The definition is not an arbitrary step-adaptation
+    family or a control rule.
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-claim-usage-before-component-step
+  area: evidence
+  topic: Claim usage-before-component-step
+  outcome: supported
+  summary: The on-policy usage recurrence and subsequent inverse of new usage match
+    Algorithm 5 and the page 3 reciprocal convention. Parameter syntax is not treated
+    as a positivity theorem.
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-claim-component-scaled-dutch-eligibility
+  area: evidence
+  topic: Claim component-scaled-dutch-eligibility
+  outcome: supported
+  summary: The componentwise step enters both Dutch terms and the inner product uses
+    old trace. The accepted U-TD/U-TO witness confirms that simply scaling an accumulating
+    trace does not preserve the host.
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-claim-stored-prediction-weight-correction
+  area: evidence
+  topic: Claim stored-prediction-weight-correction
+  outcome: supported
+  summary: Algorithm 5 uses the old weight vector on current features and pre-update
+    theta_t for the target. Its complete state does not include the separate auxiliary
+    or provisional vectors.
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-claim-matched-on-policy-forward-specialization
+  area: evidence
+  topic: Claim matched-on-policy-forward-specialization
+  outcome: supported
+  summary: The rho-one specialization is directly supported by Section 6 and the displayed
+    recurrences. The source-specific forward identity is qualified to matched linear
+    realized data and initialization; this does not certify all proof displays or
+    convergence.
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-claim-zero-decay-and-initial-cancellation
+  area: evidence
+  topic: Claim zero-decay-and-initial-cancellation
+  outcome: supported
+  summary: The accepted hand derivation writes the increment as a(C-v)+(z-C)e. With
+    e=a, C cancels, giving a(z-v). The first trace is also a from zero history. Finite
+    operands and the absence of an all-lambda accumulating equivalence are explicit.
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: Section 6 names this specific usage-based true-online host; Algorithm 5
+    fixes the complete recurrence. The definition is not an arbitrary step-adaptation
+    family or a control rule.
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: The exact retained ReinforcementLearning node is a broader exploration/performance-oriented
+    learning task. Policy state-value prediction is associated machinery, so related_match
+    is qualified; no exact, subclass or action-selection relation is inferred.
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: One eighteen-page combined author artifact supplies the named methods and
+    Appendix A.7 Algorithms 2, 4 and 5 on page 18. Native text correspondence to the
+    official main and supplement is retained; embedded PDF metadata is not a verified
+    scientific revision date. The source has local display and initialization qualifications,
+    kept bounded without declaring the complete methods or proofs invalid. The original
+    source-agent ledger records all ten main native pages and the author appendix,
+    with selected main and appendix formula visuals and exact official/author text
+    correspondence. The residual-method research and static drafting separately revisit
+    the named hosts and source caveats. The later same-author adversarial pass freshly
+    read author native pages 2–7, 9, 11 and 18 and visuals 3 and 18, then all eighteen
+    selected claims and twenty-one limitations. Root primary and draft reading remain
+    attributed to their exact acceptance receipts. No source acquisition, new PDF
+    reading, algorithm execution or complete proof certification is asserted by this
+    review-data assembly.
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - wis-version-comparison
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-identity-assessment
+  area: identity
+  topic: identity assessment
+  outcome: supported
+  summary: Retain usage-based true online TD(lambda) as the named on-policy scaled-Dutch
+    prediction host with the previous-prediction correction and specified usage schedule.
+    Matched rho=1 specialization of WIS-TD does not identify general off-policy methods,
+    ordinary accumulating TD or the isolated Dutch component. The source Algorithm
+    5 initialization omission remains explicit. The actual captured identity notes
+    implement the root current collection decisions; the original preview scope remains
+    historical and is recorded in context_changes. Existing owner 264 stays partial,
+    with all its prior IDs and resolution objects retained.
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - historical-identity-usage-true-online-td
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+  - current-identity-collection
+  - current-context-assessment
+  - root-decisions
+- assessment_id: usage-true-online-td-kind-and-status-assessment
+  area: scope
+  topic: kind and status assessment
+  outcome: supported
+  summary: Algorithm kind selects a complete fixed-linear state-value prediction procedure,
+    not an isolated usage/trace operator or action-selection policy. DRAFT status
+    and the qualified RL association do not imply convergence or control.
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-limitation-1
+  area: scope
+  topic: Individual limitation 1
+  outcome: supported
+  summary: 'Algorithm 5 is a full specific host, while the related methods differ
+    in traces, state, control role or off-policy scope. Partial parameter overlap
+    is retained without aliasing. Source/context locator: Sections 2, 5, 6 and 8,
+    author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit
+    neighboring-method comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-limitation-2
+  area: scope
+  topic: Individual limitation 2
+  outcome: supported
+  summary: 'Section 8 leaves convergence analysis open. Linear finite-horizon identity
+    is not a statistical or empirical universal guarantee. Source/context locator:
+    Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected
+    algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-limitation-3
+  area: scope
+  topic: Individual limitation 3
+  outcome: supported
+  summary: 'The accepted eta witness constrains the broad printed parameter range.
+    Reciprocal-zero handling is not a bounded-step theorem. Source/context locator:
+    Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected
+    algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-limitation-4
+  area: scope
+  topic: Individual limitation 4
+  outcome: supported
+  summary: 'The source scaled convention and old prediction are both essential. The
+    draft does not silently substitute the constant-alpha unscaled true-online form.
+    Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3, 6–7 and 9; Appendix
+    A.7, p. 18, selected algorithm and explicit neighboring-method comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-limitation-5
+  area: scope
+  topic: Individual limitation 5
+  outcome: supported
+  summary: 'The omitted explicit theta_-1 line is honestly distinguished from the
+    exact first-theta cancellation and from the d initialization in WIS-TD. No software
+    defect is claimed. Source/context locator: Sections 2, 5, 6 and 8, author PDF
+    pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method
+    comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-limitation-6
+  area: scope
+  topic: Individual limitation 6
+  outcome: supported
+  summary: 'The peer Theorem 1 precision is preserved without adding independence
+    or exogeneity. The source linear finite-dimensional scope does not cover arbitrary
+    nonlinear or control variants. Source/context locator: Sections 2, 5, 6 and 8,
+    author PDF pp. 3, 6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit
+    neighboring-method comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: usage-true-online-td-limitation-7
+  area: scope
+  topic: Individual limitation 7
+  outcome: supported
+  summary: 'The exact artifact/version and Algorithm 5 define the evidence scope.
+    Algorithm 3 remains deferred and no implementation or complete proof certification
+    is asserted. Source/context locator: Sections 2, 5, 6 and 8, author PDF pp. 3,
+    6–7 and 9; Appendix A.7, p. 18, selected algorithm and explicit neighboring-method
+    comparisons.'
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - record-usage-true-online-td
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-claim-tabular-on-policy-control
+  area: evidence
+  topic: Claim tabular-on-policy-control
+  outcome: supported
+  summary: The Section 7.5 prose explicitly names an on-policy control method over
+    action values, and the figure supplies a full tabular interaction loop. The selected
+    accumulating qualifier follows Equation 7.13 and distinguishes this source-scoped
+    procedure from the broader Sarsa family.
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-claim-selected-next-action-error
+  area: evidence
+  topic: Claim selected-next-action-error
+  outcome: supported
+  summary: The visual TD-error image uses Q_t for both action values. In the figure,
+    the next action is selected before the error and table updates and is then carried.
+    Restricting this selection claim to a nonterminal successor keeps the separate
+    zero-continuation convention explicit.
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-claim-accumulating-trace-credit
+  area: evidence
+  topic: Claim accumulating-trace-credit
+  outcome: supported
+  summary: Freshly viewed update, trace and algorithm images agree after separating
+    the stored pre-increment trace from E_t used by the value update. With q=gamma*lambda,
+    the figure has E_t=z_t+I_t and z_(t+1)=q*E_t. This is the same recurrence as Equation
+    7.13, with no second decay. The author errata supplies each episode reset.
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-claim-episodic-terminal-and-reset
+  area: evidence
+  topic: Claim episodic-terminal-and-reset
+  outcome: supported
+  summary: The official errata explicitly moves only trace zeroing inside the episode
+    loop; Q initialization remains outside. Section 6.4 and the two separately viewed
+    terminal symbols define the successor action value as zero. The final reward still
+    updates all eligible pairs before the terminal stopping test; no extra environment
+    action is required.
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-claim-trace-memory-and-one-step-limit
+  area: evidence
+  topic: Claim trace-memory-and-one-step-limit
+  outcome: supported
+  summary: Inductively unrolling Equation 7.13 gives the finite visit sum. Its lambda-zero
+    specialization has only current-pair credit with matched initialization and timing.
+    The figure has no non-greedy-action trace-cut condition. These are bounded algebraic
+    consequences, not an equivalence to all Sarsa/Monte Carlo variants.
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-claim-table-update-and-sparse-boundary
+  area: evidence
+  topic: Claim table-update-and-sparse-boundary
+  outcome: supported
+  summary: The figure explicitly iterates over every state-action pair. Section 7.9
+    discusses sparse nonzero traces and thresholding; omitting exactly zero products
+    preserves the recurrence, whereas omitting nonzero products generally changes
+    it. No fixed active-set bound or measured speedup is inferred.
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: The book supplies the tabular selected-action-error/accumulating-credit
+    control procedure. Resetting traces between episodes is explicitly justified by
+    the official errata, while learned Q persists. This definition selects that corrected
+    scope without a naming-priority or whole-family claim.
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: The selected algorithm learns action values through reward-driven interaction
+    and exploratory actions. The exact pinned ReinforcementLearning node is a broad
+    machine-learning task, so only a qualified related_match is selected. No task-equivalence,
+    subclass edge, scalar-only MathematicalFunction restriction or additional mapping
+    is asserted.
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: Eight native source rows represent seven separately hashed HTML/PNG excerpts
+    from one 1998 monograph and one official errata document. The HTML digest does
+    not authenticate externally linked images. Four defining formula/algorithm images
+    each have their own source row; contextual terminal symbols and the neighboring
+    replacing image remain separately retained. The 2005 conversion footer is not
+    the publication year. The episode reset incorporates an explicit author correction,
+    not an undocumented repair. The research author read the defining first-edition
+    HTML and formula/algorithm images, author errata, and retained contextual copies
+    within its ledger. Static drafting freshly read Section 7.5 and all four defining
+    images, Section 6.4 and two terminal-symbol images, Section 7.9, the errata, and
+    Section 7.8 with Equation 7.17. The later supporting audit separately reread the
+    defining HTML/images/errata and all six claims/seven limitations. Root reading
+    remains exactly attributed to its research and draft receipts. No whole-book reading
+    or new primary reading is claimed by this review-data assembly.
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-source-ledger
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-identity-assessment
+  area: identity
+  topic: identity assessment
+  outcome: supported
+  summary: Retain corrected episodic tabular accumulating Sarsa(lambda) as the selected
+    complete on-policy control procedure. The carried selected action, terminal zero
+    continuation, single trace decay and author-corrected episode reset distinguish
+    its specified operation ordering from original neural MCQ-L, true-online Sarsa,
+    replacing/Dutch components and greedy trace-cut control; this does not assert
+    disjoint kernels. The actual captured identity notes implement the root current
+    collection decisions; the original preview scope remains historical and is recorded
+    in context_changes. Existing owner 265 stays partial, with all its prior IDs and
+    resolution objects retained.
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - historical-identity-sarsa
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+  - current-identity-collection
+  - current-context-assessment
+  - root-decisions
+- assessment_id: sarsa-kind-and-status-assessment
+  area: scope
+  topic: kind and status assessment
+  outcome: supported
+  summary: Algorithm kind selects the complete corrected episodic tabular control
+    procedure, not an isolated trace or every Sarsa realization. DRAFT status and
+    related RL mapping do not claim optimality or universal convergence.
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-limitation-1
+  area: scope
+  topic: Individual limitation 1
+  outcome: supported
+  summary: 'The record denotes the corrected complete tabular control procedure. Sharing
+    an error or a possible representation does not equate its full operation ordering
+    with original MCQ-L, true-online Sarsa or a standalone trace component. Source/context
+    locator: Section 7.5 and Figure 7.11; accepted identity assessment and neighboring-method
+    comparison.'
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-limitation-2
+  area: scope
+  topic: Individual limitation 2
+  outcome: supported
+  summary: 'Both original box and author correction were freshly read. The correction
+    is incorporated openly rather than silently replacing source bytes or certifying
+    software. Source/context locator: Figure 7.11, pseudotmp12.png; official errata
+    entry for boxed algorithms pp. 174, 181, 184, 200, 212 and 213.'
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-limitation-3
+  area: scope
+  topic: Individual limitation 3
+  outcome: supported
+  summary: 'The fresh prose/image comparison confirms the selected-pair branch shows
+    1+gamma*lambda*old_trace while the adjacent prose says reset to one. This source-local
+    conflict concerns a neighbor, not Equation 7.13. The FA correction remains an
+    attributed contextual artifact; this drafter did not newly read that PDF. Source/context
+    locator: Section 7.8 replacing-control prose and linked Equation 7.17 numeqtmp44.png;
+    errata link to sarsaFA2.pdf as separately attributed context.'
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-limitation-4
+  area: scope
+  topic: Individual limitation 4
+  outcome: supported
+  summary: 'The accepted hand witness uses one repeated nonterminal state, rewards
+    1,0,0, gamma=lambda=1 and Q0=0. Online updates produce a-3a^2 while summing fixed-initial-value
+    full-return errors gives a. This refutes that unqualified finite-step equality
+    under those conventions, not every Monte Carlo variant or a control convergence
+    theorem. Source/context locator: Equation 7.13/Figure 7.11; retained hand-analysis
+    finite-alpha-monte-carlo-caveat.'
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-limitation-5
+  area: scope
+  topic: Individual limitation 5
+  outcome: supported
+  summary: 'A geometric-series trace bound for q in [0,1) says nothing by itself about
+    rewards, errors or Q. The source Section 6.4 describes a historical unpublished
+    convergence statement for Sarsa; it is not promoted to a current universal theorem
+    or to every lambda/step schedule. Source/context locator: Equation 7.13 finite
+    visit sum; Section 6.4 convergence discussion; accepted hand analysis.'
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-limitation-6
+  area: scope
+  topic: Individual limitation 6
+  outcome: supported
+  summary: 'The source box explicitly uses a table. The retained neural MCQ-L and
+    later true-online contexts support relatedness without authorizing arbitrary trace
+    substitutions, nonlinear/off-policy extensions or full-algorithm aliasing. Source/context
+    locator: Section 7.5 tabular Figure 7.11; accepted research method/identity boundaries;
+    contextual Section 7.9.'
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: sarsa-limitation-7
+  area: scope
+  topic: Individual limitation 7
+  outcome: supported
+  summary: 'The native evidence has eight separately hashed artifacts: seven excerpts/images
+    from one monograph and one errata page. HTML digests do not authenticate linked
+    files; four defining PNGs have their own native rows and two terminal-symbol bytes
+    remain separately bound. Publication, conversion and access dates remain distinct.
+    Later PDF contexts are attributed rather than newly reread. Source/context locator:
+    Author first-edition index, HTML footer and separate artifact acquisition ledger;
+    research reading ledger for the 2016 contextual copies.'
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - sarsa-context-terminal-symbol1
+  - sarsa-context-terminal-symbol2
+  - sarsa-context-replacing-prose
+  - sarsa-context-replacing-equation
+  - record-sarsa
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: actual-correspondence
+  area: provenance
+  topic: Actual canonical, capture, frontier, history, rendered-page and check correspondence
+  outcome: supported
+  summary: 'All four current records equal the actual write/report entries and accepted
+    science: twenty-four claims and twenty-eight individual limitations. Eleven declared
+    source rows represent nine distinct artifacts: one shared author paper and seven
+    monograph components plus official errata. Seven files were created, including
+    one CREATE history. Only owners 264 and 265 changed, with all prior IDs/resolutions
+    and 907 other main/393 nested objects preserved. Every captured input and actual
+    rendered-page hash was checked. Six required checks passed; DRAFT status and partial
+    residual scope remain.'
+  target_ids:
+  - AIMech:WISGTDLambda
+  - AIMech:UsageBasedTDLambda
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  - AIMech:AccumulatingSarsaLambda
+  evidence_ids:
+  - actual-write
+  - captured-inputs
+  - postcapture-reading
+  - governance-assessment
+  - rendered-pages
+  - actual-scientific-assessment
+  - creation-history
+  - root-decisions
+  - check-gate
+  - check-vendor
+  - check-check-source
+  - check-render
+  - check-render-check
+  - check-diff
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:WISGTDLambda
+  rationale: Retain the source-defined WIS-GTD(lambda) usage-adapted accumulating
+    GTD host separately from WIS-TD, true online GTD, the on-policy usage hosts and
+    the unresolved WIS-TO-GTD display. On-policy specialization also requires beta=0
+    and zero auxiliary weights for the stated U-TD reduction; overlap does not make
+    whole methods aliases.
+  evidence_ids:
+  - preview-wis-gtd
+  - support-wis-gtd
+  - draft-acceptance-wis-gtd
+  - preview-validation-wis-gtd
+  - source-reading-wis-gtd
+  - preparation-reading-wis-gtd
+  - root-research-wis-gtd
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - historical-identity-wis-gtd
+  - root-decisions
+  - current-identity-collection
+- action: retain
+  target_ids:
+  - AIMech:UsageBasedTDLambda
+  rationale: Retain usage-based TD(lambda) as the named ordinary accumulating on-policy
+    prediction host with its usage-derived component steps. It is distinct from U-TO-TD
+    at finite step sizes, WIS-TD off-policy correction and a standalone usage operator.
+    Shared one-step cases or a qualified GTD specialization do not establish exact
+    aliases.
+  evidence_ids:
+  - preview-usage-td
+  - support-usage-td
+  - draft-acceptance-usage-td
+  - preview-validation-usage-td
+  - source-reading-usage-td
+  - preparation-reading-usage-td
+  - root-research-usage-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - historical-identity-usage-td
+  - root-decisions
+  - current-identity-collection
+- action: retain
+  target_ids:
+  - AIMech:UsageBasedTrueOnlineTDLambda
+  rationale: Retain usage-based true online TD(lambda) as the named on-policy scaled-Dutch
+    prediction host with the previous-prediction correction and specified usage schedule.
+    Matched rho=1 specialization of WIS-TD does not identify general off-policy methods,
+    ordinary accumulating TD or the isolated Dutch component. The source Algorithm
+    5 initialization omission remains explicit.
+  evidence_ids:
+  - preview-usage-true-online-td
+  - support-usage-true-online-td
+  - draft-acceptance-usage-true-online-td
+  - preview-validation-usage-true-online-td
+  - source-reading-usage-true-online-td
+  - preparation-reading-usage-true-online-td
+  - root-research-usage-true-online-td
+  - src-mahmood2015-author
+  - wis-residual-draft-audit
+  - historical-identity-usage-true-online-td
+  - root-decisions
+  - current-identity-collection
+- action: retain
+  target_ids:
+  - AIMech:AccumulatingSarsaLambda
+  rationale: Retain corrected episodic tabular accumulating Sarsa(lambda) as the selected
+    complete on-policy control procedure. The carried selected action, terminal zero
+    continuation, single trace decay and author-corrected episode reset distinguish
+    its specified operation ordering from original neural MCQ-L, true-online Sarsa,
+    replacing/Dutch components and greedy trace-cut control; this does not assert
+    disjoint kernels.
+  evidence_ids:
+  - preview-sarsa
+  - support-sarsa
+  - draft-acceptance-sarsa
+  - preview-validation-sarsa
+  - source-reading-sarsa
+  - preparation-reading-sarsa
+  - root-research-sarsa
+  - src-sutton-barto1998-s75
+  - src-sutton-barto1998-q-update
+  - src-sutton-barto1998-td-error
+  - src-sutton-barto1998-trace
+  - src-sutton-barto1998-algorithm
+  - src-sutton-barto1998-terminal
+  - src-sutton-barto1998-implementation
+  - src-sutton-barto1998-errata
+  - sarsa-draft-audit
+  - historical-identity-sarsa
+  - root-decisions
+  - current-identity-collection
+limitations:
+- Same-author source and mathematical support and root review are not independent
+  approval. Acquisitions, selective primary reading, hand analysis, native validation
+  and actual current-state assessment are separate events.
+- WIS-GTD, U-TD and U-TO-TD are source-defined complete hosts with distinct states
+  and timing. Shared usage formulas and endpoint specializations do not establish
+  aliases. The WIS-TO-GTD Algorithm 3 ambiguity is not silently repaired.
+- Theorem 1 concerns its stated tabular observed-target construction; feature-usage
+  correspondence and matched forward-view scope do not establish ordinary tabular
+  WIS for every host, unbiased gradients, convergence, monotonic improvement or arbitrary
+  Monte Carlo endpoint equivalence.
+- Usage nonnegativity requires the stated coordinate factors and forward-weight conditions;
+  eta >= 0 alone is insufficient. Zero reciprocal conventions do not guarantee positive
+  or bounded steps. Auxiliary initialization, old/new state and Algorithm 5 previous-weight
+  qualifications remain explicit.
+- Accumulating Sarsa is the corrected episodic tabular procedure. Selected-next-action
+  timing, single trace decay, terminal zero continuation and per-episode trace reset
+  remain explicit. Neighboring replacing-image conflicts do not redefine the selected
+  accumulating method.
+- 'Twenty-four claims and twenty-eight native limitations cite eleven record-level
+  source rows representing nine distinct artifacts: one shared WIS paper/appendix
+  PDF and seven excerpts from one monograph plus official errata. Four additional
+  contextual Sarsa image/prose artifacts are retained separately; HTML hashes do not
+  authenticate linked images.'
+- Historical ignored-inclusive research is dated to its inspected snapshots. Actual
+  merged-base identity and owner decisions are bound separately, with no global absence
+  or family-exhaustion claim.
+- No complete-book or proof certification, author-code execution, benchmark reproduction
+  or browser/layout inspection is claimed. Exact source-version, acquisition and prior
+  correction scopes remain attributed.
+- Actual seven creation outputs, one CREATE history, 9 generated pages and 37 capture
+  inputs are assessed through separate receipts. Six required checks passed; any failed
+  attempts remain explicit. Parsed HTML is not browser/layout inspection. Canonical
+  review save/check and publication remain separate actions.
+tags:
+- scientific-review
+- self-review
+- source-scoped
+- prediction-and-control
+notes:
+- 'Root freshly read all four complete actual canonical YAML records after capture:
+  definitions/evidence, all24 claims and28 individual limitations,11 source rows,
+  mappings, identity and curation. Root read the report Markdown and CREATE history,
+  then current JSON metadata, all context-change narratives, both full current owners264/265
+  and current source-lead assessment. Repeated embedded accepted manifest and root
+  decisions were compared exactly rather than represented as freshly read in full;
+  all37 captured inputs and7 write outputs were hash-verified, report records equaled
+  the full YAML records, and907 other main/393 nested objects matched the predecessor.
+  Root read the actual supporting scientific assessment, recovering truncated middle
+  sections by bounded projections, and the complete governance/page manifests. These
+  same-author supporting scopes, prior accepted primary reading and root earlier exact-draft
+  reading remain separately attributed. No new source acquisition, full-proof certification,
+  algorithm execution, visual page inspection, saved-review completion or gate result
+  is implied by this reading.'
+- Actual18:42:28–18:45:19UTC post-PR389 collection covered four specified ignored/hidden-inclusive
+  roots,775 native and442 pinned AIO records,4,843 identity fields,6,064 occurrences
+  and1,351 distinct matched contents. Supporting agents read disjoint partitions covering
+  all contents; root separately read all37 filtered candidate-named contents,12 normalized
+  neighbor definitions,29 fields, matching frontier and full owners264/265/266/269
+  before writing the current decisions. No normalized candidate collision was found
+  within those roots/probes/pinned snapshot. Prewrite repeat searches preserved each
+  content multiset; this is bounded identity clearance, not corpus-wide manual reading
+  or global saturation.
+- The inspected 2015 paper separately specifies WIS-GTD, usage-based TD and usage-based
+  true online TD; the inspected first-edition monograph and official errata support
+  corrected episodic accumulating Sarsa. These are four distinct methods under existing
+  owners264 and265. The subsequent WIS-TO-GTD dossier has located commit-pinned author
+  implementation evidence and explicitly retains its correction-history, zero-reciprocal
+  and episode-state differences from the printed algorithm; a qualified draft is being
+  assessed separately, not asserted as a record or formal erratum here. General eligibility
+  organization, soft-cut, other usage/importance-sampling and control variants and
+  the owner266 precursor remain residual work. No new frontier leaf is needed for
+  these bounded findings and no source-family exhaustion is claimed.
+- Source access, dated historical identity, source-agent reading, later supporting
+  draft audits, native validation and actual root postcapture assessment retain separate
+  scopes and timestamps. Root science reading may precede some gates; actual logs
+  independently establish completed checks.
+- The three WIS records cite one shared author work. Sarsa cites seven monograph excerpts
+  and official errata, with four context-only prose/image artifacts separately retained.
+  HTML checksums do not cover linked images. Historical identity summaries describe
+  their dated scope; actual merged-base evidence is bound separately. No original
+  receipt is rewritten.
+```
