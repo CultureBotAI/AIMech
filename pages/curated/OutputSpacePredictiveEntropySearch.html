@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Output-space Predictive Entropy Search · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Output-space Predictive Entropy Search</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Output-space Predictive Entropy Search</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:OutputSpacePredictiveEntropySearch</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A Bayesian global optimization algorithm that selects evaluations using an approximation to information about the latent maximum function value, combining Gaussian expectation-propagation constraints at observed inputs with candidate truncation, moment matching and predictive observation entropy.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The pinned author-hosted OPES report defines observed-latent upper constraints via EP, candidate truncation and moment matching, then approximate noisy predictive entropy for a finite attained maximum value. MES shares its ideal target but not this conditional-inference pathway and entropy approximation; PES targets a maximizer location. A one-threshold diagnostic distinguishes formulas without proving different decisions for all data. The 2015 catalog attribution and 2016 PDF build are separately retained. No acronym alias is adopted; current canonical, frontier and ignored-inclusive evidence is refreshed before creation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#maximum-value-information-target</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a model and domain with a finite attained latent maximum M=max_x f(x), the method targets information between M and a prospective observation Y at candidate x. At fixed data and model hyperparameters, its ideal acquisition is I(M;Y|D,x)=H(Y|D,x)-E_M[H(Y|D,x,M)] when those entropy terms are well-defined. This targets the maximum value rather than the maximizer location used by Predictive Entropy Search. Max-value Entropy Search later uses the same ideal value-information target but a different operational approximation; shared ideal information does not identify their evaluated acquisitions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hoffman2015">Output-Space Predictive Entropy Search for Flexible Global Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp. 1–2, Equations 1–2</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wang2017">Max-value Entropy Search for Efficient Bayesian Optimization</a></span>
+        <span>· <strong>Locator:</strong> PDF p. 2 acknowledgement of Hoffman and Ghahramani; Section 3, PDF pp. 2–3, Equations 5–6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#observed-latent-ep-constraints</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the Gaussian-observation formulation, a zero-mean Gaussian-process model gives a Gaussian posterior over latent function values at previously queried inputs. For each sampled maximum value m, the method applies step factors requiring every one of these latent values to be at most m. Expectation propagation replaces the factors with Gaussian site approximations having diagonal site covariance, which are combined with the posterior. The finite collection of inequalities is a necessary condition for a global maximum m, not the exact event that the function maximum equals m. The source uses these constraints as an approximation to that conditioning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hoffman2015">Output-Space Predictive Entropy Search for Flexible Global Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, PDF p. 2, the unnumbered observed-latent factorization and Gaussian combination; PDF p. 3, Comparison with PES paragraph</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#candidate-truncation-and-moment-matching</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The approximate constrained latent Gaussian is propagated to a candidate using Gaussian-process prediction, giving mean mu_bar and variance v_bar. For v_bar&gt;0, the method then truncates that scalar Gaussian above at m and moment-matches it to a Gaussian. With alpha=(m-mu_bar)/sqrt(v_bar) and r=phi(alpha)/Phi(alpha), the matched moments are mu_hat=mu_bar-sqrt(v_bar)*r and v_hat=v_bar*(1-r*(r+alpha)). Here phi and Phi denote the standard-normal density and cumulative distribution. These are moments of the selected local truncation, not exact global-maximum-conditioned moments. A nondegenerate moment-matched Gaussian itself retains positive probability above the truncation threshold.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hoffman2015">Output-Space Predictive Entropy Search for Flexible Global Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, PDF pp. 2–3, Equations 3–6; original scalar moment and support diagnostic in research/discovery/opes-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#noisy-gaussian-entropy-acquisition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Let v(x|D) be the ordinary posterior latent variance, sigma^2 the independent Gaussian observation-noise variance, and m_1,...,m_K a positive number K of approximate maximum samples. Equation 7 computes 0.5*(log(v(x|D)+sigma^2) - (1/K)*sum_j log(v_hat(x|D,m_j)+sigma^2)). Observation noise is added after the latent moment matching. The score uses Gaussian observation entropies and remains an approximation to noisy maximum-value information. Its fixed-threshold expression can differ from the local truncated-latent entropy expression of Max-value Entropy Search even without observed-latent EP sites. A difference in one term does not imply different selected queries for every data set.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hoffman2015">Output-Space Predictive Entropy Search for Flexible Global Optimization</a></span>
+        <span>· <strong>Locator:</strong> PDF p. 3, Equation 7; original one-threshold comparison at two noise variances in research/discovery/opes-boundaries.py</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wang2017">Max-value Entropy Search for Efficient Bayesian Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF p. 3, Equation 6 and its local truncation approximation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#maximum-sampling-and-hyperparameter-averaging</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The finite average requires approximate draws of the latent maximum value. The report refers to a sampling strategy similar to Predictive Entropy Search rather than specifying a new exact maximum sampler. It also describes sampling Gaussian-process hyperparameters and using a maximum sample for each setting. These sampling and model approximations remain part of the acquisition. Averaging fixed-hyperparameter information approximations does not in general give exact information under a fully marginalized hyperparameter model. The abbreviated report does not establish exact maximum sampling or universal acquisition accuracy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hoffman2015">Output-Space Predictive Entropy Search for Flexible Global Optimization</a></span>
+        <span>· <strong>Locator:</strong> PDF p. 2, acquisition-evaluation step 2 and the opening note of Section 2.1; PDF p. 3, paragraph following Equation 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#bernoulli-observation-extension</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper sketches an extension for binary observations with a logistic or probit link to a latent Gaussian process. Laplace or expectation-propagation inference provides Gaussian latent approximations, with maximum constraints incorporated into the candidate prediction. Integrating the link against the approximate latent distribution gives an observation success probability, whose Bernoulli entropy is used in the acquisition. This is observation entropy, not the differential entropy of the latent Gaussian. The source describes closed-form probit integration and approximate logistic integration. This extension sketch does not guarantee exact inference or the same treatment for every non-conjugate likelihood.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hoffman2015">Output-Space Predictive Entropy Search for Flexible Global Optimization</a></span>
+        <span>· <strong>Locator:</strong> PDF p. 3, An extension to non-conjugate likelihoods subsection and its final entropy expression</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The source is the pinned five-page author-hosted report. The author catalog cites a December 2015 workshop, while the PDF has an embedded February 28, 2016 build timestamp. Its advertised longer derivation was not located in bounded primary-source searches.</li>
+      <li>Finite upper constraints, Gaussian EP sites, candidate moment matching and maximum sampling are separate approximations. They do not establish exact conditioning on a global maximum or exact noisy mutual information.</li>
+      <li>The displayed matrix formulas use inverse noise variance and matrix inverses. Literal zero noise, singular matrices, zero candidate variance and extreme inverse-Mills ratios need separate numerical or limiting treatment. The retained zero-noise scalar diagnostic only evaluates the entropy-stage limit, not those matrix formulas at zero noise.</li>
+      <li>Output-value targeting can avoid a single coordinate-space entropy representation on a disjoint domain. The source statement that PES cannot apply to differently dimensional domains is not adopted as an impossibility result for mutual information under suitable probability measures.</li>
+      <li>The final binary-entropy formula concerns the induced Bernoulli observation distribution. The source wording about entropy of the latent Gaussian approximation is not interpreted literally as equality of those two entropies.</li>
+      <li>The preliminary experiments and unresolved Figure ?? reference do not support a general performance, convergence or efficiency claim here. The retained original arithmetic diagnostic does not implement EP, optimize an acquisition, fit a model, or reproduce author benchmarks.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ActiveLearning.html" style="font-weight: 600;"><code>AIO:ActiveLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Active Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The relationship is through choosing informative queries and obtaining their outputs. The pinned AIO term describes a labeling-oriented machine-learning task, whereas this algorithm selects objective evaluations for optimization. This is a related mapping, not exact equivalence or an asserted subclass, neural-network or layer relationship.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-hoffman2015">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">hoffman2015</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://mwhoffman.com/papers/hoffman_2015.pdf" target="_blank" rel="noopener">Output-Space Predictive Entropy Search for Flexible Global Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Matthew W. Hoffman, Zoubin Ghahramani
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:56241d9e8a49…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-wang2017">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">wang2017</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v70/wang17e/wang17e.pdf" target="_blank" rel="noopener">Max-value Entropy Search for Efficient Bayesian Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zi Wang, Stefanie Jegelka
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:20e712e00165…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T01:49:16Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T01:49:16Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/OutputSpacePredictiveEntropySearch.yaml" target="_blank" rel="noopener">
+      <code>data/curated/OutputSpacePredictiveEntropySearch.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
