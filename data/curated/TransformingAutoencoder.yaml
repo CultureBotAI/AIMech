@@ -1,0 +1,165 @@
+id: AIMech:TransformingAutoencoder
+name: Transforming autoencoder
+concept_kind: architecture
+aliases: []
+definition: A deterministic neural architecture that learns first-level capsules from images, transformed
+  target images and supplied transformations. Each capsule encodes feature presence and pose, applies
+  the known transformation to its pose representation, and contributes a presence-gated reconstruction
+  to the transformed output image.
+definition_evidence:
+- source_id: hinton2011
+  locator: Sections 1–2, PDF pp. 2–4, especially Figure 1; Section 2.1, PDF p. 5.
+  relation: supports
+claims:
+- claim_id: known-transformation-architecture
+  kind: mechanism
+  statement: The network takes an image and a desired transformation as inputs and predicts the corresponding
+    transformed image. Training uses transformed input–target pairs and direct access to their transformation,
+    without requiring advance labels for each capsule’s visual entity or the origin of its coordinate
+    frame. The demonstrated construction learns first-level capsules; agreement among higher-level part–whole
+    pose predictions is motivating context.
+  evidence:
+  - source_id: hinton2011
+    locator: Section 1, PDF p. 2; Section 2 and Figure 1, PDF pp. 3–4; Discussion, PDF pp. 6–7.
+    relation: supports
+- claim_id: translation-capsules-and-gating
+  kind: mechanism
+  statement: In the translation construction, each capsule has its own recognition units that compute
+    x, y and p, where the paper interprets p as feature presence. Its generation units receive x+Delta_x
+    and y+Delta_y. The capsule’s contribution to the output image is multiplied by p, and separate capsules
+    cooperate at the final layer. This is a deterministic feedforward computation; the presence interpretation
+    does not itself establish probability calibration.
+  evidence:
+  - source_id: hinton2011
+    locator: Section 2 and Figure 1, PDF pp. 3–4.
+    relation: supports
+- claim_id: observation-domain-training
+  kind: mechanism
+  statement: The recognition and generation weights are learned by backpropagating the discrepancy between
+    the actual and target output images. Transforming the encoded pose before generation trains the representation
+    through error measured in the observation domain. The source does not require direct target coordinates
+    for each learned part and does not specify one universal loss formula or optimization guarantee for
+    every configuration.
+  evidence:
+  - source_id: hinton2011
+    locator: Figure 1 caption, PDF p. 3; Section 2, PDF p. 4; Discussion, PDF pp. 6–7, external-transformation
+      and observation-domain error paragraphs.
+    relation: supports
+- claim_id: matrix-transform-configuration
+  kind: mechanism
+  statement: For the two-dimensional affine configuration, each capsule emits nine real values arranged
+    as a 3x3 matrix A. The supplied transformation matrix T acts on these outputs as T A, and the resulting
+    entries feed the generation units. The source reports translation, rotation, scaling and shear transformations
+    with this construction; it does not state a hard affine or rotation-manifold constraint on the nine
+    emitted values.
+  evidence:
+  - source_id: hinton2011
+    locator: Section 2.1 and Figure 3, PDF p. 5.
+    relation: supports
+- claim_id: stereo-configuration
+  kind: scope
+  statement: The preliminary stereo-car configuration uses local capsules whose recognition units read
+    corresponding patches from both images of a stereo pair. Each capsule outputs a matrix representation
+    of feature orientation and a presence value; a supplied source-to-target transformation is applied
+    before generation. Presence-gated generation contributes to larger output patches in both stereo images.
+    The described experiment uses two recognition layers and no weight sharing, so shared-weight convolution
+    is not required by this architecture.
+  evidence:
+  - source_id: hinton2011
+    locator: Section 2.2 and Figure 4, PDF pp. 5–6.
+    relation: supports
+- claim_id: limited-competence-and-single-instance
+  kind: scope
+  statement: A capsule represents one instance of its visual entity with one pose vector over a limited
+    domain. The source illustrates inaccurate coordinate responses when shifts exceed a capsule’s competence
+    and qualifies their harmlessness by suppression of its presence output. Multiple nearby instances
+    of the same entity can confound one capsule even when its domain is small. These are limits of the
+    representation, not guarantees that training learns correct gates or handles arbitrary transformations.
+  evidence:
+  - source_id: hinton2011
+    locator: Figure 2 and caption, PDF p. 4; Section 3, PDF p. 6, single-instance and crowding discussion.
+    relation: supports
+limitations:
+- The method uses known transformations and transformed target images during training. Object-class labels
+  and per-part pose labels are not required in the described setup, but that does not remove transformation
+  supervision. Applicability depends on useful transformation information, observable image changes, capacity
+  and optimization; the source’s rhetoric about forcing a manipulable property into the representation
+  is not a general identifiability theorem.
+- Reconstruction alone does not prove unique semantic parts, a unique pose convention, calibrated feature-presence
+  probabilities or exact global equivariance. At the functional level, for fixed invertible S and sufficiently
+  flexible generation, A_prime=A S and G_prime(B)=G(B S^-1) preserve G_prime(T A_prime)=G(T A). This is
+  a coordinate-nonuniqueness illustration, not a claim that the reported trained models fail or that no
+  equivariant representation can be learned.
+- The printed affine operation is T A. Nine unconstrained real outputs arranged as a 3x3 matrix do not
+  by themselves enforce an affine homogeneous last row, orthogonality, determinant +1 or invertibility.
+  Calling a learned matrix an orientation representation does not certify membership in SO(3). The matrix
+  action and learned generator are not a complete physical renderer or an implementation specification
+  for all image transformations.
+- One capsule supplies one pose vector and can be ambiguous for simultaneous instances of its entity within
+  its domain. Restricting domains or adding capsules can alleviate that problem but does not prove arbitrary-instance
+  recovery. The finite-domain example depends on suppressing inappropriate capsule contributions; calibration
+  and reliable suppression outside the trained range are not established.
+- The evidence concerns trained first-level capsules and specific digit and preliminary stereo-car demonstrations.
+  It does not establish a complete trained part–whole hierarchy, later dynamic routing, universal recognition
+  or reconstruction accuracy, or a general runtime advantage. Broad criticism of convolutional networks
+  and comparisons with Kalman filtering in the discussion are not adopted as universal equivalence or
+  superiority claims.
+- Evidence uses the exact eight-page Hinton author-hosted PDF and its own page locators. The separately
+  acquired Wang author copy differs in abstract, section and figure numbering, discussion placement and
+  references; publisher metadata does not establish publisher-PDF byte identity. Publication precision
+  is the year 2011, distinct from PDF build metadata and actual source access. Historical inspection did
+  not include author code, model training or benchmark reproduction. Exact optimizer settings, numerical
+  loss conventions and implementation behavior are not certified.
+aio_mappings:
+- target: AIO:AutoEncoderNetwork
+  relation: related_match
+  rationale: The encoder–generator learns through image reconstruction, supporting an architectural association
+    with the pinned Auto Encoder Network class. That target additionally specifies unsupervised pretraining
+    and regeneration of the input, whereas this method uses externally supplied transformations and changed
+    target images. The relation preserves the reconstruction connection without asserting exact equivalence
+    or unqualified subclass membership.
+review_status: DRAFT
+identity_notes: At the actual merged cohort338 base 09cd8b8d5cc8b6d4098c149cbdea12e797468811, the 2026-10-15
+  current collection covers all 751 native and 442 AIO record identity fields and byte hashes, plus all
+  909 main and 393 nested frontier objects mechanically. Four ignored-inclusive, hidden-inclusive, case-insensitive
+  whole-word searches retain 13654 occurrences in 1679 exact content groups. Root read all 29 non-domain
+  candidate-bearing contents and all 19 selected current frontier objects; 1145 NLM-domain-only groups
+  were mechanically separated, not manually read as complete bodies. The 22 NLM catalog/namespace groups
+  refer to the National Library of Medicine, while seven candidate-bearing groups preserve existing source
+  leads or research notes. Same-team context audit reads 35 maintained-record matching strings, 13 current
+  definitions and matching windows in 55 long groups among the 505 context-only groups; its scope is attributed,
+  not exhaustive manual reading. No candidate normalized identity collision was found. This is bounded
+  current identity clearance, not ontology-wide semantic exhaustion. The original known-transform, capsule-based
+  reconstruction architecture is distinct from the maintained learned-warp SpatialTransformer, source/geometry-preserving
+  CompositionalSpatialTransformer, tied InverseCompositionalSpatialTransformerNetwork and supplied-camera
+  PerspectiveTransformerNets. Resolve existing owner237 using Hinton et al. 2011; the owner's 2015 spatial-transformer
+  URL remains discovery provenance. Retain the related AutoEncoderNetwork mapping without asserting equivalence
+  or conflating later capsule routing.
+evidence_sources:
+- source_id: hinton2011
+  title: Transforming Auto-Encoders
+  authors:
+  - Geoffrey E. Hinton
+  - Alex Krizhevsky
+  - Sida D. Wang
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~hinton/absps/transauto6.pdf
+  persistent_id: doi:10.1007/978-3-642-21735-7_6
+  access_level: full_text
+  accessed_at: '2026-10-15T09:46:36Z'
+  version: ICANN 2011 chapter, LNCS 6791, bibliographic pp. 44–51; exact eight-page Hinton author-hosted
+    transauto6.pdf linked from his 2011 publication list. Locators use author PDF pages 1–8. Publisher
+    and Crossref metadata specify publication year 2011 only. The 18 April 2011 PDF build timestamp is
+    not a publication date; no byte identity to the publisher PDF or the differently worded Wang author
+    copy is asserted.
+  sha256: e338b67f86268aa519874104726f2bd276f25a17a2c5897a9b79e6af3a360098
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T11:08:12Z'
+  updated_at: '2026-10-15T11:08:12Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

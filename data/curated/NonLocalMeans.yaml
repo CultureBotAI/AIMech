@@ -1,0 +1,160 @@
+id: AIMech:NonLocalMeans
+name: Non-local means
+concept_kind: algorithm
+aliases: []
+definition: A classical image-denoising algorithm that estimates each pixel by a normalized average of
+  observed pixel values, assigning exponential similarity weights from Gaussian-weighted distances between
+  their surrounding observed patches. The candidate pixels may span the image or a chosen finite search
+  window.
+definition_evidence:
+- source_id: buades2005
+  locator: Section 1, PDF p. 1, continuous NL-means formula; Section 3, PDF p. 3, discrete patch-distance
+    weighting; Section 5, PDF p. 4, finite search window.
+  relation: supports
+claims:
+- claim_id: nonlocal-pixel-estimate
+  kind: mechanism
+  statement: Given an observed noisy image v, estimate each pixel i as a weighted sum of observed pixel
+    values v(j). Candidate pixels can range over the whole image, so repeated structures away from i can
+    contribute. The method obtains its weights from the observed image rather than requiring a separately
+    trained encoder, value embedding or residual neural block.
+  evidence:
+  - source_id: buades2005
+    locator: Section 1, PDF p. 1, continuous NL-means formula and explanation; Section 3, PDF p. 3, discrete
+      NL[v](i) formula.
+    relation: supports
+- claim_id: patch-geometry-distance
+  kind: mechanism
+  statement: Compare fixed-size square neighborhoods centered on i and j using their vectors of observed
+    gray values. Their squared difference is weighted spatially by a Gaussian kernel with positive scale
+    a. This patch comparison includes surrounding configuration rather than only the two central intensities;
+    visually different neighborhoods can receive different weights even when their center values agree.
+  evidence:
+  - source_id: buades2005
+    locator: Section 3 and Figure 1, PDF p. 3, Gaussian-weighted Euclidean patch distance and final paragraph.
+    relation: supports
+- claim_id: normalized-exponential-weights
+  kind: mechanism
+  statement: For h>0, form the unnormalized similarity k(i,j)=exp(−d_a(i,j)^2/h^2), where d_a is the Gaussian-weighted
+    patch distance, and set w(i,j)=k(i,j)/sum_j k(i,j) over the candidate set. The normalizer sums the
+    same kernels used in the numerator. Increasing h reduces the decay with patch distance. This coherent
+    normalization follows the correctly indexed continuous formula and the explicitly required unit-sum
+    weights; the discrete denominator’s printed index discrepancy is retained in the limitations.
+  evidence:
+  - source_id: buades2005
+    locator: Section 1, PDF p. 1, continuous formula and C(x); Section 3, PDF p. 3, w(i,j), Z(i), stated
+      weight constraints and h paragraph.
+    relation: supports
+- claim_id: adaptive-convex-average
+  kind: mechanism
+  statement: For a finite nonempty candidate set, finite observed values and h>0, the normalized nonnegative
+    weights produce a convex average of candidate pixel values. The result lies between their minimum
+    and maximum and preserves a constant image. These are direct consequences of normalization, not unbiasedness
+    guarantees. The coefficients depend on the observed patches, so the complete image-to-image denoiser
+    is generally nonlinear despite its weighted-sum output.
+  evidence:
+  - source_id: buades2005
+    locator: Section 3, PDF p. 3, NL[v](i), nonnegative unit-sum weights and image-dependent similarities;
+      curator consequences of these displayed formulas.
+    relation: supports
+- claim_id: finite-search-and-direct-work
+  kind: scope
+  statement: 'The source restricts the candidate search for practical computation: its displayed experiments
+    use a 21x21 search window and 7x7 similarity patches. It states approximately 49x441xN^2 direct work
+    for an N-by-N image. More generally, direct patch comparison scales with the number of output pixels,
+    candidate pixels per query and patch samples; searching every image pixel is quadratic in image pixel
+    count at fixed patch size. The particular windows and parameters are experimental choices, not the
+    definition of every non-local means implementation.'
+  evidence:
+  - source_id: buades2005
+    locator: Section 5, PDF p. 4, first two paragraphs, search and similarity windows, work expression
+      and filtering parameter; curator direct-comparison scaling.
+    relation: supports
+limitations:
+- The discrete Z(i) display in Section 3 repeats v(N_i)−v(N_i), whereas its numerator compares N_i with
+  N_j. Taken literally, that denominator would not normalize the displayed kernels for nonidentical patches.
+  The method here uses the sum of the numerator kernels, consistent with the explicit unit-sum requirement
+  and correctly indexed continuous normalizer on PDF p. 1. This is a documented printed-source discrepancy,
+  not a claimed published author erratum or an audited implementation correction.
+- The stated expected noisy patch-distance offset of 2sigma^2 requires normalized spatial weights, distinct
+  corresponding image pixels and independent zero-mean noise of equal variance. Ordinary overlap between
+  different patches correlates some summands but does not itself invalidate that expectation. The self-comparison
+  i=j has distance zero; padding or boundary rules that repeat indices need separate treatment. Expected
+  distance ordering does not imply the same ordering in a particular noisy image, unbiased exponential
+  weights or unbiased restored pixels.
+- Section 4 considers center-excluded neighboring values as conditional-expectation covariates and assumes
+  a strictly stationary mixing process, with complete hypotheses and proof referred to an unread external
+  source. Those statements do not establish unconditional consistency of a fixed-bandwidth finite-image
+  implementation whose practical patches include the center. Equality of noisy and clean conditional means
+  needs zero conditional mean of center noise given the surrounding observations; the stated signal-independent,
+  spatially independent, zero-mean Gaussian noise model is sufficient. Squared-error optimality of the
+  exact conditional mean additionally requires finite second moments and does not make every finite kernel
+  estimate optimal.
+- Bandwidth, patch size, search set, self-weight convention and image boundaries affect smoothing, bias,
+  noise sensitivity and computation. The exponential formula requires h>0; h=0 is not a defined direct
+  substitution. Finite exact arithmetic gives a positive normalizer with an included self-patch, but numerical
+  underflow and other implementation choices need care. The source’s fixed experimental settings do not
+  specify an automatic noise estimator, a universally optimal parameter choice or a guarantee for all
+  noise distributions.
+- This identity uses the original 2005 pixelwise Gaussian-spatially weighted formulation. The later IPOL
+  presentation includes RGB distances, subtraction and clipping of a noise-distance offset, self-weight
+  replacement prose and patchwise overlapping-estimate aggregation; these are not silently incorporated
+  into the original definition. Shared patch similarity does not make the method identical to BM3D transform-domain
+  collaborative filtering, a denoising autoencoder or a learned non-local neural block.
+- The finite image demonstrations and reported errors do not establish universal reconstruction quality,
+  benchmark superiority or a general runtime advantage. Evidence uses the exact six-page university-mirrored
+  CVPR 2005 paper and its local page locators. Historical inspection included the later IPOL manuscript
+  as context, but did not include author software, the external consistency proof, the full journal expansion
+  or benchmark reproduction. Bibliographic publication year, PDF build time and actual source access remain
+  distinct.
+aio_mappings:
+- target: AIO:ExponentialFunction
+  relation: related_match
+  rationale: The original patch-similarity kernel necessarily evaluates the scalar exponential exp(−d_a(i,j)^2/h^2),
+    supporting a component-level relationship to the pinned Exponential Function. This does not equate
+    the whole denoising algorithm with a scalar function or assert that it is an exponential activation
+    layer.
+review_status: DRAFT
+identity_notes: At the actual merged cohort338 base 09cd8b8d5cc8b6d4098c149cbdea12e797468811, the 2026-10-15
+  current collection covers all 751 native and 442 AIO record identity fields and byte hashes, plus all
+  909 main and 393 nested frontier objects mechanically. Four ignored-inclusive, hidden-inclusive, case-insensitive
+  whole-word searches retain 13654 occurrences in 1679 exact content groups. Root read all 29 non-domain
+  candidate-bearing contents and all 19 selected current frontier objects; 1145 NLM-domain-only groups
+  were mechanically separated, not manually read as complete bodies. The 22 NLM catalog/namespace groups
+  refer to the National Library of Medicine, while seven candidate-bearing groups preserve existing source
+  leads or research notes. Same-team context audit reads 35 maintained-record matching strings, 13 current
+  definitions and matching windows in 55 long groups among the 505 context-only groups; its scope is attributed,
+  not exhaustive manual reading. No candidate normalized identity collision was found. This is bounded
+  current identity clearance, not ontology-wide semantic exhaustion. Original patch-distance weighted
+  pixel denoising is distinct from the maintained learned residual NonLocalBlock and fixed-prior MAP IteratedWienerFilter.
+  No NLM alias is added because the abbreviation has substantial unrelated catalog/domain use. Resolve
+  existing owner238 using Buades et al. 2005; its Wang et al. 2018 URL remains discovery provenance. The
+  related ExponentialFunction mapping identifies the weight-kernel relationship, not equivalence of the
+  whole algorithm.
+evidence_sources:
+- source_id: buades2005
+  title: A non-local algorithm for image denoising
+  authors:
+  - Antoni Buades
+  - Bartomeu Coll
+  - Jean-Michel Morel
+  source_type: primary_paper
+  url: https://web.eecs.utk.edu/~hqi/ece692/references/noise-NLM-cvpr05.pdf
+  persistent_id: doi:10.1109/CVPR.2005.38
+  access_level: full_text
+  accessed_at: '2026-10-15T10:04:04Z'
+  version: CVPR 2005, volume II, bibliographic pp. 60–65; exact six-page university-mirrored PDF of the
+    original paper. Locators use local PDF pages 1–6. Author-institution metadata confirms publication
+    year 2005. Conference dates, Xplore addition date, PDF build metadata and actual access are distinct;
+    no byte comparison with a separately acquired IEEE-hosted PDF is asserted.
+  sha256: 6c5d67f2ad36e4fabd9ff21e66e27fc759720233e967c8f9fff9a9203a8d03d1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T11:08:12Z'
+  updated_at: '2026-10-15T11:08:12Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
