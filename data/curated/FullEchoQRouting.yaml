@@ -1,0 +1,135 @@
+id: AIMech:FullEchoQRouting
+name: Full-echo Q-routing
+concept_kind: algorithm
+aliases: []
+definition: An information-exploration modification of tabular Q-routing that queries immediate neighbors
+  whenever a node needs a routing decision and uses their destination-time estimates to adjust every corresponding
+  neighbor entry, with feedback carried on a separate channel assumed not to contribute to congestion
+  in the source model.
+definition_evidence:
+- source_id: boyan1993-nips
+  locator: Section 2, PDF p. 2 / proceedings p. 672, destination-and-neighbor delivery-time table; Section
+    3.2, PDF p. 6 / proceedings p. 676, the defining Full-echo paragraph.
+  relation: supports
+claims:
+- claim_id: source-defined-extension
+  kind: scope
+  statement: The named Full-echo modification retains Q-routing’s local table of estimated delivery times
+    indexed by destination and neighboring node. In the source notation, Q_x(d,y) estimates the delivery
+    time from node x to destination d through neighbor y, including the local queue time. Full-echo changes
+    the information-exploration and entry-adjustment policy; it is not a synonym for the original selected-neighbor-only
+    baseline.
+  evidence:
+  - source_id: boyan1993-nips
+    locator: Section 2, PDF p. 2 / proceedings p. 672, definition of Q_x(d,y); Section 3.2, PDF p. 6 /
+      proceedings p. 676, greedy-update limitation and named modification.
+    relation: supports
+- claim_id: decision-triggered-neighbor-query
+  kind: mechanism
+  statement: Whenever a node using Full-echo needs to make a routing decision, it sends information requests
+    to its immediate neighbors. Each neighbor returns a single scalar giving that neighbor’s current estimate
+    of the total time to the destination. These responses are estimates supplied by neighboring learners,
+    not observations of complete trips along every alternative route.
+  evidence:
+  - source_id: boyan1993-nips
+    locator: Section 3.2, PDF p. 6 / proceedings p. 676, paragraph beginning “Instead of sending actual
+      packets” and the description of each scalar response.
+    relation: supports
+- claim_id: all-neighbor-estimate-adjustment
+  kind: mechanism
+  statement: The returned estimates are used to adjust the local Q_x(d,y) value for each neighboring node
+    y. This addresses the greedy baseline’s failure to refresh unused routes whose delivery times were
+    overestimated. The source specifies this all-neighbor information policy without supplying a distinct
+    algebraic Full-echo backup or a measurement rule for an untraversed link’s delay.
+  evidence:
+  - source_id: boyan1993-nips
+    locator: Section 3.2, PDF p. 6 / proceedings p. 676, the unused-route overestimate example and the
+      sentence specifying adjustment for each neighbor.
+    relation: supports
+- claim_id: information-exploration-channel
+  kind: mechanism
+  statement: Full-echo obtains information about alternatives by querying neighbors instead of deliberately
+    forwarding actual data packets in random directions for exploration. The returned scalars use a separate
+    channel that does not contribute to network congestion in the authors’ model. This is an explicit
+    modeling assumption about feedback traffic, not a general zero-cost communication guarantee.
+  evidence:
+  - source_id: boyan1993-nips
+    locator: Section 3.2, PDF p. 6 / proceedings p. 676, random-traffic congestion discussion and the
+      separate-channel qualification in the Full-echo paragraph.
+    relation: supports
+limitations:
+- The defining paragraph does not specify a separate all-neighbor update equation, how local or untraversed-link
+  delay is obtained, exact query/response/update ordering, tie rules or a complete executable protocol.
+  The baseline update uses experienced queue and transmission delays on the selected link; copying that
+  observed-link target to every alternative would add an unsupported rule.
+- The separate feedback channel is non-congesting in the authors’ model. This does not establish zero
+  bandwidth, latency, processing overhead or resource consumption in a deployed communication network.
+- The distributed environment changes with traffic and with the routing decisions made by other learners.
+  The source does not provide a stationary single-agent Q-learning convergence theorem, universal policy-stability
+  result, optimality certificate or loop-freedom guarantee for this modification.
+- The reported low-load improvement and high-load oscillation concern the paper’s simplified simulation
+  and traffic conditions. They do not establish uniform superiority, universal instability or a numerical
+  benchmark result reproduced here. Refreshing more estimates does not by itself guarantee better end-to-end
+  behavior.
+- The July 1993 CMU-CS-93-165 report is earlier baseline context and does not specify a Full-echo procedure
+  in its eight inspected pages. Its Q_x(y,d) argument order, displayed target without an explicit transmission
+  term and experimental learning rate 0.7 are not silently combined with the selected NIPS account’s Q_x(d,y),
+  explicit queue-plus-transmission term and learning rate usually 0.5 in its experiments. These are source-version
+  boundaries, not repaired equations.
+- This record selects the original Full-echo modification rather than baseline Q-routing, AntNet, source-directed
+  ant-based telephone routing or later predictive, dual, confidence-based and adaptive-parameter routing
+  extensions. A shared reinforcement-learning relation does not make those mechanisms equivalent or resolve
+  their separate scopes.
+- The declared method evidence is the official eight-page NIPS 1993 archive paper; the author CV lists
+  the NIPS 6 proceedings publication in 1994. The separate July 1993 report and workshop references do
+  not establish an independently verified priority date or identical method version. Full native text
+  and selected formula/method images were inspected, without author-code execution, reconstruction of
+  an unspecified protocol, simulator replication or certification of numerical figure values.
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The source-scoped procedure adapts distributed routing decisions using local delivery-time
+    feedback and neighboring bootstrapped estimates. The pinned AIO target is a broader learning-task
+    classification; this algorithm-to-task relation asserts neither exact identity nor a subclass, stationary-MDP
+    or convergence guarantee.
+review_status: DRAFT
+identity_notes: 'This record selects the NIPS source-defined Full-echo information policy: decision-triggered
+  immediate-neighbor querying and adjustment of all corresponding local delivery-time estimates. It is
+  distinct from selected-neighbor baseline QRouting, measured-trip AntNet and ant-based telephone routing.
+  The source does not fully specify alternative-link delay measurements or a complete backup/message protocol.
+  Existing owner 267 is reused. Fresh collection on 15 October 2026 at 15:21:24–15:22:28 UTC used actual
+  merged base 342606efadd8c2896facca6e6fa2f78e216f0a8b and compared all 766 native and 442 pinned AIO
+  records (4,816 identity-field occurrences including local IDs; 3,680 normalized values). No canonical
+  or explicit Greek-lambda candidate collision was found; 18 context-only fields span eight neighboring
+  records. Four ignored- and hidden-inclusive checkout searches retained 1,353/1,360/3,385/4,292 occurrences,
+  10,390 total, in 557 exact contents. Root read all 41 candidate-specific decoded semantic contents,
+  all 18 contextual identity fields/eight definitions and nine full relevant frontier objects; repeated
+  identical HTML wrapper text was not counted as a separate scientific reading. Supporting source-agent
+  assessment read all 445 decoded contexts and reconstructed all raw groups/ordered occurrences. All909main
+  and393nested objects were queried mechanically. Historical source/AIO readings retain their separately
+  documented scopes. These results are bounded to the dated corpus, four roots and semantic neighborhood,
+  not global absence or saturation.'
+evidence_sources:
+- source_id: boyan1993-nips
+  title: 'Packet Routing in Dynamically Changing Networks: A Reinforcement Learning Approach'
+  authors:
+  - Justin A. Boyan
+  - Michael L. Littman
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/1993/file/4ea06fbc83cdd0a06020c35d50e1e89a-Paper.pdf
+  version: Official eight-page NIPS 1993 archive paper, proceedings pp. 671–678. The author CV separately
+    lists the NIPS 6 proceedings publication in 1994. No publication day, invention-priority date or identity
+    with the July 1993 CMU report is inferred. Local PDF and proceedings page locators are both supplied.
+  access_level: full_text
+  accessed_at: '2026-10-15T14:25:15Z'
+  sha256: d85e5660aa4eae68384d809320a80ae87b70e3b6d5cec1cb6c94020b08b703e2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T15:40:28Z'
+  updated_at: '2026-10-15T15:40:28Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
