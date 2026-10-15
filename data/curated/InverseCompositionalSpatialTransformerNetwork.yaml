@@ -1,0 +1,164 @@
+id: AIMech:InverseCompositionalSpatialTransformerNetwork
+name: Inverse compositional spatial transformer network
+concept_kind: architecture
+aliases: []
+definition: A recurrent learned image-alignment architecture that repeatedly applies one shared geometric
+  predictor to the original source sampled at the accumulated warp, composes the predicted increments
+  into that warp, and uses the resulting transformation for alignment or a downstream task. It learns
+  through a finite unrolling with tied predictor parameters and can predict inverse increments directly.
+definition_evidence:
+- source_id: lin2017
+  locator: Section 4.2, PDF p. 5 / printed p. 2572, Figure 5 and the shared-predictor, inversion-absorption
+    and finite-unrolling paragraphs; Figure 4 on the same page.
+  relation: supports
+claims:
+- claim_id: shared-predictor-geometric-recurrence
+  kind: mechanism
+  statement: At each alignment step, the same learned predictor estimates an incremental transform from
+    the current warp of the original source image. The accumulated geometric state is updated compositionally
+    and fed back for the next sample and prediction. The source image remains available across iterations.
+    The shared predictor, rather than merely having several alignment stages, defines the recurrent specialization.
+  evidence:
+  - source_id: lin2017
+    locator: Section 4.2, PDF p. 5 / printed p. 2572, Figure 5 and the opening IC-STN description; Section
+      4.1, Figures 3–4.
+    relation: supports
+- claim_id: inverse-increment-prediction
+  kind: mechanism
+  statement: The source absorbs the inverse-compositional operation into the learned geometric predictor,
+    allowing it to predict the inverse increment directly instead of requiring a separately evaluated
+    inverse of a forward increment at runtime. In the displayed affine convention, the predicted increment
+    is used in M(p_out)=M(delta p) M(p_in). The name refers to inspiration from inverse-compositional
+    Lucas–Kanade alignment and does not prescribe an extra numerical matrix inverse after each prediction.
+  evidence:
+  - source_id: lin2017
+    locator: Section 4.2, PDF p. 5, inversion-absorption paragraph; Section 4.1, PDF p. 4, Equations 9–10.
+    relation: supports
+- claim_id: finite-tied-unrolling-and-backpropagation
+  kind: mechanism
+  statement: Training unfolds the recurrent architecture a finite number of times into the compositional-module
+    cascade, ties the learnable geometric-predictor parameters across all unfolded steps, and backpropagates
+    through the sampling, prediction and composition graph. After the configured updates, the composed
+    warp supplies an aligned input for the subsequent task. Increasing the number of uses need not increase
+    the shared predictor’s parameter count.
+  evidence:
+  - source_id: lin2017
+    locator: Section 4.2, PDF p. 5, final training paragraph and Figures 4–5; Section 4.1, Equation 11
+      and backpropagation explanation; Section 5.1, PDF p. 6, same-capacity discussion.
+    relation: supports
+- claim_id: compositional-module-specialization-and-overlap
+  kind: scope
+  statement: IC-STN specializes the reusable compositional spatial-transformer construction by tying its
+    predictor across recurrence steps. A tied finite cascade can implement the same unrolled computation,
+    while a general cascade need not impose that restriction. The source explicitly equates c-STN-1 and
+    IC-STN-1 at one warp operation. These overlaps do not make every compositional cascade an IC-STN or
+    make the two concepts disjoint in all configurations.
+  evidence:
+  - source_id: lin2017
+    locator: Section 4.2, PDF p. 5, shared unrolling; Section 5.1, PDF p. 6, c-STN-1/IC-STN-1 equivalence;
+      Section 5.2 and Table 2, PDF pp. 6–7, recurrent and non-recurrent configurations.
+    relation: supports
+- claim_id: alignment-and-classification-objective-scope
+  kind: scope
+  statement: The original paper studies planar alignment with affine perturbations using a shared linear
+    predictor and L2 error between warp parameters, and joint alignment/classification with homography
+    perturbations using learned predictors and a downstream classifier. These are distinct task configurations
+    of the shared architecture, rather than a requirement that every IC-STN solve a classical image-residual
+    objective or use one fixed predictor or classifier.
+  evidence:
+  - source_id: lin2017
+    locator: Section 5.1, PDF p. 6, affine planar alignment and L2 parameter error; Section 5.2 and Table
+      2, PDF pp. 6–7, MNIST classification; Section 5.3 and Table 3, PDF pp. 7–8, traffic-sign classification.
+    relation: supports
+limitations:
+- Absorbing inversion into a predictor is a learned parameterization choice, not proof that every output
+  is the exact inverse of a separately computed forward update. The affine representation alone does not
+  enforce nonsingularity. Inverse-warp semantics require an invertible, suitably conditioned linear part,
+  and homography sampling requires nonzero homogeneous denominators over the sampled domain. Preserve
+  the source’s literal M(delta p) M(p_in) convention; do not silently add another inverse, reverse multiplication
+  or replace composition with parameter addition.
+- 'The full recurrent state derivative includes the feedback route C_delta Df D_p[warp(I,p)] in addition
+  to C_p. A bounded hand example uses the finite grid x,y in {0,1,2} with intensity I(x,y)=x, sampling
+  at (1/2,1/2) under horizontal translation p with abs(p)<1/4. Bilinear sampling gives 1/2+p, and an affine
+  predictor delta=1/2−sample=−p yields composed translation zero: both direct composition partials are
+  one while the total derivative is zero. This demonstrates nonimplication of the source’s residual-gradient
+  argument, not an implementation error or a failure claim about a trained model.'
+- Even fixed small increments provide no uniform guarantee against vanishing, exploding or ill-conditioned
+  long products. For 0<epsilon<1, isotropic incremental scales 1−epsilon and 1+epsilon yield direct magnitudes
+  (1−epsilon)^K and (1+epsilon)^K but condition number one; an anisotropic diagonal pair yields condition
+  ratio ((1+epsilon)/(1−epsilon))^K. These hand constructions separate gradient magnitude from conditioning
+  and do not assert the behavior of every image sampler or task-loss gradient.
+- Repeatedly sampling the retained original image avoids replacing it with successive cropped or interpolated
+  outputs, but it cannot reconstruct pixels outside the original support, true occlusion or lost resolution.
+  Predictor sampling still occurs. Interpolation knots, boundaries, padding, finite precision and projective
+  conditioning require implementation conventions; the architecture does not certify smoothness or exact
+  raster preservation everywhere.
+- Sharing a predictor does not make its weights a classical template-Jacobian pseudoinverse, establish
+  a learned scalar potential, or prove monotone descent or convergence. The paper’s Figure 7 reports additional-iteration
+  improvements under its planar alignment protocol; it does not certify arbitrary extrapolation beyond
+  the trained unrolling. Parameter sharing does not make additional predictor, sampler and composition
+  steps cost-free. The finite alignment and classification comparisons establish no universal accuracy,
+  memory or runtime advantage.
+- Evidence is the exact nine-page official CVPR 2017 proceedings PDF. The acquired CVF page numbering
+  and Crossref IEEE numbering differ and are explicitly separated; no exact publication day or preprint
+  byte identity is asserted. The official supplementary ZIP returned HTTP 404, so no supplementary content
+  is claimed. Historical source inspection did not include author code or full original LK, IC-LK and
+  SDM papers, and did not execute training or reproduce benchmarks. No implementation-level coordinate
+  normalization, padding, device behavior or numerical accuracy is certified.
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: related_match
+  rationale: The architecture reuses a learned predictor with feedback through accumulated geometric state
+    over alignment iterations, supporting a qualified relation to the pinned recurrent-network class.
+    These are computational alignment iterations and need not represent observations in a temporal input
+    sequence. The relation does not assert exact identity or subclass membership, and it does not turn
+    the attention-based Transformer name into a match.
+review_status: DRAFT
+identity_notes: This record denotes the Section 4.2 IC-STN architecture with a shared learned geometric
+  predictor, feedback through accumulated warp state and repeated sampling from the original input. Finite
+  tied unrolling implements its training. The named compositional spatial transformer module supplies
+  its construction; one-step and tied-cascade realizations overlap, so no disjointness or universal alias
+  assertion is made. Absorbed inversion does not require a separate numerical inverse or identify the
+  recurrence with classical inverse-compositional Lucas–Kanade. At the actual clean cohort 338 base 5bca5a88c58998cc790594358d178fe828da1eea,
+  the complete inventory contained 748 native and 442 pinned AIO records. Normalized IDs, local IDs, names,
+  aliases and all scoped synonyms comprised 4761 field occurrences and 3640 distinct normalized values.
+  The selected candidate probes had no collision; the sole normalized contextual hit was AIMech:SpatialTransformer.
+  Four full-checkout searches included ignored and hidden files and returned 134/136/349/418 occurrences,
+  grouped losslessly into 48 distinct contents. Root read all 48 contents, the provenance representatives/root
+  sets and current relevant frontier objects. These hits are the existing SpatialTransformer record and
+  its generated/review/history contexts, the carried IC-STN owner, or the separately pending PTN source
+  context. All 909 main and 393 nested frontier objects were mechanically queried recursively. The actual
+  inventory preserves the historical semantic research bytes, with only the three unrelated cohort 337
+  regularizers added to the earlier PTN snapshot. This is bounded snapshot/semantic-neighborhood evidence,
+  not a global absence or saturation claim. Reuse owner 236 with the c-STN module, retaining the historical
+  later-analysis pointer separately from the 2017 primary source. The related RecurrentNeuralNetwork mapping
+  describes computational alignment recurrence, not necessarily a temporal observation sequence. Source-agent
+  semantic reading and root primary/AIO reading remain separately scoped in the research acceptance; the
+  gradient identity term is not identity initialization of recurrent weights or a gradient regularization
+  penalty.
+evidence_sources:
+- source_id: lin2017
+  title: Inverse Compositional Spatial Transformer Networks
+  authors:
+  - Chen-Hsuan Lin
+  - Simon Lucey
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_cvpr_2017/papers/Lin_Inverse_Compositional_Spatial_CVPR_2017_paper.pdf
+  persistent_id: 10.1109/CVPR.2017.242
+  version: Official CVPR 2017 proceedings PDF, nine local pages, printed pp. 2568–2576 in the acquired
+    CVF copy. Crossref gives July 2017 and IEEE bibliographic pp. 2252–2260; these metadata contexts are
+    retained separately, with no exact publication day asserted. Locators use this acquired PDF. No byte
+    equivalence to the separately inspected arXiv 1612.03897 metadata is asserted.
+  access_level: full_text
+  accessed_at: '2026-10-15T09:06:49Z'
+  sha256: b9c660a8bcc85923ec735ab315008efb178fee836f4d532efd0de315cc527c27
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T09:56:01Z'
+  updated_at: '2026-10-15T09:56:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
