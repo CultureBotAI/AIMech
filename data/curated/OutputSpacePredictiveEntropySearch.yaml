@@ -1,0 +1,167 @@
+id: AIMech:OutputSpacePredictiveEntropySearch
+name: Output-space Predictive Entropy Search
+concept_kind: algorithm
+definition: A Bayesian global optimization algorithm that selects evaluations using an approximation to
+  information about the latent maximum function value, combining Gaussian expectation-propagation constraints
+  at observed inputs with candidate truncation, moment matching and predictive observation entropy.
+definition_evidence:
+- source_id: hoffman2015
+  locator: Sections 2–2.1, PDF pp. 1–3, Equations 2–7
+  relation: supports
+claims:
+- claim_id: maximum-value-information-target
+  kind: mechanism
+  statement: For a model and domain with a finite attained latent maximum M=max_x f(x), the method targets
+    information between M and a prospective observation Y at candidate x. At fixed data and model hyperparameters,
+    its ideal acquisition is I(M;Y|D,x)=H(Y|D,x)-E_M[H(Y|D,x,M)] when those entropy terms are well-defined.
+    This targets the maximum value rather than the maximizer location used by Predictive Entropy Search.
+    Max-value Entropy Search later uses the same ideal value-information target but a different operational
+    approximation; shared ideal information does not identify their evaluated acquisitions.
+  evidence:
+  - source_id: hoffman2015
+    locator: Section 2, PDF pp. 1–2, Equations 1–2
+    relation: supports
+  - source_id: wang2017
+    locator: PDF p. 2 acknowledgement of Hoffman and Ghahramani; Section 3, PDF pp. 2–3, Equations 5–6
+    relation: supports
+- claim_id: observed-latent-ep-constraints
+  kind: mechanism
+  statement: In the Gaussian-observation formulation, a zero-mean Gaussian-process model gives a Gaussian
+    posterior over latent function values at previously queried inputs. For each sampled maximum value
+    m, the method applies step factors requiring every one of these latent values to be at most m. Expectation
+    propagation replaces the factors with Gaussian site approximations having diagonal site covariance,
+    which are combined with the posterior. The finite collection of inequalities is a necessary condition
+    for a global maximum m, not the exact event that the function maximum equals m. The source uses these
+    constraints as an approximation to that conditioning.
+  evidence:
+  - source_id: hoffman2015
+    locator: Section 2.1, PDF p. 2, the unnumbered observed-latent factorization and Gaussian combination;
+      PDF p. 3, Comparison with PES paragraph
+    relation: supports
+- claim_id: candidate-truncation-and-moment-matching
+  kind: mechanism
+  statement: The approximate constrained latent Gaussian is propagated to a candidate using Gaussian-process
+    prediction, giving mean mu_bar and variance v_bar. For v_bar>0, the method then truncates that scalar
+    Gaussian above at m and moment-matches it to a Gaussian. With alpha=(m-mu_bar)/sqrt(v_bar) and r=phi(alpha)/Phi(alpha),
+    the matched moments are mu_hat=mu_bar-sqrt(v_bar)*r and v_hat=v_bar*(1-r*(r+alpha)). Here phi and
+    Phi denote the standard-normal density and cumulative distribution. These are moments of the selected
+    local truncation, not exact global-maximum-conditioned moments. A nondegenerate moment-matched Gaussian
+    itself retains positive probability above the truncation threshold.
+  evidence:
+  - source_id: hoffman2015
+    locator: Section 2.1, PDF pp. 2–3, Equations 3–6; original scalar moment and support diagnostic in
+      research/discovery/opes-boundaries.py
+    relation: supports
+- claim_id: noisy-gaussian-entropy-acquisition
+  kind: mechanism
+  statement: Let v(x|D) be the ordinary posterior latent variance, sigma^2 the independent Gaussian observation-noise
+    variance, and m_1,...,m_K a positive number K of approximate maximum samples. Equation 7 computes
+    0.5*(log(v(x|D)+sigma^2) - (1/K)*sum_j log(v_hat(x|D,m_j)+sigma^2)). Observation noise is added after
+    the latent moment matching. The score uses Gaussian observation entropies and remains an approximation
+    to noisy maximum-value information. Its fixed-threshold expression can differ from the local truncated-latent
+    entropy expression of Max-value Entropy Search even without observed-latent EP sites. A difference
+    in one term does not imply different selected queries for every data set.
+  evidence:
+  - source_id: hoffman2015
+    locator: PDF p. 3, Equation 7; original one-threshold comparison at two noise variances in research/discovery/opes-boundaries.py
+    relation: supports
+  - source_id: wang2017
+    locator: Section 3, PDF p. 3, Equation 6 and its local truncation approximation
+    relation: supports
+- claim_id: maximum-sampling-and-hyperparameter-averaging
+  kind: mechanism
+  statement: The finite average requires approximate draws of the latent maximum value. The report refers
+    to a sampling strategy similar to Predictive Entropy Search rather than specifying a new exact maximum
+    sampler. It also describes sampling Gaussian-process hyperparameters and using a maximum sample for
+    each setting. These sampling and model approximations remain part of the acquisition. Averaging fixed-hyperparameter
+    information approximations does not in general give exact information under a fully marginalized hyperparameter
+    model. The abbreviated report does not establish exact maximum sampling or universal acquisition accuracy.
+  evidence:
+  - source_id: hoffman2015
+    locator: PDF p. 2, acquisition-evaluation step 2 and the opening note of Section 2.1; PDF p. 3, paragraph
+      following Equation 7
+    relation: supports
+- claim_id: bernoulli-observation-extension
+  kind: scope
+  statement: The paper sketches an extension for binary observations with a logistic or probit link to
+    a latent Gaussian process. Laplace or expectation-propagation inference provides Gaussian latent approximations,
+    with maximum constraints incorporated into the candidate prediction. Integrating the link against
+    the approximate latent distribution gives an observation success probability, whose Bernoulli entropy
+    is used in the acquisition. This is observation entropy, not the differential entropy of the latent
+    Gaussian. The source describes closed-form probit integration and approximate logistic integration.
+    This extension sketch does not guarantee exact inference or the same treatment for every non-conjugate
+    likelihood.
+  evidence:
+  - source_id: hoffman2015
+    locator: PDF p. 3, An extension to non-conjugate likelihoods subsection and its final entropy expression
+    relation: supports
+identity_notes: The pinned author-hosted OPES report defines observed-latent upper constraints via EP,
+  candidate truncation and moment matching, then approximate noisy predictive entropy for a finite attained
+  maximum value. MES shares its ideal target but not this conditional-inference pathway and entropy approximation;
+  PES targets a maximizer location. A one-threshold diagnostic distinguishes formulas without proving
+  different decisions for all data. The 2015 catalog attribution and 2016 PDF build are separately retained.
+  No acronym alias is adopted; current canonical, frontier and ignored-inclusive evidence is refreshed
+  before creation.
+evidence_sources:
+- source_id: hoffman2015
+  title: Output-Space Predictive Entropy Search for Flexible Global Optimization
+  authors:
+  - Matthew W. Hoffman
+  - Zoubin Ghahramani
+  version: 'Pinned five-page author-hosted PDF. Author catalog: December 2015 NIPS workshop on Bayesian
+    optimization; embedded PDF build: February 28, 2016 at 16:50:23 UTC. These dates are distinct from
+    the March 11, 2025 HTTP hosting modification and actual 2026 retrieval.'
+  source_type: primary_paper
+  url: https://mwhoffman.com/papers/hoffman_2015.pdf
+  access_level: full_text
+  accessed_at: '2026-10-14T22:29:28Z'
+  sha256: 56241d9e8a4944f8996d5dab801ca507eb8cc8f87949071d86ce0b357160b833
+- source_id: wang2017
+  title: Max-value Entropy Search for Efficient Bayesian Optimization
+  authors:
+  - Zi Wang
+  - Stefanie Jegelka
+  version: Official ICML 2017 proceedings PDF, PMLR 70:3627–3635; nine PDF pages. The separately inspected
+    later arXiv revision is not substituted for these bytes.
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/wang17e/wang17e.pdf
+  access_level: full_text
+  accessed_at: '2026-10-14T22:16:25Z'
+  sha256: 20e712e001659dcb3ef7463b964b4ab2cd69ef9b078f80e3b2f39f173b5f0580
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ActiveLearning
+  relation: related_match
+  rationale: The relationship is through choosing informative queries and obtaining their outputs. The
+    pinned AIO term describes a labeling-oriented machine-learning task, whereas this algorithm selects
+    objective evaluations for optimization. This is a related mapping, not exact equivalence or an asserted
+    subclass, neural-network or layer relationship.
+limitations:
+- The source is the pinned five-page author-hosted report. The author catalog cites a December 2015 workshop,
+  while the PDF has an embedded February 28, 2016 build timestamp. Its advertised longer derivation was
+  not located in bounded primary-source searches.
+- Finite upper constraints, Gaussian EP sites, candidate moment matching and maximum sampling are separate
+  approximations. They do not establish exact conditioning on a global maximum or exact noisy mutual information.
+- The displayed matrix formulas use inverse noise variance and matrix inverses. Literal zero noise, singular
+  matrices, zero candidate variance and extreme inverse-Mills ratios need separate numerical or limiting
+  treatment. The retained zero-noise scalar diagnostic only evaluates the entropy-stage limit, not those
+  matrix formulas at zero noise.
+- Output-value targeting can avoid a single coordinate-space entropy representation on a disjoint domain.
+  The source statement that PES cannot apply to differently dimensional domains is not adopted as an impossibility
+  result for mutual information under suitable probability measures.
+- The final binary-entropy formula concerns the induced Bernoulli observation distribution. The source
+  wording about entropy of the latent Gaussian approximation is not interpreted literally as equality
+  of those two entropies.
+- The preliminary experiments and unresolved Figure ?? reference do not support a general performance,
+  convergence or efficiency claim here. The retained original arithmetic diagnostic does not implement
+  EP, optimize an acquisition, fit a model, or reproduce author benchmarks.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T01:49:16Z'
+  updated_at: '2026-10-15T01:49:16Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
