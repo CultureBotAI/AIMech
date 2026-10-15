@@ -1,0 +1,199 @@
+id: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+name: Parallel predictive entropy search for multi-objective Bayesian optimization with constraints
+concept_kind: algorithm
+definition: A batch Bayesian optimization algorithm for multiple objectives and unknown constraints that
+  jointly selects parallel evaluation locations using approximate information gain about the feasible
+  Pareto set, computed from sampled Pareto representatives and Gaussian EP conditional batch covariance
+  log determinants.
+definition_evidence:
+- source_id: garrido2023-ppesmoc
+  locator: Sections3.2–3.4, institutional PDFpp.13–16 / printedpp.12–15, joint feasible-Pareto information
+    target, finite sampling, EP and batch log determinants.
+  relation: supports
+claims:
+- claim_id: joint-batch-feasible-pareto-information
+  kind: mechanism
+  statement: PPESMOC selects a batch X of B input locations for parallel evaluations of multiple objectives
+    and unknown constraints. In the source minimization convention, feasibility requires c_j(x) >= 0 for
+    every constraint, and dominance means no worse in every objective and strictly better in at least
+    one. Its ideal target is I(X_star; Y_X | D), information about the feasible Pareto set in input space
+    from the joint observation matrix of the whole batch. Assume a well-defined posterior over attained,
+    nonempty feasible Pareto sets, explicit tie handling and finite mutual information. By mutual-information
+    symmetry, this equals joint predictive entropy minus its expected value conditional on the Pareto
+    set; the practical acquisition approximates this target.
+  evidence:
+  - source_id: garrido2023-ppesmoc
+    locator: Section2, institutional PDFp.5 / printedp.4, Eq1 and weak-plus-one-strict dominance definition;
+      Section3.2, PDFp.13 / printedp.12, Eqs9–10. The later strict characterization requires the self/tie
+      qualifications below.
+    relation: supports
+- claim_id: within-task-batch-covariances
+  kind: mechanism
+  statement: Model each objective and constraint with an independent Gaussian process and Gaussian observation
+    noise. At fixed hyperparameters, each task provides a B-dimensional predictive distribution with a
+    full covariance matrix across the batch. Independence across tasks does not mean independence across
+    batch locations. The ordinary joint entropy is a sum of taskwise Gaussian log determinants, with observation-noise
+    covariance included. Conditioning on a shared feasible Pareto set generally couples tasks; the subsequent
+    EP approximation discards that cross-task dependence while retaining within-task batch covariance.
+  evidence:
+  - source_id: garrido2023-ppesmoc
+    locator: Section2.1, PDFp.10 / printedp.9, Eq4 and independent-GP paragraph; Sections3.2–3.3, PDFpp.13–15
+      / printedpp.12–14, Eqs10–15. Eq11 has the missing-log caveat below.
+    relation: supports
+- claim_id: finite-sampled-feasible-pareto-sets
+  kind: mechanism
+  statement: Approximate the expectation over feasible Pareto sets with samples constructed from random-feature
+    approximations to the objective and constraint GP posteriors. Solve each sampled constrained multi-objective
+    problem approximately and retain a finite representation of its feasible nondominated locations. The
+    journal manuscript describes a grid of 1000 times the input dimension and at most 50 retained Pareto
+    points; these are reported approximation choices, not exact whole-domain sampling. A failed finite
+    search and a posterior draw with no feasible solution are distinct cases; the inspected method does
+    not specify a general acquisition policy for either.
+  evidence:
+  - source_id: garrido2023-ppesmoc
+    locator: Section3.2, PDFp.14 / printedp.13, paragraph after Eq11; Section3.3, PDFp.15 / printedp.14,
+      finite domain restriction.
+    relation: supports
+- claim_id: reused-ep-sites-and-batch-updates
+  kind: mechanism
+  statement: Restrict the conditioning calculation to previous evaluation locations, the sampled Pareto
+    representatives and all candidate batch locations. Use feasibility factors for Pareto representatives
+    and factors coupling competitor feasibility with objective comparisons. EP projects these onto univariate
+    constraint factors and bivariate factors within each objective for pairs of locations. Reuse the fitted
+    sites for observations and Pareto representatives, and refine candidate-batch sites once for each
+    acquisition evaluation. The resulting proper Gaussian approximation supplies each task’s conditional
+    batch covariance. Finite sites and taskwise projection do not implement exact feasible Pareto-set
+    conditioning.
+  evidence:
+  - source_id: garrido2023-ppesmoc
+    locator: Sections3.3–3.4, PDFpp.14–15 / printedpp.13–14, Eqs13–16 and finite restriction/reuse paragraphs.
+    relation: supports
+  - source_id: garrido2023-ppesmoc-supplement
+    locator: Section1, PDFp.1, cached observation/Pareto factors and one candidate pass; Sections2.1–2.6,
+      PDFpp.2–9, EP structure and covariance reconstruction, with formula caveats below.
+    relation: supports
+- claim_id: joint-log-determinant-acquisition
+  kind: mechanism
+  statement: For positive-definite ordinary and approximate conditional observation covariances, score
+    a batch by one half of the sum over tasks of log det Sigma_task(X), minus one half of the Monte Carlo
+    average of the corresponding sums of log det Sigma_task(X | X_star_sample). Include each task’s observation
+    noise in both covariance terms. These are B-by-B determinants, not sums of independent single-location
+    acquisitions; at B = 1 they reduce to log-variance terms. Permuting batch locations and all corresponding
+    matrix indices leaves this score unchanged. The printed Eq16 omits the common one half, preserving
+    its uncosted maximizers but doubling Gaussian information units. Task additivity is an approximation
+    and does not make location scores additive.
+  evidence:
+  - source_id: garrido2023-ppesmoc
+    locator: Sections3.2–3.4, PDFpp.13–16 / printedpp.12–15, Eqs10–11 and16, Gaussian-noise paragraph
+      and permutation-symmetry discussion; common coefficient and index caveats below.
+    relation: supports
+  - source_id: garrido2023-ppesmoc-supplement
+    locator: Section2.4, PDFp.8, covariance matrix at the new batch.
+    relation: supports
+- claim_id: joint-numerical-batch-selection
+  kind: mechanism
+  statement: Optimize the approximate acquisition jointly over the B times input dimension coordinates
+    of the batch. The reported procedure uses automatic differentiation and L-BFGS, with previously fitted
+    EP sites reused and candidate sites refined once. These are derivatives of the chosen numerical approximation,
+    not certified derivatives of exact mutual information, and local optimization does not guarantee a
+    global best batch. This joint construction differs from repeatedly applying single-query PESMOC with
+    hallucinated pending outcomes. The paper also describes task-specific batch scores for decoupled evaluation
+    but explicitly leaves their empirical assessment for future work.
+  evidence:
+  - source_id: garrido2023-ppesmoc
+    locator: Section2.2, PDFpp.10–11 / printedpp.9–10, fantasy baseline and batch dimensionality; Sections3.4
+      and4, PDFpp.15–16 and19–20 / printedpp.14–15 and18–19, joint optimization and PESMOC distinction.
+    relation: supports
+  - source_id: garrido2023-ppesmoc-supplement
+    locator: Section1, PDFp.1, random initialization, Autograd, L-BFGS, maximum100 iterations and factor-reuse
+      convention.
+    relation: supports
+identity_notes: PPESMOC is a joint-batch information construction for a constrained Pareto set, retaining
+  batch covariance terms within its stated approximations. It is not independent repetition or summation
+  of the single-query PESMOC acquisition. It also differs from single-objective PPES and from PESC-F,
+  which schedules inexpensive acquisition updates rather than defining this joint multi-objective batch
+  information target.
+limitations:
+- A bounded input domain alone does not ensure an attained, nonempty measurable feasible Pareto target.
+  Distinguish absence of an observed feasible point, failure of a finite feasible-point search and an
+  empty feasible region in a posterior function draw. The inspected primary method does not supply a general
+  failure or empty-draw convention. Pareto ties and self comparisons require explicit treatment.
+- The journal source is an institutional author manuscript with a cover plus printedpp.1–28, associated
+  with the2023 publication DOI10.1016/j.eswa.2022.119328. The official publisher supplement is separately
+  pinned. The two-author arXivv2 dated July1,2021 is an earlier version; it is not the three-author journal
+  layout. The inaccessible publisher main layout and external author code are not claimed as inspected
+  or executed.
+- Main PDFp.13 incorrectly describes the observation vector as K+J dimensional rather than B(K+J); Eq11
+  on PDFp.14 omits log on constraint determinants, while Eq16 on PDFp.15 omits the common one half and
+  uses k inside constraint sums indexed by j. The descriptive PESMO Eq8 on PDFp.12 is malformed. The record
+  uses the supported Gaussian entropy construction without certifying those literal displays.
+- Main Eq12 on PDFp.14 omits the normalization needed for conditional distributions. With Theta(0)=1,
+  Eq13 includes self comparisons and annihilates every nonempty feasible supplied set; removing self comparisons
+  still requires tie handling and does not enforce equality to the complete Pareto set. The nearby prose
+  also confuses non-domination with dominance. These are source caveats, not an asserted author-issued
+  erratum or a complete repaired EP implementation.
+- 'The supplement contains algebraic and notation defects: Eq7 on p.3 gives zero feasibility log-normalizer
+  curvature at zero instead of minus2/pi for unit cavity variance; Eq12 on p.5 reverses the minimizing
+  difference for the declared observation-first ordering; Eqs22 and25 place logarithmic terms outside
+  exponentials; Eqs27–30 on p.6 invert a rank-one difference Hessian product; Eq35 on p.8 has inconsistent
+  N versus N+M block bounds; p.9 describes a damping loop ending with non-positive definite covariance.
+  Literal execution of these equations is not validated, and convergence is not guaranteed.'
+- Random features, finite feasible searches and Pareto representations, EP projection, one candidate-site
+  pass, local acquisition optimization and sampled hyperparameters introduce approximation. Averaging
+  fixed-hyperparameter information scores is not generally entropy of the predictive mixture. Duplicate
+  noiseless latent evaluations can make covariance determinants singular; independent observation noise
+  can make repeated evaluations informative. The source’s plotted diversity behavior is not a universal
+  prohibition on repeated locations.
+- The original bounded checks in research/discovery/ppesmoc-boundaries.py concern rational covariance
+  matrices, finite information channels and selected source-formula counterexamples. They are not GP training,
+  full EP inference, author-code execution, a numerical benchmark or independent scientific approval.
+  No universal runtime, approximation-accuracy, convergence, optimal-scheduling or superiority claim is
+  made.
+evidence_sources:
+- source_id: garrido2023-ppesmoc
+  title: Parallel Predictive Entropy Search for Multi-objective Bayesian Optimization with Constraints
+    Applied to the Tuning of Machine Learning Algorithms
+  authors:
+  - Eduardo C. Garrido-Merchán
+  - Daniel Fernández-Sánchez
+  - Daniel Hernández-Lobato
+  url: https://repositorio.uam.es/bitstream/handle/10486/709939/parallel_garrido_expert_systems_with_applications_2023_ps.pdf?isAllowed=y&sequence=1
+  version: Institutional author manuscript; manuscript header2022, final citation2023; cover plus28printed
+    pages. Wrapper PDF metadata2024-01-16, not the date of original invention or publication.
+  source_type: primary_paper
+  access_level: full_text
+  accessed_at: '2026-10-14T23:25:12Z'
+  sha256: eeb6e41bf7ae4084554ba05bfe79d29bdab925115d804f3e9e5807bfb1471e73
+- source_id: garrido2023-ppesmoc-supplement
+  title: Supplementary material for Parallel Predictive Entropy Search for Multi-objective Bayesian Optimization
+    with Constraints
+  authors:
+  - Eduardo C. Garrido-Merchán
+  - Daniel Fernández-Sánchez
+  - Daniel Hernández-Lobato
+  url: https://ars.els-cdn.com/content/image/1-s2.0-S0957417422023466-mmc1.pdf
+  version: Official Elsevier PII-associated supplementary asset,11pages, title/authors match. PDFmetadata2022-11-29;
+    HTTP Last-Modified2023-02-02. Retrieved by conventional filename probe; not claimed as a link observed
+    on inaccessible publisher page.
+  source_type: primary_paper
+  access_level: full_text
+  accessed_at: '2026-10-14T23:25:14Z'
+  sha256: 10ca9c713d6889a16ea4b935c0e45c27671d91221dfb88fc3b2be08177d0b9e6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ActiveLearning
+  relation: related_match
+  rationale: PPESMOC adaptively queries informative batches of objective and constraint evaluations. This
+    relates to querying an information source, but constrained multi-objective optimization is not identical
+    to the pinned task of labeling data for predictive learning. This qualified curator mapping asserts
+    neither exact identity nor an upstream subclass relation.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T04:14:51Z'
+  updated_at: '2026-10-15T04:14:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

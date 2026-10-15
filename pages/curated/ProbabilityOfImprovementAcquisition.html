@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Probability of improvement acquisition · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Probability of improvement acquisition</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Probability of improvement acquisition</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:ProbabilityOfImprovementAcquisition</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    An acquisition criterion for scalar optimization that scores a candidate by the predictive probability of meeting a specified improvement threshold under a stated direction and tie convention, with a Gaussian cumulative-distribution form when the predictive law is Gaussian and its standard deviation is positive.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      PI is the predictive probability of meeting a stated improvement threshold, with an explicit strict or inclusive event convention. Its positive-variance Gaussian CDF form is a model-specific evaluation of that event, not the general definition of an optimizer. It differs from EI&#39;s expected gain and from MES&#39;s information target; a bounded one-sample ranking relation does not make PI and MES identical. The maintained PiModel is a semi-supervised consistency method and is unrelated.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#threshold-probability-event</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Probability of improvement scores a candidate by the predictive probability of meeting a specified improvement threshold. For minimization, Jones defines the event Y(x) &lt;= T with T below the best observed value; Snoek and colleagues use improvement over the current-best value. The predictive random variable expresses uncertainty about the candidate value. The direction, threshold and strict or inclusive event convention must be stated; the criterion does not itself prescribe a unique target schedule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones2001">A Taxonomy of Global Optimization Methods Based on Response Surfaces</a></span>
+        <span>· <strong>Locator:</strong> Section 6, PDF p.20 / printed p.364, definition of Y(x), T &lt; f_min and the event Y(x) &lt;= T preceding Eq.27.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-snoek2012">Practical Bayesian Optimization of Machine Learning Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, PDF p.3, incumbent notation and probability-of-improvement definition preceding Eq.1.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#gaussian-positive-deviation-score</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a Gaussian predictive value with mean m and strictly positive standard deviation s, the minimization score at threshold T is Phi((T - m)/s), where Phi is the standard normal cumulative distribution function. For maximization the corresponding event has score Phi((m - T)/s). The maximization expression follows by reversing the event direction. The denominator is the standard deviation, not the variance. Strict and inclusive events have the same probability in this positive-variance Gaussian case.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones2001">A Taxonomy of Global Optimization Methods Based on Response Surfaces</a></span>
+        <span>· <strong>Locator:</strong> Section 6, PDF p.20 / printed p.364, Eq.27 and standard-error definition; maximization and continuity qualifications are direct event derivations.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-snoek2012">Practical Bayesian Optimization of Machine Learning Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, PDF p.3, Eq.1 and predictive variance notation sigma squared.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#probability-not-improvement-magnitude</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    PI measures the probability of its threshold event rather than the magnitude of gain beyond the threshold. Expected improvement instead averages a nonnegative improvement amount. Consequently the two criteria can rank candidates differently even under Gaussian predictions and the same incumbent. This distinction concerns their objectives and does not assert a universal performance ordering between them.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-snoek2012">Practical Bayesian Optimization of Machine Learning Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, PDF p.3, separate PI and EI definitions in Eqs.1–2; possible ranking difference follows directly from the two formulas.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones2001">A Taxonomy of Global Optimization Methods Based on Response Surfaces</a></span>
+        <span>· <strong>Locator:</strong> Section 6, PDF p.20 / printed p.364, Eq.27; Section 7, PDF p.27 / printed p.371, Eqs.34–35.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#point-mass-event-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At zero predictive variance the random value equals m, so the minimization probability is the indicator of m &lt; T for a strict event or m &lt;= T for an inclusive event. In particular, at m = T these probabilities are zero and one, respectively. For every positive Gaussian standard deviation at m = T, the CDF score is one half, even as s tends to zero. The singular point-mass case therefore requires the declared event convention instead of division by zero or an unconditional zero rule. These boundary statements are direct curator derivations from the event definition.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones2001">A Taxonomy of Global Optimization Methods Based on Response Surfaces</a></span>
+        <span>· <strong>Locator:</strong> Section 6, PDF p.20 / printed p.364, inclusive event preceding Eq.27; the point-mass extension is derived from that event, not a printed source algorithm.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-snoek2012">Practical Bayesian Optimization of Machine Learning Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, PDF p.3, Eq.1; its positive-standard-deviation expression supplies the tie-limit comparison.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fixed-event-hyperparameter-integration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Snoek and colleagues explicitly integrate PI over the posterior distribution of Gaussian-process hyperparameters. When the same threshold event is used for every hyperparameter setting, the average conditional probability is the probability under the predictive mixture, by the law of total probability. This does not require replacing the mixture by a Gaussian. Evaluating a Gaussian CDF using only the mixture mean and variance is generally a different approximation. The latter distinction is a curator qualification of the stated integration rule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-snoek2012">Practical Bayesian Optimization of Machine Learning Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, PDF p.4, Eq.6 and the following paragraph explicitly naming probability of improvement and EI; fixed-event and moment-matching qualifications follow from the probability definition.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#criterion-within-query-selection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maximizing PI can supply a next-evaluation rule, but the scalar criterion alone does not specify an initial design, predictive model fitting, numerical acquisition optimizer, stopping rule or complete sequential search procedure. Jones combines the criterion with additional steps in Method 4 and describes a separate enhanced procedure with multiple targets. Those procedures are not exact aliases for the criterion, and their empirical behavior or convergence properties are not inherited by its definition.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-snoek2012">Practical Bayesian Optimization of Machine Learning Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p.2, separate model and acquisition choices; Section 2.2, PDF p.3, next-query maximization and PI Eq.1.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones2001">A Taxonomy of Global Optimization Methods Based on Response Surfaces</a></span>
+        <span>· <strong>Locator:</strong> Section 6, PDF pp.20–26 / printed pp.364–370, Method 4, target selection and Enhanced Method 4.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>For a minimization incumbent b and margin xi &gt;= 0, setting T = b - xi gives gain &gt; xi for a strict event and gain &gt;= xi for an inclusive event. Positive-variance Gaussian continuity makes their probabilities equal, but this equality does not extend to arbitrary predictive atoms. The zero-variance event must be evaluated directly; the printed formulas do not specify every degenerate convention.</li>
+      <li>Snoek Section 2.2, PDF p.3 observes noisy y_n but expresses the incumbent through latent f(x_n). The inspected passage does not prescribe a unique operational noisy-incumbent estimator. A fixed data-derived threshold, an uncertain latent incumbent and a future noisy measurement define different events. A random incumbent requires its joint dependence with the prospective value; substituting its mean is not generally equivalent. No particular noisy, batch, constrained or multiobjective extension is specified here.</li>
+      <li>The target policy is intentionally not reconstructed from the examples. Jones PDF p.21 / printed p.365 uses an observed-best target, whereas the captions on PDF pp.22–23 / printed pp.366–367 describe percentages below the surface minimum; Enhanced Method 4 separately uses a surface-minimum and observed-range formula on PDF p.23. The p.21 wording about T being too high and global search also conflicts with the decreasing-target direction on p.23. These distinctions are retained as source ambiguities, not silently unified into one schedule or presented as formal errata.</li>
+      <li>A high PI value is conditional on the chosen predictive model and event; it is not a calibrated guarantee about the unknown objective or the remaining optimization error. Increasing predictive spread does not universally increase PI: for a fixed minimization threshold its direction depends on the mean relative to that threshold. The retained bounded examples separate probability and gain rankings without establishing a universal advantage for either acquisition.</li>
+      <li>Hyperparameter integration in Snoek PDF p.4 concerns averaging conditional acquisition values. For a fixed event, probability averaging is valid; replacing the predictive mixture by a Gaussian using its first two moments generally changes the score. If the threshold varies with hyperparameters or represents a random incumbent, the joint event must be specified rather than identified with the same fixed-threshold probability.</li>
+      <li>Jones PDF pp.25–26 / printed pp.369–370 derives a matching lower-confidence-bound coefficient from an attained ratio optimum with positive standard errors. That coefficient depends on the target and current predictive functions and need not be nonnegative. A fixed target is therefore not a fixed confidence-bound policy. Snoek PDF p.3 also gives an unnegated lower-confidence expression alongside a generic acquisition-maximization convention; that ancillary direction convention does not change PI Eq.1. Restricted ranking correspondences do not make PI identical to confidence-bound or entropy-information acquisitions.</li>
+      <li>Evidence is the typeset 2001 Jones article on a university mirror and the official nine-page 2012 Snoek proceedings PDF. Publication, PDF build and acquisition metadata are distinct. The cited Kushner (1964) original PDF was not obtained after a publisher HTTP403 response, and no historical-priority or original-algorithm reconstruction claim is made. Cited convergence results and complete empirical procedures were not reproduced or adopted.</li>
+      <li>The separate original curator calculations use exact Fraction arithmetic for finite events and ratio algebra, and floating Gaussian and entropy functions for bounded examples. They are not author-code replication, a fitted Gaussian-process optimizer, a benchmark, a general convergence proof or validation of extreme-tail numerical accuracy.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html" style="font-weight: 600;"><code>AIO:MathematicalFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Mathematical Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PI assigns a scalar probability through a mathematical rule involving a predictive law, threshold and event direction. This relates the specific acquisition criterion to the pinned mathematical-function concept without equating it with that broad class, a predictive model, a neural layer or a complete optimizer. No upstream subclass membership is asserted.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-jones2001">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">jones2001</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://research.cs.wisc.edu/areas/ai/airg/jones01taxonomy.pdf" target="_blank" rel="noopener">A Taxonomy of Global Optimization Methods Based on Response Surfaces</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Donald R. Jones
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:26035885efed…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-snoek2012">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">snoek2012</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper_files/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf" target="_blank" rel="noopener">Practical Bayesian Optimization of Machine Learning Algorithms</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jasper Snoek, Hugo Larochelle, Ryan P. Adams
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:218a2ffbff18…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T04:14:51Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T04:14:51Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ProbabilityOfImprovementAcquisition.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ProbabilityOfImprovementAcquisition.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

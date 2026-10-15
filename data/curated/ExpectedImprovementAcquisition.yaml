@@ -1,0 +1,133 @@
+id: AIMech:ExpectedImprovementAcquisition
+name: Expected improvement acquisition
+concept_kind: mathematical_method
+definition: An acquisition criterion for deterministic scalar minimization that scores a candidate evaluation
+  by the predictive expected positive reduction below the best observed objective value, with a closed
+  form in the predictive mean and standard deviation under Gaussian uncertainty.
+definition_evidence:
+- source_id: jones1998
+  locator: Section 4.1, PDF pp.17–18 / printed pp.471–472, Eqs.14–15 and deterministic-uncertainty interpretation.
+  relation: supports
+claims:
+- claim_id: expected-positive-improvement
+  kind: mechanism
+  statement: For deterministic scalar minimization, let b be the smallest observed objective value and
+    Y the predictive uncertainty about the value at a candidate input. Expected improvement is E[max(b
+    - Y, 0)]. It weights each positive improvement by its predictive probability, retaining the amount
+    of gain rather than only the probability P(Y < b). The random variable represents uncertainty about
+    an unevaluated deterministic function, not observation noise.
+  evidence:
+  - source_id: jones1998
+    locator: Section 4.1, PDF p.17 / printed p.471, improvement definition and Eq.14.
+    relation: supports
+- claim_id: gaussian-standard-deviation-form
+  kind: mechanism
+  statement: If Y is Gaussian with mean m and strictly positive standard deviation s, define z = (b -
+    m)/s. Then EI = (b - m) Phi(z) + s phi(z), where Phi and phi are the standard normal distribution
+    and density. The denominator and density multiplier use s, not the variance s squared. In the inspected
+    EGO construction, m and s come from a fitted DACE predictor and its estimated prediction error.
+  evidence:
+  - source_id: jones1998
+    locator: Section 4.1, PDF pp.17–18 / printed pp.471–472, Eq.15 and definitions of Y, s, Phi and phi.
+    relation: supports
+- claim_id: fixed-incumbent-monotonicity
+  kind: mechanism
+  statement: Holding the incumbent fixed with finite m and s > 0, the partial derivatives are dEI/dm =
+    -Phi(z) and dEI/ds = phi(z). EI therefore decreases with predictive mean and increases with predictive
+    standard deviation when the other argument is fixed. A lower bound on m and an upper bound on s give
+    an EI upper bound over an input box. These are partial derivatives of the score, not assertions of
+    monotonicity in the input coordinates.
+  evidence:
+  - source_id: jones1998
+    locator: Section 4.1, PDF pp.18–19 / printed pp.472–473, displayed partial derivatives and rectangular-region
+      bound.
+    relation: supports
+- claim_id: degenerate-prediction-boundary
+  kind: scope
+  statement: For a degenerate predictive law with s = 0, Eq.14 gives EI = max(b - m, 0); division by s
+    in Eq.15 is not defined there. Under exact noiseless interpolation at an already observed input, m
+    equals its observed value and is at least b, so EI is zero. Zero variance by itself does not imply
+    zero improvement at an arbitrary input. The general degenerate-law statement is a direct curator derivation
+    from the defining expectation.
+  evidence:
+  - source_id: jones1998
+    locator: Section 2, PDF pp.7–9 / printed pp.461–463, Eqs.7–11 and interpolation; Section 4.1, PDF
+      pp.17–18 / printed pp.471–472, Eq.14 and zero-at-samples statement; general s = 0 qualification
+      follows from Eq.14.
+    relation: supports
+- claim_id: one-evaluation-acquisition-scope
+  kind: scope
+  statement: EI assesses the gain from one prospective evaluation relative to the current incumbent. Its
+    maximization supplies a query-selection rule, but the score alone does not specify a surrogate-fitting
+    procedure, initial design, stopping policy or complete sequential optimizer. The original EGO algorithm
+    combines this criterion with those additional stages; EI is not an exact alias for EGO.
+  evidence:
+  - source_id: jones1998
+    locator: Section 4.1, PDF pp.17–19 / printed pp.471–473; Section 4.2, PDF pp.19–21 / printed pp.473–475,
+      algorithm and one-additional-point limitation.
+    relation: supports
+identity_notes: Expected improvement is the expected nonnegative gain relative to a stated threshold;
+  it is a criterion rather than a full optimizer. TPE implements a particular density-model ranking and
+  SMAC uses expected-improvement proposals inside a broader configuration procedure. Neither maintained
+  record is the general EI criterion. Probability of improvement measures an event probability rather
+  than gain magnitude; EGO uses EI within a complete original optimization procedure.
+limitations:
+- The inspected formulation uses noiseless observations and a fixed observed incumbent. With noisy data,
+  the best observation need not be the best latent value, and expected improvement in a noisy measurement
+  is not generally improvement in the underlying objective. Uncertainty in a latent incumbent would require
+  an appropriate joint model. Section 6, PDF p.33 / printed p.487 explicitly leaves noisy-function optimization
+  unresolved; no noisy, constrained, batch or multiobjective EI extension is specified here.
+- The DACE mean and prediction error use estimated correlation and variance parameters. Their uncertainty
+  is not fully integrated, and the source notes that its standard error may be too small. Expected gain
+  is conditional on that predictive approximation; it is neither a calibrated probability-of-success guarantee
+  nor a bound on the true remaining optimization error (Section 2, PDF p.9 / printed p.463; Section 4.2,
+  PDF pp.20–21 / printed pp.474–475).
+- Changing the objective by a nonlinear increasing transformation preserves its ordering but can change
+  improvement magnitudes and acquisition rankings. The source actually fits transformed responses in EGO.
+  EI on the transformed scale must not be identified with EI on the original scale or obtained by applying
+  the transform to a predicted mean alone. The transformation distinction is supported by the inspected
+  procedure and separate bounded curator examples, not by a universal invariance claim (Section 4.2, PDF
+  pp.19–20 / printed pp.473–474).
+- EI depends on both predictive location and spread. It is distinct from probability of improvement, variance
+  maximization and optimizer-information acquisitions. The original bounded curator checks separate exact
+  rational interpolation from floating Gaussian CDF, quadrature, derivative and transformation examples;
+  they do not implement EGO or establish numerical accuracy in extreme Gaussian tails.
+- Evidence is the 38-page journal-layout mirror of Jones, Schonlau and Welch (1998), not a verified byte-identical
+  publisher download. The separate 43-page author manuscript was cover-inspected only, and the cited Mockus
+  et al. (1978) chapter was not obtained. No earliest-invention claim is made. The source Appendix 1 derivative-sign
+  discrepancy and fixed-correlation Hessian caveat concern separate surrogate derivations and do not change
+  the defining EI expectation or its positive-standard-deviation formula.
+evidence_sources:
+- source_id: jones1998
+  title: Efficient Global Optimization of Expensive Black-Box Functions
+  authors:
+  - Donald R. Jones
+  - Matthias Schonlau
+  - William J. Welch
+  source_type: primary_paper
+  url: https://openturns.github.io/openturns/papers/jones1998.pdf
+  persistent_id: doi:10.1023/A:1008306431147
+  version: Journal of Global Optimization 13 (1998), pp.455–492; 38-page journal-layout public mirror.
+    PDF metadata records creation on December 10, 1998 and modification on September 29, 2004; these are
+    file-build dates, not separate publication years.
+  access_level: full_text
+  accessed_at: '2026-10-15T01:07:21Z'
+  sha256: 356260d0303a7fa2c8cc4456f46ebc9f39c0bcf763b2e3982c2b78921eab4a57
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: related_match
+  rationale: EI assigns an expected gain to a candidate through a mathematical rule involving a predictive
+    law and incumbent. This relates the specific acquisition rule to the pinned mathematical-function
+    concept without equating it with that broad class, an activation function or a complete optimizer.
+    It asserts no upstream subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T04:14:51Z'
+  updated_at: '2026-10-15T04:14:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
