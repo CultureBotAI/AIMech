@@ -1,0 +1,197 @@
+id: AIMech:ShakeDropRegularization
+name: ShakeDrop regularization
+concept_kind: algorithm
+aliases: []
+definition: A residual-network regularization procedure that uses a Bernoulli switch to alternate ordinary
+  residual computation with separately specified forward and prescribed backward multipliers, and uses
+  an expected forward coefficient for deterministic inference.
+definition_evidence:
+- source_id: yamada2019
+  locator: Figure 1(d), PDF p. 2; Section III-A, Equations (6)–(8), PDF p. 3; Section III-B.3, PDF pp.
+    3–4.
+  relation: supports
+claims:
+- claim_id: gated-residual-perturbation
+  kind: scope
+  statement: ShakeDrop is a stochastic regularization procedure for residual networks. Within an identity-skip
+    block, a Bernoulli gate selects either the ordinary residual computation or a perturbed residual contribution.
+    The construction can operate on one learned residual branch plus its skip path; it does not require
+    the two learned residual branches used by the compared Shake-Shake construction. It is a training
+    and inference procedure, not a complete network architecture or a stand-alone parameter optimizer.
+  evidence:
+  - source_id: yamada2019
+    locator: Figure 1 and Section II, PDF p. 2; Section III-A, Equations (6)–(8), PDF p. 3; Section III-B.3,
+      PDF pp. 3–4.
+    relation: supports
+- claim_id: distinct-forward-backward-coefficients
+  kind: mechanism
+  statement: For a residual block x+F(x), use forward residual multiplier c_f=b_l+(1-b_l)*alpha and prescribed
+    backward residual multiplier c_b=b_l+(1-b_l)*beta. The same Bernoulli gate b_l is used in both passes.
+    When b_l=1, both multipliers equal one; when b_l=0, they are alpha and beta respectively. The source
+    uses mutually independent alpha and beta, including a configured constant-zero alpha case. The backward
+    expression prescribes derivative scaling through the residual path; it is not another forward evaluation
+    or a claim that beta is the derivative of the realized forward multiplier.
+  evidence:
+  - source_id: yamada2019
+    locator: Figure 1(d), PDF p. 2; Section III-A, Equations (6)–(8), PDF p. 3; Section IV-A, PDF p. 5.
+    relation: supports
+- claim_id: depth-dependent-switching
+  kind: mechanism
+  statement: Set P(b_l=1)=p_l using the displayed depth schedule p_l=1-(l/L)*(1-p_L), where l indexes
+    the residual blocks from the input, L is their total number, and p_L is the configured probability
+    at the last block. For 0<=p_L<1, later blocks have a greater probability of entering the perturbed
+    case. This is a schedule across network depth, not an annealing schedule over training iterations.
+    The paper varies p_L with architecture and experimental setting rather than fixing one universal probability.
+  evidence:
+  - source_id: yamada2019
+    locator: Section II, Equation (5), and Section III-A, PDF p. 3; Sections V-B and V-E, PDF pp. 8–9;
+      Appendix A, PDF pp. 9–10.
+    relation: supports
+- claim_id: sampling-and-host-settings
+  kind: mechanism
+  statement: The 2019 author copy compares batch, image, channel and element-level sharing of alpha and
+    beta and uses element-level coefficients in its principal experiments. It uses alpha=0 with beta uniform
+    on [0,1] for the tested original architectures, and alpha uniform on [-1,1] with beta uniform on [0,1]
+    for the tested modified residual branches ending with batch normalization. These are experimentally
+    selected configurations. The original 2018 preprint instead selects image-level sharing for memory
+    efficiency while reporting a lower pixel-level error in its preliminary comparison; that earlier default
+    is retained as version context.
+  evidence:
+  - source_id: yamada2019
+    locator: Sections IV-A and IV-B, Tables 2–3, PDF p. 5; Section V-A and Table 5 caption, PDF p. 7;
+      Appendix A, PDF pp. 9–10.
+    relation: supports
+  - source_id: yamada2018-v1
+    locator: Section 4.1, Table 2 and the following sharing-level discussion, PDF p. 5; Appendix A, PDF
+      p. 10.
+    relation: supports
+- claim_id: deterministic-test-rule
+  kind: mechanism
+  statement: At inference, replace the random forward multiplier by E[b_l+(1-b_l)*alpha]. For p_l<1 this
+    expectation is p_l+(1-p_l)*E[alpha | b_l=0]; independent gate and coefficient draws with zero-mean
+    alpha reduce it to p_l. This includes the stated constant-zero alpha and symmetric uniform alpha configurations.
+    When p_l=1, the coefficient is one directly. This defines a deterministic local inference rule, not
+    the exact expected output of the complete nonlinear network.
+  evidence:
+  - source_id: yamada2019
+    locator: Figure 1(d), PDF p. 2; Section III-A, Equation (6) and coefficient ranges, PDF p. 3; Appendix
+      A inference use, PDF p. 10. The conditional-expectation expansion is a direct consequence of the
+      displayed Bernoulli mixture, with its assumptions stated here.
+    relation: supports
+- claim_id: distinction-and-special-cases
+  kind: scope
+  statement: Setting alpha=beta=0 reduces the displayed residual forward and backward operation to the
+    Bernoulli RandomDrop or stochastic-depth operation, with its expected gate coefficient at inference.
+    Setting alpha=beta=1 removes this perturbation. Those parameter boundaries do not identify the full
+    methods as aliases. In particular, b_l=0 with alpha=0 and beta>0 removes the residual value in the
+    forward pass while still permitting a nonzero prescribed residual derivative, unlike dropping that
+    path in both passes.
+  evidence:
+  - source_id: yamada2019
+    locator: Section II, Equation (4), and Section III-A, Equations (6)–(8), PDF p. 3; Section III-C,
+      PDF p. 4; Table 2 cases A and B, PDF p. 5; Section IV-C final paragraph, PDF pp. 6–7.
+    relation: supports
+identity_notes: Current creation-context inventory at merged base fc27ccaf4668f1bf7468a10c269f5583fa3e640b
+  covered 742 maintained and 442 pinned AIO records, including IDs, names, aliases and scoped synonyms,
+  with no normalized candidate-probe collision. Four fixed-string word searches included ignored and hidden
+  files and yielded 369/373/1045/1105 occurrences. Root read all eleven distinct matching strings and
+  their selected provenance, while exact reconstruction accounted mechanically for all 2892 occurrences.
+  Hits identify existing frontier leads and historical Fast AutoAugment code inventory paths, not a maintained
+  record for this identity. The newly surfaced shakedrop.py path was listed at repository commit 2424224291616a2158a2265069ee95a78a2d13d9;
+  no implementation was opened or executed. Prior primary-source, selected-neighbor and exact pinned CLASS/incident-edge
+  inspections remain bounded by their individual research acceptances. This is not a global absence or
+  saturation claim. This record denotes the named residual regularization procedure with a shared Bernoulli
+  gate and distinct forward/backward multipliers. It is distinct from complementary two-learned-branch
+  Shake-Shake and from the original stochastic-depth procedure despite degenerate parameter boundaries.
+  Original 2018 and later 2019 sharing defaults and reversed Type A/B labels remain explicit. The related
+  ResidualNeuralNetwork mapping describes a host association only. The corrected conditional zero-mean
+  limitation changes no identity or mapping.
+evidence_sources:
+- source_id: yamada2019
+  title: ShakeDrop Regularization for Deep Residual Learning
+  authors:
+  - Yoshihiro Yamada
+  - Masakazu Iwamura
+  - Takuya Akiba
+  - Koichi Kise
+  source_type: primary_paper
+  url: https://publication.imlab.jp/db/publication_data/1708/ACCESS2960566.pdf
+  persistent_id: https://doi.org/10.1109/ACCESS.2019.2960566
+  version: IEEE Access 7 (2019), bibliographic pages 186126–186136; specifically retained 11-page author-hosted
+    accepted-proof-layout copy, local PDF pages 1–11, received 7 October 2019 and accepted 9 December
+    2019, with placeholder publication-date fields. PDF metadata creation 24 December 2019 is a file-build
+    timestamp. No byte-equivalence claim to the final publisher PDF or arXiv v3.
+  access_level: full_text
+  accessed_at: '2026-10-15T07:49:07Z'
+  sha256: 3a9687505f533abac20dc847cda8c3f228974e9c09af672d992f6c798cc6f58b
+- source_id: yamada2018-v1
+  title: ShakeDrop regularization
+  authors:
+  - Yoshihiro Yamada
+  - Masakazu Iwamura
+  - Koichi Kise
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1802.02375v1
+  persistent_id: arXiv:1802.02375v1
+  version: arXiv:1802.02375v1, submitted 7 February 2018 at 10:23:54 UTC; retained 12-page PDF returned
+    by the pinned v1 route. Its ICLR 2018 conference-paper header is retained as printed, while the separate
+    four-page workshop version is not treated as byte-equivalent. PDF metadata creation 27 May 2022 is
+    a file-build timestamp, not the publication date.
+  access_level: full_text
+  accessed_at: '2026-10-15T07:47:33Z'
+  sha256: 31e0716fd1c4d4f59fbf7e0d04dad301226cfec1aa4bfb61a18802f189db8d22
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ResidualNeuralNetwork
+  relation: related_match
+  rationale: ShakeDrop modifies training and inference on a residual host with a skip connection. The
+    pinned AIO concept denotes a broader network architecture category, not this stochastic regularization
+    procedure. The association does not assert equivalence, subclass membership or that every source configuration
+    inherits all architectural components listed for the pinned target.
+limitations:
+- Independent forward and backward multipliers generally do not give the chain-rule derivative of the
+  realized forward computation or an unbiased gradient of its expected loss. The prescribed rule is intentional.
+  The source ratio beta/alpha requires a nonzero denominator and does not by itself imply an unbounded
+  absolute backward multiplier; alpha=0 is an explicit configuration. With negative alpha and positive
+  beta, the sign comparison concerns the residual contribution relative to the derivative of that same
+  perturbed forward pass, not necessarily the gradient of an unperturbed network.
+- Averaging local coefficients does not commute with subsequent nonlinearities, losses or training-dependent
+  batch-normalization state. The inference rule is not an exact full-network ensemble average or a calibrated
+  uncertainty estimate. Simplifying its coefficient to p_l when p_l<1 requires E[alpha | b_l=0]=0; this
+  is satisfied, for example, by independent gate and coefficient draws with zero-mean alpha.
+- The fail-safe and local-minimum explanations and the conceptual trajectories in Figure 2 are heuristic.
+  They establish no general convergence, nondivergence or superiority guarantee. Tables 2–3 and the later
+  experiments show that coefficient ranges, sharing, depth, architecture and p_L matter. Valid Bernoulli
+  probabilities and compatible residual/skip shapes are prerequisites of the displayed construction.
+- 'Source versions use different defaults. The original preprint selects image-level sharing for memory
+  efficiency and emphasizes batch-normalization-ending branches; the later author copy uses element-level
+  sharing and also studies constant-zero alpha on original architectures. Their Type A and Type B names
+  for separate-versus-summed residual perturbation are reversed: the original preprint describes A before
+  and B after the residual sum, whereas the later Equations (10)–(11) define A after and B before. Those
+  labels and experimental settings are not silently unified.'
+- The same gate is used across the forward and backward rules. Resampling it between passes would define
+  a different procedure. A zero backward multiplier suppresses the local residual-path loss-gradient contribution,
+  not necessarily every parameter or state change under momentum, weight decay, other paths or running
+  statistics. A forward-zero branch with a nonzero prescribed backward contribution does not justify skipping
+  all residual computation. No implementation-level audit of every sharing or parallelism convention is
+  asserted.
+- The principal evidence is the specifically retained 2019 author-hosted accepted-proof-layout copy with
+  local pages 1–11 and placeholder publication dates. Its DOI and bibliographic journal pages identify
+  the article, but this record does not assert byte identity with a final publisher PDF or arXiv v3. The
+  original 2018 v1 preprint is separately cited as version context. File-build timestamps and current
+  acquisition times are not publication dates.
+- The evidence concerns specified residual CNNs, datasets and training settings. Architecture changes,
+  controls and training schedules differ across versions. No new numerical benefit, universal stability,
+  causal-ablation result, speedup guarantee or benchmark reproduction is claimed. The source texts and
+  selected formula/table visuals were read, but no author implementation, model training or later library
+  behavior was inspected or executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T08:18:23Z'
+  updated_at: '2026-10-15T08:18:23Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

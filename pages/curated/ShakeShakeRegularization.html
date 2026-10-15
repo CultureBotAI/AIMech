@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shake-Shake regularization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Shake-Shake regularization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Shake-Shake regularization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ShakeShakeRegularization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    The original residual-network training and inference procedure that combines two learned branch outputs with complementary uniform random weights during the forward pass, redraws the branch weights for its prescribed backward pass, and uses equal one-half branch weights at inference, with explicitly chosen image-level or minibatch-level coefficient sharing.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Current creation-context inventory at merged base fc27ccaf4668f1bf7468a10c269f5583fa3e640b covered 742 maintained and 442 pinned AIO records, including IDs, names, aliases and scoped synonyms, with no normalized candidate-probe collision. Four fixed-string word searches included ignored and hidden files and yielded 369/373/1045/1105 occurrences. Root read all eleven distinct matching strings and their selected provenance, while exact reconstruction accounted mechanically for all 2892 occurrences. Hits identify existing frontier leads and historical Fast AutoAugment code inventory paths, not a maintained record for this identity. The newly surfaced shakedrop.py path was listed at repository commit 2424224291616a2158a2265069ee95a78a2d13d9; no implementation was opened or executed. Prior primary-source, selected-neighbor and exact pinned CLASS/incident-edge inspections remain bounded by their individual research acceptances. This is not a global absence or saturation claim. This record denotes the named two-learned-residual-branch regularization procedure with complementary forward coefficients and separately selected prescribed backward coefficients. Its control and sharing configurations are retained within one identity. Stochastic depth instead samples residual survival; ShakeDrop adds a shared Bernoulli ordinary/perturbed switch. The related ResidualNeuralNetwork mapping describes the residual host, not architecture identity or subclass membership.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#two-residual-branches-and-skip</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The original core is defined on a residual block with two learned residual transformations F1 and F2 and a skip contribution. The three-branch description counts the skip, rather than three learned residual transformations. The displayed identity-skip baseline is x_next = x + F1(x) + F2(x). Contributions combined by addition must have compatible tensor shapes. The reported dimension-changing blocks use a separate compatible skip construction instead of treating every skip as an identity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gastaldi2017v2">Shake-Shake regularization</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, PDF p. 2, Equation 1 and Figure 1; Section 2.1.1, PDF p. 3, dimension-changing skip description.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#coupled-uniform-forward-mixture</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    During the core stochastic forward pass, draw alpha uniformly between zero and one and replace the unweighted residual sum by alpha*F1(x) + (1-alpha)*F2(x), retaining the skip contribution. The two residual weights are coupled through their sum of one. They scale whole branch-output tensors, rather than applying independent elementwise noise or Bernoulli removal to their individual entries.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gastaldi2017v2">Shake-Shake regularization</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, PDF p. 2, Equation 2 and comparison with drop-path and elementwise noise; Section 2.1.2, PDF p. 3, image-level tensor slicing.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#redrawn-backward-coefficients</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the core Shake-Shake configuration, overwrite the scaling coefficients with new random draws before each forward pass and again before each backward pass. Figure 1 distinguishes the forward coefficient alpha from the backward coefficient beta: the two residual branches receive backward scaling beta and 1-beta. The training loss is obtained from the forward realization, while the prescribed branch backward scaling need not reuse its alpha and 1-alpha. This is a deliberately specified backward rule, not an assertion that it is the ordinary chain-rule derivative of that realized forward computation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gastaldi2017v2">Shake-Shake regularization</a></span>
+        <span>· <strong>Locator:</strong> Section 1.3, PDF p. 2, Figure 1 and training procedure; Section 2.1.2, PDF p. 3, Shake versus Keep definitions.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#image-versus-minibatch-sharing</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source distinguishes Batch and Image coefficient sharing for each residual block. Batch uses the same scaling coefficient for all images in the minibatch. Image uses a different coefficient for each image and applies that scalar across the corresponding branch tensor, including all of its channels and spatial positions. Image mode is therefore not independent per-pixel or per-channel coefficient sampling.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gastaldi2017v2">Shake-Shake regularization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1.2, PDF p. 3, Batch and Image definitions and the image-level update procedure.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#shake-even-keep-controls</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Shake means overwriting coefficients with new random numbers before the relevant pass; Even means setting them to one half; Keep means reusing the forward coefficients for the backward pass. These choices distinguish the reported Shake-Shake, Shake-Keep, Shake-Even and Even-Shake configurations. The core redrawn-forward/redrawn-backward method is not made identical to those controls merely because they use the same residual host. Later coefficient-dependence experiments in the paper are configurations, not automatically separate algorithm identities.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gastaldi2017v2">Shake-Shake regularization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1.2, PDF p. 3, forward/backward procedure definitions; Section 4, PDF pp. 6–7, coefficient-dependence experiments.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#half-weight-inference</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At inference, replace the random residual scaling coefficients with one half, giving x + (F1(x)+F2(x))/2 for the displayed identity-skip block. This equals the conditional mean of that block’s stochastic forward output when its input and branch outputs are held fixed. It does not recover the unweighted baseline residual sum and does not establish that an entire nonlinear test network equals the expected prediction or loss of its stochastic training realizations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gastaldi2017v2">Shake-Shake regularization</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, PDF p. 2, Equations 1–2 and the half-weight test-time instruction. The local conditional-mean qualification follows directly from this uniform-weight formula.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This record covers the original two-learned-branch core with a compatible skip path. It is not the residual architecture itself, Bernoulli stochastic depth, all drop-path methods, ShakeDrop, or cross-example input/label interpolation such as MixUp. The source also tests architectural variants without a skip or batch normalization in Section 5, PDF pp. 7–8; those experiments do not make every host assumption or every reported setting part of one identical procedure.</li>
+      <li>Redrawing the backward coefficient generally changes the derivative of the realized forward loss. For scalar branches F1=theta1 and F2=theta2, z=alpha*theta1+(1-alpha)*theta2 and L=z squared/2, the prescribed branch field is (beta*z,(1-beta)*z). With independent uniform alpha and beta its expectation is ((theta1+theta2)/4,(theta1+theta2)/4), whereas the gradient of the expected same forward loss is (theta1/3+theta2/6,theta1/6+theta2/3). This bounded hand example rules out an unconditional unbiased-gradient interpretation of that same objective; it is not an author-issued erratum or proof that the empirical procedure fails.</li>
+      <li>The half-weight test convention is a local conditional expectation for fixed branch outputs. Nonlinear downstream operations, dependence of intermediate activations on earlier draws and the loss prevent promoting it to an exact ensemble-average theorem. Equal branch outputs can eliminate the forward perturbation for a particular input while separately parameterized branches still receive different backward allocations.</li>
+      <li>Image, Batch, Shake, Even and Keep choices materially specify the rule. The source’s mathematical uniform draws do not certify a particular pseudorandom generator, endpoint treatment, cross-device synchronization or finite-precision implementation. No later library’s coefficient convention is silently substituted for the inspected procedure.</li>
+      <li>The source’s decorrelation observations and coefficient/architecture experiments are empirical and scoped. They do not establish universal improvement in generalization, convergence, robustness, runtime or branch independence. The conclusion explicitly leaves the dynamics for further investigation. No benchmark result or author implementation is certified by this record.</li>
+      <li>Core evidence is the fixed ten-page arXiv version 1705.07485v2, submitted 23 May 2017. The earlier four-page ICLR 2017 workshop manuscript and arXiv v1 are distinct provenance context; PDF build dates are not publication dates and numerical experiments are not merged across versions. Historical supporting research read the full v2 text and selected core visuals; the separately recorded root research reading was selective. The author code was not inspected or executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ResidualNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ResidualNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Residual Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The original procedure changes forward training, prescribed backward propagation and inference in a skip-connected host with two learned residual branches. This is a procedure-to-host association, not identity with the residual architecture, an is-a assertion or a requirement that every tested variant preserve every component of the pinned AIO class.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-gastaldi2017v2">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">gastaldi2017v2</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1705.07485v2" target="_blank" rel="noopener">Shake-Shake regularization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xavier Gastaldi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1705.07485v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5475784fc5c0…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T08:18:23Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T08:18:23Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ShakeShakeRegularization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ShakeShakeRegularization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

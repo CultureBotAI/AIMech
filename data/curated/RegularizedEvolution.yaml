@@ -1,0 +1,194 @@
+id: AIMech:RegularizedEvolution
+name: Regularized Evolution
+concept_kind: algorithm
+aliases:
+- Aging Evolution
+definition: An evolutionary neural-architecture search algorithm that selects a parent by recorded validation
+  accuracy from a uniformly sampled tournament, trains and evaluates a mutated child architecture, and
+  replaces the oldest individual in its population rather than selecting the removed individual by fitness.
+definition_evidence:
+- source_id: real2019-aaai
+  locator: Introduction, PDF p. 1 / printed p. 4780, the two names; Related Work and Evolutionary Algorithm,
+    PDF pp. 2–3 / printed pp. 4781–4782; Algorithm 1, PDF p. 3, explicit Aging Evolution and Regularized
+    Evolution identity.
+  relation: supports
+claims:
+- claim_id: trained-population-and-architecture-search
+  kind: mechanism
+  statement: The original procedure initializes a population queue with P model instances by generating
+    random architectures, training each one and measuring its validation accuracy. Each instance retains
+    its architecture and recorded score. In the studied NASNet search space, an architecture specifies
+    the normal and reduction cells; repeated cells share the chosen cell structure. The procedure searches
+    architectural choices rather than treating AmoebaNet-A, one architecture selected from its results,
+    as the algorithm itself.
+  evidence:
+  - source_id: real2019-aaai
+    locator: Methods, Search Space and Evolutionary Algorithm, PDF pp. 2–3 / printed pp. 4781–4782; Algorithm
+      1, PDF p. 3; AmoebaNet-A naming, PDF p. 6 / printed p. 4785.
+    relation: supports
+- claim_id: with-replacement-fitness-tournament
+  kind: mechanism
+  statement: 'At each update, draw S current population members uniformly with replacement and select
+    the member with the highest stored validation accuracy in that sample as the parent. Repeated draws
+    of the same individual remain possible. Parent selection depends on the recorded score, not an age
+    bonus. S controls selection pressure: with S=1 the parent is sampled uniformly, but the next architecture
+    still comes from mutating that parent rather than from the independent random-architecture baseline.'
+  evidence:
+  - source_id: real2019-aaai
+    locator: Evolutionary Algorithm and Algorithm 1, PDF p. 3 / printed p. 4782; Baseline Algorithms,
+      PDF p. 4 / printed p. 4783.
+    relation: supports
+- claim_id: whole-population-oldest-removal
+  kind: mechanism
+  statement: After a child has been trained and evaluated, append it to the population and remove the
+    oldest individual from the entire population queue. Thus the sequential procedure restores population
+    size P at each completed update, after a transient size P+1. This age-based removal differs from removing
+    the lowest-scoring member of the tournament sample. Age tracks individual residence in the population,
+    not the gene-age layers of the separately discussed ALPS method. Repeated instances or descendants
+    of an architecture are not forced to disappear merely because an older individual is removed.
+  evidence:
+  - source_id: real2019-aaai
+    locator: Related Work, PDF p. 2 / printed p. 4781, age-layer comparison; Evolutionary Algorithm and
+      Algorithm 1, PDF p. 3 / printed p. 4782.
+    relation: supports
+- claim_id: architecture-mutation-and-fresh-evaluation
+  kind: mechanism
+  statement: The NASNet application forms each child by one randomly chosen architecture mutation. A hidden-state
+    mutation changes an input connection in a selected pairwise cell combination while preventing cycles;
+    an operation mutation changes the selected operation. An identity mutation can leave the architecture
+    unchanged. The child architecture is then trained and evaluated again, including after an identity
+    mutation; the procedure passes architectures rather than defining the inherited-weight exploitation
+    used by population based training. The reported P=100, S=25 and identity-mutation probability 0.05
+    are study settings, not universal constants of aging evolution.
+  evidence:
+  - source_id: real2019-aaai
+    locator: Evolutionary Algorithm, PDF pp. 3–4 / printed pp. 4782–4783; Figure 3 and Methods Details,
+      PDF p. 4; Understanding aging evolution and regularization, PDF p. 8 / printed p. 4787.
+    relation: supports
+- claim_id: evaluation-history-and-stopping
+  kind: mechanism
+  statement: Keep the evaluated individuals in a history archive and return the individual with the highest
+    recorded accuracy in that archive. The returned individual need not remain in the final live population.
+    In the literal sequential pseudocode, initialization inserts P evaluated individuals into history
+    before the condition |history|<C is checked. For integers C>=P>0, this gives C total evaluated individuals
+    and C-P subsequent mutation updates. The archived maximum of fixed recorded scores cannot decrease
+    as history grows; this does not imply that live-population scores or expected retrained performance
+    improve monotonically.
+  evidence:
+  - source_id: real2019-aaai
+    locator: Algorithm 1, PDF p. 3 / printed p. 4782, initialization, history guard, archive insertion
+      and return statement. Evaluation counts and the archived fixed-score maximum follow directly from
+      these operations.
+    relation: supports
+- claim_id: training-noise-motivation-and-empirical-boundary
+  kind: scope
+  statement: 'The authors motivate aging as a way to limit the persistence of a lucky noisy training evaluation
+    and to require further training evaluations along architectural lineages. They explicitly present
+    that explanation as a conjecture. Their supplemental sanity check uses noisy bit strings rather than
+    neural networks: the score is the fraction of zero coordinates plus Gaussian noise. That bounded example
+    is circumstantial evidence for the motivation, not a general proof that aging removes training-noise
+    bias, preserves diversity, reaches a global optimum or outperforms other search methods.'
+  evidence:
+  - source_id: real2019-aaai
+    locator: Understanding aging evolution and regularization, PDF p. 8 / printed p. 4787, conjecture
+      and future-verification statements.
+    relation: supports
+  - source_id: real2019-arxiv-v7
+    locator: Supplement C, PDF p. 14, Motivation, Setup and Outcome; noisy unit-cube search and explicitly
+      circumstantial interpretation.
+    relation: supports
+limitations:
+- This record follows the original architecture-search procedure and its NASNet application. The host
+  search space, mutation operators, validation protocol, training effort and final enlargement of selected
+  models are separate choices. AmoebaNet architectures, ALPS gene-age layers and later platform-aware
+  or weight-sharing variants are not exact aliases of the algorithm.
+- Algorithm 1 uses an empty-set glyph for the tournament sample, while the explicit prose requires sampling
+  with replacement. A list or multiset interpretation preserves that rule; a literal distinct-member set
+  changes it. Ordinary operation requires positive integer P and S. Score ties and invalid-parameter behavior
+  are not fully specified.
+- The comment describing C evolution cycles is imprecise relative to the history guard, which includes
+  the P initialization evaluations. If C<P, the literal code still initializes P individuals before performing
+  no mutation updates. These sequential counts do not certify a hard budget under concurrent in-flight
+  training jobs.
+- The paper describes asynchronous parallel use but does not fully specify simultaneous completion order,
+  stale population reads or queue concurrency. Finite lifetimes measured in completed sequential updates
+  are not fixed wall-clock lifetimes, and removing an individual does not extinguish its architecture
+  or lineage.
+- The qualitative discussion that an inaccurately retrained model is never selected and its architecture
+  disappears is not a literal guarantee of the tournament rule. A low-scoring member can be drawn repeatedly,
+  other instances can remain and later mutations can recreate an architecture. The noise explanation does
+  not establish general diversity, convergence, optimality or statistical debiasing guarantees.
+- At S=1, uniform parent choice still induces population-dependent mutation, so it is not generally independent
+  random architecture search. Likewise S=P with replacement does not guarantee sampling every population
+  member. Uniform architectural encodings should not silently be interpreted as uniform distinct graph-isomorphism
+  classes or trained functions.
+- The core source is the official ten-page AAAI 2019 paper; the separately pinned arXiv v7 is used for
+  Supplement C only. The publisher visible publication date, its machine metadata dates and the earlier
+  2018 workshop author page are distinct. Supporting research read the full official native text and method/discussion
+  visuals, with selective supplement reading; it did not reproduce benchmarks, inspect author code or
+  verify every supplement result. No numerical performance or universal speed claim is curated.
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: The original search procedure organizes repeated model training and validation to select
+    architectures. This supports a relation to the pinned training-strategy scope without adopting its
+    preprocessing wording as the algorithm definition. The outer search algorithm is neither equivalent
+    to nor asserted to be a subclass of that AIO target, a trained network or a layer.
+review_status: DRAFT
+identity_notes: 'Current creation-context inventory at merged base fc27ccaf4668f1bf7468a10c269f5583fa3e640b
+  covered 742 maintained and 442 pinned AIO records, including IDs, names, aliases and scoped synonyms,
+  with no normalized candidate-probe collision. Four fixed-string word searches included ignored and hidden
+  files and yielded 369/373/1045/1105 occurrences. Root read all eleven distinct matching strings and
+  their selected provenance, while exact reconstruction accounted mechanically for all 2892 occurrences.
+  Hits identify existing frontier leads and historical Fast AutoAugment code inventory paths, not a maintained
+  record for this identity. The newly surfaced shakedrop.py path was listed at repository commit 2424224291616a2158a2265069ee95a78a2d13d9;
+  no implementation was opened or executed. Prior primary-source, selected-neighbor and exact pinned CLASS/incident-edge
+  inspections remain bounded by their individual research acceptances. This is not a global absence or
+  saturation claim. This record denotes the named aging evolutionary architecture-search procedure: fitness
+  tournament selection with replacement, architecture mutation and fresh training, followed by oldest-individual
+  removal. Aging Evolution is its supported alias. Generic genetic optimization, weight-inheriting Population
+  Based Training and augmentation-policy AutoAugment are neighboring but different scopes. The related
+  TrainingStrategy association does not assert equivalence or a subclass relationship.'
+evidence_sources:
+- source_id: real2019-aaai
+  title: Regularized Evolution for Image Classifier Architecture Search
+  authors:
+  - Esteban Real
+  - Alok Aggarwal
+  - Yanping Huang
+  - Quoc V. Le
+  source_type: primary_paper
+  url: https://ojs.aaai.org/index.php/AAAI/article/download/4405/4283
+  persistent_id: doi:10.1609/aaai.v33i01.33014780
+  version: AAAI 2019 proceedings 33(01):4780–4789, official ten-page PDF. Publisher visible publication
+    date is 2019-07-17; DC.Date.issued is 2019-07-23. The earlier 2018 workshop author page is a distinct
+    version context.
+  access_level: full_text
+  sha256: 39fa5f1d74dd380c050a8d91f7251212b00056f1fc385a262f06ae2366636dee
+  accessed_at: '2026-10-15T07:35:11Z'
+- source_id: real2019-arxiv-v7
+  title: Regularized Evolution for Image Classifier Architecture Search
+  authors:
+  - Esteban Real
+  - Alok Aggarwal
+  - Yanping Huang
+  - Quoc V. Le
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1802.01548v7
+  persistent_id: arXiv:1802.01548v7
+  version: arXiv:1802.01548v7, 16 February 2019, sixteen-page author manuscript including supplements.
+    Supplement C on PDF p. 14 supplies the cited toy-noise scope; no all-version or full-manuscript review
+    is asserted.
+  access_level: full_text
+  sha256: bc74c52b4c131de073b6fa9318ef653dc0719aa99d0e5103d3f8d254c2e0cb92
+  accessed_at: '2026-10-15T07:38:39Z'
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T08:18:23Z'
+  updated_at: '2026-10-15T08:18:23Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
