@@ -1,0 +1,220 @@
+id: AIMech:PerspectiveTransformerNets
+name: Perspective Transformer Nets
+concept_kind: architecture
+aliases: []
+definition: An image-to-volume neural architecture that combines a convolutional image encoder and volumetric
+  decoder with a supplied-camera projection component. Training compares projected volume silhouettes
+  with observed silhouettes from known viewpoints, optionally together with volumetric supervision; the
+  learned encoder and decoder predict a 3D volume from one input image.
+definition_evidence:
+- source_id: yan2016-main
+  locator: Section 3.1, PDF p. 3, Equations 1–2; Sections 3.2–3.3, PDF p. 4; Figure 2 and Experimental
+    Design, PDF p. 5.
+  relation: supports
+claims:
+- claim_id: convolutional-image-to-volume-framework
+  kind: mechanism
+  statement: For an input image I, the framework predicts a volume as V_hat=f(I)=g(h(I)), where h is the
+    image encoder and g is the volume decoder. The original architecture uses a 2D convolutional encoder
+    with a fully connected bottleneck and a 3D up-convolutional decoder. A nested perspective projection
+    component turns the predicted volume into view-dependent silhouettes for training. The learned encoder
+    and decoder are distinct from this supplied-camera projection operation.
+  evidence:
+  - source_id: yan2016-main
+    locator: Section 3.1, PDF p. 3, encoder–decoder definition; Section 4, Network Architecture, PDF pp.
+      4–5; Figure 2, PDF p. 5.
+    relation: supports
+- claim_id: supplied-camera-volume-resampling
+  kind: mechanism
+  statement: The projection component takes a viewpoint-dependent transformation matrix as input and samples
+    a source volume in world coordinates onto an output grid in screen coordinates and disparity. The
+    paper prints Theta=diag(K,1)[R t;0^T 1] and p_s proportional to Theta p_t, with p_s=(x_s,y_s,z_s,1)
+    and p_t=(x_t,y_t,1,d_t). The supplement relates normalized screen coordinates to unprojected coordinates
+    by x_t=x_tilde/z_tilde, y_t=y_tilde/z_tilde and d_t=1/z_tilde. These are the printed coordinate conventions;
+    the matrix is supplied, rather than estimated by a learned camera-localization network in this construction.
+  evidence:
+  - source_id: yan2016-main
+    locator: Section 3.2, PDF p. 4, Equation 3 and the coordinate definitions and supplied-transformation
+      paragraph.
+    relation: supports
+  - source_id: yan2016-supplement
+    locator: Section 1, Perspective Projection, PDF p. 1, Equations 1–2; PDF p. 2, opening normalized-coordinate
+      and disparity definitions.
+    relation: supports
+- claim_id: trilinear-tent-sampling-and-max-projection
+  kind: mechanism
+  statement: At a source location (x_s,y_s,z_s), the sampled value is U_i=sum_n sum_m sum_l V_nml phi(x_s-m)
+    phi(y_s-n) phi(z_s-l), with phi(a)=max(0,1-abs(a)). The product of three one-dimensional tent factors
+    implements trilinear interpolation over the source voxel grid. The silhouette value is then S_n'm'=max_l'
+    U_n'm'l', taking a maximum along disparity rather than summing the ray. The supplement calls its kernel
+    bilinear, while its displayed formula contains all three interpolation axes.
+  evidence:
+  - source_id: yan2016-main
+    locator: Section 3.2, PDF p. 4, Equation 4 and the max-versus-sum explanation.
+    relation: supports
+  - source_id: yan2016-supplement
+    locator: Section 1, Differentiable Volume Sampling, PDF p. 2, Equations 3–4 and the stated tent kernel.
+    relation: supports
+- claim_id: silhouette-and-combined-objective-regimes
+  kind: mechanism
+  statement: 'For an input view I_k, the projection objective averages squared silhouette discrepancies
+    over supplied target views: L_proj(I_k)=(1/n) sum_j ||P(f(I_k);alpha_j)-S_j||^2. When a target volume
+    V is available, the additional objective is L_vol(I_k)=||f(I_k)-V||^2, and the combined loss is lambda_proj
+    L_proj + lambda_vol L_vol. The paper names projection-only training PTN-Proj and combined training
+    PTN-Comb; its volume-only comparison is CNN-Vol. Avoiding ground-truth volumes in PTN-Proj does not
+    remove the silhouette and camera supervision.'
+  evidence:
+  - source_id: yan2016-main
+    locator: Section 3.1, PDF p. 3, volume objective and Equations 1–2; Section 4, Experimental Design,
+      PDF p. 5.
+    relation: supports
+- claim_id: staged-encoder-and-volume-training
+  kind: mechanism
+  statement: The original training procedure first pretrains the image encoder using a recurrent view-rotation
+    curriculum to encourage a representation of object identity across views. It then trains the volume
+    generator with the projection-based objective and includes projections from neighboring viewpoints
+    in minibatches. Equation 5 states the desired equality of latent representations for views of the
+    same object; this is a training aim, not a proved invariance or unique-shape guarantee. The reported
+    optimization uses ADAM.
+  evidence:
+  - source_id: yan2016-main
+    locator: Section 3.3, PDF p. 4, Equation 5 and two-stage training paragraphs; Section 4, Implementation
+      Details, PDF p. 5.
+    relation: supports
+- claim_id: single-image-inference-and-multiview-training
+  kind: scope
+  statement: The learned mapping f predicts a volume from one image at inference, whereas training can
+    compare that volume with silhouettes of the same object from several known viewpoints. The main experimental
+    setting supplies all 24 rendered views per training object. The supplement also describes training
+    with eight views, either within a 105-degree range or spaced by 45 degrees around the object, with
+    corresponding shorter encoder curricula. Those partial-view experiments concern the chair category
+    and do not establish arbitrary-view or arbitrary-object recovery.
+  evidence:
+  - source_id: yan2016-main
+    locator: Section 3.1, PDF p. 3, single-view prediction f(I); Section 4, ShapeNetCore, PDF p. 4, and
+      Implementation Details, PDF p. 5.
+    relation: supports
+  - source_id: yan2016-supplement
+    locator: Section 2, Details regarding learning from partial views, PDF p. 2, both eight-view protocols
+      and the single-category qualification.
+    relation: supports
+limitations:
+- The printed camera convention remains unresolved as an implementation specification. With conventional
+  world-to-camera extrinsics, mapping screen coordinates and disparity back to world coordinates normally
+  requires inverse calibration and extrinsics; the paper instead prints its K[R|t] factorization together
+  with p_s proportional to Theta p_t. A different convention may explain this, and no author implementation
+  was inspected. The record preserves the source formulas without silently inverting a matrix, declaring
+  an author-code defect, or certifying a camera convention. The supplement requires a nonzero denominator
+  for its coordinate and disparity normalization; numeric grid ranges, units and boundary handling are
+  not fully certified here.
+- Tent interpolation and maximum projection are piecewise differentiable. Tent knots and ties for the
+  maximum require derivative or subgradient conventions; differentiable training does not mean smoothness
+  everywhere. For fixed sampling coordinates, gradients with respect to voxel values pass through the
+  active maximum and its interpolation weights, but this local property is not a convexity or convergence
+  guarantee for the complete learned encoder–decoder. Padding and out-of-grid sampling behavior remain
+  implementation gaps.
+- A maximum along disparity is the specified silhouette surrogate, not a complete physical visibility,
+  ray-termination or alpha-compositing model. Binary target volumes motivate the source explanation, but
+  interpolation can yield fractional samples, and binary ground-truth voxels do not prove that decoder
+  predictions are binary or calibrated occupancy probabilities. The evaluation threshold of 0.5 is a reported
+  evaluation convention, not an asserted hard threshold throughout training.
+- Projection-only training omits ground-truth volume supervision but still uses silhouettes, supplied
+  camera viewpoints and correspondence among views of the same object. The original setup assumes a clean
+  white background and constant lighting; real-image masks require additional segmentation. Different
+  shapes, including hidden interior differences, can share the same observed silhouettes. Matching these
+  masks does not uniquely determine a 3D shape, and the visual-hull discussion is a hypothesis rather
+  than an identifiability theorem.
+- The encoder curriculum and Equation 5 express the desired view-invariant representation. Exact latent
+  equality, global optimization and a universal single-view reconstruction guarantee are not established.
+  The description of encoder pretraining followed by volume training does not by itself certify which
+  encoder parameters are frozen or updated in every implementation. The complete framework has learned
+  encoder and decoder parameters; the supplied-camera projection component alone is described without
+  a learned localization stage.
+- The original network, rendered-image conditions, volume resolution, category choices and optimizer settings
+  bound the empirical evidence. The eight-view experiments in the supplement use the chair category; their
+  conclusions do not establish general recovery under arbitrary camera coverage, occlusion, backgrounds
+  or unseen object distributions. No universal accuracy, runtime or memory advantage, training reproduction
+  or new numerical benchmark is claimed.
+- The evidence consists of the exact nine-page official NIPS 2016 main paper and the four-page supplementary
+  PDF extracted from its official ZIP. Publication year, PDF build timestamps and actual source-access
+  times are distinct. The same supplementary bytes were encountered through an unrelated Swapout link
+  and excluded from Swapout evidence; the PTN acquisition follows its own official route. ArXiv metadata
+  does not establish preprint byte equality. Author code, training, benchmarks and the cited view-rotation
+  and space-carving methods were not independently reproduced or fully audited.
+aio_mappings:
+- target: AIO:DeepConvolutionalNetwork
+  relation: related_match
+  rationale: The original host uses a convolutional image encoder and an up-convolutional volume decoder,
+    supporting a qualified architectural association with the pinned visual-network class. That class
+    does not identify the supplied-camera projection, silhouette objective or full PTN framework. Its
+    translation-equivariant feature-map description is not asserted for the whole model through the fully
+    connected bottleneck. This relation is neither equivalence nor subclass membership, and the name does
+    not imply an attention-based Transformer architecture.
+review_status: DRAFT
+identity_notes: The original 2016 image-to-volume architecture contains a supplied-camera perspective
+  projection component. PTN-Proj/PTN-Comb denote objective regimes within this framework, not exact aliases
+  for unrelated methods or automatic separate records. It differs from the learned image-warp localization
+  module SpatialTransformer and from attention Transformers. The related DeepConvolutionalNetwork mapping
+  concerns its convolutional host and does not transfer whole-network equivariance through the fully connected
+  bottleneck. At the actual clean cohort 338 base 5bca5a88c58998cc790594358d178fe828da1eea, the complete
+  inventory contained 748 native and 442 pinned AIO records. Normalized IDs, local IDs, names, aliases
+  and all scoped synonyms comprised 4761 field occurrences and 3640 distinct normalized values. The selected
+  candidate probes had no collision; the sole normalized contextual hit was AIMech:SpatialTransformer.
+  Four full-checkout searches included ignored and hidden files and returned 134/136/349/418 occurrences,
+  grouped losslessly into 48 distinct contents. Root read all 48 contents, the provenance representatives/root
+  sets and current relevant frontier objects. These hits are the existing SpatialTransformer record and
+  its generated/review/history contexts, the carried IC-STN owner, or the separately pending PTN source
+  context. All 909 main and 393 nested frontier objects were mechanically queried recursively. The actual
+  inventory preserves the historical semantic research bytes, with only the three unrelated cohort 337
+  regularizers added to the earlier PTN snapshot. This is bounded snapshot/semantic-neighborhood evidence,
+  not a global absence or saturation claim. Reuse owner 908, retaining its own official main-paper URL;
+  the earlier Swapout supplement mismatch is source-discovery provenance, not Swapout evidence. Prior
+  source-agent reading of 31 semantic rows, 18 exact AIO nodes / 142 edges and 33 frontier objects remains
+  attributed; root separately read the primary scope and full SpatialTransformer as recorded in the research
+  acceptance.
+evidence_sources:
+- source_id: yan2016-main
+  title: 'Perspective Transformer Nets: Learning Single-View 3D Object Reconstruction without 3D Supervision'
+  authors:
+  - Xinchen Yan
+  - Jimei Yang
+  - Ersin Yumer
+  - Yijie Guo
+  - Honglak Lee
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/2016/file/e820a45f1dfc7b95282d10b6087e11c0-Paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-15T08:44:01Z'
+  sha256: 3a05c686eec60a5815fdfe0c7f913f453757f014196c2cbe36e9f83e88f12f9c
+  version: Official NIPS 2016 proceedings PDF, Advances in Neural Information Processing Systems 29, bibliographic
+    pp. 1696–1704; nine local PDF pages. PDF modification metadata is 12 January 2017 and is a file-build
+    timestamp, not an asserted publication date. No byte equivalence to the separately indexed arXiv versions
+    is asserted.
+- source_id: yan2016-supplement
+  title: 'Perspective Transformer Nets: Learning Single-View 3D Object Reconstruction without 3D Supervision
+    — Supplementary Materials'
+  authors:
+  - Xinchen Yan
+  - Jimei Yang
+  - Ersin Yumer
+  - Yijie Guo
+  - Honglak Lee
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/2016/file/e820a45f1dfc7b95282d10b6087e11c0-Supplemental.zip
+  access_level: full_text
+  accessed_at: '2026-10-15T08:44:48Z'
+  sha256: c179f3b2039a283b5db1327540646b0d1eb74f069def8ebf50db9dfa36e5d1e4
+  version: Four-page supplementary PDF, member nips2016_935_supp.pdf extracted from the official NIPS
+    2016 PTN Supplemental.zip. The declared SHA-256 binds the PDF member; the archive hash and extraction
+    relationship are retained in the draft inputs. PDF build metadata is 1 November 2016, not an asserted
+    publication date.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T09:56:01Z'
+  updated_at: '2026-10-15T09:56:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
