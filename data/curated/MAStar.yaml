@@ -1,0 +1,243 @@
+id: AIMech:MAStar
+name: MA*
+aliases: []
+definition: A memory-controlled heuristic tree-search algorithm that stores separate
+  lower bounds for absent and all successors, expands promising continuations, backs
+  up successor costs, and prunes selected high-cost leaves while retaining bounds
+  for regeneration.
+concept_kind: algorithm
+identity_notes: Current ignored-inclusive identity review on 2026-10-16 at base 0da1b27de4ee552bc8fb16a083d0f91d2a093142
+  examined1241 records,4921 identity occurrences and3760 normalized values, plus945
+  exact search occurrences in215 distinct content groups across four recorded roots.
+  No candidate or context normalized collision was found for the recorded probes.
+  MA* is curated as displayed ordinary-tree OPEN/CLOSED search with successor lower
+  bounds and F-driven pruning; it remains distinct from the other member of this pair,
+  MREC, SMA*, ITS, RBFS, RTAA* and amortized SVGD. Full current neighbor and inherited
+  search-context readings are explicitly attributed in the discovery report; this
+  is bounded absence evidence, not global novelty. Shared current source responsibility
+  is main911, which remains partial; all27 original source items and separate main7/main912
+  responsibilities survive.
+definition_evidence:
+- source_id: chakrabarti1989
+  locator: Sections2.1–2.2, printed pp.198–201 / reader pp.2–5
+  relation: supports
+claims:
+- claim_id: separate-successor-bounds
+  kind: mechanism
+  statement: For each node n, MA* stores g(n), depth d(n), and a remaining-cost estimate
+    h(n,m) for each successor. It defines hf(n) as the minimum over successors absent
+    from the explicit tree and hF(n) as the minimum over all successors; f(n)=g(n)+hf(n)
+    is used for expansion selection and F(n)=g(n)+hF(n) for backed-up cost and pruning.
+  evidence:
+  - source_id: chakrabarti1989
+    locator: Section2.2, Definition2.2, printed p.199 / reader p.3; Algorithm MA*
+      initialization on p.200 / reader p.4
+    relation: supports
+- claim_id: selection-and-continuation
+  kind: mechanism
+  statement: Select the OPEN node with minimum f, breaking ties toward greater depth,
+    and save its value as GL. Generate its next most promising absent successor. If
+    that child has f<=GL, continue directly from it; otherwise perform bottom-up revision
+    and the memory check before returning to global selection. A node with no ungenerated
+    successors leaves OPEN for CLOSED.
+  evidence:
+  - source_id: chakrabarti1989
+    locator: Section2.2 and Algorithm MA*, printed pp.199–201 / reader pp.3–5, steps2–7
+    relation: supports
+- claim_id: pathmax-and-branch-backup
+  kind: mechanism
+  statement: For a generated child m of n and q in S(m), pathmax raises h(m,q) to
+    at least h(n,m)-c(n,m). Bottom-up revision increases a parent branch estimate
+    h(q,p) to hF(p)+c(q,p) when that value is larger, recalculates the parent hF and
+    F, and propagates the revision upward. Retained branch bounds carry information
+    about subsequently pruned descendants.
+  evidence:
+  - source_id: chakrabarti1989
+    locator: Printed pp.199–201 / reader pp.3–5, pathmax display and step6
+    relation: supports
+- claim_id: base-pruning-rule
+  kind: mechanism
+  statement: If count exceeds MAX after revision, repeatedly select the OPEN leaf
+    with greatest F, breaking ties toward shallower depth. If its F equals the root
+    F, stop pruning and return to selection; otherwise remove it, decrement count,
+    reopen its parent from CLOSED if needed and recompute that parent’s hf and f.
+    Base MA* does not stop pruning merely because count has fallen to MAX.
+  evidence:
+  - source_id: chakrabarti1989
+    locator: Algorithm MA*, printed p.201 / reader p.5, steps7–8; theta variant on
+      p.205 / reader p.9
+    relation: supports
+- claim_id: source-memory-measure
+  kind: scope
+  statement: MAX denotes extra search storage. The paper states count<=MAX+|C*|, with
+    |C*| defined as the greatest length of a path whose f value is at most the optimal
+    solution cost C*. This is a source-specific search-state count statement, conditional
+    on the relevant quantity being finite, rather than a strict total-memory or byte
+    cap.
+  evidence:
+  - source_id: chakrabarti1989
+    locator: Printed pp.198–200,204 / reader pp.2–4,8; definition of |C*|, initialization
+      and Theorem2.10
+    relation: supports
+- claim_id: memory-endpoint-boundary
+  kind: scope
+  statement: With sufficiently large MAX, pruning is avoided and the source describes
+    A*-like operation with one successor generated at a time. With MAX=0 it describes
+    an iterative-deepening-like procedure whose backed-up successor ordering differs
+    from the cited IDA* comparator. These endpoint comparisons do not make the complete
+    parameterized MA* procedure an alias of A* or IDA*.
+  evidence:
+  - source_id: chakrabarti1989
+    locator: Section2.3.1, printed p.205 / reader p.9
+    relation: supports
+evidence_sources:
+- source_id: chakrabarti1989
+  title: Heuristic Search in Restricted Memory
+  authors:
+  - P. P. Chakrabarti
+  - S. Ghose
+  - A. Acharya
+  - S. C. de Sarkar
+  source_type: primary_paper
+  url: https://www.scribd.com/document/1036541577/BaiBao12
+  persistent_id: doi:10.1016/0004-3702(89)90010-6
+  version: Artificial Intelligence41(2),197–221,1989; printed footer41(1989/90). Inspected25-page
+    public-reader scan reproduction. SHA-256 identifies public-reader-scan-bundle.json,
+    a JSON manifest binding every original image and HTML/JSONP asset; it is not a
+    publisher/downloaded journal PDF hash and does not establish publisher-byte equivalence.
+    The1987 ELDECS predecessor remains metadata-only.
+  access_level: full_text
+  accessed_at: '2026-10-16T02:59:32Z'
+  sha256: 199bddda69540c8c68cf7e2e72ac33cfbf1df8c9a3d2e97e2e5c8e98931fa17c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Historical branch358 snapshot: pinned AIO commit397851c547d1c4d8f06ef184f63c1d40bc86937a,
+    SHA256 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6. All442
+    CLASS identity/synonym fields mechanically compared and class labels read;22 selected
+    full nodes and all133 incident relations inspected. Other definitions and external
+    definition-source papers were not all reread. This is a bounded pinned-snapshot
+    mapping proposal requiring reassessment at eventual curation.'
+  rationale: The retained concepts are resource-controlled heuristic search algorithms.
+    The inspected pinned AIO candidates describe supervised/learning tasks, neural
+    or language models/layers, graph representations and mathematical functions; shared
+    words such as graph, memory, recursive or minimum do not establish an exact, broader,
+    narrower or substantive related match.
+  examined_targets:
+  - target: AIO:Classification
+    rejection_reason: AIO specifies supervised grouping of things. Neither retained
+      algorithm is a classifier.
+  - target: AIO:DecisionTree
+    rejection_reason: AIO defines a classification decision model; a heuristic search
+      tree or AND/OR solution graph is not that classifier.
+  - target: AIO:GraphConvolutionalNetwork
+    rejection_reason: The class is a deep neural network using graph structure, not
+      a heuristic search procedure over problem states.
+  - target: AIO:GraphConvolutionalPolicyNetwork
+    rejection_reason: This is a graph-convolutional reinforcement-learning graph generator.
+      Neither candidate trains or deploys that policy network.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on graph-structured language inputs/outputs
+      is not the candidate search procedure.
+  - target: AIO:Layer
+    rejection_reason: A neural/deep-learning topology component is not a stateful
+      search algorithm.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The defining process builds methods that learn from data. Neither
+      candidate requires such learning; cost-bound revision is not sufficient to assert
+      this relation.
+  - target: AIO:MathematicalFunction
+    rejection_reason: A mathematical input/output rule does not identify these stateful
+      search algorithms. Their evaluation functions are components, not the curated
+      concept itself.
+  - target: AIO:MaximumLayer
+    rejection_reason: Elementwise tensor merging in a neural layer is unrelated to
+      selecting a highest-cost pruning candidate or a possible AND cost aggregation.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: External readable/writable memory in an LLM is distinct from
+      managing search nodes/arcs under memory pressure.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: A cell layer with internal state/weights is not retained frontier
+      or solution-graph storage.
+  - target: AIO:MinimumLayer
+    rejection_reason: Elementwise tensor merging in a neural layer is not search bound
+      minimization.
+  - target: AIO:Model
+    rejection_reason: The class denotes an abstract system representation. The candidates
+      are procedures operating on search representations, not the represented system/model.
+  - target: AIO:Network
+    rejection_reason: The class denotes interconnected entities. A problem graph can
+      be such a representation, but that does not make the algorithm traversing it
+      a Network or substantiate a mapping.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: Neither candidate is an LLM combining neural language modeling
+      and symbolic reasoning.
+  - target: AIO:Preprocessing
+    rejection_reason: Neither algorithm is defined as formatting or transforming raw
+      data for a machine-learning model.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The AIO class represents conditional dependence among random
+      variables. MAO* acyclic AND/OR cost decomposition does not require a probabilistic
+      graphical model; MA* also does not.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Heuristic search is not evidence that the algorithms are large
+      language models or a specific LLM reasoning component.
+  - target: AIO:RecursiveLLM
+    rejection_reason: Recursive neural architectures learning syntactic composition
+      differ from search recursion/retained bound propagation.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: A deep recursive language network with neural layers is not
+      either search procedure.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Neither candidate is defined by learning from reward through
+      exploration/exploitation. Selecting promising branches is insufficient for this
+      mapping.
+  - target: AIO:TrainingStrategy
+    rejection_reason: Neither source procedure trains a machine-learning model, and
+      its memory/pruning policy is not the AIO preprocessing/training class.
+limitations:
+- The displayed MA* procedure is for trees. Its graph-extension paragraph asserts
+  that pathmax removes CLOSED reopening, but a complete graph duplicate, cycle and
+  improved-path update policy is not specified here; no general graph-search correctness
+  guarantee is inferred from path-local monotonicity.
+- The source assumes admissible lower-bound heuristic estimates. Its infinite-graph
+  termination argument uses finite positive individual arc costs, which alone do not
+  exclude an infinite path with finite total cost. Unrestricted termination is not
+  certified; finite relevant cost contours or suitable stronger premises would need
+  a separate argument and are not attributed as printed assumptions.
+- MAX and count do not measure portable total machine memory. The root is present
+  while count initializes to zero; successor estimates, node fields, OPEN/CLOSED structures
+  and transient generation must be accounted for in an implementation. MAX=0 is not
+  zero storage, and a finite MAX+|C*| statement requires a finite relevant |C*|.
+- MA* at its memory endpoints is not treated as exact algorithmic equivalence to maintained
+  A* or IDA*. Different successor ordering, partial expansion and retained bounds
+  can change its execution; no global duplicate-policy equivalence is asserted.
+- MA*-PP, MA*-thetaP, MA*-phiP, MA*-MO and MA*-VO are retained named variant questions.
+  Their admission, pruning, OPEN organization or secondary-storage choices are not
+  silently included in the base procedure, asserted as aliases, or accepted as separate
+  concepts.
+- The reported experiments concern particular Fifteen Puzzle problems and heuristic
+  settings. Later comparisons modify Manhattan estimates at nongoals, and node counts
+  need not decrease monotonically with memory. No universal runtime, expansion-count
+  improvement or benchmark replication is claimed.
+- The worst-case savings analysis assumes a uniform b-ary unit-cost tree, zero heuristic
+  and fixed solution depth. Its parameter-dependent node-generation calculation is
+  not a graph-independent multivariate or wall-clock-runtime guarantee.
+- Evidence is the inspected25-page third-party journal scan reproduction, not a publisher
+  PDF. The1987 ELDECS conference paper was identified from author metadata but not
+  acquired; its exact relationship to the journal version and the thesis/other referenced
+  originals remains unresolved.
+- The displayed pseudocode is not certified as a complete executable interface. Its
+  upward revision queue has no explicit root-parent stopping guard, successor-minimum
+  initialization for goals or dead ends is not fully spelled out, and no OPEN-empty
+  failure return is displayed. These conventions remain source questions; no repair
+  or general unsolvable-instance behavior is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-16T04:23:47Z'
+  updated_at: '2026-10-16T04:23:47Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
