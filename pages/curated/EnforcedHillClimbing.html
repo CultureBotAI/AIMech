@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enforced hill climbing · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Enforced hill climbing</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Enforced hill climbing</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:EnforcedHillClimbing</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A forward state-space search controller that repeatedly uses breadth-first search to find a state with a strictly smaller heuristic value, commits the intervening action path, and continues from that state until a zero-valued goal is reached or no improvement is reachable.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The identity is the unpruned Figure 3 enforced hill-climbing controller in Hoffmann and Nebel 2001: complete FIFO escape to a strict heuristic improvement, with irreversible prefix commitment. It differs from strict immediate-neighbor hill climbing, its BFS subroutine, global best-first selection, stochastic-local-search families, STRIPS means–ends planning, learned RTA*/LRTA* backups, ILS and GLS. Full FF and its relaxed-plan heuristic, pruning and fallback composition are not aliases. Fresh16 October 2026 collection at merged base917e850123890bd00e671353652fe53101f83bfb compared 790 native and 442 pinned AIO records, 4,888 identity fields/3,732 normalized values with zero candidate collisions. Four ignored/hidden-inclusive searches returned 128/119/297/636 occurrences, grouped into78 exact contents and read in full as unique contents by root, with independent supporting readings separately recorded. All 913 main/394nested objects were recursively queried; the 3 matching objects and 12 neighbor identity/definition projections were read. Eleven exact AIO CLASS contexts with 51incident edges were inspected. This bounded search is not all-literature coverage. Main 910 becomes partial while retaining seven explicit source/component questions; main 8/nested 393 owns the separate LSS method. Historical pointers/access statements remain provenance.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#strict-macro-improvement</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Start with an empty plan and the initial state. While the current state has nonzero heuristic value, perform breadth-first search from it for a state with strictly smaller heuristic value. If the search succeeds, append the actions on that path to the plan and make its endpoint current; if no such state can be reached, report failure. A zero-valued current state ends the procedure.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hoffmann-nebel2001">The FF Planning System: Fast Plan Generation Through Heuristic Search</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1, Figure 3 and following description, PDF pp.12–13 / printed264–265.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#breadth-first-escape</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The described escape search uses a FIFO queue and a hash table of visited states. It evaluates the state removed from the front, accepts the first strict improvement over the episode’s starting value, and otherwise enqueues its successors. Exhausting reachable new states yields failure. With complete successor generation, breadth-first ordering makes the accepted improvement nearest by number of actions, subject to successor ordering among equal-depth alternatives.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hoffmann-nebel2001">The FF Planning System: Fast Plan Generation Through Heuristic Search</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1, PDF p.13 / printed265, queue implementation and closest-better-successor description. The equal-depth qualification is a curator inference from FIFO ordering.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#commitment-and-intermediate-states</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The algorithm retains the chosen action prefix and does not undo a commitment merely to try a different improvement from an earlier episode. Strict improvement constrains the successive accepted episode endpoints; the intermediate states on an escape path need not improve at each action. This permits traversal of plateaus and initially worsening paths that a strict neighbor-improvement procedure would reject.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hoffmann-nebel2001">The FF Planning System: Fast Plan Generation Through Heuristic Search</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1, PDF pp.12–13 / printed264–265, local minima/plateaus and Figure 3; Section 5.2, PDF p.13 / printed265, irreversible prefix commitment.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#conditional-completeness</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the finite propositional planning setting and the unpruned complete breadth-first escape search, Proposition 4 establishes solution finding on dead-end-free tasks. The paper states the condition that the heuristic maps states to nonnegative integers and is zero exactly at goal states. Any non-goal committed state then has a reachable goal with smaller value, and accepted values decrease. This is a conditional result for the core controller, not a guarantee for FF’s additional pruning rules.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hoffmann-nebel2001">The FF Planning System: Fast Plan Generation Through Heuristic Search</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, Proposition 4 and qualification immediately after its proof, PDF pp.13–14 / printed265–266; Sections 6.1.1–6.1.2, PDF pp.18–19 / printed270–271.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#controller-versus-full-ff</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The controller consumes a heuristic and state-transition model. In FF it is combined with a relaxed-GRAPHPLAN heuristic and optional search restrictions. FF’s complete fallback discards the failed attempt and starts greedy best-first search from the original task, with helpful-actions and added-goal-deletion pruning disabled. That fallback composition is distinct from the enforced hill-climbing controller itself.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hoffmann-nebel2001">The FF Planning System: Fast Plan Generation Through Heuristic Search</a></span>
+        <span>· <strong>Locator:</strong> Section 2 and Figure 1, PDF p.3 / printed255; Section 5.2, PDF p.15 / printed267; Section 6 introduction and integration passages, PDF pp.16,19–21 / printed268,271–273.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The controller can commit to a reachable dead end on a solvable task. Failure from that committed state does not establish that the original initial state has no solution, and the mere presence of some dead ends does not imply every run fails.</li>
+      <li>Helpful-actions pruning can remove every solution even on a dead-end-free task; added-goal-deletion pruning has a separate such counterexample. Therefore the core dead-end-free completeness statement cannot be transferred to these restricted FF search variants. Their empirical usefulness is not a completeness proof.</li>
+      <li>The nearest strict improvement is measured in number of actions in the breadth-first episode. It need not be the improvement with best heuristic value, the minimum weighted-cost escape, or a prefix of a globally shortest plan. Successor order can select different equal-depth improvements.</li>
+      <li>Each escape search can retain a substantial queue and visited-state table and may inspect all states reachable from its current start. No fixed lookahead budget, real-time bound, polynomial runtime, or completeness for arbitrary infinite spaces follows from the controller. A resource cutoff is an additional stopping rule.</li>
+      <li>The zero-heuristic stopping rule requires zero to identify exactly the goal states. The cited theorem is stated for nonnegative integer values and complete unpruned search; it is not asserted for arbitrary approximate goal tests, changing heuristic tables or restricted successor generation. Admissibility is not a premise of that theorem.</li>
+      <li>This record scope is the base search controller, not the full FF planner, the relaxed-plan heuristic, helpful-actions pruning, added-goal deletion, goal-agenda planning, or the 1971 STRIPS means–ends procedure. It does not perform LRTA*’s learned heuristic backups. The inspected planning formulation assumes a known deterministic transition model and fully specified states; no stochastic or partially observed extension is established here.</li>
+      <li>Assessment uses the 2001 author-hosted JAIR method, OCR with critical visual checks, and selected later sections of the same 2001 paper. The cited ISMIS-2000 predecessor, FF source implementation, and PDF pages26–38 were not inspected. No invention-priority, benchmark ranking, empirical speedup, or implementation-conformance claim is made.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No informative exact, broader, narrower or related AIO target was established for the complete heuristic search controller among the inspected pinned contexts. An action-state graph is not by itself a network architecture or decision-tree classifier; supplied heuristic guidance is not reward learning, an LLM, meta-learning or a human cognitive bias. The assessment is bounded to the pinned 442-class snapshot and the examined targets, not every ontology.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> The identity is the unpruned Figure 3 enforced hill-climbing controller in Hoffmann and Nebel 2001: complete FIFO escape to a strict heuristic improvement, with irreversible prefix commitment. It differs from strict immediate-neighbor hill climbing, its BFS subroutine, global best-first selection, stochastic-local-search families, STRIPS means–ends planning, learned RTA*/LRTA* backups, ILS and GLS. Full FF and its relaxed-plan heuristic, pruning and fallback composition are not aliases. Fresh16 October 2026 collection at merged base917e850123890bd00e671353652fe53101f83bfb compared 790 native and 442 pinned AIO records, 4,888 identity fields/3,732 normalized values with zero candidate collisions. Four ignored/hidden-inclusive searches returned 128/119/297/636 occurrences, grouped into78 exact contents and read in full as unique contents by root, with independent supporting readings separately recorded. All 913 main/394nested objects were recursively queried; the 3 matching objects and 12 neighbor identity/definition projections were read. Eleven exact AIO CLASS contexts with 51incident edges were inspected. This bounded search is not all-literature coverage. Eight examined AIO targets are rejected for the stated reasons; the other three inspected contexts help assess the separate learned LSS method. No suitable EHC mapping was established in the pinned snapshot. Supplied heuristic guidance alone is not a learning task, neural architecture, LLM or cognitive bias.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DecisionTree.html"><code>AIO:DecisionTree</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is a classification/decision model. A queue traversal over a planning state graph is not that classifier.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Network.html"><code>AIO:Network</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target denotes an interconnected system. The candidate is a control procedure on states; use of a graph/queue does not establish algorithm identity or a useful broad/related match.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is a learning task balancing exploration/exploitation. The candidate performs deterministic model-based search with a supplied heuristic; there is no reward-driven policy/value learning requirement.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/AvailabilityHeuristicBias.html"><code>AIO:AvailabilityHeuristicBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is a human judgment bias from easy recall, despite the exact synonym Availability Heuristic. This is unrelated to the specified escape-search procedure.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/StreetlightEffectBias.html"><code>AIO:StreetlightEffectBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is a human search bias toward easy locations. Lexical search overlap does not define the algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/CognitiveBias.html"><code>AIO:CognitiveBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target describes deviations from rational human judgment and mentions mental heuristics. It is not a computational search controller.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReasoningLLM.html"><code>AIO:ReasoningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is an LLM with explicit reasoning during language tasks. Symbolic planning search need not contain any language model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MetaLearning.html"><code>AIO:MetaLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target learns from experiment metadata. No such learning mechanism occurs in this controller.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-hoffmann-nebel2001">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">hoffmann-nebel2001</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf" target="_blank" rel="noopener">The FF Planning System: Fast Plan Generation Through Heuristic Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jörg Hoffmann, Bernhard Nebel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1613/jair.855</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d7965e902894…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-16T01:07:36Z</div>
+    <div><strong>Updated:</strong> 2026-10-16T01:07:36Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/EnforcedHillClimbing.yaml" target="_blank" rel="noopener">
+      <code>data/curated/EnforcedHillClimbing.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

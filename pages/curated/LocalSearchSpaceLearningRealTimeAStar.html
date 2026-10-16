@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local search space learning real-time A* · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Local search space learning real-time A*</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Local search space learning real-time A*</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LocalSearchSpaceLearningRealTimeAStar</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LSS-LRTA*, Local search space LRTA*
+    </div>
+
+  <div class="detail-desc">
+    A real-time heuristic learning algorithm that constructs a bounded local search space with A*, repairs the heuristic values of its expanded states from the unexpanded boundary using reverse Dijkstra propagation, and executes the A* path to a selected boundary state before repeating.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The identity is the 2009 Koenig–Sun LSS-LRTA* algorithm: bounded local A*, reverse-Dijkstra boundary repair over predecessor edges, then original-tree-path commitment. It differs from basic LRTA* one-state updates, RTA* second-best backups, ordinary full A*, Dijkstra alone, EHC escape and RTAA* F-minus-g repair/movement-cap controls. The 2004 predecessor remains a source-version follow-up rather than an accepted separate identity. Fresh16 October 2026 collection at merged base917e850123890bd00e671353652fe53101f83bfb compared 790 native and 442 pinned AIO records, 4,888 identity fields/3,732 normalized values with zero candidate collisions. Four ignored/hidden-inclusive searches returned 128/119/297/636 occurrences, grouped into78 exact contents and read in full as unique contents by root, with independent supporting readings separately recorded. All 913 main/394nested objects were recursively queried; the 3 matching objects and 12 neighbor identity/definition projections were read. Eleven exact AIO CLASS contexts with 51incident edges were inspected. This bounded search is not all-literature coverage. Nested 393 is the specific LSS residual under responsible main 8; main 3/286 remain crosslinks only. Five LSS source/variant questions stay under nested 393 and the KBFS/multi-state commitment umbrella remains partial. The related mapping to MachineLearningTask denotes persistent heuristic learning without an is-a or exact-equivalence assertion.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#bounded-local-lookahead</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    From the current state, run A* with the current learned heuristic, expanding at most a positive lookahead count and stopping earlier when the goal is about to be expanded. The expanded CLOSED states form the local search space; generated unexpanded OPEN states form its boundary. Before learning, select a minimum-g+h boundary endpoint, preferring the goal when tied.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koenig-sun2009">Comparing Real-Time and Incremental Heuristic Search for Real-Time Situated Agents</a></span>
+        <span>· <strong>Locator:</strong> Section3 and3.1, manuscript PDF8–11; Figure4 Step1 and Figure5 lines1–16,28–32. Exact stopping condition is g(goal)&gt;min_OPEN(g+h) AND expansions&lt;lookahead.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#boundary-based-heuristic-repair</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Perform a reverse, multi-source Dijkstra repair initialized by the unchanged heuristic values on the A* OPEN boundary. Reset local CLOSED labels to infinity, reprioritize OPEN by h, and propagate costs through predecessor edges into the local space. A completed repair assigns each local state the minimum cost of reaching a boundary state through the local space plus that boundary state’s retained h value. This uses relevant predecessor edges rather than only A* tree edges, and is not a single backup at the current state.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koenig-sun2009">Comparing Real-Time and Incremental Heuristic Search for Real-Time Situated Agents</a></span>
+        <span>· <strong>Locator:</strong> Section3–3.1, PDF8–12; Figure4 Step2, Figure5 lines17–26, text about changing OPEN priorities and Figures6–7; Equation1 PDF14.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#execution-and-persistent-learning</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After the repair, follow the original A* tree path to the boundary endpoint chosen before repair, stopping at that endpoint or when an action cost on the remaining path increases. Update the current state and observed costs and repeat until the goal is reached. Cache learned h values across searches; per-search g values and A* tree bookkeeping are freshly initialized, with lazy initialization described for implementation. The base method can execute several actions before replanning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koenig-sun2009">Comparing Real-Time and Incremental Heuristic Search for Real-Time Situated Agents</a></span>
+        <span>· <strong>Locator:</strong> Figure4 Steps3–4, Figure5 lines32–36 and lazy-initialization/cache discussion, PDF9–11; Lemma1 PDF16.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#conditional-learning-properties</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the stated finite deterministic state/action setting with positive costs, initially consistent h values and h(goal)=0, and cost changes restricted to increases, completed local repairs preserve consistency and admissibility and do not lower learned h values between completed search episodes. With well-defined repairs and finite upper bounds on future goal distances of visited states, the positive-cost potential argument bounds action executions to the goal. The result does not follow from initial-state goal reachability alone.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koenig-sun2009">Comparing Real-Time and Incremental Heuristic Search for Real-Time Situated Agents</a></span>
+        <span>· <strong>Locator:</strong> Section3.1 PDF9–11; Equation1 and Theorems1–3 with proofs, PDF14–18. Well-defined-repair qualification is an explicit curator boundary motivated by manual check4, not an additional theorem claimed verbatim.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#repeated-trial-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The repeated-trial theorem teleports the agent back to a fixed start whenever it reaches the same goal and retains learned h values. Under bounded future goal distances of the relevant visited states and a positive lower bound on nonzero action-cost increases, it bounds the number of trials that do not follow a shortest start-to-goal trajectory. It does not claim an optimal first trial or exact learning of every state in the graph.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koenig-sun2009">Comparing Real-Time and Incremental Heuristic Search for Real-Time Situated Agents</a></span>
+        <span>· <strong>Locator:</strong> Theorem4 and proof, manuscript PDF18–19, with formalization/consistency premises from Section3.1 and Theorems1–3.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#rtaa-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    RTAA* shares bounded A* local search but updates each expanded state with the selected frontier value F minus that state’s A* g value, rather than solving the local boundary-value problem with reverse Dijkstra. Its general pseudocode also has an independently chosen movement cap. The2006 comparison’s LRTA* label denotes a larger-lookahead2004 variant, not only Korf’s basic one-state update. Equal lookahead and identical tie handling give the same one-state update, but larger-lookahead procedures need not coincide.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koenig-likhachev2006">Real-Time Adaptive A*</a></span>
+        <span>· <strong>Locator:</strong> Sections 3–5, manuscript PDF pp. 2–4; Figure 1 lines 6–16 and Theorem 5, including the explicit larger-lookahead 2004 LRTA* comparator.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koenig-sun2009">Comparing Real-Time and Incremental Heuristic Search for Real-Time Situated Agents</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, manuscript PDF p. 11; Figure 5 lines 32–36, original A* path commitment without a separate movements parameter.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The supplied heuristic must be consistent, with zero at the goal, for the stated analyses. Admissibility alone is weaker. Costs may increase; arbitrary decreases, stochastic transitions, changing goals and function approximation are outside this method assessment.</li>
+      <li>A bound on A* expansions is not an unconditional constant bound on all computation or memory. Successor/predecessor access, branching, priority queues, heuristic evaluation and Dijkstra repair cost matter, and cached h values can accumulate. The manuscript explicitly replaces conceptual global initialization by lazy initialization.</li>
+      <li>The monotonicity claim concerns learned values after completed repairs. Figure5 temporarily sets local labels to infinity and then lowers these work labels during Dijkstra; those transient assignments are not monotone learned estimates.</li>
+      <li>Figure5 tests OPEN exhaustion after A* but shows no empty-OPEN fallback inside Dijkstra while CLOSED remains nonempty. A directed local dead end can lack a route to any boundary even when the start has a goal path. The present mechanism scope therefore requires complete, well-defined boundary repair, as in the relevant reversible goal-connected navigation setting; no undocumented fallback or code conformance is invented.</li>
+      <li>Successful finite-time navigation requires more than a goal path from the original start: the theorem bounds future goal distances of states the agent may visit. Dead ends, unbounded future goal distances, zero or negative costs, and arbitrary infinite state spaces do not inherit that guarantee. The repeated-trial result also needs its fixed-start/goal and cost-increase assumptions.</li>
+      <li>Small lookaheads can cause repeated motion through heuristic depressions and long early trajectories. Neither increasing lookahead nor using stronger initial heuristics is asserted to improve every trajectory, and no unconditional superiority over D* Lite or RTAA* is claimed. Experimental conclusions in the source are specific to its terrains, heuristic choices, implementation and objective.</li>
+      <li>The2009 author manuscript supplies the method assessed here; its2004 predecessor is not claimed read and no invention-priority claim is made. D* Lite is contrasted only using the inspected primary comparison article’s description. No implementation audit, benchmark reproduction or later variant coverage is claimed.</li>
+      <li>The algorithm is distinct from basic LRTA*, RTA* second-best backups, ordinary full A* search, Dijkstra alone, EHC breadth-first escape, and RTAA*. The scalar heuristic learned here is not automatically a sampled state-action learner, neural network or language model.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html" style="font-weight: 600;"><code>AIO:MachineLearningTask</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Machine Learning Task</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The primary method persistently learns state cost-to-go estimates from local search and observed costs, and explicitly retains them across repeated trials. This connects the algorithm to the pinned learning-from-data task/process without class equivalence or an is-a claim; it agrees with, but is independently grounded beyond, the maintained basic LRTA* mapping.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-koenig-sun2009">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">koenig-sun2009</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://idm-lab.org/bib/abstracts/papers/jaamas09.pdf" target="_blank" rel="noopener">Comparing Real-Time and Incremental Heuristic Search for Real-Time Situated Agents</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sven Koenig, Xiaoxun Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1007/s10458-008-9061-x</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0938f78c7960…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-koenig-likhachev2006">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">koenig-likhachev2006</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://idm-lab.org/bib/abstracts/papers/aamas06.pdf" target="_blank" rel="noopener">Real-Time Adaptive A*</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sven Koenig, Maxim Likhachev
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9ad098fbeaa3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-16T01:07:36Z</div>
+    <div><strong>Updated:</strong> 2026-10-16T01:07:36Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LocalSearchSpaceLearningRealTimeAStar.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LocalSearchSpaceLearningRealTimeAStar.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
