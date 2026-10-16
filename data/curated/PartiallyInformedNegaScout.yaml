@@ -1,0 +1,258 @@
+definition: A NegaScout variant for adversarial game-tree search that retains prove-best
+  information near the root of each subtree and the principal variation from an initial
+  search to guide a later re-search, as the particular partial-information policy
+  described in the 1985 paper.
+definition_evidence:
+- source_id: reinefeld1985
+  locator: Introduction, printed p.1040 / PDF p.1; Section 3, PNS paragraph, printed
+    p.1041 / PDF p.2
+  relation: supports
+concept_kind: algorithm
+claims:
+- claim_id: near-root-prove-best-retention
+  kind: mechanism
+  statement: The described PNS version retains information for prove-best cutoffs
+    near the root of each subtree. Section 2 explains the relevant information as
+    successor upper bounds from an initial traversal that examined every descendant
+    without a beta cutoff; Section 3 selects only part of that information for PNS.
+    The paper does not specify a numerical retention depth.
+  evidence:
+  - source_id: reinefeld1985
+    locator: Section 2, Figure 3, and Section 3, printed p.1041 / PDF p.2
+    relation: supports
+- claim_id: initial-principal-variation
+  kind: mechanism
+  statement: PNS also maintains the principal variation, defined here as the path
+    to the terminal node that the initial search considered best. This identifies
+    the retained path; the paper does not give a separate PNS procedure specifying
+    its later updates.
+  evidence:
+  - source_id: reinefeld1985
+    locator: Section 3, PNS paragraph, printed p.1041 / PDF p.2
+    relation: supports
+- claim_id: particular-partial-information-policy
+  kind: scope
+  statement: The authors introduce PNS as a particular compromise between baseline
+    NegaScout and the complete-information INS subtree map. They explicitly allow
+    other possible compromise policies. The PNS description therefore identifies this
+    retention policy rather than every method that saves some NegaScout search information.
+  evidence:
+  - source_id: reinefeld1985
+    locator: Introduction, printed p.1040 / PDF p.1; Section 3, printed p.1041 / PDF
+      p.2
+    relation: supports
+- claim_id: reported-comparison-design
+  kind: scope
+  statement: The paper includes PNS in comparisons with AB, NS, INS and SSS* on generated
+    trees with random ordering or a 60% probability that the first descendant is best.
+    Each plotted point averages twenty runs, and terminal-node counts are normalized
+    to minimal game-tree size. Figures 4 and 5 show width-5 and width-20 settings;
+    INS and SSS* results at depths 7 and 8 in Figure 5 are unavailable because of
+    memory constraints. This describes the study design, not a numeric performance
+    guarantee.
+  evidence:
+  - source_id: reinefeld1985
+    locator: Section 4 and Figures 4–5, printed p.1042 / PDF p.3
+    relation: supports
+limitations:
+- PNS is described in prose, while Figure 1 lists NS and the appendix lists INS. No
+  complete PNS listing, exact near-root retention depth, principal-variation update
+  rule, bound-storage interface, eviction policy or cache lifetime is supplied. These
+  details must not be filled in by silently copying INS.
+- The prove-best explanation depends on valid successor upper bounds and distinguishes
+  those bounds from a true value obtained during re-search. It does not establish
+  that all failed-window returns are exact values or that every complete INS guard
+  and cutoff is retained by PNS. The descriptive PNS policy is not a certified executable
+  implementation or an independently proved optimality theorem.
+- The displayed base procedures use integer scores, adjacent-value windows and a tree
+  of supplied width and depth. This draft does not extend PNS to arbitrary real-valued
+  window tolerances, cyclic graphs, transposition handling, stochastic games, quiescence
+  search or unspecified early-terminal conventions.
+- The source does not supply a precise PNS space formula or a hard total-memory cap.
+  The partly ambiguous summation on p.1041 concerns retention of all INS information,
+  and the later hash-table suggestion also concerns INS. Neither is a specified PNS
+  storage implementation or a bound covering its entire stack and data structures.
+- The 1985 description combines near-root prove-best information with principal-variation
+  retention; the later 1987 journal describes PNS using first-level upper bounds.
+  Their exact implementation, retention-depth and path-management correspondence remains
+  a version question, rather than an established equivalence or demonstrated contradiction.
+- The terminal-count comparisons depend on the generated trees, width, depth parity,
+  ordering and twenty-run samples. The paper says further variability measurements
+  are in progress. No curve digitization, runtime reproduction or universal node-dominance
+  claim is made here.
+- The reported preferences for PNS and execution-overhead observations describe the
+  authors’ implementations and cost model. They do not establish portable speedups,
+  byte budgets or that fewer terminal visits always yield lower running time; timing
+  claims about INS or SSS* must not be reassigned to PNS.
+- The defining artifact is the inspected official-hosted four-page 1985 publication
+  reconstructed by ABBYY in 2006. Extracted text omits listings and parts of the bibliography;
+  all four page images were inspected, but some formula and reference characters remain
+  ambiguous. The seven cited originals were not inspected for this draft and are retained
+  as source questions rather than imported proof evidence.
+evidence_sources:
+- source_id: reinefeld1985
+  title: Information Acquisition in Minimal Window Search
+  authors:
+  - Alexander Reinefeld
+  - Jonathan Schaeffer
+  - T.A. Marsland
+  source_type: primary_paper
+  url: https://www.ijcai.org/Proceedings/85-2/Papers/073.pdf
+  version: IJCAI 1985, Volume 2, printed pp.1040–1043; official-hosted four-page PDF
+    reconstructed with ABBYY FineReader 8 in 2006. The hash identifies these downloaded
+    bytes. The reconstruction date is not a new scientific version; some formula and
+    bibliography characters remain ambiguous.
+  access_level: full_text
+  accessed_at: '2026-10-16T04:55:30Z'
+  sha256: 0c1363cd3e91c2d53f096cbdc1e61c1e6f14ebe29a24b60d733a6989c464744a
+id: AIMech:PartiallyInformedNegaScout
+name: Partially Informed NegaScout
+aliases: []
+identity_notes: Current prewrite comparison at merged base b5db0b5d88c5fdc5bdc920dedcb26b9b35af6a4f
+  on 2026-10-16 compared 1,246 records (804 native, 442 pinned AIO), 4,937 identity-field
+  occurrences and 3,774 normalized values. Candidate identity collisions were empty;
+  ITERSSS* was the sole normalized context match. Four explicit roots were searched
+  with ignored and hidden files included, using literal source/name probes and separate
+  word-bounded INS/PNS context probes. The 328 distinct complete matching contents
+  were semantically reviewed, and all 602 occurrence references were mechanically
+  reconstructed; the successor collection preserved their exact line multisets. This
+  record denotes the particular 1985 partial-information NegaScout policy retaining
+  near-root prove-best information and the initial principal variation. It is distinct
+  from the complete-information 1987 INS, baseline NegaScout/PVS, DUAL*, all possible
+  partial policies and proof-number search. PNS remains omitted from global aliases.
+  The 1985 near-root-plus-path and 1987 first-level descriptions remain an unresolved
+  version/interface question despite completed reading of both selected primary sources.
+  Main911 carries this separate source responsibility; the proof-number/MCTS and ICAPS04
+  retrieval questions remain pending. The pinned 30-target AIO no-match assessment
+  is retained with its historical reading scope; current identity clearance is bounded
+  to the inspected corpus and explicit search roots, not global novelty.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Historical prospective collection on 2026-10-16 from 05:11:39 to 05:12:47
+    UTC, branch goal/discover-ai-concepts-round361, HEAD add2c806f6729c8599f4d5cfd6d75c7decde006c.
+    Compared all 1,243 record identities (801 native and 442 pinned AIO; 4,927 field
+    occurrences and 3,766 normalized values). All 18 normalized probes, including
+    the proposed local ID, were clear. Four ignored- and hidden-inclusive fixed-string,
+    case-insensitive, word-delimited searches produced 10 distinct matching contents
+    and 14 occurrences; every content and occurrence binding was read. The complete
+    identity DATA matched the previously read INS/DUAL snapshot exactly. Fresh semantic
+    context covered 114 native identity/definition projections, 12 selected native
+    definitions and all their claim statements, 30 complete annotated AIO nodes and
+    97 incident triples, and the prospective INS/DUAL drafts. The three actual records
+    added afterward were read in a separate bounded supplement; their addition was
+    reported to bring native counts to 804. No later whole-inventory clearance, global
+    source exhaustion or future ownership is claimed.
+  rationale: No suitable positive AIO mapping was identified for this source-specific
+    partial NegaScout procedure. The inspected targets concern learned models, learning
+    tasks, tensor layers or broad mathematical/representational classes. Shared memory,
+    recursion, tree shape, adversarial terminology or game applications alone do not
+    establish an informative source-backed relation. This is a bounded curator assessment
+    of the pinned snapshot, not an upstream ontology assertion.
+  examined_targets:
+  - target: AIO:ActiveLearning
+    rejection_reason: Acquiring bounds during game-tree search is not interactively
+      querying labels for training data. The 1985 title does not establish the pinned
+      active-learning task.
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: PNS specifies no artificial-neuron architecture or neural training;
+      its stored search information is not a neural network.
+  - target: AIO:CausalGraphicalModel
+    rejection_reason: An alternating game tree is not a causal probabilistic representation
+      of a data-generating process.
+  - target: AIO:Classification
+    rejection_reason: PNS searches values/moves in a supplied game tree; it does not
+      classify observations into learned classes.
+  - target: AIO:DecisionTree
+    rejection_reason: The pinned node is a Classification subclass. Its broader decision-support
+      comment does not identify a partial NegaScout game-tree search algorithm with
+      a classification tree.
+  - target: AIO:GenerativeAdversarialNetwork
+    rejection_reason: Adversarial game-tree evaluation does not imply competing generative/discriminative
+      neural networks or GAN training.
+  - target: AIO:GraphConvolutionalPolicyNetwork
+    rejection_reason: PNS uses neither graph convolutions nor a trained goal-directed
+      graph-generation policy network.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A game-tree representation is not a graph language model; the
+      source supplies no language-model mechanism.
+  - target: AIO:HashingLayer
+    rejection_reason: Partial search-information storage does not establish categorical
+      feature hashing or a preprocessing layer. The PNS storage contract is itself
+      incompletely specified.
+  - target: AIO:HierarchicalClassification
+    rejection_reason: Successive game moves form a search hierarchy, not a hierarchy
+      of classification labels.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Retaining already computed search bounds is not on its own a
+      task of building methods that learn from data. No such learning task is defined
+      for this PNS.
+  - target: AIO:MathematicalFunction
+    rejection_reason: Generic score arithmetic does not supply an informative relation
+      from the operational partial NegaScout algorithm to the pinned scalar-function
+      class.
+  - target: AIO:MaximumLayer
+    rejection_reason: The pinned operation merges tensors elementwise. Bound comparisons
+      in game-tree re-search do not constitute that layer.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: PNS is not a language model and its retained bounds/principal
+      variation do not establish external-memory LLM identity.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: Selective retention of search information is not a layer made
+      of neural memory cells.
+  - target: AIO:MinimumLayer
+    rejection_reason: The pinned tensor minimum merge is distinct from search-window
+      control and alternating-player value propagation.
+  - target: AIO:Model
+    rejection_reason: The very broad representation class does not identify the source
+      operational procedure or supply a defensible informative mapping merely because
+      a search tree represents a game.
+  - target: AIO:Network
+    rejection_reason: Interconnected search nodes do not make the algorithm itself
+      the pinned generic Network concept; topology alone is insufficient.
+  - target: AIO:NeuralTuringMachineNetwork
+    rejection_reason: The source PNS has no differentiable neural memory controller;
+      using memory does not establish this architecture.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: No neural language model or neural-symbolic integration appears
+      in the selected PNS procedure.
+  - target: AIO:PolicyLayer
+    rejection_reason: The PNS description does not define a neural layer outputting
+      a probability distribution over actions.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: Its game tree contains alternatives and score bounds, not a
+      model of random-variable conditional dependencies.
+  - target: AIO:RandomForest
+    rejection_reason: PNS is not an ensemble of learned classification/regression
+      trees. Generated experimental trees are inputs, not trained forest estimators.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Game-tree reasoning does not establish a large language model
+      or the pinned reasoning architecture.
+  - target: AIO:RecursiveLLM
+    rejection_reason: Search recursion is a control convention, not a recursive language-model
+      architecture.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: The selected source does not build recursive representations
+      for language modeling.
+  - target: AIO:RecursiveNeuralNetwork
+    rejection_reason: Recursive game-tree traversal does not apply learned neural
+      weights over structured inputs.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The described finite game-tree search with supplied scores and
+      retained bounds does not learn a policy from reward interactions. A game application
+      alone does not justify even an algorithm-to-task related mapping.
+  - target: AIO:ReinforcementLearningLLM
+    rejection_reason: PNS is not a language model fine-tuned through reinforcement
+      learning.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The source controls search and information retention, not preprocessing
+      or model-training strategy.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-16T06:16:44Z'
+  updated_at: '2026-10-16T06:16:44Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

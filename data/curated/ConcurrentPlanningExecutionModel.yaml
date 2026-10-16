@@ -1,0 +1,229 @@
+id: AIMech:ConcurrentPlanningExecutionModel
+name: Concurrent planning and execution metareasoning model
+definition: A formal metareasoning model that represents competing plan-computation
+  processes, their known executable action heads and induced-deadline distributions,
+  and poses the problem of selecting a joint computation/execution policy to maximize
+  timely solution probability in the source’s concurrent-planning setting.
+concept_kind: model_family
+aliases: []
+identity_notes: The source-specific formal decision model for concurrent planning
+  and execution, with planning-process performance profiles, known action heads, induced
+  deadlines and a joint computation/execution policy objective. Retain one named formal
+  model. Its problem statement and MDP encoding are representations of the same scoped
+  subject; do not create separate identities for the encoding or every assumption-restricted
+  subcase. General Definition 1, the four simplifying analysis assumptions, and KID-CoPE
+  special-case results are distinct layers. This is not a claim that every instance
+  has the properties of the restricted MDP analysis. CoPE is used for a broader setting
+  and in the 2025 source; omit it as a global alias. The descriptive canonical name
+  narrows this proposal to the 2023 metareasoning model. Current insertion identity
+  was assessed on 2026-10-16 at merged HEAD 8650bfb55ef0c67902b5a80f1527920c87ad1d9d
+  and tree cd6972cabe7b7f1cdf9ca5ee69bd6263a991ba50. The complete inventory contains813
+  maintained and442 pinned AIO records,1255 total, with no normalized collision among
+  the four candidates. Eight ignored- and hidden-inclusive searches across data/,
+  research/, sources/ and docs/ account for167 distinct matching contents and856 match
+  events. Of these,105 groups retain exact historical scoped-event attribution and62
+  contents received fresh semantic reading with complete relevant parent context.
+  The newly added manufacturing record was fully compared;22 prior native contexts
+  are byte-identical and retain attributed semantic comparisons. The current mapping
+  assessment read21 complete pinned AIO nodes and72 incident edges. The peer independently
+  checked the current-state work with original scientific authorship disclosed. This
+  is bounded identity clearance for the selected corpus and pin, not universal novelty
+  or source exhaustion. Historical131-content/588-occurrence searching used four whole
+  checkouts and included review/vendor contexts; it is retained by attribution rather
+  than described as the current four-root search. The existing main911 source coordinator
+  is accepted for this insertion without merging method identities or closing source
+  questions.
+definition_evidence:
+- source_id: elboher2023
+  locator: Official PDF p.4 Definition 1 and action/deadline formalization; pp.4–5
+    Section 3.1.
+  relation: supports
+claims:
+- claim_id: formal-input-and-objective
+  kind: mechanism
+  statement: The CoPE problem supplies a set of base actions with positive durations
+    and n planning processes. Each process has a possibly empty known action head
+    H_i, a computation-completion performance profile M_i and an induced-deadline
+    distribution D_i. A policy allocates computation and legally initiates head actions
+    to maximize the probability of executing a timely solution. The model is a static
+    decision abstraction rather than a single search procedure.
+  evidence:
+  - source_id: elboher2023
+    locator: Official PDF p.4, Definition 1 and surrounding formalization; pp.1–2
+      motivation.
+    relation: supports
+- claim_id: serial-actions-and-prefix-invalidation
+  kind: mechanism
+  statement: A legal initiated prefix starts no earlier than time zero, starts each
+    later action no earlier than the preceding action finishes, and respects operative
+    individual action deadlines. Base actions are non-preemptible and cannot execute
+    in parallel, while computation can overlap a base action. Executing a prefix invalidates
+    a process whose known head is incompatible with that prefix. The unknown suffix
+    cannot start before its planning process terminates.
+  evidence:
+  - source_id: elboher2023
+    locator: Official PDF p.4, action legality, non-preemption, incompatibility and
+      suffix-start paragraphs.
+    relation: supports
+- claim_id: induced-deadline-construction
+  kind: mechanism
+  statement: For process i, let X_i be the time by which the complete solution must
+    finish and R_i the unknown remainder duration revealed when planning terminates.
+    The source defines the induced deadline as D_i=X_i−R_i and writes timely suffix
+    initiation as start(beta_i)<=X_i−R_i. This subtraction is meaningful even when
+    X_i and R_i are dependent. The later mutual-independence premise for the M_i and
+    induced D_i variables is separate from this definition.
+  evidence:
+  - source_id: elboher2023
+    locator: Official PDF p.4, induced-deadline derivation preceding Definition 1.
+    relation: supports
+- claim_id: restricted-analysis-assumptions
+  kind: scope
+  statement: The analyzed construction assumes discrete time, known action durations,
+    mutual independence of all performance-profile and induced-deadline variables,
+    and no operative individual base-action deadlines. Positive base-action durations
+    are already part of Definition 1. The statement that an implementation can allow
+    individual action deadlines does not extend the displayed analyses to all such
+    cases.
+  evidence:
+  - source_id: elboher2023
+    locator: Official PDF p.4, four simplifying assumptions after Example2, with Definition
+      1.
+    relation: supports
+- claim_id: decision-state-and-computation-transition
+  kind: mechanism
+  statement: The analyzed MDP records wall time T, computation already allocated to
+    each process and its failure state, remaining execution time W for the current
+    base action, and the number L of initiated or completed base actions, with terminal
+    SUCCESS and FAIL states. A computation action allocates one unit to an eligible
+    process; conditional on unfinished positive survival, its termination probability
+    is m_i(T_i+1)/(1−M_i(T_i)). Computation advances wall time while an executing
+    base action can progress. Base initiation is allowed only when no other base action
+    is executing and the action is next in a surviving head. The source assigns reward
+    one to SUCCESS and zero elsewhere.
+  evidence:
+  - source_id: elboher2023
+    locator: Official PDF pp.4–5, Section 3.1 state, transition, reward and eligibility
+      descriptions.
+    relation: supports
+  - source_id: elboher2023-arxiv
+    locator: arXiv v1 PDF pp.8–9, Appendix A, state variables and computation/base-action
+      transition equations.
+    relation: supports
+- claim_id: known-deadline-policy-results
+  kind: scope
+  statement: For KID-CoPE, the known-induced-deadline restriction under the stated
+    analysis assumptions, the source states that policies are linear and that an optimal
+    policy exists which is linear, computation-contiguous and lazy. Contiguity applies
+    to the computation subsequence CA(sigma), so base-action initiations may still
+    intervene. Laziness delays base initiations until a further adjacent delay would
+    be tardy or illegal. These are source-stated restricted existence results, not
+    a claim that every policy is optimal or that the general heuristic schemes solve
+    all CoPE instances optimally.
+  evidence:
+  - source_id: elboher2023
+    locator: Official PDF p.5, Lemma 3, Definitions 2–3 and Theorems 4–5.
+    relation: supports
+limitations:
+- The paper studies a static snapshot with supplied process and deadline distributions.
+  Learning accurate profiles online, updating them during execution and integrating
+  the abstraction into an operating planner are outside this model assessment; there
+  is no calibration or deployment guarantee.
+- The physical setting uses deterministic world evolution, positive known base-action
+  durations for the analysis, serialized non-preemptible actions and overlap only
+  between computation and a base action. Arbitrary parallel robots, uncertain action
+  outcomes, preemption and continuous-time extensions do not inherit the stated results.
+- Mutual independence of the M_i and induced D_i variables is an analysis premise,
+  not an empirical property established for real search subtrees. Product-failure
+  calculations and the stated reductions must not be transferred to arbitrary dependencies.
+  Independence of X_i and R_i is not needed merely to define their difference.
+- With a standard CDF, the background expression 1−D(t) counts deadline>t, whereas
+  the induced-deadline derivation allows suffix start<=X−R. Discrete equality mass
+  needs an explicit convention. This draft preserves the printed boundary difference
+  without a silent off-by-one repair.
+- The arXiv Appendix A earliest-time expression adds remaining action time W and one
+  new computation unit even though those activities can overlap. In the retained hand
+  case T=0, W=1, no unstarted head actions and one computation unit remaining, the
+  printed progress updates finish both at time 1 while that expression gives2. A distant
+  deadline 3 isolates this issue from deadline equality. It is a source-interface
+  discrepancy, not a diagnosed code defect or a proof that all model results fail.
+- The conditional termination hazard requires 1−M_i(T_i)>0 for an unfinished eligible
+  process. The inherited log-failure utility and LPF/time heuristics also require
+  explicit zero/one-probability and positive-allocation-time conventions. These displayed
+  formulas do not supply a complete numerically guarded implementation.
+- The known-induced-deadline structural results and fixed-initiation reduction have
+  their own premises. The source does not claim a polynomial general solver; constant-bounded
+  heads or equal slack yield pseudo-polynomial special cases in numeric horizons/explicit
+  distributions. The inspected arXiv proof sketches are source evidence, not a formally
+  verified proof or an extension to arbitrary dependencies.
+- The official paper, author-hosted main paper and arXiv v1 are distinct artifacts
+  of one work. The author PDF lacks the appendix it references; official Algorithms
+  1–5 and the arXiv IPAE/Refined-Max-LET displays differ. The named algorithm schemas
+  and their literal helper-interface questions remain separate from this formal-model
+  identity. No code was acquired or executed.
+- Reported comparisons use simulated instances based on 15-puzzle search histograms
+  and selected process counts/action durations. Ellipses show instance results rather
+  than confidence intervals, and small appendix runtimes are rounded for logarithmic
+  plotting. These experiments establish neither universal policy superiority, profile
+  calibration, statistical significance nor integration overhead in a continuously
+  updating planner.
+evidence_sources:
+- title: A Formal Metareasoning Model of Concurrent Planning and Execution
+  authors:
+  - Amihay Elboher
+  - Ava Bensoussan
+  - Erez Karpas
+  - Wheeler Ruml
+  - Shahaf S. Shperberg
+  - Eyal Shimony
+  source_type: primary_paper
+  access_level: full_text
+  source_id: elboher2023
+  url: https://ojs.aaai.org/index.php/AAAI/article/download/26464/26236
+  persistent_id: doi:10.1609/aaai.v37i10.26464
+  version: Official nine-page AAAI 2023 proceedings artifact, volume 37 issue 10,
+    printed pp.12427–12435, published 2023-06-26. Physical PDF pages are used in locators.
+    This SHA-256 identifies the acquired official PDF, not the byte-distinct eight-page
+    author PDF or thirteen-page arXiv v1. Official title block uses Eyal Shimony.
+    The five algorithm displays are version-specific.
+  accessed_at: '2026-10-16T07:25:29Z'
+  sha256: ad81b149dda70c776d6e985296919828f312f821c882c4fedfbb469b77fe6d7b
+- title: A Formal Metareasoning Model of Concurrent Planning and Execution
+  authors:
+  - Amihay Elboher
+  - Ava Bensoussan
+  - Erez Karpas
+  - Wheeler Ruml
+  - Shahaf S. Shperberg
+  - Solomon E. Shimony
+  source_type: primary_paper
+  access_level: full_text
+  source_id: elboher2023-arxiv
+  url: https://arxiv.org/pdf/2303.02664v1
+  persistent_id: arxiv:2303.02664v1
+  version: Version 1 submitted2023-03-05T13:05:26Z, thirteen pages. Appendix A pp.8–9
+    supplies transition details, Appendix B p.9 proof sketches, and Appendix C p.10
+    older IPAE/Refined-Max-LET pseudocode. It is one version of the same work, not
+    independent replication or identical algorithm displays to the official paper.
+    SHA-256 identifies these acquired v1 bytes.
+  accessed_at: '2026-10-16T07:34:13Z'
+  sha256: 1e4af5c0e79fd901eb8690dfe868ba06ab246e352a542c3e89cb95d97c309fcb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The pinned definition covers an abstract logical, mathematical or conceptual
+    representation of a complex system. The source-defined CoPE decision model is
+    such a representation, so broad_match is defensible for the model only. Named
+    executable-control schemas are not themselves this model; sharing a model input
+    is not class identity.
+curation:
+  created_at: '2026-10-16T09:15:13Z'
+  updated_at: '2026-10-16T09:15:13Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

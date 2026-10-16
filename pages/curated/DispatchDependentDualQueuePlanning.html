@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dispatch-dependent dual-queue planning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Dispatch-dependent dual-queue planning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Dispatch-dependent dual-queue planning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DispatchDependentDualQueuePlanning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A concurrent temporal-planning search procedure that alternates node expansion between a weighted goal-progress open list and a dispatch-conditioned estimated-failure open list, synchronizes their frontier membership, and periodically refreshes failure estimates while retaining the surrounding temporal planner’s dispatch reasoning.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the 2025 source-local dual planner as a descriptive, disambiguated temporal-planning procedure. Empty aliases preserve its distinction from maintained DUAL*, generic dual search, OPTIC/COLIN and the CoPE problem setting. Alternating synchronized goal-progress and modeled failure priorities, refreshing estimates and retaining the surrounding dispatch logic define the algorithm. The separately represented dispatch-dependent value functional is a scoring component, not the whole procedure. Current insertion context was reconciled at merged commit cc0c9ef618dae4da01fd32e8e4523e8481bcb138: 810 native and 442 pinned AIO records, 4,958 identity-field occurrences and 3,790 normalized values. Four ignored- and hidden-inclusive roots returned 49 distinct matching contents and 200 occurrences. Forty contents reuse exact historical reading with attribution; all nine new report/review contents were read. All 1,249 records from the historical assessment are byte-identical, and the three added ILBFS/RBFS identities and definitions were read as distinct search controls. The 20 selected AIO nodes and 62 incident edges were freshly read on the unchanged pin; historical whole-label screening and 96-definition/21-neighbor scientific context are attributed to their original reading. Existing main911 coordinates source tracking, without equating this 2025 family to its nine prior methods or resolving the independent 2023/2004 routes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#temporal-planning-setting</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The described procedure operates in concurrent propositional temporal planning with Boolean fluents, nonnegative-duration actions, start, invariant and end conditions, and start/end effects, known timed initial literals, and goals. Actions may be emitted incrementally before a complete plan is available, but each scheduled start must be at or after its emission time. This defines the source setting, not a general partially observable or stochastic-execution model.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-coles2025">Concurrent Planning and Execution Using Dispatch-Dependent Values</a></span>
+        <span>· <strong>Locator:</strong> Author PDF pp.1–2, Section 2.1, problem tuple and emission/start-time constraint; official pp.8483–8484.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#goal-and-dispatch-priorities</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The first open list uses the weighted goal-progress score f(i)=g(i)+w*h(i), where h(i) is relaxed-plan length. The second uses pf(i), described as the estimated probability of missing the deadline when all remaining undispatched actions on the path to i are assumed dispatched. Ties in pf are broken by f. Relating this score to the inclusive success event in Eq.3 gives the explicit interpretation pf(i,t)=1−V(i,t)=Pr[m&gt;d(i)−t] for that assumed-dispatch context; this complement is an interpretation of the prose interface, not a separately printed executable equation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-coles2025">Concurrent Planning and Execution Using Dispatch-Dependent Values</a></span>
+        <span>· <strong>Locator:</strong> Author PDF p.4 Eq.3; p.5 Section 4.1, f, assumed-dispatch pf and tie-breaking; official pp.8486–8487.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#alternating-synchronized-frontier</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Node expansion alternates between the f-priority and pf-priority open lists. Selecting and removing a state from either list removes it from both; successors of the expansion are inserted into both. The lists therefore provide two orderings of the shared frontier rather than two independent searches whose outputs are combined.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-coles2025">Concurrent Planning and Execution Using Dispatch-Dependent Values</a></span>
+        <span>· <strong>Locator:</strong> Author PDF p.5, Section 4.1, dual open-list paragraph; official p.8487.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#periodic-failure-score-refresh</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The described implementation computes pf when a node is inserted, using the current time and then-current remaining-search-time estimate. It recomputes pf for all open nodes every 100 expansions with updated time and search-time estimates. The mechanism is periodic refresh, not continuously exact scoring or a proof that successive estimates are monotonic.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-coles2025">Concurrent Planning and Execution Using Dispatch-Dependent Values</a></span>
+        <span>· <strong>Locator:</strong> Author PDF p.5, Section 4.1, insertion and t_u=100 refresh paragraph; official p.8487.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#surrounding-dispatch-integration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The evaluated planner is called dual in the paper and is implemented within the temporal planner identified there as OPTIC. It retains the earlier Coles et al. (2024) dispatch reasoning while removing that method’s restriction of search to a promising subtree; the two expansion priorities provide the alternative information-gathering mechanism. A dispatch threshold remains. Choosing a frontier node by pf is not itself the complete decision to execute an action.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-coles2025">Concurrent Planning and Execution Using Dispatch-Dependent Values</a></span>
+        <span>· <strong>Locator:</strong> Author PDF pp.3–4, prior dispatch integration; p.6, opening of Section 5; official pp.8485–8486 and 8488.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The background calls D_i a deadline CDF and Eq.1 uses 1−D_i, but the deterministic-deadline paragraph then assigns D_i=1 before or on latest_start and 0 afterward. That decreasing step is inconsistent with the stated CDF role. Both inspected PDF versions retain the presentation conflict; no implementation defect, original-paper erratum or silently repaired convention is asserted.</li>
+      <li>Eq.3 is a success probability, whereas Section 4.1 describes a failure score. The complementary interpretation is pf=Pr[m&gt;d−t], with deadline equality counted as success; replacing &gt; by &gt;= needs an additional no-atom convention. The background Eq.1 survival convention and Eq.3 inclusive event must not be silently unified, and the prose does not provide a complete numerical implementation.</li>
+      <li>For a fixed remaining-search law M and fixed deadline d, V(t)=Pr[m&lt;=d−t] is nonincreasing. For nonnegative m and finite d, V(d)=Pr[m=0] and V(t)=0 is guaranteed for t&gt;d (it can also be zero earlier); it need not be zero exactly at d. These fixed-model facts do not make the periodically refreshed scores monotonic when estimates, relaxed plans or deadlines change.</li>
+      <li>Remaining search time is estimated from expansion-delay/search statistics and relaxed-plan length, while relaxed-plan deadline estimates are explicitly described as inadmissible. The scores are modeled probabilities, without a demonstrated calibration or error bound. The weighted f form does not transfer a weighted-A* quality bound, completeness theorem or successful-dispatch guarantee to this combined procedure.</li>
+      <li>The none/all prefix argument requires a reasonable ancestor relaxed plan and a forward successor with a matching suffix. It matches assumed commitment contexts; it does not establish equality of node-specific search-time laws or probabilities, preservation of all relevant ancestors in the frontier, or sufficiency for arbitrary dispatch policies. Actual irreversible dispatch can make a goal unreachable.</li>
+      <li>The abstract metareasoning background uses mutually exclusive non-preemptible domain actions with computation concurrent with at most one action. The selected temporal-planning setting and multi-robot evaluation allow concurrent actions. The abstract exclusivity restriction must not be assigned to every evaluated action, nor does that evaluation establish arbitrary uncertain execution dynamics.</li>
+      <li>The paper gives prose queue and dispatch integration, not a complete executable specification. Duplicate-state handling, tie/cycle corner cases, sound dispatch and scheduling depend on the underlying planner and earlier dispatch procedure. Code is described as available from the authors upon request, but no request, code acquisition or algorithm execution occurred in this research.</li>
+      <li>Section 4.1 associates OPTIC with Benton et al. (2012), while Section 5 cites Coles et al. (2012) for the implementation and the bibliography names that work COLIN. The discrepancy is retained without treating OPTIC and COLIN as aliases or diagnosing an implementation error.</li>
+      <li>The evaluation sets w=5, uses the described 100-expansion score refresh and tests dispatch thresholds 0.025, 0.1 and 0.25. Removing subtree focus or the earlier allocate-t_u search restriction does not remove these parameters. No universally best threshold or expansion-rate-independent setting is established.</li>
+      <li>The reported evaluation uses 100 RCLL scenarios with one-, two- and three-robot variants and eight simulated expansion rates from 10 to 1000 expansions per second. Those rates are simulated timing, not measured hardware speed or complete queue/heuristic overhead. Sums across rates reuse scenarios and are not counts of independent scenarios; the experiment does not establish general deployment performance.</li>
+      <li>The paper’s virtual best solver selects a configuration by robot-count/domain and expansion-rate setting, not an explicitly instance-wise oracle. Aggregate coverage advantages are not uniform across settings, and the displayed tables report no confidence intervals or repeated-run uncertainty. No causal benefit or universal runtime advantage follows from the queue-agreement diagnostic.</li>
+      <li>The author and official PDFs are distinct byte artifacts of one 2025 work, with different title-block forms of Shimony’s name and layout metadata. The institutional 2029 date remains a metadata question. The curated descriptive name disambiguates the source-local dual label from the maintained 1987 game-tree DUAL* algorithm; aliases are empty. All original bibliography and follow-up questions remain retained, not resolved by this draft.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No examined target identifies or usefully subsumes the two-queue temporal-planning procedure. Generic task overlap, robot applications and a mathematical component are insufficient mappings of the whole algorithm.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO IDs, labels and scoped synonyms were screened; 20 relevant full nodes, annotations and all 62 incident edges were freshly read. Selection follows planning, control, probability/time scoring and the most plausible generic type confusions, not a prescribed target count. These are the inspected targets, not all conceivable ontology classes. This is the historical 2026-10-16 prospective snapshot at HEAD 7991f0c2fdc71e461117fc598529a2678ea8ef7f, with 807 native and 442 AIO records; it is not a future insertion clearance.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The subject is a temporal-planning control procedure. Updating search-time estimates is a component, not evidence that this entire procedure is a process for building methods that learn from data. The source does not establish a specific learning-task identity or an informative method-level related mapping.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Model.html"><code>AIO:Model</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The complete subject is an executable-style search and dispatch procedure, not merely an abstract representation of a complex system. Its embedded probability estimates and action model do not identify the planner as this generic model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The complete planner maintains and alternates two open lists, expands nodes and interacts with dispatch decisions. Its functional score is a component; mapping that component does not map the entire algorithm to a mathematical rule.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReasoningLLM.html"><code>AIO:ReasoningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Explicit planning and deadline reasoning here do not use a large language model or language-task inference. The related synonym reasoning cannot expand this LLM class into all symbolic planning.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/EmbodiedLLM.html"><code>AIO:EmbodiedLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The robot benchmark does not make this symbolic temporal planner a language-grounded multimodal model. Application overlap is insufficient.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The inspected procedure searches a supplied temporal model and uses deadline/search-time estimates; it does not define reward-driven policy learning. Goal progress and information gathering are not by themselves reinforcement learning.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearningLLM.html"><code>AIO:ReinforcementLearningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            There is no language-model reward fine-tuning or generated-text objective in the proposed procedure.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PolicyLayer.html"><code>AIO:PolicyLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A planner deciding when to expand or dispatch is not a neural-network layer predicting an action distribution. Its probability is a timely-search estimate, not the output distribution of the described layer.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GraphConvolutionalPolicyNetwork.html"><code>AIO:GraphConvolutionalPolicyNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The subject neither uses graph convolution nor trains graph-generation policies with rewards and adversarial loss.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ActiveLearning.html"><code>AIO:ActiveLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Expanding a node to improve dispatch information does not query an annotator for labels of new training points. Information gathering alone does not supply the target class identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TimeSeriesAnalysis.html"><code>AIO:TimeSeriesAnalysis</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm is not a task of extracting characteristics from time-series observations; wall-clock dependence and refreshed estimates do not establish that task relation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TimeSeriesForecasting.html"><code>AIO:TimeSeriesForecasting</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Estimated remaining search time guides planning, but the full algorithm is not a procedure for forecasting a time-series sequence from previous values.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SurvivalAnalysis.html"><code>AIO:SurvivalAnalysis</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A tail probability of estimated search completion relative to a deadline is a scoring component. The complete planner is not the described time-to-event analysis task, and mere use of a probability tail is too generic for a useful related mapping.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProportionalHazardsModel.html"><code>AIO:ProportionalHazardsModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source does not impose a proportional-hazards regression model or multiplicative covariate effect on a hazard rate.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html"><code>AIO:ProbabilisticGraphicalModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The search tree is a space of partial action plans, not a graph specifying conditional dependence among random variables. A probability estimate at a search node does not turn the controller into this target task.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The queue procedure is not a stochastic transition model whose next-event law depends only on the preceding state; the source score alone does not establish a Markov-chain identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html"><code>AIO:BayesianNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            No directed acyclic conditional-dependence network is specified as the algorithm identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DecisionTree.html"><code>AIO:DecisionTree</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A search tree of possible plans is not the pinned classification/decision-support tree model. Branching does not establish classifier or predictor identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ContinualLearning.html"><code>AIO:ContinualLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Continued search and distribution refresh do not constitute the target deep neural network learning sequential tasks without access to old task data.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/EnsembleLearning.html"><code>AIO:EnsembleLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Alternating two priorities on one shared search frontier is not a predictive ensemble of learned algorithms.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-coles2025">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">coles2025</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.unh.edu/~ruml/papers/dual-cope-ijcai-2025.pdf" target="_blank" rel="noopener">Concurrent Planning and Execution Using Dispatch-Dependent Values</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Andrew Coles, Erez Karpas, Solomon Eyal Shimony, Shahaf Shperberg, Wheeler Ruml
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.24963/ijcai.2025/943</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b81abd754f7b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-16T07:37:16Z</div>
+    <div><strong>Updated:</strong> 2026-10-16T07:37:16Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DispatchDependentDualQueuePlanning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DispatchDependentDualQueuePlanning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

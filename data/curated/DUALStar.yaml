@@ -1,0 +1,273 @@
+definition: The source’s MAX-rooted application of the dual of SSS*, using LIVE/SOLVED
+  node descriptors, maximum-based merit updates and dual MAX/MIN expansion rules to
+  search root successors from left to right.
+definition_evidence:
+- source_id: marsland1987
+  locator: Section3 and Figure4, printed pp.191–193 / PDF pp.7–9
+  relation: supports
+concept_kind: algorithm
+claims:
+- claim_id: max-rooted-dual-scheduling
+  kind: mechanism
+  statement: The paper constructs DUAL* from the dual of SSS* by interchanging MAX
+    and MIN behavior, replacing the minimum operation with a maximum, and changing
+    ordered insertion to increasing merit. It deliberately applies this dual procedure
+    to a MAX-rooted tree, producing a left-to-right traversal of root successors while
+    using the dual search within their subtrees.
+  evidence:
+  - source_id: marsland1987
+    locator: Section3, printed pp.191–193 / PDF pp.7–9; Figure4, printed p.192 / PDF
+      p.8
+    relation: supports
+- claim_id: descriptor-and-list-operations
+  kind: mechanism
+  statement: The displayed DUAL* descriptor contains a node, LIVE or SOLVED status,
+    and merit h. The initial root descriptor is LIVE with a negative-infinity bound.
+    The paper distinguishes push/pop from insert; insert places a descriptor in increasing
+    merit order behind entries with equal merit.
+  evidence:
+  - source_id: marsland1987
+    locator: Figure4 and surrounding Section3 prose, printed pp.192–193 / PDF pp.8–9
+    relation: supports
+- claim_id: live-node-processing
+  kind: mechanism
+  statement: Under the intended terminal-versus-interior interpretation of Figure4,
+    a LIVE leaf becomes SOLVED with merit max(Evaluate(node),h); a LIVE interior MAX
+    node pushes its first child; and a LIVE interior MIN node pushes all children
+    in reverse order. The printed separate leaf/MAX/MIN predicates require the source-interface
+    qualification retained in the limitations.
+  evidence:
+  - source_id: marsland1987
+    locator: Figure4, printed p.192 / PDF p.8
+    relation: supports
+- claim_id: solved-node-processing
+  kind: mechanism
+  statement: For a SOLVED descriptor, Figure4 returns h if the node is the root. Otherwise,
+    a solved MAX node purges the parent’s stored successors and pushes the parent
+    as SOLVED; a solved MIN node pushes the next unexamined sibling as LIVE if one
+    remains, or otherwise pushes the parent as SOLVED.
+  evidence:
+  - source_id: marsland1987
+    locator: Figure4, printed p.192 / PDF p.8; purge description, printed p.193 /
+      PDF p.9
+    relation: supports
+- claim_id: source-stated-space-scope
+  kind: scope
+  statement: The journal describes complete-information SSS*, DUAL* and INS storage
+    requirements as exponential with search depth, despite their differing descriptors
+    and retained frontier sizes. DUAL* is not presented as a user-specified hard byte-budget
+    search procedure.
+  evidence:
+  - source_id: marsland1987
+    locator: Section4 opening, printed p.193 / PDF p.9; Section4.2, printed p.198
+      / PDF p.14
+    relation: supports
+- claim_id: reported-comparison-design
+  kind: scope
+  statement: DUAL* is evaluated with the other search algorithms on the same generated
+    trees of specified width, depth and sibling ordering. Figures5–7 report normalized
+    terminal-node visits averaged over twenty shared samples; odd/even depth and ordering
+    can change relative rankings. Separate preliminary timing observations concern
+    the authors’ implementations and OPEN-list overhead.
+  evidence:
+  - source_id: marsland1987
+    locator: Sections4.1.1–4.2, printed pp.193–198 / PDF pp.9–14; Figures5–7, printed
+      pp.195–197 / PDF pp.11–13
+    relation: supports
+limitations:
+- The selected DUAL* is the paper’s MAX-rooted use on finite, fixed-depth alternating
+  game trees. The displays assume positive uniform branching for interior nodes; cyclic/shared
+  graphs, stochastic games and arbitrary early-terminal conventions are not supplied.
+- Figure4 prints independent LIVE tests for LEAFNODE, MAXNODE and MINNODE, while SOLVED
+  processing uses the game-node type. The intended distinction between terminal and
+  interior predicates, retained parity and terminal transitions must be specified
+  before executable verification; the abbreviation alone does not prove a defect.
+- Purge is described as deleting stored successors from OPEN. Its exact transitive
+  descendant selection, tie behavior in all operations, node identity and list-maintenance
+  semantics remain helper-contract questions; arbitrary graph sharing or cycles are
+  not justified by that description.
+- The displayed control loop is unconditional and terminates on a SOLVED root. Empty-OPEN
+  failure, malformed node types and invalid child/sibling data are not given separate
+  semantics; no execution-level termination or failure theorem is certified from the
+  pseudocode.
+- The source describes complete-information storage as exponential with depth. It
+  supplies no user-enforced byte budget, eviction scheme or total-runtime memory bound;
+  this DUAL* must not be relabeled as a fixed-budget search method.
+- The normalized terminal-count comparisons use specified generated tree families
+  and twenty shared samples, with ranking changes across depth parity and ordering.
+  They are not universal node-count dominance, proof of optimal search ordering or
+  a reproduced game-playing result.
+- The preliminary timing ratios and OPEN-list profiles are implementation-specific,
+  and the detailed overhead analysis is deferred to report12. They do not establish
+  hardware-independent slowdowns or speedups, nor convert terminal visits into elapsed
+  time.
+- The journal compares DUAL* to SSS* and mentions Kumar–Kanal’s parallel dual-ss*
+  routine. Its suggestion that one-process measurements could fill a missing comparison
+  does not establish global aliases or complete equivalence to that parallel formulation.
+- The selected defining artifact is the inspected1987 author-hosted journal reproduction.
+  Only selected regions of the separate author rendering and the TR85-16 cover route
+  were inspected; no whole-text or method equivalence, publisher-byte identity or
+  independent replication is claimed.
+- The draft preserves the source’s descriptor updates, MAX-root choice and measured
+  comparison scope. It does not certify the full minimax invariant, exact computational
+  cost, implementation correctness or theorem claims from uninspected predecessor
+  references.
+evidence_sources:
+- source_id: marsland1987
+  title: Low Overhead Alternatives to SSS*
+  authors:
+  - T.A. Marsland
+  - Alexander Reinefeld
+  - Jonathan Schaeffer
+  source_type: primary_paper
+  url: https://webdocs.cs.ualberta.ca/~jonathan/publications/ai_publications/lowoverhead.pdf
+  persistent_id: doi:10.1016/0004-3702(87)90019-1
+  version: Artificial Intelligence31 (1987),185–199; inspected15-page author-hosted
+    journal reproduction. The hash identifies these downloaded bytes, not a verified
+    publisher-byte copy. Article received December1985/revised August1986; later PDF
+    creation metadata is not a new algorithm version. Issue number is omitted because
+    author bibliographies disagree.
+  access_level: full_text
+  accessed_at: '2026-10-16T04:31:29Z'
+  sha256: cd73f50f0356a948ace89aea2dff7a1ef59d21c5a9c0fd349151931db2ed0bd0
+id: AIMech:DUALStar
+name: DUAL*
+aliases: []
+identity_notes: Current prewrite comparison at merged base b5db0b5d88c5fdc5bdc920dedcb26b9b35af6a4f
+  on 2026-10-16 compared 1,246 records (804 native, 442 pinned AIO), 4,937 identity-field
+  occurrences and 3,774 normalized values. Candidate identity collisions were empty;
+  ITERSSS* was the sole normalized context match. Four explicit roots were searched
+  with ignored and hidden files included, using literal source/name probes and separate
+  word-bounded INS/PNS context probes. The 328 distinct complete matching contents
+  were semantically reviewed, and all 602 occurrence references were mechanically
+  reconstructed; the successor collection preserved their exact line multisets. This
+  record selects the 1987 MAX-rooted application of the dual of SSS*, with LIVE/SOLVED
+  descriptors, increasing ordered merit and dual MAX/MIN rules. It is distinct from
+  INS/PNS, SSS*, ITERSSS*, generic duality, dual averaging and the uninspected parallel
+  dual-ss* or RecDual* formulations. Bare DUAL is omitted from aliases. Source-specific
+  node-kind, parity, purge and tie interfaces remain explicit; no hard byte budget
+  or full correctness certification is inferred. Main911 carries source responsibility
+  without merging any of these identities. The pinned 30-target AIO no-match assessment
+  is retained with its historical reading scope; current identity clearance is bounded
+  to the inspected corpus and explicit search roots, not global novelty.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Historical prospective snapshot on 2026-10-16 at 04:51–04:52 UTC,
+    branch goal/discover-ai-concepts-round360, HEAD 3cd85f801666b505b906cedab979423e4f305c40.
+    Compared all 801 maintained and 442 pinned AIO identities (1,243 records; 4,927
+    identity-field occurrences; 3,766 normalized values). Four fixed-string, case-insensitive,
+    word-delimited searches included ignored and hidden files and excluded .git internals:
+    10,522 occurrences in 749 distinct contents. Fresh semantic reading covers 747
+    complete contents and all matching leaves in two large historical wrappers; unrelated
+    wrapper fields were not reread. Read all 30 full candidate AIO nodes and 97 incident
+    triples plus 20 maintained native definitions, identity fields, claim statements
+    and limitations. This historical scope does not clear any future base or assign
+    a source owner.'
+  rationale: No positive target selected after the pinned442identity rows and30full
+    AIO nodes/97incident triples. Generic tree/classification, neural memory, recursion,
+    reinforcement learning and math-operation overlap do not establish a source-backed
+    target relation.
+  examined_targets:
+  - target: AIO:MachineLearningTask
+    rejection_reason: Its definition requires building methods that learn from data.
+      Retaining computed minimax search bounds is not on its own a source-established
+      machine-learning task.
+  - target: AIO:Model
+    rejection_reason: A generic abstract representation is not the identity of either
+      operational search algorithm; shared modeling context supplies no informative
+      source-backed mapping.
+  - target: AIO:Network
+    rejection_reason: A network is an interconnected system. Search-tree nodes alone
+      do not establish a useful algorithm-to-Network mapping or equivalence.
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: The candidates contain no artificial-neuron architecture or
+      neural training mechanism.
+  - target: AIO:DecisionTree
+    rejection_reason: The pinned node is a Classification subclass. Its broad decision-support
+      comment does not identify game-tree minimax algorithms as classification procedures.
+      Tree shape or use in choosing moves is insufficient.
+  - target: AIO:RandomForest
+    rejection_reason: Random Forest is an ensemble of learned trees, not alternative
+      game-tree searches.
+  - target: AIO:MathematicalFunction
+    rejection_reason: Computing minima/maxima and score bounds does not identify an
+      operational search algorithm with a generic scalar mathematical rule; no specific
+      functional target relation is established.
+  - target: AIO:MaximumLayer
+    rejection_reason: Elementwise tensor maximum merging differs from alternating-player
+      tree backup and bound manipulation.
+  - target: AIO:MinimumLayer
+    rejection_reason: Elementwise tensor minimum merging differs from adversarial
+      tree-search control.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: Storing search information is not a layer of neural memory cells.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: These algorithms are not language models and retained search
+      bounds do not establish the external-memory LLM architecture.
+  - target: AIO:NeuralTuringMachineNetwork
+    rejection_reason: Neither source procedure uses a neural Turing-machine network;
+      algorithmic memory alone does not supply this mapping.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Searching a supplied game tree with fixed leaf scores and retained
+      bounds is not evidence of reinforcement learning from reward interactions or
+      a policy-learning procedure.
+  - target: AIO:ReinforcementLearningLLM
+    rejection_reason: Neither procedure is a language model fine-tuned with rewards.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The source controls search and storage, not a preprocessing/training
+      strategy for machine-learning models.
+  - target: AIO:ActiveLearning
+    rejection_reason: Information acquisition from a search traversal does not query
+      labels for new training data; INS is not active learning merely because it retains
+      information.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Neither is an LLM; minimax reasoning does not establish language-task
+      architecture.
+  - target: AIO:RecursiveLLM
+    rejection_reason: Recursive calls are control flow, not recursive neural language
+      modeling or TreeLSTM composition.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: The source does not define a deep recursive language model or
+      syntactic composition architecture.
+  - target: AIO:RecursiveNeuralNetwork
+    rejection_reason: Recursion over a game tree does not mean applying learned neural
+      weights to structured inputs.
+  - target: AIO:GraphConvolutionalPolicyNetwork
+    rejection_reason: Neither method generates goal-directed graphs with a graph convolutional
+      policy network or reinforcement/adversarial training.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The game tree encodes choices and minimax evaluation, not random-variable
+      conditional dependence.
+  - target: AIO:CausalGraphicalModel
+    rejection_reason: An acyclic search tree is not automatically a causal probabilistic
+      data-generating graph.
+  - target: AIO:Classification
+    rejection_reason: Choosing a game move/value is not supervised distribution of
+      observations into classes.
+  - target: AIO:HierarchicalClassification
+    rejection_reason: A tree hierarchy of moves is not hierarchical classification.
+  - target: AIO:HashingLayer
+    rejection_reason: INS optional hashing for search-information retention is not
+      categorical feature hashing/bucketing preprocessing.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: Game-tree representations do not make either procedure a graph
+      language model.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: Neither combines neural language modeling with symbolic reasoning;
+      symbolic control alone is insufficient.
+  - target: AIO:PolicyLayer
+    rejection_reason: The procedures do not output a learned neural probability distribution
+      over actions from a layer.
+  - target: AIO:GenerativeAdversarialNetwork
+    rejection_reason: Minimax/adversarial game terminology does not establish two-neural-network
+      generative training or GAN identity.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-16T06:16:44Z'
+  updated_at: '2026-10-16T06:16:44Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

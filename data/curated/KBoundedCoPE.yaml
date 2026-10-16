@@ -1,0 +1,254 @@
+id: AIMech:KBoundedCoPE
+name: K-Bounded CoPE scheduling
+definition: An execution-focused CoPE scheduling schema that enumerates placements
+  of a bounded prefix of each candidate action head, completes the remainder with
+  latest-time placement, and compares combined policies obtained from a supplied computation-allocation
+  algorithm.
+concept_kind: algorithm
+aliases: []
+identity_notes: The official K-Bounded_A policy-construction schema that enumerates
+  placements of the first K head actions, combines them with latest-time treatment
+  of remaining head actions, and evaluates reduced instances using supplied A. Retain
+  the explicitly named enumeration/control schema separately from Max-LET. K and the
+  supplied solver A are parameters; K=2 is a reported configuration, not a new concept.
+  No exact K=0 equivalence is asserted from an incomplete printed interface. Truncating
+  the enumerated prefix in general uncertain instances is heuristic. The full bounded-prefix,
+  known-deadline, feasible-schedule result has additional premises. Strictly increasing
+  start indices alone do not explicitly enforce nonoverlap for durations above one.
+  K-Bounded is generic outside this work; retain the CoPE-qualified name and aliases[].
+  Refined-Max-LET/IPAE remain a version question, not aliases. Current insertion identity
+  was assessed on 2026-10-16 at merged HEAD 8650bfb55ef0c67902b5a80f1527920c87ad1d9d
+  and tree cd6972cabe7b7f1cdf9ca5ee69bd6263a991ba50. The complete inventory contains813
+  maintained and442 pinned AIO records,1255 total, with no normalized collision among
+  the four candidates. Eight ignored- and hidden-inclusive searches across data/,
+  research/, sources/ and docs/ account for167 distinct matching contents and856 match
+  events. Of these,105 groups retain exact historical scoped-event attribution and62
+  contents received fresh semantic reading with complete relevant parent context.
+  The newly added manufacturing record was fully compared;22 prior native contexts
+  are byte-identical and retain attributed semantic comparisons. The current mapping
+  assessment read21 complete pinned AIO nodes and72 incident edges. The peer independently
+  checked the current-state work with original scientific authorship disclosed. This
+  is bounded identity clearance for the selected corpus and pin, not universal novelty
+  or source exhaustion. Historical131-content/588-occurrence searching used four whole
+  checkouts and included review/vendor contexts; it is retained by attribution rather
+  than described as the current four-root search. The existing main911 source coordinator
+  is accepted for this insertion without merging method identities or closing source
+  questions.
+definition_evidence:
+- source_id: elboher2023
+  locator: Official PDF p.6 Section 6 K-Bounded paragraph; p.7 Algorithm 2 with Algorithms
+    3–4.
+  relation: supports
+claims:
+- claim_id: bounded-prefix-placement-enumeration
+  kind: mechanism
+  statement: K-Bounded_A takes a CoPE instance, a prefix parameter K and a supplied
+    S(AE)^2 algorithm A. For each candidate head it starts from the latest-time schedule
+    under the displayed minimum-support induced deadline, then considers placements
+    of the first K actions while retaining latest-time treatment for the remaining
+    head actions. The source explicitly calls this an execution-focused general-case
+    schema.
+  evidence:
+  - source_id: elboher2023
+    locator: Official PDF p.6, Section 6 K-Bounded paragraph; p.7 Algorithm 2.
+    relation: supports
+- claim_id: reduced-instance-policy-comparison
+  kind: mechanism
+  statement: For each considered head/initiation function, the schema invokes the
+    effective-deadline reduction and supplied algorithm A, combines the returned computation
+    policy with the chosen base initiations, and retains a policy when its returned
+    success probability strictly improves the current best. The fixed-head reduction
+    can still allocate computation to other compatible processes before they become
+    invalid or tardy.
+  evidence:
+  - source_id: elboher2023
+    locator: Official PDF p.5, fixed-head reduction and Eq.7; p.7 Algorithms 2–3.
+    relation: supports
+- claim_id: exact-special-case-versus-truncation
+  kind: scope
+  statement: For known induced deadlines and a constant bound K on the full length
+    of every head, the source describes enumeration of initiation functions followed
+    by allocation optimization as a pseudo-polynomial special case. If a head is longer
+    than the enumerated prefix and the rest is completed by a default scheme, the
+    source explicitly says optimality is given up. Thus the general K-Bounded heuristic
+    with truncated heads is not certified optimal by the bounded-full-head result.
+  evidence:
+  - source_id: elboher2023
+    locator: Official PDF p.6, Bounded Length Prefixes and Section 6; Section 5 premises
+      on pp.5–6.
+    relation: supports
+- claim_id: parameter-and-procedure-identity
+  kind: scope
+  statement: K and solver A parameterize the named placement-enumeration procedure.
+    Its additional initiation search distinguishes it from selecting only latest head
+    placements in Max-LET, while both remain execution-focused schemas. A reported
+    K value or a different supplied solver does not automatically define another algorithm
+    identity, and this record does not identify the official procedure with the version-specific
+    arXiv Refined-Max-LET display.
+  evidence:
+  - source_id: elboher2023
+    locator: Official PDF pp.6–7, Max-LET/K-Bounded contrast and Algorithm 2.
+    relation: supports
+limitations:
+- The algorithm is presented for a static supplied-distribution CoPE instance with
+  the source action/model restrictions. It does not supply online estimation, a complete
+  operating planner, arbitrary parallel base actions or stochastic action outcomes.
+- Independent performance/deadline calculations require the stated premises. The strict
+  1−D(t) survival convention and inclusive induced-deadline inequality differ at discrete
+  atoms; the draft does not repair or merge those conventions.
+- Algorithm 2 enumerates strictly increasing action-start values but does not explicitly
+  filter duration-dependent nonoverlap. For durations greater than one, increasing
+  starts alone do not ensure legal execution. The intended enumeration must remain
+  scoped to feasible initiation functions; no repaired loop is claimed.
+- The display uses I_i[K] and the first K head positions without fully stating short-head,
+  empty-head or out-of-range conventions. Its latest-time helper subtracts H[j] as
+  shorthand for duration and does not fully guard missing support minima or negative
+  schedules. No exact K=0/Max-LET equivalence is inferred from these incomplete interfaces.
+- The shared reduction helper lacks an explicit common-prefix-loop increment, second-head-length
+  check and complete all-compatible or empty-head convention. Effective deadlines
+  likewise need mismatch-sentinel and empty-set handling.
+- Induced-deadline distributions are absent from the explicit reduction argument list
+  despite being needed by effective deadlines. Ambient access, policy combination,
+  returned probability semantics and all-zero-success fallback remain helper-contract
+  questions. The printed best value begins at0 and changes only on a strict improvement.
+- A supplied allocation routine retains its own hazard/logarithm/time-denominator
+  domain restrictions and possible approximation errors. K-Bounded does not establish
+  those numerical conventions or certify its returned success probabilities.
+- General initiation enumeration can be exponential. The cited exact results are pseudo-polynomial
+  in numeric horizons and explicit distributions with their known-deadline, feasible-schedule
+  and bounded-head or equal-slack assumptions. Truncating a longer head or using a
+  heuristic A does not inherit exactness; the proof sketches were not formally verified.
+- Official Algorithm 2 supplies this version of K-Bounded. The author/main and arXiv
+  artifacts have different displays, and arXiv Refined-Max-LET/IPAE plus the2021 IPAE
+  route remain unresolved lineage. Neither those names nor a particular K/A configuration
+  is accepted as an alias. No author code was acquired or executed.
+- The reported evaluation is a configured simulation over sampled15-puzzle-derived
+  profiles and deadlines. It supplies no universal improvement from increasing K,
+  profile calibration guarantee, operational planning overhead bound or statistical-significance
+  result. Rounded small runtimes and instance ellipses retain their stated meanings.
+evidence_sources:
+- title: A Formal Metareasoning Model of Concurrent Planning and Execution
+  authors:
+  - Amihay Elboher
+  - Ava Bensoussan
+  - Erez Karpas
+  - Wheeler Ruml
+  - Shahaf S. Shperberg
+  - Eyal Shimony
+  source_type: primary_paper
+  access_level: full_text
+  source_id: elboher2023
+  url: https://ojs.aaai.org/index.php/AAAI/article/download/26464/26236
+  persistent_id: doi:10.1609/aaai.v37i10.26464
+  version: Official nine-page AAAI 2023 proceedings artifact, volume 37 issue 10,
+    printed pp.12427–12435, published 2023-06-26. Physical PDF pages are used in locators.
+    This SHA-256 identifies the acquired official PDF, not the byte-distinct eight-page
+    author PDF or thirteen-page arXiv v1. Official title block uses Eyal Shimony.
+    The five algorithm displays are version-specific.
+  accessed_at: '2026-10-16T07:25:29Z'
+  sha256: ad81b149dda70c776d6e985296919828f312f821c882c4fedfbb469b77fe6d7b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+aio_no_match:
+  search_scope: 'Historical prospective2026-10-16 capture: all 442 pinned AIO IDs/labels/scoped
+    synonyms screened,21relevant full nodes with definitions/annotations and72 distinct
+    incident edges read, with the current native context separately compared. This
+    is not a future canonical-insertion clearance or absence from every ontology.'
+  rationale: No inspected target identifies or usefully subsumes this named CoPE algorithm
+    schema. A formal model, probability formula, learning task or planner application
+    is not its control identity.
+  examined_targets:
+  - target: AIO:BayesianNetwork
+    rejection_reason: The target requires a directed acyclic conditional-dependency
+      representation. Competing process outcomes and deadline profiles do not supply
+      that defining representation.
+  - target: AIO:CausalGraphicalModel
+    rejection_reason: The target concerns assumptions about a data-generating process
+      represented as a probabilistic graph. Action-prefix invalidation is a model
+      transition rule, not evidence of the specified causal-inference model.
+  - target: AIO:DecisionTree
+    rejection_reason: The selected node is under Classification and its definition
+      frames a classification tree. A policy tree or branching proof construction
+      is not the same classifier, despite broader decision-tool commentary.
+  - target: AIO:EmbodiedLLM
+    rejection_reason: Executing base-level actions does not make the formal controller
+      or model an embodied large language model.
+  - target: AIO:EnsembleLearning
+    rejection_reason: Allocating effort among alternative plan computations is not
+      combining learning algorithms to improve prediction. No ensemble learner is
+      specified.
+  - target: AIO:GraphConvolutionalPolicyNetwork
+    rejection_reason: The target combines graph convolution, reinforcement learning
+      and adversarial graph-generation context. No corresponding architecture or training
+      rule defines these CoPE subjects.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target is a process for building methods that learn from
+      data. The formal model and three schemas can consume supplied performance/deadline
+      distributions without learning them. Offline empirical profile estimation in
+      one evaluation does not define these subjects as learning tasks.
+  - target: AIO:MarkovChain
+    rejection_reason: The pinned node is a stochastic sequence/network context, with
+      Network parent and probabilistic-layer relation. The controlled decision model
+      has action choices and an objective; neither its MDP encoding nor a resulting
+      policy is automatically the pinned chain-network identity.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The target is a rule assigning a dependent value from independent
+      values. A full decision-model tuple or policy-control procedure is not merely
+      one scalar or function-valued rule. This rejects transfer of the 2025 functional-specific
+      broad_match.
+  - target: AIO:MetaLearning
+    rejection_reason: The definition concerns learning from metadata about machine-learning
+      experiments. Metareasoning about computation and execution is not that learning
+      mechanism.
+  - target: AIO:Model
+    rejection_reason: The pinned definition covers an abstract logical, mathematical
+      or conceptual representation of a complex system. The source-defined CoPE decision
+      model is such a representation, so broad_match is defensible for the model only.
+      Named executable-control schemas are not themselves this model; sharing a model
+      input is not class identity.
+  - target: AIO:Network
+    rejection_reason: A collection of processes and an MDP transition graph do not
+      by themselves identify the subject with the pinned interconnected-node network
+      architecture. Model is the defensible broad target for the formal representation.
+  - target: AIO:PolicyLayer
+    rejection_reason: The target is a neural-network layer producing action probabilities.
+      The model and supplied-solver policy constructors have no such required layer.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The target explicitly models conditional dependencies with a
+      graph in a machine-learning task context. The CoPE state/transition representation
+      is not thereby the specified graphical-inference task.
+  - target: AIO:ProportionalHazardsModel
+    rejection_reason: Multiplicative covariate hazard regression is not a premise
+      or mechanism of the source CoPE model or schedulers.
+  - target: AIO:ReasoningLLM
+    rejection_reason: These subjects do not require a large language model or its
+      specialized reasoning behavior.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The target is a learning task balancing exploration and exploitation
+      to maximize performance. An MDP encoding or a solver-produced policy with supplied
+      distributions does not establish reinforcement learning or a learned controller.
+  - target: AIO:SurvivalAnalysis
+    rejection_reason: This ML task analyzes duration until events. Deadline/computation
+      distributions are supplied model inputs here; their use does not constitute
+      fitting or evaluating a survival-analysis method.
+  - target: AIO:TimeSeriesAnalysis
+    rejection_reason: A time clock and completion profiles are not a method for analyzing
+      ordered data series for statistics or characteristics as required by the target
+      task.
+  - target: AIO:TrainingStrategy
+    rejection_reason: No specified model-training or preprocessing strategy defines
+      the four subjects; estimating evaluation inputs is distinct from their control
+      logic.
+  - target: AIO:ActiveLearning
+    rejection_reason: The target is interactive querying to label new data points
+      with desired outputs. Allocating computation and dispatching actions for timely
+      planning success is not that task, even though both can value information.
+curation:
+  created_at: '2026-10-16T09:15:13Z'
+  updated_at: '2026-10-16T09:15:13Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
