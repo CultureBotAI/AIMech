@@ -1,0 +1,213 @@
+id: AIMech:SteinVariationalGradientDescent
+name: Stein variational gradient descent
+concept_kind: algorithm
+aliases: []
+definition: An interacting-particle inference algorithm that approximates a differentiable continuous
+  target by synchronously transporting particles with a kernel-weighted target-score and kernel-derivative
+  vector field derived from a population RKHS KL-descent calculation.
+definition_evidence:
+- source_id: liu2016-main
+  locator: Sections 3.1–3.2 and Algorithm 1, PDF pp. 4–5
+  relation: supports
+claims:
+- claim_id: target-and-particles
+  kind: scope
+  statement: SVGD approximates a differentiable continuous target with a set of particles and requires
+    its log-density gradient; an unknown multiplicative normalization constant independent of x cancels
+    from that score. The original procedure starts from a supplied particle configuration and transports
+    particles rather than fitting a prescribed finite-dimensional variational density family.
+  evidence:
+  - source_id: liu2016-main
+    locator: Sections 1–3.2, PDF pp. 1–5; Algorithm 1 input and target-score dependence
+    relation: supports
+- claim_id: synchronous-kernel-update
+  kind: mechanism
+  statement: At iteration l, set x_i^(l+1)=x_i^l+epsilon_l/n * sum_j[k(x_j^l,x_i^l) grad log p(x_j^l)+grad_first
+    k(x_j^l,x_i^l)]. All terms use the old particle configuration, including the i=j term. Kernel-score
+    attraction and the first-argument kernel derivative jointly define the update.
+  evidence:
+  - source_id: liu2016-main
+    locator: Algorithm 1, Equation 8, PDF p. 5; all particles evaluated at iteration l
+    relation: supports
+- claim_id: population-variational-direction
+  kind: scope
+  statement: Under the smooth-density, Stein-class, boundary and differentiability assumptions, the derivative
+    of population KL under x+epsilon phi at epsilon=0 is minus the expected Stein operator. Optimizing
+    this linear functional in the specified vector-valued RKHS gives the kernel-score-plus-kernel-derivative
+    direction used by the particle approximation. This is a population derivation, not a finite atomic
+    KL assertion.
+  evidence:
+  - source_id: liu2016-main
+    locator: Section 2, PDF pp. 2–3; Theorem 3.1, Lemma 3.2 and Theorem 3.3, PDF p. 4
+    relation: supports
+  - source_id: liu2016-supplement
+    locator: Appendices A–B, PDF pp. 1–2; negative derivative in proof, with Lemma A.1 display caveat
+    relation: supports
+- claim_id: rbf-specialization
+  kind: mechanism
+  statement: For the positive-bandwidth RBF kernel, the derivative contribution points away from each
+    neighboring particle and is combined with the kernel-weighted target scores. With a single particle,
+    the unit diagonal and zero first-argument diagonal derivative give target-score ascent. The exact-score
+    update is deterministic conditional on its starting particles and chosen step/kernel schedule.
+  evidence:
+  - source_id: liu2016-main
+    locator: Algorithm 1 and RBF/single-particle discussion, PDF p. 5
+    relation: supports
+- claim_id: practical-computation
+  kind: scope
+  statement: The particle update uses score evaluations and pairwise kernel values/derivatives without
+    evaluating a transported-density Jacobian determinant or a Metropolis acceptance ratio. The source
+    discusses minibatch score estimates for factorized-data posteriors, parallel score evaluation and
+    approximations to the pairwise sum as practical extensions. Their randomness and approximation differ
+    from the exact-score full-particle recurrence.
+  evidence:
+  - source_id: liu2016-main
+    locator: Complexity and Efficient Implementation, PDF pp. 5–6; related work, PDF p. 6; Equation 9
+      display caveat
+    relation: supports
+  - source_id: liu2019-v3-context
+    locator: PDF p. 5 Equation 9, bounded later-version comparison only; not the defining source version
+    relation: context
+limitations:
+- The population derivation assumes smooth densities, required moments, Stein boundary/integration conditions
+  and differentiable valid transforms. A local inverse-function argument alone does not establish a global
+  invertible transport for arbitrary finite steps or domains.
+- The empirical particle measure is atomic and has infinite KL relative to a continuous target. Its vector
+  field approximates a population calculation; neither the infinitesimal argument nor the 2016 empirical
+  results establish exact finite-particle sampling, global finite-step descent or universal convergence.
+- 'RBF repulsion does not universally prevent collapse: initially coincident particles have equal updates
+  and remain coincident. Kernel and bandwidth selection matter, and the median-squared/log(n) experiment
+  heuristic is undefined or degenerate at n=1 or zero median unless an additional rule is supplied.'
+- The exact one-particle score-ascent reduction uses a unit diagonal kernel with zero first-argument diagonal
+  derivative, as for RBF. A nonunit diagonal changes the step. For distinct fixed particles in the small-bandwidth
+  RBF limit the direction includes 1/n; a claim of independent gradient ascent must respect that scale
+  and does not cover coincident particles.
+- Minibatch and subsampled-particle variants require their own sampling and scaling conditions; they need
+  not equal the deterministic full-score/full-sum update. Direct kernel evaluation requires a quadratic
+  number of pair interactions in n, and the source does not establish universal runtime or posterior-quality
+  superiority. No software fallback, training or benchmark execution was inspected.
+- The official supplement Lemma A.1 has a leading-sign inconsistency with its proof and the main negative
+  KL derivative. Main Equation 9 displays log densities rather than the gradient estimator described in
+  its prose. These source-local displays are retained rather than silently promoted into operational formulas;
+  later arXiv v3 still contains them in the inspected passages.
+- The official toy description says one particle while its Figure 1 caption says 100; no quantitative
+  toy claim is adopted. This record covers the original scalar-kernel particle method, not later amortized
+  samplers, Stein policy gradients, matrix-kernel methods, gradient-free variants or later convergence
+  theorems.
+aio_no_match:
+  search_scope: Current source/identity review at merged base 008d1eafc23cb19605953fa860475256d1b28895
+    compared 788 native and 442 pinned AIO records and included ignored/hidden files in four checkout
+    searches. The team read all 665 matching contents; root inspected the contextual mechanisms and nine
+    exact AIO CLASS nodes, including all eight recorded SVGD rejections and their incident edges. MathematicalFunction
+    permits multivariate functions, but generic functional representability alone does not give an informative
+    mapping for a complete iterative inference procedure. KernelLayer denotes a network dot-product layer;
+    model applications, deterministic transition embeddings, training terminology and unlabeled-data contexts
+    do not establish the complete SVGD identity. The eight rejection rationales remain bounded to pinned
+    AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a, not every ontology revision or future variant.
+    Original method and supplementary inspections remain separately bound; the 33 historical questions
+    and seven pending citation questions remain open.
+  rationale: No informative positive mapping for the complete scalar-kernel iterative particle-inference
+    algorithm was established among the eight inspected pinned targets. A reusable kernel or mathematical
+    vector field does not alone identify the whole inference procedure with a network layer, generic function
+    class or unrelated task.
+  examined_targets:
+  - target: AIO:MathematicalFunction
+    rejection_reason: The target is a generic rule class and is not restricted to scalars. Although the
+      SVGD vector field is a mathematical function, generic functional representability of a full iterative
+      particle inference algorithm does not by itself supply an informative concept mapping; retain no-match
+      at this algorithm scope.
+  - target: AIO:KernelLayer
+    rejection_reason: AIO defines a layer taking dot products of inputs; an RKHS kernel and interacting-particle
+      inference update do not instantiate that network-layer identity.
+  - target: AIO:BayesianNetwork
+    rejection_reason: A posterior over a DAG model is one possible target, but the defining procedure
+      requires a target score, not a directed conditional-dependence network.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: Unlike BBVI factor-local Markov blankets, the SVGD core needs no graph factorization.
+      A possible model application is insufficient to make the general score-based inference procedure
+      this task/class.
+  - target: AIO:MarkovChain
+    rejection_reason: One may embed deterministic iteration as a degenerate transition system, but the
+      source defines a coupled variational transport and does not identify a target-invariant Markov sampler
+      or the pinned network/process class. Do not infer identity from the shared term sampling.
+  - target: AIO:UnsupervisedLearning
+    rejection_reason: The algorithm approximates a specified target, which may be a supervised posterior;
+      learning patterns from unlabeled data is not its defining task.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned preprocessing/training class is not the general particle inference algorithm.
+      Using scores of a learned model or adaptive step sizes does not establish that class relation.
+  - target: AIO:VariationalAutoEncoder
+    rejection_reason: SVGD does not require an encoder/decoder or the pinned latent-space autoencoder
+      architecture; later VAE applications are separate methods.
+review_status: DRAFT
+identity_notes: 'The selected identity is the 2016 Liu–Wang synchronous scalar-kernel interacting-particle
+  variational inference algorithm. Its score-plus-kernel-derivative field and population infinitesimal-KL
+  argument do not identify finite atomic-particle iteration with target-invariant Langevin sampling, parameterized
+  BBVI, learned FlowMatching or the complete SoftQ control method. Fresh collection on 16 October 2026
+  at 00:05:44–00:06:43 UTC followed actual cohort 354 merge 008d1eafc23cb19605953fa860475256d1b28895.
+  It compared all 788 native and 442 pinned AIO records: 4,882 ID/local-ID/name/alias/scoped-synonym occurrences
+  and 3,728 normalized values, with zero candidate collisions and 28 contextual matches. Four checkout
+  searches included ignored and hidden files and returned 1,233, 942, 3,008 and 3,783 occurrences, retained
+  as 665 distinct contents. Root read the complete contents of groups 440–664; two supporting agents read
+  groups 0–219 and 220–439 and all occurrence provenance in those partitions. Root read their complete
+  assessments and all recovered question semantics. Root also read all 28 normalized context fields, all
+  12 matched complete frontier objects, 16 native identity/definition/claim/limitation/mapping projections,
+  and nine exact AIO CLASS nodes with all 33 incident-edge entries. Native identity_notes, source metadata
+  and curation fields were not all reread in these current neighbor projections; separately bound prior
+  primary/draft inspections remain historical evidence. All 913 main and 394 nested objects were mechanically
+  queried recursively; this is not a full manual reading of every unmatched object. All 665 contents were
+  read across the team, without claiming root manually read every repeated occurrence. Thirty-three recovered
+  historical source questions remain explicitly pending under issue 406; no global novelty or family-exhaustion
+  claim is made.'
+evidence_sources:
+- source_id: liu2016-main
+  title: 'Stein Variational Gradient Descent: A General Purpose Bayesian Inference Algorithm'
+  authors:
+  - Qiang Liu
+  - Dilin Wang
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2016/file/b3ba8f1bee1238a2f37603d90b58898d-Paper.pdf
+  version: Official 2016 proceedings PDF, nine pages.
+  persistent_id: https://proceedings.neurips.cc/paper_files/paper/2016/hash/b3ba8f1bee1238a2f37603d90b58898d-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-15T21:46:42Z'
+  sha256: 2ea66ee72576fc5651edb6bab3b6da6371e7e943b3f6b5a9057cef20474493d9
+- source_id: liu2016-supplement
+  title: 'Stein Variational Gradient Descent: A General Purpose Bayesian Inference Algorithm — supplementary
+    appendix'
+  authors:
+  - Qiang Liu
+  - Dilin Wang
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2016/file/b3ba8f1bee1238a2f37603d90b58898d-Supplemental.zip
+  version: Official single-member ZIP; four-page PDF appendix, no software in this archive. The row checksum
+    identifies the downloaded ZIP; its sole inspected member 1239-appendix.pdf has SHA256 112e4b57860af60e81f9f9bd6877bc8c3b190cc6aee6375e3ed9a99f294de337.
+    This is supplementary evidence for the same 2016 work.
+  persistent_id: https://proceedings.neurips.cc/paper_files/paper/2016/hash/b3ba8f1bee1238a2f37603d90b58898d-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-15T21:48:48Z'
+  sha256: 7c4102d79ac513fa586663158939d9a3f1c1fd893e95988c38e89d4731612b5f
+- source_id: liu2019-v3-context
+  title: 'Stein Variational Gradient Descent: A General Purpose Bayesian Inference Algorithm — arXiv v3'
+  authors:
+  - Qiang Liu
+  - Dilin Wang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1608.04471v3
+  version: arXiv:1608.04471v3, submitted 2019-09-09, 13-page combined paper/appendix. No full-version
+    reading claimed. Context only for selected display/version comparison; the original 2016 method remains
+    defining.
+  persistent_id: https://arxiv.org/abs/1608.04471v3
+  access_level: full_text
+  accessed_at: '2026-10-15T21:52:51Z'
+  sha256: 993eee23e03dd78ed3db4e56c92f6a71291436e0f9d8c5d51c8642fbd690b7dc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-16T00:26:14Z'
+  updated_at: '2026-10-16T00:26:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,197 @@
+id: AIMech:SoftQLearning
+name: Soft Q-learning
+concept_kind: algorithm
+aliases: []
+definition: The 2017 maximum-entropy continuous-control learning algorithm that fits neural soft action
+  values from replayed transitions and trains an amortized Stein sampler toward the corresponding Boltzmann
+  action policy.
+definition_evidence:
+- source_id: haarnoja2017-main
+  locator: Sections 2.2–3.4, PDF pp. 3–5, energy policy, soft fitting and Algorithm 1
+  relation: supports
+- source_id: haarnoja2017-supp
+  locator: Appendices C.1–C.2, PDF pp. 13–14, sampler and proposal details
+  relation: supports
+claims:
+- claim_id: entropy-objective
+  kind: scope
+  statement: The 2017 method learns continuous-action policies under a reward-plus-conditional-policy-entropy
+    formulation with a positive entropy coefficient alpha. Entropy enters future soft-value targets rather
+    than serving only as Boltzmann exploration of an ordinary Q table; the source separately qualifies
+    its discounted state-weighting convention.
+  evidence:
+  - source_id: haarnoja2017-main
+    locator: Sections 2.1–2.2, PDF pp. 2–3, Equations 2–7
+    relation: supports
+  - source_id: haarnoja2017-supp
+    locator: Appendix A, PDF p. 11, discounted-objective discussion and Equations 15–16
+    relation: supports
+- claim_id: energy-policy
+  kind: mechanism
+  statement: For a finite positive action normalizer, the target policy is proportional to exp(Q(s,a)/alpha),
+    with V(s)=alpha*log(integral exp(Q(s,a)/alpha) da). The neural scalar action value acts as negative
+    energy. This describes the target policy family; a finite learned sampler need not represent it exactly.
+  evidence:
+  - source_id: haarnoja2017-main
+    locator: Section 2.2, PDF p. 3, Equations 3–6
+    relation: supports
+- claim_id: soft-backup
+  kind: scope
+  statement: 'The idealized soft backup replaces the hard next-action maximum by the log-partition soft
+    value: Q_new(s,a)=r(s,a)+gamma*E[V(s_next)]. The source gives an exact fixed-point result under boundedness
+    and finite-partition assumptions with discount below one. This operator result is separate from the
+    practical neural, replay and finite-sampling approximations.'
+  evidence:
+  - source_id: haarnoja2017-main
+    locator: Section 3.1, PDF pp. 3–4, Theorem 3 and Equations 8–9
+    relation: supports
+  - source_id: haarnoja2017-supp
+    locator: Appendix A.2, PDF pp. 12–13, exact soft-backup argument
+    relation: supports
+- claim_id: approximate-value-fit
+  kind: mechanism
+  statement: The practical procedure estimates soft next-state values by taking the logarithm of a sample
+    mean of importance weights exp(Q_target(s_next,a)/alpha)/q(a), scaled by alpha, for proposal actions
+    with suitable support and density. Replayed transition minibatches then fit neural Q values by squared
+    soft Bellman residuals using delayed target parameters.
+  evidence:
+  - source_id: haarnoja2017-main
+    locator: Section 3.2, PDF p. 4, Equations 10–11; Algorithm 1, PDF p. 5
+    relation: supports
+  - source_id: haarnoja2017-supp
+    locator: Appendix C.2, PDF p. 14, proposal-density discussion and Equation 33
+    relation: supports
+- claim_id: amortized-stein-sampler
+  kind: mechanism
+  statement: A state-conditioned sampler transforms random noise into actions. Its update projects a kernelized
+    Stein transport direction through the sampler Jacobian, using particle averages of an action-value-gradient
+    attraction term and a kernel-gradient repulsion term. Main Equation 13 weights the repulsion by alpha.
+    The projected quantity is treated as an update direction, with the source sign and scaling conventions
+    retained explicitly.
+  evidence:
+  - source_id: haarnoja2017-main
+    locator: Section 3.3, PDF p. 5, Equations 12–14
+    relation: supports
+  - source_id: haarnoja2017-supp
+    locator: Appendix C.1, PDF pp. 13–14, empirical particle projection
+    relation: supports
+  - source_id: haarnoja-code-context
+    locator: Lines 247–268 at the pinned 2019 commit; later negative-surrogate sign convention is context
+      only, not the original method version
+    relation: context
+- claim_id: replay-alternation
+  kind: scope
+  statement: Algorithm 1 alternates environment interaction, replay-buffer minibatch action-value fitting
+    and sampler fitting, and periodically copies current parameters into target parameters. It specifies
+    a reusable off-policy learning procedure rather than a single trained controller or an exact sampling
+    oracle.
+  evidence:
+  - source_id: haarnoja2017-main
+    locator: Section 3.4 and Algorithm 1, PDF p. 5
+    relation: supports
+limitations:
+- The exact soft-backup result requires a suitable bounded function class, discount below one and finite
+  positive action integrals. It does not certify convergence of finite replay estimates, a nonconvex neural
+  Q approximator or an imperfect sampler.
+- The partition sample mean and its logarithm have different bias properties. The log estimate is generally
+  Jensen-biased; constant importance weights require the exact normalized proposal for the same Q being
+  integrated, not merely an approximate or delayed sampler.
+- The single-inverse density expression in Appendix C.2 needs global one-to-one support or an appropriate
+  sum over preimages. Equal dimension and a nonsingular local Jacobian alone are insufficient; the source’s
+  suggested switch away from uniform proposals is not an injectivity certificate.
+- The Stein projection is an update direction rather than a generally exact ordinary parameter gradient
+  of KL. Main Equation 13 retains alpha on repulsion, while Appendix C.1 writes coefficient one; the sign
+  and temperature convention must be explicit. The pinned 2019 author code minimizes a negative surrogate,
+  but is later context and is not established as the original experimental version.
+- Appendix A qualifies discounted state weighting and has a future-sum index mismatch in its opening display;
+  Appendix B Equation 32 displays a descent sign rather than the literal derivative of its squared loss.
+  These source-local issues do not justify importing an unqualified objective or gradient-equivalence
+  theorem.
+- Finite action partitions, proposal support and action-density assumptions are constitutive; differential
+  entropy depends on the chosen action measure. A zero empirical residual or a nonsingular Jacobian at
+  sampled points does not establish the required global properties.
+- The selected evidence is the official 2017 main paper and supplementary artifact. Their finite simulations
+  do not establish universal exploration, multimodal recovery or transfer performance. ArXiv version metadata
+  and later author code are qualified context; no training reproduction, complete implementation audit
+  or later SAC/compositional extension is included.
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The source-defined algorithm learns action values and a reward-driven policy through interaction
+    and replay, with an entropy term influencing exploration. This supports a qualified relation to the
+    pinned reinforcement-learning task, not exact identity or an algorithm-to-task subclass assertion.
+review_status: DRAFT
+identity_notes: 'The selected identity is the 2017 Haarnoja source-defined control algorithm combining
+  entropy-regularized soft action values and an amortized Stein action sampler. It is distinct from 2018
+  SoftActorCritic, ordinary maximum-backup QLearning, DQN and deterministic DDPG. Original SVGD particle
+  inference is a reusable mechanism, not an alias of the complete control algorithm. Fresh collection
+  on 16 October 2026 at 00:05:44–00:06:43 UTC followed actual cohort 354 merge 008d1eafc23cb19605953fa860475256d1b28895.
+  It compared all 788 native and 442 pinned AIO records: 4,882 ID/local-ID/name/alias/scoped-synonym occurrences
+  and 3,728 normalized values, with zero candidate collisions and 28 contextual matches. Four checkout
+  searches included ignored and hidden files and returned 1,233, 942, 3,008 and 3,783 occurrences, retained
+  as 665 distinct contents. Root read the complete contents of groups 440–664; two supporting agents read
+  groups 0–219 and 220–439 and all occurrence provenance in those partitions. Root read their complete
+  assessments and all recovered question semantics. Root also read all 28 normalized context fields, all
+  12 matched complete frontier objects, 16 native identity/definition/claim/limitation/mapping projections,
+  and nine exact AIO CLASS nodes with all 33 incident-edge entries. Native identity_notes, source metadata
+  and curation fields were not all reread in these current neighbor projections; separately bound prior
+  primary/draft inspections remain historical evidence. All 913 main and 394 nested objects were mechanically
+  queried recursively; this is not a full manual reading of every unmatched object. All 665 contents were
+  read across the team, without claiming root manually read every repeated occurrence. Thirty-three recovered
+  historical source questions remain explicitly pending under issue 406; no global novelty or family-exhaustion
+  claim is made.'
+evidence_sources:
+- source_id: haarnoja2017-main
+  title: Reinforcement Learning with Deep Energy-Based Policies
+  authors:
+  - Tuomas Haarnoja
+  - Haoran Tang
+  - Pieter Abbeel
+  - Sergey Levine
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/haarnoja17a/haarnoja17a.pdf
+  version: Official PMLR 70 (ICML 2017), ten-page main article; accessed_at records local artifact verification,
+    not download time. Original acquisition was approximately 2026-10-15 21:31Z; exact download seconds
+    are not asserted.
+  persistent_id: https://proceedings.mlr.press/v70/haarnoja17a.html
+  access_level: full_text
+  accessed_at: '2026-10-15T21:46:47Z'
+  sha256: 060b03d843a0f38f399a05f23b22a00d953bcfd60a8aefae86e7a68fcafc31b5
+- source_id: haarnoja2017-supp
+  title: Reinforcement Learning with Deep Energy-Based Policies — supplementary material
+  authors:
+  - Tuomas Haarnoja
+  - Haoran Tang
+  - Pieter Abbeel
+  - Sergey Levine
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/haarnoja17a/haarnoja17a-supp.pdf
+  version: Official PMLR supplementary PDF, sixteen pages; first ten extracted text pages equal main;
+    appendices A–D on PDF pages 11–16; accessed_at records local artifact verification, not download time.
+    Original acquisition was approximately 2026-10-15 21:31Z; exact download seconds are not asserted.
+  persistent_id: https://proceedings.mlr.press/v70/haarnoja17a.html
+  access_level: full_text
+  accessed_at: '2026-10-15T21:46:47Z'
+  sha256: bca2563b0d8ac50425d707cda59007a16ae95323467a9ea6134a28f004607aa2
+- source_id: haarnoja-code-context
+  title: softqlearning SQL implementation, softqlearning/algorithms/sql.py
+  authors:
+  - Tuomas Haarnoja and softqlearning contributors
+  source_type: official_documentation
+  url: https://github.com/haarnoja/softqlearning/blob/6f51eaca77d15b35c6443363c51a5a53ff4e9854/softqlearning/algorithms/sql.py
+  version: Author repository commit 6f51eaca77d15b35c6443363c51a5a53ff4e9854, dated 2019-01-05; complete
+    357-line static read. Later implementation context only, not established as the 2017 experimental
+    version.
+  access_level: documentation
+  accessed_at: '2026-10-15T21:39:21Z'
+  sha256: fb395bab4c715e7f223c03776e8a875cd89d5d3857af736f9ecc9d6832543de1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-16T00:26:14Z'
+  updated_at: '2026-10-16T00:26:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
