@@ -1,0 +1,6574 @@
+# Scientific self-review of Ritter–Gallegos two-stage fitting and IECO classification
+
+- Review: 20261016T022019Z-ritter-gallegos-two-stage-fitting-and-ieco-classification
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-16T02:20:16.619496Z
+- Finished UTC: 2026-10-16T02:20:19.776846Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain two-stage component-law fitting and IECO constrained category-marginalized indexed-slot classification as distinct DRAFT algorithms. Nine claims and15 limitations preserve heuristic, prior, source-version, feasibility and Phi aggregation boundaries. Actual ownership and22 bibliography occurrences are reconciled without closing inherited source questions.
+
+## Scope And Provenance
+
+Two exact current native records from the accepted357 creation; all selected claims and limitations assessed. Historical source and neighbor reading scopes remain separately attributed.
+
+Selection: Exact AIMech:RitterGallegosTwoStageOutlierMixtureFitting, AIMech:IECOConstrainedMixtureClassification.
+Coverage: full; 2 reviewed / 2 in the declared population.
+Source: working_tree at Git base 7d38dafe42243c93664bc246a5ff77beca593cd3.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:RitterGallegosTwoStageOutlierMixtureFitting | data/curated/RitterGallegosTwoStageOutlierMixtureFitting.yaml | maintained | Ritter–Gallegos two-stage outlier-mixture fitting |
+| AIMech:IECOConstrainedMixtureClassification | data/curated/IECOConstrainedMixtureClassification.yaml | maintained | IECO constrained elliptical-mixture classification |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:RitterGallegosTwoStageOutlierMixtureFitting, AIMech:IECOConstrainedMixtureClassification | Actual completed command exited0; exact output and timing retained. |
+| just vendored-check | passed | True | AIMech:RitterGallegosTwoStageOutlierMixtureFitting, AIMech:IECOConstrainedMixtureClassification | Actual completed command exited0; exact output and timing retained. |
+| uv run --locked aimech check-source | passed | True | AIMech:RitterGallegosTwoStageOutlierMixtureFitting, AIMech:IECOConstrainedMixtureClassification | Actual completed command exited0; exact output and timing retained. |
+| just render | passed | True | AIMech:RitterGallegosTwoStageOutlierMixtureFitting, AIMech:IECOConstrainedMixtureClassification | Actual completed command exited0; exact output and timing retained. |
+| just render-check | passed | True | AIMech:RitterGallegosTwoStageOutlierMixtureFitting, AIMech:IECOConstrainedMixtureClassification | Actual completed command exited0; exact output and timing retained. |
+| git diff --check | passed | True | AIMech:RitterGallegosTwoStageOutlierMixtureFitting, AIMech:IECOConstrainedMixtureClassification | Actual completed command exited0; exact output and timing retained. |
+| just vendored-check (retained earlier attempt) | failed | False | AIMech:RitterGallegosTwoStageOutlierMixtureFitting, AIMech:IECOConstrainedMixtureClassification | Historical unsuccessful attempt retained; later exact required command passed. |
+
+## Scientific And Domain Assessments
+
+### Claim population-to-basic-fit
+
+evidence: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+Section2.2 explicitly fits POP, thresholds against its estimated law, and refits BAS in the same family. The Mahalanobis indicator is an elliptical example rather than the general definition. Source locators: PDF p.5, Section2.2.
+
+### Claim original-population-outlier-fit
+
+evidence: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+The second selection is from original POP under the BAS fit. The paper explicitly allows BAS/OUT overlap and estimates an outlier law; this is not partitioning a fixed population into complementary sets. Source locators: PDF pp.5–6, Section2.2; PDF p.4, Section2.1.
+
+### Claim two-stage-and-prior-boundary
+
+evidence: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+The source prefers two stages and mentions optional iteration separately. The contamination prior belongs to Section2.1; no BAS/OUT-frequency estimator of that prior is supplied or assumed. Source locators: PDF pp.4–6, Sections2.1–2.2.
+
+### Claim separate-classifier-and-covariance-components
+
+evidence: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+Parameter fitting and constrained assignment are separate procedures. Section2.3 credits covariance weighting separately; Section5.2 applies its weighting for classification rather than parameter estimation. No James–Stein guarantee transfers to this fitting record. Source locators: PDF pp.6–7, Section2.3; p.13, Section5 training protocol.
+
+### Limitation 1
+
+scope: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+The source calls the method heuristic; the record makes no unsupported optimization, consistency or universal robustness theorem. Source scope: 1997 physical PDF pp.5–6, Sections2.1–2.2.
+
+### Limitation 2
+
+scope: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+This is a mathematical domain/sample-adequacy boundary of estimating retained-subset distributions, not an observed author failure. Source scope: 1997 physical PDF p.5, Section2.2; retained-subset estimation requirements.
+
+### Limitation 3
+
+scope: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+Overlap is explicit, so BAS/OUT frequencies are not complementary weights without another rule. Source scope: 1997 physical PDF p.6, overlap paragraph and dependency diagram.
+
+### Limitation 4
+
+scope: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+The1997 p.6 cutREG mention lacks a local definition, whereas the two-page1996 abstract defines cutREG. Preserve the source discrepancy instead of substituting labels. Source scope: 1997 physical PDF pp.5–6;1996 rendered abstract p.2.
+
+### Limitation 5
+
+scope: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+The abstract is now research context outside fitting evidence_sources. Its min-over-quality step is not the1997 category-summed rule; it supplies no independent full-method support. Source scope: 1996 rendered abstract p.2;1997 physical PDF pp.8–9.
+
+### Limitation 6
+
+scope: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+Acquisition binds the exact author-hosted PDF, not publisher byte identity. No performance or execution claim is introduced. Source scope: Acquisition receipt and manuscript header; complete attributed prior reading.
+
+### Limitation 7
+
+scope: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+These cited techniques remain source questions, not fitting aliases or accepted extra records. Every19+3 bibliography occurrence and all prior1997 groups retain continuity. Source scope: 1997 physical PDF pp.5–7 and bibliography; per-item continuity ledger.
+
+### Definition and source scope
+
+identity: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+The two-stage threshold/refit procedure produces component laws; it does not itself perform constrained assignment. Cutoff and overlap qualifications remain explicit. Locators: PDF pp.5–6, Section2.2 and dependency diagram.
+
+### Identity and source scope
+
+identity: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+Retain POP/BAS/OUT component-law fitting separately from downstream constrained assignment, mixture-prior estimation, covariance construction and generic EM. OUT is selected from original POP, BAS/OUT can overlap, cut_REG remains a source-version ambiguity, and no universal robustness or optimization theorem is inferred. Actual identity notes equal the fresh root decisions; exact historical/current differences remain in context_changes.
+
+### Mapping and source scope
+
+grounding: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+The procedure learns component-distribution parameters from observed data. The inspected AIO target is a task/process context and does not identify POP/BAS/OUT fitting; this is a related algorithm-to-task association, not equivalence or an upstream subclass assertion. Selecting subsets during parameter fitting does not make the complete procedure a raw-data preprocessing transform.
+
+### Source and source scope
+
+provenance: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+One shared author-hosted1997 manuscript defines both algorithms. The1995 thirteen-page full manuscript and1996 two-page abstract remain context with their exact access levels. Four declared record rows identify three artifacts; publisher byte equivalence remains unverified.
+
+### Kind and source scope
+
+identity: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting.
+
+This is a reusable algorithm specification with operational decisions and assumptions, not a trained-model instance, dataset or reported accuracy result.
+
+### Claim category-marginalized-class-density
+
+evidence: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+Sections3.1–3.2 supply independent indexed class/category laws; Eq3 is a probability-weighted category sum. Section3.4 names IECO for the elliptical regular/outlier specialization. Negative-log scoring is applied to that supplied valid density, not literal Eq13. Source locators: PDF pp.7–9, Sections3.1–3.4, Eqs2–3 and10; IECO naming paragraph.
+
+### Claim injective-assignment-and-missing-slots
+
+evidence: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+The decision set is injective Phi. The image prior and independent uniform permutation yield the missing-slot product. Equations8–11 give negative-log assignment and dummy-row construction. This supports slot MAP without promising a biological quotient MAP. Source locators: PDF pp.7–9, Sections3.1–3.4, Eqs4–11; PDF pp.10–12, Section4 application construction.
+
+### Claim missing-weight-interpretation
+
+evidence: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+The fixed-m prior has a normalizing constant. Eq7 constructs alpha as failure odds; Eq6 separately normalizes the one-missing case into absence probabilities. These scopes are not conflated. Source locators: PDF p.8, Section3.3, Eqs4–7.
+
+### Claim class-versus-category-decision
+
+evidence: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+The accepted two-field qualification names the precise Phi target. Categories are marginalized before slot optimization; biological-label aggregation is another target. The source warns that posthoc category selection is not joint Bayesian estimation. The1996 abstract minimizes over quality before assignment and remains contextual only. Source locators: PDF p.9, Section3.4, concluding category-estimator paragraph; Rendered abstract PDF p.2, minimum-over-quality score before classification.
+
+### Claim iec-lineage-special-case
+
+evidence: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+The1995 fixed-count, singleton-category setting has constant homologous-slot multiplicities and determinant products. It is a legitimate predecessor special case, not an exact alias or justification for dropping varying-count factors. The actual1995 radial support caveat remains explicit. Source locators: PDF p.9, Section3.4, IECO naming and reference to IEC; PDF pp.4–7, likelihood, constrained classification and common radial-function cases.
+
+### Limitation 1
+
+scope: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+Accepted Phi qualification preserves the valid slot-posterior result and assumptions. Fixed exchangeable counts have constant multiplicity; the general aggregation boundary alone does not disprove the45-chromosome construction. Source scope: 1997 physical PDF pp.7–12, Sections3–4;1995 physical PDF pp.5–8; separately retained rational analysis.
+
+### Limitation 2
+
+scope: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+Negative logarithms give infinite costs at zero support/weights. Feasibility is a mathematical prerequisite, not an observed implementation defect. Source scope: 1997 physical PDF pp.8–9, alpha&gt;=0 and Eq10.
+
+### Limitation 3
+
+scope: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+The source distinguishes general categories from its named elliptical regular/outlier specialization; solver and chromosome application scopes remain separate. Source scope: 1997 physical PDF pp.7–10, Sections3.1–4.2.
+
+### Limitation 4
+
+scope: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+Visually checked1997 Eq13 has density-versus-cost and radial-argument concerns; the record uses Section3 supplied valid densities. The present Phi audit establishes no defect in Eq9. Source scope: 1997 physical PDF pp.9,11;1996 rendered abstract p.2.
+
+### Limitation 5
+
+scope: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+The predecessor literal Pareto family has nonzero lower support cutoff. The caution avoids importing an unrestricted log-distance likelihood equivalence. Source scope: 1995 physical PDF p.7, Section3.2(c).
+
+### Limitation 6
+
+scope: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+Both abstract pages were visually read. Earlier quality maximization and cutREG notation remain historical context rather than repairs of1997 formulas. Source scope: 1996 rendered abstract p.2;1997 physical PDF pp.6,8–9.
+
+### Limitation 7
+
+scope: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+The stated procedure needs fitted laws, priors, constraints and a solver; no author implementation, benchmark or general complexity result has been executed or supplied by this preparation. Source scope: 1997 physical PDF pp.5–13 and separate acquisition/reading scope.
+
+### Limitation 8
+
+scope: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+Three exact author-hosted artifacts are bound; titles and publication metadata do not prove publisher-byte equivalence. Source scope: Exact acquisition/version receipts and source metadata.
+
+### Definition and source scope
+
+identity: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+The definition already specifies distinct class slots and supplied mixture likelihoods. Accepted Phi scope clarifies the decision target without asserting failure of source equations or biological experiments. Locators: PDF pp.7–9, Sections3.1–3.4, especially Eqs3 and10–11 and the IECO naming paragraph.
+
+### Identity and source scope
+
+identity: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+Retain IECO category-marginalized indexed-slot assignment separately from parameter fitting and historical IEC/quality variants. The Phi posterior concerns an injective indexed-slot variable, supplied normalized component laws and stated priors; category marginalization differs from joint category MAP, and coarser biological-label aggregation needs its own argument. No failure of the specific45-chromosome construction is asserted. Actual identity notes equal the fresh root decisions; exact historical/current differences remain in context_changes.
+
+### Mapping and source scope
+
+grounding: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+The procedure assigns observations to externally specified classes using fitted class-conditional distributions and global class-slot constraints. The inspected target is a classification task under SupervisedLearning, so the association is related rather than an exact or subclass mapping. Unobserved regular/outlier categories do not make the external class labels latent clusters, and two qualities do not imply binary class assignment.
+
+### Source and source scope
+
+provenance: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+One shared author-hosted1997 manuscript defines both algorithms. The1995 thirteen-page full manuscript and1996 two-page abstract remain context with their exact access levels. Four declared record rows identify three artifacts; publisher byte equivalence remains unverified.
+
+### Kind and source scope
+
+identity: supported. Targets: AIMech:IECOConstrainedMixtureClassification.
+
+This is a reusable algorithm specification with operational decisions and assumptions, not a trained-model instance, dataset or reported accuracy result.
+
+### Actual canonical creation and current accounting
+
+provenance: supported. Targets: AIMech:RitterGallegosTwoStageOutlierMixtureFitting, AIMech:IECOConstrainedMixtureClassification.
+
+Actual records retain9 claims and15 limitations,4 declared source rows and3 distinct artifacts: one shared defining1997 manuscript plus1995 full-manuscript and1996 abstract-only context. Five exclusive creation outputs and one CREATE event are bound. Current dynamic owner changes and additions are exactly the accepted plan: {"additional_source_question_count": 10, "changed_main_indexes": [], "changed_nested_indexes": [], "main": 914, "nested": 394, "new_main_rows": 1, "new_nested_rows": 0, "retained_bibliography_occurrences": 22, "unchanged_other_main": 913, "unchanged_other_nested": 394}. All22 bibliography occurrences, any additional source questions, original402/404/406 metadata and356 twelve source follow-ups are retained. 62 unique captured inputs, actual generated pages and six successful required checks are bound. No source exhaustion, independent approval, issue closure or publication result is implied.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:RitterGallegosTwoStageOutlierMixtureFitting. Retain POP/BAS/OUT component-law fitting separately from downstream constrained assignment, mixture-prior estimation, covariance construction and generic EM. OUT is selected from original POP, BAS/OUT can overlap, cut_REG remains a source-version ambiguity, and no universal robustness or optimization theorem is inferred.
+- retain: AIMech:IECOConstrainedMixtureClassification. Retain IECO category-marginalized indexed-slot assignment separately from parameter fitting and historical IEC/quality variants. The Phi posterior concerns an injective indexed-slot variable, supplied normalized component laws and stated priors; category marginalization differs from joint category MAP, and coarser biological-label aggregation needs its own argument. No failure of the specific45-chromosome construction is asserted.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| source-context | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json | context_only | Historical source/version and role assessment;1997 defining,1995 full manuscript and1996 abstract-only context. |
+| source-reading | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/reading.json | context_only | Historical attributed primary and supporting readings; no fresh paper reading by this consumer preparation. |
+| root-source-acceptance | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/root-source-scope-acceptance.json | context_only | Historical root source-scope acceptance, not approval of future canonical state. |
+| root-draft-acceptance | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/root-draft-module-acceptance.json | context_only | Historical accepted unchanged draft modules. |
+| root-static-science-acceptance | /private/tmp/aimech-ritter-slot-map-adversarial-20261015/root-static-successor-acceptance.json | context_only | Historical accepted Phi indexed-slot and source-equation scope. |
+| root-preview-readback | /private/tmp/aimech-ritter-native-preview-20261016/root-preview-readback.json | context_only | Actual earlier TEMP native preview readback; not future canonical approval. |
+| historical-aio-assessment | /private/tmp/aimech-ritter-two-scope-readiness-20261015/aio-mapping-assessment.json | context_only | Historical bounded19-context AIO assessment; related algorithm-to-task mappings only. |
+| historical-native-assessment | /private/tmp/aimech-ritter-two-scope-readiness-20261015/native-neighbor-assessment.json | context_only | Historical17-neighbor identity assessment; not a new full-source review. |
+| bibliography-continuity | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/bibliography-ownership-continuity.json | context_only | All22 exact bibliography occurrences; fresh ownership remains unbound. |
+| src-ritter1997 | /private/tmp/aimech-ritter-gallegos1997-research-20261015/ritter-gallegos1997.pdf; Physical PDF pp.5–12, Sections2.1–4, dependency diagram and Eqs2–3,10–13; seventeen-page author-hosted manuscript. | supports | Outliers in Statistical Pattern Recognition and an Application to Automatic Chromosome Classification Author-hosted 17-page manuscript bearing the header Appeared in Pattern Recognition Letters18(1997)525–539; publisher byte equivalence unverified. Locators use internal PDF pages, not inferred journal offsets. Access level full_text. Original acquisition timestamp is preserved; this is not a fresh download. |
+| src-ritter1995-context | /private/tmp/aimech-ritter-lineage-source-acquisition-20261015/iec1995.pdf; Physical PDF pp.5–8, IEC classification, Pareto cutoff and fixed-multiplicity context; thirteen-page author-hosted manuscript. | partial | Automatic context-sensitive karyotyping of human chromosomes based on elliptically symmetric statistical distributions Author-hosted 13-page version bearing a Pattern Recognition28(1995)823–831 header; all pages visually read. Publisher byte equivalence unverified; lineage context only. Access level full_text. Original acquisition timestamp is preserved; this is not a fresh download. |
+| src-gallegos1996-context | /private/tmp/aimech-ritter-lineage-source-acquisition-20261015/abstract1996.pdf; Physical PDF pp.1–2, two-page COMPSTAT abstract; historical cut_REG and min/max category-quality context only. | context_only | Outlier Treatment: A New Statistical Method for Automatic Chromosome Classification Author-hosted two-page COMPSTAT96 conference abstract; both pages visually read because native extraction is garbled. Abstract-level lineage context only, not independent full-method evidence. Access level abstract_only. Original acquisition timestamp is preserved; this is not a fresh download. |
+| fitting-preview | /private/tmp/aimech-ritter-native-preview-20261016/two-stage-fitting-native-preview.json | context_only | Accepted historical TEMP native preview; canonical creation not yet bound. |
+| fitting-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/two-stage-fitting/scientific-support.json | context_only | Complete accepted per-claim and per-limitation support; historical reading attribution remains explicit. |
+| fitting-validation | /private/tmp/aimech-ritter-native-preview-20261016/two-stage-fitting-native-validation.json | context_only | Actual earlier validation after root acceptance; schema success is not scientific proof. |
+| fitting-identity | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/two-stage-fitting/identity-notes.json | context_only | Historical bounded identity context; future current collection is required. |
+| fitting-limit-1-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; 1997 physical PDF pp.5–6, Sections2.1–2.2 | context_only | Retained supporting scope for limitation 1. |
+| fitting-limit-2-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; 1997 physical PDF p.5, Section2.2; retained-subset estimation requirements | context_only | Retained supporting scope for limitation 2. |
+| fitting-limit-3-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; 1997 physical PDF p.6, overlap paragraph and dependency diagram | context_only | Retained supporting scope for limitation 3. |
+| fitting-limit-4-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; 1997 physical PDF pp.5–6;1996 rendered abstract p.2 | context_only | Retained supporting scope for limitation 4. |
+| fitting-limit-5-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; 1996 rendered abstract p.2;1997 physical PDF pp.8–9 | context_only | Retained supporting scope for limitation 5. |
+| fitting-limit-6-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; Acquisition receipt and manuscript header; complete attributed prior reading | context_only | Retained supporting scope for limitation 6. |
+| fitting-limit-7-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; 1997 physical PDF pp.5–7 and bibliography; per-item continuity ledger | context_only | Retained supporting scope for limitation 7. |
+| ieco-preview | /private/tmp/aimech-ritter-native-preview-20261016/ieco-native-preview.json | context_only | Accepted historical TEMP native preview; canonical creation not yet bound. |
+| ieco-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/ieco/scientific-support.json | context_only | Complete accepted per-claim and per-limitation support; historical reading attribution remains explicit. |
+| ieco-validation | /private/tmp/aimech-ritter-native-preview-20261016/ieco-native-validation.json | context_only | Actual earlier validation after root acceptance; schema success is not scientific proof. |
+| ieco-identity | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/ieco/identity-notes.json | context_only | Historical bounded identity context; future current collection is required. |
+| ieco-limit-1-support | /private/tmp/aimech-ritter-slot-map-adversarial-20261015/mathematical-assessment.json; 1997 physical PDF pp.7–12, Sections3–4;1995 physical PDF pp.5–8; separately retained rational analysis | context_only | Retained supporting scope for limitation 1. |
+| ieco-limit-2-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; 1997 physical PDF pp.8–9, alpha&gt;=0 and Eq10 | context_only | Retained supporting scope for limitation 2. |
+| ieco-limit-3-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; 1997 physical PDF pp.7–10, Sections3.1–4.2 | context_only | Retained supporting scope for limitation 3. |
+| ieco-limit-4-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; 1997 physical PDF pp.9,11;1996 rendered abstract p.2 | context_only | Retained supporting scope for limitation 4. |
+| ieco-limit-5-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; 1995 physical PDF p.7, Section3.2(c) | context_only | Retained supporting scope for limitation 5. |
+| ieco-limit-6-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; 1996 rendered abstract p.2;1997 physical PDF pp.6,8–9 | context_only | Retained supporting scope for limitation 6. |
+| ieco-limit-7-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; 1997 physical PDF pp.5–13 and separate acquisition/reading scope | context_only | Retained supporting scope for limitation 7. |
+| ieco-limit-8-support | /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json; Exact acquisition/version receipts and source metadata | context_only | Retained supporting scope for limitation 8. |
+| actual-write | /private/tmp/aimech-ritter-cohort357-write.json | context_only | Actual exclusive creation of two native records, report pair and CREATE history. |
+| captured-inputs | /private/tmp/aimech-cohort357-capture.json | context_only | Actual canonical input-byte and maintained-target capture. |
+| postcapture-reading | /private/tmp/aimech-cohort357-root-review-generation-reading.v2.json | context_only | Actual root reading of source-scoped canonical records, metadata and all retained question objects; historical source reading stays separately attributed. |
+| governance-assessment | /private/tmp/aimech-cohort357-actual-governance-20261016/assessment.json | context_only | Actual byte preservation, dynamic owner-plan reconstruction, inherited metadata and parsed-page audit. |
+| rendered-pages | /private/tmp/aimech-cohort357-actual-governance-20261016/rendered-pages.json | context_only | Actual generated-page bytes and parsed content; no visual/layout inspection. |
+| actual-scientific-assessment | /private/tmp/aimech-cohort357-actual-scientific-audit-20261016/assessment.json | context_only | Actual record scientific assessment with its own attributed source-reading scope. |
+| current-identity-collection | /private/tmp/aimech-cohort357-current-identity-20261016/collection.json | context_only | Actual scoped ignored-inclusive identity collection; mechanical capture is distinct from human semantic reading. |
+| current-context-assessment | /private/tmp/aimech-cohort357-collection-assessment.json | context_only | Actual attributed current identity and source-question assessment. |
+| root-decisions | /private/tmp/aimech-cohort357-root-decisions.json | context_only | Exact current record identity decisions, dynamic accepted ownership and retained source questions. |
+| ownership-plan | /private/tmp/aimech-cohort357-science-ownership-20261016/ownership-plan.proposed.json | context_only | Exact current responsibility for both records and all22 bibliography occurrences, plus additional source questions. |
+| ownership-plan-acceptance | /private/tmp/aimech-cohort357-ownership-acceptance.json | context_only | Actual root acceptance of current source responsibility; no whole-issue closure. |
+| creation-history | /private/tmp/aimech-discovery-recovery-worktree-20261012/history/reports/ritter-gallegos-two-stage-fitting-and-ieco-classification/2026-10-16T020348Z-codex-05ac03.yaml | context_only | Actual single CREATE event for the report. |
+| review-support | /private/tmp/aimech-cohort357-consumer-preparation-20261016/review-support.prepared.json | context_only | Exact historical per-claim and per-limitation narrative support. |
+| check-gate | /private/tmp/aimech-cohort357-check-gate.json | context_only | Actual completed required command, exit0; scope is its recorded output. |
+| check-vendor | /private/tmp/aimech-cohort357-check-vendor-network-retry.json | context_only | Actual completed required command, exit0; scope is its recorded output. |
+| check-check-source | /private/tmp/aimech-cohort357-check-check-source.json | context_only | Actual completed required command, exit0; scope is its recorded output. |
+| check-render | /private/tmp/aimech-cohort357-check-render.json | context_only | Actual completed required command, exit0; scope is its recorded output. |
+| check-render-check | /private/tmp/aimech-cohort357-check-render-check.json | context_only | Actual completed required command, exit0; scope is its recorded output. |
+| check-diff | /private/tmp/aimech-cohort357-check-diff.json | context_only | Actual completed required command, exit0; scope is its recorded output. |
+| historical-failed-check-1 | /private/tmp/aimech-cohort357-check-vendor.json | context_only | Retained unsuccessful earlier command attempt; successful later exact command is separately bound. |
+
+## Limits And Additional Notes
+
+- Historical primary, root and mathematical readings remain separately attributed. Consumer preparation performs no fresh primary reading or algorithm execution.
+- Two-stage fitting is a heuristic threshold/refit procedure. OUT is drawn from original POP; overlap, cutoff ambiguity and component-prior boundaries remain explicit.
+- IECO MAP applies to the indexed injective slot variable under stated normalized-law, prior, independence and feasibility assumptions; no universal coarse-label MAP or correct biological classification guarantee is asserted.
+- The1997 manuscript is the sole shared defining artifact. The1995 full manuscript and1996 abstract provide limited lineage/source-version context; no publisher byte equivalence is asserted.
+- The literal1997 Eq13 density-versus-cost issue is retained as a source caveat, not silently repaired or misidentified as an Eq9 failure. Historical1995/1996 and1997 formulations remain distinguishable.
+- Two related AIO mappings are bounded algorithm-to-task associations. Nineteen historical AIO contexts and17 native identity contexts do not establish full-corpus scientific review.
+- All22 bibliography occurrences, additional current questions and original402/404/406 plus356 twelve follow-ups require explicit retained responsibility. No issue closure or literature saturation is asserted.
+- Actual five creation outputs, one CREATE history, 62 capture inputs and 8 parsed generated pages are bound. Six required commands passed; earlier failed attempts remain explicit. Canonical review save/check and publication are subsequent operations.
+- Prepared from exact accepted historical support and actual prior native previews. This DATA scaffold is not an actual current review, new primary reading or publication result.
+- Ritter source responsibility: 22 citation occurrences retained with current explicit responsibility. Source questions are not new-concept assertions; frozen issue402 triage and other402 questions remain unchanged.
+- R95-B01: {"reference_number": 1, "citation_native_text": "M.L. Balinski. Signature methods for the assignment problem. Operations Research, 33:527–536, 1985.", "role": "assignment/transportation algorithm lineage", "next_check": "Read original solver and karyotyping reductions, and deduplicate existing algorithm owners; IEC classifier is not identical to its generic solver.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection; assessment=Signature methods are an assignment-solver lineage; SeLa and SAT assignment contexts do not establish the identity of this generic solver. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Read original solver and karyotyping reductions, and deduplicate existing algorithm owners; IEC classifier is not identical to its generic solver.; responsible owner={"family": "main", "index": 913}
+- R95-B02: {"reference_number": 2, "citation_native_text": "A.P. Dempster. Elements of Continuous Multivariate Analysis. Addison-Wesley, Reading Mas- sachusetts, 1969.", "role": "unassessed context", "next_check": "Retain source context; title does not establish a new AI concept.", "disposition": "retained_unassessed_original"}; disposition=retained_context; assessment=Dempster 1969 is retained multivariate-analysis context; it is not the represented 1977 EM algorithm merely because Dempster is an author. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Retain source context; title does not establish a new AI concept.; responsible owner={"family": "main", "index": 913}
+- R95-B03: {"reference_number": 3, "citation_native_text": "Kai-Tai Fang, Samuel Kotz, and Kai-Wang Ng. Symmetric Multivariate and Related Distributions. Chapman and Hall, London, New York, 1990.", "role": "unassessed context", "next_check": "Retain source context; title does not establish a new AI concept.", "disposition": "retained_unassessed_original"}; disposition=retained_context; assessment=Fang–Kotz–Ng supplies distribution-family context; the citation does not establish a separate fitting or classification procedure. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Retain source context; title does not establish a new AI concept.; responsible owner={"family": "main", "index": 913}
+- R95-B04: {"reference_number": 4, "citation_native_text": "K. Fukunaga. Introduction to statistical pattern recognition. Academic Press, Boston, San Diego, New York, London, Sydney, Tokyo, Toronto, 1990. 11", "role": "unassessed context", "next_check": "Retain source context; title does not establish a new AI concept.", "disposition": "retained_unassessed_original"}; disposition=retained_context; assessment=Fukunaga is retained pattern-recognition context. Existing LDA/QDA do not resolve every method in a textbook. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Retain source context; title does not establish a new AI concept.; responsible owner={"family": "main", "index": 913}
+- R95-B05: {"reference_number": 5, "citation_native_text": "E. Granum. Application of statistical and syntactical methods of analysis and classiﬁcation to chromosome data. In J. Kittler, K.S. Fu, and L.F. Pau, editors, Pattern Recognition Theory and Applications (Proc. NATO ASI Series), pages 373–398, Dordrecht, 1982. Reidel.", "role": "unassessed context", "next_check": "Retain source context; title does not establish a new AI concept.", "disposition": "retained_unassessed_original"}; disposition=retained_context; assessment=Granum is chromosome analysis/application context; neither a new algorithm identity nor clinical validation is inferred. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Retain source context; title does not establish a new AI concept.; responsible owner={"family": "main", "index": 913}
+- R95-B06: {"reference_number": 6, "citation_native_text": "J.D.F. Habbema. A discriminant analysis approach to the identiﬁcation of human chromosomes. Biometrics, 32:919–928, 1976.", "role": "predecessor classifier or covariance-assumption lineage", "next_check": "Read exact original model, score, multiplicity constraints and estimation assumptions before any separate candidate or equivalence claim.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection; assessment=Habbema 1976 discriminant chromosome identification needs original-score and constraint comparison; LDA/QDA are neighbors, not an established exact source identity. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Read exact original model, score, multiplicity constraints and estimation assumptions before any separate candidate or equivalence claim.; responsible owner={"family": "main", "index": 913}
+- R95-B07: {"reference_number": 7, "citation_native_text": "J.D.F. Habbema. Statistical methods for classiﬁcation of human chromosomes. Biometrics, 35:103– 118, 1979.", "role": "predecessor classifier or covariance-assumption lineage", "next_check": "Read exact original model, score, multiplicity constraints and estimation assumptions before any separate candidate or equivalence claim.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection; assessment=Habbema 1979 chromosome classification requires original-model comparison separately from the 1976 occurrence. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Read exact original model, score, multiplicity constraints and estimation assumptions before any separate candidate or equivalence claim.; responsible owner={"family": "main", "index": 913}
+- R95-B08: {"reference_number": 8, "citation_native_text": "S.P.J. Kirby, C.M. Theobald, J. Piper, and A.D. Carothers. Some methods of combining class infor- mation in multivariate normal discrimination for the classiﬁcation of human chromosomes. Statistics Med., 10:141–149, 1991.", "role": "predecessor classifier or covariance-assumption lineage", "next_check": "Read exact original model, score, multiplicity constraints and estimation assumptions before any separate candidate or equivalence claim.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection; assessment=Kirby et al. class-information pooling may concern a distinct covariance/discriminant estimator. Current QDA/LDA are contextual comparators, not source clearance. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Read exact original model, score, multiplicity constraints and estimation assumptions before any separate candidate or equivalence claim.; responsible owner={"family": "main", "index": 913}
+- R95-B09: {"reference_number": 9, "citation_native_text": "P. Kleinschmidt, C.W. Lee, and H. Schannath. Transportation problems which can be solved by use of Hirsch-paths for the dual problem. Math. Prog., 37:153–168, 1987.", "role": "assignment/transportation algorithm lineage", "next_check": "Read original solver and karyotyping reductions, and deduplicate existing algorithm owners; IEC classifier is not identical to its generic solver.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection; assessment=Kleinschmidt–Lee–Schannath Hirsch-path transportation concerns a generic solver, not IECO supplied-density semantics or SeLa identity. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Read original solver and karyotyping reductions, and deduplicate existing algorithm owners; IEC classifier is not identical to its generic solver.; responsible owner={"family": "main", "index": 913}
+- R95-B10: {"reference_number": 10, "citation_native_text": "Peter Kleinschmidt, Ilse Mitterreiter, and Jim Piper. Improved chromosome classiﬁcation using monotonic functions of Mahalanobis distance and the transportation method. ZOR–Math. Meth. Oper. Res., 40:305–323, 1994.", "role": "predecessor classifier or covariance-assumption lineage", "next_check": "Read exact original model, score, multiplicity constraints and estimation assumptions before any separate candidate or equivalence claim.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection; assessment=Kleinschmidt et al. 1994 monotone Mahalanobis transportation classification is a predecessor method requiring its own score/constraint reading. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Read exact original model, score, multiplicity constraints and estimation assumptions before any separate candidate or equivalence claim.; responsible owner={"family": "main", "index": 913}
+- R95-B11: {"reference_number": 11, "citation_native_text": "C. Lundsteen, A.-M. Lind, and E. Granum. Visual classiﬁcation of banded human chromosomes. Ann. Hum. Genet., London, 40:87–97, 1976.", "role": "unassessed context", "next_check": "Retain source context; title does not establish a new AI concept.", "disposition": "retained_unassessed_original"}; disposition=retained_context; assessment=Lundsteen–Lind–Granum visual classification is retained application context; no automatic method or expert-equivalence claim follows. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Retain source context; title does not establish a new AI concept.; responsible owner={"family": "main", "index": 913}
+- R95-B12: {"reference_number": 12, "citation_native_text": "Jim Piper. The eﬀect of zero feature correlation assumption on maximum likelihood based classiﬁ- cation of chromosomes. Signal Processing, 12:49–57, 1987.", "role": "predecessor classifier or covariance-assumption lineage", "next_check": "Read exact original model, score, multiplicity constraints and estimation assumptions before any separate candidate or equivalence claim.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection; assessment=Piper 1987 zero-correlation assumptions require original evidence. Naive Bayes feature independence and QDA/LDA covariance assumptions are comparison contexts, not exact identification. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Read exact original model, score, multiplicity constraints and estimation assumptions before any separate candidate or equivalence claim.; responsible owner={"family": "main", "index": 913}
+- R95-B13: {"reference_number": 13, "citation_native_text": "Jim Piper. Variability and bias in experimentally measured classiﬁer error rates. Patt. Rec. Lett., 13:685–692, 1992.", "role": "unassessed context", "next_check": "Retain source context; title does not establish a new AI concept.", "disposition": "retained_unassessed_original"}; disposition=retained_context; assessment=Piper 1992 evaluation variability/bias is retained methodological context; no numerical performance guarantee is promoted. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Retain source context; title does not establish a new AI concept.; responsible owner={"family": "main", "index": 913}
+- R95-B14: {"reference_number": 14, "citation_native_text": "Jim Piper and Erik Granum. On fully automatic feature measurement for banded chromosome classiﬁcation. Cytometry, 10:242–255, 1989.", "role": "unassessed context", "next_check": "Retain source context; title does not establish a new AI concept.", "disposition": "retained_unassessed_original"}; disposition=retained_context; assessment=Piper–Granum feature measurement remains an unread feature-pipeline source; not an IECO alias or clinical claim. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Retain source context; title does not establish a new AI concept.; responsible owner={"family": "main", "index": 913}
+- R95-B15: {"reference_number": 15, "citation_native_text": "Jim Piper, Erik Granum, D. Rutovitz, and H. Ruttledge. Automation of chromosome analysis. Signal Processing, 2:203–221, 1980.", "role": "unassessed context", "next_check": "Retain source context; title does not establish a new AI concept.", "disposition": "retained_unassessed_original"}; disposition=retained_context; assessment=Piper et al. chromosome-analysis automation is retained application context; a title does not establish a standalone new AI concept. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Retain source context; title does not establish a new AI concept.; responsible owner={"family": "main", "index": 913}
+- R95-B16: {"reference_number": 16, "citation_native_text": "R. E. Slot. On the proﬁt of taking into account the known number of objects per class in classiﬁcation methods. IEEE Trans. Inf. Theory, 25:484–488, 1979.", "role": "predecessor classifier or covariance-assumption lineage", "next_check": "Read exact original model, score, multiplicity constraints and estimation assumptions before any separate candidate or equivalence claim.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection; assessment=Slot 1979 known class multiplicities is a relevant predecessor constraint question; SeLa balanced assignments do not settle its exact identity. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Read exact original model, score, multiplicity constraints and estimation assumptions before any separate candidate or equivalence claim.; responsible owner={"family": "main", "index": 913}
+- R95-B17: {"reference_number": 17, "citation_native_text": "M. Tso, P. Kleinschmidt, I. Mitterreiter, and J. Graham. An eﬃcient transportation algorithm for automatic chromosome karyotyping. Patt. Rec. Lett., 12:117–126, 1991.", "role": "assignment/transportation algorithm lineage", "next_check": "Read original solver and karyotyping reductions, and deduplicate existing algorithm owners; IEC classifier is not identical to its generic solver.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection; assessment=Tso et al. 1991 transportation implementation is a solver-lineage question; preserve it separately from the 1983 source. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Read original solver and karyotyping reductions, and deduplicate existing algorithm owners; IEC classifier is not identical to its generic solver.; responsible owner={"family": "main", "index": 913}
+- R95-B18: {"reference_number": 18, "citation_native_text": "M.K.S. Tso and J. Graham. The transportation algorithm as an aid to chromosome classiﬁcation. Patt. Rec. Lett., 1:489–496, 1983.", "role": "assignment/transportation algorithm lineage", "next_check": "Read original solver and karyotyping reductions, and deduplicate existing algorithm owners; IEC classifier is not identical to its generic solver.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection; assessment=Tso–Graham 1983 transportation reduction requires original reading; a generic solver and a probabilistic constrained classifier are separate scopes. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Read original solver and karyotyping reductions, and deduplicate existing algorithm owners; IEC classifier is not identical to its generic solver.; responsible owner={"family": "main", "index": 913}
+- R95-B19: {"reference_number": 19, "citation_native_text": "S.O. Zimmerman, D.A. Johnston, F.E. Arrighi, and M.E. Rupp. Automated homologue matching of human G-banded chromosomes. Comput. Biol. Med., 16:223–233, 1986.", "role": "unassessed context", "next_check": "Retain source context; title does not establish a new AI concept.", "disposition": "retained_unassessed_original"}; disposition=retained_context; assessment=Zimmerman et al. homologue matching is retained application/matching context. No new method or coverage claim is made without the original. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Retain source context; title does not establish a new AI concept.; responsible owner={"family": "main", "index": 913}
+- R96-B01: {"citation": "Barnett V. and T. Lewis (1994). Outliers in statistical data. Wiley.", "disposition": "retained context; original not read in this lineage task"}; disposition=retained_context; assessment=Barnett–Lewis 1994 is unread robust-outlier context; distance/density outlier owners do not establish this exact source coverage. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Prior robust-outlier context group remains pending. Barnett–Lewis is not asserted equivalent to the two-stage estimator. Read the original trimming/premium-protection context only when needed for that source question.; responsible owner={"family": "main", "index": 913}
+- R96-B02: {"citation": "Fang K.-T., S. Kotz and K.-W. Ng (1990). Symmetric Multivariate and Related Distributions. Chapman and Hall, London, New York.", "disposition": "retained distribution context; original not read in this lineage task"}; disposition=retained_context; assessment=This Fang–Kotz–Ng abstract citation is a second distinct occurrence and is preserved separately from R95-B03. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=Preserve this separate abstract citation occurrence and the1995 bibliography occurrence R95-B03; neither is converted into a newly inspected monograph or algorithm record.; responsible owner={"family": "main", "index": 913}
+- R96-B03: {"citation": "Ritter G., M. T. Gallegos, K. Gaggermeier (1995). Automatic context-sensitive karyotyping of human chromosomes based on elliptically symmetric distributions. Pattern Recognition, 28,6.", "disposition": "Original1995 author manuscript fully read; retain abstract citation as printed, no silent title/page correction."}; disposition=retained_context; assessment=The 1995 author manuscript has been fully read in the attributed prior lineage work. Its fixed-count singleton-category construction contextualizes IECO; this does not establish an exact alias or require a third record. The abstract citation stays exactly as printed; publisher bytes, Pareto support and other originals remain unresolved. Responsibility is proposed for the current shared Ritter source-dossier owner, not asserted as coverage by either new method.; next check=The exact1995 author manuscript was read in the separately attributed lineage pass and partially reread in the Phi audit. Singleton-category/fixed-multiplicity relation is retained as IECO context; no third record or closure of the broader solver/classifier lineage.; responsible owner={"family": "main", "index": 913}
+- Current source question: {"question_id": "R357-G1", "question": "Anscombe premium protection and ellipsoidal trimming predecessors: Anscombe1960; Barnett–Lewis1994; Davies–Gather1993; Hawkins1980; Rousseeuw–Leroy1987", "locator": "pp5–6 and references16–17", "source": {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/bibliography-ledger.retained.json", "sha256": "db7a5e74dc84f17e7c7b64ed549b5d9c813abe2d09019def159780451449a1f2"}, "original_pointer": "/retained1997_prior_followups/source_followups_exact/0", "exact_original_object": {"candidate": "Anscombe premium protection and ellipsoidal trimming predecessors", "source": "Anscombe1960; Barnett–Lewis1994; Davies–Gather1993; Hawkins1980; Rousseeuw–Leroy1987", "locator": "pp5–6 and references16–17", "next_check": "Read originals to resolve the exact modification and robust-estimation/identification boundaries; do not use predecessor names as exact aliases.", "disposition": "pending_primary_method_comparison"}, "original_object_sha256": "e97f5f5bf064c217acb6c92348e81554b0651cf212ef5309f0bacedc5e8d4540", "current_comparison": {"candidate": "Anscombe premium protection and ellipsoidal trimming predecessors", "source": "Anscombe1960; Barnett–Lewis1994; Davies–Gather1993; Hawkins1980; Rousseeuw–Leroy1987", "comparison": "Current652 covers neighbor-distance scoring and655 local reachability density. Neither owns the trimmed component-law estimator. Owner119 cites Kaufman/Rousseeuw medoids, a different source and method. Keep the exact cited originals pending; the1997 modification is not an exact alias.", "next_check": "Read originals and compare masking, trimming, breakdown assumptions and fitted outputs before creating any separate identity.", "disposition": "retained_unassessed_originals"}, "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection", "next_check": "Read originals and compare masking, trimming, breakdown assumptions and fitted outputs before creating any separate identity. Keep premium protection, minimum-volume ellipsoid and other robust estimators as source-specific comparisons, not exact fitting aliases.", "existing_owner_crosslinks": [], "existing_record_ids": []}
+- Current source question: {"question_id": "R357-G2", "question": "Mixture contamination and alternative mixture fitting: Dixon1953; Tukey1960; Mardia–Kent–Bibby1979; Dempster–Laird–Rubin1977; Bock1996; Cheeseman etal1988 AutoClass", "locator": "pp4–5 and references16–17", "source": {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/bibliography-ledger.retained.json", "sha256": "db7a5e74dc84f17e7c7b64ed549b5d9c813abe2d09019def159780451449a1f2"}, "original_pointer": "/retained1997_prior_followups/source_followups_exact/1", "exact_original_object": {"candidate": "Mixture contamination and alternative mixture fitting", "source": "Dixon1953; Tukey1960; Mardia–Kent–Bibby1979; Dempster–Laird–Rubin1977; Bock1996; Cheeseman etal1988 AutoClass", "locator": "pp4–5 and references16–17", "next_check": "EM already has a maintained owner; deduplicate other mixture/AutoClass leads before any new owner. Preserve historical contamination-model provenance without claiming this paper invented mixtures.", "disposition": "mixed_represented_context_and_unassessed_sources"}, "original_object_sha256": "e9b0e6ef94b6c20a2c47c7e59ed2f323e0b7f784676fac254b72cfd36383cfeb", "current_comparison": {"candidate": "Mixture contamination and alternative mixture fitting", "source": "Dixon1953; Tukey1960; Mardia–Kent–Bibby1979; Dempster–Laird–Rubin1977; Bock1996; Cheeseman etal1988 AutoClass", "comparison": "AIMech:ExpectationMaximization and its variants already represent different expectation/optimization procedures; original1977 publication provenance is not newly audited. AutoClass is already retained under owner610; attach any future original-source work there rather than append a duplicate. Historical contamination laws and Bock review remain source context.", "next_check": "Retain original bibliographic details; inspect AutoClass and other precise algorithms before a distinct record.", "disposition": "mixed_existing_method_and_existing_owner_and_pending_context"}, "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection", "next_check": "Retain original bibliographic details; inspect AutoClass and other precise algorithms before a distinct record. Preserve AutoClass responsibility at existing main:610 and existing AIMech:ExpectationMaximization context; neither is a newly allocated question.", "existing_owner_crosslinks": [{"family": "main", "index": 610}], "existing_record_ids": ["AIMech:ExpectationMaximization"]}
+- Current source question: {"question_id": "R357-G3", "question": "Covariance weighting and regularized discrimination: Piper etal1994; Piper1987; Friedman1989; Stein1956; James–Stein1961", "locator": "pp6–7,13 and references16–17", "source": {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/bibliography-ledger.retained.json", "sha256": "db7a5e74dc84f17e7c7b64ed549b5d9c813abe2d09019def159780451449a1f2"}, "original_pointer": "/retained1997_prior_followups/source_followups_exact/2", "exact_original_object": {"candidate": "Covariance weighting and regularized discrimination", "source": "Piper etal1994; Piper1987; Friedman1989; Stein1956; James–Stein1961", "locator": "pp6–7,13 and references16–17", "next_check": "Inspect source-specific covariance weighting separately from generic mean shrinkage or the two-stage fitting identity. No new numerical shrinkage guarantee is accepted here.", "disposition": "pending_primary_method_comparison"}, "original_object_sha256": "df778d2c0ce0eae07a4b88c022a4d6ed1bca46b259085fdc3ac7f40d0bc01ffd", "current_comparison": {"candidate": "Covariance weighting and regularized discrimination", "source": "Piper etal1994; Piper1987; Friedman1989; Stein1956; James–Stein1961", "comparison": "Existing QDA/LDA specify class-specific/shared Gaussian covariance, not the cited covariance-weighting estimator. RobustAdaptiveMetropolis updates a sampler proposal, and active CMA updates search covariance; neither establishes this source identity. Owner387 SureShrink uses Stein risk but is a different source/method.", "next_check": "Inspect original weighting and shrinkage mechanisms and guarantees; do not infer mean-shrinkage risk transfer or add as part of POP/BAS/OUT.", "disposition": "retained_unassessed_originals"}, "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection", "next_check": "Inspect original weighting and shrinkage mechanisms and guarantees; do not infer mean-shrinkage risk transfer or add as part of POP/BAS/OUT.", "existing_owner_crosslinks": [], "existing_record_ids": []}
+- Current source question: {"question_id": "R357-G4", "question": "Constrained assignment and chromosome classifier predecessors: Ritter–Gallegos–Gaggermeier1995; Tso–Graham1983; Tso etal1991; Kleinschmidt etal1994; Balinski1985; Papadimitriou–Steiglitz1982; Gallegos–Ritter1996 abstract", "locator": "pp3–4,9 and references16–17", "source": {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/bibliography-ledger.retained.json", "sha256": "db7a5e74dc84f17e7c7b64ed549b5d9c813abe2d09019def159780451449a1f2"}, "original_pointer": "/retained1997_prior_followups/source_followups_exact/3", "exact_original_object": {"candidate": "Constrained assignment and chromosome classifier predecessors", "source": "Ritter–Gallegos–Gaggermeier1995; Tso–Graham1983; Tso etal1991; Kleinschmidt etal1994; Balinski1985; Papadimitriou–Steiglitz1982; Gallegos–Ritter1996 abstract", "locator": "pp3–4,9 and references16–17", "next_check": "Read original IE C classifier and assignment sources before claiming full historical novelty or source equivalence. Compare the exact Eq13 convention in the1995 predecessor or another authorized version. Hungarian/transportation solver use is a component boundary, not IECO identity.", "disposition": "pending_primary_method_comparison"}, "original_object_sha256": "e75e3b5a4b809cb30d18516347f915704f94a29c380d227bec40afcaf08ae247", "current_comparison": {"candidate": "Constrained assignment and chromosome classifier predecessors", "source": "Ritter–Gallegos–Gaggermeier1995; Tso–Graham1983; Tso etal1991; Kleinschmidt etal1994; Balinski1985; Papadimitriou–Steiglitz1982; Gallegos–Ritter1996 abstract", "comparison": "1995IEC singleton-category/fixed-multiplicity relation and1996 max-versus1997 sum comparison now read. Existing SeLa learns balanced neural pseudo-labels and is not this supplied-density constrained classifier; SAT assignment and Papadimitriou2SATRandomWalk are different problems/sources. Generic Hungarian/transportation algorithms are components and do not establish IECO equivalence.", "next_check": "Keep unread original solver and classifier sources pending; preserve publisher-byte, Eq13 and cutREG questions. No blanket closure of this group.", "disposition": "partially_researched_lineage_with_remaining_originals"}, "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection", "next_check": "Keep unread original solver and classifier sources pending; preserve publisher-byte, Eq13 and cutREG questions. No blanket closure of this group.", "existing_owner_crosslinks": [], "existing_record_ids": []}
+- Current source question: {"question_id": "R357-G5", "question": "Application, distribution and evaluation context bibliography: Fang–Kotz–Ng1990; Fukunaga1990; Ledley–Ruddle1966; Granum1982; Piper etal1980; Piper–Granum1989; Piper1992", "locator": "pp3,9–15 and references16–17", "source": {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/bibliography-ledger.retained.json", "sha256": "db7a5e74dc84f17e7c7b64ed549b5d9c813abe2d09019def159780451449a1f2"}, "original_pointer": "/retained1997_prior_followups/source_followups_exact/4", "exact_original_object": {"candidate": "Application, distribution and evaluation context bibliography", "source": "Fang–Kotz–Ng1990; Fukunaga1990; Ledley–Ruddle1966; Granum1982; Piper etal1980; Piper–Granum1989; Piper1992", "locator": "pp3,9–15 and references16–17", "next_check": "Retain application/distribution/evaluation citations as unassessed context. Do not infer new AI methods or clinical claims from titles.", "disposition": "unassessed_context"}, "original_object_sha256": "a6461a661109e32a973d47b6dfe6d7059739b2eb44a9d3ac55a5e15cead0fff4", "current_comparison": {"candidate": "Application, distribution and evaluation context bibliography", "source": "Fang–Kotz–Ng1990; Fukunaga1990; Ledley–Ruddle1966; Granum1982; Piper etal1980; Piper–Granum1989; Piper1992", "comparison": "Existing classifier and statistical-model records do not establish ownership of every application or distribution citation. These titles are context, not automatic algorithm candidates or clinical validation.", "next_check": "Read only source-specific questions needed for later claims; retain all original citations and no numerical/clinical claims.", "disposition": "retained_unassessed_context"}, "responsible_owner": {"family": "main", "index": 913}, "disposition": "retained_context", "next_check": "Read only source-specific questions needed for later claims; retain all original citations and no numerical/clinical claims.", "existing_owner_crosslinks": [], "existing_record_ids": []}
+- Current source question: {"question_id": "R357-AUTOCLASS", "question": "The Cheeseman et al. 1988 AutoClass citation remains an existing pending method-source question under main:610.", "locator": "1997 references PDF p.16; original group 2", "source": {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/bibliography-ledger.retained.json", "sha256": "db7a5e74dc84f17e7c7b64ed549b5d9c813abe2d09019def159780451449a1f2"}, "original_pointer": "/retained1997_prior_followups/source_followups_exact/1", "exact_original_object": {"candidate": "Mixture contamination and alternative mixture fitting", "source": "Dixon1953; Tukey1960; Mardia–Kent–Bibby1979; Dempster–Laird–Rubin1977; Bock1996; Cheeseman etal1988 AutoClass", "locator": "pp4–5 and references16–17", "next_check": "EM already has a maintained owner; deduplicate other mixture/AutoClass leads before any new owner. Preserve historical contamination-model provenance without claiming this paper invented mixtures.", "disposition": "mixed_represented_context_and_unassessed_sources"}, "original_object_sha256": "e9b0e6ef94b6c20a2c47c7e59ed2f323e0b7f784676fac254b72cfd36383cfeb", "responsible_owner": {"family": "main", "index": 610}, "disposition": "existing_pending_owner", "next_check": "Read the defining AutoClass primary source and resolve it through existing main:610 before any separate record. The Ritter source-dossier merely crosslinks this responsibility; no duplicate owner or source closure.", "existing_owner_context": {"source": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261016T010736Z-enforced-hill-climbing-and-local-search-space-lrta.json", "sha256": "516283d10873d36554792b9cc6aac0352cdb000badd1dda54110a330fbd712b7"}, "pointer": "/prior_frontier_accounting/610", "semantic_sha256": "01b34e976250494318ceb8d303a6d38de1c3ffcc8c8da73ddce24ea0af4a80b8"}}
+- Current source question: {"question_id": "R357-EQ13", "question": "Resolve the author-hosted 1997 Eq13 density-versus-cost and radial-argument discrepancy against an independently acquired authorized version.", "locator": "1997 PDF p.11 Eq13; 1995 PDF p.4; 1996 abstract rendered p.2", "source": {"path": "/private/tmp/aimech-ritter-lineage-source-acquisition-20261015/lineage-comparison/assessment.json", "sha256": "d62c6ae49850943f1ea5f46f973b63e24d133740dcf00e20c35b5c76cbadde2c"}, "original_pointer": "/precision_findings/1", "exact_original_object": {"source": "1997", "locator": "Section4.2 Eq13, PDFp11; comparison1995p4 and1996p2", "finding": "Earlier sources have determinant times radial(norm(V^−1/2 residual)) as a density. They clarify plausible lineage for the1997 density/cost and quadratic-argument ambiguity, but they do not certify a corrected1997 printed equation. Preserve the previously identified issue."}, "original_object_sha256": "2c670a0459df1da747a445087a5b5f82bc28ba12aacff08289a36d2d3dbac7fc", "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection", "next_check": "Retain the exact printed source discrepancy. Use the valid supplied-density Section 3 construction meanwhile; do not silently certify or repair Eq13."}
+- Current source question: {"question_id": "R357-CUTREG", "question": "Resolve the undefined 1997 cutREG token without substituting the earlier 1996 terminology.", "locator": "1997 PDF pp.5–6 Section 2.2; 1996 abstract rendered p.2", "source": {"path": "/private/tmp/aimech-ritter-lineage-source-acquisition-20261015/lineage-comparison/assessment.json", "sha256": "d62c6ae49850943f1ea5f46f973b63e24d133740dcf00e20c35b5c76cbadde2c"}, "original_pointer": "/comparison/2", "exact_original_object": {"pair": "1996 REG/OUT fitting versus1997 BAS/OUT fitting", "relation": "Clear procedural lineage with terminology/precision changes", "reason": "The1996 cut_REG definition plausibly explains the otherwise undefined1997 cutREG token. The1997 explicit BAS naming and overlap statement are source facts; the earlier definition is context, not authority to silently change the1997 text."}, "original_object_sha256": "e6f5c8b7c679efb1d0697accc85a91b7a1405f044d2ecd14fce9a9826de9850e", "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection", "next_check": "Compare authorized versions or an explicit author clarification; preserve the defined cutBAS/cutOUT sequence and keep the older cutREG definition contextual."}
+- Current source question: {"question_id": "R357-PARETO", "question": "Retain the 1995 Pareto support restriction versus unrestricted log-distance score and printed dimensional-domain questions.", "locator": "1995 PDF p.7 Section 3.2(c)", "source": {"path": "/private/tmp/aimech-ritter-lineage-source-acquisition-20261015/lineage-comparison/assessment.json", "sha256": "d62c6ae49850943f1ea5f46f973b63e24d133740dcf00e20c35b5c76cbadde2c"}, "original_pointer": "/precision_findings/0", "exact_original_object": {"source": "1995", "locator": "Section3.2(c), PDFp7, visually inspected", "finding": "The stated Pareto radial density is zero for r&lt;r0, but the displayed classifier uses only sum log Mahalanobis distance without the support restriction. For literal likelihood equivalence, any proposed class match below r0 must have infinite negative-log cost. A finite unrestricted log-distance score can instead be treated as a separate heuristic; these are not universally equal.", "status": "Curator mathematical qualification of the displayed density/classifier pair. No claim about uninspected author code.", "secondary": "The displayed x-domain reads R^(46·4), unlike the general R^(46·d) formulation; do not silently use this as a dimension restriction or repair it."}, "original_object_sha256": "6e4bb8a75e41cdd3139a8447ffa3a3159f51ecb05e3adef459a29491790e4784", "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection", "next_check": "Before a separate IEC/Pareto variant or literal likelihood equivalence claim, inspect the exact support restriction and available authorized versions. No author-code behavior or universal source error is inferred."}
+- Current source question: {"question_id": "R357-PUBLISHER", "question": "Publisher-byte equivalence of the three author-hosted source artifacts remains unverified.", "locator": "1995/1997 manuscript headers; 1996 abstract provenance", "source": {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/assessment.json", "sha256": "407141ad7be2d4d9c743edbf797b78cd0ab850999972159b52b5d704f08d93b6"}, "original_pointer": "/source_version_gap", "exact_original_object": "Exact author-hosted artifacts support this scope; publisher byte equivalence is unverified. All PDF locators are internal pages.", "original_object_sha256": "67e01574a61407e3fe6be49982fe4d94b9a8126fe351927d7e4ecfb5165f2c71", "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection", "next_check": "If a later claim needs publisher layout or formula equivalence, acquire and compare the exact authorized publisher version. Keep internal PDF page locators and do not infer journal offsets."}
+- Inherited issue402 original triage is retained in the exact governance provenance; no whole-issue closure is asserted.
+- Inherited issue404 and issue406 registries retain their original355 runtime context. Twelve356 source follow-ups retain exact owner objects. No source exhaustion is claimed.
+- predecessor_historical_pointer_restorations: {"issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json", "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_indexes": [911, 912], "nested_indexes": [], "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json", "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "root_decision": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort354-identity-20261015/collection.json", "sha256": "862c0ac766d58541b6fd3a7f70332ca01db26d090fa8aa2acc60b482c30bdf53"}, "current_baseline": {"main": 911, "nested": 394}, "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json", "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_append": [{"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition": "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/8", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"}, "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, {"candidate": "Iterative expansion", "disposition": "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/9", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"}, "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}], "method_acceptance_claimed": false, "nested_append": [], "owner_contexts": {"1": {"candidate": "Divide-and-conquer beam search and breadth-first heuristic search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "added", "next_check": "Follow Zhou and Hansen 2004 and the expanded 2006 paper for full layered duplicate detection and recursive path-recovery details; do not conflate DCBS with the backtracking DCBSS record.", "record_ids": ["AIMech:BreadthFirstBranchAndBound", "AIMech:BreadthFirstIDAStar", "AIMech:DivideConquerBeamSearch"], "resolution": "The umbrella family is represented by the defined BFBnB, BFIDA-star and divide-and-conquer beam procedures. Frontier/sparse-memory implementations remain separately assessable leads.", "url": "https://cdn.aaai.org/ICAPS/2005/ICAPS05-010.pdf"}, "10": {"candidate": "Frontier search, frontier-BFBnB and sparse-memory graph search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Follow the original frontier-search and 2003 sparse-memory papers; separate used-operator bits, predecessor counters, dummy nodes and relay reconstruction.", "url": "https://ai.dmi.unibas.ch/research/reading_group/zhou-hansen-aij2006.pdf"}, "298": {"candidate": "Additional GenSAT selection and initialization variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_addressed", "next_check": "Follow CSAT, timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT, MSAT and IHSAT. The1993 pages distinguish candidate sets, picking and initialization; follow the original1992 definitions and do not confuse timid TSAT with a later tabu-search acronym.", "round68_resolution": "Added IHSAT after checking the ISAT candidate pool and HSAT history selector. CSAT, timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT and MSAT still require record-level inspection; this cohort remains open.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf"}}, "predecessor_findings_preserved": true, "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json", "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "reconciliation_assessments": {"iterative_expansion": "The exact original Russell1992 pending pointer remains a source question despite existing RBFS and SRBFS records. Their conditional inheritance/static reset distinctions do not discharge unconditional inherited parent-cost comparisons. Restore pending with source provenance, without accepting an alias or new method. The generic Flake web-crawl phrase is unrelated.", "memory_bounded_search": "The exact original pending family pointer includes MREC, MA-star, SMA-star and iterative threshold search. Currentowner1 and10 and maintained IDA-star/BFIDA-star/BULB records do not establish inspected equivalence to those original memory-management and bound-propagation methods. Preserve all four original fields plus historical origin as pending; future primary work must resolve distinct methods individually."}}}
+- earlier_historical_pointer_restorations: {"main_indexes": [909, 910], "nested_indexes": [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json", "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline": {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract and a 2018 SAC related-work passage were inspected in the bounded historical-pointer reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning", "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]", "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection", "next_check": "Resolve identity against both collections, inspect a primary method source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"}, "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"}, "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method and its version. Compare the soft-Q objective, policy representation and sampler with maintained SAC and ordinary Q-learning; resolve variants and current identity before proposing any native record.", "origin": "SAC paper; restored historical source pointer, not a newly established method identity.", "related_record_ids": ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"}, {"access_scope": "Only the 2010 comparison sections and bibliography were inspected for this restoration; the original FF full method is not claimed read.", "candidate": "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping assumptions and component-versus-whole-planner boundary; compare maintained strict hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing", "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were read; no original full-method, convergence-proof or experiment assessment is asserted.", "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic search for real-time situated agents, including publication date/version, then read its full lookahead, heuristic-repair and execution-commitment method. Reconcile ownership with the existing real-time umbrella before any native identity decision.", "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link to the already explicit additional real-time variants residual; not a second responsible owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot": 286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar", "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2", "reason": "Add the source-scoped combinatorial SLS family, including non-improving and memory-dependent transitions. Preserve prior HillClimbing progress and the historical ILS discovery pointer; arbitrary embedded optimizers and exact named controllers are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope": "The existing local-search lead and its prior HillClimbing progress remain intact. The source-scoped stochastic local-search outcome is separate from the strict-improvement subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."}, "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology and detailed GLSM control representations separately. Named GLS/FLS compositions and Gu SAT identity remain with their existing owners; the current family record does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"], "round61_progress": "The strict-improvement subset is now represented by HillClimbing. The broader local-search umbrella is not equated with that subset; general scope and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"}, "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure in Tabu Section 2; assess maximization/minimization naming and whether its intended scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution": "Added a native record after primary-method and critical-page inspection, ignored-inclusive identity comparison, neighboring-method assessment and bounded AIO no-match documentation.", "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"}, "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search; resolve LRTA* update, cost and completeness assumptions against A-star and Fill.", "round64_resolution": "Added a native DRAFT record with full-method and critical-image inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"}, "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2 recursive correction and locate its missing proof or later specification. Preserve the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"}, "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_added", "next_check": "Follow the original LDS paper and Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency; inspect a primary implementation before claiming literal executable equivalence.", "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch", "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original LDS and ILDS were inspected and added; generalized LDS, depth-first beam search and real-time heuristic methods remain distinct pending leads.", "round64_resolution": "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA* are now represented. Generalized LDS, depth-first beam search and additional real-time variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "8": {"candidate": "KBFS, multi-state commitment and real-time search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}}, "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments": {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not resolve the named breadth-first escape controller or whole-FF boundary. Restore one pending EHC main pointer with the original comparison URL and original-primary next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already retain broader real-time-search residuals and owner 286 represents basic LRTA*. Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved graph-correction owner 291; no independent second responsible owner or source-method acceptance is created.", "soft_q": "The historical source pointer remains explicit in older reports and contextual carry notes, but the current complete frontier label projection and scoped normalized identities contain no equivalent explicit owner or record. Restore the original SAC-paper provenance as one pending main pointer, linked to existing SAC and Q-learning; later TEMP research is separate from this accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method acceptance, native records or edits to older reports."}
+- predecessor_deferred_historical_accounting_findings: {"evidence": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/historical-accounting-followups.json", "sha256": "5fb10bbb4b04e3f1b6d9f7e73ed89152a06d3cf3d1d196e40ab9b87f3f5eeeb2"}, "findings": [{"blocking_current_candidates": false, "boundary": "This establishes an explicit ownership-accounting gap, not novelty, a completed method assessment, or a required number of eventual records. No new original MREC/MA*/SMA* primary reading was performed.", "current_comparison": "All current inventory identity/definition fields and all current recursive frontier fields were queried. No explicit MREC/MA-star/SMA-star/iterative-threshold owner or represented identity was identified. Current owner 10 follows frontier-search/2003 sparse-memory mechanisms, and owner 1 names BFBnB/BFIDA*/DCBS; neither explicitly accounts for the old family. BULB and capped beam records have different stated mechanisms. IDA*/BFIDA* repeated thresholds do not by themselves discharge the entire historical multi-method family.", "groups": [564, 617], "id": "H1-memory-bounded-search-owner", "next_check": "In a later authorized ledger change, restore the exact old pending family or document a supported existing-owner disposition; then inspect original memory-management and bound-propagation methods before any concept addition.", "origin": {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/8"}, "repeat_origin": {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json", "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json", "pointer": "/prior_frontier_accounting/8"}, "scope": "historical_frontier_accounting", "severity": "minor", "title": "Restore an explicit disposition for the historical memory-bounded search family"}, {"blocking_current_candidates": false, "boundary": "The historical pointer itself calls for comparing unconditional inherited parent cost with Korf RBFS. That source claim is retained as the next primary check, not promoted to a newly verified Russell algorithm or proof of disjointness.", "current_comparison": "No exact current identity or frontier owner was identified by retained all-field comparison. Full current RBFS and SRBFS records were read: RBFS documents conditional parent-value inheritance and SRBFS resets static child values. These descriptions do not assert that the older Russell pointer has been inspected, merged, or resolved. IDA*/DFID use repeated cost/depth contours and do not establish that identity either.", "groups": [565, 610, 618], "id": "H2-iterative-expansion-owner", "next_check": "Restore a dated pending owner or explicit cross-linked disposition after primary comparison. Preserve the original AAAI92-082 URL and avoid adding a duplicate method merely because a name differs.", "origin": {"object": {"candidate": "Iterative expansion", "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/9"}, "repeat_origin": {"object": {"candidate": "Iterative expansion", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json", "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json", "pointer": "/prior_frontier_accounting/9"}, "scope": "historical_frontier_accounting", "severity": "minor", "title": "Restore an explicit disposition for Russell 1992 Iterative expansion"}], "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json", "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "issues": ["https://github.com/CultureBotAI/AIMech/issues/397", "https://github.com/CultureBotAI/AIMech/issues/398"], "scope": "These are pre-existing historical accounting gaps discovered by this scan, not candidate identity failures or newly established AI concepts. Their exact original objects, current comparisons, boundaries and next checks are embedded here for durable follow-up. A subsequent fresh ledger reconciliation must restore or explicitly resolve them; this batch does not close these issues or claim globally clean accounting.", "status": "pending_separate_owner_restoration"}
+- predecessor_governance_provenance: [{"cohort": 354, "decision_fields": {"deferred_bibliographic_triage": {"assessment": {"path": "/private/tmp/aimech-cohort353-context000-499-20261015/assessment.json", "sha256": "b4d573dcd646f33a8449ea42aa1b92816ffc71594027896f13a0c33a8541145a"}, "cross_check": {"path": "/private/tmp/aimech-cohort353-context500-999-20261015/assessment.json", "sha256": "c50c13525ada61ea430e89646fb2cbbe68f643096458af3103f70d74ef51bd3c"}, "findings": [{"blocks_autowalksat": false, "comparison": "Clustering Data by Melting is the Wong1993 Gaussian center/heating and persistence procedure; current owner610 retains that specific source and selected follow-ups. Owners640–642 identify Roberts density-mode, Ben-Hur stability and Lipson high-order-neuron procedures. Owner353 concerns time-sliced Potts-unit sequence networks. Generic clustering task nodes and these differently sourced procedures do not establish ownership of the named 1997 bibliography pointer.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B1", "group_indices": [304], "kind": "historical_bibliography_accounting", "label": "Blatt–Wiseman–Domany 1997 granular-magnet clustering bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 0, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat": false, "comparison": "Owner649 is Bishop1994 neural-network novelty validation with an oil-flow example. Owners639,643–648,650–654 and655 track specific sphere, hyperplane, neural-boundary, classifier-instability, nearest-neighbor, prototype, support-object and local-density procedures. None explicitly retains this author/application pointer. A common novelty-detection task does not establish identity or a separate algorithm.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B2", "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Tarassenko/Hayton/Brady mammogram novelty-detection bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat": false, "comparison": "Owner652 is distance-based outlier scoring/search/prediction with specific Knorr–Ng, Ramaswamy and Angiulli subleads; owner655 is local-density scoring. Owner60 references Ritter–Tanner griddy Gibbs and owner546 Ritter parametrized self-organizing maps. These are different citations, and no explicit Ritter–Gallegos model owner was established.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B3", "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Ritter–Gallegos 1997 statistical-outlier-model bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat": false, "comparison": "Owner653 is Ypma–Duin1998 support-object domain approximation, not this cited application. Owner528 provides a plausible broader time-delayed-correlation source-separation relation but names Molgedey–Schuster1994 only; owner523 is Comon1994 general ICA and identifiability. Infomax, FastICA and TopographicICA native definitions and owners102/515/526/548–552 do not establish the cited application’s method identity. Future reconciliation may attach the pointer to an existing owner rather than create any new concept.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B4", "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Ypma–Pajunen 1999 second-order ICA vibration-application bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}], "issue": "https://github.com/CultureBotAI/AIMech/issues/402", "issue_posting": {"path": "/private/tmp/aimech-cohort353-bibliography-issue-20261015/posting.json", "sha256": "41c7f8dde625ee354be53f6688a8e35c757f096146753c2d34c808cdb4308bf9"}, "original_reading_objects": [{"all_occurrences": [{"line": 5693, "match_index": 405, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json", "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index": 1}, {"line": 5693, "match_index": 702, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-concept-discovery-20261010", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json", "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index": 2}, {"line": 5693, "match_index": 2155, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-public-recovery-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json", "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index": 3}, {"line": 5693, "match_index": 1905, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json", "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index": 4}], "content_sha256": "0d9db05b0cc4755b387102234ba889a4d0dfc0b510a4f077ff324816d4fdfd25", "group_index": 304, "object": {"pages": [11, 12, 13], "reading": "Section5 describes SMO fitting and O((N-n_bsv)² n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering."}, "object_sha256_canonical_json": "84ec20c71619c69b5b6c996bf8ae70cb876b9bd09a5379c882642d3c12bd3ca0", "pointer": "/source_analysis/paper_readings/0/sections/5", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T071653Z-support-vector-sphere.json", "sha256": "26a5c75316bf7ab14b402cc64e1369c50418cf1e1a8570955fe5cf655bc8c95d"}}, {"all_occurrences": [{"line": 5708, "match_index": 473, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json", "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index": 1}, {"line": 5708, "match_index": 2197, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-concept-discovery-20261010", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json", "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index": 2}, {"line": 5708, "match_index": 1887, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-public-recovery-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json", "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index": 3}, {"line": 5708, "match_index": 2871, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json", "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index": 4}], "content_sha256": "857bf5e392a95319dfe00a07a64172de5236abc85a26e4590b41dc918b0e3e19", "group_index": 344, "object": {"pages": [8, 9], "reading": "Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication."}, "object_sha256_canonical_json": "226cab1719eecce566f82fe4942edd46bd28fff611f4a0e98fefc441ffdc254a", "pointer": "/source_analysis/paper_readings/0/sections/3", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T073618Z-support-description.json", "sha256": "641021eca5b4c440875934019acbbd46fdca5c084ed5688990fc1fba16e9ebb8"}}], "scope": "Four older bibliography mentions are retained for source triage, not newly established concepts, proof of lost pending candidate objects, or an AutoWalksat defect. No extra main/nested row is appended. Future records may be unnecessary if source/application identity maps to existing owners. Preserve this deferred object separately from the earlier397/398 repairs.", "status": "pending_source_identity_and_owner_reconciliation"}, "historical_pointer_restorations": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort354-identity-20261015/collection.json", "sha256": "862c0ac766d58541b6fd3a7f70332ca01db26d090fa8aa2acc60b482c30bdf53"}, "current_baseline": {"main": 911, "nested": 394}, "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json", "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_append": [{"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition": "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/8", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"}, "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, {"candidate": "Iterative expansion", "disposition": "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/9", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"}, "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}], "method_acceptance_claimed": false, "nested_append": [], "owner_contexts": {"1": {"candidate": "Divide-and-conquer beam search and breadth-first heuristic search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "added", "next_check": "Follow Zhou and Hansen 2004 and the expanded 2006 paper for full layered duplicate detection and recursive path-recovery details; do not conflate DCBS with the backtracking DCBSS record.", "record_ids": ["AIMech:BreadthFirstBranchAndBound", "AIMech:BreadthFirstIDAStar", "AIMech:DivideConquerBeamSearch"], "resolution": "The umbrella family is represented by the defined BFBnB, BFIDA-star and divide-and-conquer beam procedures. Frontier/sparse-memory implementations remain separately assessable leads.", "url": "https://cdn.aaai.org/ICAPS/2005/ICAPS05-010.pdf"}, "10": {"candidate": "Frontier search, frontier-BFBnB and sparse-memory graph search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Follow the original frontier-search and 2003 sparse-memory papers; separate used-operator bits, predecessor counters, dummy nodes and relay reconstruction.", "url": "https://ai.dmi.unibas.ch/research/reading_group/zhou-hansen-aij2006.pdf"}, "298": {"candidate": "Additional GenSAT selection and initialization variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_addressed", "next_check": "Follow CSAT, timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT, MSAT and IHSAT. The1993 pages distinguish candidate sets, picking and initialization; follow the original1992 definitions and do not confuse timid TSAT with a later tabu-search acronym.", "round68_resolution": "Added IHSAT after checking the ISAT candidate pool and HSAT history selector. CSAT, timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT and MSAT still require record-level inspection; this cohort remains open.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf"}}, "predecessor_findings_preserved": true, "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json", "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "reconciliation_assessments": {"iterative_expansion": "The exact original Russell1992 pending pointer remains a source question despite existing RBFS and SRBFS records. Their conditional inheritance/static reset distinctions do not discharge unconditional inherited parent-cost comparisons. Restore pending with source provenance, without accepting an alias or new method. The generic Flake web-crawl phrase is unrelated.", "memory_bounded_search": "The exact original pending family pointer includes MREC, MA-star, SMA-star and iterative threshold search. Currentowner1 and10 and maintained IDA-star/BFIDA-star/BULB records do not establish inspected equivalence to those original memory-management and bound-propagation methods. Preserve all four original fields plus historical origin as pending; future primary work must resolve distinct methods individually."}}, "predecessor_deferred_historical_accounting_findings": {"evidence": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/historical-accounting-followups.json", "sha256": "5fb10bbb4b04e3f1b6d9f7e73ed89152a06d3cf3d1d196e40ab9b87f3f5eeeb2"}, "findings": [{"blocking_current_candidates": false, "boundary": "This establishes an explicit ownership-accounting gap, not novelty, a completed method assessment, or a required number of eventual records. No new original MREC/MA*/SMA* primary reading was performed.", "current_comparison": "All current inventory identity/definition fields and all current recursive frontier fields were queried. No explicit MREC/MA-star/SMA-star/iterative-threshold owner or represented identity was identified. Current owner 10 follows frontier-search/2003 sparse-memory mechanisms, and owner 1 names BFBnB/BFIDA*/DCBS; neither explicitly accounts for the old family. BULB and capped beam records have different stated mechanisms. IDA*/BFIDA* repeated thresholds do not by themselves discharge the entire historical multi-method family.", "groups": [564, 617], "id": "H1-memory-bounded-search-owner", "next_check": "In a later authorized ledger change, restore the exact old pending family or document a supported existing-owner disposition; then inspect original memory-management and bound-propagation methods before any concept addition.", "origin": {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/8"}, "repeat_origin": {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json", "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json", "pointer": "/prior_frontier_accounting/8"}, "scope": "historical_frontier_accounting", "severity": "minor", "title": "Restore an explicit disposition for the historical memory-bounded search family"}, {"blocking_current_candidates": false, "boundary": "The historical pointer itself calls for comparing unconditional inherited parent cost with Korf RBFS. That source claim is retained as the next primary check, not promoted to a newly verified Russell algorithm or proof of disjointness.", "current_comparison": "No exact current identity or frontier owner was identified by retained all-field comparison. Full current RBFS and SRBFS records were read: RBFS documents conditional parent-value inheritance and SRBFS resets static child values. These descriptions do not assert that the older Russell pointer has been inspected, merged, or resolved. IDA*/DFID use repeated cost/depth contours and do not establish that identity either.", "groups": [565, 610, 618], "id": "H2-iterative-expansion-owner", "next_check": "Restore a dated pending owner or explicit cross-linked disposition after primary comparison. Preserve the original AAAI92-082 URL and avoid adding a duplicate method merely because a name differs.", "origin": {"object": {"candidate": "Iterative expansion", "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/9"}, "repeat_origin": {"object": {"candidate": "Iterative expansion", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json", "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json", "pointer": "/prior_frontier_accounting/9"}, "scope": "historical_frontier_accounting", "severity": "minor", "title": "Restore an explicit disposition for Russell 1992 Iterative expansion"}], "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json", "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "issues": ["https://github.com/CultureBotAI/AIMech/issues/397", "https://github.com/CultureBotAI/AIMech/issues/398"], "scope": "These are pre-existing historical accounting gaps discovered by this scan, not candidate identity failures or newly established AI concepts. Their exact original objects, current comparisons, boundaries and next checks are embedded here for durable follow-up. A subsequent fresh ledger reconciliation must restore or explicitly resolve them; this batch does not close these issues or claim globally clean accounting.", "status": "pending_separate_owner_restoration"}}, "decisions": {"path": "/private/tmp/aimech-cohort354-identity-20261015/root-decisions.json", "sha256": "bb1cded9afb2b520c74de7c6fb71ada24beec8a158a5e961dcd06b06468d700d"}, "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.json", "sha256": "cfb1da2d42702cf571b4b3594c8f408f33392a02bc7dd8b79c50a9b09adb279f"}, "report_fields": {"deferred_bibliographic_triage": {"assessment": {"path": "/private/tmp/aimech-cohort353-context000-499-20261015/assessment.json", "sha256": "b4d573dcd646f33a8449ea42aa1b92816ffc71594027896f13a0c33a8541145a"}, "cross_check": {"path": "/private/tmp/aimech-cohort353-context500-999-20261015/assessment.json", "sha256": "c50c13525ada61ea430e89646fb2cbbe68f643096458af3103f70d74ef51bd3c"}, "findings": [{"blocks_autowalksat": false, "comparison": "Clustering Data by Melting is the Wong1993 Gaussian center/heating and persistence procedure; current owner610 retains that specific source and selected follow-ups. Owners640–642 identify Roberts density-mode, Ben-Hur stability and Lipson high-order-neuron procedures. Owner353 concerns time-sliced Potts-unit sequence networks. Generic clustering task nodes and these differently sourced procedures do not establish ownership of the named 1997 bibliography pointer.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B1", "group_indices": [304], "kind": "historical_bibliography_accounting", "label": "Blatt–Wiseman–Domany 1997 granular-magnet clustering bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 0, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat": false, "comparison": "Owner649 is Bishop1994 neural-network novelty validation with an oil-flow example. Owners639,643–648,650–654 and655 track specific sphere, hyperplane, neural-boundary, classifier-instability, nearest-neighbor, prototype, support-object and local-density procedures. None explicitly retains this author/application pointer. A common novelty-detection task does not establish identity or a separate algorithm.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B2", "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Tarassenko/Hayton/Brady mammogram novelty-detection bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat": false, "comparison": "Owner652 is distance-based outlier scoring/search/prediction with specific Knorr–Ng, Ramaswamy and Angiulli subleads; owner655 is local-density scoring. Owner60 references Ritter–Tanner griddy Gibbs and owner546 Ritter parametrized self-organizing maps. These are different citations, and no explicit Ritter–Gallegos model owner was established.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B3", "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Ritter–Gallegos 1997 statistical-outlier-model bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat": false, "comparison": "Owner653 is Ypma–Duin1998 support-object domain approximation, not this cited application. Owner528 provides a plausible broader time-delayed-correlation source-separation relation but names Molgedey–Schuster1994 only; owner523 is Comon1994 general ICA and identifiability. Infomax, FastICA and TopographicICA native definitions and owners102/515/526/548–552 do not establish the cited application’s method identity. Future reconciliation may attach the pointer to an existing owner rather than create any new concept.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B4", "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Ypma–Pajunen 1999 second-order ICA vibration-application bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}], "issue": "https://github.com/CultureBotAI/AIMech/issues/402", "issue_posting": {"path": "/private/tmp/aimech-cohort353-bibliography-issue-20261015/posting.json", "sha256": "41c7f8dde625ee354be53f6688a8e35c757f096146753c2d34c808cdb4308bf9"}, "original_reading_objects": [{"all_occurrences": [{"line": 5693, "match_index": 405, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json", "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index": 1}, {"line": 5693, "match_index": 702, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-concept-discovery-20261010", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json", "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index": 2}, {"line": 5693, "match_index": 2155, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-public-recovery-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json", "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index": 3}, {"line": 5693, "match_index": 1905, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json", "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index": 4}], "content_sha256": "0d9db05b0cc4755b387102234ba889a4d0dfc0b510a4f077ff324816d4fdfd25", "group_index": 304, "object": {"pages": [11, 12, 13], "reading": "Section5 describes SMO fitting and O((N-n_bsv)² n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering."}, "object_sha256_canonical_json": "84ec20c71619c69b5b6c996bf8ae70cb876b9bd09a5379c882642d3c12bd3ca0", "pointer": "/source_analysis/paper_readings/0/sections/5", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T071653Z-support-vector-sphere.json", "sha256": "26a5c75316bf7ab14b402cc64e1369c50418cf1e1a8570955fe5cf655bc8c95d"}}, {"all_occurrences": [{"line": 5708, "match_index": 473, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json", "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index": 1}, {"line": 5708, "match_index": 2197, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-concept-discovery-20261010", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json", "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index": 2}, {"line": 5708, "match_index": 1887, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-public-recovery-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json", "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index": 3}, {"line": 5708, "match_index": 2871, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json", "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index": 4}], "content_sha256": "857bf5e392a95319dfe00a07a64172de5236abc85a26e4590b41dc918b0e3e19", "group_index": 344, "object": {"pages": [8, 9], "reading": "Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication."}, "object_sha256_canonical_json": "226cab1719eecce566f82fe4942edd46bd28fff611f4a0e98fefc441ffdc254a", "pointer": "/source_analysis/paper_readings/0/sections/3", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T073618Z-support-description.json", "sha256": "641021eca5b4c440875934019acbbd46fdca5c084ed5688990fc1fba16e9ebb8"}}], "scope": "Four older bibliography mentions are retained for source triage, not newly established concepts, proof of lost pending candidate objects, or an AutoWalksat defect. No extra main/nested row is appended. Future records may be unnecessary if source/application identity maps to existing owners. Preserve this deferred object separately from the earlier397/398 repairs.", "status": "pending_source_identity_and_owner_reconciliation"}, "historical_pointer_restorations": {"issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json", "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_indexes": [911, 912], "nested_indexes": [], "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json", "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "root_decision": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort354-identity-20261015/collection.json", "sha256": "862c0ac766d58541b6fd3a7f70332ca01db26d090fa8aa2acc60b482c30bdf53"}, "current_baseline": {"main": 911, "nested": 394}, "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json", "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_append": [{"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition": "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/8", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"}, "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, {"candidate": "Iterative expansion", "disposition": "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/9", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"}, "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}], "method_acceptance_claimed": false, "nested_append": [], "owner_contexts": {"1": {"candidate": "Divide-and-conquer beam search and breadth-first heuristic search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "added", "next_check": "Follow Zhou and Hansen 2004 and the expanded 2006 paper for full layered duplicate detection and recursive path-recovery details; do not conflate DCBS with the backtracking DCBSS record.", "record_ids": ["AIMech:BreadthFirstBranchAndBound", "AIMech:BreadthFirstIDAStar", "AIMech:DivideConquerBeamSearch"], "resolution": "The umbrella family is represented by the defined BFBnB, BFIDA-star and divide-and-conquer beam procedures. Frontier/sparse-memory implementations remain separately assessable leads.", "url": "https://cdn.aaai.org/ICAPS/2005/ICAPS05-010.pdf"}, "10": {"candidate": "Frontier search, frontier-BFBnB and sparse-memory graph search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Follow the original frontier-search and 2003 sparse-memory papers; separate used-operator bits, predecessor counters, dummy nodes and relay reconstruction.", "url": "https://ai.dmi.unibas.ch/research/reading_group/zhou-hansen-aij2006.pdf"}, "298": {"candidate": "Additional GenSAT selection and initialization variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_addressed", "next_check": "Follow CSAT, timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT, MSAT and IHSAT. The1993 pages distinguish candidate sets, picking and initialization; follow the original1992 definitions and do not confuse timid TSAT with a later tabu-search acronym.", "round68_resolution": "Added IHSAT after checking the ISAT candidate pool and HSAT history selector. CSAT, timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT and MSAT still require record-level inspection; this cohort remains open.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf"}}, "predecessor_findings_preserved": true, "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json", "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "reconciliation_assessments": {"iterative_expansion": "The exact original Russell1992 pending pointer remains a source question despite existing RBFS and SRBFS records. Their conditional inheritance/static reset distinctions do not discharge unconditional inherited parent-cost comparisons. Restore pending with source provenance, without accepting an alias or new method. The generic Flake web-crawl phrase is unrelated.", "memory_bounded_search": "The exact original pending family pointer includes MREC, MA-star, SMA-star and iterative threshold search. Currentowner1 and10 and maintained IDA-star/BFIDA-star/BULB records do not establish inspected equivalence to those original memory-management and bound-propagation methods. Preserve all four original fields plus historical origin as pending; future primary work must resolve distinct methods individually."}}}, "predecessor_deferred_historical_accounting_findings": {"evidence": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/historical-accounting-followups.json", "sha256": "5fb10bbb4b04e3f1b6d9f7e73ed89152a06d3cf3d1d196e40ab9b87f3f5eeeb2"}, "findings": [{"blocking_current_candidates": false, "boundary": "This establishes an explicit ownership-accounting gap, not novelty, a completed method assessment, or a required number of eventual records. No new original MREC/MA*/SMA* primary reading was performed.", "current_comparison": "All current inventory identity/definition fields and all current recursive frontier fields were queried. No explicit MREC/MA-star/SMA-star/iterative-threshold owner or represented identity was identified. Current owner 10 follows frontier-search/2003 sparse-memory mechanisms, and owner 1 names BFBnB/BFIDA*/DCBS; neither explicitly accounts for the old family. BULB and capped beam records have different stated mechanisms. IDA*/BFIDA* repeated thresholds do not by themselves discharge the entire historical multi-method family.", "groups": [564, 617], "id": "H1-memory-bounded-search-owner", "next_check": "In a later authorized ledger change, restore the exact old pending family or document a supported existing-owner disposition; then inspect original memory-management and bound-propagation methods before any concept addition.", "origin": {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/8"}, "repeat_origin": {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json", "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json", "pointer": "/prior_frontier_accounting/8"}, "scope": "historical_frontier_accounting", "severity": "minor", "title": "Restore an explicit disposition for the historical memory-bounded search family"}, {"blocking_current_candidates": false, "boundary": "The historical pointer itself calls for comparing unconditional inherited parent cost with Korf RBFS. That source claim is retained as the next primary check, not promoted to a newly verified Russell algorithm or proof of disjointness.", "current_comparison": "No exact current identity or frontier owner was identified by retained all-field comparison. Full current RBFS and SRBFS records were read: RBFS documents conditional parent-value inheritance and SRBFS resets static child values. These descriptions do not assert that the older Russell pointer has been inspected, merged, or resolved. IDA*/DFID use repeated cost/depth contours and do not establish that identity either.", "groups": [565, 610, 618], "id": "H2-iterative-expansion-owner", "next_check": "Restore a dated pending owner or explicit cross-linked disposition after primary comparison. Preserve the original AAAI92-082 URL and avoid adding a duplicate method merely because a name differs.", "origin": {"object": {"candidate": "Iterative expansion", "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/9"}, "repeat_origin": {"object": {"candidate": "Iterative expansion", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json", "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json", "pointer": "/prior_frontier_accounting/9"}, "scope": "historical_frontier_accounting", "severity": "minor", "title": "Restore an explicit disposition for Russell 1992 Iterative expansion"}], "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json", "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "issues": ["https://github.com/CultureBotAI/AIMech/issues/397", "https://github.com/CultureBotAI/AIMech/issues/398"], "scope": "These are pre-existing historical accounting gaps discovered by this scan, not candidate identity failures or newly established AI concepts. Their exact original objects, current comparisons, boundaries and next checks are embedded here for durable follow-up. A subsequent fresh ledger reconciliation must restore or explicitly resolve them; this batch does not close these issues or claim globally clean accounting.", "status": "pending_separate_owner_restoration"}, "predecessor_historical_pointer_restorations": {"main_indexes": [909, 910], "nested_indexes": [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json", "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline": {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract and a 2018 SAC related-work passage were inspected in the bounded historical-pointer reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning", "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]", "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection", "next_check": "Resolve identity against both collections, inspect a primary method source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"}, "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"}, "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method and its version. Compare the soft-Q objective, policy representation and sampler with maintained SAC and ordinary Q-learning; resolve variants and current identity before proposing any native record.", "origin": "SAC paper; restored historical source pointer, not a newly established method identity.", "related_record_ids": ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"}, {"access_scope": "Only the 2010 comparison sections and bibliography were inspected for this restoration; the original FF full method is not claimed read.", "candidate": "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping assumptions and component-versus-whole-planner boundary; compare maintained strict hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing", "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were read; no original full-method, convergence-proof or experiment assessment is asserted.", "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic search for real-time situated agents, including publication date/version, then read its full lookahead, heuristic-repair and execution-commitment method. Reconcile ownership with the existing real-time umbrella before any native identity decision.", "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link to the already explicit additional real-time variants residual; not a second responsible owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot": 286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar", "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2", "reason": "Add the source-scoped combinatorial SLS family, including non-improving and memory-dependent transitions. Preserve prior HillClimbing progress and the historical ILS discovery pointer; arbitrary embedded optimizers and exact named controllers are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope": "The existing local-search lead and its prior HillClimbing progress remain intact. The source-scoped stochastic local-search outcome is separate from the strict-improvement subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."}, "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology and detailed GLSM control representations separately. Named GLS/FLS compositions and Gu SAT identity remain with their existing owners; the current family record does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"], "round61_progress": "The strict-improvement subset is now represented by HillClimbing. The broader local-search umbrella is not equated with that subset; general scope and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"}, "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure in Tabu Section 2; assess maximization/minimization naming and whether its intended scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution": "Added a native record after primary-method and critical-page inspection, ignored-inclusive identity comparison, neighboring-method assessment and bounded AIO no-match documentation.", "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"}, "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search; resolve LRTA* update, cost and completeness assumptions against A-star and Fill.", "round64_resolution": "Added a native DRAFT record with full-method and critical-image inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"}, "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2 recursive correction and locate its missing proof or later specification. Preserve the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"}, "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_added", "next_check": "Follow the original LDS paper and Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency; inspect a primary implementation before claiming literal executable equivalence.", "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch", "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original LDS and ILDS were inspected and added; generalized LDS, depth-first beam search and real-time heuristic methods remain distinct pending leads.", "round64_resolution": "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA* are now represented. Generalized LDS, depth-first beam search and additional real-time variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "8": {"candidate": "KBFS, multi-state commitment and real-time search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}}, "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments": {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not resolve the named breadth-first escape controller or whole-FF boundary. Restore one pending EHC main pointer with the original comparison URL and original-primary next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already retain broader real-time-search residuals and owner 286 represents basic LRTA*. Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved graph-correction owner 291; no independent second responsible owner or source-method acceptance is created.", "soft_q": "The historical source pointer remains explicit in older reports and contextual carry notes, but the current complete frontier label projection and scoped normalized identities contain no equivalent explicit owner or record. Restore the original SAC-paper provenance as one pending main pointer, linked to existing SAC and Q-learning; later TEMP research is separate from this accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method acceptance, native records or edits to older reports."}}, "write": {"path": "/private/tmp/aimech-hrsat-tsat-cohort354-write.json", "sha256": "5b4674e1952696b8887a64b818a64f00b21149dad10a78baa50ae76ea493e45b"}, "write_fields": {"deferred_bibliographic_triage": {"assessment": {"path": "/private/tmp/aimech-cohort353-context000-499-20261015/assessment.json", "sha256": "b4d573dcd646f33a8449ea42aa1b92816ffc71594027896f13a0c33a8541145a"}, "cross_check": {"path": "/private/tmp/aimech-cohort353-context500-999-20261015/assessment.json", "sha256": "c50c13525ada61ea430e89646fb2cbbe68f643096458af3103f70d74ef51bd3c"}, "findings": [{"blocks_autowalksat": false, "comparison": "Clustering Data by Melting is the Wong1993 Gaussian center/heating and persistence procedure; current owner610 retains that specific source and selected follow-ups. Owners640–642 identify Roberts density-mode, Ben-Hur stability and Lipson high-order-neuron procedures. Owner353 concerns time-sliced Potts-unit sequence networks. Generic clustering task nodes and these differently sourced procedures do not establish ownership of the named 1997 bibliography pointer.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B1", "group_indices": [304], "kind": "historical_bibliography_accounting", "label": "Blatt–Wiseman–Domany 1997 granular-magnet clustering bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 0, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat": false, "comparison": "Owner649 is Bishop1994 neural-network novelty validation with an oil-flow example. Owners639,643–648,650–654 and655 track specific sphere, hyperplane, neural-boundary, classifier-instability, nearest-neighbor, prototype, support-object and local-density procedures. None explicitly retains this author/application pointer. A common novelty-detection task does not establish identity or a separate algorithm.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B2", "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Tarassenko/Hayton/Brady mammogram novelty-detection bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat": false, "comparison": "Owner652 is distance-based outlier scoring/search/prediction with specific Knorr–Ng, Ramaswamy and Angiulli subleads; owner655 is local-density scoring. Owner60 references Ritter–Tanner griddy Gibbs and owner546 Ritter parametrized self-organizing maps. These are different citations, and no explicit Ritter–Gallegos model owner was established.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B3", "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Ritter–Gallegos 1997 statistical-outlier-model bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat": false, "comparison": "Owner653 is Ypma–Duin1998 support-object domain approximation, not this cited application. Owner528 provides a plausible broader time-delayed-correlation source-separation relation but names Molgedey–Schuster1994 only; owner523 is Comon1994 general ICA and identifiability. Infomax, FastICA and TopographicICA native definitions and owners102/515/526/548–552 do not establish the cited application’s method identity. Future reconciliation may attach the pointer to an existing owner rather than create any new concept.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B4", "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Ypma–Pajunen 1999 second-order ICA vibration-application bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}], "issue": "https://github.com/CultureBotAI/AIMech/issues/402", "issue_posting": {"path": "/private/tmp/aimech-cohort353-bibliography-issue-20261015/posting.json", "sha256": "41c7f8dde625ee354be53f6688a8e35c757f096146753c2d34c808cdb4308bf9"}, "original_reading_objects": [{"all_occurrences": [{"line": 5693, "match_index": 405, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json", "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index": 1}, {"line": 5693, "match_index": 702, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-concept-discovery-20261010", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json", "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index": 2}, {"line": 5693, "match_index": 2155, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-public-recovery-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json", "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index": 3}, {"line": 5693, "match_index": 1905, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json", "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index": 4}], "content_sha256": "0d9db05b0cc4755b387102234ba889a4d0dfc0b510a4f077ff324816d4fdfd25", "group_index": 304, "object": {"pages": [11, 12, 13], "reading": "Section5 describes SMO fitting and O((N-n_bsv)² n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering."}, "object_sha256_canonical_json": "84ec20c71619c69b5b6c996bf8ae70cb876b9bd09a5379c882642d3c12bd3ca0", "pointer": "/source_analysis/paper_readings/0/sections/5", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T071653Z-support-vector-sphere.json", "sha256": "26a5c75316bf7ab14b402cc64e1369c50418cf1e1a8570955fe5cf655bc8c95d"}}, {"all_occurrences": [{"line": 5708, "match_index": 473, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json", "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index": 1}, {"line": 5708, "match_index": 2197, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-concept-discovery-20261010", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json", "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index": 2}, {"line": 5708, "match_index": 1887, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-public-recovery-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json", "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index": 3}, {"line": 5708, "match_index": 2871, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json", "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index": 4}], "content_sha256": "857bf5e392a95319dfe00a07a64172de5236abc85a26e4590b41dc918b0e3e19", "group_index": 344, "object": {"pages": [8, 9], "reading": "Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication."}, "object_sha256_canonical_json": "226cab1719eecce566f82fe4942edd46bd28fff611f4a0e98fefc441ffdc254a", "pointer": "/source_analysis/paper_readings/0/sections/3", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T073618Z-support-description.json", "sha256": "641021eca5b4c440875934019acbbd46fdca5c084ed5688990fc1fba16e9ebb8"}}], "scope": "Four older bibliography mentions are retained for source triage, not newly established concepts, proof of lost pending candidate objects, or an AutoWalksat defect. No extra main/nested row is appended. Future records may be unnecessary if source/application identity maps to existing owners. Preserve this deferred object separately from the earlier397/398 repairs.", "status": "pending_source_identity_and_owner_reconciliation"}, "historical_pointer_restorations": {"issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json", "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_indexes": [911, 912], "nested_indexes": [], "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json", "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "root_decision": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort354-identity-20261015/collection.json", "sha256": "862c0ac766d58541b6fd3a7f70332ca01db26d090fa8aa2acc60b482c30bdf53"}, "current_baseline": {"main": 911, "nested": 394}, "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json", "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_append": [{"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition": "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/8", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"}, "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, {"candidate": "Iterative expansion", "disposition": "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/9", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"}, "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}], "method_acceptance_claimed": false, "nested_append": [], "owner_contexts": {"1": {"candidate": "Divide-and-conquer beam search and breadth-first heuristic search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "added", "next_check": "Follow Zhou and Hansen 2004 and the expanded 2006 paper for full layered duplicate detection and recursive path-recovery details; do not conflate DCBS with the backtracking DCBSS record.", "record_ids": ["AIMech:BreadthFirstBranchAndBound", "AIMech:BreadthFirstIDAStar", "AIMech:DivideConquerBeamSearch"], "resolution": "The umbrella family is represented by the defined BFBnB, BFIDA-star and divide-and-conquer beam procedures. Frontier/sparse-memory implementations remain separately assessable leads.", "url": "https://cdn.aaai.org/ICAPS/2005/ICAPS05-010.pdf"}, "10": {"candidate": "Frontier search, frontier-BFBnB and sparse-memory graph search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Follow the original frontier-search and 2003 sparse-memory papers; separate used-operator bits, predecessor counters, dummy nodes and relay reconstruction.", "url": "https://ai.dmi.unibas.ch/research/reading_group/zhou-hansen-aij2006.pdf"}, "298": {"candidate": "Additional GenSAT selection and initialization variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_addressed", "next_check": "Follow CSAT, timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT, MSAT and IHSAT. The1993 pages distinguish candidate sets, picking and initialization; follow the original1992 definitions and do not confuse timid TSAT with a later tabu-search acronym.", "round68_resolution": "Added IHSAT after checking the ISAT candidate pool and HSAT history selector. CSAT, timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT and MSAT still require record-level inspection; this cohort remains open.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf"}}, "predecessor_findings_preserved": true, "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json", "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "reconciliation_assessments": {"iterative_expansion": "The exact original Russell1992 pending pointer remains a source question despite existing RBFS and SRBFS records. Their conditional inheritance/static reset distinctions do not discharge unconditional inherited parent-cost comparisons. Restore pending with source provenance, without accepting an alias or new method. The generic Flake web-crawl phrase is unrelated.", "memory_bounded_search": "The exact original pending family pointer includes MREC, MA-star, SMA-star and iterative threshold search. Currentowner1 and10 and maintained IDA-star/BFIDA-star/BULB records do not establish inspected equivalence to those original memory-management and bound-propagation methods. Preserve all four original fields plus historical origin as pending; future primary work must resolve distinct methods individually."}}}, "predecessor_deferred_historical_accounting_findings": {"evidence": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/historical-accounting-followups.json", "sha256": "5fb10bbb4b04e3f1b6d9f7e73ed89152a06d3cf3d1d196e40ab9b87f3f5eeeb2"}, "findings": [{"blocking_current_candidates": false, "boundary": "This establishes an explicit ownership-accounting gap, not novelty, a completed method assessment, or a required number of eventual records. No new original MREC/MA*/SMA* primary reading was performed.", "current_comparison": "All current inventory identity/definition fields and all current recursive frontier fields were queried. No explicit MREC/MA-star/SMA-star/iterative-threshold owner or represented identity was identified. Current owner 10 follows frontier-search/2003 sparse-memory mechanisms, and owner 1 names BFBnB/BFIDA*/DCBS; neither explicitly accounts for the old family. BULB and capped beam records have different stated mechanisms. IDA*/BFIDA* repeated thresholds do not by themselves discharge the entire historical multi-method family.", "groups": [564, 617], "id": "H1-memory-bounded-search-owner", "next_check": "In a later authorized ledger change, restore the exact old pending family or document a supported existing-owner disposition; then inspect original memory-management and bound-propagation methods before any concept addition.", "origin": {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/8"}, "repeat_origin": {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json", "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json", "pointer": "/prior_frontier_accounting/8"}, "scope": "historical_frontier_accounting", "severity": "minor", "title": "Restore an explicit disposition for the historical memory-bounded search family"}, {"blocking_current_candidates": false, "boundary": "The historical pointer itself calls for comparing unconditional inherited parent cost with Korf RBFS. That source claim is retained as the next primary check, not promoted to a newly verified Russell algorithm or proof of disjointness.", "current_comparison": "No exact current identity or frontier owner was identified by retained all-field comparison. Full current RBFS and SRBFS records were read: RBFS documents conditional parent-value inheritance and SRBFS resets static child values. These descriptions do not assert that the older Russell pointer has been inspected, merged, or resolved. IDA*/DFID use repeated cost/depth contours and do not establish that identity either.", "groups": [565, 610, 618], "id": "H2-iterative-expansion-owner", "next_check": "Restore a dated pending owner or explicit cross-linked disposition after primary comparison. Preserve the original AAAI92-082 URL and avoid adding a duplicate method merely because a name differs.", "origin": {"object": {"candidate": "Iterative expansion", "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/9"}, "repeat_origin": {"object": {"candidate": "Iterative expansion", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json", "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json", "pointer": "/prior_frontier_accounting/9"}, "scope": "historical_frontier_accounting", "severity": "minor", "title": "Restore an explicit disposition for Russell 1992 Iterative expansion"}], "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json", "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "issues": ["https://github.com/CultureBotAI/AIMech/issues/397", "https://github.com/CultureBotAI/AIMech/issues/398"], "scope": "These are pre-existing historical accounting gaps discovered by this scan, not candidate identity failures or newly established AI concepts. Their exact original objects, current comparisons, boundaries and next checks are embedded here for durable follow-up. A subsequent fresh ledger reconciliation must restore or explicitly resolve them; this batch does not close these issues or claim globally clean accounting.", "status": "pending_separate_owner_restoration"}, "predecessor_historical_pointer_restorations": {"main_indexes": [909, 910], "nested_indexes": [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json", "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline": {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract and a 2018 SAC related-work passage were inspected in the bounded historical-pointer reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning", "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]", "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection", "next_check": "Resolve identity against both collections, inspect a primary method source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"}, "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"}, "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method and its version. Compare the soft-Q objective, policy representation and sampler with maintained SAC and ordinary Q-learning; resolve variants and current identity before proposing any native record.", "origin": "SAC paper; restored historical source pointer, not a newly established method identity.", "related_record_ids": ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"}, {"access_scope": "Only the 2010 comparison sections and bibliography were inspected for this restoration; the original FF full method is not claimed read.", "candidate": "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping assumptions and component-versus-whole-planner boundary; compare maintained strict hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing", "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were read; no original full-method, convergence-proof or experiment assessment is asserted.", "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic search for real-time situated agents, including publication date/version, then read its full lookahead, heuristic-repair and execution-commitment method. Reconcile ownership with the existing real-time umbrella before any native identity decision.", "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link to the already explicit additional real-time variants residual; not a second responsible owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot": 286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar", "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2", "reason": "Add the source-scoped combinatorial SLS family, including non-improving and memory-dependent transitions. Preserve prior HillClimbing progress and the historical ILS discovery pointer; arbitrary embedded optimizers and exact named controllers are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope": "The existing local-search lead and its prior HillClimbing progress remain intact. The source-scoped stochastic local-search outcome is separate from the strict-improvement subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."}, "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology and detailed GLSM control representations separately. Named GLS/FLS compositions and Gu SAT identity remain with their existing owners; the current family record does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"], "round61_progress": "The strict-improvement subset is now represented by HillClimbing. The broader local-search umbrella is not equated with that subset; general scope and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"}, "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure in Tabu Section 2; assess maximization/minimization naming and whether its intended scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution": "Added a native record after primary-method and critical-page inspection, ignored-inclusive identity comparison, neighboring-method assessment and bounded AIO no-match documentation.", "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"}, "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search; resolve LRTA* update, cost and completeness assumptions against A-star and Fill.", "round64_resolution": "Added a native DRAFT record with full-method and critical-image inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"}, "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2 recursive correction and locate its missing proof or later specification. Preserve the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"}, "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_added", "next_check": "Follow the original LDS paper and Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency; inspect a primary implementation before claiming literal executable equivalence.", "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch", "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original LDS and ILDS were inspected and added; generalized LDS, depth-first beam search and real-time heuristic methods remain distinct pending leads.", "round64_resolution": "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA* are now represented. Generalized LDS, depth-first beam search and additional real-time variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "8": {"candidate": "KBFS, multi-state commitment and real-time search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}}, "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments": {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not resolve the named breadth-first escape controller or whole-FF boundary. Restore one pending EHC main pointer with the original comparison URL and original-primary next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already retain broader real-time-search residuals and owner 286 represents basic LRTA*. Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved graph-correction owner 291; no independent second responsible owner or source-method acceptance is created.", "soft_q": "The historical source pointer remains explicit in older reports and contextual carry notes, but the current complete frontier label projection and scoped normalized identities contain no equivalent explicit owner or record. Restore the original SAC-paper provenance as one pending main pointer, linked to existing SAC and Q-learning; later TEMP research is separate from this accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method acceptance, native records or edits to older reports."}}}, {"cohort": 353, "decision_fields": {"deferred_bibliographic_triage": {"assessment": {"path": "/private/tmp/aimech-cohort353-context000-499-20261015/assessment.json", "sha256": "b4d573dcd646f33a8449ea42aa1b92816ffc71594027896f13a0c33a8541145a"}, "cross_check": {"path": "/private/tmp/aimech-cohort353-context500-999-20261015/assessment.json", "sha256": "c50c13525ada61ea430e89646fb2cbbe68f643096458af3103f70d74ef51bd3c"}, "findings": [{"blocks_autowalksat": false, "comparison": "Clustering Data by Melting is the Wong1993 Gaussian center/heating and persistence procedure; current owner610 retains that specific source and selected follow-ups. Owners640–642 identify Roberts density-mode, Ben-Hur stability and Lipson high-order-neuron procedures. Owner353 concerns time-sliced Potts-unit sequence networks. Generic clustering task nodes and these differently sourced procedures do not establish ownership of the named 1997 bibliography pointer.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B1", "group_indices": [304], "kind": "historical_bibliography_accounting", "label": "Blatt–Wiseman–Domany 1997 granular-magnet clustering bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 0, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat": false, "comparison": "Owner649 is Bishop1994 neural-network novelty validation with an oil-flow example. Owners639,643–648,650–654 and655 track specific sphere, hyperplane, neural-boundary, classifier-instability, nearest-neighbor, prototype, support-object and local-density procedures. None explicitly retains this author/application pointer. A common novelty-detection task does not establish identity or a separate algorithm.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B2", "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Tarassenko/Hayton/Brady mammogram novelty-detection bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat": false, "comparison": "Owner652 is distance-based outlier scoring/search/prediction with specific Knorr–Ng, Ramaswamy and Angiulli subleads; owner655 is local-density scoring. Owner60 references Ritter–Tanner griddy Gibbs and owner546 Ritter parametrized self-organizing maps. These are different citations, and no explicit Ritter–Gallegos model owner was established.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B3", "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Ritter–Gallegos 1997 statistical-outlier-model bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat": false, "comparison": "Owner653 is Ypma–Duin1998 support-object domain approximation, not this cited application. Owner528 provides a plausible broader time-delayed-correlation source-separation relation but names Molgedey–Schuster1994 only; owner523 is Comon1994 general ICA and identifiability. Infomax, FastICA and TopographicICA native definitions and owners102/515/526/548–552 do not establish the cited application’s method identity. Future reconciliation may attach the pointer to an existing owner rather than create any new concept.", "disposition": "Retain exact original historical object and unresolved comparison for a separately scoped owner repair; do not append a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B4", "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Ypma–Pajunen 1999 second-order ICA vibration-application bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"}], "issue": "https://github.com/CultureBotAI/AIMech/issues/402", "issue_posting": {"path": "/private/tmp/aimech-cohort353-bibliography-issue-20261015/posting.json", "sha256": "41c7f8dde625ee354be53f6688a8e35c757f096146753c2d34c808cdb4308bf9"}, "original_reading_objects": [{"all_occurrences": [{"line": 5693, "match_index": 405, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json", "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index": 1}, {"line": 5693, "match_index": 702, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-concept-discovery-20261010", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json", "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index": 2}, {"line": 5693, "match_index": 2155, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-public-recovery-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json", "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index": 3}, {"line": 5693, "match_index": 1905, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json", "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\": \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json", "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index": 4}], "content_sha256": "0d9db05b0cc4755b387102234ba889a4d0dfc0b510a4f077ff324816d4fdfd25", "group_index": 304, "object": {"pages": [11, 12, 13], "reading": "Section5 describes SMO fitting and O((N-n_bsv)² n_sv d) labeling with fixed20 samples; overall quadratic statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency shortcut is explicitly heuristic with same results only on tried examples. Its printed cost drops factors, so retain qualified operational scaling rather than a universal complexity claim. Section6 discusses shape flexibility, small cores with overlap, and high-p relation to scale space. References include Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron clustering."}, "object_sha256_canonical_json": "84ec20c71619c69b5b6c996bf8ae70cb876b9bd09a5379c882642d3c12bd3ca0", "pointer": "/source_analysis/paper_readings/0/sections/5", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T071653Z-support-vector-sphere.json", "sha256": "26a5c75316bf7ab14b402cc64e1369c50418cf1e1a8570955fe5cf655bc8c95d"}}, {"all_occurrences": [{"line": 5708, "match_index": 473, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json", "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index": 1}, {"line": 5708, "match_index": 2197, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-concept-discovery-20261010", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json", "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index": 2}, {"line": 5708, "match_index": 1887, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-public-recovery-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json", "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index": 3}, {"line": 5708, "match_index": 2871, "path": "./research/discovery/20261012T073618Z-support-description.json", "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\": \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012", "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json", "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index": 4}], "content_sha256": "857bf5e392a95319dfe00a07a64172de5236abc85a26e4590b41dc918b0e3e19", "group_index": 344, "object": {"pages": [8, 9], "reading": "Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians. Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999 Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999 second-orderICA vibrationapplication."}, "object_sha256_canonical_json": "226cab1719eecce566f82fe4942edd46bd28fff611f4a0e98fefc441ffdc254a", "pointer": "/source_analysis/paper_readings/0/sections/3", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T073618Z-support-description.json", "sha256": "641021eca5b4c440875934019acbbd46fdca5c084ed5688990fc1fba16e9ebb8"}}], "scope": "Four older bibliography mentions are retained for source triage, not newly established concepts, proof of lost pending candidate objects, or an AutoWalksat defect. No extra main/nested row is appended. Future records may be unnecessary if source/application identity maps to existing owners. Preserve this deferred object separately from the earlier397/398 repairs.", "status": "pending_source_identity_and_owner_reconciliation"}}, "decisions": {"path": "/private/tmp/aimech-cohort353-identity-20261015/root-decisions.json", "sha256": "d8bc3a508f980fc6a541561ecd0346bfa892c64cfc91061aba06208e9ec1ff46"}, "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T225549Z-autowalksat-fixed-noise-controller.json", "sha256": "7ebc4da1f0029b920b1a71a484cd4bec3af9ac92c34894a06103c3ab247621d4"}, "report_fields": {"predecessor_historical_pointer_restorations": {"main_indexes": [909, 910], "nested_indexes": [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json", "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline": {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract and a 2018 SAC related-work passage were inspected in the bounded historical-pointer reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning", "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]", "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection", "next_check": "Resolve identity against both collections, inspect a primary method source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"}, "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"}, "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method and its version. Compare the soft-Q objective, policy representation and sampler with maintained SAC and ordinary Q-learning; resolve variants and current identity before proposing any native record.", "origin": "SAC paper; restored historical source pointer, not a newly established method identity.", "related_record_ids": ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"}, {"access_scope": "Only the 2010 comparison sections and bibliography were inspected for this restoration; the original FF full method is not claimed read.", "candidate": "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping assumptions and component-versus-whole-planner boundary; compare maintained strict hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing", "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were read; no original full-method, convergence-proof or experiment assessment is asserted.", "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic search for real-time situated agents, including publication date/version, then read its full lookahead, heuristic-repair and execution-commitment method. Reconcile ownership with the existing real-time umbrella before any native identity decision.", "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link to the already explicit additional real-time variants residual; not a second responsible owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot": 286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar", "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2", "reason": "Add the source-scoped combinatorial SLS family, including non-improving and memory-dependent transitions. Preserve prior HillClimbing progress and the historical ILS discovery pointer; arbitrary embedded optimizers and exact named controllers are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope": "The existing local-search lead and its prior HillClimbing progress remain intact. The source-scoped stochastic local-search outcome is separate from the strict-improvement subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."}, "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology and detailed GLSM control representations separately. Named GLS/FLS compositions and Gu SAT identity remain with their existing owners; the current family record does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"], "round61_progress": "The strict-improvement subset is now represented by HillClimbing. The broader local-search umbrella is not equated with that subset; general scope and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"}, "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure in Tabu Section 2; assess maximization/minimization naming and whether its intended scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution": "Added a native record after primary-method and critical-page inspection, ignored-inclusive identity comparison, neighboring-method assessment and bounded AIO no-match documentation.", "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"}, "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search; resolve LRTA* update, cost and completeness assumptions against A-star and Fill.", "round64_resolution": "Added a native DRAFT record with full-method and critical-image inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"}, "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2 recursive correction and locate its missing proof or later specification. Preserve the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"}, "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_added", "next_check": "Follow the original LDS paper and Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency; inspect a primary implementation before claiming literal executable equivalence.", "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch", "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original LDS and ILDS were inspected and added; generalized LDS, depth-first beam search and real-time heuristic methods remain distinct pending leads.", "round64_resolution": "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA* are now represented. Generalized LDS, depth-first beam search and additional real-time variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "8": {"candidate": "KBFS, multi-state commitment and real-time search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}}, "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments": {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not resolve the named breadth-first escape controller or whole-FF boundary. Restore one pending EHC main pointer with the original comparison URL and original-primary next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already retain broader real-time-search residuals and owner 286 represents basic LRTA*. Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved graph-correction owner 291; no independent second responsible owner or source-method acceptance is created.", "soft_q": "The historical source pointer remains explicit in older reports and contextual carry notes, but the current complete frontier label projection and scoped normalized identities contain no equivalent explicit owner or record. Restore the original SAC-paper provenance as one pending main pointer, linked to existing SAC and Q-learning; later TEMP research is separate from this accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method acceptance, native records or edits to older reports."}}, "write": {"path": "/private/tmp/aimech-autowalksat-cohort353-write.json", "sha256": "a175615af628d92b086b2ff39606a6e7db1b9c697dacc3dd67be74009298548b"}, "write_fields": {"predecessor_historical_pointer_restorations": {"main_indexes": [909, 910], "nested_indexes": [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json", "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline": {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract and a 2018 SAC related-work passage were inspected in the bounded historical-pointer reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning", "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]", "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection", "next_check": "Resolve identity against both collections, inspect a primary method source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"}, "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"}, "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method and its version. Compare the soft-Q objective, policy representation and sampler with maintained SAC and ordinary Q-learning; resolve variants and current identity before proposing any native record.", "origin": "SAC paper; restored historical source pointer, not a newly established method identity.", "related_record_ids": ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"}, {"access_scope": "Only the 2010 comparison sections and bibliography were inspected for this restoration; the original FF full method is not claimed read.", "candidate": "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping assumptions and component-versus-whole-planner boundary; compare maintained strict hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing", "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were read; no original full-method, convergence-proof or experiment assessment is asserted.", "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic search for real-time situated agents, including publication date/version, then read its full lookahead, heuristic-repair and execution-commitment method. Reconcile ownership with the existing real-time umbrella before any native identity decision.", "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link to the already explicit additional real-time variants residual; not a second responsible owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot": 286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar", "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2", "reason": "Add the source-scoped combinatorial SLS family, including non-improving and memory-dependent transitions. Preserve prior HillClimbing progress and the historical ILS discovery pointer; arbitrary embedded optimizers and exact named controllers are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope": "The existing local-search lead and its prior HillClimbing progress remain intact. The source-scoped stochastic local-search outcome is separate from the strict-improvement subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."}, "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology and detailed GLSM control representations separately. Named GLS/FLS compositions and Gu SAT identity remain with their existing owners; the current family record does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"], "round61_progress": "The strict-improvement subset is now represented by HillClimbing. The broader local-search umbrella is not equated with that subset; general scope and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"}, "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure in Tabu Section 2; assess maximization/minimization naming and whether its intended scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution": "Added a native record after primary-method and critical-page inspection, ignored-inclusive identity comparison, neighboring-method assessment and bounded AIO no-match documentation.", "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"}, "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search; resolve LRTA* update, cost and completeness assumptions against A-star and Fill.", "round64_resolution": "Added a native DRAFT record with full-method and critical-image inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"}, "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2 recursive correction and locate its missing proof or later specification. Preserve the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"}, "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_added", "next_check": "Follow the original LDS paper and Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency; inspect a primary implementation before claiming literal executable equivalence.", "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch", "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original LDS and ILDS were inspected and added; generalized LDS, depth-first beam search and real-time heuristic methods remain distinct pending leads.", "round64_resolution": "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA* are now represented. Generalized LDS, depth-first beam search and additional real-time variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "8": {"candidate": "KBFS, multi-state commitment and real-time search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}}, "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments": {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not resolve the named breadth-first escape controller or whole-FF boundary. Restore one pending EHC main pointer with the original comparison URL and original-primary next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already retain broader real-time-search residuals and owner 286 represents basic LRTA*. Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved graph-correction owner 291; no independent second responsible owner or source-method acceptance is created.", "soft_q": "The historical source pointer remains explicit in older reports and contextual carry notes, but the current complete frontier label projection and scoped normalized identities contain no equivalent explicit owner or record. Restore the original SAC-paper provenance as one pending main pointer, linked to existing SAC and Q-learning; later TEMP research is separate from this accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method acceptance, native records or edits to older reports."}}}, {"cohort": 352, "decision_fields": {"deferred_historical_accounting_findings": {"evidence": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/historical-accounting-followups.json", "sha256": "5fb10bbb4b04e3f1b6d9f7e73ed89152a06d3cf3d1d196e40ab9b87f3f5eeeb2"}, "findings": [{"blocking_current_candidates": false, "boundary": "This establishes an explicit ownership-accounting gap, not novelty, a completed method assessment, or a required number of eventual records. No new original MREC/MA*/SMA* primary reading was performed.", "current_comparison": "All current inventory identity/definition fields and all current recursive frontier fields were queried. No explicit MREC/MA-star/SMA-star/iterative-threshold owner or represented identity was identified. Current owner 10 follows frontier-search/2003 sparse-memory mechanisms, and owner 1 names BFBnB/BFIDA*/DCBS; neither explicitly accounts for the old family. BULB and capped beam records have different stated mechanisms. IDA*/BFIDA* repeated thresholds do not by themselves discharge the entire historical multi-method family.", "groups": [564, 617], "id": "H1-memory-bounded-search-owner", "next_check": "In a later authorized ledger change, restore the exact old pending family or document a supported existing-owner disposition; then inspect original memory-management and bound-propagation methods before any concept addition.", "origin": {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/8"}, "repeat_origin": {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json", "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory management and bound propagation methods, not only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json", "pointer": "/prior_frontier_accounting/8"}, "scope": "historical_frontier_accounting", "severity": "minor", "title": "Restore an explicit disposition for the historical memory-bounded search family"}, {"blocking_current_candidates": false, "boundary": "The historical pointer itself calls for comparing unconditional inherited parent cost with Korf RBFS. That source claim is retained as the next primary check, not promoted to a newly verified Russell algorithm or proof of disjointness.", "current_comparison": "No exact current identity or frontier owner was identified by retained all-field comparison. Full current RBFS and SRBFS records were read: RBFS documents conditional parent-value inheritance and SRBFS resets static child values. These descriptions do not assert that the older Russell pointer has been inspected, merged, or resolved. IDA*/DFID use repeated cost/depth contours and do not establish that identity either.", "groups": [565, 610, 618], "id": "H2-iterative-expansion-owner", "next_check": "Restore a dated pending owner or explicit cross-linked disposition after primary comparison. Preserve the original AAAI92-082 URL and avoid adding a duplicate method merely because a name differs.", "origin": {"object": {"candidate": "Iterative expansion", "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/9"}, "repeat_origin": {"object": {"candidate": "Iterative expansion", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json", "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json", "pointer": "/prior_frontier_accounting/9"}, "scope": "historical_frontier_accounting", "severity": "minor", "title": "Restore an explicit disposition for Russell 1992 Iterative expansion"}], "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json", "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "issues": ["https://github.com/CultureBotAI/AIMech/issues/397", "https://github.com/CultureBotAI/AIMech/issues/398"], "scope": "These are pre-existing historical accounting gaps discovered by this scan, not candidate identity failures or newly established AI concepts. Their exact original objects, current comparisons, boundaries and next checks are embedded here for durable follow-up. A subsequent fresh ledger reconciliation must restore or explicitly resolve them; this batch does not close these issues or claim globally clean accounting.", "status": "pending_separate_owner_restoration"}, "historical_pointer_restorations": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json", "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline": {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract and a 2018 SAC related-work passage were inspected in the bounded historical-pointer reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning", "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]", "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection", "next_check": "Resolve identity against both collections, inspect a primary method source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"}, "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"}, "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method and its version. Compare the soft-Q objective, policy representation and sampler with maintained SAC and ordinary Q-learning; resolve variants and current identity before proposing any native record.", "origin": "SAC paper; restored historical source pointer, not a newly established method identity.", "related_record_ids": ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"}, {"access_scope": "Only the 2010 comparison sections and bibliography were inspected for this restoration; the original FF full method is not claimed read.", "candidate": "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping assumptions and component-versus-whole-planner boundary; compare maintained strict hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing", "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were read; no original full-method, convergence-proof or experiment assessment is asserted.", "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic search for real-time situated agents, including publication date/version, then read its full lookahead, heuristic-repair and execution-commitment method. Reconcile ownership with the existing real-time umbrella before any native identity decision.", "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link to the already explicit additional real-time variants residual; not a second responsible owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot": 286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar", "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2", "reason": "Add the source-scoped combinatorial SLS family, including non-improving and memory-dependent transitions. Preserve prior HillClimbing progress and the historical ILS discovery pointer; arbitrary embedded optimizers and exact named controllers are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope": "The existing local-search lead and its prior HillClimbing progress remain intact. The source-scoped stochastic local-search outcome is separate from the strict-improvement subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."}, "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology and detailed GLSM control representations separately. Named GLS/FLS compositions and Gu SAT identity remain with their existing owners; the current family record does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"], "round61_progress": "The strict-improvement subset is now represented by HillClimbing. The broader local-search umbrella is not equated with that subset; general scope and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"}, "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure in Tabu Section 2; assess maximization/minimization naming and whether its intended scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution": "Added a native record after primary-method and critical-page inspection, ignored-inclusive identity comparison, neighboring-method assessment and bounded AIO no-match documentation.", "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"}, "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search; resolve LRTA* update, cost and completeness assumptions against A-star and Fill.", "round64_resolution": "Added a native DRAFT record with full-method and critical-image inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"}, "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2 recursive correction and locate its missing proof or later specification. Preserve the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"}, "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_added", "next_check": "Follow the original LDS paper and Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency; inspect a primary implementation before claiming literal executable equivalence.", "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch", "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original LDS and ILDS were inspected and added; generalized LDS, depth-first beam search and real-time heuristic methods remain distinct pending leads.", "round64_resolution": "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA* are now represented. Generalized LDS, depth-first beam search and additional real-time variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "8": {"candidate": "KBFS, multi-state commitment and real-time search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}}, "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments": {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not resolve the named breadth-first escape controller or whole-FF boundary. Restore one pending EHC main pointer with the original comparison URL and original-primary next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already retain broader real-time-search residuals and owner 286 represents basic LRTA*. Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved graph-correction owner 291; no independent second responsible owner or source-method acceptance is created.", "soft_q": "The historical source pointer remains explicit in older reports and contextual carry notes, but the current complete frontier label projection and scoped normalized identities contain no equivalent explicit owner or record. Restore the original SAC-paper provenance as one pending main pointer, linked to existing SAC and Q-learning; later TEMP research is separate from this accounting repair."}}}, "decisions": {"path": "/private/tmp/aimech-cohort352-identity-20261015/root-decisions.json", "sha256": "a8bb9ba4f9d3805e368c8e123cbc2fc01458eed04e8ab500469fab6f716805e3"}, "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T220733Z-lpga-minimin-and-restored-historical-pointers.json", "sha256": "70390ddcefe988c8db1883ad3c798d430425ca4d9c487ea0944de8bce5b9fa32"}, "report_fields": {"historical_pointer_restorations": {"main_indexes": [909, 910], "nested_indexes": [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json", "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline": {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract and a 2018 SAC related-work passage were inspected in the bounded historical-pointer reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning", "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]", "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection", "next_check": "Resolve identity against both collections, inspect a primary method source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"}, "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"}, "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method and its version. Compare the soft-Q objective, policy representation and sampler with maintained SAC and ordinary Q-learning; resolve variants and current identity before proposing any native record.", "origin": "SAC paper; restored historical source pointer, not a newly established method identity.", "related_record_ids": ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"}, {"access_scope": "Only the 2010 comparison sections and bibliography were inspected for this restoration; the original FF full method is not claimed read.", "candidate": "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping assumptions and component-versus-whole-planner boundary; compare maintained strict hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing", "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were read; no original full-method, convergence-proof or experiment assessment is asserted.", "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic search for real-time situated agents, including publication date/version, then read its full lookahead, heuristic-repair and execution-commitment method. Reconcile ownership with the existing real-time umbrella before any native identity decision.", "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link to the already explicit additional real-time variants residual; not a second responsible owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot": 286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar", "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2", "reason": "Add the source-scoped combinatorial SLS family, including non-improving and memory-dependent transitions. Preserve prior HillClimbing progress and the historical ILS discovery pointer; arbitrary embedded optimizers and exact named controllers are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope": "The existing local-search lead and its prior HillClimbing progress remain intact. The source-scoped stochastic local-search outcome is separate from the strict-improvement subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."}, "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology and detailed GLSM control representations separately. Named GLS/FLS compositions and Gu SAT identity remain with their existing owners; the current family record does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"], "round61_progress": "The strict-improvement subset is now represented by HillClimbing. The broader local-search umbrella is not equated with that subset; general scope and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"}, "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure in Tabu Section 2; assess maximization/minimization naming and whether its intended scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution": "Added a native record after primary-method and critical-page inspection, ignored-inclusive identity comparison, neighboring-method assessment and bounded AIO no-match documentation.", "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"}, "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search; resolve LRTA* update, cost and completeness assumptions against A-star and Fill.", "round64_resolution": "Added a native DRAFT record with full-method and critical-image inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"}, "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2 recursive correction and locate its missing proof or later specification. Preserve the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"}, "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_added", "next_check": "Follow the original LDS paper and Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency; inspect a primary implementation before claiming literal executable equivalence.", "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch", "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original LDS and ILDS were inspected and added; generalized LDS, depth-first beam search and real-time heuristic methods remain distinct pending leads.", "round64_resolution": "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA* are now represented. Generalized LDS, depth-first beam search and additional real-time variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "8": {"candidate": "KBFS, multi-state commitment and real-time search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}}, "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments": {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not resolve the named breadth-first escape controller or whole-FF boundary. Restore one pending EHC main pointer with the original comparison URL and original-primary next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already retain broader real-time-search residuals and owner 286 represents basic LRTA*. Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved graph-correction owner 291; no independent second responsible owner or source-method acceptance is created.", "soft_q": "The historical source pointer remains explicit in older reports and contextual carry notes, but the current complete frontier label projection and scoped normalized identities contain no equivalent explicit owner or record. Restore the original SAC-paper provenance as one pending main pointer, linked to existing SAC and Q-learning; later TEMP research is separate from this accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method acceptance, native records or edits to older reports."}}, "write": {"path": "/private/tmp/aimech-lpga-minimin-cohort352-write.json", "sha256": "6c3782b88f98deb893486cb6e3d1dfae674186663f1735c1c898482c55ada973"}, "write_fields": {"historical_pointer_restorations": {"main_indexes": [909, 910], "nested_indexes": [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json", "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline": {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract and a 2018 SAC related-work passage were inspected in the bounded historical-pointer reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning", "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]", "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection", "next_check": "Resolve identity against both collections, inspect a primary method source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"}, "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"}, "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method and its version. Compare the soft-Q objective, policy representation and sampler with maintained SAC and ordinary Q-learning; resolve variants and current identity before proposing any native record.", "origin": "SAC paper; restored historical source pointer, not a newly established method identity.", "related_record_ids": ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"}, {"access_scope": "Only the 2010 comparison sections and bibliography were inspected for this restoration; the original FF full method is not claimed read.", "candidate": "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping assumptions and component-versus-whole-planner boundary; compare maintained strict hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing", "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were read; no original full-method, convergence-proof or experiment assessment is asserted.", "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic search for real-time situated agents, including publication date/version, then read its full lookahead, heuristic-repair and execution-commitment method. Reconcile ownership with the existing real-time umbrella before any native identity decision.", "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link to the already explicit additional real-time variants residual; not a second responsible owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot": 286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar", "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}], "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2", "reason": "Add the source-scoped combinatorial SLS family, including non-improving and memory-dependent transitions. Preserve prior HillClimbing progress and the historical ILS discovery pointer; arbitrary embedded optimizers and exact named controllers are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope": "The existing local-search lead and its prior HillClimbing progress remain intact. The source-scoped stochastic local-search outcome is separate from the strict-improvement subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."}, "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology and detailed GLSM control representations separately. Named GLS/FLS compositions and Gu SAT identity remain with their existing owners; the current family record does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"], "round61_progress": "The strict-improvement subset is now represented by HillClimbing. The broader local-search umbrella is not equated with that subset; general scope and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"}, "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure in Tabu Section 2; assess maximization/minimization naming and whether its intended scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution": "Added a native record after primary-method and critical-page inspection, ignored-inclusive identity comparison, neighboring-method assessment and bounded AIO no-match documentation.", "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"}, "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search; resolve LRTA* update, cost and completeness assumptions against A-star and Fill.", "round64_resolution": "Added a native DRAFT record with full-method and critical-image inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"}, "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2 recursive correction and locate its missing proof or later specification. Preserve the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"}, "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_added", "next_check": "Follow the original LDS paper and Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency; inspect a primary implementation before claiming literal executable equivalence.", "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch", "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original LDS and ILDS were inspected and added; generalized LDS, depth-first beam search and real-time heuristic methods remain distinct pending leads.", "round64_resolution": "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA* are now represented. Generalized LDS, depth-first beam search and additional real-time variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "8": {"candidate": "KBFS, multi-state commitment and real-time search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}}, "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json", "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments": {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not resolve the named breadth-first escape controller or whole-FF boundary. Restore one pending EHC main pointer with the original comparison URL and original-primary next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already retain broader real-time-search residuals and owner 286 represents basic LRTA*. Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved graph-correction owner 291; no independent second responsible owner or source-method acceptance is created.", "soft_q": "The historical source pointer remains explicit in older reports and contextual carry notes, but the current complete frontier label projection and scoped normalized identities contain no equivalent explicit owner or record. Restore the original SAC-paper provenance as one pending main pointer, linked to existing SAC and Q-learning; later TEMP research is separate from this accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method acceptance, native records or edits to older reports."}}}]
+- predecessor_source_followup_accounting: {"accepted_static_proposal": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/source-followup-accounting.proposed.v2.json", "sha256": "a325d5b46504140956726f44141f653f7b7e5a45dfe82fb8fc42e7cc527b6ac5"}, "actual354_creation": {"note": "Creation-stage newly_discovered_leads=0 retains its then-bounded scope. These six later recorded source questions do not retroactively alter that receipt or claim six new concepts.", "receipt": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/actual354-write.snapshot.json", "sha256": "5b4674e1952696b8887a64b818a64f00b21149dad10a78baa50ae76ea493e45b"}, "unchanged_creation_summary": {"actual_counts": {"aio": 442, "history": 434, "native": 788, "reviews": 443}, "base": "14e9168ee3496e914545ae5c449e3ee190f0294b", "branch": "goal/discover-ai-concepts-round354", "completed_at": "2026-10-15T23:36:12.716912Z", "created_paths": ["data/curated/HRSAT.yaml", "data/curated/TabuSearchForSAT.yaml", "research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.json", "research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.md", "history/reports/hrsat-tsat-and-restored-search-pointers/2026-10-15T233612Z-codex-fecb18.yaml"], "frontier_result": {"changed_main_indexes": [296], "main": 913, "nested": 394, "newly_discovered_leads": 0, "restored_main_pointers": 2, "restored_nested_residuals": 0}, "operation": "exclusive_record_creation", "outputs": [{"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/HRSAT.yaml", "sha256": "823d962f64df9237f5f8eef8f557e0f642b9faeddec015540a68dd29b979a724"}, {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/TabuSearchForSAT.yaml", "sha256": "2197a5ca589fa859fff095447e12348fd496c2f1d7c5836cae1d482834deaf07"}, {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.json", "sha256": "cfb1da2d42702cf571b4b3594c8f408f33392a02bc7dd8b79c50a9b09adb279f"}, {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.md", "sha256": "220b798255e6e9d71006e704b007bbddd8838693efd1c16dd901253d8640d9e6"}, {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/history/reports/hrsat-tsat-and-restored-search-pointers/2026-10-15T233612Z-codex-fecb18.yaml", "sha256": "d3a2a0fe4c350174f82503cf43a8eed98d8e00b83973c85c300823ce23c4517a"}], "started_at": "2026-10-15T23:34:49.235157Z", "updated_paths": []}}, "count_scope": {"additional_policy_questions": 1, "changed_existing_main_row_objects": 0, "changed_existing_nested_row_objects": 0, "distinct_questions": 6, "named_source_forms": 5, "new_concepts_established": 0, "new_main_rows": 0, "new_nested_rows": 0, "new_record_count_required": 0, "scoped_primary_attachments": 7}, "followups": [{"candidate": "CRSAT source-defined cautious walk variant", "comparison_owners": [{"candidate": "Additional UBCSAT search variants", "index": 296, "object_sha256_canonical_json": "b3ec47a4ae0681b5cd0cd9d82e16a09152cd4c0d09de14db3dceb8021f07a61f", "pointer": "/full_owners/296", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}], "concept_identity_established": false, "disposition": "pending_primary_source_identity_and_operational_reconciliation", "followup_id": "H354-S1", "new_record_required": false, "next_check": "Read original CSAT definitions and compare cautious positive/no-decrease/all-variable pools with the1995 probability branch; resolve whether pick is applied uniformly to both branches and retain any ambiguity. Decide represented variant versus separate identity only after that evidence.", "original_question": {"blocks_hrsat_or_tsat_science": false, "followup_id": "H354-S1", "identity_established": false, "label": "CRSAT source-defined cautious walk variant", "new_concept_established": false, "pdf_pages": [3, 4, 5], "possible_owners": [296, 298], "primary_source": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "question": "Reconcile the cautious candidate rule and probability-controlled focused branch with original CSAT and other maintained SAT selectors; preserve select/pick ambiguity rather than assume a new distinct identity.", "record_count_implied": false, "source_spelling": "CRSAT", "status": "pending_source_identity_and_owner_reconciliation", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}, "original_question_sha256_canonical_json": "375e19d0eaa52710dfdd2925e964a5f8d9c5f588a849948c474cd8f673f3a03d", "other_ownership_assessment": "Owner270 is an umbrella local-search family and does not preserve these selector/source questions precisely. Owner301 has a separate GWSAT sampling-version question and must not be discharged or overwritten.", "owner_attachment_state": "responsibility_assigned_for_future_inspection", "owner_attachments": [{"owner": {"candidate": "Additional GenSAT selection and initialization variants", "index": 298, "object_sha256_canonical_json": "ade6ee0e5c875afd4044fd18a2082adc237626b3b36c4935a33f3e8a25b383d3", "pointer": "/full_owners/298", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}, "role": "primary source-family research attachment", "status": "responsibility_assigned_research_pending"}], "ownership_rationale": "CRSAT is explicitly introduced as the random-walk composition of cautious CSAT in the1995 continuation of GenSAT. Owner298 already names CSAT and separates candidate selection from picking and initialization. It is the closest existing source-family research owner; owner296 provides the archival-source and HRSAT/HWSAT version comparison. This attachment does not establish CRSAT as a distinct record.", "primary_existing_owner_index": 298, "primary_scoped_owner_indexes": [{"owner_index": 298, "scope": "primary source-family research attachment"}], "research_resolved": false, "responsibility_scope": "future_primary_source_inspection_only_not_method_identity_or_completion", "secondary_context_owner_roles": [{"owner_index": 296, "role": "secondary_source_family_or_maintained_method_comparison"}], "source": {"artifact": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "passage_bindings": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-source-passages.json", "sha256": "e6da50683ebf232d5cad782df05517d4600d6a66701a77b8b42b5d164a1043f3"}, "physical_pdf_pages": [3, 4, 5], "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}}, {"candidate": "TRSAT source-defined timid walk variant", "comparison_owners": [{"candidate": "Additional UBCSAT search variants", "index": 296, "object_sha256_canonical_json": "b3ec47a4ae0681b5cd0cd9d82e16a09152cd4c0d09de14db3dceb8021f07a61f", "pointer": "/full_owners/296", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}], "concept_identity_established": false, "disposition": "pending_primary_source_identity_and_operational_reconciliation", "followup_id": "H354-S2", "new_record_required": false, "next_check": "Compare the original timid least-positive-gain rule and its no-decrease/all-variable fallbacks with the1995 focused composition. Preserve selector/picker ambiguity and do not transfer1997 tabu tenure, aspiration or implementation conventions.", "original_question": {"blocks_hrsat_or_tsat_science": false, "followup_id": "H354-S2", "identity_established": false, "label": "TRSAT source-defined timid walk variant", "new_concept_established": false, "pdf_pages": [3, 4, 5], "possible_owners": [296, 298], "primary_source": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "question": "Reconcile the timid candidate rule and focused branch with original timid TSAT; do not confuse it with1997 tabu TSAT or assume the abbreviation proves identity.", "record_count_implied": false, "source_spelling": "TRSAT", "status": "pending_source_identity_and_owner_reconciliation", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}, "original_question_sha256_canonical_json": "fd52ee53bb5bf701d940c2d8e5f1eb083fefc2439cce5cbd31dbe8b3e82c22a5", "other_ownership_assessment": "AIMech:TabuSearchForSAT is a comparison exclusion, not a resolution of this timid-source question; owner270 is broader context only.", "owner_attachment_state": "responsibility_assigned_for_future_inspection", "owner_attachments": [{"owner": {"candidate": "Additional GenSAT selection and initialization variants", "index": 298, "object_sha256_canonical_json": "ade6ee0e5c875afd4044fd18a2082adc237626b3b36c4935a33f3e8a25b383d3", "pointer": "/full_owners/298", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}, "role": "primary source-family research attachment", "status": "responsibility_assigned_research_pending"}], "ownership_rationale": "TRSAT explicitly composes the earlier timid TSAT hill-climbing choice with the1995 focused branch. Owner298 names timid TSAT and warns against the later tabu acronym. Owner296 now owns the1997 fixed-FIFO record but explicitly delegates timid TSAT to298, supporting a primary298 attachment.", "primary_existing_owner_index": 298, "primary_scoped_owner_indexes": [{"owner_index": 298, "scope": "primary source-family research attachment"}], "research_resolved": false, "responsibility_scope": "future_primary_source_inspection_only_not_method_identity_or_completion", "secondary_context_owner_roles": [{"owner_index": 296, "role": "secondary_source_family_or_maintained_method_comparison"}], "source": {"artifact": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "passage_bindings": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-source-passages.json", "sha256": "e6da50683ebf232d5cad782df05517d4600d6a66701a77b8b42b5d164a1043f3"}, "physical_pdf_pages": [3, 4, 5], "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}}, {"candidate": "DRSAT source-defined deterministic fair-pick walk variant", "comparison_owners": [{"candidate": "Additional UBCSAT search variants", "index": 296, "object_sha256_canonical_json": "b3ec47a4ae0681b5cd0cd9d82e16a09152cd4c0d09de14db3dceb8021f07a61f", "pointer": "/full_owners/296", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}], "concept_identity_established": false, "disposition": "pending_primary_source_identity_and_operational_reconciliation", "followup_id": "H354-S3", "new_record_required": false, "next_check": "Read the original DSAT deterministic fairness construction, clarify state/tie/restart rules and determine the focused-branch composition from primary evidence. Do not infer an executable merely from the word fair or copy HRSAT behavior.", "original_question": {"blocks_hrsat_or_tsat_science": false, "followup_id": "H354-S3", "identity_established": false, "label": "DRSAT source-defined deterministic fair-pick walk variant", "new_concept_established": false, "pdf_pages": [3, 4, 5], "possible_owners": [296, 298], "primary_source": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "question": "Inspect the deterministic fair picker and its composition with the focused branch against original DSAT; establish operational convention and identity before any addition.", "record_count_implied": false, "source_spelling": "DRSAT", "status": "pending_source_identity_and_owner_reconciliation", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}, "original_question_sha256_canonical_json": "0121601b25753fbc759cb5dda9fa317d634d23d7d7e51c40652620597adbc2a0", "other_ownership_assessment": "Deterministic fair picking is not automatically HSAT least-recent-flip history, tabu exclusion or a stochastic-uniform picker. Broad owner270 does not settle the operational rule.", "owner_attachment_state": "responsibility_assigned_for_future_inspection", "owner_attachments": [{"owner": {"candidate": "Additional GenSAT selection and initialization variants", "index": 298, "object_sha256_canonical_json": "ade6ee0e5c875afd4044fd18a2082adc237626b3b36c4935a33f3e8a25b383d3", "pointer": "/full_owners/298", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}, "role": "primary source-family research attachment", "status": "responsibility_assigned_research_pending"}], "ownership_rationale": "DRSAT combines DSAT’s deterministic fair picker with the1995 walk extension. Owner298 already names DSAT and explicitly owns picking/selection variants. Source-catalog owner296 is a secondary provenance/version comparator; no extra frontier row is needed to retain the pending question.", "primary_existing_owner_index": 298, "primary_scoped_owner_indexes": [{"owner_index": 298, "scope": "primary source-family research attachment"}], "research_resolved": false, "responsibility_scope": "future_primary_source_inspection_only_not_method_identity_or_completion", "secondary_context_owner_roles": [{"owner_index": 296, "role": "secondary_source_family_or_maintained_method_comparison"}], "source": {"artifact": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "passage_bindings": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-source-passages.json", "sha256": "e6da50683ebf232d5cad782df05517d4600d6a66701a77b8b42b5d164a1043f3"}, "physical_pdf_pages": [3, 4, 5], "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}}, {"candidate": "CHRSAT cautious history-pick walk variant", "comparison_owners": [{"candidate": "Additional UBCSAT search variants", "index": 296, "object_sha256_canonical_json": "b3ec47a4ae0681b5cd0cd9d82e16a09152cd4c0d09de14db3dceb8021f07a61f", "pointer": "/full_owners/296", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}], "concept_identity_established": false, "disposition": "pending_primary_source_identity_and_operational_reconciliation", "followup_id": "H354-S4", "new_record_required": false, "next_check": "Compare cautious pools, the1995 history selector, CHSAT no-walk endpoint and unrestricted/restricted triggers. Determine if CHRSAT is a separate concept or an internal supported variant while retaining select/pick versus generic-random-walk ambiguity.", "original_question": {"blocks_hrsat_or_tsat_science": false, "followup_id": "H354-S4", "identity_established": false, "label": "CHRSAT cautious history-pick walk variant", "new_concept_established": false, "pdf_pages": [8], "possible_owners": [296, 298], "primary_source": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "question": "Reconcile cautious hill-climbing plus the HRSAT picking method and the CHSAT no-walk comparison. Determine whether this is a separate concept, scoped variant or existing-owner sublead.", "record_count_implied": false, "source_spelling": "CHRSAT", "status": "pending_source_identity_and_owner_reconciliation", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}, "original_question_sha256_canonical_json": "59ea0a89b01ff1b8d4b23a1dbf667d4c14691eddc956a37bbda68257822a7c59", "other_ownership_assessment": "The CHSAT comparison is retained inside this same question, not counted as a sixth named issue form or an additional established concept. Owner270 is broader context only.", "owner_attachment_state": "responsibility_assigned_for_future_inspection", "owner_attachments": [{"owner": {"candidate": "Additional GenSAT selection and initialization variants", "index": 298, "object_sha256_canonical_json": "ade6ee0e5c875afd4044fd18a2082adc237626b3b36c4935a33f3e8a25b383d3", "pointer": "/full_owners/298", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}, "role": "primary source-family research attachment", "status": "responsibility_assigned_research_pending"}], "ownership_rationale": "CHRSAT combines CSAT cautious candidate selection with HRSAT history picking and compares a CHSAT no-walk endpoint. Its unresolved source-family dimension belongs with owner298’s CSAT/selector/picker variants. Owner296 and AIMech:HRSAT are essential comparisons for the already represented history-plus-walk construction, not automatic aliases.", "primary_existing_owner_index": 298, "primary_scoped_owner_indexes": [{"owner_index": 298, "scope": "primary source-family research attachment"}], "research_resolved": false, "responsibility_scope": "future_primary_source_inspection_only_not_method_identity_or_completion", "secondary_context_owner_roles": [{"owner_index": 296, "role": "secondary_source_family_or_maintained_method_comparison"}], "source": {"artifact": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "passage_bindings": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-source-passages.json", "sha256": "e6da50683ebf232d5cad782df05517d4600d6a66701a77b8b42b5d164a1043f3"}, "physical_pdf_pages": [8], "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}}, {"candidate": "JumpSAT multiple-clause jump variant", "comparison_owners": [{"candidate": "Additional GenSAT selection and initialization variants", "index": 298, "object_sha256_canonical_json": "ade6ee0e5c875afd4044fd18a2082adc237626b3b36c4935a33f3e8a25b383d3", "pointer": "/full_owners/298", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}, {"candidate": "Local search", "index": 270, "object_sha256_canonical_json": "03c1f90e4934557856fb2ec201458a4408cd311af19e0b55c5824dfbe1c89059", "pointer": "/full_owners/270", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}], "concept_identity_established": false, "disposition": "pending_primary_source_identity_and_operational_reconciliation", "followup_id": "H354-S5", "new_record_required": false, "next_check": "Inspect exact multi-clause variable selection, duplicate-variable handling, simultaneous versus sequential updates, and clause-state timing. Assess unrestricted and improvement-gated jump policies separately. The source statement that all previously false clauses become satisfied is not accepted as an unconditional guarantee from the incomplete description.", "original_question": {"blocks_hrsat_or_tsat_science": false, "followup_id": "H354-S5", "identity_established": false, "label": "JumpSAT multiple-clause jump variant", "new_concept_established": false, "pdf_pages": [8, 9], "possible_owners": [296, 298, 270], "primary_source": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "question": "Inspect the one-variable-from-each-unsatisfied-clause jump and its selection/update semantics, including overlapping variables and the unrestricted versus improvement-gated versions; do not infer a full executable or universal success.", "record_count_implied": false, "source_spelling": "JumpSAT", "status": "pending_source_identity_and_owner_reconciliation", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}, "original_question_sha256_canonical_json": "fa84c156411ca08f9730ad1de71448bcded4c850d68729eb380de9b9ac9c2787", "other_ownership_assessment": "Owner298 is relevant comparison for the single-flip GenSAT/GRSAT lineage but its existing selection-and-initialization scope does not, without expansion, cover an arbitrary multiple-variable transition. Owner270 supplies broader SLS context; it is too general as the primary source-question home.", "owner_attachment_state": "responsibility_assigned_for_future_inspection", "owner_attachments": [{"owner": {"candidate": "Additional UBCSAT search variants", "index": 296, "object_sha256_canonical_json": "b3ec47a4ae0681b5cd0cd9d82e16a09152cd4c0d09de14db3dceb8021f07a61f", "pointer": "/full_owners/296", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}, "role": "primary source-family research attachment", "status": "responsibility_assigned_research_pending"}], "ownership_rationale": "JumpSAT is described as a GRSAT-related multiple-clause jump rather than one candidate variable selected and flipped by the printed GenSAT driver. Owner296’s additional SAT-source catalogue is a suitable explicit pending-source owner because it already follows the same archived1995 source and method/version discrepancies. This does not assert that JumpSAT is implemented or registered in UBCSAT.", "primary_existing_owner_index": 296, "primary_scoped_owner_indexes": [{"owner_index": 296, "scope": "primary source-family research attachment"}], "research_resolved": false, "responsibility_scope": "future_primary_source_inspection_only_not_method_identity_or_completion", "secondary_context_owner_roles": [{"owner_index": 298, "role": "secondary_source_family_or_maintained_method_comparison"}, {"owner_index": 270, "role": "broader_local_search_context_only"}], "source": {"artifact": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "passage_bindings": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-source-passages.json", "sha256": "e6da50683ebf232d5cad782df05517d4600d6a66701a77b8b42b5d164a1043f3"}, "physical_pdf_pages": [8, 9], "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}}, {"candidate": "Restricted-walk trigger policy in CHRSAT and JumpSAT", "comparison_owners": [{"candidate": "Local search", "index": 270, "object_sha256_canonical_json": "03c1f90e4934557856fb2ec201458a4408cd311af19e0b55c5824dfbe1c89059", "pointer": "/full_owners/270", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}], "concept_identity_established": false, "disposition": "pending_primary_source_identity_and_operational_reconciliation", "followup_id": "H354-S6", "new_record_required": false, "next_check": "For both named procedures, compare a walk/jump permitted at every step with a version allowed only when no strictly improving hill-climbing move is available. Clarify neutral-move treatment, selector/picker composition and whether this is an internal control dimension or warrants separate identity. Do not infer an extra record count.", "original_question": {"blocks_hrsat_or_tsat_science": false, "followup_id": "H354-S6", "identity_established": false, "label": "Restricted-walk trigger policy in CHRSAT and JumpSAT", "new_concept_established": false, "pdf_pages": [8, 9], "possible_owners": [296, 298], "primary_source": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "question": "Retain the explicit policy difference between allowing focused moves on every step and allowing them only without an improving move. Determine whether this is an internal variant dimension or a separately owned identity; it is not a sixth named algorithm.", "record_count_implied": false, "source_spelling": "walk only when hill climbing is not possible", "status": "pending_source_identity_and_owner_reconciliation", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}, "original_question_sha256_canonical_json": "aa4d40e0cfe3364dca424d9b18eb1574771995bb0382efb6660810557320ffd9", "other_ownership_assessment": "Owner270 provides the generic improvement/non-improvement context only. Owner301’s independent GWSAT sampling-distribution question remains unchanged and unresolved.", "owner_attachment_state": "responsibility_assigned_for_future_inspection", "owner_attachments": [{"owner": {"candidate": "Additional GenSAT selection and initialization variants", "index": 298, "object_sha256_canonical_json": "ade6ee0e5c875afd4044fd18a2082adc237626b3b36c4935a33f3e8a25b383d3", "pointer": "/full_owners/298", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}, "role": "CHRSAT trigger-policy branch", "status": "responsibility_assigned_research_pending"}, {"owner": {"candidate": "Additional UBCSAT search variants", "index": 296, "object_sha256_canonical_json": "b3ec47a4ae0681b5cd0cd9d82e16a09152cd4c0d09de14db3dceb8021f07a61f", "pointer": "/full_owners/296", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json", "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}, "role": "JumpSAT trigger-policy branch", "status": "responsibility_assigned_research_pending"}], "ownership_rationale": "This is one cross-cutting trigger-policy question, not a sixth named algorithm. Attach the CHRSAT branch to298 and the JumpSAT branch to296, using the same followup_id and source question. Distinct scoped attachments avoid forcing the multiple-variable JumpSAT mechanism into owner298 or duplicating a policy question.", "primary_existing_owner_index": null, "primary_scoped_owner_indexes": [{"owner_index": 298, "scope": "CHRSAT trigger-policy branch"}, {"owner_index": 296, "scope": "JumpSAT trigger-policy branch"}], "research_resolved": false, "responsibility_scope": "future_primary_source_inspection_only_not_method_identity_or_completion", "secondary_context_owner_roles": [{"owner_index": 270, "role": "broader_local_search_context_only"}], "source": {"artifact": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "passage_bindings": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-source-passages.json", "sha256": "e6da50683ebf232d5cad782df05517d4600d6a66701a77b8b42b5d164a1043f3"}, "physical_pdf_pages": [8, 9], "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}}], "historical_observation": {"current_main_count": 913, "full_owners": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2", "reason": "Add the source-scoped combinatorial SLS family, including non-improving and memory-dependent transitions. Preserve prior HillClimbing progress and the historical ILS discovery pointer; arbitrary embedded optimizers and exact named controllers are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope": "The existing local-search lead and its prior HillClimbing progress remain intact. The source-scoped stochastic local-search outcome is separate from the strict-improvement subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."}, "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology and detailed GLSM control representations separately. Named GLS/FLS compositions and Gu SAT identity remain with their existing owners; the current family record does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"], "round61_progress": "The strict-improvement subset is now represented by HillClimbing. The broader local-search umbrella is not equated with that subset; general scope and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"}, "296": {"candidate": "Additional UBCSAT search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort354_resolution": {"previous_sha256": "631cae083229f922a15adf18b6dc1eb15980bce26d74cc6aff5119209e6c290b", "reason": "Added source-scoped1995 HRSAT and1997 fixed-FIFO TSAT after accepted primary evidence and current identity reconciliation. Their later UBCSAT comparisons preserve version differences; the catalog family remains open.", "record_ids": ["AIMech:HRSAT", "AIMech:TabuSearchForSAT"], "source_pointer_scope": "Preserve the UBCSAT catalog URL and prior HSAT resolution. HRSAT is literal printed 1995 select/pick composition, not an exact HWSAT alias. TSAT is source-scoped 1997 fixed-FIFO tabu search; later unweighted UBCSAT selector remains contextual. Retain HWSAT reconciliation, WalkSAT/TABU, G2WSAT, adaptive Novelty and weighting residuals; owner 298 timid TSAT remains unchanged."}, "disposition": "partially_addressed", "next_check": "Inspect remaining WalkSAT/TABU, G2WSAT, adaptive Novelty variants, SAPS, PAWS, DDFW, RGSAT, SAMD and variable-weighting methods against existing concepts and primary papers. Reconcile HRSAT/HWSAT and tabu implementation-version discrepancies without treating them as exact aliases; timid TSAT remains separately owned by298. Preserve the broader catalog residuals and independently owned GWSAT source-distribution question301.", "record_ids": ["AIMech:HRSAT", "AIMech:TabuSearchForSAT"], "round67_resolution": "Added HSAT after primary1993 method inspection. HWSAT, tabu variants, G2WSAT, adaptive Novelty, weighting and remaining catalog cohorts still require inspection; no full-catalog closure is asserted.", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/"}, "298": {"candidate": "Additional GenSAT selection and initialization variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_addressed", "next_check": "Follow CSAT, timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT, MSAT and IHSAT. The1993 pages distinguish candidate sets, picking and initialization; follow the original1992 definitions and do not confuse timid TSAT with a later tabu-search acronym.", "round68_resolution": "Added IHSAT after checking the ISAT candidate pool and HSAT history selector. CSAT, timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT and MSAT still require record-level inspection; this cohort remains open.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf"}, "301": {"candidate": "GWSAT sampling source-version reconciliation", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Compare the1999 Figure1 clause-first random branch with the1994 duplicate-free variable-union branch already curated. Assess whether a separate variant or explicit successor record clarification best captures the different distributions; the earlier record is scoped to its inspected sources.", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/Hoos99b.pdf"}}, "head": "14e9168ee3496e914545ae5c449e3ee190f0294b", "observed_at": "2026-10-15T23:40:51.979289+00:00", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.json", "sha256": "cfb1da2d42702cf571b4b3594c8f408f33392a02bc7dd8b79c50a9b09adb279f"}, "scope": "Current354 report observed only; future base unknown. No absence or clean-state claim."}, "issue": "https://github.com/CultureBotAI/AIMech/issues/404", "issue_closure_requested": false, "kind": "source_followup_accounting", "origin": {"full_issue_context": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/issue404-observed.json", "sha256": "7592292285c98dc8f0a67deaf54239ccd6708b0d40f563c558fc8a34369a24f0"}, "ledger": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-followup-ledger.json", "sha256": "5df0bf4ee84ade54e310b5d8ce12817f7b6e46580db23f038e4ecf8380f8d55a"}, "posting": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-posting.json", "sha256": "b2e666a95b8dd98e7237c04ea6a7ca7e5904054a11f0fd63a14d691b8e3ec9ba"}, "root_acceptance": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-root-followup-acceptance.json", "sha256": "81c81677950a9c9e0f9477d8c35bc9bd04a9e68820ab797d31278b0429c2e626"}}, "primary_source": {"artifact": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "title": "Unsatisfied Variables in Local Search", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf", "version": "Gent–Walsh1995 thirteen-page archived author-layout AISB paper; physical PDF pages"}, "runtime_binding": {"all_owner_preimages_equal": true, "base": "008d1eafc23cb19605953fa860475256d1b28895", "collection": {"path": "/private/tmp/aimech-cohort355-identity-20261016/collection.json", "sha256": "b0936fc8f48ee88d6f7b4e20fe7501c43f3d6f3aac888ccd4e55c54c718d6809"}, "current_full_owners": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2", "reason": "Add the source-scoped combinatorial SLS family, including non-improving and memory-dependent transitions. Preserve prior HillClimbing progress and the historical ILS discovery pointer; arbitrary embedded optimizers and exact named controllers are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope": "The existing local-search lead and its prior HillClimbing progress remain intact. The source-scoped stochastic local-search outcome is separate from the strict-improvement subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."}, "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology and detailed GLSM control representations separately. Named GLS/FLS compositions and Gu SAT identity remain with their existing owners; the current family record does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"], "round61_progress": "The strict-improvement subset is now represented by HillClimbing. The broader local-search umbrella is not equated with that subset; general scope and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"}, "296": {"candidate": "Additional UBCSAT search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort354_resolution": {"previous_sha256": "631cae083229f922a15adf18b6dc1eb15980bce26d74cc6aff5119209e6c290b", "reason": "Added source-scoped1995 HRSAT and1997 fixed-FIFO TSAT after accepted primary evidence and current identity reconciliation. Their later UBCSAT comparisons preserve version differences; the catalog family remains open.", "record_ids": ["AIMech:HRSAT", "AIMech:TabuSearchForSAT"], "source_pointer_scope": "Preserve the UBCSAT catalog URL and prior HSAT resolution. HRSAT is literal printed 1995 select/pick composition, not an exact HWSAT alias. TSAT is source-scoped 1997 fixed-FIFO tabu search; later unweighted UBCSAT selector remains contextual. Retain HWSAT reconciliation, WalkSAT/TABU, G2WSAT, adaptive Novelty and weighting residuals; owner 298 timid TSAT remains unchanged."}, "disposition": "partially_addressed", "next_check": "Inspect remaining WalkSAT/TABU, G2WSAT, adaptive Novelty variants, SAPS, PAWS, DDFW, RGSAT, SAMD and variable-weighting methods against existing concepts and primary papers. Reconcile HRSAT/HWSAT and tabu implementation-version discrepancies without treating them as exact aliases; timid TSAT remains separately owned by298. Preserve the broader catalog residuals and independently owned GWSAT source-distribution question301.", "record_ids": ["AIMech:HRSAT", "AIMech:TabuSearchForSAT"], "round67_resolution": "Added HSAT after primary1993 method inspection. HWSAT, tabu variants, G2WSAT, adaptive Novelty, weighting and remaining catalog cohorts still require inspection; no full-catalog closure is asserted.", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/"}, "298": {"candidate": "Additional GenSAT selection and initialization variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "partially_addressed", "next_check": "Follow CSAT, timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT, MSAT and IHSAT. The1993 pages distinguish candidate sets, picking and initialization; follow the original1992 definitions and do not confuse timid TSAT with a later tabu-search acronym.", "round68_resolution": "Added IHSAT after checking the ISAT candidate pool and HSAT history selector. CSAT, timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT and MSAT still require record-level inspection; this cohort remains open.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf"}, "301": {"candidate": "GWSAT sampling source-version reconciliation", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition": "pending_inspection", "next_check": "Compare the1999 Figure1 clause-first random branch with the1994 duplicate-free variable-union branch already curated. Assess whether a separate variant or explicit successor record clarification best captures the different distributions; the earlier record is scoped to its inspected sources.", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/Hoos99b.pdf"}}, "predecessor_report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.json", "sha256": "cfb1da2d42702cf571b4b3594c8f408f33392a02bc7dd8b79c50a9b09adb279f"}, "previous_write": {"path": "/private/tmp/aimech-hrsat-tsat-cohort354-write.json", "sha256": "5b4674e1952696b8887a64b818a64f00b21149dad10a78baa50ae76ea493e45b"}, "recorded_at": "2026-10-16T00:19:41.470223+00:00", "root_approved": true}, "static_owner_acceptance": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/root-static-owner-acceptance.json", "sha256": "7b619ff2bbea80c172581697f4e5f62b98f018a27d13058ca0fcf2d18e095069"}, "status": "responsibility_assignment_recorded_research_pending", "underlying_research_resolved": false}
+- predecessor_source_followup_audit: {"path": "/private/tmp/aimech-cohort355-exact-head-audit-20261016/assessment.json", "sha256": "a034364a63e6f27ceda4f336f783e112fd5f051a04ad4472dd84b63d362283a3"}
+- predecessor_incidental_source_accounting: {"base": "008d1eafc23cb19605953fa860475256d1b28895", "collection": {"path": "/private/tmp/aimech-cohort355-identity-20261016/collection.json", "sha256": "b0936fc8f48ee88d6f7b4e20fe7501c43f3d6f3aac888ccd4e55c54c718d6809"}, "cross_links": [{"entry": {"access_scope": "Bibliography-only source inventory; URL identifies the inspected citing paper, not a newly inspected original method.", "candidate": "Variational inference with normalizing flows (Rezende and Mohamed 2015)", "disposition": "pending_inspection", "key": "svgd_bibliography_4", "next_check": "Identify the exact original cited work and reconcile its full method against maintained records and existing owners before deciding distinct concept, overlap or existing-owner linkage. The cited title is not novelty evidence.", "record_ids": [], "source": {"citation_scope": {"path": "/private/tmp/aimech-svgd-research-20261015/citation-scope.json", "sha256": "6e4fce31c555b25438183ac54c24d71ac09d4b6b65373d5297dc835cb088d28f"}, "origin": {"path": "/private/tmp/aimech-svgd-research-20261015/extraction/page-09.txt", "sha256": "2bfab341a9840bb1f34c345f8e2d2ba3e12b864e1a41cf44b1a666de99da8f63"}, "pointer": "/other_bibliography_next_checks/3"}, "url": "https://proceedings.neurips.cc/paper_files/paper/2016/file/b3ba8f1bee1238a2f37603d90b58898d-Paper.pdf"}, "from_question": "H355-FLOW-17", "owner_index": 909, "plan": {"path": "/private/tmp/aimech-softq-svgd-cohort355-preparation-20261015/citation-ownership.structure.json", "sha256": "c2d5c71d14605e54d41b81e9b0ca96109b474e89c244812b88c0da04de10753c"}, "pointer": "/bibliography_entries/3", "scope": "Existing selected355 bibliography source question; retain distinct original flow-family versus Rezende-Mohamed2015 variational-inference source scopes. This linkage neither resolves either question nor appends an owner."}], "frontier_rows_appended": {"main": 0, "nested": 0}, "issue": {"posting": {"path": "/private/tmp/aimech-cohort355-recovered-questions-issue-posting.json", "sha256": "015a7b00a0368825661d32178c85179f3d41a12ef459d5522069fed6ab15135a"}, "url": "https://github.com/CultureBotAI/AIMech/issues/406"}, "kind": "incidental_source_accounting", "new_concepts_asserted": 0, "proposal": {"path": "/private/tmp/aimech-cohort355-incidental-accounting-successors-20261016/proposal.json", "sha256": "5eed2a47fbbb5518a4f6a42d86c6f91a04060cd168b8d4ae7cf1861200486131"}, "questions": [{"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Laplacian multiscale flow matching", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/0"}, "question_id": "H355-FLOW-01", "related_owner_pointers": [], "related_record_ids": ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/0", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Laplacian multiscale flow matching", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "search result; primary method pending", "url": "https://arxiv.org/abs/2602.19461"}, "question_id": "H355-FLOW-01", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Fisher flow matching", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/1"}, "question_id": "H355-FLOW-02", "related_owner_pointers": [], "related_record_ids": ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/1", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Fisher flow matching", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "search result; primary method pending", "url": "https://arxiv.org/abs/2405.14664"}, "question_id": "H355-FLOW-02", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Functional rectified flow", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/2"}, "question_id": "H355-FLOW-03", "related_owner_pointers": [], "related_record_ids": ["AIMech:RectifiedFlow"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/2", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Functional rectified flow", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "search result; primary identity and method pending", "url": "https://openreview.net/pdf/bdf5f4c0c385a4b5e31e1fa31214a09cb8f49064.pdf"}, "question_id": "H355-FLOW-03", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:RectifiedFlow"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Consistency-model convergence conditions", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/3"}, "question_id": "H355-FLOW-04", "related_owner_pointers": [], "related_record_ids": ["AIMech:ConsistencyModel"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/3", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Consistency-model convergence conditions", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "potential limitation/evidence sources, not automatically new method identities", "urls": ["https://proceedings.mlr.press/v235/lyu24b.html", "https://proceedings.mlr.press/v235/dou24a.html", "https://proceedings.mlr.press/v267/chen25ck.html", "https://proceedings.mlr.press/v267/yang25l.html"]}, "question_id": "H355-FLOW-04", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:ConsistencyModel"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Manifold-aligned consistency tangents", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/4"}, "question_id": "H355-FLOW-05", "related_owner_pointers": [], "related_record_ids": ["AIMech:ConsistencyModel"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/4", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Manifold-aligned consistency tangents", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "primary identity and method pending", "url": "https://proceedings.mlr.press/v306/kim26e.html"}, "question_id": "H355-FLOW-05", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:ConsistencyModel"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Biological flow-matching applications", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/5"}, "question_id": "H355-FLOW-06", "related_owner_pointers": [], "related_record_ids": ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/5", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Biological flow-matching applications", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "review/source-inventory lead; inspect underlying primary methods before any application assertion", "url": "https://openreview.net/pdf?id=qBH57cfgLa"}, "question_id": "H355-FLOW-06", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Variational rectified flow matching", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/6"}, "question_id": "H355-FLOW-07", "related_owner_pointers": [], "related_record_ids": ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/6", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Variational rectified flow matching", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "search lead; full primary identity and method inspection pending", "url": "https://openreview.net/pdf?id=Rk18ZikrFI"}, "question_id": "H355-FLOW-07", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Coreset-induced conditional velocity flow matching", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/7"}, "question_id": "H355-FLOW-08", "related_owner_pointers": [], "related_record_ids": ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/7", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Coreset-induced conditional velocity flow matching", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "search lead; full primary identity and method inspection pending", "url": "https://arxiv.org/abs/2605.12951"}, "question_id": "H355-FLOW-08", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Isokinetic flow matching", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/8"}, "question_id": "H355-FLOW-09", "related_owner_pointers": [], "related_record_ids": ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/8", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Isokinetic flow matching", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "search lead; full primary identity and method inspection pending", "url": "https://openreview.net/pdf/1b61fc33f23a36e216cddb6e87cb3e03104f2eee.pdf"}, "question_id": "H355-FLOW-09", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "FLOWALIGN", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/9"}, "question_id": "H355-FLOW-10", "related_owner_pointers": [], "related_record_ids": ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/9", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "FLOWALIGN", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "search lead; full primary identity and method inspection pending", "url": "https://openreview.net/pdf/84a68266626c1a26eaf11a6acfd4489bc7660822.pdf"}, "question_id": "H355-FLOW-10", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "ReQFlow", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/10"}, "question_id": "H355-FLOW-11", "related_owner_pointers": [], "related_record_ids": ["AIMech:RectifiedFlow"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/10", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "ReQFlow", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "search lead; full primary identity and method inspection pending", "url": "https://openreview.net/forum?id=f375uEmYDf&amp;noteId=pkcXuMj97u"}, "question_id": "H355-FLOW-11", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:RectifiedFlow"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "RF-Physical / RF-FWD", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/11"}, "question_id": "H355-FLOW-12", "related_owner_pointers": [], "related_record_ids": ["AIMech:RectifiedFlow"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/11", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "RF-Physical / RF-FWD", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "search lead; full primary identity and method inspection pending", "url": "https://arxiv.org/abs/2604.03006"}, "question_id": "H355-FLOW-12", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:RectifiedFlow"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Unresolved ICLR 2026 conditional-flow relation source", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/12"}, "question_id": "H355-FLOW-13", "related_owner_pointers": [], "related_record_ids": ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/12", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Unresolved ICLR 2026 conditional-flow relation source", "disposition": "pending_inspection", "next_check": "Resolve primary source identity, inspect the full defining method and compare mechanism/scope with existing records; evidence-only or application-only items need not become new concept records.", "status": "search lead; full primary identity and method inspection pending", "url": "https://openreview.net/pdf?id=GlHoWr8JMm"}, "question_id": "H355-FLOW-13", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Conditional flow matching and OT conditional flow matching", "disposition": "pending_inspection", "next_check": "Determine whether named objectives merit separately scoped methods rather than aliases for the general framework.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/13"}, "question_id": "H355-FLOW-14", "related_owner_pointers": [], "related_record_ids": ["AIMech:FlowMatching", "AIMech:RectifiedFlow"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/13", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Conditional flow matching and OT conditional flow matching", "disposition": "pending_inspection", "next_check": "Determine whether named objectives merit separately scoped methods rather than aliases for the general framework.", "origin": "Flow Matching Sections 3–4"}, "question_id": "H355-FLOW-14", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:FlowMatching", "AIMech:RectifiedFlow"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Consistency training and consistency distillation", "disposition": "pending_inspection", "next_check": "Assess standalone procedure identities, preserving the EMA-theory correction for the original CT variant.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/14"}, "question_id": "H355-FLOW-15", "related_owner_pointers": [], "related_record_ids": ["AIMech:ConsistencyModel", "AIMech:ImprovedConsistencyTraining"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/14", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Consistency training and consistency distillation", "disposition": "pending_inspection", "next_check": "Assess standalone procedure identities, preserving the EMA-theory correction for the original CT variant.", "origin": "Consistency Models Sections 4–5"}, "question_id": "H355-FLOW-15", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:ConsistencyModel", "AIMech:ImprovedConsistencyTraining"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Gradient-constrained rectification", "disposition": "pending_inspection", "next_check": "Inspect the original defining method and retain support/regularity counterexamples, without promoting straightness to optimal transport.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/15"}, "question_id": "H355-FLOW-16", "related_owner_pointers": [], "related_record_ids": ["AIMech:RectifiedFlow"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/15", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Gradient-constrained rectification", "disposition": "pending_inspection", "next_check": "Inspect the original defining method and retain support/regularity counterexamples, without promoting straightness to optimal transport.", "origin": "Hertrich et al. Sections 3–4"}, "question_id": "H355-FLOW-16", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:RectifiedFlow"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Normalizing flows, continuous normalizing flows and probability-flow ODEs", "disposition": "pending_inspection", "next_check": "Read original definitions, distinguish model families from differential-equation constructions, and search AIO identities.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/16"}, "question_id": "H355-FLOW-17", "related_owner_pointers": ["planned_owner909/svgd_bibliography_4"], "related_record_ids": ["AIMech:FlowMatching", "AIMech:RectifiedFlow", "AIMech:ConsistencyModel"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/16", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Normalizing flows, continuous normalizing flows and probability-flow ODEs", "disposition": "pending_inspection", "next_check": "Read original definitions, distinguish model families from differential-equation constructions, and search AIO identities.", "origin": "Foundational method references in all three original papers"}, "question_id": "H355-FLOW-17", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:FlowMatching", "AIMech:RectifiedFlow", "AIMech:ConsistencyModel"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Pseudo-Huber discrepancy and LPIPS", "disposition": "pending_inspection", "next_check": "Decide on mathematical-method/evaluation-method scope and inspect original definitions rather than import a name from a training paper.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/17"}, "question_id": "H355-FLOW-18", "related_owner_pointers": [], "related_record_ids": ["AIMech:ImprovedConsistencyTraining"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/17", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Pseudo-Huber discrepancy and LPIPS", "disposition": "pending_inspection", "next_check": "Decide on mathematical-method/evaluation-method scope and inspect original definitions rather than import a name from a training paper.", "origin": "Improved CT Section 3.3 and references"}, "question_id": "H355-FLOW-18", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:ImprovedConsistencyTraining"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "DDIM, DPM-Solver, DEIS, UniPC, TRACT, Diff-Instruct and BOOT", "disposition": "pending_inspection", "next_check": "Only names were used as leads; inspect each defining paper before a record, and do not infer performance from the extracted table.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/18"}, "question_id": "H355-FLOW-19", "related_owner_pointers": [], "related_record_ids": ["AIMech:ImprovedConsistencyTraining"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/18", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "DDIM, DPM-Solver, DEIS, UniPC, TRACT, Diff-Instruct and BOOT", "disposition": "pending_inspection", "next_check": "Only names were used as leads; inspect each defining paper before a record, and do not infer performance from the extracted table.", "origin": "Improved CT PDF p. 9 comparator names"}, "question_id": "H355-FLOW-19", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:ImprovedConsistencyTraining"], "research_complete": false}}, {"access_scope": "Historical pointer and neighboring record context only; original source identity, narrower ownership and method/application/evidence scope remain pending. No primary reading or missing concept is asserted.", "candidate": "Consistency Flow Matching", "disposition": "pending_inspection", "next_check": "Re-search the exact primary title/source before identity or method assertions.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json", "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer": "/questions/19"}, "question_id": "H355-FLOW-20", "related_owner_pointers": [], "related_record_ids": ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/19", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json", "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group": 167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md", "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}}, "original_object": {"candidate": "Consistency Flow Matching", "disposition": "pending_inspection", "next_check": "Re-search the exact primary title/source before identity or method assertions.", "origin": "Follow-up primary author-listing search"}, "question_id": "H355-FLOW-20", "reason": "The complete historical pending object is retained. Represented related families/procedures do not by themselves dispose of this source/version/objective/application question. No specific current owner located by bounded recursive current-report field and identity searches; semantic ownership remains pending rather than proven absent.", "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical discovery object, saved-review boundary and current record text inspected; no new original-primary-method reading or separate concept assertion.", "candidate": "Deterministic policy gradient", "disposition": "pending_inspection", "next_check": "Resolve exact identity and representation scope against both collections, then inspect the primary defining source; a shared component or related method is not automatically a new record.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-context220-439-20261016/pending-questions.json", "sha256": "b531fd652aad7a8baeca6fa4b747b58ec7a397ac598c1709000bd9bc6040144c"}, "pointer": "/0"}, "question_id": "H355-R1", "related_owner_pointers": [], "related_record_ids": ["AIMech:DeepDeterministicPolicyGradient"], "source_payload": {"access_scope": "Historical discovery object, saved-review boundary and current record text inspected; no new original-primary-method reading or separate concept assertion.", "candidate": "Deterministic policy gradient", "canonical_action": "Retain the original pending question in additive source accounting. Do not append a frontier row or modify the related records during this cohort.", "current_owner_assessment": "No explicit corresponding source-question owner found in the current 913 main and 394 nested objects using complete recursive fields and bounded semantic inspection of matches. DDPG/DQN component mentions do not establish equivalence to or resolution of a separate source identity.", "disposition": "pending_inspection", "next_check": "Resolve exact identity and representation scope against both collections, then inspect the primary defining source; a shared component or related method is not automatically a new record.", "novel_concept_asserted": false, "question_id": "H355-R1", "related_record_ids": ["AIMech:DeepDeterministicPolicyGradient"], "source": {"historical_report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T034528Z-reinforcement-learning-methods.json", "sha256": "77986405a5635886714741dba5154ac6b6b3aa3e73e7db09269a2cf2782e1c68"}, "matching_group_content_sha256": "35f4d283d96d6184d8df2300419749431a63d86de6b93ba1920b69912a0037e5", "matching_group_index": 277, "original_object": {"candidate": "Deterministic policy gradient", "disposition": "pending_inspection", "next_check": "Resolve exact identity and representation scope against both collections, then inspect the primary defining source; a shared component or related method is not automatically a new record.", "origin": "DDPG method"}, "pointer": "/new_frontier/7"}}}, {"access_scope": "Historical discovery object, saved-review boundary and current record text inspected; no new original-primary-method reading or separate concept assertion.", "candidate": "Experience replay", "disposition": "pending_inspection", "next_check": "Resolve exact identity and representation scope against both collections, then inspect the primary defining source; a shared component or related method is not automatically a new record.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-context220-439-20261016/pending-questions.json", "sha256": "b531fd652aad7a8baeca6fa4b747b58ec7a397ac598c1709000bd9bc6040144c"}, "pointer": "/1"}, "question_id": "H355-R2", "related_owner_pointers": [], "related_record_ids": ["AIMech:DeepDeterministicPolicyGradient", "AIMech:DeepQNetwork"], "source_payload": {"access_scope": "Historical discovery object, saved-review boundary and current record text inspected; no new original-primary-method reading or separate concept assertion.", "candidate": "Experience replay", "canonical_action": "Retain the original pending question in additive source accounting. Do not append a frontier row or modify the related records during this cohort.", "current_owner_assessment": "No explicit corresponding source-question owner found in the current 913 main and 394 nested objects using complete recursive fields and bounded semantic inspection of matches. DDPG/DQN component mentions do not establish equivalence to or resolution of a separate source identity.", "disposition": "pending_inspection", "next_check": "Resolve exact identity and representation scope against both collections, then inspect the primary defining source; a shared component or related method is not automatically a new record.", "novel_concept_asserted": false, "question_id": "H355-R2", "related_record_ids": ["AIMech:DeepDeterministicPolicyGradient", "AIMech:DeepQNetwork"], "source": {"historical_report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T034528Z-reinforcement-learning-methods.json", "sha256": "77986405a5635886714741dba5154ac6b6b3aa3e73e7db09269a2cf2782e1c68"}, "matching_group_content_sha256": "35f4d283d96d6184d8df2300419749431a63d86de6b93ba1920b69912a0037e5", "matching_group_index": 277, "original_object": {"candidate": "Experience replay", "disposition": "pending_inspection", "next_check": "Resolve exact identity and representation scope against both collections, then inspect the primary defining source; a shared component or related method is not automatically a new record.", "origin": "DQN/DDPG methods"}, "pointer": "/new_frontier/10"}}}, {"access_scope": "Historical discovery object, saved-review boundary and current record text inspected; no new original-primary-method reading or separate concept assertion.", "candidate": "Target network", "disposition": "pending_inspection", "next_check": "Resolve exact identity and representation scope against both collections, then inspect the primary defining source; a shared component or related method is not automatically a new record.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-context220-439-20261016/pending-questions.json", "sha256": "b531fd652aad7a8baeca6fa4b747b58ec7a397ac598c1709000bd9bc6040144c"}, "pointer": "/2"}, "question_id": "H355-R3", "related_owner_pointers": [], "related_record_ids": ["AIMech:DeepDeterministicPolicyGradient", "AIMech:DeepQNetwork"], "source_payload": {"access_scope": "Historical discovery object, saved-review boundary and current record text inspected; no new original-primary-method reading or separate concept assertion.", "candidate": "Target network", "canonical_action": "Retain the original pending question in additive source accounting. Do not append a frontier row or modify the related records during this cohort.", "current_owner_assessment": "No explicit corresponding source-question owner found in the current 913 main and 394 nested objects using complete recursive fields and bounded semantic inspection of matches. DDPG/DQN component mentions do not establish equivalence to or resolution of a separate source identity.", "disposition": "pending_inspection", "next_check": "Resolve exact identity and representation scope against both collections, then inspect the primary defining source; a shared component or related method is not automatically a new record.", "novel_concept_asserted": false, "question_id": "H355-R3", "related_record_ids": ["AIMech:DeepDeterministicPolicyGradient", "AIMech:DeepQNetwork"], "source": {"historical_report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T034528Z-reinforcement-learning-methods.json", "sha256": "77986405a5635886714741dba5154ac6b6b3aa3e73e7db09269a2cf2782e1c68"}, "matching_group_content_sha256": "35f4d283d96d6184d8df2300419749431a63d86de6b93ba1920b69912a0037e5", "matching_group_index": 277, "original_object": {"candidate": "Target network", "disposition": "pending_inspection", "next_check": "Resolve exact identity and representation scope against both collections, then inspect the primary defining source; a shared component or related method is not automatically a new record.", "origin": "DQN/DDPG stabilization"}, "pointer": "/new_frontier/11"}}}, {"access_scope": "An explicit historical pending object, visible through a later embedded identity-search result. The original method itself has not been read.", "candidate": "Spatial Sensitive Grad-CAM++", "disposition": "pending_inspection", "next_check": "Locate the exact CVF2024 workshop source named by the original historical pointer, compare its mechanism and aliases against GradCAM and GuidedGradCAM and other attribution variants, and retain an explicit pending or supported existing-owner disposition. Shared Grad-CAM wording is not an identity decision.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/0"}, "question_id": "H355-SCI-H1", "related_owner_pointers": [], "related_record_ids": ["AIMech:GradCAM", "AIMech:GuidedGradCAM"], "source_payload": {"blocking_current_candidates": false, "candidate": "Spatial Sensitive Grad-CAM++", "discovery_scope": "An explicit historical pending object, visible through a later embedded identity-search result. The original method itself has not been read.", "group_occurrence_bindings_reference": {"count": 3, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/0/group_occurrence_bindings", "sha256": "5b97d476de217457515199d38ed4bbd47a1821c22d2dc33a8494890edf9a9cb5"}, "id": "H355-SCI-H1", "kind": "historical_pending_pointer_accounting", "next_check": "Locate the exact CVF2024 workshop source named by the original historical pointer, compare its mechanism and aliases against GradCAM and GuidedGradCAM and other attribution variants, and retain an explicit pending or supported existing-owner disposition. Shared Grad-CAM wording is not an identity decision.", "observed_in_groups": [497], "origin": {"object_sha256": "536a76d1f5d86e8be23671b7e1a781b36208aaec2ba1e34a84d1cc71d1d90630", "original_object": {"candidate": "Spatial Sensitive Grad-CAM++", "disposition": "pending_inspection", "next_check": "Resolve identity and component/variant boundaries against existing records, then inspect the defining primary source. A mention or similar name does not establish a new concept.", "origin": "CVF 2024 workshop search result"}, "pointer": "/new_frontier/18", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T035430Z-attribution-methods.json", "sha256": "8d0137e23ddc9f28ed1c1026d6bcf6310b82a5a11ea447477e0165a98c446500"}}, "owner_assignment": null, "possible_existing_owners": [], "related_current_record_ids": ["AIMech:GradCAM", "AIMech:GuidedGradCAM"], "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "candidate": "Nonparametric empirical Bayes for the Dirichlet process mixture model", "disposition": "pending_inspection", "next_check": "The existing topic cohort explicitly retains DP variational inference and HDP/nested-CRP models, but does not explicitly resolve this empirical-Bayes source. Determine whether its estimand/procedure is already represented or belongs within that cohort.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/1"}, "question_id": "H355-SCI-B1", "related_owner_pointers": ["/prior_frontier_accounting/425"], "related_record_ids": ["AIMech:LatentDirichletAllocation", "AIMech:BlackBoxVariationalInference"], "source_payload": {"blocking_current_candidates": false, "candidate": "Nonparametric empirical Bayes for the Dirichlet process mixture model", "discovery_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "id": "H355-SCI-B1", "kind": "incidental_historical_source_question", "next_check": "The existing topic cohort explicitly retains DP variational inference and HDP/nested-CRP models, but does not explicitly resolve this empirical-Bayes source. Determine whether its estimand/procedure is already represented or belongs within that cohort.", "origin_evidence": [{"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt", "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character": 2104, "exact_text": "Nonparametric empirical B ayes for the D irichlet process mixture model", "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/1/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"}, "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1", "start_character": 2033}], "owner_assignment": null, "possible_existing_owners": [425], "related_current_record_ids": ["AIMech:LatentDirichletAllocation", "AIMech:BlackBoxVariationalInference"], "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "candidate": "Probabilistic Models of Text and Images (Blei 2004 thesis)", "disposition": "pending_inspection", "next_check": "This thesis is a discovery source, not one established new method. Compare its chapters with existing LDA and pending annotated/cross-modal sources; retain only distinct, evidenced methods or version questions after reading.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/2"}, "question_id": "H355-SCI-B2", "related_owner_pointers": ["/prior_frontier_accounting/425"], "related_record_ids": ["AIMech:LatentDirichletAllocation"], "source_payload": {"blocking_current_candidates": false, "candidate": "Probabilistic Models of Text and Images (Blei 2004 thesis)", "discovery_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "id": "H355-SCI-B2", "kind": "incidental_historical_source_question", "next_check": "This thesis is a discovery source, not one established new method. Compare its chapters with existing LDA and pending annotated/cross-modal sources; retain only distinct, evidenced methods or version questions after reading.", "origin_evidence": [{"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt", "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character": 2515, "exact_text": "Probabilistic Models of Text and Images", "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/2/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"}, "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1", "start_character": 2476}], "owner_assignment": null, "possible_existing_owners": [425], "related_current_record_ids": ["AIMech:LatentDirichletAllocation"], "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "candidate": "Hierarchical Bayesian models for applications in information retrieval", "disposition": "pending_inspection", "next_check": "The Blei–Ng–Jordan chapter may overlap existing LDA evidence. Read and compare the actual chapter before deciding source-only duplication, evidence extension or distinct mechanism; broad title similarity is insufficient.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/3"}, "question_id": "H355-SCI-B3", "related_owner_pointers": ["/prior_frontier_accounting/425"], "related_record_ids": ["AIMech:LatentDirichletAllocation"], "source_payload": {"blocking_current_candidates": false, "candidate": "Hierarchical Bayesian models for applications in information retrieval", "discovery_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "id": "H355-SCI-B3", "kind": "incidental_historical_source_question", "next_check": "The Blei–Ng–Jordan chapter may overlap existing LDA evidence. Read and compare the actual chapter before deciding source-only duplication, evidence extension or distinct mechanism; broad title similarity is insufficient.", "origin_evidence": [{"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt", "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character": 2705, "exact_text": "Hierarchical B ayesian models for applications in information retrieval", "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/3/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"}, "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1", "start_character": 2634}], "owner_assignment": null, "possible_existing_owners": [425], "related_current_record_ids": ["AIMech:LatentDirichletAllocation"], "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "candidate": "Predicting the performance of linearly combined IR systems", "disposition": "pending_inspection", "next_check": "The nearest retrieval cohort concerns query likelihood and document expansion, not an established account of this combination-performance source. Establish the original reference and whether it defines a reusable AI procedure, an evaluation theory or merely contextual evidence.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/4"}, "question_id": "H355-SCI-B4", "related_owner_pointers": ["/prior_frontier_accounting/468"], "related_record_ids": [], "source_payload": {"blocking_current_candidates": false, "candidate": "Predicting the performance of linearly combined IR systems", "discovery_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "id": "H355-SCI-B4", "kind": "incidental_historical_source_question", "next_check": "The nearest retrieval cohort concerns query likelihood and document expansion, not an established account of this combination-performance source. Establish the original reference and whether it defines a reusable AI procedure, an evaluation theory or merely contextual evidence.", "origin_evidence": [{"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt", "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character": 11328, "exact_text": "Predicting the performance of linearly combined IR systems", "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/4/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"}, "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1", "start_character": 11270}, {"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt", "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character": 12323, "exact_text": "Predicting the performance of linearly combined IR systems", "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/4/origin_evidence/1/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"}, "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1", "start_character": 12265}], "owner_assignment": null, "possible_existing_owners": [468], "related_current_record_ids": [], "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "candidate": "A Similarity-based Probability Model for Latent Semantic Indexing", "disposition": "pending_inspection", "next_check": "The retained SIGIR listing gives a title only. Resolve its source/authors and compare with PLSA, SVD-LSI and the existing dyadic-clustering owner before assigning an owner or claiming distinctness.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/5"}, "question_id": "H355-SCI-B5", "related_owner_pointers": ["/prior_frontier_accounting/421"], "related_record_ids": ["AIMech:ProbabilisticLatentSemanticAnalysis"], "source_payload": {"blocking_current_candidates": false, "candidate": "A Similarity-based Probability Model for Latent Semantic Indexing", "discovery_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "id": "H355-SCI-B5", "kind": "incidental_historical_source_question", "next_check": "The retained SIGIR listing gives a title only. Resolve its source/authors and compare with PLSA, SVD-LSI and the existing dyadic-clustering owner before assigning an owner or claiming distinctness.", "origin_evidence": [{"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt", "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character": 23746, "exact_text": "A Similarity-based Probability Model for Latent Semantic Indexing", "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/5/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"}, "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1", "start_character": 23681}], "owner_assignment": null, "possible_existing_owners": [421], "related_current_record_ids": ["AIMech:ProbabilisticLatentSemanticAnalysis"], "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "candidate": "A Hierarchical Model for Clustering and Categorising Documents", "disposition": "pending_inspection", "next_check": "The source is a third-party bibliography snippet. Compare the actual 2002 paper with current annotated/nonparametric topics and distinct owners490/491; those owners name different later sources and do not establish identity.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/6"}, "question_id": "H355-SCI-B6", "related_owner_pointers": ["/prior_frontier_accounting/425", "/prior_frontier_accounting/490", "/prior_frontier_accounting/491"], "related_record_ids": ["AIMech:LatentDirichletAllocation"], "source_payload": {"blocking_current_candidates": false, "candidate": "A Hierarchical Model for Clustering and Categorising Documents", "discovery_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "id": "H355-SCI-B6", "kind": "incidental_historical_source_question", "next_check": "The source is a third-party bibliography snippet. Compare the actual 2002 paper with current annotated/nonparametric topics and distinct owners490/491; those owners name different later sources and do not establish identity.", "origin_evidence": [{"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt", "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character": 29688, "exact_text": "A Hierarchical Model for Clustering and Categorising Documents", "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/6/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"}, "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1", "start_character": 29626}], "owner_assignment": null, "possible_existing_owners": [425, 490, 491], "related_current_record_ids": ["AIMech:LatentDirichletAllocation"], "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "candidate": "Variational Inference: a review for statisticians", "disposition": "pending_inspection", "next_check": "This secondary biographical snippet identifies a review source. Resolve the actual version and use its cited originals for bounded discovery; do not add a record for the review title or treat generic VI records as an explicit disposition.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/7"}, "question_id": "H355-SCI-B7", "related_owner_pointers": ["/prior_frontier_accounting/426"], "related_record_ids": ["AIMech:BlackBoxVariationalInference", "AIMech:FullyFactorizedMeanFieldInference", "AIMech:VariationalExpectationMaximization"], "source_payload": {"blocking_current_candidates": false, "candidate": "Variational Inference: a review for statisticians", "discovery_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "id": "H355-SCI-B7", "kind": "incidental_historical_source_question", "next_check": "This secondary biographical snippet identifies a review source. Resolve the actual version and use its cited originals for bounded discovery; do not add a record for the review title or treat generic VI records as an explicit disposition.", "origin_evidence": [{"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt", "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character": 28331, "exact_text": "Variational Inference, a review for statisticians", "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/7/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"}, "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1", "start_character": 28282}], "owner_assignment": null, "possible_existing_owners": [426], "related_current_record_ids": ["AIMech:BlackBoxVariationalInference", "AIMech:FullyFactorizedMeanFieldInference", "AIMech:VariationalExpectationMaximization"], "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "candidate": "Foundational TF-IDF term weighting and Salton–McGill1983 source scope", "disposition": "pending_inspection", "next_check": "Owner140 explicitly covers TF-IDF word replacement for augmentation; maintained UDA uses that component and harmonium compares against TF-IDF retrieval. The foundational weighting/source identity is not explicitly resolved by those scoped uses. Inspect the original formulation/version and decide representation/component/owner scope without assuming a new algorithm.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/8"}, "question_id": "H355-SCI-B8", "related_owner_pointers": ["/prior_frontier_accounting/140"], "related_record_ids": ["AIMech:UnsupervisedDataAugmentation", "AIMech:ExponentialFamilyHarmonium"], "source_payload": {"blocking_current_candidates": false, "candidate": "Foundational TF-IDF term weighting and Salton–McGill1983 source scope", "discovery_scope": "Previously retained search output only, newly reconciled now. No original method reading, novelty decision or full source validation.", "id": "H355-SCI-B8", "kind": "incidental_historical_source_question", "next_check": "Owner140 explicitly covers TF-IDF word replacement for augmentation; maintained UDA uses that component and harmonium compares against TF-IDF retrieval. The foundational weighting/source identity is not explicitly resolved by those scoped uses. Inspect the original formulation/version and decide representation/component/owner scope without assuming a new algorithm.", "origin_evidence": [{"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt", "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character": 8190, "exact_text": "*tf-idf* scheme (Salton and McGill, 1983)", "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json", "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer": "/questions/8/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"}, "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1", "start_character": 8149}], "owner_assignment": null, "possible_existing_owners": [140], "related_current_record_ids": ["AIMech:UnsupervisedDataAugmentation", "AIMech:ExponentialFamilyHarmonium"], "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Historical review boundary appearing in groups49 and413 (with further embedded repetition) only; no specific later primary source or additional concept has been established.", "candidate": "Later SAC implementations: unspecified source/version", "disposition": "pending_inspection", "next_check": "Identify the precise later SAC source/version and compare it with the maintained original2018 state-value formulation before deciding source enrichment, variant scope or distinct identity. Do not conflate this generic uncertainty with Soft Q-learning.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-context220-439-20261016/selected-original-boundary-decisions.json", "sha256": "5e0dfa47076bdf04d04bc01000d79f21516a7970ad1d64359011b0fb30d58061"}, "pointer": "/1/boundary_decisions/1"}, "question_id": "H355-SAC-VERSION", "related_owner_pointers": [], "related_record_ids": ["AIMech:SoftActorCritic"], "source_payload": {"action": "defer", "evidence_ids": ["mapping-source", "discovery"], "rationale": "A complete fine-grained hierarchy and variants such as GATv2, AdamW, Kernel SHAP and later SAC implementations need separate source and identity assessments; the current related mappings do not force equivalence.", "target_ids": ["AIMech:Adam", "AIMech:ProximalPolicyOptimization", "AIMech:SoftActorCritic", "AIMech:GraphSAGE", "AIMech:GraphAttentionNetwork", "AIMech:GraphIsomorphismNetwork", "AIMech:SHAP", "AIMech:LIME"]}}], "root_acceptance": {"path": "/private/tmp/aimech-cohort355-incidental-accounting-successors-20261016/root-acceptance.json", "sha256": "f51ceb14ba50aac45ae85420507eb6e0948bdbfe3dc8ca71296d517766e7c9f0"}, "scope": "Incidental historical pointers and bibliography/source questions remain pending. Existing record or owner links are context, not equivalence or proof of completed source research. No new concept, frontier row, primary-source reading, or issue closure is asserted by this accounting.", "status": "pending_source_identity_and_owner_reconciliation"}
+- predecessor_incidental_source_audit: {"path": "/private/tmp/aimech-cohort355-exact-head-audit-20261016/assessment.json", "sha256": "a034364a63e6f27ceda4f336f783e112fd5f051a04ad4472dd84b63d362283a3"}
+- predecessor_search_source_followup_accounting: {"lead_owner_policy": {"path": "/private/tmp/aimech-ehc-lss-cohort356-preparation-20261015/lead-owner-policy.structure.json", "sha256": "a5dddb18802638e11a98af4075f10eab6d881ea406f1a367178c489ec5a42ebc"}, "new_main_rows": 0, "new_nested_rows": 0, "responsible_owners": ["main:910", "nested:393"], "retained_source_followup_objects": 12, "root_decisions": {"main:910": [{"assessment": "The full FF system combines this controller with a particular relaxed-plan heuristic, pruning and fallback. EHC creation does not represent that composition; retain component-versus-system identity research under main 910.", "disposition": "pending_inspection", "next_check": "Decide whether the scientifically useful native identity is the composite planning algorithm rather than a particular software release; distinguish relaxed-plan heuristic, pruning and fallback components.", "original": {"candidate": "FF planning architecture and full controller composition", "disposition": "pending_inspection", "locator": "Section2 Figure1 and Section5.2, PDF3 and15", "next_check": "Decide whether the scientifically useful native identity is the composite planning algorithm rather than a particular software release; distinguish relaxed-plan heuristic, pruning and fallback components.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "FF planning architecture and full controller composition", "locator": "Section2 Figure1 and Section5.2, PDF3 and15", "next_check": "Decide whether the scientifically useful native identity is the composite planning algorithm rather than a particular software release; distinguish relaxed-plan heuristic, pruning and fallback components."}, "pointer": "/leads/0"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}}, {"assessment": "Relaxed GRAPHPLAN extraction computes the supplied heuristic, rather than the escape controller itself. It is distinct from optimal h-plus and original GRAPHPLAN. Retain its own method/tie/identity assessment under main 910.", "disposition": "pending_inspection", "next_check": "Assess heuristic identity, relaxed-plan extraction and tie conventions; distinguish optimal h-plus and the original complete GRAPHPLAN algorithm. The method was read for context but no dedicated candidate dossier has been completed.", "original": {"candidate": "Relaxed GRAPHPLAN heuristic used by FF", "disposition": "pending_inspection", "locator": "Section4, PDF5–12", "next_check": "Assess heuristic identity, relaxed-plan extraction and tie conventions; distinguish optimal h-plus and the original complete GRAPHPLAN algorithm. The method was read for context but no dedicated candidate dossier has been completed.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "Relaxed GRAPHPLAN heuristic used by FF", "locator": "Section4, PDF5–12", "next_check": "Assess heuristic identity, relaxed-plan extraction and tie conventions; distinguish optimal h-plus and the original complete GRAPHPLAN algorithm. The method was read for context but no dedicated candidate dossier has been completed."}, "pointer": "/leads/1"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}}, {"assessment": "The first-layer relaxed-subgoal action restriction is a pruning component with an explicit incompleteness boundary. It is neither an EHC alias nor ordinary helpful-action prose; retain source-scoped assessment under main 910.", "disposition": "pending_inspection", "next_check": "Evaluate the equation5 set of applicable actions achieving at least one first-layer relaxed subgoal, not simply selected first-step actions; retain the explicit incompleteness counterexample and ADL equation6 extension.", "original": {"candidate": "Helpful-actions pruning", "disposition": "pending_inspection", "locator": "Section6.1, PDF16–19", "next_check": "Evaluate the equation5 set of applicable actions achieving at least one first-layer relaxed subgoal, not simply selected first-step actions; retain the explicit incompleteness counterexample and ADL equation6 extension.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "Helpful-actions pruning", "locator": "Section6.1, PDF16–19", "next_check": "Evaluate the equation5 set of applicable actions achieving at least one first-layer relaxed subgoal, not simply selected first-step actions; retain the explicit incompleteness counterexample and ADL equation6 extension."}, "pointer": "/leads/2"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}}, {"assessment": "Newly-achieved-goal bookkeeping and deletion-based restriction constitute a separate pruning question. Retain the counterexample and distinguish the goal-agenda method; no identity acceptance follows from EHC.", "disposition": "pending_inspection", "next_check": "Assess goal/newly-achieved-goal bookkeeping and the unavoidable-delete counterexample; distinguish the Goal Agenda method.", "original": {"candidate": "Added-goal-deletion pruning", "disposition": "pending_inspection", "locator": "Section6.2, PDF19–21", "next_check": "Assess goal/newly-achieved-goal bookkeeping and the unavoidable-delete counterexample; distinguish the Goal Agenda method.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "Added-goal-deletion pruning", "locator": "Section6.2, PDF19–21", "next_check": "Assess goal/newly-achieved-goal bookkeeping and the unavoidable-delete counterexample; distinguish the Goal Agenda method."}, "pointer": "/leads/3"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}}, {"assessment": "The adapted FF agenda passage does not substitute for Koehler 1998 and Koehler–Hoffmann 2000 original-source inspection. Retain the agenda/composition question under main 910.", "disposition": "pending_inspection", "next_check": "Acquire the original Koehler 1998 and Koehler–Hoffmann 2000 source; the brief adapted FF mechanism alone is not a full original-method assessment.", "original": {"candidate": "Goal agenda planning", "disposition": "pending_inspection", "locator": "Section6.2.2 and references, PDF20–21,48", "next_check": "Acquire the original Koehler1998 and Koehler–Hoffmann2000 source; the brief adapted FF mechanism alone is not a full original-method assessment.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "Goal agenda planning", "locator": "Section6.2.2 and references, PDF20–21,48", "next_check": "Acquire the original Koehler1998 and Koehler–Hoffmann2000 source; the brief adapted FF mechanism alone is not a full original-method assessment."}, "pointer": "/leads/4"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}}, {"assessment": "HSP system versions, backward-search variation and the h-add heuristic require source-specific separation; neither maintained hill climbing nor EHC resolves this citation group. Retain under main 910 without a novelty assertion. Fresh search group 1 retains https://www.scribd.com/document/2604605/hsp-r from the historical state-cost-search report as an uninspected search-return URL, not authenticated primary evidence.", "disposition": "pending_inspection", "next_check": "Follow Bonet–Geffner primary publications and separate the h-add heuristic, HSP1 hill-climbing implementation, HSP-r backward search and system identity. No original HSP source was read. Reconcile that historical Scribd hsp-r retrieval route with an authoritative original before using it as evidence.", "original": {"candidate": "HSP heuristic search planner and additive heuristic", "disposition": "pending_inspection", "locator": "Section4 introduction, Section9, bibliography PDF5,44–45,47", "next_check": "Follow Bonet–Geffner primary publications and separate the h-add heuristic, HSP1 hill-climbing implementation, HSP-r backward search and system identity. No original HSP source was read.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "HSP heuristic search planner and additive heuristic", "locator": "Section4 introduction, Section9, bibliography PDF5,44–45,47", "next_check": "Follow Bonet–Geffner primary publications and separate the h-add heuristic, HSP1 hill-climbing implementation, HSP-r backward search and system identity. No original HSP source was read."}, "pointer": "/leads/5"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}}, {"assessment": "The ISMIS 2000 citation is an earlier-source/version question for the EHC method, not automatically another concept. The accepted2001 record explicitly disclaims original-source reading and invention priority; retain source follow-up.", "disposition": "source_followup", "next_check": "Acquire Hoffmann2000, A heuristic for domain independent planning and its use in an enforced hill-climbing algorithm, pp216–227. This is earlier-source/version follow-up for EHC, not automatically a new concept.", "original": {"candidate": "ISMIS2000 enforced hill-climbing predecessor", "disposition": "pending_inspection", "locator": "Acknowledgments/reference PDF46–47", "next_check": "Acquire Hoffmann2000, A heuristic for domain independent planning and its use in an enforced hill-climbing algorithm, pp216–227. This is earlier-source/version follow-up for EHC, not automatically a new concept.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "ISMIS2000 enforced hill-climbing predecessor", "locator": "Acknowledgments/reference PDF46–47", "next_check": "Acquire Hoffmann2000, A heuristic for domain independent planning and its use in an enforced hill-climbing algorithm, pp216–227. This is earlier-source/version follow-up for EHC, not automatically a new concept."}, "pointer": "/leads/6"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}}], "nested:393": [{"assessment": "The 2006 RTAA primary paper was inspected for the F-minus-g update and movement-cap comparison. A distinct current candidate/mapping dossier and historical 2018 source reconciliation are still needed; no RTAA record is added by LSS. Fresh search group 4 retains https://www.cs.unh.edu/~ruml/papers/rtaa-star-socs18.pdf as the uninspected historical 2018 retrieval route; it is not the accepted 2006 primary artifact.", "disposition": "pending_inspection", "next_check": "Build its own current-state candidate/mapping dossier and check the historical 2018 RTAA URL’s relationship; do not treat either as already curated. Resolve the exact historical route https://www.cs.unh.edu/~ruml/papers/rtaa-star-socs18.pdf without assuming its content from its filename.", "original": {"access": "Full primary method and theorem reading completed here as a comparison, exact artifact retained.", "candidate": "RTAA*", "disposition": "pending_inspection", "next_check": "Build its own current-state candidate/mapping dossier and check the historical2018 RTAA URL’s relationship; do not treat either as already curated.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original": {"access": "Full primary method and theorem reading completed here as a comparison, exact artifact retained.", "candidate": "RTAA*", "next_check": "Build its own current-state candidate/mapping dossier and check the historical2018 RTAA URL’s relationship; do not treat either as already curated.", "source": "https://idm-lab.org/bib/abstracts/papers/aamas06.pdf"}, "pointer": "/leads/0"}, "source": "https://idm-lab.org/bib/abstracts/papers/aamas06.pdf"}}, {"assessment": "The2009 comparison describes D* Lite but the original 2002 g/rhs repair method is not claimed read. Ordinary A* and LSS are not equivalent owners; retain original-source and Lifelong Planning A* boundary research under nested 393.", "disposition": "pending_inspection", "next_check": "Acquire original source and analyze incremental g/rhs repair, key/update conditions and relation to Lifelong Planning A*.", "original": {"access": "Only description in inspected comparison article, not original full method.", "candidate": "D* Lite", "disposition": "pending_inspection", "next_check": "Acquire original source and analyze incremental g/rhs repair, key/update conditions and relation to Lifelong Planning A*.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original": {"access": "Only description in inspected comparison article, not original full method.", "candidate": "D* Lite", "next_check": "Acquire original source and analyze incremental g/rhs repair, key/update conditions and relation to Lifelong Planning A*.", "source": "Koenig and Likhachev2002, AAAI,476–483; reference21 in primary manuscript"}, "pointer": "/leads/1"}, "source": "Koenig and Likhachev2002, AAAI,476–483; reference21 in primary manuscript"}}, {"assessment": "The 2004 reference is earlier version/identity continuity for LSS. Retain a source follow-up without claiming either exact equivalence before inspection or a new concept solely from date/name variation.", "disposition": "source_followup", "next_check": "Resolve earlier version and name/method continuity; retain as source follow-up under LSS rather than automatically inventing a separate concept.", "original": {"access": "Bibliographic and2006 methodological context only; original not acquired/read.", "candidate": "LSS2004 predecessor source", "disposition": "pending_inspection", "next_check": "Resolve earlier version and name/method continuity; retain as source follow-up under LSS rather than automatically inventing a separate concept.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original": {"access": "Bibliographic and2006 methodological context only; original not acquired/read.", "candidate": "LSS2004 predecessor source", "next_check": "Resolve earlier version and name/method continuity; retain as source follow-up under LSS rather than automatically inventing a separate concept.", "source": "Koenig2004, A comparison of fast search methods for real-time situated agents, AAMAS864–871; reference20"}, "pointer": "/leads/2"}, "source": "Koenig2004, A comparison of fast search methods for real-time situated agents, AAMAS864–871; reference20"}}, {"assessment": "Complete repeated-search heuristic updates in Adaptive A* need the original2005 source and separation from truncated RTAA/LSS searches. The existing ordinary A* identity does not resolve that question.", "disposition": "pending_inspection", "next_check": "Assess repeated complete-search heuristic learning separately from real-time truncation and existing A* identity.", "original": {"access": "RTAA’s complete-search derivation read; original2005 source unread.", "candidate": "Adaptive A*", "disposition": "pending_inspection", "next_check": "Assess repeated complete-search heuristic learning separately from real-time truncation and existing A* identity.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original": {"access": "RTAA’s complete-search derivation read; original2005 source unread.", "candidate": "Adaptive A*", "next_check": "Assess repeated complete-search heuristic learning separately from real-time truncation and existing A* identity.", "source": "Koenig and Likhachev2005, Adaptive A* poster abstract, AAMAS1311–1312; RTAA reference7"}, "pointer": "/leads/3"}, "source": "Koenig and Likhachev2005, Adaptive A* poster abstract, AAMAS1311–1312; RTAA reference7"}}, {"assessment": "Bulitko–Lee 2006 is a framework/variant inventory requiring original inspection and reconciliation with main 8 and maintained LRTA*/RTA*. Retain the exact reference under nested 393; no bulk novelty assertion.", "disposition": "pending_inspection", "next_check": "Inspect framework and reconcile its concrete variants with main 8 and maintained LRTA/RTA; no bulk novelty claim.", "original": {"access": "Reference only.", "candidate": "Real-time heuristic-search variants and unifying framework", "disposition": "pending_inspection", "next_check": "Inspect framework and reconcile its concrete variants with main8 and maintained LRTA/RTA; no bulk novelty claim.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original": {"access": "Reference only.", "candidate": "Real-time heuristic-search variants and unifying framework", "next_check": "Inspect framework and reconcile its concrete variants with main8 and maintained LRTA/RTA; no bulk novelty claim.", "source": "Bulitko and Lee2006, Learning in real-time search: A unifying framework, JAIR25:119–157; manuscript reference7"}, "pointer": "/leads/4"}, "source": "Bulitko and Lee2006, Learning in real-time search: A unifying framework, JAIR25:119–157; manuscript reference7"}}]}}
+- predecessor_search_source_owner_contexts: {"main:8": {"candidate": "KBFS, multi-state commitment and real-time search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "cohort356_resolution": {"nested_residual_owner": {"family": "nested", "field": "source_followups", "index": 393, "resolution": "cohort356_resolution"}, "previous_sha256": "0164719a964214bec45d2c17fea332148d03c77c979b771eba840c13d9700762", "reason": "Add the separately evidenced LSS-LRTA* algorithm through its existing nested 393 responsibility. KBFS, multi-state commitment and other real-time variants remain unresolved; this umbrella is not exhausted.", "record_ids": ["AIMech:LocalSearchSpaceLearningRealTimeAStar"], "source_pointer_scope": "Real-time-search umbrella retains KBFS and multi-state commitment source scope. LSS is resolved through nested393; pending LSS citation residuals live there, not duplicated under cross-links3/286."}, "disposition": "partially_addressed", "next_check": "Inspect the original KBFS/multi-state commitment sources and retain the five LSS-specific source/variant questions under nested 393; do not duplicate their responsibility under crosslinks 3/286.", "record_ids": ["AIMech:LocalSearchSpaceLearningRealTimeAStar"], "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "main:910": {"access_scope": "Only the 2010 comparison sections and bibliography were inspected for this restoration; the original FF full method is not claimed read.", "candidate": "Enforced hill climbing", "cohort356_resolution": {"previous_sha256": "a7e6a83b7195283182cff13cf77bb177b3f810b72011ae31a016321025aa462a", "reason": "Add the 2001 unpruned EHC controller while retaining the full FF composition, relaxed heuristic, two pruning components, goal agenda, HSP and 2000 predecessor as seven explicit unresolved source questions.", "record_ids": ["AIMech:EnforcedHillClimbing"], "source_followups": [{"candidate": "FF planning architecture and full controller composition", "disposition": "pending_inspection", "locator": "Section2 Figure1 and Section5.2, PDF3 and15", "next_check": "Decide whether the scientifically useful native identity is the composite planning algorithm rather than a particular software release; distinguish relaxed-plan heuristic, pruning and fallback components.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "FF planning architecture and full controller composition", "locator": "Section2 Figure1 and Section5.2, PDF3 and15", "next_check": "Decide whether the scientifically useful native identity is the composite planning algorithm rather than a particular software release; distinguish relaxed-plan heuristic, pruning and fallback components."}, "pointer": "/leads/0"}, "reconciliation": "The full FF system combines this controller with a particular relaxed-plan heuristic, pruning and fallback. EHC creation does not represent that composition; retain component-versus-system identity research under main 910.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}, {"candidate": "Relaxed GRAPHPLAN heuristic used by FF", "disposition": "pending_inspection", "locator": "Section4, PDF5–12", "next_check": "Assess heuristic identity, relaxed-plan extraction and tie conventions; distinguish optimal h-plus and the original complete GRAPHPLAN algorithm. The method was read for context but no dedicated candidate dossier has been completed.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "Relaxed GRAPHPLAN heuristic used by FF", "locator": "Section4, PDF5–12", "next_check": "Assess heuristic identity, relaxed-plan extraction and tie conventions; distinguish optimal h-plus and the original complete GRAPHPLAN algorithm. The method was read for context but no dedicated candidate dossier has been completed."}, "pointer": "/leads/1"}, "reconciliation": "Relaxed GRAPHPLAN extraction computes the supplied heuristic, rather than the escape controller itself. It is distinct from optimal h-plus and original GRAPHPLAN. Retain its own method/tie/identity assessment under main 910.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}, {"candidate": "Helpful-actions pruning", "disposition": "pending_inspection", "locator": "Section6.1, PDF16–19", "next_check": "Evaluate the equation5 set of applicable actions achieving at least one first-layer relaxed subgoal, not simply selected first-step actions; retain the explicit incompleteness counterexample and ADL equation6 extension.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "Helpful-actions pruning", "locator": "Section6.1, PDF16–19", "next_check": "Evaluate the equation5 set of applicable actions achieving at least one first-layer relaxed subgoal, not simply selected first-step actions; retain the explicit incompleteness counterexample and ADL equation6 extension."}, "pointer": "/leads/2"}, "reconciliation": "The first-layer relaxed-subgoal action restriction is a pruning component with an explicit incompleteness boundary. It is neither an EHC alias nor ordinary helpful-action prose; retain source-scoped assessment under main 910.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}, {"candidate": "Added-goal-deletion pruning", "disposition": "pending_inspection", "locator": "Section6.2, PDF19–21", "next_check": "Assess goal/newly-achieved-goal bookkeeping and the unavoidable-delete counterexample; distinguish the Goal Agenda method.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "Added-goal-deletion pruning", "locator": "Section6.2, PDF19–21", "next_check": "Assess goal/newly-achieved-goal bookkeeping and the unavoidable-delete counterexample; distinguish the Goal Agenda method."}, "pointer": "/leads/3"}, "reconciliation": "Newly-achieved-goal bookkeeping and deletion-based restriction constitute a separate pruning question. Retain the counterexample and distinguish the goal-agenda method; no identity acceptance follows from EHC.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}, {"candidate": "Goal agenda planning", "disposition": "pending_inspection", "locator": "Section6.2.2 and references, PDF20–21,48", "next_check": "Acquire the original Koehler 1998 and Koehler–Hoffmann 2000 source; the brief adapted FF mechanism alone is not a full original-method assessment.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "Goal agenda planning", "locator": "Section6.2.2 and references, PDF20–21,48", "next_check": "Acquire the original Koehler1998 and Koehler–Hoffmann2000 source; the brief adapted FF mechanism alone is not a full original-method assessment."}, "pointer": "/leads/4"}, "reconciliation": "The adapted FF agenda passage does not substitute for Koehler 1998 and Koehler–Hoffmann 2000 original-source inspection. Retain the agenda/composition question under main 910.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}, {"candidate": "HSP heuristic search planner and additive heuristic", "disposition": "pending_inspection", "locator": "Section4 introduction, Section9, bibliography PDF5,44–45,47", "next_check": "Follow Bonet–Geffner primary publications and separate the h-add heuristic, HSP1 hill-climbing implementation, HSP-r backward search and system identity. No original HSP source was read. Reconcile that historical Scribd hsp-r retrieval route with an authoritative original before using it as evidence.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "HSP heuristic search planner and additive heuristic", "locator": "Section4 introduction, Section9, bibliography PDF5,44–45,47", "next_check": "Follow Bonet–Geffner primary publications and separate the h-add heuristic, HSP1 hill-climbing implementation, HSP-r backward search and system identity. No original HSP source was read."}, "pointer": "/leads/5"}, "reconciliation": "HSP system versions, backward-search variation and the h-add heuristic require source-specific separation; neither maintained hill climbing nor EHC resolves this citation group. Retain under main 910 without a novelty assertion. Fresh search group 1 retains https://www.scribd.com/document/2604605/hsp-r from the historical state-cost-search report as an uninspected search-return URL, not authenticated primary evidence.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}, {"candidate": "ISMIS2000 enforced hill-climbing predecessor", "disposition": "source_followup", "locator": "Acknowledgments/reference PDF46–47", "next_check": "Acquire Hoffmann2000, A heuristic for domain independent planning and its use in an enforced hill-climbing algorithm, pp216–227. This is earlier-source/version follow-up for EHC, not automatically a new concept.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original": {"candidate": "ISMIS2000 enforced hill-climbing predecessor", "locator": "Acknowledgments/reference PDF46–47", "next_check": "Acquire Hoffmann2000, A heuristic for domain independent planning and its use in an enforced hill-climbing algorithm, pp216–227. This is earlier-source/version follow-up for EHC, not automatically a new concept."}, "pointer": "/leads/6"}, "reconciliation": "The ISMIS 2000 citation is an earlier-source/version question for the EHC method, not automatically another concept. The accepted2001 record explicitly disclaims original-source reading and invention priority; retain source follow-up.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}], "source_pointer_scope": "Historical2010 comparison pointer remains immutable provenance.2001 unpruned EHC is added; six component/system leads and the unread2000 earlier-source lead remain pending."}, "disposition": "partially_addressed", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Inspect the seven retained source/component questions, including original ISMIS 2000 and component-specific sources; separate system, heuristic and pruning identities before any addition.", "record_ids": ["AIMech:EnforcedHillClimbing"], "related_record_ids": ["AIMech:HillClimbing", "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "nested:393": {"access_scope": "The 2010 comparison and its bibliography were read; no original full-method, convergence-proof or experiment assessment is asserted.", "candidate": "LSS-LRTA-star", "cohort356_resolution": {"previous_sha256": "4fcf5b91edac2864c2b73ce1345ade59c6bf3cb6312b3fb2c8fc71b94c47af15", "reason": "Add source-scoped2009 LSS-LRTA* under its existing main 8 responsibility. The 2006 RTAA paper supplies comparison evidence; it is not an added RTAA record. Five source/variant questions remain distinct.", "record_ids": ["AIMech:LocalSearchSpaceLearningRealTimeAStar"], "source_followups": [{"access": "Full primary method and theorem reading completed here as a comparison, exact artifact retained.", "candidate": "RTAA*", "disposition": "pending_inspection", "next_check": "Build its own current-state candidate/mapping dossier and check the historical 2018 RTAA URL’s relationship; do not treat either as already curated. Resolve the exact historical route https://www.cs.unh.edu/~ruml/papers/rtaa-star-socs18.pdf without assuming its content from its filename.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original": {"access": "Full primary method and theorem reading completed here as a comparison, exact artifact retained.", "candidate": "RTAA*", "next_check": "Build its own current-state candidate/mapping dossier and check the historical2018 RTAA URL’s relationship; do not treat either as already curated.", "source": "https://idm-lab.org/bib/abstracts/papers/aamas06.pdf"}, "pointer": "/leads/0"}, "reconciliation": "The 2006 RTAA primary paper was inspected for the F-minus-g update and movement-cap comparison. A distinct current candidate/mapping dossier and historical 2018 source reconciliation are still needed; no RTAA record is added by LSS. Fresh search group 4 retains https://www.cs.unh.edu/~ruml/papers/rtaa-star-socs18.pdf as the uninspected historical 2018 retrieval route; it is not the accepted 2006 primary artifact.", "source": "https://idm-lab.org/bib/abstracts/papers/aamas06.pdf"}, {"access": "Only description in inspected comparison article, not original full method.", "candidate": "D* Lite", "disposition": "pending_inspection", "next_check": "Acquire original source and analyze incremental g/rhs repair, key/update conditions and relation to Lifelong Planning A*.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original": {"access": "Only description in inspected comparison article, not original full method.", "candidate": "D* Lite", "next_check": "Acquire original source and analyze incremental g/rhs repair, key/update conditions and relation to Lifelong Planning A*.", "source": "Koenig and Likhachev2002, AAAI,476–483; reference21 in primary manuscript"}, "pointer": "/leads/1"}, "reconciliation": "The2009 comparison describes D* Lite but the original 2002 g/rhs repair method is not claimed read. Ordinary A* and LSS are not equivalent owners; retain original-source and Lifelong Planning A* boundary research under nested 393.", "source": "Koenig and Likhachev2002, AAAI,476–483; reference21 in primary manuscript"}, {"access": "Bibliographic and2006 methodological context only; original not acquired/read.", "candidate": "LSS2004 predecessor source", "disposition": "source_followup", "next_check": "Resolve earlier version and name/method continuity; retain as source follow-up under LSS rather than automatically inventing a separate concept.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original": {"access": "Bibliographic and2006 methodological context only; original not acquired/read.", "candidate": "LSS2004 predecessor source", "next_check": "Resolve earlier version and name/method continuity; retain as source follow-up under LSS rather than automatically inventing a separate concept.", "source": "Koenig2004, A comparison of fast search methods for real-time situated agents, AAMAS864–871; reference20"}, "pointer": "/leads/2"}, "reconciliation": "The 2004 reference is earlier version/identity continuity for LSS. Retain a source follow-up without claiming either exact equivalence before inspection or a new concept solely from date/name variation.", "source": "Koenig2004, A comparison of fast search methods for real-time situated agents, AAMAS864–871; reference20"}, {"access": "RTAA’s complete-search derivation read; original2005 source unread.", "candidate": "Adaptive A*", "disposition": "pending_inspection", "next_check": "Assess repeated complete-search heuristic learning separately from real-time truncation and existing A* identity.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original": {"access": "RTAA’s complete-search derivation read; original2005 source unread.", "candidate": "Adaptive A*", "next_check": "Assess repeated complete-search heuristic learning separately from real-time truncation and existing A* identity.", "source": "Koenig and Likhachev2005, Adaptive A* poster abstract, AAMAS1311–1312; RTAA reference7"}, "pointer": "/leads/3"}, "reconciliation": "Complete repeated-search heuristic updates in Adaptive A* need the original2005 source and separation from truncated RTAA/LSS searches. The existing ordinary A* identity does not resolve that question.", "source": "Koenig and Likhachev2005, Adaptive A* poster abstract, AAMAS1311–1312; RTAA reference7"}, {"access": "Reference only.", "candidate": "Real-time heuristic-search variants and unifying framework", "disposition": "pending_inspection", "next_check": "Inspect framework and reconcile its concrete variants with main 8 and maintained LRTA/RTA; no bulk novelty claim.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original": {"access": "Reference only.", "candidate": "Real-time heuristic-search variants and unifying framework", "next_check": "Inspect framework and reconcile its concrete variants with main8 and maintained LRTA/RTA; no bulk novelty claim.", "source": "Bulitko and Lee2006, Learning in real-time search: A unifying framework, JAIR25:119–157; manuscript reference7"}, "pointer": "/leads/4"}, "reconciliation": "Bulitko–Lee 2006 is a framework/variant inventory requiring original inspection and reconciliation with main 8 and maintained LRTA*/RTA*. Retain the exact reference under nested 393; no bulk novelty assertion.", "source": "Bulitko and Lee2006, Learning in real-time search: A unifying framework, JAIR25:119–157; manuscript reference7"}], "source_pointer_scope": "Real-time-search umbrella retains KBFS and multi-state commitment source scope. LSS is resolved through nested393; pending LSS citation residuals live there, not duplicated under cross-links3/286."}, "disposition": "partially_addressed", "historical_origin": {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]", "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the remaining comparison sections and original papers; distinguish breadth-first escape from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}, "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check": "Assess the original RTAA*, D* Lite, LSS2004 predecessor, Adaptive A* and Bulitko–Lee framework questions with exact identity/source boundaries; preserve main 3/286 crosslinks and main 8 broader residuals.", "record_ids": ["AIMech:LocalSearchSpaceLearningRealTimeAStar"], "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link to the already explicit additional real-time variants residual; not a second responsible owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot": 286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar", "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}}
+- predecessor_metadata_audit: {"path": "/private/tmp/aimech-cohort356-exact-head-audit.json", "sha256": "b49fc2dbe191b686f17f1891740a756f05ad67e0ba120ba56e41ce988f8ab8aa"}
+- original_355_write: {"path": "/private/tmp/aimech-softq-svgd-cohort355-write.json", "sha256": "456484f26bb178a696dec30090da23d6c63f934bd56a38ec5feea11c998f3dae"}
+- Actual owner-plan/frontier outcome: {"additional_source_question_count": 10, "changed_main_indexes": [], "changed_nested_indexes": [], "main": 914, "nested": 394, "new_main_rows": 1, "new_nested_rows": 0, "retained_bibliography_occurrences": 22, "unchanged_other_main": 913, "unchanged_other_nested": 394}
+- Actual source accounting digest (sorted compact JSON UTF-8): 3fc1c0accaf7fe6a8449ab6de85a557b9eb234c6f9b1074a2972f9a87651b0c5
+- Actual historical/current identity changes: [{"id": "AIMech:RitterGallegosTwoStageOutlierMixtureFitting", "field": "identity_notes", "historical": "The name and POP–BAS–OUT alias are descriptive AIMech labels for Section2.2, not a claim that the authors used them as formal method names. This is the fitting procedure, not the IECO classifier, all robust estimation, generic mixture modeling or an EM update. BAS and OUT may overlap and are not a hard partition. Anscombe premium protection and ellipsoidal trimming are cited predecessors, not exact aliases. At historical clean base 14e9168ee3496e914545ae5c449e3ee190f0294b, normalized comparison covered all786 native IDs/names/aliases and442 AIO IDs/labels/scoped synonyms. All511 distinct matching texts from four ignored-inclusive roots were read, along with360 semantic ID/name/alias/definition projections,17 selected native mechanism/limitation projections and19 exact AIO CLASS nodes with all annotations and outgoing edges. No duplicate identity was established in that scoped corpus. This does not clear a future write base or establish global novelty.", "current": "Current identity assessment at base 7d38dafe42243c93664bc246a5ff77beca593cd3 compared the IDs, names, aliases and scoped synonyms of all 1234 records (4896 field occurrences; 3739 unique normalized values), 19 AIO contexts and 17 native neighbors against the accepted unchanged historical records, plus the current ignored/hidden-inclusive four-root search and full frontier labels with matched/plausible owner bodies. This record is the threshold-driven POP/BAS/OUT component-law fitting procedure, separate from the IECO classifier that consumes distributions and class-slot constraints. EM/CEM and fixed-weight EM optimize other objectives; SVDD, LOF and nearest-neighbor data descriptions estimate support or scores, and Cutout is image augmentation. No exact pinned AIO identity was established in the inspected scope; the selected AIO:MachineLearningTask related_match connects an algorithm to a task, not an equivalence or subclass claim. Proposed main:913 is shared source responsibility for two separate records, retaining all 22 bibliography occurrences and explicit residual questions. AutoClass retains main:610. Frozen issue402 and issues404/406 plus the prior twelve search questions remain unchanged; no source exhaustion is claimed.", "root_decision": "records/AIMech:RitterGallegosTwoStageOutlierMixtureFitting/identity_notes"}, {"id": "AIMech:IECOConstrainedMixtureClassification", "field": "identity_notes", "historical": "IECO is the authors’ elliptical regular/outlier specialization of the general mixed-class assignment construction. The descriptive label keeps the decision procedure distinct from a fitted distribution family, the POP–BAS–OUT parameter estimator and a generic Hungarian solver. The1995 IEC construction is the singleton-category fixed-multiplicity special case; it is lineage context, not an exact IECO alias or a third proposed record. The1996 abstract minimizes over quality before assignment, whereas the1997 procedure sums quality likelihoods first. Bare IEC and IECO were searched but are not asserted as unique aliases. At historical clean base 14e9168ee3496e914545ae5c449e3ee190f0294b, normalized comparison covered all786 native IDs/names/aliases and442 AIO IDs/labels/scoped synonyms. All511 distinct matching texts from four ignored-inclusive roots were read, along with360 semantic ID/name/alias/definition projections,17 selected native mechanism/limitation projections and19 exact AIO CLASS nodes with all annotations and outgoing edges. No duplicate identity was established in that scoped corpus. This does not clear a future write base or establish global novelty.", "current": "Current identity assessment at base 7d38dafe42243c93664bc246a5ff77beca593cd3 compared the IDs, names, aliases and scoped synonyms of all 1234 records (4896 field occurrences; 3739 unique normalized values), 19 AIO contexts and 17 native neighbors against the accepted unchanged historical records, plus the current ignored/hidden-inclusive four-root search and full frontier labels with matched/plausible owner bodies. This record is the supplied-density IECO constrained virtual-slot assignment procedure, with categories marginalized before MAP of Phi. It is distinct from POP/BAS/OUT parameter fitting, independent per-object Gaussian QDA/LDA, Naive Bayes feature independence, SeLa learned pseudo-label transport, and iterative conditional estimation. The 1995 singleton-category fixed-count setting is contextual lineage, not an exact alias; the 1996 maximum-over-quality rule differs from the 1997 category sum. No universal MAP claim for aggregated biological labels is made. No exact pinned AIO identity was established in the inspected scope; the selected AIO:Classification related_match connects an algorithm to a task, not an equivalence or subclass claim. Proposed main:913 is shared source responsibility for two separate records, retaining all 22 bibliography occurrences and explicit residual questions. AutoClass retains main:610. Frozen issue402 and issues404/406 plus the prior twelve search questions remain unchanged; no source exhaustion is claimed.", "root_decision": "records/AIMech:IECOConstrainedMixtureClassification/identity_notes"}]
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261016T022019Z-ritter-gallegos-two-stage-fitting-and-ieco-classification
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of Ritter–Gallegos two-stage fitting and IECO classification
+started_at: '2026-10-16T02:20:16.619496Z'
+finished_at: '2026-10-16T02:20:19.776846Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Author self-review with separately attributed root, research
+    and supporting mathematical reading. Preparing this scaffold is not independent
+    scientific approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain two-stage component-law fitting and IECO constrained category-marginalized
+  indexed-slot classification as distinct DRAFT algorithms. Nine claims and15 limitations
+  preserve heuristic, prior, source-version, feasibility and Phi aggregation boundaries.
+  Actual ownership and22 bibliography occurrences are reconciled without closing inherited
+  source questions.
+source:
+  git_revision: 7d38dafe42243c93664bc246a5ff77beca593cd3
+  state: working_tree
+  inputs:
+  - path: .claude/skills/review-category/SKILL.md
+    sha256: 553c3870c1dfc127f90f196b7b212b644706d4c26e2a578ab615ccce588070d7
+    role: context
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/BinaryClassification.yaml
+    sha256: 4c710e70fe7e71227f0c6aa55162a3683f04ebbe6f5a4601bd4c0398329f1481
+    role: context
+  - path: data/aio/Classification.yaml
+    sha256: d97da621c5052c7ab913cda95184ea2cca274f803298fd5f2c1273a22a211219
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DataAugmentation.yaml
+    sha256: e99fd76071e8b52cbe8ed53f694b30093d7fb7a8af2e225f2f158f5cab5f11ae
+    role: context
+  - path: data/aio/DataEnhancement.yaml
+    sha256: 89c2ba48f7ce9c45ed61f6fc7efa3fb416a0d209fd322342d388a8063945fa4f
+    role: context
+  - path: data/aio/GeneralizedLinearModel.yaml
+    sha256: 202002ec50c6e6207bc2fefba5baeab233514fd8f9118a623d1917b599ce2c7d
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/MixtureofExpertsLLM.yaml
+    sha256: d9c3edb18f624102f141d1daf27aa0cc055eaf9199faf30abf88d2b87fbc1520
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/MulticlassClassification.yaml
+    sha256: dcf165047485763fd91782b9a9ba43202d58f00fd33b8545893a5eae327de171
+    role: context
+  - path: data/aio/Preprocessing.yaml
+    sha256: 2c4a30f4f829a757be1feabf78d15780eedf93681a62eede3e76b2304f21bb7a
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/SupervisedClustering.yaml
+    sha256: d8d9f49b7b975d8217fe675e9c670fd0246af4abcdebce2483fa773a441ee83e
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/BootstrapClassifierInstabilityNoveltyDetection.yaml
+    sha256: 736ee984372216632b2d4fc3c0eb3e2139647eb64b993d2d6479ece5d57d0821
+    role: context
+  - path: data/curated/ClassificationExpectationMaximization.yaml
+    sha256: 11b75a28afb63acfee844f2ff9de5b402c86049d2507a9bbb687083a4526ddaf
+    role: context
+  - path: data/curated/Cutout.yaml
+    sha256: 75d135f2df1b532c4752d93b7c1dac326dca3b50ea4b906fe6b3673bade3b1da
+    role: context
+  - path: data/curated/ExemplarBasedConvexClustering.yaml
+    sha256: 5520d800b3c23b513c66837e5f8fc424a7d7d4261f94047b94c8d71fee5973d9
+    role: context
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/FixedComponentMixtureWeightEM.yaml
+    sha256: 3c1835ab99983d2fe8d5f40f0b7156d124c3140c0d019df7617aff38d2131a08
+    role: context
+  - path: data/curated/IECOConstrainedMixtureClassification.yaml
+    sha256: 38379a845a9eb78864145dba062036e08ed2096d85a0edd6ad98d921e1afded0
+    role: target
+  - path: data/curated/IterativeConditionalEstimation.yaml
+    sha256: 98813e020f43870f725a5c1e4ab0de9197f0dc2bc85f61e66e2044ab8d87e9cc
+    role: context
+  - path: data/curated/LinearDiscriminantAnalysis.yaml
+    sha256: cb194468de3c200a57f1d6338e13b604775ce8a10b5517966459242410752b6a
+    role: context
+  - path: data/curated/LocalOutlierFactor.yaml
+    sha256: b9293fde56804e7df6d3056e00b08240ca9dc8711a715bda54d064cfd9bc8812
+    role: context
+  - path: data/curated/MixtureDensityNetwork.yaml
+    sha256: 1c6eab5597faff5398e917351cea1b0ab6feca98d690219dc69d44ffe7abba52
+    role: context
+  - path: data/curated/NaiveBayes.yaml
+    sha256: 99caf757d49a76920b59c60591beeaf1f019ec0d1acb7ae5944ea0f5f7339b61
+    role: context
+  - path: data/curated/NearestNeighborRatioDataDescription.yaml
+    sha256: 93d66c76f275d5dbc06a80c69af19dd9bceaa9cd564945f17db714f6faaf1f28
+    role: context
+  - path: data/curated/OPTICSOutlierFactor.yaml
+    sha256: fecfad5c8d862a5622fc7ba63c60f839ba80cb0c5077d14a39ed77e08daf6270
+    role: context
+  - path: data/curated/QuadraticDiscriminantAnalysis.yaml
+    sha256: 31a1b7c08a1bae221d571e26441b4690456524b409a33df84427ff929cb4dd3e
+    role: context
+  - path: data/curated/RapidSupportVectorDataDescriptionSampling.yaml
+    sha256: 681844c15688dbebe254c77723d6913d07003ea34de60c31b18cef59fd181942
+    role: context
+  - path: data/curated/RitterGallegosTwoStageOutlierMixtureFitting.yaml
+    sha256: f2156cec987b728da7e04e63474cdb2eef5faf56ed65f9dd3f1f9cd72875be26
+    role: target
+  - path: data/curated/SeLa.yaml
+    sha256: 0b5e4c15b065fcf3fd0958d25d93c2c18a418dedac7e29c8a805cb3fd3a674ea
+    role: context
+  - path: data/curated/SupportVectorDataDescription.yaml
+    sha256: 45e181fa0ce8eeeda5c10e6e3fbce658b05bfd650e7c9c6bf77501d7fa315b7b
+    role: context
+  - path: docs/curated-concepts.md
+    sha256: 79c497b615b9ba703d67ccfc1a925f5d5c3c527aff6ab323cd271aec8e5a40dc
+    role: context
+  - path: docs/record-review-profile.md
+    sha256: 2d3e3a73264523c78930d17b0812e2d22887e25423fe7c38e0ddce922d9cec9d
+    role: context
+  - path: docs/record-reviews.md
+    sha256: 452a19ab688276747b7c4308523a14d4d99c1c39ef6909ae8a90b85b7a9b3e9b
+    role: context
+  - path: history/reports/ritter-gallegos-two-stage-fitting-and-ieco-classification/2026-10-16T020348Z-codex-05ac03.yaml
+    sha256: 73f821295c5036cd302c844215b7f1ed65744c500aff8a942976e29da74fac9b
+    role: context
+  - path: justfile
+    sha256: 2d9c1b68c1c80d53aa44a6b8b5e916efe8b493650ff59a3fc7479a42be37f400
+    role: context
+  - path: research/discovery/20261012T071653Z-support-vector-sphere.json
+    sha256: 26a5c75316bf7ab14b402cc64e1369c50418cf1e1a8570955fe5cf655bc8c95d
+    role: context
+  - path: research/discovery/20261012T073618Z-support-description.json
+    sha256: 641021eca5b4c440875934019acbbd46fdca5c084ed5688990fc1fba16e9ebb8
+    role: context
+  - path: research/discovery/20261015T220733Z-lpga-minimin-and-restored-historical-pointers.json
+    sha256: 70390ddcefe988c8db1883ad3c798d430425ca4d9c487ea0944de8bce5b9fa32
+    role: context
+  - path: research/discovery/20261015T225549Z-autowalksat-fixed-noise-controller.json
+    sha256: 7ebc4da1f0029b920b1a71a484cd4bec3af9ac92c34894a06103c3ab247621d4
+    role: context
+  - path: research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.json
+    sha256: cfb1da2d42702cf571b4b3594c8f408f33392a02bc7dd8b79c50a9b09adb279f
+    role: context
+  - path: research/discovery/20261016T002614Z-soft-q-learning-and-stein-variational-gradient-descent.json
+    sha256: 96f80b5598848c2418b5995938067dd03f4ccf33e8c1d80eedfd3422c3db386b
+    role: context
+  - path: research/discovery/20261016T010736Z-enforced-hill-climbing-and-local-search-space-lrta.json
+    sha256: 516283d10873d36554792b9cc6aac0352cdb000badd1dda54110a330fbd712b7
+    role: context
+  - path: research/discovery/20261016T020317Z-ritter-gallegos-two-stage-fitting-and-ieco-classification.json
+    sha256: a2bf46b1870ccc44138e7c4a5f7a968bf9257a73beea87cbd9471b1177253a04
+    role: context
+  - path: research/discovery/20261016T020317Z-ritter-gallegos-two-stage-fitting-and-ieco-classification.md
+    sha256: 31c37eee9cec718d4d57f4e31d4f4946131f1e4aee770b960e785767b9b976b8
+    role: context
+  - path: schema/record_review.yaml
+    sha256: 229baf9b69118a1fe318e4c31085c0820e4e3d1365e7b04d6ace451b7c35f9bb
+    role: context
+  - path: scripts/record_review.py
+    sha256: 95a4ec41e38ec47ba3578e76838c46a0adbf47e49ad3636524735d08cfcb1c4d
+    role: context
+  - path: scripts/render_pages.py
+    sha256: 81fae327c4670e269e8928b53f0370e2853767ec8e1b495f6206216ac03f304a
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: 3826f6a7643d6a0140cf60bb52a1d3ac2fbab4811b4fd8d1d178a13c3341fa3f
+    role: context
+  - path: src/aimech/validation.py
+    sha256: 274ed5e6bc97440515a1964b9b21927135a2e9a5a4808ae8daebccd3e172ffcc
+    role: context
+scope:
+  description: Two exact current native records from the accepted357 creation; all
+    selected claims and limitations assessed. Historical source and neighbor reading
+    scopes remain separately attributed.
+  selection: Exact AIMech:RitterGallegosTwoStageOutlierMixtureFitting, AIMech:IECOConstrainedMixtureClassification.
+  coverage: full
+  population_size: 2
+  reviewed_target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  - AIMech:IECOConstrainedMixtureClassification
+  exclusions:
+  - target: Other fitting, covariance, IEC variants and22 bibliography occurrences
+    reason: Context and pending source questions retain exact responsibility; citation
+      is not concept equivalence or completion.
+  - target: Original issue402/404/406 and356 twelve source questions
+    reason: Inherited original context remains explicit; no whole-issue closure is
+      inferred.
+checks:
+- check_id: check-gate
+  name: just check
+  status: passed
+  required: true
+  summary: Actual completed command exited0; exact output and timing retained.
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  - AIMech:IECOConstrainedMixtureClassification
+  command: just check
+  exit_code: 0
+  evidence_ids:
+  - check-gate
+- check_id: check-vendor
+  name: just vendored-check
+  status: passed
+  required: true
+  summary: Actual completed command exited0; exact output and timing retained.
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  - AIMech:IECOConstrainedMixtureClassification
+  command: just vendored-check
+  exit_code: 0
+  evidence_ids:
+  - check-vendor
+- check_id: check-check-source
+  name: uv run --locked aimech check-source
+  status: passed
+  required: true
+  summary: Actual completed command exited0; exact output and timing retained.
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  - AIMech:IECOConstrainedMixtureClassification
+  command: uv run --locked aimech check-source
+  exit_code: 0
+  evidence_ids:
+  - check-check-source
+- check_id: check-render
+  name: just render
+  status: passed
+  required: true
+  summary: Actual completed command exited0; exact output and timing retained.
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  - AIMech:IECOConstrainedMixtureClassification
+  command: just render
+  exit_code: 0
+  evidence_ids:
+  - check-render
+- check_id: check-render-check
+  name: just render-check
+  status: passed
+  required: true
+  summary: Actual completed command exited0; exact output and timing retained.
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  - AIMech:IECOConstrainedMixtureClassification
+  command: just render-check
+  exit_code: 0
+  evidence_ids:
+  - check-render-check
+- check_id: check-diff
+  name: git diff --check
+  status: passed
+  required: true
+  summary: Actual completed command exited0; exact output and timing retained.
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  - AIMech:IECOConstrainedMixtureClassification
+  command: git diff --check
+  exit_code: 0
+  evidence_ids:
+  - check-diff
+- check_id: historical-failed-check-1
+  name: just vendored-check (retained earlier attempt)
+  status: failed
+  required: false
+  summary: Historical unsuccessful attempt retained; later exact required command
+    passed.
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  - AIMech:IECOConstrainedMixtureClassification
+  command: just vendored-check
+  exit_code: 1
+  evidence_ids:
+  - historical-failed-check-1
+evidence:
+- evidence_id: source-context
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Historical source/version and role assessment;1997 defining,1995 full manuscript
+    and1996 abstract-only context.
+- evidence_id: source-reading
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/reading.json
+  snapshot_sha256: ffb71f4fe2a7cadaad570b945671dcf00e7e28604f3c9f9f056875b5bcd145b2
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Historical attributed primary and supporting readings; no fresh paper reading
+    by this consumer preparation.
+- evidence_id: root-source-acceptance
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/root-source-scope-acceptance.json
+  snapshot_sha256: 54283a338bcb4a9ba1f89870479823ac9f36a05d9f6a4a33cf51a4a555b6046e
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Historical root source-scope acceptance, not approval of future canonical
+    state.
+- evidence_id: root-draft-acceptance
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/root-draft-module-acceptance.json
+  snapshot_sha256: eccf702db9a52b6be77ac6455717f492182940abc74e2b47350d59e7471b2c13
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Historical accepted unchanged draft modules.
+- evidence_id: root-static-science-acceptance
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-slot-map-adversarial-20261015/root-static-successor-acceptance.json
+  snapshot_sha256: cdff562c84744ca83db157fdb782a8a1e2e3a3cd2cd4de69aff722c2871f360a
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Historical accepted Phi indexed-slot and source-equation scope.
+- evidence_id: root-preview-readback
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-native-preview-20261016/root-preview-readback.json
+  snapshot_sha256: 8970c2fcb7a79657240fcb4bab1ef42e5fda200c6e1b8df793c1e3ce1b60ce3b
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Actual earlier TEMP native preview readback; not future canonical approval.
+- evidence_id: historical-aio-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-scope-readiness-20261015/aio-mapping-assessment.json
+  snapshot_sha256: b029e6331e5e072e08e3ab68f60c5d151f4f6454eca3d5e709a0b22a8ff30f62
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Historical bounded19-context AIO assessment; related algorithm-to-task
+    mappings only.
+- evidence_id: historical-native-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-scope-readiness-20261015/native-neighbor-assessment.json
+  snapshot_sha256: b791464ccdaccd9191e046e52dea0d0de334bcec38574c13f3ae13fc1b88553b
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Historical17-neighbor identity assessment; not a new full-source review.
+- evidence_id: bibliography-continuity
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/bibliography-ownership-continuity.json
+  snapshot_sha256: 8654fc225b43e135cf0cf999db752c6f0a8b34cfe45f9202879b0404935f9333
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: All22 exact bibliography occurrences; fresh ownership remains unbound.
+- evidence_id: src-ritter1997
+  kind: primary_source
+  reference: /private/tmp/aimech-ritter-gallegos1997-research-20261015/ritter-gallegos1997.pdf
+  snapshot_sha256: 3e52f264d9803cdc4a5d9086592391203858d2a3eefc33f8a235e311ace53e25
+  accessed_at: '2026-10-15T23:01:09Z'
+  support: supports
+  summary: Outliers in Statistical Pattern Recognition and an Application to Automatic
+    Chromosome Classification Author-hosted 17-page manuscript bearing the header
+    Appeared in Pattern Recognition Letters18(1997)525–539; publisher byte equivalence
+    unverified. Locators use internal PDF pages, not inferred journal offsets. Access
+    level full_text. Original acquisition timestamp is preserved; this is not a fresh
+    download.
+  locator: Physical PDF pp.5–12, Sections2.1–4, dependency diagram and Eqs2–3,10–13;
+    seventeen-page author-hosted manuscript.
+- evidence_id: src-ritter1995-context
+  kind: primary_source
+  reference: /private/tmp/aimech-ritter-lineage-source-acquisition-20261015/iec1995.pdf
+  snapshot_sha256: aefbb4588e6316fa04e148d1c52e1e0f6cdeaf317590480320b24a8fe671215b
+  accessed_at: '2026-10-15T23:22:47Z'
+  support: partial
+  summary: Automatic context-sensitive karyotyping of human chromosomes based on elliptically
+    symmetric statistical distributions Author-hosted 13-page version bearing a Pattern
+    Recognition28(1995)823–831 header; all pages visually read. Publisher byte equivalence
+    unverified; lineage context only. Access level full_text. Original acquisition
+    timestamp is preserved; this is not a fresh download.
+  locator: Physical PDF pp.5–8, IEC classification, Pareto cutoff and fixed-multiplicity
+    context; thirteen-page author-hosted manuscript.
+- evidence_id: src-gallegos1996-context
+  kind: primary_source
+  reference: /private/tmp/aimech-ritter-lineage-source-acquisition-20261015/abstract1996.pdf
+  snapshot_sha256: 2f7496ce08ab17bb94bf4a1d70585877b0548ac82330da9781a0c018a4af8d7e
+  accessed_at: '2026-10-15T23:22:48Z'
+  support: context_only
+  summary: 'Outlier Treatment: A New Statistical Method for Automatic Chromosome Classification
+    Author-hosted two-page COMPSTAT96 conference abstract; both pages visually read
+    because native extraction is garbled. Abstract-level lineage context only, not
+    independent full-method evidence. Access level abstract_only. Original acquisition
+    timestamp is preserved; this is not a fresh download.'
+  locator: Physical PDF pp.1–2, two-page COMPSTAT abstract; historical cut_REG and
+    min/max category-quality context only.
+- evidence_id: fitting-preview
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-native-preview-20261016/two-stage-fitting-native-preview.json
+  snapshot_sha256: dfc5c0db45bd9a2345866ec419bd772510e5499e6b2305c8815b7404129d7d28
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Accepted historical TEMP native preview; canonical creation not yet bound.
+- evidence_id: fitting-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/two-stage-fitting/scientific-support.json
+  snapshot_sha256: 089225f61ee56f6a86ed5b9f419a0fab21f7a1ee8c2b532aa92691004b7d72c7
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Complete accepted per-claim and per-limitation support; historical reading
+    attribution remains explicit.
+- evidence_id: fitting-validation
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-native-preview-20261016/two-stage-fitting-native-validation.json
+  snapshot_sha256: cdfb8c53cbbc48ffb6efbc411805d8ed87a8b559b5e8ce04012a4c0018e6851c
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Actual earlier validation after root acceptance; schema success is not
+    scientific proof.
+- evidence_id: fitting-identity
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/two-stage-fitting/identity-notes.json
+  snapshot_sha256: 041492de915a46fc15c2cc61414cf4634bf0ffc58f2ba98887a6fc3699c986d4
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Historical bounded identity context; future current collection is required.
+- evidence_id: fitting-limit-1-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 1.
+  locator: 1997 physical PDF pp.5–6, Sections2.1–2.2
+- evidence_id: fitting-limit-2-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 2.
+  locator: 1997 physical PDF p.5, Section2.2; retained-subset estimation requirements
+- evidence_id: fitting-limit-3-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 3.
+  locator: 1997 physical PDF p.6, overlap paragraph and dependency diagram
+- evidence_id: fitting-limit-4-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 4.
+  locator: 1997 physical PDF pp.5–6;1996 rendered abstract p.2
+- evidence_id: fitting-limit-5-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 5.
+  locator: 1996 rendered abstract p.2;1997 physical PDF pp.8–9
+- evidence_id: fitting-limit-6-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 6.
+  locator: Acquisition receipt and manuscript header; complete attributed prior reading
+- evidence_id: fitting-limit-7-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 7.
+  locator: 1997 physical PDF pp.5–7 and bibliography; per-item continuity ledger
+- evidence_id: ieco-preview
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-native-preview-20261016/ieco-native-preview.json
+  snapshot_sha256: a972907b893cf3aeaa554fa154839204bebf73a9a39d9f9b18873b5a59bd0586
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Accepted historical TEMP native preview; canonical creation not yet bound.
+- evidence_id: ieco-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/ieco/scientific-support.json
+  snapshot_sha256: 85142c0f0e36bd60a3dcfd0cc18f73127df2ca331546b5e505afeeca13e7c7a0
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Complete accepted per-claim and per-limitation support; historical reading
+    attribution remains explicit.
+- evidence_id: ieco-validation
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-native-preview-20261016/ieco-native-validation.json
+  snapshot_sha256: 9d27a42d88e9f5a6e62c73241dee6c191dd796cb802f10b23b5266599ab23759
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Actual earlier validation after root acceptance; schema success is not
+    scientific proof.
+- evidence_id: ieco-identity
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/ieco/identity-notes.json
+  snapshot_sha256: 8d35e30c67e80d8257d68a8e97c3039623572327453f46637eb0dc21e7918ecb
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Historical bounded identity context; future current collection is required.
+- evidence_id: ieco-limit-1-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-slot-map-adversarial-20261015/mathematical-assessment.json
+  snapshot_sha256: 98bcf27d817ccd8f5673099cfd21ef7885c4d552e7dfaa68970d718eb2f5182c
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 1.
+  locator: 1997 physical PDF pp.7–12, Sections3–4;1995 physical PDF pp.5–8; separately
+    retained rational analysis
+- evidence_id: ieco-limit-2-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 2.
+  locator: 1997 physical PDF pp.8–9, alpha>=0 and Eq10
+- evidence_id: ieco-limit-3-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 3.
+  locator: 1997 physical PDF pp.7–10, Sections3.1–4.2
+- evidence_id: ieco-limit-4-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 4.
+  locator: 1997 physical PDF pp.9,11;1996 rendered abstract p.2
+- evidence_id: ieco-limit-5-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 5.
+  locator: 1995 physical PDF p.7, Section3.2(c)
+- evidence_id: ieco-limit-6-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 6.
+  locator: 1996 rendered abstract p.2;1997 physical PDF pp.6,8–9
+- evidence_id: ieco-limit-7-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 7.
+  locator: 1997 physical PDF pp.5–13 and separate acquisition/reading scope
+- evidence_id: ieco-limit-8-support
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-two-record-draft-preparation-20261015/source-context.json
+  snapshot_sha256: a7af8229e9c6e02a4a0810d79e5e4f1f658d38d05afb902ff2f25e3c6db56dca
+  accessed_at: '2026-10-16T00:56:04.894088Z'
+  support: context_only
+  summary: Retained supporting scope for limitation 8.
+  locator: Exact acquisition/version receipts and source metadata
+- evidence_id: actual-write
+  kind: record_content
+  reference: /private/tmp/aimech-ritter-cohort357-write.json
+  snapshot_sha256: 6df9f652f8df031bf6517fcace4ca758d030059e8fa20780f8e1f643eacc7917
+  accessed_at: '2026-10-16T02:20:19.740934Z'
+  support: context_only
+  summary: Actual exclusive creation of two native records, report pair and CREATE
+    history.
+- evidence_id: captured-inputs
+  kind: record_content
+  reference: /private/tmp/aimech-cohort357-capture.json
+  snapshot_sha256: e52bb95caf677490bceb50aaabd4abd9aa3a8d972008488e1ca490d75fe936a2
+  accessed_at: '2026-10-16T02:20:19.741380Z'
+  support: context_only
+  summary: Actual canonical input-byte and maintained-target capture.
+- evidence_id: postcapture-reading
+  kind: record_content
+  reference: /private/tmp/aimech-cohort357-root-review-generation-reading.v2.json
+  snapshot_sha256: 0f4488c23c5a710a3abd9cbc408c1b21c2b33777f75b7c523ece88f66191b49a
+  accessed_at: '2026-10-16T02:20:19.741740Z'
+  support: context_only
+  summary: Actual root reading of source-scoped canonical records, metadata and all
+    retained question objects; historical source reading stays separately attributed.
+- evidence_id: governance-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-cohort357-actual-governance-20261016/assessment.json
+  snapshot_sha256: bee7d395e3391ff36ea467ed0b2984bb6863e7dd86450b4aff4a10b3b1bff794
+  accessed_at: '2026-10-16T02:20:19.744837Z'
+  support: context_only
+  summary: Actual byte preservation, dynamic owner-plan reconstruction, inherited
+    metadata and parsed-page audit.
+- evidence_id: rendered-pages
+  kind: record_content
+  reference: /private/tmp/aimech-cohort357-actual-governance-20261016/rendered-pages.json
+  snapshot_sha256: 8b2c1a45a5e5812304528875a0d7b8d1ad6f0c365f5dec87016802b1bb4a8148
+  accessed_at: '2026-10-16T02:20:19.745253Z'
+  support: context_only
+  summary: Actual generated-page bytes and parsed content; no visual/layout inspection.
+- evidence_id: actual-scientific-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-cohort357-actual-scientific-audit-20261016/assessment.json
+  snapshot_sha256: 1218efdc16cd36340a2b838d90ec8e234cfb34f73ed3fd2624f0e44b3009aa37
+  accessed_at: '2026-10-16T02:20:19.745619Z'
+  support: context_only
+  summary: Actual record scientific assessment with its own attributed source-reading
+    scope.
+- evidence_id: current-identity-collection
+  kind: search
+  reference: /private/tmp/aimech-cohort357-current-identity-20261016/collection.json
+  snapshot_sha256: de89a0310cec4868cd90494d1a5802623dcda56ceaa9e06c483bae91bdcba93e
+  accessed_at: '2026-10-16T02:20:19.747592Z'
+  support: context_only
+  summary: Actual scoped ignored-inclusive identity collection; mechanical capture
+    is distinct from human semantic reading.
+  search_scope: Four ignored-inclusive identity scans,1234 existing records/4896 identity
+    fields/3739 normalized values,509 deduplicated semantic contexts jointly partitioned
+    among root and two attributed readers;19 AIO and17 native comparison contexts.
+    Bounded current identity/source ownership assessment; no global absence claim.
+- evidence_id: current-context-assessment
+  kind: search
+  reference: /private/tmp/aimech-cohort357-collection-assessment.json
+  snapshot_sha256: 862d7a91daa1c97274272317380b22fefaaf544f9717e555cd6d014976969c81
+  accessed_at: '2026-10-16T02:20:19.747899Z'
+  support: context_only
+  summary: Actual attributed current identity and source-question assessment.
+  search_scope: Four ignored-inclusive identity scans,1234 existing records/4896 identity
+    fields/3739 normalized values,509 deduplicated semantic contexts jointly partitioned
+    among root and two attributed readers;19 AIO and17 native comparison contexts.
+    Bounded current identity/source ownership assessment; no global absence claim.
+- evidence_id: root-decisions
+  kind: record_content
+  reference: /private/tmp/aimech-cohort357-root-decisions.json
+  snapshot_sha256: f0a08c659bedafd0b67d22a281b6563d1835590868a8d6503c370ccff541ce5b
+  accessed_at: '2026-10-16T02:20:19.750224Z'
+  support: context_only
+  summary: Exact current record identity decisions, dynamic accepted ownership and
+    retained source questions.
+- evidence_id: ownership-plan
+  kind: record_content
+  reference: /private/tmp/aimech-cohort357-science-ownership-20261016/ownership-plan.proposed.json
+  snapshot_sha256: c459d2a7532f3077fb7ff9037a2a781f77c381408e7114c440f993f4eff0a1b8
+  accessed_at: '2026-10-16T02:20:19.751263Z'
+  support: context_only
+  summary: Exact current responsibility for both records and all22 bibliography occurrences,
+    plus additional source questions.
+- evidence_id: ownership-plan-acceptance
+  kind: record_content
+  reference: /private/tmp/aimech-cohort357-ownership-acceptance.json
+  snapshot_sha256: 3374ad22324d85fce8737bfb54e429114d376adfd57338bb40d13d0c85fadcfb
+  accessed_at: '2026-10-16T02:20:19.751665Z'
+  support: context_only
+  summary: Actual root acceptance of current source responsibility; no whole-issue
+    closure.
+- evidence_id: creation-history
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/history/reports/ritter-gallegos-two-stage-fitting-and-ieco-classification/2026-10-16T020348Z-codex-05ac03.yaml
+  snapshot_sha256: 73f821295c5036cd302c844215b7f1ed65744c500aff8a942976e29da74fac9b
+  accessed_at: '2026-10-16T02:20:19.752214Z'
+  support: context_only
+  summary: Actual single CREATE event for the report.
+- evidence_id: review-support
+  kind: record_content
+  reference: /private/tmp/aimech-cohort357-consumer-preparation-20261016/review-support.prepared.json
+  snapshot_sha256: 4a2db65732c67435e8a1238e29bbbc1bc371fb7ca8ff4adc159cae72393ad177
+  accessed_at: '2026-10-16T02:20:19.752888Z'
+  support: context_only
+  summary: Exact historical per-claim and per-limitation narrative support.
+- evidence_id: check-gate
+  kind: validation
+  reference: /private/tmp/aimech-cohort357-check-gate.json
+  snapshot_sha256: f5c388b823758f3d5c1eca6f21231c9524fbdcab4bd4673c4285e0e3bae8628e
+  accessed_at: '2026-10-16T02:16:29.790068Z'
+  support: context_only
+  summary: Actual completed required command, exit0; scope is its recorded output.
+- evidence_id: check-vendor
+  kind: validation
+  reference: /private/tmp/aimech-cohort357-check-vendor-network-retry.json
+  snapshot_sha256: b261c8063b2c31f4db235f3e9e8079936679daa7a1050bd0aee78b55554c1625
+  accessed_at: '2026-10-16T02:17:21.639979Z'
+  support: context_only
+  summary: Actual completed required command, exit0; scope is its recorded output.
+- evidence_id: check-check-source
+  kind: validation
+  reference: /private/tmp/aimech-cohort357-check-check-source.json
+  snapshot_sha256: e2665fc2f55eeb130814f81650aae9e4268f30b0112cdd8ddd26b58b30013f0c
+  accessed_at: '2026-10-16T02:17:24.243189Z'
+  support: context_only
+  summary: Actual completed required command, exit0; scope is its recorded output.
+- evidence_id: check-render
+  kind: validation
+  reference: /private/tmp/aimech-cohort357-check-render.json
+  snapshot_sha256: 710c21911c36f84c890c98b7c568bf0b6f1182e3cdcc1941ffc36275689f018f
+  accessed_at: '2026-10-16T02:04:39.420070Z'
+  support: context_only
+  summary: Actual completed required command, exit0; scope is its recorded output.
+- evidence_id: check-render-check
+  kind: validation
+  reference: /private/tmp/aimech-cohort357-check-render-check.json
+  snapshot_sha256: 75dce611ce0ed89c69457fbb81c155918f85308930fe53d7fa302d4eca2293c8
+  accessed_at: '2026-10-16T02:17:50.820156Z'
+  support: context_only
+  summary: Actual completed required command, exit0; scope is its recorded output.
+- evidence_id: check-diff
+  kind: validation
+  reference: /private/tmp/aimech-cohort357-check-diff.json
+  snapshot_sha256: 161c1a8305b2589ba5d87ec810a551226a7b3544d30379a74781600cd1b445eb
+  accessed_at: '2026-10-16T02:17:51.043663Z'
+  support: context_only
+  summary: Actual completed required command, exit0; scope is its recorded output.
+- evidence_id: historical-failed-check-1
+  kind: validation
+  reference: /private/tmp/aimech-cohort357-check-vendor.json
+  snapshot_sha256: 1a111ce53d63d2e8471223c7b380f8ab713f622005e3be3213ac6655ea0472ae
+  accessed_at: '2026-10-16T02:16:30.381334Z'
+  support: context_only
+  summary: Retained unsuccessful earlier command attempt; successful later exact command
+    is separately bound.
+assessments:
+- assessment_id: fitting-claim-population-to-basic-fit
+  area: evidence
+  topic: Claim population-to-basic-fit
+  outcome: supported
+  summary: 'Section2.2 explicitly fits POP, thresholds against its estimated law,
+    and refits BAS in the same family. The Mahalanobis indicator is an elliptical
+    example rather than the general definition. Source locators: PDF p.5, Section2.2.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-claim-original-population-outlier-fit
+  area: evidence
+  topic: Claim original-population-outlier-fit
+  outcome: supported
+  summary: 'The second selection is from original POP under the BAS fit. The paper
+    explicitly allows BAS/OUT overlap and estimates an outlier law; this is not partitioning
+    a fixed population into complementary sets. Source locators: PDF pp.5–6, Section2.2;
+    PDF p.4, Section2.1.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-claim-two-stage-and-prior-boundary
+  area: evidence
+  topic: Claim two-stage-and-prior-boundary
+  outcome: supported
+  summary: 'The source prefers two stages and mentions optional iteration separately.
+    The contamination prior belongs to Section2.1; no BAS/OUT-frequency estimator
+    of that prior is supplied or assumed. Source locators: PDF pp.4–6, Sections2.1–2.2.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-claim-separate-classifier-and-covariance-components
+  area: evidence
+  topic: Claim separate-classifier-and-covariance-components
+  outcome: supported
+  summary: 'Parameter fitting and constrained assignment are separate procedures.
+    Section2.3 credits covariance weighting separately; Section5.2 applies its weighting
+    for classification rather than parameter estimation. No James–Stein guarantee
+    transfers to this fitting record. Source locators: PDF pp.6–7, Section2.3; p.13,
+    Section5 training protocol.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-limit-1
+  area: scope
+  topic: Limitation 1
+  outcome: supported
+  summary: 'The source calls the method heuristic; the record makes no unsupported
+    optimization, consistency or universal robustness theorem. Source scope: 1997
+    physical PDF pp.5–6, Sections2.1–2.2.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - fitting-limit-1-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-limit-2
+  area: scope
+  topic: Limitation 2
+  outcome: supported
+  summary: 'This is a mathematical domain/sample-adequacy boundary of estimating retained-subset
+    distributions, not an observed author failure. Source scope: 1997 physical PDF
+    p.5, Section2.2; retained-subset estimation requirements.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - fitting-limit-2-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-limit-3
+  area: scope
+  topic: Limitation 3
+  outcome: supported
+  summary: 'Overlap is explicit, so BAS/OUT frequencies are not complementary weights
+    without another rule. Source scope: 1997 physical PDF p.6, overlap paragraph and
+    dependency diagram.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - fitting-limit-3-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-limit-4
+  area: scope
+  topic: Limitation 4
+  outcome: supported
+  summary: 'The1997 p.6 cutREG mention lacks a local definition, whereas the two-page1996
+    abstract defines cutREG. Preserve the source discrepancy instead of substituting
+    labels. Source scope: 1997 physical PDF pp.5–6;1996 rendered abstract p.2.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - src-gallegos1996-context
+  - fitting-limit-4-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-limit-5
+  area: scope
+  topic: Limitation 5
+  outcome: supported
+  summary: 'The abstract is now research context outside fitting evidence_sources.
+    Its min-over-quality step is not the1997 category-summed rule; it supplies no
+    independent full-method support. Source scope: 1996 rendered abstract p.2;1997
+    physical PDF pp.8–9.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-gallegos1996-context
+  - src-ritter1997
+  - fitting-limit-5-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-limit-6
+  area: scope
+  topic: Limitation 6
+  outcome: supported
+  summary: 'Acquisition binds the exact author-hosted PDF, not publisher byte identity.
+    No performance or execution claim is introduced. Source scope: Acquisition receipt
+    and manuscript header; complete attributed prior reading.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - fitting-limit-6-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-limit-7
+  area: scope
+  topic: Limitation 7
+  outcome: supported
+  summary: 'These cited techniques remain source questions, not fitting aliases or
+    accepted extra records. Every19+3 bibliography occurrence and all prior1997 groups
+    retain continuity. Source scope: 1997 physical PDF pp.5–7 and bibliography; per-item
+    continuity ledger.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - fitting-limit-7-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-definition
+  area: identity
+  topic: Definition and source scope
+  outcome: supported
+  summary: 'The two-stage threshold/refit procedure produces component laws; it does
+    not itself perform constrained assignment. Cutoff and overlap qualifications remain
+    explicit. Locators: PDF pp.5–6, Section2.2 and dependency diagram.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - src-ritter1997
+  - source-context
+  - historical-aio-assessment
+  - historical-native-assessment
+  - root-static-science-acceptance
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-identity
+  area: identity
+  topic: Identity and source scope
+  outcome: supported
+  summary: Retain POP/BAS/OUT component-law fitting separately from downstream constrained
+    assignment, mixture-prior estimation, covariance construction and generic EM.
+    OUT is selected from original POP, BAS/OUT can overlap, cut_REG remains a source-version
+    ambiguity, and no universal robustness or optimization theorem is inferred. Actual
+    identity notes equal the fresh root decisions; exact historical/current differences
+    remain in context_changes.
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - src-ritter1997
+  - source-context
+  - historical-aio-assessment
+  - historical-native-assessment
+  - root-static-science-acceptance
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-mapping
+  area: grounding
+  topic: Mapping and source scope
+  outcome: supported
+  summary: The procedure learns component-distribution parameters from observed data.
+    The inspected AIO target is a task/process context and does not identify POP/BAS/OUT
+    fitting; this is a related algorithm-to-task association, not equivalence or an
+    upstream subclass assertion. Selecting subsets during parameter fitting does not
+    make the complete procedure a raw-data preprocessing transform.
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - src-ritter1997
+  - source-context
+  - historical-aio-assessment
+  - historical-native-assessment
+  - root-static-science-acceptance
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-source
+  area: provenance
+  topic: Source and source scope
+  outcome: supported
+  summary: One shared author-hosted1997 manuscript defines both algorithms. The1995
+    thirteen-page full manuscript and1996 two-page abstract remain context with their
+    exact access levels. Four declared record rows identify three artifacts; publisher
+    byte equivalence remains unverified.
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - src-ritter1997
+  - source-context
+  - historical-aio-assessment
+  - historical-native-assessment
+  - root-static-science-acceptance
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: fitting-kind
+  area: identity
+  topic: Kind and source scope
+  outcome: supported
+  summary: This is a reusable algorithm specification with operational decisions and
+    assumptions, not a trained-model instance, dataset or reported accuracy result.
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - src-ritter1997
+  - source-context
+  - historical-aio-assessment
+  - historical-native-assessment
+  - root-static-science-acceptance
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-claim-category-marginalized-class-density
+  area: evidence
+  topic: Claim category-marginalized-class-density
+  outcome: supported
+  summary: 'Sections3.1–3.2 supply independent indexed class/category laws; Eq3 is
+    a probability-weighted category sum. Section3.4 names IECO for the elliptical
+    regular/outlier specialization. Negative-log scoring is applied to that supplied
+    valid density, not literal Eq13. Source locators: PDF pp.7–9, Sections3.1–3.4,
+    Eqs2–3 and10; IECO naming paragraph.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-claim-injective-assignment-and-missing-slots
+  area: evidence
+  topic: Claim injective-assignment-and-missing-slots
+  outcome: supported
+  summary: 'The decision set is injective Phi. The image prior and independent uniform
+    permutation yield the missing-slot product. Equations8–11 give negative-log assignment
+    and dummy-row construction. This supports slot MAP without promising a biological
+    quotient MAP. Source locators: PDF pp.7–9, Sections3.1–3.4, Eqs4–11; PDF pp.10–12,
+    Section4 application construction.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-claim-missing-weight-interpretation
+  area: evidence
+  topic: Claim missing-weight-interpretation
+  outcome: supported
+  summary: 'The fixed-m prior has a normalizing constant. Eq7 constructs alpha as
+    failure odds; Eq6 separately normalizes the one-missing case into absence probabilities.
+    These scopes are not conflated. Source locators: PDF p.8, Section3.3, Eqs4–7.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-claim-class-versus-category-decision
+  area: evidence
+  topic: Claim class-versus-category-decision
+  outcome: supported
+  summary: 'The accepted two-field qualification names the precise Phi target. Categories
+    are marginalized before slot optimization; biological-label aggregation is another
+    target. The source warns that posthoc category selection is not joint Bayesian
+    estimation. The1996 abstract minimizes over quality before assignment and remains
+    contextual only. Source locators: PDF p.9, Section3.4, concluding category-estimator
+    paragraph; Rendered abstract PDF p.2, minimum-over-quality score before classification.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - src-gallegos1996-context
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-claim-iec-lineage-special-case
+  area: evidence
+  topic: Claim iec-lineage-special-case
+  outcome: supported
+  summary: 'The1995 fixed-count, singleton-category setting has constant homologous-slot
+    multiplicities and determinant products. It is a legitimate predecessor special
+    case, not an exact alias or justification for dropping varying-count factors.
+    The actual1995 radial support caveat remains explicit. Source locators: PDF p.9,
+    Section3.4, IECO naming and reference to IEC; PDF pp.4–7, likelihood, constrained
+    classification and common radial-function cases.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - src-ritter1995-context
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-limit-1
+  area: scope
+  topic: Limitation 1
+  outcome: supported
+  summary: 'Accepted Phi qualification preserves the valid slot-posterior result and
+    assumptions. Fixed exchangeable counts have constant multiplicity; the general
+    aggregation boundary alone does not disprove the45-chromosome construction. Source
+    scope: 1997 physical PDF pp.7–12, Sections3–4;1995 physical PDF pp.5–8; separately
+    retained rational analysis.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - src-ritter1995-context
+  - ieco-limit-1-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-limit-2
+  area: scope
+  topic: Limitation 2
+  outcome: supported
+  summary: 'Negative logarithms give infinite costs at zero support/weights. Feasibility
+    is a mathematical prerequisite, not an observed implementation defect. Source
+    scope: 1997 physical PDF pp.8–9, alpha>=0 and Eq10.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - ieco-limit-2-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-limit-3
+  area: scope
+  topic: Limitation 3
+  outcome: supported
+  summary: 'The source distinguishes general categories from its named elliptical
+    regular/outlier specialization; solver and chromosome application scopes remain
+    separate. Source scope: 1997 physical PDF pp.7–10, Sections3.1–4.2.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - ieco-limit-3-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-limit-4
+  area: scope
+  topic: Limitation 4
+  outcome: supported
+  summary: 'Visually checked1997 Eq13 has density-versus-cost and radial-argument
+    concerns; the record uses Section3 supplied valid densities. The present Phi audit
+    establishes no defect in Eq9. Source scope: 1997 physical PDF pp.9,11;1996 rendered
+    abstract p.2.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - src-gallegos1996-context
+  - ieco-limit-4-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-limit-5
+  area: scope
+  topic: Limitation 5
+  outcome: supported
+  summary: 'The predecessor literal Pareto family has nonzero lower support cutoff.
+    The caution avoids importing an unrestricted log-distance likelihood equivalence.
+    Source scope: 1995 physical PDF p.7, Section3.2(c).'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1995-context
+  - ieco-limit-5-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-limit-6
+  area: scope
+  topic: Limitation 6
+  outcome: supported
+  summary: 'Both abstract pages were visually read. Earlier quality maximization and
+    cutREG notation remain historical context rather than repairs of1997 formulas.
+    Source scope: 1996 rendered abstract p.2;1997 physical PDF pp.6,8–9.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-gallegos1996-context
+  - src-ritter1997
+  - ieco-limit-6-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-limit-7
+  area: scope
+  topic: Limitation 7
+  outcome: supported
+  summary: 'The stated procedure needs fitted laws, priors, constraints and a solver;
+    no author implementation, benchmark or general complexity result has been executed
+    or supplied by this preparation. Source scope: 1997 physical PDF pp.5–13 and separate
+    acquisition/reading scope.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - ieco-limit-7-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-limit-8
+  area: scope
+  topic: Limitation 8
+  outcome: supported
+  summary: 'Three exact author-hosted artifacts are bound; titles and publication
+    metadata do not prove publisher-byte equivalence. Source scope: Exact acquisition/version
+    receipts and source metadata.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - source-context
+  - source-reading
+  - root-static-science-acceptance
+  - src-ritter1997
+  - src-ritter1995-context
+  - src-gallegos1996-context
+  - ieco-limit-8-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-definition
+  area: identity
+  topic: Definition and source scope
+  outcome: supported
+  summary: 'The definition already specifies distinct class slots and supplied mixture
+    likelihoods. Accepted Phi scope clarifies the decision target without asserting
+    failure of source equations or biological experiments. Locators: PDF pp.7–9, Sections3.1–3.4,
+    especially Eqs3 and10–11 and the IECO naming paragraph.'
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - src-ritter1997
+  - source-context
+  - historical-aio-assessment
+  - historical-native-assessment
+  - root-static-science-acceptance
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-identity
+  area: identity
+  topic: Identity and source scope
+  outcome: supported
+  summary: Retain IECO category-marginalized indexed-slot assignment separately from
+    parameter fitting and historical IEC/quality variants. The Phi posterior concerns
+    an injective indexed-slot variable, supplied normalized component laws and stated
+    priors; category marginalization differs from joint category MAP, and coarser
+    biological-label aggregation needs its own argument. No failure of the specific45-chromosome
+    construction is asserted. Actual identity notes equal the fresh root decisions;
+    exact historical/current differences remain in context_changes.
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - src-ritter1997
+  - source-context
+  - historical-aio-assessment
+  - historical-native-assessment
+  - root-static-science-acceptance
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-mapping
+  area: grounding
+  topic: Mapping and source scope
+  outcome: supported
+  summary: The procedure assigns observations to externally specified classes using
+    fitted class-conditional distributions and global class-slot constraints. The
+    inspected target is a classification task under SupervisedLearning, so the association
+    is related rather than an exact or subclass mapping. Unobserved regular/outlier
+    categories do not make the external class labels latent clusters, and two qualities
+    do not imply binary class assignment.
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - src-ritter1997
+  - source-context
+  - historical-aio-assessment
+  - historical-native-assessment
+  - root-static-science-acceptance
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-source
+  area: provenance
+  topic: Source and source scope
+  outcome: supported
+  summary: One shared author-hosted1997 manuscript defines both algorithms. The1995
+    thirteen-page full manuscript and1996 two-page abstract remain context with their
+    exact access levels. Four declared record rows identify three artifacts; publisher
+    byte equivalence remains unverified.
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - src-ritter1997
+  - source-context
+  - historical-aio-assessment
+  - historical-native-assessment
+  - root-static-science-acceptance
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ieco-kind
+  area: identity
+  topic: Kind and source scope
+  outcome: supported
+  summary: This is a reusable algorithm specification with operational decisions and
+    assumptions, not a trained-model instance, dataset or reported accuracy result.
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - src-ritter1997
+  - source-context
+  - historical-aio-assessment
+  - historical-native-assessment
+  - root-static-science-acceptance
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: actual-canonical-correspondence
+  area: provenance
+  topic: Actual canonical creation and current accounting
+  outcome: supported
+  summary: 'Actual records retain9 claims and15 limitations,4 declared source rows
+    and3 distinct artifacts: one shared defining1997 manuscript plus1995 full-manuscript
+    and1996 abstract-only context. Five exclusive creation outputs and one CREATE
+    event are bound. Current dynamic owner changes and additions are exactly the accepted
+    plan: {"additional_source_question_count": 10, "changed_main_indexes": [], "changed_nested_indexes":
+    [], "main": 914, "nested": 394, "new_main_rows": 1, "new_nested_rows": 0, "retained_bibliography_occurrences":
+    22, "unchanged_other_main": 913, "unchanged_other_nested": 394}. All22 bibliography
+    occurrences, any additional source questions, original402/404/406 metadata and356
+    twelve source follow-ups are retained. 62 unique captured inputs, actual generated
+    pages and six successful required checks are bound. No source exhaustion, independent
+    approval, issue closure or publication result is implied.'
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  - AIMech:IECOConstrainedMixtureClassification
+  evidence_ids:
+  - actual-write
+  - captured-inputs
+  - postcapture-reading
+  - governance-assessment
+  - rendered-pages
+  - actual-scientific-assessment
+  - creation-history
+  - root-decisions
+  - ownership-plan
+  - ownership-plan-acceptance
+  - check-gate
+  - check-vendor
+  - check-check-source
+  - check-render
+  - check-render-check
+  - check-diff
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  rationale: Retain POP/BAS/OUT component-law fitting separately from downstream constrained
+    assignment, mixture-prior estimation, covariance construction and generic EM.
+    OUT is selected from original POP, BAS/OUT can overlap, cut_REG remains a source-version
+    ambiguity, and no universal robustness or optimization theorem is inferred.
+  evidence_ids:
+  - fitting-preview
+  - fitting-support
+  - fitting-validation
+  - fitting-identity
+  - src-ritter1997
+  - source-context
+  - historical-native-assessment
+  - root-static-science-acceptance
+  - actual-write
+  - root-decisions
+  - postcapture-reading
+- action: retain
+  target_ids:
+  - AIMech:IECOConstrainedMixtureClassification
+  rationale: Retain IECO category-marginalized indexed-slot assignment separately
+    from parameter fitting and historical IEC/quality variants. The Phi posterior
+    concerns an injective indexed-slot variable, supplied normalized component laws
+    and stated priors; category marginalization differs from joint category MAP, and
+    coarser biological-label aggregation needs its own argument. No failure of the
+    specific45-chromosome construction is asserted.
+  evidence_ids:
+  - ieco-preview
+  - ieco-support
+  - ieco-validation
+  - ieco-identity
+  - src-ritter1997
+  - source-context
+  - historical-native-assessment
+  - root-static-science-acceptance
+  - actual-write
+  - root-decisions
+  - postcapture-reading
+targets:
+- target_id: AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+  label: Ritter–Gallegos two-stage outlier-mixture fitting
+  path: data/curated/RitterGallegosTwoStageOutlierMixtureFitting.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/RitterGallegosTwoStageOutlierMixtureFitting.yaml
+    role: maintained native concept record
+- target_id: AIMech:IECOConstrainedMixtureClassification
+  label: IECO constrained elliptical-mixture classification
+  path: data/curated/IECOConstrainedMixtureClassification.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/IECOConstrainedMixtureClassification.yaml
+    role: maintained native concept record
+limitations:
+- Historical primary, root and mathematical readings remain separately attributed.
+  Consumer preparation performs no fresh primary reading or algorithm execution.
+- Two-stage fitting is a heuristic threshold/refit procedure. OUT is drawn from original
+  POP; overlap, cutoff ambiguity and component-prior boundaries remain explicit.
+- IECO MAP applies to the indexed injective slot variable under stated normalized-law,
+  prior, independence and feasibility assumptions; no universal coarse-label MAP or
+  correct biological classification guarantee is asserted.
+- The1997 manuscript is the sole shared defining artifact. The1995 full manuscript
+  and1996 abstract provide limited lineage/source-version context; no publisher byte
+  equivalence is asserted.
+- The literal1997 Eq13 density-versus-cost issue is retained as a source caveat, not
+  silently repaired or misidentified as an Eq9 failure. Historical1995/1996 and1997
+  formulations remain distinguishable.
+- Two related AIO mappings are bounded algorithm-to-task associations. Nineteen historical
+  AIO contexts and17 native identity contexts do not establish full-corpus scientific
+  review.
+- All22 bibliography occurrences, additional current questions and original402/404/406
+  plus356 twelve follow-ups require explicit retained responsibility. No issue closure
+  or literature saturation is asserted.
+- Actual five creation outputs, one CREATE history, 62 capture inputs and 8 parsed
+  generated pages are bound. Six required commands passed; earlier failed attempts
+  remain explicit. Canonical review save/check and publication are subsequent operations.
+tags:
+- scientific-review
+- self-review
+- statistical-pattern-recognition
+- source-scoped
+notes:
+- Prepared from exact accepted historical support and actual prior native previews.
+  This DATA scaffold is not an actual current review, new primary reading or publication
+  result.
+- 'Ritter source responsibility: 22 citation occurrences retained with current explicit
+  responsibility. Source questions are not new-concept assertions; frozen issue402
+  triage and other402 questions remain unchanged.'
+- 'R95-B01: {"reference_number": 1, "citation_native_text": "M.L. Balinski. Signature
+  methods for the assignment problem. Operations Research, 33:527–536, 1985.", "role":
+  "assignment/transportation algorithm lineage", "next_check": "Read original solver
+  and karyotyping reductions, and deduplicate existing algorithm owners; IEC classifier
+  is not identical to its generic solver.", "disposition": "retained_unassessed_original"};
+  disposition=pending_inspection; assessment=Signature methods are an assignment-solver
+  lineage; SeLa and SAT assignment contexts do not establish the identity of this
+  generic solver. Responsibility is proposed for the current shared Ritter source-dossier
+  owner, not asserted as coverage by either new method.; next check=Read original
+  solver and karyotyping reductions, and deduplicate existing algorithm owners; IEC
+  classifier is not identical to its generic solver.; responsible owner={"family":
+  "main", "index": 913}'
+- 'R95-B02: {"reference_number": 2, "citation_native_text": "A.P. Dempster. Elements
+  of Continuous Multivariate Analysis. Addison-Wesley, Reading Mas- sachusetts, 1969.",
+  "role": "unassessed context", "next_check": "Retain source context; title does not
+  establish a new AI concept.", "disposition": "retained_unassessed_original"}; disposition=retained_context;
+  assessment=Dempster 1969 is retained multivariate-analysis context; it is not the
+  represented 1977 EM algorithm merely because Dempster is an author. Responsibility
+  is proposed for the current shared Ritter source-dossier owner, not asserted as
+  coverage by either new method.; next check=Retain source context; title does not
+  establish a new AI concept.; responsible owner={"family": "main", "index": 913}'
+- 'R95-B03: {"reference_number": 3, "citation_native_text": "Kai-Tai Fang, Samuel
+  Kotz, and Kai-Wang Ng. Symmetric Multivariate and Related Distributions. Chapman
+  and Hall, London, New York, 1990.", "role": "unassessed context", "next_check":
+  "Retain source context; title does not establish a new AI concept.", "disposition":
+  "retained_unassessed_original"}; disposition=retained_context; assessment=Fang–Kotz–Ng
+  supplies distribution-family context; the citation does not establish a separate
+  fitting or classification procedure. Responsibility is proposed for the current
+  shared Ritter source-dossier owner, not asserted as coverage by either new method.;
+  next check=Retain source context; title does not establish a new AI concept.; responsible
+  owner={"family": "main", "index": 913}'
+- 'R95-B04: {"reference_number": 4, "citation_native_text": "K. Fukunaga. Introduction
+  to statistical pattern recognition. Academic Press, Boston, San Diego, New York,
+  London, Sydney, Tokyo, Toronto, 1990. 11", "role": "unassessed context", "next_check":
+  "Retain source context; title does not establish a new AI concept.", "disposition":
+  "retained_unassessed_original"}; disposition=retained_context; assessment=Fukunaga
+  is retained pattern-recognition context. Existing LDA/QDA do not resolve every method
+  in a textbook. Responsibility is proposed for the current shared Ritter source-dossier
+  owner, not asserted as coverage by either new method.; next check=Retain source
+  context; title does not establish a new AI concept.; responsible owner={"family":
+  "main", "index": 913}'
+- 'R95-B05: {"reference_number": 5, "citation_native_text": "E. Granum. Application
+  of statistical and syntactical methods of analysis and classiﬁcation to chromosome
+  data. In J. Kittler, K.S. Fu, and L.F. Pau, editors, Pattern Recognition Theory
+  and Applications (Proc. NATO ASI Series), pages 373–398, Dordrecht, 1982. Reidel.",
+  "role": "unassessed context", "next_check": "Retain source context; title does not
+  establish a new AI concept.", "disposition": "retained_unassessed_original"}; disposition=retained_context;
+  assessment=Granum is chromosome analysis/application context; neither a new algorithm
+  identity nor clinical validation is inferred. Responsibility is proposed for the
+  current shared Ritter source-dossier owner, not asserted as coverage by either new
+  method.; next check=Retain source context; title does not establish a new AI concept.;
+  responsible owner={"family": "main", "index": 913}'
+- 'R95-B06: {"reference_number": 6, "citation_native_text": "J.D.F. Habbema. A discriminant
+  analysis approach to the identiﬁcation of human chromosomes. Biometrics, 32:919–928,
+  1976.", "role": "predecessor classifier or covariance-assumption lineage", "next_check":
+  "Read exact original model, score, multiplicity constraints and estimation assumptions
+  before any separate candidate or equivalence claim.", "disposition": "retained_unassessed_original"};
+  disposition=pending_inspection; assessment=Habbema 1976 discriminant chromosome
+  identification needs original-score and constraint comparison; LDA/QDA are neighbors,
+  not an established exact source identity. Responsibility is proposed for the current
+  shared Ritter source-dossier owner, not asserted as coverage by either new method.;
+  next check=Read exact original model, score, multiplicity constraints and estimation
+  assumptions before any separate candidate or equivalence claim.; responsible owner={"family":
+  "main", "index": 913}'
+- 'R95-B07: {"reference_number": 7, "citation_native_text": "J.D.F. Habbema. Statistical
+  methods for classiﬁcation of human chromosomes. Biometrics, 35:103– 118, 1979.",
+  "role": "predecessor classifier or covariance-assumption lineage", "next_check":
+  "Read exact original model, score, multiplicity constraints and estimation assumptions
+  before any separate candidate or equivalence claim.", "disposition": "retained_unassessed_original"};
+  disposition=pending_inspection; assessment=Habbema 1979 chromosome classification
+  requires original-model comparison separately from the 1976 occurrence. Responsibility
+  is proposed for the current shared Ritter source-dossier owner, not asserted as
+  coverage by either new method.; next check=Read exact original model, score, multiplicity
+  constraints and estimation assumptions before any separate candidate or equivalence
+  claim.; responsible owner={"family": "main", "index": 913}'
+- 'R95-B08: {"reference_number": 8, "citation_native_text": "S.P.J. Kirby, C.M. Theobald,
+  J. Piper, and A.D. Carothers. Some methods of combining class infor- mation in multivariate
+  normal discrimination for the classiﬁcation of human chromosomes. Statistics Med.,
+  10:141–149, 1991.", "role": "predecessor classifier or covariance-assumption lineage",
+  "next_check": "Read exact original model, score, multiplicity constraints and estimation
+  assumptions before any separate candidate or equivalence claim.", "disposition":
+  "retained_unassessed_original"}; disposition=pending_inspection; assessment=Kirby
+  et al. class-information pooling may concern a distinct covariance/discriminant
+  estimator. Current QDA/LDA are contextual comparators, not source clearance. Responsibility
+  is proposed for the current shared Ritter source-dossier owner, not asserted as
+  coverage by either new method.; next check=Read exact original model, score, multiplicity
+  constraints and estimation assumptions before any separate candidate or equivalence
+  claim.; responsible owner={"family": "main", "index": 913}'
+- 'R95-B09: {"reference_number": 9, "citation_native_text": "P. Kleinschmidt, C.W.
+  Lee, and H. Schannath. Transportation problems which can be solved by use of Hirsch-paths
+  for the dual problem. Math. Prog., 37:153–168, 1987.", "role": "assignment/transportation
+  algorithm lineage", "next_check": "Read original solver and karyotyping reductions,
+  and deduplicate existing algorithm owners; IEC classifier is not identical to its
+  generic solver.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection;
+  assessment=Kleinschmidt–Lee–Schannath Hirsch-path transportation concerns a generic
+  solver, not IECO supplied-density semantics or SeLa identity. Responsibility is
+  proposed for the current shared Ritter source-dossier owner, not asserted as coverage
+  by either new method.; next check=Read original solver and karyotyping reductions,
+  and deduplicate existing algorithm owners; IEC classifier is not identical to its
+  generic solver.; responsible owner={"family": "main", "index": 913}'
+- 'R95-B10: {"reference_number": 10, "citation_native_text": "Peter Kleinschmidt,
+  Ilse Mitterreiter, and Jim Piper. Improved chromosome classiﬁcation using monotonic
+  functions of Mahalanobis distance and the transportation method. ZOR–Math. Meth.
+  Oper. Res., 40:305–323, 1994.", "role": "predecessor classifier or covariance-assumption
+  lineage", "next_check": "Read exact original model, score, multiplicity constraints
+  and estimation assumptions before any separate candidate or equivalence claim.",
+  "disposition": "retained_unassessed_original"}; disposition=pending_inspection;
+  assessment=Kleinschmidt et al. 1994 monotone Mahalanobis transportation classification
+  is a predecessor method requiring its own score/constraint reading. Responsibility
+  is proposed for the current shared Ritter source-dossier owner, not asserted as
+  coverage by either new method.; next check=Read exact original model, score, multiplicity
+  constraints and estimation assumptions before any separate candidate or equivalence
+  claim.; responsible owner={"family": "main", "index": 913}'
+- 'R95-B11: {"reference_number": 11, "citation_native_text": "C. Lundsteen, A.-M.
+  Lind, and E. Granum. Visual classiﬁcation of banded human chromosomes. Ann. Hum.
+  Genet., London, 40:87–97, 1976.", "role": "unassessed context", "next_check": "Retain
+  source context; title does not establish a new AI concept.", "disposition": "retained_unassessed_original"};
+  disposition=retained_context; assessment=Lundsteen–Lind–Granum visual classification
+  is retained application context; no automatic method or expert-equivalence claim
+  follows. Responsibility is proposed for the current shared Ritter source-dossier
+  owner, not asserted as coverage by either new method.; next check=Retain source
+  context; title does not establish a new AI concept.; responsible owner={"family":
+  "main", "index": 913}'
+- 'R95-B12: {"reference_number": 12, "citation_native_text": "Jim Piper. The eﬀect
+  of zero feature correlation assumption on maximum likelihood based classiﬁ- cation
+  of chromosomes. Signal Processing, 12:49–57, 1987.", "role": "predecessor classifier
+  or covariance-assumption lineage", "next_check": "Read exact original model, score,
+  multiplicity constraints and estimation assumptions before any separate candidate
+  or equivalence claim.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection;
+  assessment=Piper 1987 zero-correlation assumptions require original evidence. Naive
+  Bayes feature independence and QDA/LDA covariance assumptions are comparison contexts,
+  not exact identification. Responsibility is proposed for the current shared Ritter
+  source-dossier owner, not asserted as coverage by either new method.; next check=Read
+  exact original model, score, multiplicity constraints and estimation assumptions
+  before any separate candidate or equivalence claim.; responsible owner={"family":
+  "main", "index": 913}'
+- 'R95-B13: {"reference_number": 13, "citation_native_text": "Jim Piper. Variability
+  and bias in experimentally measured classiﬁer error rates. Patt. Rec. Lett., 13:685–692,
+  1992.", "role": "unassessed context", "next_check": "Retain source context; title
+  does not establish a new AI concept.", "disposition": "retained_unassessed_original"};
+  disposition=retained_context; assessment=Piper 1992 evaluation variability/bias
+  is retained methodological context; no numerical performance guarantee is promoted.
+  Responsibility is proposed for the current shared Ritter source-dossier owner, not
+  asserted as coverage by either new method.; next check=Retain source context; title
+  does not establish a new AI concept.; responsible owner={"family": "main", "index":
+  913}'
+- 'R95-B14: {"reference_number": 14, "citation_native_text": "Jim Piper and Erik Granum.
+  On fully automatic feature measurement for banded chromosome classiﬁcation. Cytometry,
+  10:242–255, 1989.", "role": "unassessed context", "next_check": "Retain source context;
+  title does not establish a new AI concept.", "disposition": "retained_unassessed_original"};
+  disposition=retained_context; assessment=Piper–Granum feature measurement remains
+  an unread feature-pipeline source; not an IECO alias or clinical claim. Responsibility
+  is proposed for the current shared Ritter source-dossier owner, not asserted as
+  coverage by either new method.; next check=Retain source context; title does not
+  establish a new AI concept.; responsible owner={"family": "main", "index": 913}'
+- 'R95-B15: {"reference_number": 15, "citation_native_text": "Jim Piper, Erik Granum,
+  D. Rutovitz, and H. Ruttledge. Automation of chromosome analysis. Signal Processing,
+  2:203–221, 1980.", "role": "unassessed context", "next_check": "Retain source context;
+  title does not establish a new AI concept.", "disposition": "retained_unassessed_original"};
+  disposition=retained_context; assessment=Piper et al. chromosome-analysis automation
+  is retained application context; a title does not establish a standalone new AI
+  concept. Responsibility is proposed for the current shared Ritter source-dossier
+  owner, not asserted as coverage by either new method.; next check=Retain source
+  context; title does not establish a new AI concept.; responsible owner={"family":
+  "main", "index": 913}'
+- 'R95-B16: {"reference_number": 16, "citation_native_text": "R. E. Slot. On the proﬁt
+  of taking into account the known number of objects per class in classiﬁcation methods.
+  IEEE Trans. Inf. Theory, 25:484–488, 1979.", "role": "predecessor classifier or
+  covariance-assumption lineage", "next_check": "Read exact original model, score,
+  multiplicity constraints and estimation assumptions before any separate candidate
+  or equivalence claim.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection;
+  assessment=Slot 1979 known class multiplicities is a relevant predecessor constraint
+  question; SeLa balanced assignments do not settle its exact identity. Responsibility
+  is proposed for the current shared Ritter source-dossier owner, not asserted as
+  coverage by either new method.; next check=Read exact original model, score, multiplicity
+  constraints and estimation assumptions before any separate candidate or equivalence
+  claim.; responsible owner={"family": "main", "index": 913}'
+- 'R95-B17: {"reference_number": 17, "citation_native_text": "M. Tso, P. Kleinschmidt,
+  I. Mitterreiter, and J. Graham. An eﬃcient transportation algorithm for automatic
+  chromosome karyotyping. Patt. Rec. Lett., 12:117–126, 1991.", "role": "assignment/transportation
+  algorithm lineage", "next_check": "Read original solver and karyotyping reductions,
+  and deduplicate existing algorithm owners; IEC classifier is not identical to its
+  generic solver.", "disposition": "retained_unassessed_original"}; disposition=pending_inspection;
+  assessment=Tso et al. 1991 transportation implementation is a solver-lineage question;
+  preserve it separately from the 1983 source. Responsibility is proposed for the
+  current shared Ritter source-dossier owner, not asserted as coverage by either new
+  method.; next check=Read original solver and karyotyping reductions, and deduplicate
+  existing algorithm owners; IEC classifier is not identical to its generic solver.;
+  responsible owner={"family": "main", "index": 913}'
+- 'R95-B18: {"reference_number": 18, "citation_native_text": "M.K.S. Tso and J. Graham.
+  The transportation algorithm as an aid to chromosome classiﬁcation. Patt. Rec. Lett.,
+  1:489–496, 1983.", "role": "assignment/transportation algorithm lineage", "next_check":
+  "Read original solver and karyotyping reductions, and deduplicate existing algorithm
+  owners; IEC classifier is not identical to its generic solver.", "disposition":
+  "retained_unassessed_original"}; disposition=pending_inspection; assessment=Tso–Graham
+  1983 transportation reduction requires original reading; a generic solver and a
+  probabilistic constrained classifier are separate scopes. Responsibility is proposed
+  for the current shared Ritter source-dossier owner, not asserted as coverage by
+  either new method.; next check=Read original solver and karyotyping reductions,
+  and deduplicate existing algorithm owners; IEC classifier is not identical to its
+  generic solver.; responsible owner={"family": "main", "index": 913}'
+- 'R95-B19: {"reference_number": 19, "citation_native_text": "S.O. Zimmerman, D.A.
+  Johnston, F.E. Arrighi, and M.E. Rupp. Automated homologue matching of human G-banded
+  chromosomes. Comput. Biol. Med., 16:223–233, 1986.", "role": "unassessed context",
+  "next_check": "Retain source context; title does not establish a new AI concept.",
+  "disposition": "retained_unassessed_original"}; disposition=retained_context; assessment=Zimmerman
+  et al. homologue matching is retained application/matching context. No new method
+  or coverage claim is made without the original. Responsibility is proposed for the
+  current shared Ritter source-dossier owner, not asserted as coverage by either new
+  method.; next check=Retain source context; title does not establish a new AI concept.;
+  responsible owner={"family": "main", "index": 913}'
+- 'R96-B01: {"citation": "Barnett V. and T. Lewis (1994). Outliers in statistical
+  data. Wiley.", "disposition": "retained context; original not read in this lineage
+  task"}; disposition=retained_context; assessment=Barnett–Lewis 1994 is unread robust-outlier
+  context; distance/density outlier owners do not establish this exact source coverage.
+  Responsibility is proposed for the current shared Ritter source-dossier owner, not
+  asserted as coverage by either new method.; next check=Prior robust-outlier context
+  group remains pending. Barnett–Lewis is not asserted equivalent to the two-stage
+  estimator. Read the original trimming/premium-protection context only when needed
+  for that source question.; responsible owner={"family": "main", "index": 913}'
+- 'R96-B02: {"citation": "Fang K.-T., S. Kotz and K.-W. Ng (1990). Symmetric Multivariate
+  and Related Distributions. Chapman and Hall, London, New York.", "disposition":
+  "retained distribution context; original not read in this lineage task"}; disposition=retained_context;
+  assessment=This Fang–Kotz–Ng abstract citation is a second distinct occurrence and
+  is preserved separately from R95-B03. Responsibility is proposed for the current
+  shared Ritter source-dossier owner, not asserted as coverage by either new method.;
+  next check=Preserve this separate abstract citation occurrence and the1995 bibliography
+  occurrence R95-B03; neither is converted into a newly inspected monograph or algorithm
+  record.; responsible owner={"family": "main", "index": 913}'
+- 'R96-B03: {"citation": "Ritter G., M. T. Gallegos, K. Gaggermeier (1995). Automatic
+  context-sensitive karyotyping of human chromosomes based on elliptically symmetric
+  distributions. Pattern Recognition, 28,6.", "disposition": "Original1995 author
+  manuscript fully read; retain abstract citation as printed, no silent title/page
+  correction."}; disposition=retained_context; assessment=The 1995 author manuscript
+  has been fully read in the attributed prior lineage work. Its fixed-count singleton-category
+  construction contextualizes IECO; this does not establish an exact alias or require
+  a third record. The abstract citation stays exactly as printed; publisher bytes,
+  Pareto support and other originals remain unresolved. Responsibility is proposed
+  for the current shared Ritter source-dossier owner, not asserted as coverage by
+  either new method.; next check=The exact1995 author manuscript was read in the separately
+  attributed lineage pass and partially reread in the Phi audit. Singleton-category/fixed-multiplicity
+  relation is retained as IECO context; no third record or closure of the broader
+  solver/classifier lineage.; responsible owner={"family": "main", "index": 913}'
+- 'Current source question: {"question_id": "R357-G1", "question": "Anscombe premium
+  protection and ellipsoidal trimming predecessors: Anscombe1960; Barnett–Lewis1994;
+  Davies–Gather1993; Hawkins1980; Rousseeuw–Leroy1987", "locator": "pp5–6 and references16–17",
+  "source": {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/bibliography-ledger.retained.json",
+  "sha256": "db7a5e74dc84f17e7c7b64ed549b5d9c813abe2d09019def159780451449a1f2"}, "original_pointer":
+  "/retained1997_prior_followups/source_followups_exact/0", "exact_original_object":
+  {"candidate": "Anscombe premium protection and ellipsoidal trimming predecessors",
+  "source": "Anscombe1960; Barnett–Lewis1994; Davies–Gather1993; Hawkins1980; Rousseeuw–Leroy1987",
+  "locator": "pp5–6 and references16–17", "next_check": "Read originals to resolve
+  the exact modification and robust-estimation/identification boundaries; do not use
+  predecessor names as exact aliases.", "disposition": "pending_primary_method_comparison"},
+  "original_object_sha256": "e97f5f5bf064c217acb6c92348e81554b0651cf212ef5309f0bacedc5e8d4540",
+  "current_comparison": {"candidate": "Anscombe premium protection and ellipsoidal
+  trimming predecessors", "source": "Anscombe1960; Barnett–Lewis1994; Davies–Gather1993;
+  Hawkins1980; Rousseeuw–Leroy1987", "comparison": "Current652 covers neighbor-distance
+  scoring and655 local reachability density. Neither owns the trimmed component-law
+  estimator. Owner119 cites Kaufman/Rousseeuw medoids, a different source and method.
+  Keep the exact cited originals pending; the1997 modification is not an exact alias.",
+  "next_check": "Read originals and compare masking, trimming, breakdown assumptions
+  and fitted outputs before creating any separate identity.", "disposition": "retained_unassessed_originals"},
+  "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection",
+  "next_check": "Read originals and compare masking, trimming, breakdown assumptions
+  and fitted outputs before creating any separate identity. Keep premium protection,
+  minimum-volume ellipsoid and other robust estimators as source-specific comparisons,
+  not exact fitting aliases.", "existing_owner_crosslinks": [], "existing_record_ids":
+  []}'
+- 'Current source question: {"question_id": "R357-G2", "question": "Mixture contamination
+  and alternative mixture fitting: Dixon1953; Tukey1960; Mardia–Kent–Bibby1979; Dempster–Laird–Rubin1977;
+  Bock1996; Cheeseman etal1988 AutoClass", "locator": "pp4–5 and references16–17",
+  "source": {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/bibliography-ledger.retained.json",
+  "sha256": "db7a5e74dc84f17e7c7b64ed549b5d9c813abe2d09019def159780451449a1f2"}, "original_pointer":
+  "/retained1997_prior_followups/source_followups_exact/1", "exact_original_object":
+  {"candidate": "Mixture contamination and alternative mixture fitting", "source":
+  "Dixon1953; Tukey1960; Mardia–Kent–Bibby1979; Dempster–Laird–Rubin1977; Bock1996;
+  Cheeseman etal1988 AutoClass", "locator": "pp4–5 and references16–17", "next_check":
+  "EM already has a maintained owner; deduplicate other mixture/AutoClass leads before
+  any new owner. Preserve historical contamination-model provenance without claiming
+  this paper invented mixtures.", "disposition": "mixed_represented_context_and_unassessed_sources"},
+  "original_object_sha256": "e9b0e6ef94b6c20a2c47c7e59ed2f323e0b7f784676fac254b72cfd36383cfeb",
+  "current_comparison": {"candidate": "Mixture contamination and alternative mixture
+  fitting", "source": "Dixon1953; Tukey1960; Mardia–Kent–Bibby1979; Dempster–Laird–Rubin1977;
+  Bock1996; Cheeseman etal1988 AutoClass", "comparison": "AIMech:ExpectationMaximization
+  and its variants already represent different expectation/optimization procedures;
+  original1977 publication provenance is not newly audited. AutoClass is already retained
+  under owner610; attach any future original-source work there rather than append
+  a duplicate. Historical contamination laws and Bock review remain source context.",
+  "next_check": "Retain original bibliographic details; inspect AutoClass and other
+  precise algorithms before a distinct record.", "disposition": "mixed_existing_method_and_existing_owner_and_pending_context"},
+  "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection",
+  "next_check": "Retain original bibliographic details; inspect AutoClass and other
+  precise algorithms before a distinct record. Preserve AutoClass responsibility at
+  existing main:610 and existing AIMech:ExpectationMaximization context; neither is
+  a newly allocated question.", "existing_owner_crosslinks": [{"family": "main", "index":
+  610}], "existing_record_ids": ["AIMech:ExpectationMaximization"]}'
+- 'Current source question: {"question_id": "R357-G3", "question": "Covariance weighting
+  and regularized discrimination: Piper etal1994; Piper1987; Friedman1989; Stein1956;
+  James–Stein1961", "locator": "pp6–7,13 and references16–17", "source": {"path":
+  "/private/tmp/aimech-ritter-two-scope-readiness-20261015/bibliography-ledger.retained.json",
+  "sha256": "db7a5e74dc84f17e7c7b64ed549b5d9c813abe2d09019def159780451449a1f2"}, "original_pointer":
+  "/retained1997_prior_followups/source_followups_exact/2", "exact_original_object":
+  {"candidate": "Covariance weighting and regularized discrimination", "source": "Piper
+  etal1994; Piper1987; Friedman1989; Stein1956; James–Stein1961", "locator": "pp6–7,13
+  and references16–17", "next_check": "Inspect source-specific covariance weighting
+  separately from generic mean shrinkage or the two-stage fitting identity. No new
+  numerical shrinkage guarantee is accepted here.", "disposition": "pending_primary_method_comparison"},
+  "original_object_sha256": "df778d2c0ce0eae07a4b88c022a4d6ed1bca46b259085fdc3ac7f40d0bc01ffd",
+  "current_comparison": {"candidate": "Covariance weighting and regularized discrimination",
+  "source": "Piper etal1994; Piper1987; Friedman1989; Stein1956; James–Stein1961",
+  "comparison": "Existing QDA/LDA specify class-specific/shared Gaussian covariance,
+  not the cited covariance-weighting estimator. RobustAdaptiveMetropolis updates a
+  sampler proposal, and active CMA updates search covariance; neither establishes
+  this source identity. Owner387 SureShrink uses Stein risk but is a different source/method.",
+  "next_check": "Inspect original weighting and shrinkage mechanisms and guarantees;
+  do not infer mean-shrinkage risk transfer or add as part of POP/BAS/OUT.", "disposition":
+  "retained_unassessed_originals"}, "responsible_owner": {"family": "main", "index":
+  913}, "disposition": "pending_inspection", "next_check": "Inspect original weighting
+  and shrinkage mechanisms and guarantees; do not infer mean-shrinkage risk transfer
+  or add as part of POP/BAS/OUT.", "existing_owner_crosslinks": [], "existing_record_ids":
+  []}'
+- 'Current source question: {"question_id": "R357-G4", "question": "Constrained assignment
+  and chromosome classifier predecessors: Ritter–Gallegos–Gaggermeier1995; Tso–Graham1983;
+  Tso etal1991; Kleinschmidt etal1994; Balinski1985; Papadimitriou–Steiglitz1982;
+  Gallegos–Ritter1996 abstract", "locator": "pp3–4,9 and references16–17", "source":
+  {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/bibliography-ledger.retained.json",
+  "sha256": "db7a5e74dc84f17e7c7b64ed549b5d9c813abe2d09019def159780451449a1f2"}, "original_pointer":
+  "/retained1997_prior_followups/source_followups_exact/3", "exact_original_object":
+  {"candidate": "Constrained assignment and chromosome classifier predecessors", "source":
+  "Ritter–Gallegos–Gaggermeier1995; Tso–Graham1983; Tso etal1991; Kleinschmidt etal1994;
+  Balinski1985; Papadimitriou–Steiglitz1982; Gallegos–Ritter1996 abstract", "locator":
+  "pp3–4,9 and references16–17", "next_check": "Read original IE C classifier and
+  assignment sources before claiming full historical novelty or source equivalence.
+  Compare the exact Eq13 convention in the1995 predecessor or another authorized version.
+  Hungarian/transportation solver use is a component boundary, not IECO identity.",
+  "disposition": "pending_primary_method_comparison"}, "original_object_sha256": "e75e3b5a4b809cb30d18516347f915704f94a29c380d227bec40afcaf08ae247",
+  "current_comparison": {"candidate": "Constrained assignment and chromosome classifier
+  predecessors", "source": "Ritter–Gallegos–Gaggermeier1995; Tso–Graham1983; Tso etal1991;
+  Kleinschmidt etal1994; Balinski1985; Papadimitriou–Steiglitz1982; Gallegos–Ritter1996
+  abstract", "comparison": "1995IEC singleton-category/fixed-multiplicity relation
+  and1996 max-versus1997 sum comparison now read. Existing SeLa learns balanced neural
+  pseudo-labels and is not this supplied-density constrained classifier; SAT assignment
+  and Papadimitriou2SATRandomWalk are different problems/sources. Generic Hungarian/transportation
+  algorithms are components and do not establish IECO equivalence.", "next_check":
+  "Keep unread original solver and classifier sources pending; preserve publisher-byte,
+  Eq13 and cutREG questions. No blanket closure of this group.", "disposition": "partially_researched_lineage_with_remaining_originals"},
+  "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection",
+  "next_check": "Keep unread original solver and classifier sources pending; preserve
+  publisher-byte, Eq13 and cutREG questions. No blanket closure of this group.", "existing_owner_crosslinks":
+  [], "existing_record_ids": []}'
+- 'Current source question: {"question_id": "R357-G5", "question": "Application, distribution
+  and evaluation context bibliography: Fang–Kotz–Ng1990; Fukunaga1990; Ledley–Ruddle1966;
+  Granum1982; Piper etal1980; Piper–Granum1989; Piper1992", "locator": "pp3,9–15 and
+  references16–17", "source": {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/bibliography-ledger.retained.json",
+  "sha256": "db7a5e74dc84f17e7c7b64ed549b5d9c813abe2d09019def159780451449a1f2"}, "original_pointer":
+  "/retained1997_prior_followups/source_followups_exact/4", "exact_original_object":
+  {"candidate": "Application, distribution and evaluation context bibliography", "source":
+  "Fang–Kotz–Ng1990; Fukunaga1990; Ledley–Ruddle1966; Granum1982; Piper etal1980;
+  Piper–Granum1989; Piper1992", "locator": "pp3,9–15 and references16–17", "next_check":
+  "Retain application/distribution/evaluation citations as unassessed context. Do
+  not infer new AI methods or clinical claims from titles.", "disposition": "unassessed_context"},
+  "original_object_sha256": "a6461a661109e32a973d47b6dfe6d7059739b2eb44a9d3ac55a5e15cead0fff4",
+  "current_comparison": {"candidate": "Application, distribution and evaluation context
+  bibliography", "source": "Fang–Kotz–Ng1990; Fukunaga1990; Ledley–Ruddle1966; Granum1982;
+  Piper etal1980; Piper–Granum1989; Piper1992", "comparison": "Existing classifier
+  and statistical-model records do not establish ownership of every application or
+  distribution citation. These titles are context, not automatic algorithm candidates
+  or clinical validation.", "next_check": "Read only source-specific questions needed
+  for later claims; retain all original citations and no numerical/clinical claims.",
+  "disposition": "retained_unassessed_context"}, "responsible_owner": {"family": "main",
+  "index": 913}, "disposition": "retained_context", "next_check": "Read only source-specific
+  questions needed for later claims; retain all original citations and no numerical/clinical
+  claims.", "existing_owner_crosslinks": [], "existing_record_ids": []}'
+- 'Current source question: {"question_id": "R357-AUTOCLASS", "question": "The Cheeseman
+  et al. 1988 AutoClass citation remains an existing pending method-source question
+  under main:610.", "locator": "1997 references PDF p.16; original group 2", "source":
+  {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/bibliography-ledger.retained.json",
+  "sha256": "db7a5e74dc84f17e7c7b64ed549b5d9c813abe2d09019def159780451449a1f2"}, "original_pointer":
+  "/retained1997_prior_followups/source_followups_exact/1", "exact_original_object":
+  {"candidate": "Mixture contamination and alternative mixture fitting", "source":
+  "Dixon1953; Tukey1960; Mardia–Kent–Bibby1979; Dempster–Laird–Rubin1977; Bock1996;
+  Cheeseman etal1988 AutoClass", "locator": "pp4–5 and references16–17", "next_check":
+  "EM already has a maintained owner; deduplicate other mixture/AutoClass leads before
+  any new owner. Preserve historical contamination-model provenance without claiming
+  this paper invented mixtures.", "disposition": "mixed_represented_context_and_unassessed_sources"},
+  "original_object_sha256": "e9b0e6ef94b6c20a2c47c7e59ed2f323e0b7f784676fac254b72cfd36383cfeb",
+  "responsible_owner": {"family": "main", "index": 610}, "disposition": "existing_pending_owner",
+  "next_check": "Read the defining AutoClass primary source and resolve it through
+  existing main:610 before any separate record. The Ritter source-dossier merely crosslinks
+  this responsibility; no duplicate owner or source closure.", "existing_owner_context":
+  {"source": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261016T010736Z-enforced-hill-climbing-and-local-search-space-lrta.json",
+  "sha256": "516283d10873d36554792b9cc6aac0352cdb000badd1dda54110a330fbd712b7"}, "pointer":
+  "/prior_frontier_accounting/610", "semantic_sha256": "01b34e976250494318ceb8d303a6d38de1c3ffcc8c8da73ddce24ea0af4a80b8"}}'
+- 'Current source question: {"question_id": "R357-EQ13", "question": "Resolve the
+  author-hosted 1997 Eq13 density-versus-cost and radial-argument discrepancy against
+  an independently acquired authorized version.", "locator": "1997 PDF p.11 Eq13;
+  1995 PDF p.4; 1996 abstract rendered p.2", "source": {"path": "/private/tmp/aimech-ritter-lineage-source-acquisition-20261015/lineage-comparison/assessment.json",
+  "sha256": "d62c6ae49850943f1ea5f46f973b63e24d133740dcf00e20c35b5c76cbadde2c"}, "original_pointer":
+  "/precision_findings/1", "exact_original_object": {"source": "1997", "locator":
+  "Section4.2 Eq13, PDFp11; comparison1995p4 and1996p2", "finding": "Earlier sources
+  have determinant times radial(norm(V^−1/2 residual)) as a density. They clarify
+  plausible lineage for the1997 density/cost and quadratic-argument ambiguity, but
+  they do not certify a corrected1997 printed equation. Preserve the previously identified
+  issue."}, "original_object_sha256": "2c670a0459df1da747a445087a5b5f82bc28ba12aacff08289a36d2d3dbac7fc",
+  "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection",
+  "next_check": "Retain the exact printed source discrepancy. Use the valid supplied-density
+  Section 3 construction meanwhile; do not silently certify or repair Eq13."}'
+- 'Current source question: {"question_id": "R357-CUTREG", "question": "Resolve the
+  undefined 1997 cutREG token without substituting the earlier 1996 terminology.",
+  "locator": "1997 PDF pp.5–6 Section 2.2; 1996 abstract rendered p.2", "source":
+  {"path": "/private/tmp/aimech-ritter-lineage-source-acquisition-20261015/lineage-comparison/assessment.json",
+  "sha256": "d62c6ae49850943f1ea5f46f973b63e24d133740dcf00e20c35b5c76cbadde2c"}, "original_pointer":
+  "/comparison/2", "exact_original_object": {"pair": "1996 REG/OUT fitting versus1997
+  BAS/OUT fitting", "relation": "Clear procedural lineage with terminology/precision
+  changes", "reason": "The1996 cut_REG definition plausibly explains the otherwise
+  undefined1997 cutREG token. The1997 explicit BAS naming and overlap statement are
+  source facts; the earlier definition is context, not authority to silently change
+  the1997 text."}, "original_object_sha256": "e6f5c8b7c679efb1d0697accc85a91b7a1405f044d2ecd14fce9a9826de9850e",
+  "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection",
+  "next_check": "Compare authorized versions or an explicit author clarification;
+  preserve the defined cutBAS/cutOUT sequence and keep the older cutREG definition
+  contextual."}'
+- 'Current source question: {"question_id": "R357-PARETO", "question": "Retain the
+  1995 Pareto support restriction versus unrestricted log-distance score and printed
+  dimensional-domain questions.", "locator": "1995 PDF p.7 Section 3.2(c)", "source":
+  {"path": "/private/tmp/aimech-ritter-lineage-source-acquisition-20261015/lineage-comparison/assessment.json",
+  "sha256": "d62c6ae49850943f1ea5f46f973b63e24d133740dcf00e20c35b5c76cbadde2c"}, "original_pointer":
+  "/precision_findings/0", "exact_original_object": {"source": "1995", "locator":
+  "Section3.2(c), PDFp7, visually inspected", "finding": "The stated Pareto radial
+  density is zero for r<r0, but the displayed classifier uses only sum log Mahalanobis
+  distance without the support restriction. For literal likelihood equivalence, any
+  proposed class match below r0 must have infinite negative-log cost. A finite unrestricted
+  log-distance score can instead be treated as a separate heuristic; these are not
+  universally equal.", "status": "Curator mathematical qualification of the displayed
+  density/classifier pair. No claim about uninspected author code.", "secondary":
+  "The displayed x-domain reads R^(46·4), unlike the general R^(46·d) formulation;
+  do not silently use this as a dimension restriction or repair it."}, "original_object_sha256":
+  "6e4bb8a75e41cdd3139a8447ffa3a3159f51ecb05e3adef459a29491790e4784", "responsible_owner":
+  {"family": "main", "index": 913}, "disposition": "pending_inspection", "next_check":
+  "Before a separate IEC/Pareto variant or literal likelihood equivalence claim, inspect
+  the exact support restriction and available authorized versions. No author-code
+  behavior or universal source error is inferred."}'
+- 'Current source question: {"question_id": "R357-PUBLISHER", "question": "Publisher-byte
+  equivalence of the three author-hosted source artifacts remains unverified.", "locator":
+  "1995/1997 manuscript headers; 1996 abstract provenance", "source": {"path": "/private/tmp/aimech-ritter-two-scope-readiness-20261015/assessment.json",
+  "sha256": "407141ad7be2d4d9c743edbf797b78cd0ab850999972159b52b5d704f08d93b6"}, "original_pointer":
+  "/source_version_gap", "exact_original_object": "Exact author-hosted artifacts support
+  this scope; publisher byte equivalence is unverified. All PDF locators are internal
+  pages.", "original_object_sha256": "67e01574a61407e3fe6be49982fe4d94b9a8126fe351927d7e4ecfb5165f2c71",
+  "responsible_owner": {"family": "main", "index": 913}, "disposition": "pending_inspection",
+  "next_check": "If a later claim needs publisher layout or formula equivalence, acquire
+  and compare the exact authorized publisher version. Keep internal PDF page locators
+  and do not infer journal offsets."}'
+- Inherited issue402 original triage is retained in the exact governance provenance;
+  no whole-issue closure is asserted.
+- Inherited issue404 and issue406 registries retain their original355 runtime context.
+  Twelve356 source follow-ups retain exact owner objects. No source exhaustion is
+  claimed.
+- 'predecessor_historical_pointer_restorations: {"issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json",
+  "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_indexes":
+  [911, 912], "nested_indexes": [], "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json",
+  "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "root_decision":
+  {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort354-identity-20261015/collection.json",
+  "sha256": "862c0ac766d58541b6fd3a7f70332ca01db26d090fa8aa2acc60b482c30bdf53"}, "current_baseline":
+  {"main": 911, "nested": 394}, "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json",
+  "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_append":
+  [{"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition":
+  "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/8", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"},
+  "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory
+  management and bound propagation methods, not only the retrospective comparisons.",
+  "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, {"candidate":
+  "Iterative expansion", "disposition": "pending_inspection", "historical_origin":
+  {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer":
+  "/new_frontier/9", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"},
+  "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent
+  cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}],
+  "method_acceptance_claimed": false, "nested_append": [], "owner_contexts": {"1":
+  {"candidate": "Divide-and-conquer beam search and breadth-first heuristic search",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "added", "next_check": "Follow Zhou and Hansen 2004 and the expanded
+  2006 paper for full layered duplicate detection and recursive path-recovery details;
+  do not conflate DCBS with the backtracking DCBSS record.", "record_ids": ["AIMech:BreadthFirstBranchAndBound",
+  "AIMech:BreadthFirstIDAStar", "AIMech:DivideConquerBeamSearch"], "resolution": "The
+  umbrella family is represented by the defined BFBnB, BFIDA-star and divide-and-conquer
+  beam procedures. Frontier/sparse-memory implementations remain separately assessable
+  leads.", "url": "https://cdn.aaai.org/ICAPS/2005/ICAPS05-010.pdf"}, "10": {"candidate":
+  "Frontier search, frontier-BFBnB and sparse-memory graph search", "carried_from":
+  "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition":
+  "pending_inspection", "next_check": "Follow the original frontier-search and 2003
+  sparse-memory papers; separate used-operator bits, predecessor counters, dummy nodes
+  and relay reconstruction.", "url": "https://ai.dmi.unibas.ch/research/reading_group/zhou-hansen-aij2006.pdf"},
+  "298": {"candidate": "Additional GenSAT selection and initialization variants",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_addressed", "next_check": "Follow CSAT, timid TSAT, ISAT,
+  SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT, MSAT and IHSAT. The1993 pages distinguish
+  candidate sets, picking and initialization; follow the original1992 definitions
+  and do not confuse timid TSAT with a later tabu-search acronym.", "round68_resolution":
+  "Added IHSAT after checking the ISAT candidate pool and HSAT history selector. CSAT,
+  timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT and MSAT still
+  require record-level inspection; this cohort remains open.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf"}},
+  "predecessor_findings_preserved": true, "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json",
+  "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "reconciliation_assessments":
+  {"iterative_expansion": "The exact original Russell1992 pending pointer remains
+  a source question despite existing RBFS and SRBFS records. Their conditional inheritance/static
+  reset distinctions do not discharge unconditional inherited parent-cost comparisons.
+  Restore pending with source provenance, without accepting an alias or new method.
+  The generic Flake web-crawl phrase is unrelated.", "memory_bounded_search": "The
+  exact original pending family pointer includes MREC, MA-star, SMA-star and iterative
+  threshold search. Currentowner1 and10 and maintained IDA-star/BFIDA-star/BULB records
+  do not establish inspected equivalence to those original memory-management and bound-propagation
+  methods. Preserve all four original fields plus historical origin as pending; future
+  primary work must resolve distinct methods individually."}}}'
+- 'earlier_historical_pointer_restorations: {"main_indexes": [909, 910], "nested_indexes":
+  [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision":
+  {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json",
+  "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline":
+  {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract
+  and a 2018 SAC related-work passage were inspected in the bounded historical-pointer
+  reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning",
+  "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]",
+  "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection",
+  "next_check": "Resolve identity against both collections, inspect a primary method
+  source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"},
+  "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"},
+  "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method
+  and its version. Compare the soft-Q objective, policy representation and sampler
+  with maintained SAC and ordinary Q-learning; resolve variants and current identity
+  before proposing any native record.", "origin": "SAC paper; restored historical
+  source pointer, not a newly established method identity.", "related_record_ids":
+  ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"},
+  {"access_scope": "Only the 2010 comparison sections and bibliography were inspected
+  for this restoration; the original FF full method is not claimed read.", "candidate":
+  "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation
+  through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping
+  assumptions and component-versus-whole-planner boundary; compare maintained strict
+  hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing",
+  "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were
+  read; no original full-method, convergence-proof or experiment assessment is asserted.",
+  "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic
+  search for real-time situated agents, including publication date/version, then read
+  its full lookahead, heuristic-repair and execution-commitment method. Reconcile
+  ownership with the existing real-time umbrella before any native identity decision.",
+  "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized
+  LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link
+  to the already explicit additional real-time variants residual; not a second responsible
+  owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot":
+  286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being
+  resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar",
+  "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state
+  commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url":
+  "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2",
+  "reason": "Add the source-scoped combinatorial SLS family, including non-improving
+  and memory-dependent transitions. Preserve prior HillClimbing progress and the historical
+  ILS discovery pointer; arbitrary embedded optimizers and exact named controllers
+  are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope":
+  "The existing local-search lead and its prior HillClimbing progress remain intact.
+  The source-scoped stochastic local-search outcome is separate from the strict-improvement
+  subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."},
+  "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology
+  and detailed GLSM control representations separately. Named GLS/FLS compositions
+  and Gu SAT identity remain with their existing owners; the current family record
+  does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"],
+  "round61_progress": "The strict-improvement subset is now represented by HillClimbing.
+  The broader local-search umbrella is not equated with that subset; general scope
+  and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"},
+  "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure
+  in Tabu Section 2; assess maximization/minimization naming and whether its intended
+  scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution":
+  "Added a native record after primary-method and critical-page inspection, ignored-inclusive
+  identity comparison, neighboring-method assessment and bounded AIO no-match documentation.",
+  "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"},
+  "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search;
+  resolve LRTA* update, cost and completeness assumptions against A-star and Fill.",
+  "round64_resolution": "Added a native DRAFT record with full-method and critical-image
+  inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"},
+  "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2
+  recursive correction and locate its missing proof or later specification. Preserve
+  the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"},
+  "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first
+  beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_added", "next_check": "Follow the original LDS paper and
+  Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency;
+  inspect a primary implementation before claiming literal executable equivalence.",
+  "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch",
+  "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original
+  LDS and ILDS were inspected and added; generalized LDS, depth-first beam search
+  and real-time heuristic methods remain distinct pending leads.", "round64_resolution":
+  "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA*
+  are now represented. Generalized LDS, depth-first beam search and additional real-time
+  variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"},
+  "8": {"candidate": "KBFS, multi-state commitment and real-time search variants",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy
+  and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and
+  heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}},
+  "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments":
+  {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical
+  reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not
+  resolve the named breadth-first escape controller or whole-FF boundary. Restore
+  one pending EHC main pointer with the original comparison URL and original-primary
+  next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already
+  retain broader real-time-search residuals and owner 286 represents basic LRTA*.
+  Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible
+  owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved
+  graph-correction owner 291; no independent second responsible owner or source-method
+  acceptance is created.", "soft_q": "The historical source pointer remains explicit
+  in older reports and contextual carry notes, but the current complete frontier label
+  projection and scoped normalized identities contain no equivalent explicit owner
+  or record. Restore the original SAC-paper provenance as one pending main pointer,
+  linked to existing SAC and Q-learning; later TEMP research is separate from this
+  accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method
+  acceptance, native records or edits to older reports."}'
+- 'predecessor_deferred_historical_accounting_findings: {"evidence": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/historical-accounting-followups.json",
+  "sha256": "5fb10bbb4b04e3f1b6d9f7e73ed89152a06d3cf3d1d196e40ab9b87f3f5eeeb2"}, "findings":
+  [{"blocking_current_candidates": false, "boundary": "This establishes an explicit
+  ownership-accounting gap, not novelty, a completed method assessment, or a required
+  number of eventual records. No new original MREC/MA*/SMA* primary reading was performed.",
+  "current_comparison": "All current inventory identity/definition fields and all
+  current recursive frontier fields were queried. No explicit MREC/MA-star/SMA-star/iterative-threshold
+  owner or represented identity was identified. Current owner 10 follows frontier-search/2003
+  sparse-memory mechanisms, and owner 1 names BFBnB/BFIDA*/DCBS; neither explicitly
+  accounts for the old family. BULB and capped beam records have different stated
+  mechanisms. IDA*/BFIDA* repeated thresholds do not by themselves discharge the entire
+  historical multi-method family.", "groups": [564, 617], "id": "H1-memory-bounded-search-owner",
+  "next_check": "In a later authorized ledger change, restore the exact old pending
+  family or document a supported existing-owner disposition; then inspect original
+  memory-management and bound-propagation methods before any concept addition.", "origin":
+  {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search",
+  "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies
+  leads; inspect the original memory management and bound propagation methods, not
+  only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"},
+  "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/8"}, "repeat_origin": {"object": {"candidate": "MREC,
+  MA-star, SMA-star and iterative threshold search", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json",
+  "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies
+  leads; inspect the original memory management and bound propagation methods, not
+  only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"},
+  "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json",
+  "pointer": "/prior_frontier_accounting/8"}, "scope": "historical_frontier_accounting",
+  "severity": "minor", "title": "Restore an explicit disposition for the historical
+  memory-bounded search family"}, {"blocking_current_candidates": false, "boundary":
+  "The historical pointer itself calls for comparing unconditional inherited parent
+  cost with Korf RBFS. That source claim is retained as the next primary check, not
+  promoted to a newly verified Russell algorithm or proof of disjointness.", "current_comparison":
+  "No exact current identity or frontier owner was identified by retained all-field
+  comparison. Full current RBFS and SRBFS records were read: RBFS documents conditional
+  parent-value inheritance and SRBFS resets static child values. These descriptions
+  do not assert that the older Russell pointer has been inspected, merged, or resolved.
+  IDA*/DFID use repeated cost/depth contours and do not establish that identity either.",
+  "groups": [565, 610, 618], "id": "H2-iterative-expansion-owner", "next_check": "Restore
+  a dated pending owner or explicit cross-linked disposition after primary comparison.
+  Preserve the original AAAI92-082 URL and avoid adding a duplicate method merely
+  because a name differs.", "origin": {"object": {"candidate": "Iterative expansion",
+  "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish
+  unconditional inherited parent cost from Korf RBFS and consider the scope where
+  they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/9"}, "repeat_origin": {"object": {"candidate": "Iterative
+  expansion", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json",
+  "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish
+  unconditional inherited parent cost from Korf RBFS and consider the scope where
+  they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json",
+  "pointer": "/prior_frontier_accounting/9"}, "scope": "historical_frontier_accounting",
+  "severity": "minor", "title": "Restore an explicit disposition for Russell 1992
+  Iterative expansion"}], "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json",
+  "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "issues":
+  ["https://github.com/CultureBotAI/AIMech/issues/397", "https://github.com/CultureBotAI/AIMech/issues/398"],
+  "scope": "These are pre-existing historical accounting gaps discovered by this scan,
+  not candidate identity failures or newly established AI concepts. Their exact original
+  objects, current comparisons, boundaries and next checks are embedded here for durable
+  follow-up. A subsequent fresh ledger reconciliation must restore or explicitly resolve
+  them; this batch does not close these issues or claim globally clean accounting.",
+  "status": "pending_separate_owner_restoration"}'
+- 'predecessor_governance_provenance: [{"cohort": 354, "decision_fields": {"deferred_bibliographic_triage":
+  {"assessment": {"path": "/private/tmp/aimech-cohort353-context000-499-20261015/assessment.json",
+  "sha256": "b4d573dcd646f33a8449ea42aa1b92816ffc71594027896f13a0c33a8541145a"}, "cross_check":
+  {"path": "/private/tmp/aimech-cohort353-context500-999-20261015/assessment.json",
+  "sha256": "c50c13525ada61ea430e89646fb2cbbe68f643096458af3103f70d74ef51bd3c"}, "findings":
+  [{"blocks_autowalksat": false, "comparison": "Clustering Data by Melting is the
+  Wong1993 Gaussian center/heating and persistence procedure; current owner610 retains
+  that specific source and selected follow-ups. Owners640–642 identify Roberts density-mode,
+  Ben-Hur stability and Lipson high-order-neuron procedures. Owner353 concerns time-sliced
+  Potts-unit sequence networks. Generic clustering task nodes and these differently
+  sourced procedures do not establish ownership of the named 1997 bibliography pointer.",
+  "disposition": "Retain exact original historical object and unresolved comparison
+  for a separately scoped owner repair; do not append a frontier row or create a mechanism
+  record from the citation.", "finding_id": "H353-B1", "group_indices": [304], "kind":
+  "historical_bibliography_accounting", "label": "Blatt–Wiseman–Domany 1997 granular-magnet
+  clustering bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed":
+  false, "original_object_index": 0, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"},
+  {"blocks_autowalksat": false, "comparison": "Owner649 is Bishop1994 neural-network
+  novelty validation with an oil-flow example. Owners639,643–648,650–654 and655 track
+  specific sphere, hyperplane, neural-boundary, classifier-instability, nearest-neighbor,
+  prototype, support-object and local-density procedures. None explicitly retains
+  this author/application pointer. A common novelty-detection task does not establish
+  identity or a separate algorithm.", "disposition": "Retain exact original historical
+  object and unresolved comparison for a separately scoped owner repair; do not append
+  a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B2",
+  "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Tarassenko/Hayton/Brady
+  mammogram novelty-detection bibliography pointer", "new_concept_established": false,
+  "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor",
+  "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat":
+  false, "comparison": "Owner652 is distance-based outlier scoring/search/prediction
+  with specific Knorr–Ng, Ramaswamy and Angiulli subleads; owner655 is local-density
+  scoring. Owner60 references Ritter–Tanner griddy Gibbs and owner546 Ritter parametrized
+  self-organizing maps. These are different citations, and no explicit Ritter–Gallegos
+  model owner was established.", "disposition": "Retain exact original historical
+  object and unresolved comparison for a separately scoped owner repair; do not append
+  a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B3",
+  "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Ritter–Gallegos
+  1997 statistical-outlier-model bibliography pointer", "new_concept_established":
+  false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity":
+  "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat":
+  false, "comparison": "Owner653 is Ypma–Duin1998 support-object domain approximation,
+  not this cited application. Owner528 provides a plausible broader time-delayed-correlation
+  source-separation relation but names Molgedey–Schuster1994 only; owner523 is Comon1994
+  general ICA and identifiability. Infomax, FastICA and TopographicICA native definitions
+  and owners102/515/526/548–552 do not establish the cited application’s method identity.
+  Future reconciliation may attach the pointer to an existing owner rather than create
+  any new concept.", "disposition": "Retain exact original historical object and unresolved
+  comparison for a separately scoped owner repair; do not append a frontier row or
+  create a mechanism record from the citation.", "finding_id": "H353-B4", "group_indices":
+  [344], "kind": "historical_bibliography_accounting", "label": "Ypma–Pajunen 1999
+  second-order ICA vibration-application bibliography pointer", "new_concept_established":
+  false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity":
+  "minor", "status": "pending_source_identity_and_owner_reconciliation"}], "issue":
+  "https://github.com/CultureBotAI/AIMech/issues/402", "issue_posting": {"path": "/private/tmp/aimech-cohort353-bibliography-issue-20261015/posting.json",
+  "sha256": "41c7f8dde625ee354be53f6688a8e35c757f096146753c2d34c808cdb4308bf9"}, "original_reading_objects":
+  [{"all_occurrences": [{"line": 5693, "match_index": 405, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json",
+  "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index":
+  1}, {"line": 5693, "match_index": 702, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-concept-discovery-20261010",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json",
+  "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index":
+  2}, {"line": 5693, "match_index": 2155, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-public-recovery-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json",
+  "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index":
+  3}, {"line": 5693, "match_index": 1905, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json",
+  "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index":
+  4}], "content_sha256": "0d9db05b0cc4755b387102234ba889a4d0dfc0b510a4f077ff324816d4fdfd25",
+  "group_index": 304, "object": {"pages": [11, 12, 13], "reading": "Section5 describes
+  SMO fitting and O((N-n_bsv)² n_sv d) labeling with fixed20 samples; overall quadratic
+  statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency
+  shortcut is explicitly heuristic with same results only on tried examples. Its printed
+  cost drops factors, so retain qualified operational scaling rather than a universal
+  complexity claim. Section6 discusses shape flexibility, small cores with overlap,
+  and high-p relation to scale space. References include Roberts1997 scale-space clustering,
+  TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997
+  granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron
+  clustering."}, "object_sha256_canonical_json": "84ec20c71619c69b5b6c996bf8ae70cb876b9bd09a5379c882642d3c12bd3ca0",
+  "pointer": "/source_analysis/paper_readings/0/sections/5", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "sha256": "26a5c75316bf7ab14b402cc64e1369c50418cf1e1a8570955fe5cf655bc8c95d"}},
+  {"all_occurrences": [{"line": 5708, "match_index": 473, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json",
+  "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index":
+  1}, {"line": 5708, "match_index": 2197, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-concept-discovery-20261010",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json",
+  "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index":
+  2}, {"line": 5708, "match_index": 1887, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-public-recovery-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json",
+  "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index":
+  3}, {"line": 5708, "match_index": 2871, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json",
+  "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index":
+  4}], "content_sha256": "857bf5e392a95319dfe00a07a64172de5236abc85a26e4590b41dc918b0e3e19",
+  "group_index": 344, "object": {"pages": [8, 9], "reading": "Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices.
+  Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication."}, "object_sha256_canonical_json": "226cab1719eecce566f82fe4942edd46bd28fff611f4a0e98fefc441ffdc254a",
+  "pointer": "/source_analysis/paper_readings/0/sections/3", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T073618Z-support-description.json",
+  "sha256": "641021eca5b4c440875934019acbbd46fdca5c084ed5688990fc1fba16e9ebb8"}}],
+  "scope": "Four older bibliography mentions are retained for source triage, not newly
+  established concepts, proof of lost pending candidate objects, or an AutoWalksat
+  defect. No extra main/nested row is appended. Future records may be unnecessary
+  if source/application identity maps to existing owners. Preserve this deferred object
+  separately from the earlier397/398 repairs.", "status": "pending_source_identity_and_owner_reconciliation"},
+  "historical_pointer_restorations": {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort354-identity-20261015/collection.json",
+  "sha256": "862c0ac766d58541b6fd3a7f70332ca01db26d090fa8aa2acc60b482c30bdf53"}, "current_baseline":
+  {"main": 911, "nested": 394}, "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json",
+  "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_append":
+  [{"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition":
+  "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/8", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"},
+  "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory
+  management and bound propagation methods, not only the retrospective comparisons.",
+  "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, {"candidate":
+  "Iterative expansion", "disposition": "pending_inspection", "historical_origin":
+  {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer":
+  "/new_frontier/9", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"},
+  "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent
+  cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}],
+  "method_acceptance_claimed": false, "nested_append": [], "owner_contexts": {"1":
+  {"candidate": "Divide-and-conquer beam search and breadth-first heuristic search",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "added", "next_check": "Follow Zhou and Hansen 2004 and the expanded
+  2006 paper for full layered duplicate detection and recursive path-recovery details;
+  do not conflate DCBS with the backtracking DCBSS record.", "record_ids": ["AIMech:BreadthFirstBranchAndBound",
+  "AIMech:BreadthFirstIDAStar", "AIMech:DivideConquerBeamSearch"], "resolution": "The
+  umbrella family is represented by the defined BFBnB, BFIDA-star and divide-and-conquer
+  beam procedures. Frontier/sparse-memory implementations remain separately assessable
+  leads.", "url": "https://cdn.aaai.org/ICAPS/2005/ICAPS05-010.pdf"}, "10": {"candidate":
+  "Frontier search, frontier-BFBnB and sparse-memory graph search", "carried_from":
+  "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition":
+  "pending_inspection", "next_check": "Follow the original frontier-search and 2003
+  sparse-memory papers; separate used-operator bits, predecessor counters, dummy nodes
+  and relay reconstruction.", "url": "https://ai.dmi.unibas.ch/research/reading_group/zhou-hansen-aij2006.pdf"},
+  "298": {"candidate": "Additional GenSAT selection and initialization variants",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_addressed", "next_check": "Follow CSAT, timid TSAT, ISAT,
+  SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT, MSAT and IHSAT. The1993 pages distinguish
+  candidate sets, picking and initialization; follow the original1992 definitions
+  and do not confuse timid TSAT with a later tabu-search acronym.", "round68_resolution":
+  "Added IHSAT after checking the ISAT candidate pool and HSAT history selector. CSAT,
+  timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT and MSAT still
+  require record-level inspection; this cohort remains open.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf"}},
+  "predecessor_findings_preserved": true, "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json",
+  "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "reconciliation_assessments":
+  {"iterative_expansion": "The exact original Russell1992 pending pointer remains
+  a source question despite existing RBFS and SRBFS records. Their conditional inheritance/static
+  reset distinctions do not discharge unconditional inherited parent-cost comparisons.
+  Restore pending with source provenance, without accepting an alias or new method.
+  The generic Flake web-crawl phrase is unrelated.", "memory_bounded_search": "The
+  exact original pending family pointer includes MREC, MA-star, SMA-star and iterative
+  threshold search. Currentowner1 and10 and maintained IDA-star/BFIDA-star/BULB records
+  do not establish inspected equivalence to those original memory-management and bound-propagation
+  methods. Preserve all four original fields plus historical origin as pending; future
+  primary work must resolve distinct methods individually."}}, "predecessor_deferred_historical_accounting_findings":
+  {"evidence": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/historical-accounting-followups.json",
+  "sha256": "5fb10bbb4b04e3f1b6d9f7e73ed89152a06d3cf3d1d196e40ab9b87f3f5eeeb2"}, "findings":
+  [{"blocking_current_candidates": false, "boundary": "This establishes an explicit
+  ownership-accounting gap, not novelty, a completed method assessment, or a required
+  number of eventual records. No new original MREC/MA*/SMA* primary reading was performed.",
+  "current_comparison": "All current inventory identity/definition fields and all
+  current recursive frontier fields were queried. No explicit MREC/MA-star/SMA-star/iterative-threshold
+  owner or represented identity was identified. Current owner 10 follows frontier-search/2003
+  sparse-memory mechanisms, and owner 1 names BFBnB/BFIDA*/DCBS; neither explicitly
+  accounts for the old family. BULB and capped beam records have different stated
+  mechanisms. IDA*/BFIDA* repeated thresholds do not by themselves discharge the entire
+  historical multi-method family.", "groups": [564, 617], "id": "H1-memory-bounded-search-owner",
+  "next_check": "In a later authorized ledger change, restore the exact old pending
+  family or document a supported existing-owner disposition; then inspect original
+  memory-management and bound-propagation methods before any concept addition.", "origin":
+  {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search",
+  "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies
+  leads; inspect the original memory management and bound propagation methods, not
+  only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"},
+  "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/8"}, "repeat_origin": {"object": {"candidate": "MREC,
+  MA-star, SMA-star and iterative threshold search", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json",
+  "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies
+  leads; inspect the original memory management and bound propagation methods, not
+  only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"},
+  "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json",
+  "pointer": "/prior_frontier_accounting/8"}, "scope": "historical_frontier_accounting",
+  "severity": "minor", "title": "Restore an explicit disposition for the historical
+  memory-bounded search family"}, {"blocking_current_candidates": false, "boundary":
+  "The historical pointer itself calls for comparing unconditional inherited parent
+  cost with Korf RBFS. That source claim is retained as the next primary check, not
+  promoted to a newly verified Russell algorithm or proof of disjointness.", "current_comparison":
+  "No exact current identity or frontier owner was identified by retained all-field
+  comparison. Full current RBFS and SRBFS records were read: RBFS documents conditional
+  parent-value inheritance and SRBFS resets static child values. These descriptions
+  do not assert that the older Russell pointer has been inspected, merged, or resolved.
+  IDA*/DFID use repeated cost/depth contours and do not establish that identity either.",
+  "groups": [565, 610, 618], "id": "H2-iterative-expansion-owner", "next_check": "Restore
+  a dated pending owner or explicit cross-linked disposition after primary comparison.
+  Preserve the original AAAI92-082 URL and avoid adding a duplicate method merely
+  because a name differs.", "origin": {"object": {"candidate": "Iterative expansion",
+  "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish
+  unconditional inherited parent cost from Korf RBFS and consider the scope where
+  they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/9"}, "repeat_origin": {"object": {"candidate": "Iterative
+  expansion", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json",
+  "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish
+  unconditional inherited parent cost from Korf RBFS and consider the scope where
+  they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json",
+  "pointer": "/prior_frontier_accounting/9"}, "scope": "historical_frontier_accounting",
+  "severity": "minor", "title": "Restore an explicit disposition for Russell 1992
+  Iterative expansion"}], "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json",
+  "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "issues":
+  ["https://github.com/CultureBotAI/AIMech/issues/397", "https://github.com/CultureBotAI/AIMech/issues/398"],
+  "scope": "These are pre-existing historical accounting gaps discovered by this scan,
+  not candidate identity failures or newly established AI concepts. Their exact original
+  objects, current comparisons, boundaries and next checks are embedded here for durable
+  follow-up. A subsequent fresh ledger reconciliation must restore or explicitly resolve
+  them; this batch does not close these issues or claim globally clean accounting.",
+  "status": "pending_separate_owner_restoration"}}, "decisions": {"path": "/private/tmp/aimech-cohort354-identity-20261015/root-decisions.json",
+  "sha256": "bb1cded9afb2b520c74de7c6fb71ada24beec8a158a5e961dcd06b06468d700d"}, "report":
+  {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.json",
+  "sha256": "cfb1da2d42702cf571b4b3594c8f408f33392a02bc7dd8b79c50a9b09adb279f"}, "report_fields":
+  {"deferred_bibliographic_triage": {"assessment": {"path": "/private/tmp/aimech-cohort353-context000-499-20261015/assessment.json",
+  "sha256": "b4d573dcd646f33a8449ea42aa1b92816ffc71594027896f13a0c33a8541145a"}, "cross_check":
+  {"path": "/private/tmp/aimech-cohort353-context500-999-20261015/assessment.json",
+  "sha256": "c50c13525ada61ea430e89646fb2cbbe68f643096458af3103f70d74ef51bd3c"}, "findings":
+  [{"blocks_autowalksat": false, "comparison": "Clustering Data by Melting is the
+  Wong1993 Gaussian center/heating and persistence procedure; current owner610 retains
+  that specific source and selected follow-ups. Owners640–642 identify Roberts density-mode,
+  Ben-Hur stability and Lipson high-order-neuron procedures. Owner353 concerns time-sliced
+  Potts-unit sequence networks. Generic clustering task nodes and these differently
+  sourced procedures do not establish ownership of the named 1997 bibliography pointer.",
+  "disposition": "Retain exact original historical object and unresolved comparison
+  for a separately scoped owner repair; do not append a frontier row or create a mechanism
+  record from the citation.", "finding_id": "H353-B1", "group_indices": [304], "kind":
+  "historical_bibliography_accounting", "label": "Blatt–Wiseman–Domany 1997 granular-magnet
+  clustering bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed":
+  false, "original_object_index": 0, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"},
+  {"blocks_autowalksat": false, "comparison": "Owner649 is Bishop1994 neural-network
+  novelty validation with an oil-flow example. Owners639,643–648,650–654 and655 track
+  specific sphere, hyperplane, neural-boundary, classifier-instability, nearest-neighbor,
+  prototype, support-object and local-density procedures. None explicitly retains
+  this author/application pointer. A common novelty-detection task does not establish
+  identity or a separate algorithm.", "disposition": "Retain exact original historical
+  object and unresolved comparison for a separately scoped owner repair; do not append
+  a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B2",
+  "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Tarassenko/Hayton/Brady
+  mammogram novelty-detection bibliography pointer", "new_concept_established": false,
+  "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor",
+  "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat":
+  false, "comparison": "Owner652 is distance-based outlier scoring/search/prediction
+  with specific Knorr–Ng, Ramaswamy and Angiulli subleads; owner655 is local-density
+  scoring. Owner60 references Ritter–Tanner griddy Gibbs and owner546 Ritter parametrized
+  self-organizing maps. These are different citations, and no explicit Ritter–Gallegos
+  model owner was established.", "disposition": "Retain exact original historical
+  object and unresolved comparison for a separately scoped owner repair; do not append
+  a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B3",
+  "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Ritter–Gallegos
+  1997 statistical-outlier-model bibliography pointer", "new_concept_established":
+  false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity":
+  "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat":
+  false, "comparison": "Owner653 is Ypma–Duin1998 support-object domain approximation,
+  not this cited application. Owner528 provides a plausible broader time-delayed-correlation
+  source-separation relation but names Molgedey–Schuster1994 only; owner523 is Comon1994
+  general ICA and identifiability. Infomax, FastICA and TopographicICA native definitions
+  and owners102/515/526/548–552 do not establish the cited application’s method identity.
+  Future reconciliation may attach the pointer to an existing owner rather than create
+  any new concept.", "disposition": "Retain exact original historical object and unresolved
+  comparison for a separately scoped owner repair; do not append a frontier row or
+  create a mechanism record from the citation.", "finding_id": "H353-B4", "group_indices":
+  [344], "kind": "historical_bibliography_accounting", "label": "Ypma–Pajunen 1999
+  second-order ICA vibration-application bibliography pointer", "new_concept_established":
+  false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity":
+  "minor", "status": "pending_source_identity_and_owner_reconciliation"}], "issue":
+  "https://github.com/CultureBotAI/AIMech/issues/402", "issue_posting": {"path": "/private/tmp/aimech-cohort353-bibliography-issue-20261015/posting.json",
+  "sha256": "41c7f8dde625ee354be53f6688a8e35c757f096146753c2d34c808cdb4308bf9"}, "original_reading_objects":
+  [{"all_occurrences": [{"line": 5693, "match_index": 405, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json",
+  "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index":
+  1}, {"line": 5693, "match_index": 702, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-concept-discovery-20261010",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json",
+  "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index":
+  2}, {"line": 5693, "match_index": 2155, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-public-recovery-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json",
+  "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index":
+  3}, {"line": 5693, "match_index": 1905, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json",
+  "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index":
+  4}], "content_sha256": "0d9db05b0cc4755b387102234ba889a4d0dfc0b510a4f077ff324816d4fdfd25",
+  "group_index": 304, "object": {"pages": [11, 12, 13], "reading": "Section5 describes
+  SMO fitting and O((N-n_bsv)² n_sv d) labeling with fixed20 samples; overall quadratic
+  statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency
+  shortcut is explicitly heuristic with same results only on tried examples. Its printed
+  cost drops factors, so retain qualified operational scaling rather than a universal
+  complexity claim. Section6 discusses shape flexibility, small cores with overlap,
+  and high-p relation to scale space. References include Roberts1997 scale-space clustering,
+  TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997
+  granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron
+  clustering."}, "object_sha256_canonical_json": "84ec20c71619c69b5b6c996bf8ae70cb876b9bd09a5379c882642d3c12bd3ca0",
+  "pointer": "/source_analysis/paper_readings/0/sections/5", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "sha256": "26a5c75316bf7ab14b402cc64e1369c50418cf1e1a8570955fe5cf655bc8c95d"}},
+  {"all_occurrences": [{"line": 5708, "match_index": 473, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json",
+  "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index":
+  1}, {"line": 5708, "match_index": 2197, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-concept-discovery-20261010",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json",
+  "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index":
+  2}, {"line": 5708, "match_index": 1887, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-public-recovery-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json",
+  "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index":
+  3}, {"line": 5708, "match_index": 2871, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json",
+  "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index":
+  4}], "content_sha256": "857bf5e392a95319dfe00a07a64172de5236abc85a26e4590b41dc918b0e3e19",
+  "group_index": 344, "object": {"pages": [8, 9], "reading": "Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices.
+  Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication."}, "object_sha256_canonical_json": "226cab1719eecce566f82fe4942edd46bd28fff611f4a0e98fefc441ffdc254a",
+  "pointer": "/source_analysis/paper_readings/0/sections/3", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T073618Z-support-description.json",
+  "sha256": "641021eca5b4c440875934019acbbd46fdca5c084ed5688990fc1fba16e9ebb8"}}],
+  "scope": "Four older bibliography mentions are retained for source triage, not newly
+  established concepts, proof of lost pending candidate objects, or an AutoWalksat
+  defect. No extra main/nested row is appended. Future records may be unnecessary
+  if source/application identity maps to existing owners. Preserve this deferred object
+  separately from the earlier397/398 repairs.", "status": "pending_source_identity_and_owner_reconciliation"},
+  "historical_pointer_restorations": {"issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json",
+  "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_indexes":
+  [911, 912], "nested_indexes": [], "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json",
+  "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "root_decision":
+  {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort354-identity-20261015/collection.json",
+  "sha256": "862c0ac766d58541b6fd3a7f70332ca01db26d090fa8aa2acc60b482c30bdf53"}, "current_baseline":
+  {"main": 911, "nested": 394}, "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json",
+  "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_append":
+  [{"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition":
+  "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/8", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"},
+  "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory
+  management and bound propagation methods, not only the retrospective comparisons.",
+  "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, {"candidate":
+  "Iterative expansion", "disposition": "pending_inspection", "historical_origin":
+  {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer":
+  "/new_frontier/9", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"},
+  "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent
+  cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}],
+  "method_acceptance_claimed": false, "nested_append": [], "owner_contexts": {"1":
+  {"candidate": "Divide-and-conquer beam search and breadth-first heuristic search",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "added", "next_check": "Follow Zhou and Hansen 2004 and the expanded
+  2006 paper for full layered duplicate detection and recursive path-recovery details;
+  do not conflate DCBS with the backtracking DCBSS record.", "record_ids": ["AIMech:BreadthFirstBranchAndBound",
+  "AIMech:BreadthFirstIDAStar", "AIMech:DivideConquerBeamSearch"], "resolution": "The
+  umbrella family is represented by the defined BFBnB, BFIDA-star and divide-and-conquer
+  beam procedures. Frontier/sparse-memory implementations remain separately assessable
+  leads.", "url": "https://cdn.aaai.org/ICAPS/2005/ICAPS05-010.pdf"}, "10": {"candidate":
+  "Frontier search, frontier-BFBnB and sparse-memory graph search", "carried_from":
+  "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition":
+  "pending_inspection", "next_check": "Follow the original frontier-search and 2003
+  sparse-memory papers; separate used-operator bits, predecessor counters, dummy nodes
+  and relay reconstruction.", "url": "https://ai.dmi.unibas.ch/research/reading_group/zhou-hansen-aij2006.pdf"},
+  "298": {"candidate": "Additional GenSAT selection and initialization variants",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_addressed", "next_check": "Follow CSAT, timid TSAT, ISAT,
+  SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT, MSAT and IHSAT. The1993 pages distinguish
+  candidate sets, picking and initialization; follow the original1992 definitions
+  and do not confuse timid TSAT with a later tabu-search acronym.", "round68_resolution":
+  "Added IHSAT after checking the ISAT candidate pool and HSAT history selector. CSAT,
+  timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT and MSAT still
+  require record-level inspection; this cohort remains open.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf"}},
+  "predecessor_findings_preserved": true, "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json",
+  "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "reconciliation_assessments":
+  {"iterative_expansion": "The exact original Russell1992 pending pointer remains
+  a source question despite existing RBFS and SRBFS records. Their conditional inheritance/static
+  reset distinctions do not discharge unconditional inherited parent-cost comparisons.
+  Restore pending with source provenance, without accepting an alias or new method.
+  The generic Flake web-crawl phrase is unrelated.", "memory_bounded_search": "The
+  exact original pending family pointer includes MREC, MA-star, SMA-star and iterative
+  threshold search. Currentowner1 and10 and maintained IDA-star/BFIDA-star/BULB records
+  do not establish inspected equivalence to those original memory-management and bound-propagation
+  methods. Preserve all four original fields plus historical origin as pending; future
+  primary work must resolve distinct methods individually."}}}, "predecessor_deferred_historical_accounting_findings":
+  {"evidence": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/historical-accounting-followups.json",
+  "sha256": "5fb10bbb4b04e3f1b6d9f7e73ed89152a06d3cf3d1d196e40ab9b87f3f5eeeb2"}, "findings":
+  [{"blocking_current_candidates": false, "boundary": "This establishes an explicit
+  ownership-accounting gap, not novelty, a completed method assessment, or a required
+  number of eventual records. No new original MREC/MA*/SMA* primary reading was performed.",
+  "current_comparison": "All current inventory identity/definition fields and all
+  current recursive frontier fields were queried. No explicit MREC/MA-star/SMA-star/iterative-threshold
+  owner or represented identity was identified. Current owner 10 follows frontier-search/2003
+  sparse-memory mechanisms, and owner 1 names BFBnB/BFIDA*/DCBS; neither explicitly
+  accounts for the old family. BULB and capped beam records have different stated
+  mechanisms. IDA*/BFIDA* repeated thresholds do not by themselves discharge the entire
+  historical multi-method family.", "groups": [564, 617], "id": "H1-memory-bounded-search-owner",
+  "next_check": "In a later authorized ledger change, restore the exact old pending
+  family or document a supported existing-owner disposition; then inspect original
+  memory-management and bound-propagation methods before any concept addition.", "origin":
+  {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search",
+  "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies
+  leads; inspect the original memory management and bound propagation methods, not
+  only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"},
+  "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/8"}, "repeat_origin": {"object": {"candidate": "MREC,
+  MA-star, SMA-star and iterative threshold search", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json",
+  "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies
+  leads; inspect the original memory management and bound propagation methods, not
+  only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"},
+  "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json",
+  "pointer": "/prior_frontier_accounting/8"}, "scope": "historical_frontier_accounting",
+  "severity": "minor", "title": "Restore an explicit disposition for the historical
+  memory-bounded search family"}, {"blocking_current_candidates": false, "boundary":
+  "The historical pointer itself calls for comparing unconditional inherited parent
+  cost with Korf RBFS. That source claim is retained as the next primary check, not
+  promoted to a newly verified Russell algorithm or proof of disjointness.", "current_comparison":
+  "No exact current identity or frontier owner was identified by retained all-field
+  comparison. Full current RBFS and SRBFS records were read: RBFS documents conditional
+  parent-value inheritance and SRBFS resets static child values. These descriptions
+  do not assert that the older Russell pointer has been inspected, merged, or resolved.
+  IDA*/DFID use repeated cost/depth contours and do not establish that identity either.",
+  "groups": [565, 610, 618], "id": "H2-iterative-expansion-owner", "next_check": "Restore
+  a dated pending owner or explicit cross-linked disposition after primary comparison.
+  Preserve the original AAAI92-082 URL and avoid adding a duplicate method merely
+  because a name differs.", "origin": {"object": {"candidate": "Iterative expansion",
+  "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish
+  unconditional inherited parent cost from Korf RBFS and consider the scope where
+  they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/9"}, "repeat_origin": {"object": {"candidate": "Iterative
+  expansion", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json",
+  "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish
+  unconditional inherited parent cost from Korf RBFS and consider the scope where
+  they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json",
+  "pointer": "/prior_frontier_accounting/9"}, "scope": "historical_frontier_accounting",
+  "severity": "minor", "title": "Restore an explicit disposition for Russell 1992
+  Iterative expansion"}], "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json",
+  "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "issues":
+  ["https://github.com/CultureBotAI/AIMech/issues/397", "https://github.com/CultureBotAI/AIMech/issues/398"],
+  "scope": "These are pre-existing historical accounting gaps discovered by this scan,
+  not candidate identity failures or newly established AI concepts. Their exact original
+  objects, current comparisons, boundaries and next checks are embedded here for durable
+  follow-up. A subsequent fresh ledger reconciliation must restore or explicitly resolve
+  them; this batch does not close these issues or claim globally clean accounting.",
+  "status": "pending_separate_owner_restoration"}, "predecessor_historical_pointer_restorations":
+  {"main_indexes": [909, 910], "nested_indexes": [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision":
+  {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json",
+  "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline":
+  {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract
+  and a 2018 SAC related-work passage were inspected in the bounded historical-pointer
+  reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning",
+  "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]",
+  "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection",
+  "next_check": "Resolve identity against both collections, inspect a primary method
+  source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"},
+  "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"},
+  "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method
+  and its version. Compare the soft-Q objective, policy representation and sampler
+  with maintained SAC and ordinary Q-learning; resolve variants and current identity
+  before proposing any native record.", "origin": "SAC paper; restored historical
+  source pointer, not a newly established method identity.", "related_record_ids":
+  ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"},
+  {"access_scope": "Only the 2010 comparison sections and bibliography were inspected
+  for this restoration; the original FF full method is not claimed read.", "candidate":
+  "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation
+  through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping
+  assumptions and component-versus-whole-planner boundary; compare maintained strict
+  hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing",
+  "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were
+  read; no original full-method, convergence-proof or experiment assessment is asserted.",
+  "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic
+  search for real-time situated agents, including publication date/version, then read
+  its full lookahead, heuristic-repair and execution-commitment method. Reconcile
+  ownership with the existing real-time umbrella before any native identity decision.",
+  "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized
+  LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link
+  to the already explicit additional real-time variants residual; not a second responsible
+  owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot":
+  286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being
+  resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar",
+  "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state
+  commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url":
+  "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2",
+  "reason": "Add the source-scoped combinatorial SLS family, including non-improving
+  and memory-dependent transitions. Preserve prior HillClimbing progress and the historical
+  ILS discovery pointer; arbitrary embedded optimizers and exact named controllers
+  are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope":
+  "The existing local-search lead and its prior HillClimbing progress remain intact.
+  The source-scoped stochastic local-search outcome is separate from the strict-improvement
+  subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."},
+  "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology
+  and detailed GLSM control representations separately. Named GLS/FLS compositions
+  and Gu SAT identity remain with their existing owners; the current family record
+  does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"],
+  "round61_progress": "The strict-improvement subset is now represented by HillClimbing.
+  The broader local-search umbrella is not equated with that subset; general scope
+  and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"},
+  "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure
+  in Tabu Section 2; assess maximization/minimization naming and whether its intended
+  scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution":
+  "Added a native record after primary-method and critical-page inspection, ignored-inclusive
+  identity comparison, neighboring-method assessment and bounded AIO no-match documentation.",
+  "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"},
+  "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search;
+  resolve LRTA* update, cost and completeness assumptions against A-star and Fill.",
+  "round64_resolution": "Added a native DRAFT record with full-method and critical-image
+  inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"},
+  "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2
+  recursive correction and locate its missing proof or later specification. Preserve
+  the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"},
+  "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first
+  beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_added", "next_check": "Follow the original LDS paper and
+  Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency;
+  inspect a primary implementation before claiming literal executable equivalence.",
+  "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch",
+  "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original
+  LDS and ILDS were inspected and added; generalized LDS, depth-first beam search
+  and real-time heuristic methods remain distinct pending leads.", "round64_resolution":
+  "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA*
+  are now represented. Generalized LDS, depth-first beam search and additional real-time
+  variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"},
+  "8": {"candidate": "KBFS, multi-state commitment and real-time search variants",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy
+  and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and
+  heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}},
+  "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments":
+  {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical
+  reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not
+  resolve the named breadth-first escape controller or whole-FF boundary. Restore
+  one pending EHC main pointer with the original comparison URL and original-primary
+  next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already
+  retain broader real-time-search residuals and owner 286 represents basic LRTA*.
+  Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible
+  owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved
+  graph-correction owner 291; no independent second responsible owner or source-method
+  acceptance is created.", "soft_q": "The historical source pointer remains explicit
+  in older reports and contextual carry notes, but the current complete frontier label
+  projection and scoped normalized identities contain no equivalent explicit owner
+  or record. Restore the original SAC-paper provenance as one pending main pointer,
+  linked to existing SAC and Q-learning; later TEMP research is separate from this
+  accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method
+  acceptance, native records or edits to older reports."}}, "write": {"path": "/private/tmp/aimech-hrsat-tsat-cohort354-write.json",
+  "sha256": "5b4674e1952696b8887a64b818a64f00b21149dad10a78baa50ae76ea493e45b"}, "write_fields":
+  {"deferred_bibliographic_triage": {"assessment": {"path": "/private/tmp/aimech-cohort353-context000-499-20261015/assessment.json",
+  "sha256": "b4d573dcd646f33a8449ea42aa1b92816ffc71594027896f13a0c33a8541145a"}, "cross_check":
+  {"path": "/private/tmp/aimech-cohort353-context500-999-20261015/assessment.json",
+  "sha256": "c50c13525ada61ea430e89646fb2cbbe68f643096458af3103f70d74ef51bd3c"}, "findings":
+  [{"blocks_autowalksat": false, "comparison": "Clustering Data by Melting is the
+  Wong1993 Gaussian center/heating and persistence procedure; current owner610 retains
+  that specific source and selected follow-ups. Owners640–642 identify Roberts density-mode,
+  Ben-Hur stability and Lipson high-order-neuron procedures. Owner353 concerns time-sliced
+  Potts-unit sequence networks. Generic clustering task nodes and these differently
+  sourced procedures do not establish ownership of the named 1997 bibliography pointer.",
+  "disposition": "Retain exact original historical object and unresolved comparison
+  for a separately scoped owner repair; do not append a frontier row or create a mechanism
+  record from the citation.", "finding_id": "H353-B1", "group_indices": [304], "kind":
+  "historical_bibliography_accounting", "label": "Blatt–Wiseman–Domany 1997 granular-magnet
+  clustering bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed":
+  false, "original_object_index": 0, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"},
+  {"blocks_autowalksat": false, "comparison": "Owner649 is Bishop1994 neural-network
+  novelty validation with an oil-flow example. Owners639,643–648,650–654 and655 track
+  specific sphere, hyperplane, neural-boundary, classifier-instability, nearest-neighbor,
+  prototype, support-object and local-density procedures. None explicitly retains
+  this author/application pointer. A common novelty-detection task does not establish
+  identity or a separate algorithm.", "disposition": "Retain exact original historical
+  object and unresolved comparison for a separately scoped owner repair; do not append
+  a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B2",
+  "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Tarassenko/Hayton/Brady
+  mammogram novelty-detection bibliography pointer", "new_concept_established": false,
+  "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor",
+  "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat":
+  false, "comparison": "Owner652 is distance-based outlier scoring/search/prediction
+  with specific Knorr–Ng, Ramaswamy and Angiulli subleads; owner655 is local-density
+  scoring. Owner60 references Ritter–Tanner griddy Gibbs and owner546 Ritter parametrized
+  self-organizing maps. These are different citations, and no explicit Ritter–Gallegos
+  model owner was established.", "disposition": "Retain exact original historical
+  object and unresolved comparison for a separately scoped owner repair; do not append
+  a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B3",
+  "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Ritter–Gallegos
+  1997 statistical-outlier-model bibliography pointer", "new_concept_established":
+  false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity":
+  "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat":
+  false, "comparison": "Owner653 is Ypma–Duin1998 support-object domain approximation,
+  not this cited application. Owner528 provides a plausible broader time-delayed-correlation
+  source-separation relation but names Molgedey–Schuster1994 only; owner523 is Comon1994
+  general ICA and identifiability. Infomax, FastICA and TopographicICA native definitions
+  and owners102/515/526/548–552 do not establish the cited application’s method identity.
+  Future reconciliation may attach the pointer to an existing owner rather than create
+  any new concept.", "disposition": "Retain exact original historical object and unresolved
+  comparison for a separately scoped owner repair; do not append a frontier row or
+  create a mechanism record from the citation.", "finding_id": "H353-B4", "group_indices":
+  [344], "kind": "historical_bibliography_accounting", "label": "Ypma–Pajunen 1999
+  second-order ICA vibration-application bibliography pointer", "new_concept_established":
+  false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity":
+  "minor", "status": "pending_source_identity_and_owner_reconciliation"}], "issue":
+  "https://github.com/CultureBotAI/AIMech/issues/402", "issue_posting": {"path": "/private/tmp/aimech-cohort353-bibliography-issue-20261015/posting.json",
+  "sha256": "41c7f8dde625ee354be53f6688a8e35c757f096146753c2d34c808cdb4308bf9"}, "original_reading_objects":
+  [{"all_occurrences": [{"line": 5693, "match_index": 405, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json",
+  "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index":
+  1}, {"line": 5693, "match_index": 702, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-concept-discovery-20261010",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json",
+  "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index":
+  2}, {"line": 5693, "match_index": 2155, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-public-recovery-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json",
+  "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index":
+  3}, {"line": 5693, "match_index": 1905, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json",
+  "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index":
+  4}], "content_sha256": "0d9db05b0cc4755b387102234ba889a4d0dfc0b510a4f077ff324816d4fdfd25",
+  "group_index": 304, "object": {"pages": [11, 12, 13], "reading": "Section5 describes
+  SMO fitting and O((N-n_bsv)² n_sv d) labeling with fixed20 samples; overall quadratic
+  statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency
+  shortcut is explicitly heuristic with same results only on tried examples. Its printed
+  cost drops factors, so retain qualified operational scaling rather than a universal
+  complexity claim. Section6 discusses shape flexibility, small cores with overlap,
+  and high-p relation to scale space. References include Roberts1997 scale-space clustering,
+  TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997
+  granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron
+  clustering."}, "object_sha256_canonical_json": "84ec20c71619c69b5b6c996bf8ae70cb876b9bd09a5379c882642d3c12bd3ca0",
+  "pointer": "/source_analysis/paper_readings/0/sections/5", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "sha256": "26a5c75316bf7ab14b402cc64e1369c50418cf1e1a8570955fe5cf655bc8c95d"}},
+  {"all_occurrences": [{"line": 5708, "match_index": 473, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json",
+  "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index":
+  1}, {"line": 5708, "match_index": 2197, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-concept-discovery-20261010",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json",
+  "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index":
+  2}, {"line": 5708, "match_index": 1887, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-public-recovery-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json",
+  "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index":
+  3}, {"line": 5708, "match_index": 2871, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json",
+  "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index":
+  4}], "content_sha256": "857bf5e392a95319dfe00a07a64172de5236abc85a26e4590b41dc918b0e3e19",
+  "group_index": 344, "object": {"pages": [8, 9], "reading": "Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices.
+  Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication."}, "object_sha256_canonical_json": "226cab1719eecce566f82fe4942edd46bd28fff611f4a0e98fefc441ffdc254a",
+  "pointer": "/source_analysis/paper_readings/0/sections/3", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T073618Z-support-description.json",
+  "sha256": "641021eca5b4c440875934019acbbd46fdca5c084ed5688990fc1fba16e9ebb8"}}],
+  "scope": "Four older bibliography mentions are retained for source triage, not newly
+  established concepts, proof of lost pending candidate objects, or an AutoWalksat
+  defect. No extra main/nested row is appended. Future records may be unnecessary
+  if source/application identity maps to existing owners. Preserve this deferred object
+  separately from the earlier397/398 repairs.", "status": "pending_source_identity_and_owner_reconciliation"},
+  "historical_pointer_restorations": {"issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json",
+  "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_indexes":
+  [911, 912], "nested_indexes": [], "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json",
+  "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "root_decision":
+  {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort354-identity-20261015/collection.json",
+  "sha256": "862c0ac766d58541b6fd3a7f70332ca01db26d090fa8aa2acc60b482c30bdf53"}, "current_baseline":
+  {"main": 911, "nested": 394}, "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json",
+  "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "main_append":
+  [{"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "disposition":
+  "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/8", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"},
+  "next_check": "Korf chapter pp. 55–56 supplies leads; inspect the original memory
+  management and bound propagation methods, not only the retrospective comparisons.",
+  "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"}, {"candidate":
+  "Iterative expansion", "disposition": "pending_inspection", "historical_origin":
+  {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer":
+  "/new_frontier/9", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"},
+  "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent
+  cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}],
+  "method_acceptance_claimed": false, "nested_append": [], "owner_contexts": {"1":
+  {"candidate": "Divide-and-conquer beam search and breadth-first heuristic search",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "added", "next_check": "Follow Zhou and Hansen 2004 and the expanded
+  2006 paper for full layered duplicate detection and recursive path-recovery details;
+  do not conflate DCBS with the backtracking DCBSS record.", "record_ids": ["AIMech:BreadthFirstBranchAndBound",
+  "AIMech:BreadthFirstIDAStar", "AIMech:DivideConquerBeamSearch"], "resolution": "The
+  umbrella family is represented by the defined BFBnB, BFIDA-star and divide-and-conquer
+  beam procedures. Frontier/sparse-memory implementations remain separately assessable
+  leads.", "url": "https://cdn.aaai.org/ICAPS/2005/ICAPS05-010.pdf"}, "10": {"candidate":
+  "Frontier search, frontier-BFBnB and sparse-memory graph search", "carried_from":
+  "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition":
+  "pending_inspection", "next_check": "Follow the original frontier-search and 2003
+  sparse-memory papers; separate used-operator bits, predecessor counters, dummy nodes
+  and relay reconstruction.", "url": "https://ai.dmi.unibas.ch/research/reading_group/zhou-hansen-aij2006.pdf"},
+  "298": {"candidate": "Additional GenSAT selection and initialization variants",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_addressed", "next_check": "Follow CSAT, timid TSAT, ISAT,
+  SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT, MSAT and IHSAT. The1993 pages distinguish
+  candidate sets, picking and initialization; follow the original1992 definitions
+  and do not confuse timid TSAT with a later tabu-search acronym.", "round68_resolution":
+  "Added IHSAT after checking the ISAT candidate pool and HSAT history selector. CSAT,
+  timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT and MSAT still
+  require record-level inspection; this cohort remains open.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf"}},
+  "predecessor_findings_preserved": true, "proposal": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/proposed-issues/ownership-proposal.json",
+  "sha256": "95f8bd103247731dbd745dbb0e688571dd4b64151c9e3fd50fcd229a1bcb6b34"}, "reconciliation_assessments":
+  {"iterative_expansion": "The exact original Russell1992 pending pointer remains
+  a source question despite existing RBFS and SRBFS records. Their conditional inheritance/static
+  reset distinctions do not discharge unconditional inherited parent-cost comparisons.
+  Restore pending with source provenance, without accepting an alias or new method.
+  The generic Flake web-crawl phrase is unrelated.", "memory_bounded_search": "The
+  exact original pending family pointer includes MREC, MA-star, SMA-star and iterative
+  threshold search. Currentowner1 and10 and maintained IDA-star/BFIDA-star/BULB records
+  do not establish inspected equivalence to those original memory-management and bound-propagation
+  methods. Preserve all four original fields plus historical origin as pending; future
+  primary work must resolve distinct methods individually."}}}, "predecessor_deferred_historical_accounting_findings":
+  {"evidence": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/historical-accounting-followups.json",
+  "sha256": "5fb10bbb4b04e3f1b6d9f7e73ed89152a06d3cf3d1d196e40ab9b87f3f5eeeb2"}, "findings":
+  [{"blocking_current_candidates": false, "boundary": "This establishes an explicit
+  ownership-accounting gap, not novelty, a completed method assessment, or a required
+  number of eventual records. No new original MREC/MA*/SMA* primary reading was performed.",
+  "current_comparison": "All current inventory identity/definition fields and all
+  current recursive frontier fields were queried. No explicit MREC/MA-star/SMA-star/iterative-threshold
+  owner or represented identity was identified. Current owner 10 follows frontier-search/2003
+  sparse-memory mechanisms, and owner 1 names BFBnB/BFIDA*/DCBS; neither explicitly
+  accounts for the old family. BULB and capped beam records have different stated
+  mechanisms. IDA*/BFIDA* repeated thresholds do not by themselves discharge the entire
+  historical multi-method family.", "groups": [564, 617], "id": "H1-memory-bounded-search-owner",
+  "next_check": "In a later authorized ledger change, restore the exact old pending
+  family or document a supported existing-owner disposition; then inspect original
+  memory-management and bound-propagation methods before any concept addition.", "origin":
+  {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search",
+  "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies
+  leads; inspect the original memory management and bound propagation methods, not
+  only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"},
+  "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/8"}, "repeat_origin": {"object": {"candidate": "MREC,
+  MA-star, SMA-star and iterative threshold search", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json",
+  "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies
+  leads; inspect the original memory management and bound propagation methods, not
+  only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"},
+  "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json",
+  "pointer": "/prior_frontier_accounting/8"}, "scope": "historical_frontier_accounting",
+  "severity": "minor", "title": "Restore an explicit disposition for the historical
+  memory-bounded search family"}, {"blocking_current_candidates": false, "boundary":
+  "The historical pointer itself calls for comparing unconditional inherited parent
+  cost with Korf RBFS. That source claim is retained as the next primary check, not
+  promoted to a newly verified Russell algorithm or proof of disjointness.", "current_comparison":
+  "No exact current identity or frontier owner was identified by retained all-field
+  comparison. Full current RBFS and SRBFS records were read: RBFS documents conditional
+  parent-value inheritance and SRBFS resets static child values. These descriptions
+  do not assert that the older Russell pointer has been inspected, merged, or resolved.
+  IDA*/DFID use repeated cost/depth contours and do not establish that identity either.",
+  "groups": [565, 610, 618], "id": "H2-iterative-expansion-owner", "next_check": "Restore
+  a dated pending owner or explicit cross-linked disposition after primary comparison.
+  Preserve the original AAAI92-082 URL and avoid adding a duplicate method merely
+  because a name differs.", "origin": {"object": {"candidate": "Iterative expansion",
+  "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish
+  unconditional inherited parent cost from Korf RBFS and consider the scope where
+  they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/9"}, "repeat_origin": {"object": {"candidate": "Iterative
+  expansion", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json",
+  "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish
+  unconditional inherited parent cost from Korf RBFS and consider the scope where
+  they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json",
+  "pointer": "/prior_frontier_accounting/9"}, "scope": "historical_frontier_accounting",
+  "severity": "minor", "title": "Restore an explicit disposition for Russell 1992
+  Iterative expansion"}], "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json",
+  "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "issues":
+  ["https://github.com/CultureBotAI/AIMech/issues/397", "https://github.com/CultureBotAI/AIMech/issues/398"],
+  "scope": "These are pre-existing historical accounting gaps discovered by this scan,
+  not candidate identity failures or newly established AI concepts. Their exact original
+  objects, current comparisons, boundaries and next checks are embedded here for durable
+  follow-up. A subsequent fresh ledger reconciliation must restore or explicitly resolve
+  them; this batch does not close these issues or claim globally clean accounting.",
+  "status": "pending_separate_owner_restoration"}, "predecessor_historical_pointer_restorations":
+  {"main_indexes": [909, 910], "nested_indexes": [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision":
+  {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json",
+  "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline":
+  {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract
+  and a 2018 SAC related-work passage were inspected in the bounded historical-pointer
+  reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning",
+  "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]",
+  "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection",
+  "next_check": "Resolve identity against both collections, inspect a primary method
+  source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"},
+  "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"},
+  "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method
+  and its version. Compare the soft-Q objective, policy representation and sampler
+  with maintained SAC and ordinary Q-learning; resolve variants and current identity
+  before proposing any native record.", "origin": "SAC paper; restored historical
+  source pointer, not a newly established method identity.", "related_record_ids":
+  ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"},
+  {"access_scope": "Only the 2010 comparison sections and bibliography were inspected
+  for this restoration; the original FF full method is not claimed read.", "candidate":
+  "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation
+  through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping
+  assumptions and component-versus-whole-planner boundary; compare maintained strict
+  hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing",
+  "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were
+  read; no original full-method, convergence-proof or experiment assessment is asserted.",
+  "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic
+  search for real-time situated agents, including publication date/version, then read
+  its full lookahead, heuristic-repair and execution-commitment method. Reconcile
+  ownership with the existing real-time umbrella before any native identity decision.",
+  "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized
+  LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link
+  to the already explicit additional real-time variants residual; not a second responsible
+  owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot":
+  286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being
+  resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar",
+  "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state
+  commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url":
+  "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2",
+  "reason": "Add the source-scoped combinatorial SLS family, including non-improving
+  and memory-dependent transitions. Preserve prior HillClimbing progress and the historical
+  ILS discovery pointer; arbitrary embedded optimizers and exact named controllers
+  are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope":
+  "The existing local-search lead and its prior HillClimbing progress remain intact.
+  The source-scoped stochastic local-search outcome is separate from the strict-improvement
+  subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."},
+  "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology
+  and detailed GLSM control representations separately. Named GLS/FLS compositions
+  and Gu SAT identity remain with their existing owners; the current family record
+  does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"],
+  "round61_progress": "The strict-improvement subset is now represented by HillClimbing.
+  The broader local-search umbrella is not equated with that subset; general scope
+  and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"},
+  "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure
+  in Tabu Section 2; assess maximization/minimization naming and whether its intended
+  scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution":
+  "Added a native record after primary-method and critical-page inspection, ignored-inclusive
+  identity comparison, neighboring-method assessment and bounded AIO no-match documentation.",
+  "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"},
+  "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search;
+  resolve LRTA* update, cost and completeness assumptions against A-star and Fill.",
+  "round64_resolution": "Added a native DRAFT record with full-method and critical-image
+  inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"},
+  "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2
+  recursive correction and locate its missing proof or later specification. Preserve
+  the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"},
+  "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first
+  beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_added", "next_check": "Follow the original LDS paper and
+  Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency;
+  inspect a primary implementation before claiming literal executable equivalence.",
+  "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch",
+  "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original
+  LDS and ILDS were inspected and added; generalized LDS, depth-first beam search
+  and real-time heuristic methods remain distinct pending leads.", "round64_resolution":
+  "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA*
+  are now represented. Generalized LDS, depth-first beam search and additional real-time
+  variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"},
+  "8": {"candidate": "KBFS, multi-state commitment and real-time search variants",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy
+  and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and
+  heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}},
+  "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments":
+  {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical
+  reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not
+  resolve the named breadth-first escape controller or whole-FF boundary. Restore
+  one pending EHC main pointer with the original comparison URL and original-primary
+  next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already
+  retain broader real-time-search residuals and owner 286 represents basic LRTA*.
+  Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible
+  owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved
+  graph-correction owner 291; no independent second responsible owner or source-method
+  acceptance is created.", "soft_q": "The historical source pointer remains explicit
+  in older reports and contextual carry notes, but the current complete frontier label
+  projection and scoped normalized identities contain no equivalent explicit owner
+  or record. Restore the original SAC-paper provenance as one pending main pointer,
+  linked to existing SAC and Q-learning; later TEMP research is separate from this
+  accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method
+  acceptance, native records or edits to older reports."}}}, {"cohort": 353, "decision_fields":
+  {"deferred_bibliographic_triage": {"assessment": {"path": "/private/tmp/aimech-cohort353-context000-499-20261015/assessment.json",
+  "sha256": "b4d573dcd646f33a8449ea42aa1b92816ffc71594027896f13a0c33a8541145a"}, "cross_check":
+  {"path": "/private/tmp/aimech-cohort353-context500-999-20261015/assessment.json",
+  "sha256": "c50c13525ada61ea430e89646fb2cbbe68f643096458af3103f70d74ef51bd3c"}, "findings":
+  [{"blocks_autowalksat": false, "comparison": "Clustering Data by Melting is the
+  Wong1993 Gaussian center/heating and persistence procedure; current owner610 retains
+  that specific source and selected follow-ups. Owners640–642 identify Roberts density-mode,
+  Ben-Hur stability and Lipson high-order-neuron procedures. Owner353 concerns time-sliced
+  Potts-unit sequence networks. Generic clustering task nodes and these differently
+  sourced procedures do not establish ownership of the named 1997 bibliography pointer.",
+  "disposition": "Retain exact original historical object and unresolved comparison
+  for a separately scoped owner repair; do not append a frontier row or create a mechanism
+  record from the citation.", "finding_id": "H353-B1", "group_indices": [304], "kind":
+  "historical_bibliography_accounting", "label": "Blatt–Wiseman–Domany 1997 granular-magnet
+  clustering bibliography pointer", "new_concept_established": false, "new_source_discovery_claimed":
+  false, "original_object_index": 0, "severity": "minor", "status": "pending_source_identity_and_owner_reconciliation"},
+  {"blocks_autowalksat": false, "comparison": "Owner649 is Bishop1994 neural-network
+  novelty validation with an oil-flow example. Owners639,643–648,650–654 and655 track
+  specific sphere, hyperplane, neural-boundary, classifier-instability, nearest-neighbor,
+  prototype, support-object and local-density procedures. None explicitly retains
+  this author/application pointer. A common novelty-detection task does not establish
+  identity or a separate algorithm.", "disposition": "Retain exact original historical
+  object and unresolved comparison for a separately scoped owner repair; do not append
+  a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B2",
+  "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Tarassenko/Hayton/Brady
+  mammogram novelty-detection bibliography pointer", "new_concept_established": false,
+  "new_source_discovery_claimed": false, "original_object_index": 1, "severity": "minor",
+  "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat":
+  false, "comparison": "Owner652 is distance-based outlier scoring/search/prediction
+  with specific Knorr–Ng, Ramaswamy and Angiulli subleads; owner655 is local-density
+  scoring. Owner60 references Ritter–Tanner griddy Gibbs and owner546 Ritter parametrized
+  self-organizing maps. These are different citations, and no explicit Ritter–Gallegos
+  model owner was established.", "disposition": "Retain exact original historical
+  object and unresolved comparison for a separately scoped owner repair; do not append
+  a frontier row or create a mechanism record from the citation.", "finding_id": "H353-B3",
+  "group_indices": [344], "kind": "historical_bibliography_accounting", "label": "Ritter–Gallegos
+  1997 statistical-outlier-model bibliography pointer", "new_concept_established":
+  false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity":
+  "minor", "status": "pending_source_identity_and_owner_reconciliation"}, {"blocks_autowalksat":
+  false, "comparison": "Owner653 is Ypma–Duin1998 support-object domain approximation,
+  not this cited application. Owner528 provides a plausible broader time-delayed-correlation
+  source-separation relation but names Molgedey–Schuster1994 only; owner523 is Comon1994
+  general ICA and identifiability. Infomax, FastICA and TopographicICA native definitions
+  and owners102/515/526/548–552 do not establish the cited application’s method identity.
+  Future reconciliation may attach the pointer to an existing owner rather than create
+  any new concept.", "disposition": "Retain exact original historical object and unresolved
+  comparison for a separately scoped owner repair; do not append a frontier row or
+  create a mechanism record from the citation.", "finding_id": "H353-B4", "group_indices":
+  [344], "kind": "historical_bibliography_accounting", "label": "Ypma–Pajunen 1999
+  second-order ICA vibration-application bibliography pointer", "new_concept_established":
+  false, "new_source_discovery_claimed": false, "original_object_index": 1, "severity":
+  "minor", "status": "pending_source_identity_and_owner_reconciliation"}], "issue":
+  "https://github.com/CultureBotAI/AIMech/issues/402", "issue_posting": {"path": "/private/tmp/aimech-cohort353-bibliography-issue-20261015/posting.json",
+  "sha256": "41c7f8dde625ee354be53f6688a8e35c757f096146753c2d34c808cdb4308bf9"}, "original_reading_objects":
+  [{"all_occurrences": [{"line": 5693, "match_index": 405, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json",
+  "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index":
+  1}, {"line": 5693, "match_index": 702, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-concept-discovery-20261010",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json",
+  "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index":
+  2}, {"line": 5693, "match_index": 2155, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-public-recovery-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json",
+  "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index":
+  3}, {"line": 5693, "match_index": 1905, "path": "./research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "raw_line": "./research/discovery/20261012T071653Z-support-vector-sphere.json:5693:            \"reading\":
+  \"Section5 describes SMO fitting and O((N-n_bsv)\\u00b2 n_sv d) labeling with fixed20
+  samples; overall quadratic statement assumes O(1)support vectors and empirical solver
+  scaling. SV-only adjacency shortcut is explicitly heuristic with same results only
+  on tried examples. Its printed cost drops factors, so retain qualified operational
+  scaling rather than a universal complexity claim. Section6 discusses shape flexibility,
+  small cores with overlap, and high-p relation to scale space. References include
+  Roberts1997 scale-space clustering, TaxDuin1999 domain description, Scholkopf2000/2001
+  novelty/support estimation, BlattWisemanDomany1997 granular magnets, Ben-HurElisseeffGuyon2002
+  stability and LipsonSiegelmann2000 high-order-neuron clustering.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json",
+  "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index":
+  4}], "content_sha256": "0d9db05b0cc4755b387102234ba889a4d0dfc0b510a4f077ff324816d4fdfd25",
+  "group_index": 304, "object": {"pages": [11, 12, 13], "reading": "Section5 describes
+  SMO fitting and O((N-n_bsv)² n_sv d) labeling with fixed20 samples; overall quadratic
+  statement assumes O(1)support vectors and empirical solver scaling. SV-only adjacency
+  shortcut is explicitly heuristic with same results only on tried examples. Its printed
+  cost drops factors, so retain qualified operational scaling rather than a universal
+  complexity claim. Section6 discusses shape flexibility, small cores with overlap,
+  and high-p relation to scale space. References include Roberts1997 scale-space clustering,
+  TaxDuin1999 domain description, Scholkopf2000/2001 novelty/support estimation, BlattWisemanDomany1997
+  granular magnets, Ben-HurElisseeffGuyon2002 stability and LipsonSiegelmann2000 high-order-neuron
+  clustering."}, "object_sha256_canonical_json": "84ec20c71619c69b5b6c996bf8ae70cb876b9bd09a5379c882642d3c12bd3ca0",
+  "pointer": "/source_analysis/paper_readings/0/sections/5", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T071653Z-support-vector-sphere.json",
+  "sha256": "26a5c75316bf7ab14b402cc64e1369c50418cf1e1a8570955fe5cf655bc8c95d"}},
+  {"all_occurrences": [{"line": 5708, "match_index": 473, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-1.json",
+  "sha256": "f23e9c03a62c956a54b8a8ada175b53159a12335ae8ff288d19975eb1621d1c6"}, "scan_index":
+  1}, {"line": 5708, "match_index": 2197, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-concept-discovery-20261010",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-2.json",
+  "sha256": "a1f7364fb43b2526d809104cfa066ce734f8d99cfb323592216ac812a3b712ac"}, "scan_index":
+  2}, {"line": 5708, "match_index": 1887, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-public-recovery-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-3.json",
+  "sha256": "6028e97807a7471551c378ace1ba50c4eb27fc6c8fff511ee927b2487921f835"}, "scan_index":
+  3}, {"line": 5708, "match_index": 2871, "path": "./research/discovery/20261012T073618Z-support-description.json",
+  "raw_line": "./research/discovery/20261012T073618Z-support-description.json:5708:            \"reading\":
+  \"Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices. Published
+  discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication.\"", "root": "/private/tmp/aimech-discovery-recovery-worktree-20261012",
+  "scan": {"path": "/private/tmp/aimech-cohort353-identity-20261015/scan-4.json",
+  "sha256": "c0be2529548a87d67fc102d2f5c81ca628eb51c8c16c9ac6fed5c814d691a4ee"}, "scan_index":
+  4}], "content_sha256": "857bf5e392a95319dfe00a07a64172de5236abc85a26e4590b41dc918b0e3e19",
+  "group_index": 344, "object": {"pages": [8, 9], "reading": "Conclusions repeat boundary-not-densitypurpose,GaussianwidthandCchoices.
+  Published discussion notesfixed10%rejectioncanproducecrudeapproximationsandpriorclusterknowledgecouldfavorparametricGaussians.
+  Lastpage explicitlystatesnumberofclusterscannotbefounddirectlyfromSVDD. References
+  identifyTaxDuin1998 Outlier detection using classifier instability (SSPR/SPR98,LNCS1451:593-601),ESANN1999
+  Data domain description using support vectors pp251-256, Tarassenko/Hayton/Brady
+  novelty detection in mammograms, RitterGallegos1997 statisticaloutliermodel andYpmaPajunen1999
+  second-orderICA vibrationapplication."}, "object_sha256_canonical_json": "226cab1719eecce566f82fe4942edd46bd28fff611f4a0e98fefc441ffdc254a",
+  "pointer": "/source_analysis/paper_readings/0/sections/3", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261012T073618Z-support-description.json",
+  "sha256": "641021eca5b4c440875934019acbbd46fdca5c084ed5688990fc1fba16e9ebb8"}}],
+  "scope": "Four older bibliography mentions are retained for source triage, not newly
+  established concepts, proof of lost pending candidate objects, or an AutoWalksat
+  defect. No extra main/nested row is appended. Future records may be unnecessary
+  if source/application identity maps to existing owners. Preserve this deferred object
+  separately from the earlier397/398 repairs.", "status": "pending_source_identity_and_owner_reconciliation"}},
+  "decisions": {"path": "/private/tmp/aimech-cohort353-identity-20261015/root-decisions.json",
+  "sha256": "d8bc3a508f980fc6a541561ecd0346bfa892c64cfc91061aba06208e9ec1ff46"}, "report":
+  {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T225549Z-autowalksat-fixed-noise-controller.json",
+  "sha256": "7ebc4da1f0029b920b1a71a484cd4bec3af9ac92c34894a06103c3ab247621d4"}, "report_fields":
+  {"predecessor_historical_pointer_restorations": {"main_indexes": [909, 910], "nested_indexes":
+  [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision":
+  {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json",
+  "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline":
+  {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract
+  and a 2018 SAC related-work passage were inspected in the bounded historical-pointer
+  reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning",
+  "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]",
+  "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection",
+  "next_check": "Resolve identity against both collections, inspect a primary method
+  source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"},
+  "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"},
+  "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method
+  and its version. Compare the soft-Q objective, policy representation and sampler
+  with maintained SAC and ordinary Q-learning; resolve variants and current identity
+  before proposing any native record.", "origin": "SAC paper; restored historical
+  source pointer, not a newly established method identity.", "related_record_ids":
+  ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"},
+  {"access_scope": "Only the 2010 comparison sections and bibliography were inspected
+  for this restoration; the original FF full method is not claimed read.", "candidate":
+  "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation
+  through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping
+  assumptions and component-versus-whole-planner boundary; compare maintained strict
+  hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing",
+  "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were
+  read; no original full-method, convergence-proof or experiment assessment is asserted.",
+  "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic
+  search for real-time situated agents, including publication date/version, then read
+  its full lookahead, heuristic-repair and execution-commitment method. Reconcile
+  ownership with the existing real-time umbrella before any native identity decision.",
+  "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized
+  LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link
+  to the already explicit additional real-time variants residual; not a second responsible
+  owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot":
+  286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being
+  resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar",
+  "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state
+  commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url":
+  "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2",
+  "reason": "Add the source-scoped combinatorial SLS family, including non-improving
+  and memory-dependent transitions. Preserve prior HillClimbing progress and the historical
+  ILS discovery pointer; arbitrary embedded optimizers and exact named controllers
+  are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope":
+  "The existing local-search lead and its prior HillClimbing progress remain intact.
+  The source-scoped stochastic local-search outcome is separate from the strict-improvement
+  subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."},
+  "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology
+  and detailed GLSM control representations separately. Named GLS/FLS compositions
+  and Gu SAT identity remain with their existing owners; the current family record
+  does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"],
+  "round61_progress": "The strict-improvement subset is now represented by HillClimbing.
+  The broader local-search umbrella is not equated with that subset; general scope
+  and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"},
+  "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure
+  in Tabu Section 2; assess maximization/minimization naming and whether its intended
+  scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution":
+  "Added a native record after primary-method and critical-page inspection, ignored-inclusive
+  identity comparison, neighboring-method assessment and bounded AIO no-match documentation.",
+  "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"},
+  "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search;
+  resolve LRTA* update, cost and completeness assumptions against A-star and Fill.",
+  "round64_resolution": "Added a native DRAFT record with full-method and critical-image
+  inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"},
+  "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2
+  recursive correction and locate its missing proof or later specification. Preserve
+  the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"},
+  "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first
+  beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_added", "next_check": "Follow the original LDS paper and
+  Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency;
+  inspect a primary implementation before claiming literal executable equivalence.",
+  "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch",
+  "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original
+  LDS and ILDS were inspected and added; generalized LDS, depth-first beam search
+  and real-time heuristic methods remain distinct pending leads.", "round64_resolution":
+  "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA*
+  are now represented. Generalized LDS, depth-first beam search and additional real-time
+  variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"},
+  "8": {"candidate": "KBFS, multi-state commitment and real-time search variants",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy
+  and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and
+  heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}},
+  "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments":
+  {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical
+  reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not
+  resolve the named breadth-first escape controller or whole-FF boundary. Restore
+  one pending EHC main pointer with the original comparison URL and original-primary
+  next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already
+  retain broader real-time-search residuals and owner 286 represents basic LRTA*.
+  Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible
+  owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved
+  graph-correction owner 291; no independent second responsible owner or source-method
+  acceptance is created.", "soft_q": "The historical source pointer remains explicit
+  in older reports and contextual carry notes, but the current complete frontier label
+  projection and scoped normalized identities contain no equivalent explicit owner
+  or record. Restore the original SAC-paper provenance as one pending main pointer,
+  linked to existing SAC and Q-learning; later TEMP research is separate from this
+  accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method
+  acceptance, native records or edits to older reports."}}, "write": {"path": "/private/tmp/aimech-autowalksat-cohort353-write.json",
+  "sha256": "a175615af628d92b086b2ff39606a6e7db1b9c697dacc3dd67be74009298548b"}, "write_fields":
+  {"predecessor_historical_pointer_restorations": {"main_indexes": [909, 910], "nested_indexes":
+  [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision":
+  {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json",
+  "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline":
+  {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract
+  and a 2018 SAC related-work passage were inspected in the bounded historical-pointer
+  reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning",
+  "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]",
+  "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection",
+  "next_check": "Resolve identity against both collections, inspect a primary method
+  source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"},
+  "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"},
+  "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method
+  and its version. Compare the soft-Q objective, policy representation and sampler
+  with maintained SAC and ordinary Q-learning; resolve variants and current identity
+  before proposing any native record.", "origin": "SAC paper; restored historical
+  source pointer, not a newly established method identity.", "related_record_ids":
+  ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"},
+  {"access_scope": "Only the 2010 comparison sections and bibliography were inspected
+  for this restoration; the original FF full method is not claimed read.", "candidate":
+  "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation
+  through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping
+  assumptions and component-versus-whole-planner boundary; compare maintained strict
+  hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing",
+  "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were
+  read; no original full-method, convergence-proof or experiment assessment is asserted.",
+  "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic
+  search for real-time situated agents, including publication date/version, then read
+  its full lookahead, heuristic-repair and execution-commitment method. Reconcile
+  ownership with the existing real-time umbrella before any native identity decision.",
+  "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized
+  LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link
+  to the already explicit additional real-time variants residual; not a second responsible
+  owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot":
+  286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being
+  resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar",
+  "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state
+  commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url":
+  "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2",
+  "reason": "Add the source-scoped combinatorial SLS family, including non-improving
+  and memory-dependent transitions. Preserve prior HillClimbing progress and the historical
+  ILS discovery pointer; arbitrary embedded optimizers and exact named controllers
+  are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope":
+  "The existing local-search lead and its prior HillClimbing progress remain intact.
+  The source-scoped stochastic local-search outcome is separate from the strict-improvement
+  subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."},
+  "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology
+  and detailed GLSM control representations separately. Named GLS/FLS compositions
+  and Gu SAT identity remain with their existing owners; the current family record
+  does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"],
+  "round61_progress": "The strict-improvement subset is now represented by HillClimbing.
+  The broader local-search umbrella is not equated with that subset; general scope
+  and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"},
+  "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure
+  in Tabu Section 2; assess maximization/minimization naming and whether its intended
+  scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution":
+  "Added a native record after primary-method and critical-page inspection, ignored-inclusive
+  identity comparison, neighboring-method assessment and bounded AIO no-match documentation.",
+  "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"},
+  "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search;
+  resolve LRTA* update, cost and completeness assumptions against A-star and Fill.",
+  "round64_resolution": "Added a native DRAFT record with full-method and critical-image
+  inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"},
+  "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2
+  recursive correction and locate its missing proof or later specification. Preserve
+  the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"},
+  "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first
+  beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_added", "next_check": "Follow the original LDS paper and
+  Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency;
+  inspect a primary implementation before claiming literal executable equivalence.",
+  "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch",
+  "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original
+  LDS and ILDS were inspected and added; generalized LDS, depth-first beam search
+  and real-time heuristic methods remain distinct pending leads.", "round64_resolution":
+  "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA*
+  are now represented. Generalized LDS, depth-first beam search and additional real-time
+  variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"},
+  "8": {"candidate": "KBFS, multi-state commitment and real-time search variants",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy
+  and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and
+  heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}},
+  "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments":
+  {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical
+  reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not
+  resolve the named breadth-first escape controller or whole-FF boundary. Restore
+  one pending EHC main pointer with the original comparison URL and original-primary
+  next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already
+  retain broader real-time-search residuals and owner 286 represents basic LRTA*.
+  Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible
+  owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved
+  graph-correction owner 291; no independent second responsible owner or source-method
+  acceptance is created.", "soft_q": "The historical source pointer remains explicit
+  in older reports and contextual carry notes, but the current complete frontier label
+  projection and scoped normalized identities contain no equivalent explicit owner
+  or record. Restore the original SAC-paper provenance as one pending main pointer,
+  linked to existing SAC and Q-learning; later TEMP research is separate from this
+  accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method
+  acceptance, native records or edits to older reports."}}}, {"cohort": 352, "decision_fields":
+  {"deferred_historical_accounting_findings": {"evidence": {"path": "/private/tmp/aimech-cohort352-context350-699-20261015/historical-accounting-followups.json",
+  "sha256": "5fb10bbb4b04e3f1b6d9f7e73ed89152a06d3cf3d1d196e40ab9b87f3f5eeeb2"}, "findings":
+  [{"blocking_current_candidates": false, "boundary": "This establishes an explicit
+  ownership-accounting gap, not novelty, a completed method assessment, or a required
+  number of eventual records. No new original MREC/MA*/SMA* primary reading was performed.",
+  "current_comparison": "All current inventory identity/definition fields and all
+  current recursive frontier fields were queried. No explicit MREC/MA-star/SMA-star/iterative-threshold
+  owner or represented identity was identified. Current owner 10 follows frontier-search/2003
+  sparse-memory mechanisms, and owner 1 names BFBnB/BFIDA*/DCBS; neither explicitly
+  accounts for the old family. BULB and capped beam records have different stated
+  mechanisms. IDA*/BFIDA* repeated thresholds do not by themselves discharge the entire
+  historical multi-method family.", "groups": [564, 617], "id": "H1-memory-bounded-search-owner",
+  "next_check": "In a later authorized ledger change, restore the exact old pending
+  family or document a supported existing-owner disposition; then inspect original
+  memory-management and bound-propagation methods before any concept addition.", "origin":
+  {"object": {"candidate": "MREC, MA-star, SMA-star and iterative threshold search",
+  "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies
+  leads; inspect the original memory management and bound propagation methods, not
+  only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"},
+  "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/8"}, "repeat_origin": {"object": {"candidate": "MREC,
+  MA-star, SMA-star and iterative threshold search", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json",
+  "disposition": "pending_inspection", "next_check": "Korf chapter pp. 55–56 supplies
+  leads; inspect the original memory management and bound propagation methods, not
+  only the retrospective comparisons.", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf"},
+  "origin": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json",
+  "pointer": "/prior_frontier_accounting/8"}, "scope": "historical_frontier_accounting",
+  "severity": "minor", "title": "Restore an explicit disposition for the historical
+  memory-bounded search family"}, {"blocking_current_candidates": false, "boundary":
+  "The historical pointer itself calls for comparing unconditional inherited parent
+  cost with Korf RBFS. That source claim is retained as the next primary check, not
+  promoted to a newly verified Russell algorithm or proof of disjointness.", "current_comparison":
+  "No exact current identity or frontier owner was identified by retained all-field
+  comparison. Full current RBFS and SRBFS records were read: RBFS documents conditional
+  parent-value inheritance and SRBFS resets static child values. These descriptions
+  do not assert that the older Russell pointer has been inspected, merged, or resolved.
+  IDA*/DFID use repeated cost/depth contours and do not establish that identity either.",
+  "groups": [565, 610, 618], "id": "H2-iterative-expansion-owner", "next_check": "Restore
+  a dated pending owner or explicit cross-linked disposition after primary comparison.
+  Preserve the original AAAI92-082 URL and avoid adding a duplicate method merely
+  because a name differs.", "origin": {"object": {"candidate": "Iterative expansion",
+  "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish
+  unconditional inherited parent cost from Korf RBFS and consider the scope where
+  they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/9"}, "repeat_origin": {"object": {"candidate": "Iterative
+  expansion", "carried_from": "research/discovery/20261011T053332Z-foundational-search.json",
+  "disposition": "pending_inspection", "next_check": "Inspect Russell 1992; distinguish
+  unconditional inherited parent cost from Korf RBFS and consider the scope where
+  they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "origin":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json",
+  "pointer": "/prior_frontier_accounting/9"}, "scope": "historical_frontier_accounting",
+  "severity": "minor", "title": "Restore an explicit disposition for Russell 1992
+  Iterative expansion"}], "issue_posting": {"path": "/private/tmp/aimech-cohort352-historical-review-issue-posting.json",
+  "sha256": "727a0c8b879509173c87cad98655a025deb9e9109dd8e4e29166abc29cd65224"}, "issues":
+  ["https://github.com/CultureBotAI/AIMech/issues/397", "https://github.com/CultureBotAI/AIMech/issues/398"],
+  "scope": "These are pre-existing historical accounting gaps discovered by this scan,
+  not candidate identity failures or newly established AI concepts. Their exact original
+  objects, current comparisons, boundaries and next checks are embedded here for durable
+  follow-up. A subsequent fresh ledger reconciliation must restore or explicitly resolve
+  them; this batch does not close these issues or claim globally clean accounting.",
+  "status": "pending_separate_owner_restoration"}, "historical_pointer_restorations":
+  {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json",
+  "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline":
+  {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract
+  and a 2018 SAC related-work passage were inspected in the bounded historical-pointer
+  reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning",
+  "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]",
+  "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection",
+  "next_check": "Resolve identity against both collections, inspect a primary method
+  source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"},
+  "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"},
+  "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method
+  and its version. Compare the soft-Q objective, policy representation and sampler
+  with maintained SAC and ordinary Q-learning; resolve variants and current identity
+  before proposing any native record.", "origin": "SAC paper; restored historical
+  source pointer, not a newly established method identity.", "related_record_ids":
+  ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"},
+  {"access_scope": "Only the 2010 comparison sections and bibliography were inspected
+  for this restoration; the original FF full method is not claimed read.", "candidate":
+  "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation
+  through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping
+  assumptions and component-versus-whole-planner boundary; compare maintained strict
+  hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing",
+  "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were
+  read; no original full-method, convergence-proof or experiment assessment is asserted.",
+  "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic
+  search for real-time situated agents, including publication date/version, then read
+  its full lookahead, heuristic-repair and execution-commitment method. Reconcile
+  ownership with the existing real-time umbrella before any native identity decision.",
+  "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized
+  LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link
+  to the already explicit additional real-time variants residual; not a second responsible
+  owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot":
+  286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being
+  resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar",
+  "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state
+  commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url":
+  "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2",
+  "reason": "Add the source-scoped combinatorial SLS family, including non-improving
+  and memory-dependent transitions. Preserve prior HillClimbing progress and the historical
+  ILS discovery pointer; arbitrary embedded optimizers and exact named controllers
+  are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope":
+  "The existing local-search lead and its prior HillClimbing progress remain intact.
+  The source-scoped stochastic local-search outcome is separate from the strict-improvement
+  subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."},
+  "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology
+  and detailed GLSM control representations separately. Named GLS/FLS compositions
+  and Gu SAT identity remain with their existing owners; the current family record
+  does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"],
+  "round61_progress": "The strict-improvement subset is now represented by HillClimbing.
+  The broader local-search umbrella is not equated with that subset; general scope
+  and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"},
+  "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure
+  in Tabu Section 2; assess maximization/minimization naming and whether its intended
+  scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution":
+  "Added a native record after primary-method and critical-page inspection, ignored-inclusive
+  identity comparison, neighboring-method assessment and bounded AIO no-match documentation.",
+  "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"},
+  "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search;
+  resolve LRTA* update, cost and completeness assumptions against A-star and Fill.",
+  "round64_resolution": "Added a native DRAFT record with full-method and critical-image
+  inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"},
+  "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2
+  recursive correction and locate its missing proof or later specification. Preserve
+  the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"},
+  "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first
+  beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_added", "next_check": "Follow the original LDS paper and
+  Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency;
+  inspect a primary implementation before claiming literal executable equivalence.",
+  "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch",
+  "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original
+  LDS and ILDS were inspected and added; generalized LDS, depth-first beam search
+  and real-time heuristic methods remain distinct pending leads.", "round64_resolution":
+  "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA*
+  are now represented. Generalized LDS, depth-first beam search and additional real-time
+  variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"},
+  "8": {"candidate": "KBFS, multi-state commitment and real-time search variants",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy
+  and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and
+  heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}},
+  "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments":
+  {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical
+  reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not
+  resolve the named breadth-first escape controller or whole-FF boundary. Restore
+  one pending EHC main pointer with the original comparison URL and original-primary
+  next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already
+  retain broader real-time-search residuals and owner 286 represents basic LRTA*.
+  Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible
+  owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved
+  graph-correction owner 291; no independent second responsible owner or source-method
+  acceptance is created.", "soft_q": "The historical source pointer remains explicit
+  in older reports and contextual carry notes, but the current complete frontier label
+  projection and scoped normalized identities contain no equivalent explicit owner
+  or record. Restore the original SAC-paper provenance as one pending main pointer,
+  linked to existing SAC and Q-learning; later TEMP research is separate from this
+  accounting repair."}}}, "decisions": {"path": "/private/tmp/aimech-cohort352-identity-20261015/root-decisions.json",
+  "sha256": "a8bb9ba4f9d3805e368c8e123cbc2fc01458eed04e8ab500469fab6f716805e3"}, "report":
+  {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T220733Z-lpga-minimin-and-restored-historical-pointers.json",
+  "sha256": "70390ddcefe988c8db1883ad3c798d430425ca4d9c487ea0944de8bce5b9fa32"}, "report_fields":
+  {"historical_pointer_restorations": {"main_indexes": [909, 910], "nested_indexes":
+  [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision":
+  {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json",
+  "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline":
+  {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract
+  and a 2018 SAC related-work passage were inspected in the bounded historical-pointer
+  reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning",
+  "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]",
+  "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection",
+  "next_check": "Resolve identity against both collections, inspect a primary method
+  source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"},
+  "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"},
+  "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method
+  and its version. Compare the soft-Q objective, policy representation and sampler
+  with maintained SAC and ordinary Q-learning; resolve variants and current identity
+  before proposing any native record.", "origin": "SAC paper; restored historical
+  source pointer, not a newly established method identity.", "related_record_ids":
+  ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"},
+  {"access_scope": "Only the 2010 comparison sections and bibliography were inspected
+  for this restoration; the original FF full method is not claimed read.", "candidate":
+  "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation
+  through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping
+  assumptions and component-versus-whole-planner boundary; compare maintained strict
+  hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing",
+  "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were
+  read; no original full-method, convergence-proof or experiment assessment is asserted.",
+  "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic
+  search for real-time situated agents, including publication date/version, then read
+  its full lookahead, heuristic-repair and execution-commitment method. Reconcile
+  ownership with the existing real-time umbrella before any native identity decision.",
+  "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized
+  LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link
+  to the already explicit additional real-time variants residual; not a second responsible
+  owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot":
+  286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being
+  resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar",
+  "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state
+  commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url":
+  "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2",
+  "reason": "Add the source-scoped combinatorial SLS family, including non-improving
+  and memory-dependent transitions. Preserve prior HillClimbing progress and the historical
+  ILS discovery pointer; arbitrary embedded optimizers and exact named controllers
+  are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope":
+  "The existing local-search lead and its prior HillClimbing progress remain intact.
+  The source-scoped stochastic local-search outcome is separate from the strict-improvement
+  subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."},
+  "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology
+  and detailed GLSM control representations separately. Named GLS/FLS compositions
+  and Gu SAT identity remain with their existing owners; the current family record
+  does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"],
+  "round61_progress": "The strict-improvement subset is now represented by HillClimbing.
+  The broader local-search umbrella is not equated with that subset; general scope
+  and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"},
+  "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure
+  in Tabu Section 2; assess maximization/minimization naming and whether its intended
+  scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution":
+  "Added a native record after primary-method and critical-page inspection, ignored-inclusive
+  identity comparison, neighboring-method assessment and bounded AIO no-match documentation.",
+  "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"},
+  "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search;
+  resolve LRTA* update, cost and completeness assumptions against A-star and Fill.",
+  "round64_resolution": "Added a native DRAFT record with full-method and critical-image
+  inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"},
+  "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2
+  recursive correction and locate its missing proof or later specification. Preserve
+  the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"},
+  "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first
+  beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_added", "next_check": "Follow the original LDS paper and
+  Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency;
+  inspect a primary implementation before claiming literal executable equivalence.",
+  "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch",
+  "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original
+  LDS and ILDS were inspected and added; generalized LDS, depth-first beam search
+  and real-time heuristic methods remain distinct pending leads.", "round64_resolution":
+  "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA*
+  are now represented. Generalized LDS, depth-first beam search and additional real-time
+  variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"},
+  "8": {"candidate": "KBFS, multi-state commitment and real-time search variants",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy
+  and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and
+  heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}},
+  "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments":
+  {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical
+  reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not
+  resolve the named breadth-first escape controller or whole-FF boundary. Restore
+  one pending EHC main pointer with the original comparison URL and original-primary
+  next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already
+  retain broader real-time-search residuals and owner 286 represents basic LRTA*.
+  Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible
+  owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved
+  graph-correction owner 291; no independent second responsible owner or source-method
+  acceptance is created.", "soft_q": "The historical source pointer remains explicit
+  in older reports and contextual carry notes, but the current complete frontier label
+  projection and scoped normalized identities contain no equivalent explicit owner
+  or record. Restore the original SAC-paper provenance as one pending main pointer,
+  linked to existing SAC and Q-learning; later TEMP research is separate from this
+  accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method
+  acceptance, native records or edits to older reports."}}, "write": {"path": "/private/tmp/aimech-lpga-minimin-cohort352-write.json",
+  "sha256": "6c3782b88f98deb893486cb6e3d1dfae674186663f1735c1c898482c55ada973"}, "write_fields":
+  {"historical_pointer_restorations": {"main_indexes": [909, 910], "nested_indexes":
+  [393], "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "root_decision":
+  {"approved": true, "collection": {"path": "/private/tmp/aimech-cohort352-identity-20261015/collection.json",
+  "sha256": "224b19391fdc1b2a44bbfc72f005c7d44f89fcadf67a826848d08d804d608570"}, "current_baseline":
+  {"main": 909, "nested": 393}, "main_append": [{"access_scope": "Official 2017 metadata/abstract
+  and a 2018 SAC related-work passage were inspected in the bounded historical-pointer
+  reconciliation; no full 2017 method reading is claimed.", "candidate": "Soft Q-learning",
+  "disposition": "pending_inspection", "historical_origin": {"field": "new_frontier[15]",
+  "original_object": {"candidate": "Soft Q-learning", "disposition": "pending_inspection",
+  "next_check": "Resolve identity against both collections, inspect a primary method
+  source and decide distinct concept versus variant or overlap.", "origin": "SAC paper"},
+  "report": "research/discovery/20261011T031353Z-optimization-graphs-rl-explanations.json"},
+  "next_check": "Inspect the complete selected 2017 Haarnoja et al. primary method
+  and its version. Compare the soft-Q objective, policy representation and sampler
+  with maintained SAC and ordinary Q-learning; resolve variants and current identity
+  before proposing any native record.", "origin": "SAC paper; restored historical
+  source pointer, not a newly established method identity.", "related_record_ids":
+  ["AIMech:SoftActorCritic", "AIMech:QLearning"], "url": "https://proceedings.mlr.press/v70/haarnoja17a.html"},
+  {"access_scope": "Only the 2010 comparison sections and bibliography were inspected
+  for this restoration; the original FF full method is not claimed read.", "candidate":
+  "Enforced hill climbing", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Acquire and read Hoffmann and Nebel 2001, The FF planning system: Fast plan generation
+  through heuristic search. Assess the breadth-first escape controller, goal/heuristic/stopping
+  assumptions and component-versus-whole-planner boundary; compare maintained strict
+  hill climbing before deciding identity.", "related_record_ids": ["AIMech:HillClimbing",
+  "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "nested_append": [{"access_scope": "The 2010 comparison and its bibliography were
+  read; no original full-method, convergence-proof or experiment assessment is asserted.",
+  "candidate": "LSS-LRTA-star", "disposition": "pending_inspection", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Verify the original Koenig and Sun paper Comparing real-time and incremental heuristic
+  search for real-time situated agents, including publication date/version, then read
+  its full lookahead, heuristic-repair and execution-commitment method. Reconcile
+  ownership with the existing real-time umbrella before any native identity decision.",
+  "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized
+  LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link
+  to the already explicit additional real-time variants residual; not a second responsible
+  owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot":
+  286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being
+  resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar",
+  "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state
+  commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url":
+  "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}],
+  "owner_contexts": {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2",
+  "reason": "Add the source-scoped combinatorial SLS family, including non-improving
+  and memory-dependent transitions. Preserve prior HillClimbing progress and the historical
+  ILS discovery pointer; arbitrary embedded optimizers and exact named controllers
+  are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope":
+  "The existing local-search lead and its prior HillClimbing progress remain intact.
+  The source-scoped stochastic local-search outcome is separate from the strict-improvement
+  subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."},
+  "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology
+  and detailed GLSM control representations separately. Named GLS/FLS compositions
+  and Gu SAT identity remain with their existing owners; the current family record
+  does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"],
+  "round61_progress": "The strict-improvement subset is now represented by HillClimbing.
+  The broader local-search umbrella is not equated with that subset; general scope
+  and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"},
+  "271": {"candidate": "Hill climbing", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow the explicit hill-climbing procedure
+  in Tabu Section 2; assess maximization/minimization naming and whether its intended
+  scope is equivalent to a general local-search record or a distinct variant.", "round61_resolution":
+  "Added a native record after primary-method and critical-page inspection, ignored-inclusive
+  identity comparison, neighboring-method assessment and bounded AIO no-match documentation.",
+  "url": "https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf"},
+  "286": {"candidate": "Learning Real-Time A-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "addressed", "next_check": "Follow Korf1990 Real-time heuristic search;
+  resolve LRTA* update, cost and completeness assumptions against A-star and Fill.",
+  "round64_resolution": "Added a native DRAFT record with full-method and critical-image
+  inspection, explicit AIO assessment and source/guarantee boundaries.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf"},
+  "291": {"candidate": "Graph-corrected RTA-star", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Assess the 1988 Section 3.2
+  recursive correction and locate its missing proof or later specification. Preserve
+  the difference from the 1990 paper and basic RTA*.", "url": "https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf"},
+  "3": {"candidate": "Limited discrepancy search, generalized LDS and depth-first
+  beam search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_added", "next_check": "Follow the original LDS paper and
+  Furcy thesis. Figure 3 has an apparent LDSprobe/GLDSprobe naming inconsistency;
+  inspect a primary implementation before claiming literal executable equivalence.",
+  "record_ids": ["AIMech:LimitedDiscrepancySearch", "AIMech:ImprovedLimitedDiscrepancySearch",
+  "AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "resolution": "Original
+  LDS and ILDS were inspected and added; generalized LDS, depth-first beam search
+  and real-time heuristic methods remain distinct pending leads.", "round64_resolution":
+  "The carried resolution also named real-time heuristic methods: basic RTA* and LRTA*
+  are now represented. Generalized LDS, depth-first beam search and additional real-time
+  variants remain pending; the cohort is still partially added.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"},
+  "8": {"candidate": "KBFS, multi-state commitment and real-time search variants",
+  "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "pending_inspection", "next_check": "Follow Felner et al. 2003, Furcy
+  and Koenig 2005 and Furcy 2004; compare reserve queues, committed state sets and
+  heuristic learning.", "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}},
+  "proposal": {"path": "/private/tmp/aimech-historical-frontier-restoration-proposal-20261015/ownership-proposal.json",
+  "sha256": "2c9cc0509f2c72337f56fd3307a5dae18a4be959710862f36949a4e5b67a3e06"}, "reconciliation_assessments":
+  {"enforced_hill_climbing": "The old composite EHC/LSS pointer is retained in historical
+  reports. Current strict HillClimbing owner 271 and broader SLS owner 270 do not
+  resolve the named breadth-first escape controller or whole-FF boundary. Restore
+  one pending EHC main pointer with the original comparison URL and original-primary
+  next check; preserve both old owners.", "lss_lrta": "Current owners 8 and 3 already
+  retain broader real-time-search residuals and owner 286 represents basic LRTA*.
+  Restore LSS-LRTA* as one explicitly named nested residual assigned to responsible
+  owner 8, with cross-links to 3 and 286. Preserve their old objects and unresolved
+  graph-correction owner 291; no independent second responsible owner or source-method
+  acceptance is created.", "soft_q": "The historical source pointer remains explicit
+  in older reports and contextual carry notes, but the current complete frontier label
+  projection and scoped normalized identities contain no equivalent explicit owner
+  or record. Restore the original SAC-paper provenance as one pending main pointer,
+  linked to existing SAC and Q-learning; later TEMP research is separate from this
+  accounting repair."}}, "scope": "Restored historical pending pointers only; no original-method
+  acceptance, native records or edits to older reports."}}}]'
+- 'predecessor_source_followup_accounting: {"accepted_static_proposal": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/source-followup-accounting.proposed.v2.json",
+  "sha256": "a325d5b46504140956726f44141f653f7b7e5a45dfe82fb8fc42e7cc527b6ac5"}, "actual354_creation":
+  {"note": "Creation-stage newly_discovered_leads=0 retains its then-bounded scope.
+  These six later recorded source questions do not retroactively alter that receipt
+  or claim six new concepts.", "receipt": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/actual354-write.snapshot.json",
+  "sha256": "5b4674e1952696b8887a64b818a64f00b21149dad10a78baa50ae76ea493e45b"}, "unchanged_creation_summary":
+  {"actual_counts": {"aio": 442, "history": 434, "native": 788, "reviews": 443}, "base":
+  "14e9168ee3496e914545ae5c449e3ee190f0294b", "branch": "goal/discover-ai-concepts-round354",
+  "completed_at": "2026-10-15T23:36:12.716912Z", "created_paths": ["data/curated/HRSAT.yaml",
+  "data/curated/TabuSearchForSAT.yaml", "research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.json",
+  "research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.md",
+  "history/reports/hrsat-tsat-and-restored-search-pointers/2026-10-15T233612Z-codex-fecb18.yaml"],
+  "frontier_result": {"changed_main_indexes": [296], "main": 913, "nested": 394, "newly_discovered_leads":
+  0, "restored_main_pointers": 2, "restored_nested_residuals": 0}, "operation": "exclusive_record_creation",
+  "outputs": [{"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/HRSAT.yaml",
+  "sha256": "823d962f64df9237f5f8eef8f557e0f642b9faeddec015540a68dd29b979a724"}, {"path":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/TabuSearchForSAT.yaml",
+  "sha256": "2197a5ca589fa859fff095447e12348fd496c2f1d7c5836cae1d482834deaf07"}, {"path":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.json",
+  "sha256": "cfb1da2d42702cf571b4b3594c8f408f33392a02bc7dd8b79c50a9b09adb279f"}, {"path":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.md",
+  "sha256": "220b798255e6e9d71006e704b007bbddd8838693efd1c16dd901253d8640d9e6"}, {"path":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/history/reports/hrsat-tsat-and-restored-search-pointers/2026-10-15T233612Z-codex-fecb18.yaml",
+  "sha256": "d3a2a0fe4c350174f82503cf43a8eed98d8e00b83973c85c300823ce23c4517a"}],
+  "started_at": "2026-10-15T23:34:49.235157Z", "updated_paths": []}}, "count_scope":
+  {"additional_policy_questions": 1, "changed_existing_main_row_objects": 0, "changed_existing_nested_row_objects":
+  0, "distinct_questions": 6, "named_source_forms": 5, "new_concepts_established":
+  0, "new_main_rows": 0, "new_nested_rows": 0, "new_record_count_required": 0, "scoped_primary_attachments":
+  7}, "followups": [{"candidate": "CRSAT source-defined cautious walk variant", "comparison_owners":
+  [{"candidate": "Additional UBCSAT search variants", "index": 296, "object_sha256_canonical_json":
+  "b3ec47a4ae0681b5cd0cd9d82e16a09152cd4c0d09de14db3dceb8021f07a61f", "pointer": "/full_owners/296",
+  "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}],
+  "concept_identity_established": false, "disposition": "pending_primary_source_identity_and_operational_reconciliation",
+  "followup_id": "H354-S1", "new_record_required": false, "next_check": "Read original
+  CSAT definitions and compare cautious positive/no-decrease/all-variable pools with
+  the1995 probability branch; resolve whether pick is applied uniformly to both branches
+  and retain any ambiguity. Decide represented variant versus separate identity only
+  after that evidence.", "original_question": {"blocks_hrsat_or_tsat_science": false,
+  "followup_id": "H354-S1", "identity_established": false, "label": "CRSAT source-defined
+  cautious walk variant", "new_concept_established": false, "pdf_pages": [3, 4, 5],
+  "possible_owners": [296, 298], "primary_source": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf",
+  "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "question":
+  "Reconcile the cautious candidate rule and probability-controlled focused branch
+  with original CSAT and other maintained SAT selectors; preserve select/pick ambiguity
+  rather than assume a new distinct identity.", "record_count_implied": false, "source_spelling":
+  "CRSAT", "status": "pending_source_identity_and_owner_reconciliation", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"},
+  "original_question_sha256_canonical_json": "375e19d0eaa52710dfdd2925e964a5f8d9c5f588a849948c474cd8f673f3a03d",
+  "other_ownership_assessment": "Owner270 is an umbrella local-search family and does
+  not preserve these selector/source questions precisely. Owner301 has a separate
+  GWSAT sampling-version question and must not be discharged or overwritten.", "owner_attachment_state":
+  "responsibility_assigned_for_future_inspection", "owner_attachments": [{"owner":
+  {"candidate": "Additional GenSAT selection and initialization variants", "index":
+  298, "object_sha256_canonical_json": "ade6ee0e5c875afd4044fd18a2082adc237626b3b36c4935a33f3e8a25b383d3",
+  "pointer": "/full_owners/298", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}},
+  "role": "primary source-family research attachment", "status": "responsibility_assigned_research_pending"}],
+  "ownership_rationale": "CRSAT is explicitly introduced as the random-walk composition
+  of cautious CSAT in the1995 continuation of GenSAT. Owner298 already names CSAT
+  and separates candidate selection from picking and initialization. It is the closest
+  existing source-family research owner; owner296 provides the archival-source and
+  HRSAT/HWSAT version comparison. This attachment does not establish CRSAT as a distinct
+  record.", "primary_existing_owner_index": 298, "primary_scoped_owner_indexes": [{"owner_index":
+  298, "scope": "primary source-family research attachment"}], "research_resolved":
+  false, "responsibility_scope": "future_primary_source_inspection_only_not_method_identity_or_completion",
+  "secondary_context_owner_roles": [{"owner_index": 296, "role": "secondary_source_family_or_maintained_method_comparison"}],
+  "source": {"artifact": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf",
+  "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "passage_bindings":
+  {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-source-passages.json",
+  "sha256": "e6da50683ebf232d5cad782df05517d4600d6a66701a77b8b42b5d164a1043f3"}, "physical_pdf_pages":
+  [3, 4, 5], "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}},
+  {"candidate": "TRSAT source-defined timid walk variant", "comparison_owners": [{"candidate":
+  "Additional UBCSAT search variants", "index": 296, "object_sha256_canonical_json":
+  "b3ec47a4ae0681b5cd0cd9d82e16a09152cd4c0d09de14db3dceb8021f07a61f", "pointer": "/full_owners/296",
+  "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}],
+  "concept_identity_established": false, "disposition": "pending_primary_source_identity_and_operational_reconciliation",
+  "followup_id": "H354-S2", "new_record_required": false, "next_check": "Compare the
+  original timid least-positive-gain rule and its no-decrease/all-variable fallbacks
+  with the1995 focused composition. Preserve selector/picker ambiguity and do not
+  transfer1997 tabu tenure, aspiration or implementation conventions.", "original_question":
+  {"blocks_hrsat_or_tsat_science": false, "followup_id": "H354-S2", "identity_established":
+  false, "label": "TRSAT source-defined timid walk variant", "new_concept_established":
+  false, "pdf_pages": [3, 4, 5], "possible_owners": [296, 298], "primary_source":
+  {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256":
+  "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "question":
+  "Reconcile the timid candidate rule and focused branch with original timid TSAT;
+  do not confuse it with1997 tabu TSAT or assume the abbreviation proves identity.",
+  "record_count_implied": false, "source_spelling": "TRSAT", "status": "pending_source_identity_and_owner_reconciliation",
+  "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"},
+  "original_question_sha256_canonical_json": "fd52ee53bb5bf701d940c2d8e5f1eb083fefc2439cce5cbd31dbe8b3e82c22a5",
+  "other_ownership_assessment": "AIMech:TabuSearchForSAT is a comparison exclusion,
+  not a resolution of this timid-source question; owner270 is broader context only.",
+  "owner_attachment_state": "responsibility_assigned_for_future_inspection", "owner_attachments":
+  [{"owner": {"candidate": "Additional GenSAT selection and initialization variants",
+  "index": 298, "object_sha256_canonical_json": "ade6ee0e5c875afd4044fd18a2082adc237626b3b36c4935a33f3e8a25b383d3",
+  "pointer": "/full_owners/298", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}},
+  "role": "primary source-family research attachment", "status": "responsibility_assigned_research_pending"}],
+  "ownership_rationale": "TRSAT explicitly composes the earlier timid TSAT hill-climbing
+  choice with the1995 focused branch. Owner298 names timid TSAT and warns against
+  the later tabu acronym. Owner296 now owns the1997 fixed-FIFO record but explicitly
+  delegates timid TSAT to298, supporting a primary298 attachment.", "primary_existing_owner_index":
+  298, "primary_scoped_owner_indexes": [{"owner_index": 298, "scope": "primary source-family
+  research attachment"}], "research_resolved": false, "responsibility_scope": "future_primary_source_inspection_only_not_method_identity_or_completion",
+  "secondary_context_owner_roles": [{"owner_index": 296, "role": "secondary_source_family_or_maintained_method_comparison"}],
+  "source": {"artifact": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf",
+  "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "passage_bindings":
+  {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-source-passages.json",
+  "sha256": "e6da50683ebf232d5cad782df05517d4600d6a66701a77b8b42b5d164a1043f3"}, "physical_pdf_pages":
+  [3, 4, 5], "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}},
+  {"candidate": "DRSAT source-defined deterministic fair-pick walk variant", "comparison_owners":
+  [{"candidate": "Additional UBCSAT search variants", "index": 296, "object_sha256_canonical_json":
+  "b3ec47a4ae0681b5cd0cd9d82e16a09152cd4c0d09de14db3dceb8021f07a61f", "pointer": "/full_owners/296",
+  "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}],
+  "concept_identity_established": false, "disposition": "pending_primary_source_identity_and_operational_reconciliation",
+  "followup_id": "H354-S3", "new_record_required": false, "next_check": "Read the
+  original DSAT deterministic fairness construction, clarify state/tie/restart rules
+  and determine the focused-branch composition from primary evidence. Do not infer
+  an executable merely from the word fair or copy HRSAT behavior.", "original_question":
+  {"blocks_hrsat_or_tsat_science": false, "followup_id": "H354-S3", "identity_established":
+  false, "label": "DRSAT source-defined deterministic fair-pick walk variant", "new_concept_established":
+  false, "pdf_pages": [3, 4, 5], "possible_owners": [296, 298], "primary_source":
+  {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256":
+  "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "question":
+  "Inspect the deterministic fair picker and its composition with the focused branch
+  against original DSAT; establish operational convention and identity before any
+  addition.", "record_count_implied": false, "source_spelling": "DRSAT", "status":
+  "pending_source_identity_and_owner_reconciliation", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"},
+  "original_question_sha256_canonical_json": "0121601b25753fbc759cb5dda9fa317d634d23d7d7e51c40652620597adbc2a0",
+  "other_ownership_assessment": "Deterministic fair picking is not automatically HSAT
+  least-recent-flip history, tabu exclusion or a stochastic-uniform picker. Broad
+  owner270 does not settle the operational rule.", "owner_attachment_state": "responsibility_assigned_for_future_inspection",
+  "owner_attachments": [{"owner": {"candidate": "Additional GenSAT selection and initialization
+  variants", "index": 298, "object_sha256_canonical_json": "ade6ee0e5c875afd4044fd18a2082adc237626b3b36c4935a33f3e8a25b383d3",
+  "pointer": "/full_owners/298", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}},
+  "role": "primary source-family research attachment", "status": "responsibility_assigned_research_pending"}],
+  "ownership_rationale": "DRSAT combines DSAT’s deterministic fair picker with the1995
+  walk extension. Owner298 already names DSAT and explicitly owns picking/selection
+  variants. Source-catalog owner296 is a secondary provenance/version comparator;
+  no extra frontier row is needed to retain the pending question.", "primary_existing_owner_index":
+  298, "primary_scoped_owner_indexes": [{"owner_index": 298, "scope": "primary source-family
+  research attachment"}], "research_resolved": false, "responsibility_scope": "future_primary_source_inspection_only_not_method_identity_or_completion",
+  "secondary_context_owner_roles": [{"owner_index": 296, "role": "secondary_source_family_or_maintained_method_comparison"}],
+  "source": {"artifact": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf",
+  "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "passage_bindings":
+  {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-source-passages.json",
+  "sha256": "e6da50683ebf232d5cad782df05517d4600d6a66701a77b8b42b5d164a1043f3"}, "physical_pdf_pages":
+  [3, 4, 5], "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}},
+  {"candidate": "CHRSAT cautious history-pick walk variant", "comparison_owners":
+  [{"candidate": "Additional UBCSAT search variants", "index": 296, "object_sha256_canonical_json":
+  "b3ec47a4ae0681b5cd0cd9d82e16a09152cd4c0d09de14db3dceb8021f07a61f", "pointer": "/full_owners/296",
+  "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}],
+  "concept_identity_established": false, "disposition": "pending_primary_source_identity_and_operational_reconciliation",
+  "followup_id": "H354-S4", "new_record_required": false, "next_check": "Compare cautious
+  pools, the1995 history selector, CHSAT no-walk endpoint and unrestricted/restricted
+  triggers. Determine if CHRSAT is a separate concept or an internal supported variant
+  while retaining select/pick versus generic-random-walk ambiguity.", "original_question":
+  {"blocks_hrsat_or_tsat_science": false, "followup_id": "H354-S4", "identity_established":
+  false, "label": "CHRSAT cautious history-pick walk variant", "new_concept_established":
+  false, "pdf_pages": [8], "possible_owners": [296, 298], "primary_source": {"path":
+  "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"},
+  "question": "Reconcile cautious hill-climbing plus the HRSAT picking method and
+  the CHSAT no-walk comparison. Determine whether this is a separate concept, scoped
+  variant or existing-owner sublead.", "record_count_implied": false, "source_spelling":
+  "CHRSAT", "status": "pending_source_identity_and_owner_reconciliation", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"},
+  "original_question_sha256_canonical_json": "59ea0a89b01ff1b8d4b23a1dbf667d4c14691eddc956a37bbda68257822a7c59",
+  "other_ownership_assessment": "The CHSAT comparison is retained inside this same
+  question, not counted as a sixth named issue form or an additional established concept.
+  Owner270 is broader context only.", "owner_attachment_state": "responsibility_assigned_for_future_inspection",
+  "owner_attachments": [{"owner": {"candidate": "Additional GenSAT selection and initialization
+  variants", "index": 298, "object_sha256_canonical_json": "ade6ee0e5c875afd4044fd18a2082adc237626b3b36c4935a33f3e8a25b383d3",
+  "pointer": "/full_owners/298", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}},
+  "role": "primary source-family research attachment", "status": "responsibility_assigned_research_pending"}],
+  "ownership_rationale": "CHRSAT combines CSAT cautious candidate selection with HRSAT
+  history picking and compares a CHSAT no-walk endpoint. Its unresolved source-family
+  dimension belongs with owner298’s CSAT/selector/picker variants. Owner296 and AIMech:HRSAT
+  are essential comparisons for the already represented history-plus-walk construction,
+  not automatic aliases.", "primary_existing_owner_index": 298, "primary_scoped_owner_indexes":
+  [{"owner_index": 298, "scope": "primary source-family research attachment"}], "research_resolved":
+  false, "responsibility_scope": "future_primary_source_inspection_only_not_method_identity_or_completion",
+  "secondary_context_owner_roles": [{"owner_index": 296, "role": "secondary_source_family_or_maintained_method_comparison"}],
+  "source": {"artifact": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf",
+  "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "passage_bindings":
+  {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-source-passages.json",
+  "sha256": "e6da50683ebf232d5cad782df05517d4600d6a66701a77b8b42b5d164a1043f3"}, "physical_pdf_pages":
+  [8], "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}},
+  {"candidate": "JumpSAT multiple-clause jump variant", "comparison_owners": [{"candidate":
+  "Additional GenSAT selection and initialization variants", "index": 298, "object_sha256_canonical_json":
+  "ade6ee0e5c875afd4044fd18a2082adc237626b3b36c4935a33f3e8a25b383d3", "pointer": "/full_owners/298",
+  "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}},
+  {"candidate": "Local search", "index": 270, "object_sha256_canonical_json": "03c1f90e4934557856fb2ec201458a4408cd311af19e0b55c5824dfbe1c89059",
+  "pointer": "/full_owners/270", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}],
+  "concept_identity_established": false, "disposition": "pending_primary_source_identity_and_operational_reconciliation",
+  "followup_id": "H354-S5", "new_record_required": false, "next_check": "Inspect exact
+  multi-clause variable selection, duplicate-variable handling, simultaneous versus
+  sequential updates, and clause-state timing. Assess unrestricted and improvement-gated
+  jump policies separately. The source statement that all previously false clauses
+  become satisfied is not accepted as an unconditional guarantee from the incomplete
+  description.", "original_question": {"blocks_hrsat_or_tsat_science": false, "followup_id":
+  "H354-S5", "identity_established": false, "label": "JumpSAT multiple-clause jump
+  variant", "new_concept_established": false, "pdf_pages": [8, 9], "possible_owners":
+  [296, 298, 270], "primary_source": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf",
+  "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "question":
+  "Inspect the one-variable-from-each-unsatisfied-clause jump and its selection/update
+  semantics, including overlapping variables and the unrestricted versus improvement-gated
+  versions; do not infer a full executable or universal success.", "record_count_implied":
+  false, "source_spelling": "JumpSAT", "status": "pending_source_identity_and_owner_reconciliation",
+  "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"},
+  "original_question_sha256_canonical_json": "fa84c156411ca08f9730ad1de71448bcded4c850d68729eb380de9b9ac9c2787",
+  "other_ownership_assessment": "Owner298 is relevant comparison for the single-flip
+  GenSAT/GRSAT lineage but its existing selection-and-initialization scope does not,
+  without expansion, cover an arbitrary multiple-variable transition. Owner270 supplies
+  broader SLS context; it is too general as the primary source-question home.", "owner_attachment_state":
+  "responsibility_assigned_for_future_inspection", "owner_attachments": [{"owner":
+  {"candidate": "Additional UBCSAT search variants", "index": 296, "object_sha256_canonical_json":
+  "b3ec47a4ae0681b5cd0cd9d82e16a09152cd4c0d09de14db3dceb8021f07a61f", "pointer": "/full_owners/296",
+  "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}},
+  "role": "primary source-family research attachment", "status": "responsibility_assigned_research_pending"}],
+  "ownership_rationale": "JumpSAT is described as a GRSAT-related multiple-clause
+  jump rather than one candidate variable selected and flipped by the printed GenSAT
+  driver. Owner296’s additional SAT-source catalogue is a suitable explicit pending-source
+  owner because it already follows the same archived1995 source and method/version
+  discrepancies. This does not assert that JumpSAT is implemented or registered in
+  UBCSAT.", "primary_existing_owner_index": 296, "primary_scoped_owner_indexes": [{"owner_index":
+  296, "scope": "primary source-family research attachment"}], "research_resolved":
+  false, "responsibility_scope": "future_primary_source_inspection_only_not_method_identity_or_completion",
+  "secondary_context_owner_roles": [{"owner_index": 298, "role": "secondary_source_family_or_maintained_method_comparison"},
+  {"owner_index": 270, "role": "broader_local_search_context_only"}], "source": {"artifact":
+  {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256":
+  "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "passage_bindings":
+  {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-source-passages.json",
+  "sha256": "e6da50683ebf232d5cad782df05517d4600d6a66701a77b8b42b5d164a1043f3"}, "physical_pdf_pages":
+  [8, 9], "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}},
+  {"candidate": "Restricted-walk trigger policy in CHRSAT and JumpSAT", "comparison_owners":
+  [{"candidate": "Local search", "index": 270, "object_sha256_canonical_json": "03c1f90e4934557856fb2ec201458a4408cd311af19e0b55c5824dfbe1c89059",
+  "pointer": "/full_owners/270", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}}],
+  "concept_identity_established": false, "disposition": "pending_primary_source_identity_and_operational_reconciliation",
+  "followup_id": "H354-S6", "new_record_required": false, "next_check": "For both
+  named procedures, compare a walk/jump permitted at every step with a version allowed
+  only when no strictly improving hill-climbing move is available. Clarify neutral-move
+  treatment, selector/picker composition and whether this is an internal control dimension
+  or warrants separate identity. Do not infer an extra record count.", "original_question":
+  {"blocks_hrsat_or_tsat_science": false, "followup_id": "H354-S6", "identity_established":
+  false, "label": "Restricted-walk trigger policy in CHRSAT and JumpSAT", "new_concept_established":
+  false, "pdf_pages": [8, 9], "possible_owners": [296, 298], "primary_source": {"path":
+  "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"},
+  "question": "Retain the explicit policy difference between allowing focused moves
+  on every step and allowing them only without an improving move. Determine whether
+  this is an internal variant dimension or a separately owned identity; it is not
+  a sixth named algorithm.", "record_count_implied": false, "source_spelling": "walk
+  only when hill climbing is not possible", "status": "pending_source_identity_and_owner_reconciliation",
+  "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"},
+  "original_question_sha256_canonical_json": "aa4d40e0cfe3364dca424d9b18eb1574771995bb0382efb6660810557320ffd9",
+  "other_ownership_assessment": "Owner270 provides the generic improvement/non-improvement
+  context only. Owner301’s independent GWSAT sampling-distribution question remains
+  unchanged and unresolved.", "owner_attachment_state": "responsibility_assigned_for_future_inspection",
+  "owner_attachments": [{"owner": {"candidate": "Additional GenSAT selection and initialization
+  variants", "index": 298, "object_sha256_canonical_json": "ade6ee0e5c875afd4044fd18a2082adc237626b3b36c4935a33f3e8a25b383d3",
+  "pointer": "/full_owners/298", "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}},
+  "role": "CHRSAT trigger-policy branch", "status": "responsibility_assigned_research_pending"},
+  {"owner": {"candidate": "Additional UBCSAT search variants", "index": 296, "object_sha256_canonical_json":
+  "b3ec47a4ae0681b5cd0cd9d82e16a09152cd4c0d09de14db3dceb8021f07a61f", "pointer": "/full_owners/296",
+  "snapshot": {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/observed-owner-contexts.json",
+  "sha256": "e9f62ff1ee0974cb8736ab05e74ab6ba3d8c0a0983f64e61d3badcb7a7c2f95b"}},
+  "role": "JumpSAT trigger-policy branch", "status": "responsibility_assigned_research_pending"}],
+  "ownership_rationale": "This is one cross-cutting trigger-policy question, not a
+  sixth named algorithm. Attach the CHRSAT branch to298 and the JumpSAT branch to296,
+  using the same followup_id and source question. Distinct scoped attachments avoid
+  forcing the multiple-variable JumpSAT mechanism into owner298 or duplicating a policy
+  question.", "primary_existing_owner_index": null, "primary_scoped_owner_indexes":
+  [{"owner_index": 298, "scope": "CHRSAT trigger-policy branch"}, {"owner_index":
+  296, "scope": "JumpSAT trigger-policy branch"}], "research_resolved": false, "responsibility_scope":
+  "future_primary_source_inspection_only_not_method_identity_or_completion", "secondary_context_owner_roles":
+  [{"owner_index": 270, "role": "broader_local_search_context_only"}], "source": {"artifact":
+  {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf", "sha256":
+  "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "passage_bindings":
+  {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-source-passages.json",
+  "sha256": "e6da50683ebf232d5cad782df05517d4600d6a66701a77b8b42b5d164a1043f3"}, "physical_pdf_pages":
+  [8, 9], "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf"}}],
+  "historical_observation": {"current_main_count": 913, "full_owners": {"270": {"candidate":
+  "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2",
+  "reason": "Add the source-scoped combinatorial SLS family, including non-improving
+  and memory-dependent transitions. Preserve prior HillClimbing progress and the historical
+  ILS discovery pointer; arbitrary embedded optimizers and exact named controllers
+  are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope":
+  "The existing local-search lead and its prior HillClimbing progress remain intact.
+  The source-scoped stochastic local-search outcome is separate from the strict-improvement
+  subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."},
+  "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology
+  and detailed GLSM control representations separately. Named GLS/FLS compositions
+  and Gu SAT identity remain with their existing owners; the current family record
+  does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"],
+  "round61_progress": "The strict-improvement subset is now represented by HillClimbing.
+  The broader local-search umbrella is not equated with that subset; general scope
+  and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"},
+  "296": {"candidate": "Additional UBCSAT search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort354_resolution": {"previous_sha256": "631cae083229f922a15adf18b6dc1eb15980bce26d74cc6aff5119209e6c290b",
+  "reason": "Added source-scoped1995 HRSAT and1997 fixed-FIFO TSAT after accepted
+  primary evidence and current identity reconciliation. Their later UBCSAT comparisons
+  preserve version differences; the catalog family remains open.", "record_ids": ["AIMech:HRSAT",
+  "AIMech:TabuSearchForSAT"], "source_pointer_scope": "Preserve the UBCSAT catalog
+  URL and prior HSAT resolution. HRSAT is literal printed 1995 select/pick composition,
+  not an exact HWSAT alias. TSAT is source-scoped 1997 fixed-FIFO tabu search; later
+  unweighted UBCSAT selector remains contextual. Retain HWSAT reconciliation, WalkSAT/TABU,
+  G2WSAT, adaptive Novelty and weighting residuals; owner 298 timid TSAT remains unchanged."},
+  "disposition": "partially_addressed", "next_check": "Inspect remaining WalkSAT/TABU,
+  G2WSAT, adaptive Novelty variants, SAPS, PAWS, DDFW, RGSAT, SAMD and variable-weighting
+  methods against existing concepts and primary papers. Reconcile HRSAT/HWSAT and
+  tabu implementation-version discrepancies without treating them as exact aliases;
+  timid TSAT remains separately owned by298. Preserve the broader catalog residuals
+  and independently owned GWSAT source-distribution question301.", "record_ids": ["AIMech:HRSAT",
+  "AIMech:TabuSearchForSAT"], "round67_resolution": "Added HSAT after primary1993
+  method inspection. HWSAT, tabu variants, G2WSAT, adaptive Novelty, weighting and
+  remaining catalog cohorts still require inspection; no full-catalog closure is asserted.",
+  "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/"}, "298": {"candidate":
+  "Additional GenSAT selection and initialization variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_addressed", "next_check": "Follow CSAT, timid TSAT, ISAT,
+  SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT, MSAT and IHSAT. The1993 pages distinguish
+  candidate sets, picking and initialization; follow the original1992 definitions
+  and do not confuse timid TSAT with a later tabu-search acronym.", "round68_resolution":
+  "Added IHSAT after checking the ISAT candidate pool and HSAT history selector. CSAT,
+  timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT and MSAT still
+  require record-level inspection; this cohort remains open.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf"},
+  "301": {"candidate": "GWSAT sampling source-version reconciliation", "carried_from":
+  "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition":
+  "pending_inspection", "next_check": "Compare the1999 Figure1 clause-first random
+  branch with the1994 duplicate-free variable-union branch already curated. Assess
+  whether a separate variant or explicit successor record clarification best captures
+  the different distributions; the earlier record is scoped to its inspected sources.",
+  "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/Hoos99b.pdf"}},
+  "head": "14e9168ee3496e914545ae5c449e3ee190f0294b", "observed_at": "2026-10-15T23:40:51.979289+00:00",
+  "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.json",
+  "sha256": "cfb1da2d42702cf571b4b3594c8f408f33392a02bc7dd8b79c50a9b09adb279f"}, "scope":
+  "Current354 report observed only; future base unknown. No absence or clean-state
+  claim."}, "issue": "https://github.com/CultureBotAI/AIMech/issues/404", "issue_closure_requested":
+  false, "kind": "source_followup_accounting", "origin": {"full_issue_context": {"path":
+  "/private/tmp/aimech-issue404-owner-reconciliation-20261015/issue404-observed.json",
+  "sha256": "7592292285c98dc8f0a67deaf54239ccd6708b0d40f563c558fc8a34369a24f0"}, "ledger":
+  {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-followup-ledger.json",
+  "sha256": "5df0bf4ee84ade54e310b5d8ce12817f7b6e46580db23f038e4ecf8380f8d55a"}, "posting":
+  {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-posting.json",
+  "sha256": "b2e666a95b8dd98e7237c04ea6a7ca7e5904054a11f0fd63a14d691b8e3ec9ba"}, "root_acceptance":
+  {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/origin-root-followup-acceptance.json",
+  "sha256": "81c81677950a9c9e0f9477d8c35bc9bd04a9e68820ab797d31278b0429c2e626"}},
+  "primary_source": {"artifact": {"path": "/private/tmp/aimech-hwsat-research-20261015/gent-walsh1995.pdf",
+  "sha256": "eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5"}, "title":
+  "Unsatisfied Variables in Local Search", "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf",
+  "version": "Gent–Walsh1995 thirteen-page archived author-layout AISB paper; physical
+  PDF pages"}, "runtime_binding": {"all_owner_preimages_equal": true, "base": "008d1eafc23cb19605953fa860475256d1b28895",
+  "collection": {"path": "/private/tmp/aimech-cohort355-identity-20261016/collection.json",
+  "sha256": "b0936fc8f48ee88d6f7b4e20fe7501c43f3d6f3aac888ccd4e55c54c718d6809"}, "current_full_owners":
+  {"270": {"candidate": "Local search", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort343_resolution": {"previous_sha256": "12559bfd234e713389975ff6bb2f41987704afef7d0bd6b77a266b0c0200d1c2",
+  "reason": "Add the source-scoped combinatorial SLS family, including non-improving
+  and memory-dependent transitions. Preserve prior HillClimbing progress and the historical
+  ILS discovery pointer; arbitrary embedded optimizers and exact named controllers
+  are not aliases.", "record_ids": ["AIMech:StochasticLocalSearch"], "source_pointer_scope":
+  "The existing local-search lead and its prior HillClimbing progress remain intact.
+  The source-scoped stochastic local-search outcome is separate from the strict-improvement
+  subset; no family exhaustion or alias with arbitrary embedded optimizers is asserted."},
+  "disposition": "partially_addressed", "next_check": "Assess continuous-search terminology
+  and detailed GLSM control representations separately. Named GLS/FLS compositions
+  and Gu SAT identity remain with their existing owners; the current family record
+  does not resolve every local-search usage.", "record_ids": ["AIMech:StochasticLocalSearch"],
+  "round61_progress": "The strict-improvement subset is now represented by HillClimbing.
+  The broader local-search umbrella is not equated with that subset; general scope
+  and non-improving/population variants still require assessment.", "url": "https://arxiv.org/pdf/math/0102188v1"},
+  "296": {"candidate": "Additional UBCSAT search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort354_resolution": {"previous_sha256": "631cae083229f922a15adf18b6dc1eb15980bce26d74cc6aff5119209e6c290b",
+  "reason": "Added source-scoped1995 HRSAT and1997 fixed-FIFO TSAT after accepted
+  primary evidence and current identity reconciliation. Their later UBCSAT comparisons
+  preserve version differences; the catalog family remains open.", "record_ids": ["AIMech:HRSAT",
+  "AIMech:TabuSearchForSAT"], "source_pointer_scope": "Preserve the UBCSAT catalog
+  URL and prior HSAT resolution. HRSAT is literal printed 1995 select/pick composition,
+  not an exact HWSAT alias. TSAT is source-scoped 1997 fixed-FIFO tabu search; later
+  unweighted UBCSAT selector remains contextual. Retain HWSAT reconciliation, WalkSAT/TABU,
+  G2WSAT, adaptive Novelty and weighting residuals; owner 298 timid TSAT remains unchanged."},
+  "disposition": "partially_addressed", "next_check": "Inspect remaining WalkSAT/TABU,
+  G2WSAT, adaptive Novelty variants, SAPS, PAWS, DDFW, RGSAT, SAMD and variable-weighting
+  methods against existing concepts and primary papers. Reconcile HRSAT/HWSAT and
+  tabu implementation-version discrepancies without treating them as exact aliases;
+  timid TSAT remains separately owned by298. Preserve the broader catalog residuals
+  and independently owned GWSAT source-distribution question301.", "record_ids": ["AIMech:HRSAT",
+  "AIMech:TabuSearchForSAT"], "round67_resolution": "Added HSAT after primary1993
+  method inspection. HWSAT, tabu variants, G2WSAT, adaptive Novelty, weighting and
+  remaining catalog cohorts still require inspection; no full-catalog closure is asserted.",
+  "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/"}, "298": {"candidate":
+  "Additional GenSAT selection and initialization variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "disposition": "partially_addressed", "next_check": "Follow CSAT, timid TSAT, ISAT,
+  SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT, MSAT and IHSAT. The1993 pages distinguish
+  candidate sets, picking and initialization; follow the original1992 definitions
+  and do not confuse timid TSAT with a later tabu-search acronym.", "round68_resolution":
+  "Added IHSAT after checking the ISAT candidate pool and HSAT history selector. CSAT,
+  timid TSAT, ISAT, SSAT, OSAT, FSAT, DSAT, USAT, NSAT, VSAT, VDSAT and MSAT still
+  require record-level inspection; this cohort remains open.", "url": "https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf"},
+  "301": {"candidate": "GWSAT sampling source-version reconciliation", "carried_from":
+  "research/discovery/20261014T082648Z-annealed-importance-sampling.json", "disposition":
+  "pending_inspection", "next_check": "Compare the1999 Figure1 clause-first random
+  branch with the1994 duplicate-free variable-union branch already curated. Assess
+  whether a separate variant or explicit successor record clarification best captures
+  the different distributions; the earlier record is scoped to its inspected sources.",
+  "url": "https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/Hoos99b.pdf"}},
+  "predecessor_report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.json",
+  "sha256": "cfb1da2d42702cf571b4b3594c8f408f33392a02bc7dd8b79c50a9b09adb279f"}, "previous_write":
+  {"path": "/private/tmp/aimech-hrsat-tsat-cohort354-write.json", "sha256": "5b4674e1952696b8887a64b818a64f00b21149dad10a78baa50ae76ea493e45b"},
+  "recorded_at": "2026-10-16T00:19:41.470223+00:00", "root_approved": true}, "static_owner_acceptance":
+  {"path": "/private/tmp/aimech-issue404-owner-reconciliation-20261015/root-static-owner-acceptance.json",
+  "sha256": "7b619ff2bbea80c172581697f4e5f62b98f018a27d13058ca0fcf2d18e095069"}, "status":
+  "responsibility_assignment_recorded_research_pending", "underlying_research_resolved":
+  false}'
+- 'predecessor_source_followup_audit: {"path": "/private/tmp/aimech-cohort355-exact-head-audit-20261016/assessment.json",
+  "sha256": "a034364a63e6f27ceda4f336f783e112fd5f051a04ad4472dd84b63d362283a3"}'
+- 'predecessor_incidental_source_accounting: {"base": "008d1eafc23cb19605953fa860475256d1b28895",
+  "collection": {"path": "/private/tmp/aimech-cohort355-identity-20261016/collection.json",
+  "sha256": "b0936fc8f48ee88d6f7b4e20fe7501c43f3d6f3aac888ccd4e55c54c718d6809"}, "cross_links":
+  [{"entry": {"access_scope": "Bibliography-only source inventory; URL identifies
+  the inspected citing paper, not a newly inspected original method.", "candidate":
+  "Variational inference with normalizing flows (Rezende and Mohamed 2015)", "disposition":
+  "pending_inspection", "key": "svgd_bibliography_4", "next_check": "Identify the
+  exact original cited work and reconcile its full method against maintained records
+  and existing owners before deciding distinct concept, overlap or existing-owner
+  linkage. The cited title is not novelty evidence.", "record_ids": [], "source":
+  {"citation_scope": {"path": "/private/tmp/aimech-svgd-research-20261015/citation-scope.json",
+  "sha256": "6e4fce31c555b25438183ac54c24d71ac09d4b6b65373d5297dc835cb088d28f"}, "origin":
+  {"path": "/private/tmp/aimech-svgd-research-20261015/extraction/page-09.txt", "sha256":
+  "2bfab341a9840bb1f34c345f8e2d2ba3e12b864e1a41cf44b1a666de99da8f63"}, "pointer":
+  "/other_bibliography_next_checks/3"}, "url": "https://proceedings.neurips.cc/paper_files/paper/2016/file/b3ba8f1bee1238a2f37603d90b58898d-Paper.pdf"},
+  "from_question": "H355-FLOW-17", "owner_index": 909, "plan": {"path": "/private/tmp/aimech-softq-svgd-cohort355-preparation-20261015/citation-ownership.structure.json",
+  "sha256": "c2d5c71d14605e54d41b81e9b0ca96109b474e89c244812b88c0da04de10753c"}, "pointer":
+  "/bibliography_entries/3", "scope": "Existing selected355 bibliography source question;
+  retain distinct original flow-family versus Rezende-Mohamed2015 variational-inference
+  source scopes. This linkage neither resolves either question nor appends an owner."}],
+  "frontier_rows_appended": {"main": 0, "nested": 0}, "issue": {"posting": {"path":
+  "/private/tmp/aimech-cohort355-recovered-questions-issue-posting.json", "sha256":
+  "015a7b00a0368825661d32178c85179f3d41a12ef459d5522069fed6ab15135a"}, "url": "https://github.com/CultureBotAI/AIMech/issues/406"},
+  "kind": "incidental_source_accounting", "new_concepts_asserted": 0, "proposal":
+  {"path": "/private/tmp/aimech-cohort355-incidental-accounting-successors-20261016/proposal.json",
+  "sha256": "5eed2a47fbbb5518a4f6a42d86c6f91a04060cd168b8d4ae7cf1861200486131"}, "questions":
+  [{"access_scope": "Historical pointer and neighboring record context only; original
+  source identity, narrower ownership and method/application/evidence scope remain
+  pending. No primary reading or missing concept is asserted.", "candidate": "Laplacian
+  multiscale flow matching", "disposition": "pending_inspection", "next_check": "Resolve
+  primary source identity, inspect the full defining method and compare mechanism/scope
+  with existing records; evidence-only or application-only items need not become new
+  concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/0"}, "question_id": "H355-FLOW-01", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/0", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Laplacian multiscale flow matching", "disposition":
+  "pending_inspection", "next_check": "Resolve primary source identity, inspect the
+  full defining method and compare mechanism/scope with existing records; evidence-only
+  or application-only items need not become new concept records.", "status": "search
+  result; primary method pending", "url": "https://arxiv.org/abs/2602.19461"}, "question_id":
+  "H355-FLOW-01", "reason": "The complete historical pending object is retained. Represented
+  related families/procedures do not by themselves dispose of this source/version/objective/application
+  question. No specific current owner located by bounded recursive current-report
+  field and identity searches; semantic ownership remains pending rather than proven
+  absent.", "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete":
+  false}}, {"access_scope": "Historical pointer and neighboring record context only;
+  original source identity, narrower ownership and method/application/evidence scope
+  remain pending. No primary reading or missing concept is asserted.", "candidate":
+  "Fisher flow matching", "disposition": "pending_inspection", "next_check": "Resolve
+  primary source identity, inspect the full defining method and compare mechanism/scope
+  with existing records; evidence-only or application-only items need not become new
+  concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/1"}, "question_id": "H355-FLOW-02", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/1", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Fisher flow matching", "disposition": "pending_inspection",
+  "next_check": "Resolve primary source identity, inspect the full defining method
+  and compare mechanism/scope with existing records; evidence-only or application-only
+  items need not become new concept records.", "status": "search result; primary method
+  pending", "url": "https://arxiv.org/abs/2405.14664"}, "question_id": "H355-FLOW-02",
+  "reason": "The complete historical pending object is retained. Represented related
+  families/procedures do not by themselves dispose of this source/version/objective/application
+  question. No specific current owner located by bounded recursive current-report
+  field and identity searches; semantic ownership remains pending rather than proven
+  absent.", "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete":
+  false}}, {"access_scope": "Historical pointer and neighboring record context only;
+  original source identity, narrower ownership and method/application/evidence scope
+  remain pending. No primary reading or missing concept is asserted.", "candidate":
+  "Functional rectified flow", "disposition": "pending_inspection", "next_check":
+  "Resolve primary source identity, inspect the full defining method and compare mechanism/scope
+  with existing records; evidence-only or application-only items need not become new
+  concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/2"}, "question_id": "H355-FLOW-03", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:RectifiedFlow"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/2", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Functional rectified flow", "disposition": "pending_inspection",
+  "next_check": "Resolve primary source identity, inspect the full defining method
+  and compare mechanism/scope with existing records; evidence-only or application-only
+  items need not become new concept records.", "status": "search result; primary identity
+  and method pending", "url": "https://openreview.net/pdf/bdf5f4c0c385a4b5e31e1fa31214a09cb8f49064.pdf"},
+  "question_id": "H355-FLOW-03", "reason": "The complete historical pending object
+  is retained. Represented related families/procedures do not by themselves dispose
+  of this source/version/objective/application question. No specific current owner
+  located by bounded recursive current-report field and identity searches; semantic
+  ownership remains pending rather than proven absent.", "related_current_record_ids":
+  ["AIMech:RectifiedFlow"], "research_complete": false}}, {"access_scope": "Historical
+  pointer and neighboring record context only; original source identity, narrower
+  ownership and method/application/evidence scope remain pending. No primary reading
+  or missing concept is asserted.", "candidate": "Consistency-model convergence conditions",
+  "disposition": "pending_inspection", "next_check": "Resolve primary source identity,
+  inspect the full defining method and compare mechanism/scope with existing records;
+  evidence-only or application-only items need not become new concept records.", "origin":
+  {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/3"}, "question_id": "H355-FLOW-04", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:ConsistencyModel"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/3", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Consistency-model convergence conditions", "disposition":
+  "pending_inspection", "next_check": "Resolve primary source identity, inspect the
+  full defining method and compare mechanism/scope with existing records; evidence-only
+  or application-only items need not become new concept records.", "status": "potential
+  limitation/evidence sources, not automatically new method identities", "urls": ["https://proceedings.mlr.press/v235/lyu24b.html",
+  "https://proceedings.mlr.press/v235/dou24a.html", "https://proceedings.mlr.press/v267/chen25ck.html",
+  "https://proceedings.mlr.press/v267/yang25l.html"]}, "question_id": "H355-FLOW-04",
+  "reason": "The complete historical pending object is retained. Represented related
+  families/procedures do not by themselves dispose of this source/version/objective/application
+  question. No specific current owner located by bounded recursive current-report
+  field and identity searches; semantic ownership remains pending rather than proven
+  absent.", "related_current_record_ids": ["AIMech:ConsistencyModel"], "research_complete":
+  false}}, {"access_scope": "Historical pointer and neighboring record context only;
+  original source identity, narrower ownership and method/application/evidence scope
+  remain pending. No primary reading or missing concept is asserted.", "candidate":
+  "Manifold-aligned consistency tangents", "disposition": "pending_inspection", "next_check":
+  "Resolve primary source identity, inspect the full defining method and compare mechanism/scope
+  with existing records; evidence-only or application-only items need not become new
+  concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/4"}, "question_id": "H355-FLOW-05", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:ConsistencyModel"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/4", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Manifold-aligned consistency tangents", "disposition":
+  "pending_inspection", "next_check": "Resolve primary source identity, inspect the
+  full defining method and compare mechanism/scope with existing records; evidence-only
+  or application-only items need not become new concept records.", "status": "primary
+  identity and method pending", "url": "https://proceedings.mlr.press/v306/kim26e.html"},
+  "question_id": "H355-FLOW-05", "reason": "The complete historical pending object
+  is retained. Represented related families/procedures do not by themselves dispose
+  of this source/version/objective/application question. No specific current owner
+  located by bounded recursive current-report field and identity searches; semantic
+  ownership remains pending rather than proven absent.", "related_current_record_ids":
+  ["AIMech:ConsistencyModel"], "research_complete": false}}, {"access_scope": "Historical
+  pointer and neighboring record context only; original source identity, narrower
+  ownership and method/application/evidence scope remain pending. No primary reading
+  or missing concept is asserted.", "candidate": "Biological flow-matching applications",
+  "disposition": "pending_inspection", "next_check": "Resolve primary source identity,
+  inspect the full defining method and compare mechanism/scope with existing records;
+  evidence-only or application-only items need not become new concept records.", "origin":
+  {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/5"}, "question_id": "H355-FLOW-06", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/5", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Biological flow-matching applications", "disposition":
+  "pending_inspection", "next_check": "Resolve primary source identity, inspect the
+  full defining method and compare mechanism/scope with existing records; evidence-only
+  or application-only items need not become new concept records.", "status": "review/source-inventory
+  lead; inspect underlying primary methods before any application assertion", "url":
+  "https://openreview.net/pdf?id=qBH57cfgLa"}, "question_id": "H355-FLOW-06", "reason":
+  "The complete historical pending object is retained. Represented related families/procedures
+  do not by themselves dispose of this source/version/objective/application question.
+  No specific current owner located by bounded recursive current-report field and
+  identity searches; semantic ownership remains pending rather than proven absent.",
+  "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete": false}},
+  {"access_scope": "Historical pointer and neighboring record context only; original
+  source identity, narrower ownership and method/application/evidence scope remain
+  pending. No primary reading or missing concept is asserted.", "candidate": "Variational
+  rectified flow matching", "disposition": "pending_inspection", "next_check": "Resolve
+  primary source identity, inspect the full defining method and compare mechanism/scope
+  with existing records; evidence-only or application-only items need not become new
+  concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/6"}, "question_id": "H355-FLOW-07", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/6", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Variational rectified flow matching", "disposition":
+  "pending_inspection", "next_check": "Resolve primary source identity, inspect the
+  full defining method and compare mechanism/scope with existing records; evidence-only
+  or application-only items need not become new concept records.", "status": "search
+  lead; full primary identity and method inspection pending", "url": "https://openreview.net/pdf?id=Rk18ZikrFI"},
+  "question_id": "H355-FLOW-07", "reason": "The complete historical pending object
+  is retained. Represented related families/procedures do not by themselves dispose
+  of this source/version/objective/application question. No specific current owner
+  located by bounded recursive current-report field and identity searches; semantic
+  ownership remains pending rather than proven absent.", "related_current_record_ids":
+  ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical
+  pointer and neighboring record context only; original source identity, narrower
+  ownership and method/application/evidence scope remain pending. No primary reading
+  or missing concept is asserted.", "candidate": "Coreset-induced conditional velocity
+  flow matching", "disposition": "pending_inspection", "next_check": "Resolve primary
+  source identity, inspect the full defining method and compare mechanism/scope with
+  existing records; evidence-only or application-only items need not become new concept
+  records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/7"}, "question_id": "H355-FLOW-08", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/7", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Coreset-induced conditional velocity flow matching",
+  "disposition": "pending_inspection", "next_check": "Resolve primary source identity,
+  inspect the full defining method and compare mechanism/scope with existing records;
+  evidence-only or application-only items need not become new concept records.", "status":
+  "search lead; full primary identity and method inspection pending", "url": "https://arxiv.org/abs/2605.12951"},
+  "question_id": "H355-FLOW-08", "reason": "The complete historical pending object
+  is retained. Represented related families/procedures do not by themselves dispose
+  of this source/version/objective/application question. No specific current owner
+  located by bounded recursive current-report field and identity searches; semantic
+  ownership remains pending rather than proven absent.", "related_current_record_ids":
+  ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical
+  pointer and neighboring record context only; original source identity, narrower
+  ownership and method/application/evidence scope remain pending. No primary reading
+  or missing concept is asserted.", "candidate": "Isokinetic flow matching", "disposition":
+  "pending_inspection", "next_check": "Resolve primary source identity, inspect the
+  full defining method and compare mechanism/scope with existing records; evidence-only
+  or application-only items need not become new concept records.", "origin": {"ledger":
+  {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/8"}, "question_id": "H355-FLOW-09", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/8", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Isokinetic flow matching", "disposition": "pending_inspection",
+  "next_check": "Resolve primary source identity, inspect the full defining method
+  and compare mechanism/scope with existing records; evidence-only or application-only
+  items need not become new concept records.", "status": "search lead; full primary
+  identity and method inspection pending", "url": "https://openreview.net/pdf/1b61fc33f23a36e216cddb6e87cb3e03104f2eee.pdf"},
+  "question_id": "H355-FLOW-09", "reason": "The complete historical pending object
+  is retained. Represented related families/procedures do not by themselves dispose
+  of this source/version/objective/application question. No specific current owner
+  located by bounded recursive current-report field and identity searches; semantic
+  ownership remains pending rather than proven absent.", "related_current_record_ids":
+  ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical
+  pointer and neighboring record context only; original source identity, narrower
+  ownership and method/application/evidence scope remain pending. No primary reading
+  or missing concept is asserted.", "candidate": "FLOWALIGN", "disposition": "pending_inspection",
+  "next_check": "Resolve primary source identity, inspect the full defining method
+  and compare mechanism/scope with existing records; evidence-only or application-only
+  items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/9"}, "question_id": "H355-FLOW-10", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/9", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "FLOWALIGN", "disposition": "pending_inspection",
+  "next_check": "Resolve primary source identity, inspect the full defining method
+  and compare mechanism/scope with existing records; evidence-only or application-only
+  items need not become new concept records.", "status": "search lead; full primary
+  identity and method inspection pending", "url": "https://openreview.net/pdf/84a68266626c1a26eaf11a6acfd4489bc7660822.pdf"},
+  "question_id": "H355-FLOW-10", "reason": "The complete historical pending object
+  is retained. Represented related families/procedures do not by themselves dispose
+  of this source/version/objective/application question. No specific current owner
+  located by bounded recursive current-report field and identity searches; semantic
+  ownership remains pending rather than proven absent.", "related_current_record_ids":
+  ["AIMech:FlowMatching"], "research_complete": false}}, {"access_scope": "Historical
+  pointer and neighboring record context only; original source identity, narrower
+  ownership and method/application/evidence scope remain pending. No primary reading
+  or missing concept is asserted.", "candidate": "ReQFlow", "disposition": "pending_inspection",
+  "next_check": "Resolve primary source identity, inspect the full defining method
+  and compare mechanism/scope with existing records; evidence-only or application-only
+  items need not become new concept records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/10"}, "question_id": "H355-FLOW-11", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:RectifiedFlow"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/10", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "ReQFlow", "disposition": "pending_inspection",
+  "next_check": "Resolve primary source identity, inspect the full defining method
+  and compare mechanism/scope with existing records; evidence-only or application-only
+  items need not become new concept records.", "status": "search lead; full primary
+  identity and method inspection pending", "url": "https://openreview.net/forum?id=f375uEmYDf&noteId=pkcXuMj97u"},
+  "question_id": "H355-FLOW-11", "reason": "The complete historical pending object
+  is retained. Represented related families/procedures do not by themselves dispose
+  of this source/version/objective/application question. No specific current owner
+  located by bounded recursive current-report field and identity searches; semantic
+  ownership remains pending rather than proven absent.", "related_current_record_ids":
+  ["AIMech:RectifiedFlow"], "research_complete": false}}, {"access_scope": "Historical
+  pointer and neighboring record context only; original source identity, narrower
+  ownership and method/application/evidence scope remain pending. No primary reading
+  or missing concept is asserted.", "candidate": "RF-Physical / RF-FWD", "disposition":
+  "pending_inspection", "next_check": "Resolve primary source identity, inspect the
+  full defining method and compare mechanism/scope with existing records; evidence-only
+  or application-only items need not become new concept records.", "origin": {"ledger":
+  {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/11"}, "question_id": "H355-FLOW-12", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:RectifiedFlow"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/11", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "RF-Physical / RF-FWD", "disposition": "pending_inspection",
+  "next_check": "Resolve primary source identity, inspect the full defining method
+  and compare mechanism/scope with existing records; evidence-only or application-only
+  items need not become new concept records.", "status": "search lead; full primary
+  identity and method inspection pending", "url": "https://arxiv.org/abs/2604.03006"},
+  "question_id": "H355-FLOW-12", "reason": "The complete historical pending object
+  is retained. Represented related families/procedures do not by themselves dispose
+  of this source/version/objective/application question. No specific current owner
+  located by bounded recursive current-report field and identity searches; semantic
+  ownership remains pending rather than proven absent.", "related_current_record_ids":
+  ["AIMech:RectifiedFlow"], "research_complete": false}}, {"access_scope": "Historical
+  pointer and neighboring record context only; original source identity, narrower
+  ownership and method/application/evidence scope remain pending. No primary reading
+  or missing concept is asserted.", "candidate": "Unresolved ICLR 2026 conditional-flow
+  relation source", "disposition": "pending_inspection", "next_check": "Resolve primary
+  source identity, inspect the full defining method and compare mechanism/scope with
+  existing records; evidence-only or application-only items need not become new concept
+  records.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/12"}, "question_id": "H355-FLOW-13", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/12", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Unresolved ICLR 2026 conditional-flow relation
+  source", "disposition": "pending_inspection", "next_check": "Resolve primary source
+  identity, inspect the full defining method and compare mechanism/scope with existing
+  records; evidence-only or application-only items need not become new concept records.",
+  "status": "search lead; full primary identity and method inspection pending", "url":
+  "https://openreview.net/pdf?id=GlHoWr8JMm"}, "question_id": "H355-FLOW-13", "reason":
+  "The complete historical pending object is retained. Represented related families/procedures
+  do not by themselves dispose of this source/version/objective/application question.
+  No specific current owner located by bounded recursive current-report field and
+  identity searches; semantic ownership remains pending rather than proven absent.",
+  "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete": false}},
+  {"access_scope": "Historical pointer and neighboring record context only; original
+  source identity, narrower ownership and method/application/evidence scope remain
+  pending. No primary reading or missing concept is asserted.", "candidate": "Conditional
+  flow matching and OT conditional flow matching", "disposition": "pending_inspection",
+  "next_check": "Determine whether named objectives merit separately scoped methods
+  rather than aliases for the general framework.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/13"}, "question_id": "H355-FLOW-14", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:FlowMatching", "AIMech:RectifiedFlow"], "source_payload": {"current_primary_owner_index":
+  null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/13", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Conditional flow matching and OT conditional flow
+  matching", "disposition": "pending_inspection", "next_check": "Determine whether
+  named objectives merit separately scoped methods rather than aliases for the general
+  framework.", "origin": "Flow Matching Sections 3–4"}, "question_id": "H355-FLOW-14",
+  "reason": "The complete historical pending object is retained. Represented related
+  families/procedures do not by themselves dispose of this source/version/objective/application
+  question. No specific current owner located by bounded recursive current-report
+  field and identity searches; semantic ownership remains pending rather than proven
+  absent.", "related_current_record_ids": ["AIMech:FlowMatching", "AIMech:RectifiedFlow"],
+  "research_complete": false}}, {"access_scope": "Historical pointer and neighboring
+  record context only; original source identity, narrower ownership and method/application/evidence
+  scope remain pending. No primary reading or missing concept is asserted.", "candidate":
+  "Consistency training and consistency distillation", "disposition": "pending_inspection",
+  "next_check": "Assess standalone procedure identities, preserving the EMA-theory
+  correction for the original CT variant.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/14"}, "question_id": "H355-FLOW-15", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:ConsistencyModel", "AIMech:ImprovedConsistencyTraining"], "source_payload":
+  {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation",
+  "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/14",
+  "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Consistency training and consistency distillation",
+  "disposition": "pending_inspection", "next_check": "Assess standalone procedure
+  identities, preserving the EMA-theory correction for the original CT variant.",
+  "origin": "Consistency Models Sections 4–5"}, "question_id": "H355-FLOW-15", "reason":
+  "The complete historical pending object is retained. Represented related families/procedures
+  do not by themselves dispose of this source/version/objective/application question.
+  No specific current owner located by bounded recursive current-report field and
+  identity searches; semantic ownership remains pending rather than proven absent.",
+  "related_current_record_ids": ["AIMech:ConsistencyModel", "AIMech:ImprovedConsistencyTraining"],
+  "research_complete": false}}, {"access_scope": "Historical pointer and neighboring
+  record context only; original source identity, narrower ownership and method/application/evidence
+  scope remain pending. No primary reading or missing concept is asserted.", "candidate":
+  "Gradient-constrained rectification", "disposition": "pending_inspection", "next_check":
+  "Inspect the original defining method and retain support/regularity counterexamples,
+  without promoting straightness to optimal transport.", "origin": {"ledger": {"path":
+  "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/15"}, "question_id": "H355-FLOW-16", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:RectifiedFlow"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/15", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Gradient-constrained rectification", "disposition":
+  "pending_inspection", "next_check": "Inspect the original defining method and retain
+  support/regularity counterexamples, without promoting straightness to optimal transport.",
+  "origin": "Hertrich et al. Sections 3–4"}, "question_id": "H355-FLOW-16", "reason":
+  "The complete historical pending object is retained. Represented related families/procedures
+  do not by themselves dispose of this source/version/objective/application question.
+  No specific current owner located by bounded recursive current-report field and
+  identity searches; semantic ownership remains pending rather than proven absent.",
+  "related_current_record_ids": ["AIMech:RectifiedFlow"], "research_complete": false}},
+  {"access_scope": "Historical pointer and neighboring record context only; original
+  source identity, narrower ownership and method/application/evidence scope remain
+  pending. No primary reading or missing concept is asserted.", "candidate": "Normalizing
+  flows, continuous normalizing flows and probability-flow ODEs", "disposition": "pending_inspection",
+  "next_check": "Read original definitions, distinguish model families from differential-equation
+  constructions, and search AIO identities.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/16"}, "question_id": "H355-FLOW-17", "related_owner_pointers": ["planned_owner909/svgd_bibliography_4"],
+  "related_record_ids": ["AIMech:FlowMatching", "AIMech:RectifiedFlow", "AIMech:ConsistencyModel"],
+  "source_payload": {"current_primary_owner_index": null, "disposition": "pending_historical_source_ownership_reconciliation",
+  "new_method_identity_asserted": false, "origin": {"pointer": "/new_frontier/16",
+  "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Normalizing flows, continuous normalizing flows
+  and probability-flow ODEs", "disposition": "pending_inspection", "next_check": "Read
+  original definitions, distinguish model families from differential-equation constructions,
+  and search AIO identities.", "origin": "Foundational method references in all three
+  original papers"}, "question_id": "H355-FLOW-17", "reason": "The complete historical
+  pending object is retained. Represented related families/procedures do not by themselves
+  dispose of this source/version/objective/application question. No specific current
+  owner located by bounded recursive current-report field and identity searches; semantic
+  ownership remains pending rather than proven absent.", "related_current_record_ids":
+  ["AIMech:FlowMatching", "AIMech:RectifiedFlow", "AIMech:ConsistencyModel"], "research_complete":
+  false}}, {"access_scope": "Historical pointer and neighboring record context only;
+  original source identity, narrower ownership and method/application/evidence scope
+  remain pending. No primary reading or missing concept is asserted.", "candidate":
+  "Pseudo-Huber discrepancy and LPIPS", "disposition": "pending_inspection", "next_check":
+  "Decide on mathematical-method/evaluation-method scope and inspect original definitions
+  rather than import a name from a training paper.", "origin": {"ledger": {"path":
+  "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/17"}, "question_id": "H355-FLOW-18", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:ImprovedConsistencyTraining"], "source_payload": {"current_primary_owner_index":
+  null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/17", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Pseudo-Huber discrepancy and LPIPS", "disposition":
+  "pending_inspection", "next_check": "Decide on mathematical-method/evaluation-method
+  scope and inspect original definitions rather than import a name from a training
+  paper.", "origin": "Improved CT Section 3.3 and references"}, "question_id": "H355-FLOW-18",
+  "reason": "The complete historical pending object is retained. Represented related
+  families/procedures do not by themselves dispose of this source/version/objective/application
+  question. No specific current owner located by bounded recursive current-report
+  field and identity searches; semantic ownership remains pending rather than proven
+  absent.", "related_current_record_ids": ["AIMech:ImprovedConsistencyTraining"],
+  "research_complete": false}}, {"access_scope": "Historical pointer and neighboring
+  record context only; original source identity, narrower ownership and method/application/evidence
+  scope remain pending. No primary reading or missing concept is asserted.", "candidate":
+  "DDIM, DPM-Solver, DEIS, UniPC, TRACT, Diff-Instruct and BOOT", "disposition": "pending_inspection",
+  "next_check": "Only names were used as leads; inspect each defining paper before
+  a record, and do not infer performance from the extracted table.", "origin": {"ledger":
+  {"path": "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/18"}, "question_id": "H355-FLOW-19", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:ImprovedConsistencyTraining"], "source_payload": {"current_primary_owner_index":
+  null, "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/18", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "DDIM, DPM-Solver, DEIS, UniPC, TRACT, Diff-Instruct
+  and BOOT", "disposition": "pending_inspection", "next_check": "Only names were used
+  as leads; inspect each defining paper before a record, and do not infer performance
+  from the extracted table.", "origin": "Improved CT PDF p. 9 comparator names"},
+  "question_id": "H355-FLOW-19", "reason": "The complete historical pending object
+  is retained. Represented related families/procedures do not by themselves dispose
+  of this source/version/objective/application question. No specific current owner
+  located by bounded recursive current-report field and identity searches; semantic
+  ownership remains pending rather than proven absent.", "related_current_record_ids":
+  ["AIMech:ImprovedConsistencyTraining"], "research_complete": false}}, {"access_scope":
+  "Historical pointer and neighboring record context only; original source identity,
+  narrower ownership and method/application/evidence scope remain pending. No primary
+  reading or missing concept is asserted.", "candidate": "Consistency Flow Matching",
+  "disposition": "pending_inspection", "next_check": "Re-search the exact primary
+  title/source before identity or method assertions.", "origin": {"ledger": {"path":
+  "/private/tmp/aimech-cohort355-groups000-219-reading-20261016/pending-flow-questions.json",
+  "sha256": "54797045c0c6f5f17738479e5f1b2113576892ba27682d8983bbcf16bcf1125b"}, "pointer":
+  "/questions/19"}, "question_id": "H355-FLOW-20", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:FlowMatching"], "source_payload": {"current_primary_owner_index": null,
+  "disposition": "pending_historical_source_ownership_reconciliation", "new_method_identity_asserted":
+  false, "origin": {"pointer": "/new_frontier/19", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T044233Z-flow-and-consistency-methods.json",
+  "sha256": "1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b"}, "trigger_group":
+  167, "trigger_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261011T044445Z-flow-and-consistency-methods/review.md",
+  "sha256": "c794d4753861a1d0dafaec0d57d481d246ad82b5b29823575c6c65f2618a9907"}},
+  "original_object": {"candidate": "Consistency Flow Matching", "disposition": "pending_inspection",
+  "next_check": "Re-search the exact primary title/source before identity or method
+  assertions.", "origin": "Follow-up primary author-listing search"}, "question_id":
+  "H355-FLOW-20", "reason": "The complete historical pending object is retained. Represented
+  related families/procedures do not by themselves dispose of this source/version/objective/application
+  question. No specific current owner located by bounded recursive current-report
+  field and identity searches; semantic ownership remains pending rather than proven
+  absent.", "related_current_record_ids": ["AIMech:FlowMatching"], "research_complete":
+  false}}, {"access_scope": "Historical discovery object, saved-review boundary and
+  current record text inspected; no new original-primary-method reading or separate
+  concept assertion.", "candidate": "Deterministic policy gradient", "disposition":
+  "pending_inspection", "next_check": "Resolve exact identity and representation scope
+  against both collections, then inspect the primary defining source; a shared component
+  or related method is not automatically a new record.", "origin": {"ledger": {"path":
+  "/private/tmp/aimech-cohort355-context220-439-20261016/pending-questions.json",
+  "sha256": "b531fd652aad7a8baeca6fa4b747b58ec7a397ac598c1709000bd9bc6040144c"}, "pointer":
+  "/0"}, "question_id": "H355-R1", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:DeepDeterministicPolicyGradient"], "source_payload": {"access_scope": "Historical
+  discovery object, saved-review boundary and current record text inspected; no new
+  original-primary-method reading or separate concept assertion.", "candidate": "Deterministic
+  policy gradient", "canonical_action": "Retain the original pending question in additive
+  source accounting. Do not append a frontier row or modify the related records during
+  this cohort.", "current_owner_assessment": "No explicit corresponding source-question
+  owner found in the current 913 main and 394 nested objects using complete recursive
+  fields and bounded semantic inspection of matches. DDPG/DQN component mentions do
+  not establish equivalence to or resolution of a separate source identity.", "disposition":
+  "pending_inspection", "next_check": "Resolve exact identity and representation scope
+  against both collections, then inspect the primary defining source; a shared component
+  or related method is not automatically a new record.", "novel_concept_asserted":
+  false, "question_id": "H355-R1", "related_record_ids": ["AIMech:DeepDeterministicPolicyGradient"],
+  "source": {"historical_report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T034528Z-reinforcement-learning-methods.json",
+  "sha256": "77986405a5635886714741dba5154ac6b6b3aa3e73e7db09269a2cf2782e1c68"}, "matching_group_content_sha256":
+  "35f4d283d96d6184d8df2300419749431a63d86de6b93ba1920b69912a0037e5", "matching_group_index":
+  277, "original_object": {"candidate": "Deterministic policy gradient", "disposition":
+  "pending_inspection", "next_check": "Resolve exact identity and representation scope
+  against both collections, then inspect the primary defining source; a shared component
+  or related method is not automatically a new record.", "origin": "DDPG method"},
+  "pointer": "/new_frontier/7"}}}, {"access_scope": "Historical discovery object,
+  saved-review boundary and current record text inspected; no new original-primary-method
+  reading or separate concept assertion.", "candidate": "Experience replay", "disposition":
+  "pending_inspection", "next_check": "Resolve exact identity and representation scope
+  against both collections, then inspect the primary defining source; a shared component
+  or related method is not automatically a new record.", "origin": {"ledger": {"path":
+  "/private/tmp/aimech-cohort355-context220-439-20261016/pending-questions.json",
+  "sha256": "b531fd652aad7a8baeca6fa4b747b58ec7a397ac598c1709000bd9bc6040144c"}, "pointer":
+  "/1"}, "question_id": "H355-R2", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:DeepDeterministicPolicyGradient", "AIMech:DeepQNetwork"], "source_payload":
+  {"access_scope": "Historical discovery object, saved-review boundary and current
+  record text inspected; no new original-primary-method reading or separate concept
+  assertion.", "candidate": "Experience replay", "canonical_action": "Retain the original
+  pending question in additive source accounting. Do not append a frontier row or
+  modify the related records during this cohort.", "current_owner_assessment": "No
+  explicit corresponding source-question owner found in the current 913 main and 394
+  nested objects using complete recursive fields and bounded semantic inspection of
+  matches. DDPG/DQN component mentions do not establish equivalence to or resolution
+  of a separate source identity.", "disposition": "pending_inspection", "next_check":
+  "Resolve exact identity and representation scope against both collections, then
+  inspect the primary defining source; a shared component or related method is not
+  automatically a new record.", "novel_concept_asserted": false, "question_id": "H355-R2",
+  "related_record_ids": ["AIMech:DeepDeterministicPolicyGradient", "AIMech:DeepQNetwork"],
+  "source": {"historical_report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T034528Z-reinforcement-learning-methods.json",
+  "sha256": "77986405a5635886714741dba5154ac6b6b3aa3e73e7db09269a2cf2782e1c68"}, "matching_group_content_sha256":
+  "35f4d283d96d6184d8df2300419749431a63d86de6b93ba1920b69912a0037e5", "matching_group_index":
+  277, "original_object": {"candidate": "Experience replay", "disposition": "pending_inspection",
+  "next_check": "Resolve exact identity and representation scope against both collections,
+  then inspect the primary defining source; a shared component or related method is
+  not automatically a new record.", "origin": "DQN/DDPG methods"}, "pointer": "/new_frontier/10"}}},
+  {"access_scope": "Historical discovery object, saved-review boundary and current
+  record text inspected; no new original-primary-method reading or separate concept
+  assertion.", "candidate": "Target network", "disposition": "pending_inspection",
+  "next_check": "Resolve exact identity and representation scope against both collections,
+  then inspect the primary defining source; a shared component or related method is
+  not automatically a new record.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-context220-439-20261016/pending-questions.json",
+  "sha256": "b531fd652aad7a8baeca6fa4b747b58ec7a397ac598c1709000bd9bc6040144c"}, "pointer":
+  "/2"}, "question_id": "H355-R3", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:DeepDeterministicPolicyGradient", "AIMech:DeepQNetwork"], "source_payload":
+  {"access_scope": "Historical discovery object, saved-review boundary and current
+  record text inspected; no new original-primary-method reading or separate concept
+  assertion.", "candidate": "Target network", "canonical_action": "Retain the original
+  pending question in additive source accounting. Do not append a frontier row or
+  modify the related records during this cohort.", "current_owner_assessment": "No
+  explicit corresponding source-question owner found in the current 913 main and 394
+  nested objects using complete recursive fields and bounded semantic inspection of
+  matches. DDPG/DQN component mentions do not establish equivalence to or resolution
+  of a separate source identity.", "disposition": "pending_inspection", "next_check":
+  "Resolve exact identity and representation scope against both collections, then
+  inspect the primary defining source; a shared component or related method is not
+  automatically a new record.", "novel_concept_asserted": false, "question_id": "H355-R3",
+  "related_record_ids": ["AIMech:DeepDeterministicPolicyGradient", "AIMech:DeepQNetwork"],
+  "source": {"historical_report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T034528Z-reinforcement-learning-methods.json",
+  "sha256": "77986405a5635886714741dba5154ac6b6b3aa3e73e7db09269a2cf2782e1c68"}, "matching_group_content_sha256":
+  "35f4d283d96d6184d8df2300419749431a63d86de6b93ba1920b69912a0037e5", "matching_group_index":
+  277, "original_object": {"candidate": "Target network", "disposition": "pending_inspection",
+  "next_check": "Resolve exact identity and representation scope against both collections,
+  then inspect the primary defining source; a shared component or related method is
+  not automatically a new record.", "origin": "DQN/DDPG stabilization"}, "pointer":
+  "/new_frontier/11"}}}, {"access_scope": "An explicit historical pending object,
+  visible through a later embedded identity-search result. The original method itself
+  has not been read.", "candidate": "Spatial Sensitive Grad-CAM++", "disposition":
+  "pending_inspection", "next_check": "Locate the exact CVF2024 workshop source named
+  by the original historical pointer, compare its mechanism and aliases against GradCAM
+  and GuidedGradCAM and other attribution variants, and retain an explicit pending
+  or supported existing-owner disposition. Shared Grad-CAM wording is not an identity
+  decision.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/0"}, "question_id": "H355-SCI-H1", "related_owner_pointers": [], "related_record_ids":
+  ["AIMech:GradCAM", "AIMech:GuidedGradCAM"], "source_payload": {"blocking_current_candidates":
+  false, "candidate": "Spatial Sensitive Grad-CAM++", "discovery_scope": "An explicit
+  historical pending object, visible through a later embedded identity-search result.
+  The original method itself has not been read.", "group_occurrence_bindings_reference":
+  {"count": 3, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/0/group_occurrence_bindings", "sha256": "5b97d476de217457515199d38ed4bbd47a1821c22d2dc33a8494890edf9a9cb5"},
+  "id": "H355-SCI-H1", "kind": "historical_pending_pointer_accounting", "next_check":
+  "Locate the exact CVF2024 workshop source named by the original historical pointer,
+  compare its mechanism and aliases against GradCAM and GuidedGradCAM and other attribution
+  variants, and retain an explicit pending or supported existing-owner disposition.
+  Shared Grad-CAM wording is not an identity decision.", "observed_in_groups": [497],
+  "origin": {"object_sha256": "536a76d1f5d86e8be23671b7e1a781b36208aaec2ba1e34a84d1cc71d1d90630",
+  "original_object": {"candidate": "Spatial Sensitive Grad-CAM++", "disposition":
+  "pending_inspection", "next_check": "Resolve identity and component/variant boundaries
+  against existing records, then inspect the defining primary source. A mention or
+  similar name does not establish a new concept.", "origin": "CVF 2024 workshop search
+  result"}, "pointer": "/new_frontier/18", "report": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T035430Z-attribution-methods.json",
+  "sha256": "8d0137e23ddc9f28ed1c1026d6bcf6310b82a5a11ea447477e0165a98c446500"}},
+  "owner_assignment": null, "possible_existing_owners": [], "related_current_record_ids":
+  ["AIMech:GradCAM", "AIMech:GuidedGradCAM"], "status": "pending_source_identity_and_ownership"}},
+  {"access_scope": "Previously retained search output only, newly reconciled now.
+  No original method reading, novelty decision or full source validation.", "candidate":
+  "Nonparametric empirical Bayes for the Dirichlet process mixture model", "disposition":
+  "pending_inspection", "next_check": "The existing topic cohort explicitly retains
+  DP variational inference and HDP/nested-CRP models, but does not explicitly resolve
+  this empirical-Bayes source. Determine whether its estimand/procedure is already
+  represented or belongs within that cohort.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/1"}, "question_id": "H355-SCI-B1", "related_owner_pointers": ["/prior_frontier_accounting/425"],
+  "related_record_ids": ["AIMech:LatentDirichletAllocation", "AIMech:BlackBoxVariationalInference"],
+  "source_payload": {"blocking_current_candidates": false, "candidate": "Nonparametric
+  empirical Bayes for the Dirichlet process mixture model", "discovery_scope": "Previously
+  retained search output only, newly reconciled now. No original method reading, novelty
+  decision or full source validation.", "id": "H355-SCI-B1", "kind": "incidental_historical_source_question",
+  "next_check": "The existing topic cohort explicitly retains DP variational inference
+  and HDP/nested-CRP models, but does not explicitly resolve this empirical-Bayes
+  source. Determine whether its estimand/procedure is already represented or belongs
+  within that cohort.", "origin_evidence": [{"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt",
+  "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character":
+  2104, "exact_text": "Nonparametric empirical B ayes for the D irichlet process mixture
+  model", "group_index": 496, "group_occurrence_bindings_reference": {"count": 4,
+  "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/1/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"},
+  "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1",
+  "start_character": 2033}], "owner_assignment": null, "possible_existing_owners":
+  [425], "related_current_record_ids": ["AIMech:LatentDirichletAllocation", "AIMech:BlackBoxVariationalInference"],
+  "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Previously
+  retained search output only, newly reconciled now. No original method reading, novelty
+  decision or full source validation.", "candidate": "Probabilistic Models of Text
+  and Images (Blei 2004 thesis)", "disposition": "pending_inspection", "next_check":
+  "This thesis is a discovery source, not one established new method. Compare its
+  chapters with existing LDA and pending annotated/cross-modal sources; retain only
+  distinct, evidenced methods or version questions after reading.", "origin": {"ledger":
+  {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/2"}, "question_id": "H355-SCI-B2", "related_owner_pointers": ["/prior_frontier_accounting/425"],
+  "related_record_ids": ["AIMech:LatentDirichletAllocation"], "source_payload": {"blocking_current_candidates":
+  false, "candidate": "Probabilistic Models of Text and Images (Blei 2004 thesis)",
+  "discovery_scope": "Previously retained search output only, newly reconciled now.
+  No original method reading, novelty decision or full source validation.", "id":
+  "H355-SCI-B2", "kind": "incidental_historical_source_question", "next_check": "This
+  thesis is a discovery source, not one established new method. Compare its chapters
+  with existing LDA and pending annotated/cross-modal sources; retain only distinct,
+  evidenced methods or version questions after reading.", "origin_evidence": [{"decoded_file":
+  {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt",
+  "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character":
+  2515, "exact_text": "Probabilistic Models of Text and Images", "group_index": 496,
+  "group_occurrence_bindings_reference": {"count": 4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/2/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"},
+  "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1",
+  "start_character": 2476}], "owner_assignment": null, "possible_existing_owners":
+  [425], "related_current_record_ids": ["AIMech:LatentDirichletAllocation"], "status":
+  "pending_source_identity_and_ownership"}}, {"access_scope": "Previously retained
+  search output only, newly reconciled now. No original method reading, novelty decision
+  or full source validation.", "candidate": "Hierarchical Bayesian models for applications
+  in information retrieval", "disposition": "pending_inspection", "next_check": "The
+  Blei–Ng–Jordan chapter may overlap existing LDA evidence. Read and compare the actual
+  chapter before deciding source-only duplication, evidence extension or distinct
+  mechanism; broad title similarity is insufficient.", "origin": {"ledger": {"path":
+  "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/3"}, "question_id": "H355-SCI-B3", "related_owner_pointers": ["/prior_frontier_accounting/425"],
+  "related_record_ids": ["AIMech:LatentDirichletAllocation"], "source_payload": {"blocking_current_candidates":
+  false, "candidate": "Hierarchical Bayesian models for applications in information
+  retrieval", "discovery_scope": "Previously retained search output only, newly reconciled
+  now. No original method reading, novelty decision or full source validation.", "id":
+  "H355-SCI-B3", "kind": "incidental_historical_source_question", "next_check": "The
+  Blei–Ng–Jordan chapter may overlap existing LDA evidence. Read and compare the actual
+  chapter before deciding source-only duplication, evidence extension or distinct
+  mechanism; broad title similarity is insufficient.", "origin_evidence": [{"decoded_file":
+  {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt",
+  "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character":
+  2705, "exact_text": "Hierarchical B ayesian models for applications in information
+  retrieval", "group_index": 496, "group_occurrence_bindings_reference": {"count":
+  4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/3/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"},
+  "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1",
+  "start_character": 2634}], "owner_assignment": null, "possible_existing_owners":
+  [425], "related_current_record_ids": ["AIMech:LatentDirichletAllocation"], "status":
+  "pending_source_identity_and_ownership"}}, {"access_scope": "Previously retained
+  search output only, newly reconciled now. No original method reading, novelty decision
+  or full source validation.", "candidate": "Predicting the performance of linearly
+  combined IR systems", "disposition": "pending_inspection", "next_check": "The nearest
+  retrieval cohort concerns query likelihood and document expansion, not an established
+  account of this combination-performance source. Establish the original reference
+  and whether it defines a reusable AI procedure, an evaluation theory or merely contextual
+  evidence.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/4"}, "question_id": "H355-SCI-B4", "related_owner_pointers": ["/prior_frontier_accounting/468"],
+  "related_record_ids": [], "source_payload": {"blocking_current_candidates": false,
+  "candidate": "Predicting the performance of linearly combined IR systems", "discovery_scope":
+  "Previously retained search output only, newly reconciled now. No original method
+  reading, novelty decision or full source validation.", "id": "H355-SCI-B4", "kind":
+  "incidental_historical_source_question", "next_check": "The nearest retrieval cohort
+  concerns query likelihood and document expansion, not an established account of
+  this combination-performance source. Establish the original reference and whether
+  it defines a reusable AI procedure, an evaluation theory or merely contextual evidence.",
+  "origin_evidence": [{"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt",
+  "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character":
+  11328, "exact_text": "Predicting the performance of linearly combined IR systems",
+  "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger":
+  {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/4/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"},
+  "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1",
+  "start_character": 11270}, {"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt",
+  "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character":
+  12323, "exact_text": "Predicting the performance of linearly combined IR systems",
+  "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger":
+  {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/4/origin_evidence/1/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"},
+  "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1",
+  "start_character": 12265}], "owner_assignment": null, "possible_existing_owners":
+  [468], "related_current_record_ids": [], "status": "pending_source_identity_and_ownership"}},
+  {"access_scope": "Previously retained search output only, newly reconciled now.
+  No original method reading, novelty decision or full source validation.", "candidate":
+  "A Similarity-based Probability Model for Latent Semantic Indexing", "disposition":
+  "pending_inspection", "next_check": "The retained SIGIR listing gives a title only.
+  Resolve its source/authors and compare with PLSA, SVD-LSI and the existing dyadic-clustering
+  owner before assigning an owner or claiming distinctness.", "origin": {"ledger":
+  {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/5"}, "question_id": "H355-SCI-B5", "related_owner_pointers": ["/prior_frontier_accounting/421"],
+  "related_record_ids": ["AIMech:ProbabilisticLatentSemanticAnalysis"], "source_payload":
+  {"blocking_current_candidates": false, "candidate": "A Similarity-based Probability
+  Model for Latent Semantic Indexing", "discovery_scope": "Previously retained search
+  output only, newly reconciled now. No original method reading, novelty decision
+  or full source validation.", "id": "H355-SCI-B5", "kind": "incidental_historical_source_question",
+  "next_check": "The retained SIGIR listing gives a title only. Resolve its source/authors
+  and compare with PLSA, SVD-LSI and the existing dyadic-clustering owner before assigning
+  an owner or claiming distinctness.", "origin_evidence": [{"decoded_file": {"path":
+  "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt",
+  "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character":
+  23746, "exact_text": "A Similarity-based Probability Model for Latent Semantic Indexing",
+  "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger":
+  {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/5/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"},
+  "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1",
+  "start_character": 23681}], "owner_assignment": null, "possible_existing_owners":
+  [421], "related_current_record_ids": ["AIMech:ProbabilisticLatentSemanticAnalysis"],
+  "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Previously
+  retained search output only, newly reconciled now. No original method reading, novelty
+  decision or full source validation.", "candidate": "A Hierarchical Model for Clustering
+  and Categorising Documents", "disposition": "pending_inspection", "next_check":
+  "The source is a third-party bibliography snippet. Compare the actual 2002 paper
+  with current annotated/nonparametric topics and distinct owners490/491; those owners
+  name different later sources and do not establish identity.", "origin": {"ledger":
+  {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/6"}, "question_id": "H355-SCI-B6", "related_owner_pointers": ["/prior_frontier_accounting/425",
+  "/prior_frontier_accounting/490", "/prior_frontier_accounting/491"], "related_record_ids":
+  ["AIMech:LatentDirichletAllocation"], "source_payload": {"blocking_current_candidates":
+  false, "candidate": "A Hierarchical Model for Clustering and Categorising Documents",
+  "discovery_scope": "Previously retained search output only, newly reconciled now.
+  No original method reading, novelty decision or full source validation.", "id":
+  "H355-SCI-B6", "kind": "incidental_historical_source_question", "next_check": "The
+  source is a third-party bibliography snippet. Compare the actual 2002 paper with
+  current annotated/nonparametric topics and distinct owners490/491; those owners
+  name different later sources and do not establish identity.", "origin_evidence":
+  [{"decoded_file": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt",
+  "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character":
+  29688, "exact_text": "A Hierarchical Model for Clustering and Categorising Documents",
+  "group_index": 496, "group_occurrence_bindings_reference": {"count": 4, "ledger":
+  {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/6/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"},
+  "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1",
+  "start_character": 29626}], "owner_assignment": null, "possible_existing_owners":
+  [425, 490, 491], "related_current_record_ids": ["AIMech:LatentDirichletAllocation"],
+  "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Previously
+  retained search output only, newly reconciled now. No original method reading, novelty
+  decision or full source validation.", "candidate": "Variational Inference: a review
+  for statisticians", "disposition": "pending_inspection", "next_check": "This secondary
+  biographical snippet identifies a review source. Resolve the actual version and
+  use its cited originals for bounded discovery; do not add a record for the review
+  title or treat generic VI records as an explicit disposition.", "origin": {"ledger":
+  {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/7"}, "question_id": "H355-SCI-B7", "related_owner_pointers": ["/prior_frontier_accounting/426"],
+  "related_record_ids": ["AIMech:BlackBoxVariationalInference", "AIMech:FullyFactorizedMeanFieldInference",
+  "AIMech:VariationalExpectationMaximization"], "source_payload": {"blocking_current_candidates":
+  false, "candidate": "Variational Inference: a review for statisticians", "discovery_scope":
+  "Previously retained search output only, newly reconciled now. No original method
+  reading, novelty decision or full source validation.", "id": "H355-SCI-B7", "kind":
+  "incidental_historical_source_question", "next_check": "This secondary biographical
+  snippet identifies a review source. Resolve the actual version and use its cited
+  originals for bounded discovery; do not add a record for the review title or treat
+  generic VI records as an explicit disposition.", "origin_evidence": [{"decoded_file":
+  {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt",
+  "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character":
+  28331, "exact_text": "Variational Inference, a review for statisticians", "group_index":
+  496, "group_occurrence_bindings_reference": {"count": 4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/7/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"},
+  "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1",
+  "start_character": 28282}], "owner_assignment": null, "possible_existing_owners":
+  [426], "related_current_record_ids": ["AIMech:BlackBoxVariationalInference", "AIMech:FullyFactorizedMeanFieldInference",
+  "AIMech:VariationalExpectationMaximization"], "status": "pending_source_identity_and_ownership"}},
+  {"access_scope": "Previously retained search output only, newly reconciled now.
+  No original method reading, novelty decision or full source validation.", "candidate":
+  "Foundational TF-IDF term weighting and Salton–McGill1983 source scope", "disposition":
+  "pending_inspection", "next_check": "Owner140 explicitly covers TF-IDF word replacement
+  for augmentation; maintained UDA uses that component and harmonium compares against
+  TF-IDF retrieval. The foundational weighting/source identity is not explicitly resolved
+  by those scoped uses. Inspect the original formulation/version and decide representation/component/owner
+  scope without assuming a new algorithm.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/8"}, "question_id": "H355-SCI-B8", "related_owner_pointers": ["/prior_frontier_accounting/140"],
+  "related_record_ids": ["AIMech:UnsupervisedDataAugmentation", "AIMech:ExponentialFamilyHarmonium"],
+  "source_payload": {"blocking_current_candidates": false, "candidate": "Foundational
+  TF-IDF term weighting and Salton–McGill1983 source scope", "discovery_scope": "Previously
+  retained search output only, newly reconciled now. No original method reading, novelty
+  decision or full source validation.", "id": "H355-SCI-B8", "kind": "incidental_historical_source_question",
+  "next_check": "Owner140 explicitly covers TF-IDF word replacement for augmentation;
+  maintained UDA uses that component and harmonium compares against TF-IDF retrieval.
+  The foundational weighting/source identity is not explicitly resolved by those scoped
+  uses. Inspect the original formulation/version and decide representation/component/owner
+  scope without assuming a new algorithm.", "origin_evidence": [{"decoded_file": {"path":
+  "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/group-496-decoded.txt",
+  "sha256": "78f0d9f28ddc5b36f71a1ed87126730b19ce012ff0dbc947188fea55bfb73bfd"}, "end_character":
+  8190, "exact_text": "*tf-idf* scheme (Salton and McGill, 1983)", "group_index":
+  496, "group_occurrence_bindings_reference": {"count": 4, "ledger": {"path": "/private/tmp/aimech-cohort355-incidental-source-reconciliation-20261016/pending-source-accounting.json",
+  "sha256": "6aa994414a498a9879798ff065e03f5d303becf1efc0042a02166e79e41cc527"}, "pointer":
+  "/questions/8/origin_evidence/0/group_occurrence_bindings", "sha256": "9a3c110c09f89c610da38a3c6919fbd7773a0408bb2bbe7c21e2d0f991ca6870"},
+  "source_group_content_sha256": "7fff0a76e6cfa2a52000bc7343404d5d6d071df39c9b9bb1f8eccd83d15d52d1",
+  "start_character": 8149}], "owner_assignment": null, "possible_existing_owners":
+  [140], "related_current_record_ids": ["AIMech:UnsupervisedDataAugmentation", "AIMech:ExponentialFamilyHarmonium"],
+  "status": "pending_source_identity_and_ownership"}}, {"access_scope": "Historical
+  review boundary appearing in groups49 and413 (with further embedded repetition)
+  only; no specific later primary source or additional concept has been established.",
+  "candidate": "Later SAC implementations: unspecified source/version", "disposition":
+  "pending_inspection", "next_check": "Identify the precise later SAC source/version
+  and compare it with the maintained original2018 state-value formulation before deciding
+  source enrichment, variant scope or distinct identity. Do not conflate this generic
+  uncertainty with Soft Q-learning.", "origin": {"ledger": {"path": "/private/tmp/aimech-cohort355-context220-439-20261016/selected-original-boundary-decisions.json",
+  "sha256": "5e0dfa47076bdf04d04bc01000d79f21516a7970ad1d64359011b0fb30d58061"}, "pointer":
+  "/1/boundary_decisions/1"}, "question_id": "H355-SAC-VERSION", "related_owner_pointers":
+  [], "related_record_ids": ["AIMech:SoftActorCritic"], "source_payload": {"action":
+  "defer", "evidence_ids": ["mapping-source", "discovery"], "rationale": "A complete
+  fine-grained hierarchy and variants such as GATv2, AdamW, Kernel SHAP and later
+  SAC implementations need separate source and identity assessments; the current related
+  mappings do not force equivalence.", "target_ids": ["AIMech:Adam", "AIMech:ProximalPolicyOptimization",
+  "AIMech:SoftActorCritic", "AIMech:GraphSAGE", "AIMech:GraphAttentionNetwork", "AIMech:GraphIsomorphismNetwork",
+  "AIMech:SHAP", "AIMech:LIME"]}}], "root_acceptance": {"path": "/private/tmp/aimech-cohort355-incidental-accounting-successors-20261016/root-acceptance.json",
+  "sha256": "f51ceb14ba50aac45ae85420507eb6e0948bdbfe3dc8ca71296d517766e7c9f0"}, "scope":
+  "Incidental historical pointers and bibliography/source questions remain pending.
+  Existing record or owner links are context, not equivalence or proof of completed
+  source research. No new concept, frontier row, primary-source reading, or issue
+  closure is asserted by this accounting.", "status": "pending_source_identity_and_owner_reconciliation"}'
+- 'predecessor_incidental_source_audit: {"path": "/private/tmp/aimech-cohort355-exact-head-audit-20261016/assessment.json",
+  "sha256": "a034364a63e6f27ceda4f336f783e112fd5f051a04ad4472dd84b63d362283a3"}'
+- 'predecessor_search_source_followup_accounting: {"lead_owner_policy": {"path": "/private/tmp/aimech-ehc-lss-cohort356-preparation-20261015/lead-owner-policy.structure.json",
+  "sha256": "a5dddb18802638e11a98af4075f10eab6d881ea406f1a367178c489ec5a42ebc"}, "new_main_rows":
+  0, "new_nested_rows": 0, "responsible_owners": ["main:910", "nested:393"], "retained_source_followup_objects":
+  12, "root_decisions": {"main:910": [{"assessment": "The full FF system combines
+  this controller with a particular relaxed-plan heuristic, pruning and fallback.
+  EHC creation does not represent that composition; retain component-versus-system
+  identity research under main 910.", "disposition": "pending_inspection", "next_check":
+  "Decide whether the scientifically useful native identity is the composite planning
+  algorithm rather than a particular software release; distinguish relaxed-plan heuristic,
+  pruning and fallback components.", "original": {"candidate": "FF planning architecture
+  and full controller composition", "disposition": "pending_inspection", "locator":
+  "Section2 Figure1 and Section5.2, PDF3 and15", "next_check": "Decide whether the
+  scientifically useful native identity is the composite planning algorithm rather
+  than a particular software release; distinguish relaxed-plan heuristic, pruning
+  and fallback components.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json",
+  "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original":
+  {"candidate": "FF planning architecture and full controller composition", "locator":
+  "Section2 Figure1 and Section5.2, PDF3 and15", "next_check": "Decide whether the
+  scientifically useful native identity is the composite planning algorithm rather
+  than a particular software release; distinguish relaxed-plan heuristic, pruning
+  and fallback components."}, "pointer": "/leads/0"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}},
+  {"assessment": "Relaxed GRAPHPLAN extraction computes the supplied heuristic, rather
+  than the escape controller itself. It is distinct from optimal h-plus and original
+  GRAPHPLAN. Retain its own method/tie/identity assessment under main 910.", "disposition":
+  "pending_inspection", "next_check": "Assess heuristic identity, relaxed-plan extraction
+  and tie conventions; distinguish optimal h-plus and the original complete GRAPHPLAN
+  algorithm. The method was read for context but no dedicated candidate dossier has
+  been completed.", "original": {"candidate": "Relaxed GRAPHPLAN heuristic used by
+  FF", "disposition": "pending_inspection", "locator": "Section4, PDF5–12", "next_check":
+  "Assess heuristic identity, relaxed-plan extraction and tie conventions; distinguish
+  optimal h-plus and the original complete GRAPHPLAN algorithm. The method was read
+  for context but no dedicated candidate dossier has been completed.", "provenance":
+  {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json",
+  "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original":
+  {"candidate": "Relaxed GRAPHPLAN heuristic used by FF", "locator": "Section4, PDF5–12",
+  "next_check": "Assess heuristic identity, relaxed-plan extraction and tie conventions;
+  distinguish optimal h-plus and the original complete GRAPHPLAN algorithm. The method
+  was read for context but no dedicated candidate dossier has been completed."}, "pointer":
+  "/leads/1"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}},
+  {"assessment": "The first-layer relaxed-subgoal action restriction is a pruning
+  component with an explicit incompleteness boundary. It is neither an EHC alias nor
+  ordinary helpful-action prose; retain source-scoped assessment under main 910.",
+  "disposition": "pending_inspection", "next_check": "Evaluate the equation5 set of
+  applicable actions achieving at least one first-layer relaxed subgoal, not simply
+  selected first-step actions; retain the explicit incompleteness counterexample and
+  ADL equation6 extension.", "original": {"candidate": "Helpful-actions pruning",
+  "disposition": "pending_inspection", "locator": "Section6.1, PDF16–19", "next_check":
+  "Evaluate the equation5 set of applicable actions achieving at least one first-layer
+  relaxed subgoal, not simply selected first-step actions; retain the explicit incompleteness
+  counterexample and ADL equation6 extension.", "provenance": {"ledger": {"path":
+  "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"},
+  "original": {"candidate": "Helpful-actions pruning", "locator": "Section6.1, PDF16–19",
+  "next_check": "Evaluate the equation5 set of applicable actions achieving at least
+  one first-layer relaxed subgoal, not simply selected first-step actions; retain
+  the explicit incompleteness counterexample and ADL equation6 extension."}, "pointer":
+  "/leads/2"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}},
+  {"assessment": "Newly-achieved-goal bookkeeping and deletion-based restriction constitute
+  a separate pruning question. Retain the counterexample and distinguish the goal-agenda
+  method; no identity acceptance follows from EHC.", "disposition": "pending_inspection",
+  "next_check": "Assess goal/newly-achieved-goal bookkeeping and the unavoidable-delete
+  counterexample; distinguish the Goal Agenda method.", "original": {"candidate":
+  "Added-goal-deletion pruning", "disposition": "pending_inspection", "locator": "Section6.2,
+  PDF19–21", "next_check": "Assess goal/newly-achieved-goal bookkeeping and the unavoidable-delete
+  counterexample; distinguish the Goal Agenda method.", "provenance": {"ledger": {"path":
+  "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"},
+  "original": {"candidate": "Added-goal-deletion pruning", "locator": "Section6.2,
+  PDF19–21", "next_check": "Assess goal/newly-achieved-goal bookkeeping and the unavoidable-delete
+  counterexample; distinguish the Goal Agenda method."}, "pointer": "/leads/3"}, "source":
+  "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}}, {"assessment": "The
+  adapted FF agenda passage does not substitute for Koehler 1998 and Koehler–Hoffmann
+  2000 original-source inspection. Retain the agenda/composition question under main
+  910.", "disposition": "pending_inspection", "next_check": "Acquire the original
+  Koehler 1998 and Koehler–Hoffmann 2000 source; the brief adapted FF mechanism alone
+  is not a full original-method assessment.", "original": {"candidate": "Goal agenda
+  planning", "disposition": "pending_inspection", "locator": "Section6.2.2 and references,
+  PDF20–21,48", "next_check": "Acquire the original Koehler1998 and Koehler–Hoffmann2000
+  source; the brief adapted FF mechanism alone is not a full original-method assessment.",
+  "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json",
+  "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original":
+  {"candidate": "Goal agenda planning", "locator": "Section6.2.2 and references, PDF20–21,48",
+  "next_check": "Acquire the original Koehler1998 and Koehler–Hoffmann2000 source;
+  the brief adapted FF mechanism alone is not a full original-method assessment."},
+  "pointer": "/leads/4"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}},
+  {"assessment": "HSP system versions, backward-search variation and the h-add heuristic
+  require source-specific separation; neither maintained hill climbing nor EHC resolves
+  this citation group. Retain under main 910 without a novelty assertion. Fresh search
+  group 1 retains https://www.scribd.com/document/2604605/hsp-r from the historical
+  state-cost-search report as an uninspected search-return URL, not authenticated
+  primary evidence.", "disposition": "pending_inspection", "next_check": "Follow Bonet–Geffner
+  primary publications and separate the h-add heuristic, HSP1 hill-climbing implementation,
+  HSP-r backward search and system identity. No original HSP source was read. Reconcile
+  that historical Scribd hsp-r retrieval route with an authoritative original before
+  using it as evidence.", "original": {"candidate": "HSP heuristic search planner
+  and additive heuristic", "disposition": "pending_inspection", "locator": "Section4
+  introduction, Section9, bibliography PDF5,44–45,47", "next_check": "Follow Bonet–Geffner
+  primary publications and separate the h-add heuristic, HSP1 hill-climbing implementation,
+  HSP-r backward search and system identity. No original HSP source was read.", "provenance":
+  {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json",
+  "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original":
+  {"candidate": "HSP heuristic search planner and additive heuristic", "locator":
+  "Section4 introduction, Section9, bibliography PDF5,44–45,47", "next_check": "Follow
+  Bonet–Geffner primary publications and separate the h-add heuristic, HSP1 hill-climbing
+  implementation, HSP-r backward search and system identity. No original HSP source
+  was read."}, "pointer": "/leads/5"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}},
+  {"assessment": "The ISMIS 2000 citation is an earlier-source/version question for
+  the EHC method, not automatically another concept. The accepted2001 record explicitly
+  disclaims original-source reading and invention priority; retain source follow-up.",
+  "disposition": "source_followup", "next_check": "Acquire Hoffmann2000, A heuristic
+  for domain independent planning and its use in an enforced hill-climbing algorithm,
+  pp216–227. This is earlier-source/version follow-up for EHC, not automatically a
+  new concept.", "original": {"candidate": "ISMIS2000 enforced hill-climbing predecessor",
+  "disposition": "pending_inspection", "locator": "Acknowledgments/reference PDF46–47",
+  "next_check": "Acquire Hoffmann2000, A heuristic for domain independent planning
+  and its use in an enforced hill-climbing algorithm, pp216–227. This is earlier-source/version
+  follow-up for EHC, not automatically a new concept.", "provenance": {"ledger": {"path":
+  "/private/tmp/aimech-ehc-research-20261015/citation-leads.json", "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"},
+  "original": {"candidate": "ISMIS2000 enforced hill-climbing predecessor", "locator":
+  "Acknowledgments/reference PDF46–47", "next_check": "Acquire Hoffmann2000, A heuristic
+  for domain independent planning and its use in an enforced hill-climbing algorithm,
+  pp216–227. This is earlier-source/version follow-up for EHC, not automatically a
+  new concept."}, "pointer": "/leads/6"}, "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}}],
+  "nested:393": [{"assessment": "The 2006 RTAA primary paper was inspected for the
+  F-minus-g update and movement-cap comparison. A distinct current candidate/mapping
+  dossier and historical 2018 source reconciliation are still needed; no RTAA record
+  is added by LSS. Fresh search group 4 retains https://www.cs.unh.edu/~ruml/papers/rtaa-star-socs18.pdf
+  as the uninspected historical 2018 retrieval route; it is not the accepted 2006
+  primary artifact.", "disposition": "pending_inspection", "next_check": "Build its
+  own current-state candidate/mapping dossier and check the historical 2018 RTAA URL’s
+  relationship; do not treat either as already curated. Resolve the exact historical
+  route https://www.cs.unh.edu/~ruml/papers/rtaa-star-socs18.pdf without assuming
+  its content from its filename.", "original": {"access": "Full primary method and
+  theorem reading completed here as a comparison, exact artifact retained.", "candidate":
+  "RTAA*", "disposition": "pending_inspection", "next_check": "Build its own current-state
+  candidate/mapping dossier and check the historical2018 RTAA URL’s relationship;
+  do not treat either as already curated.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json",
+  "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original":
+  {"access": "Full primary method and theorem reading completed here as a comparison,
+  exact artifact retained.", "candidate": "RTAA*", "next_check": "Build its own current-state
+  candidate/mapping dossier and check the historical2018 RTAA URL’s relationship;
+  do not treat either as already curated.", "source": "https://idm-lab.org/bib/abstracts/papers/aamas06.pdf"},
+  "pointer": "/leads/0"}, "source": "https://idm-lab.org/bib/abstracts/papers/aamas06.pdf"}},
+  {"assessment": "The2009 comparison describes D* Lite but the original 2002 g/rhs
+  repair method is not claimed read. Ordinary A* and LSS are not equivalent owners;
+  retain original-source and Lifelong Planning A* boundary research under nested 393.",
+  "disposition": "pending_inspection", "next_check": "Acquire original source and
+  analyze incremental g/rhs repair, key/update conditions and relation to Lifelong
+  Planning A*.", "original": {"access": "Only description in inspected comparison
+  article, not original full method.", "candidate": "D* Lite", "disposition": "pending_inspection",
+  "next_check": "Acquire original source and analyze incremental g/rhs repair, key/update
+  conditions and relation to Lifelong Planning A*.", "provenance": {"ledger": {"path":
+  "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256":
+  "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original":
+  {"access": "Only description in inspected comparison article, not original full
+  method.", "candidate": "D* Lite", "next_check": "Acquire original source and analyze
+  incremental g/rhs repair, key/update conditions and relation to Lifelong Planning
+  A*.", "source": "Koenig and Likhachev2002, AAAI,476–483; reference21 in primary
+  manuscript"}, "pointer": "/leads/1"}, "source": "Koenig and Likhachev2002, AAAI,476–483;
+  reference21 in primary manuscript"}}, {"assessment": "The 2004 reference is earlier
+  version/identity continuity for LSS. Retain a source follow-up without claiming
+  either exact equivalence before inspection or a new concept solely from date/name
+  variation.", "disposition": "source_followup", "next_check": "Resolve earlier version
+  and name/method continuity; retain as source follow-up under LSS rather than automatically
+  inventing a separate concept.", "original": {"access": "Bibliographic and2006 methodological
+  context only; original not acquired/read.", "candidate": "LSS2004 predecessor source",
+  "disposition": "pending_inspection", "next_check": "Resolve earlier version and
+  name/method continuity; retain as source follow-up under LSS rather than automatically
+  inventing a separate concept.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json",
+  "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original":
+  {"access": "Bibliographic and2006 methodological context only; original not acquired/read.",
+  "candidate": "LSS2004 predecessor source", "next_check": "Resolve earlier version
+  and name/method continuity; retain as source follow-up under LSS rather than automatically
+  inventing a separate concept.", "source": "Koenig2004, A comparison of fast search
+  methods for real-time situated agents, AAMAS864–871; reference20"}, "pointer": "/leads/2"},
+  "source": "Koenig2004, A comparison of fast search methods for real-time situated
+  agents, AAMAS864–871; reference20"}}, {"assessment": "Complete repeated-search heuristic
+  updates in Adaptive A* need the original2005 source and separation from truncated
+  RTAA/LSS searches. The existing ordinary A* identity does not resolve that question.",
+  "disposition": "pending_inspection", "next_check": "Assess repeated complete-search
+  heuristic learning separately from real-time truncation and existing A* identity.",
+  "original": {"access": "RTAA’s complete-search derivation read; original2005 source
+  unread.", "candidate": "Adaptive A*", "disposition": "pending_inspection", "next_check":
+  "Assess repeated complete-search heuristic learning separately from real-time truncation
+  and existing A* identity.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json",
+  "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original":
+  {"access": "RTAA’s complete-search derivation read; original2005 source unread.",
+  "candidate": "Adaptive A*", "next_check": "Assess repeated complete-search heuristic
+  learning separately from real-time truncation and existing A* identity.", "source":
+  "Koenig and Likhachev2005, Adaptive A* poster abstract, AAMAS1311–1312; RTAA reference7"},
+  "pointer": "/leads/3"}, "source": "Koenig and Likhachev2005, Adaptive A* poster
+  abstract, AAMAS1311–1312; RTAA reference7"}}, {"assessment": "Bulitko–Lee 2006 is
+  a framework/variant inventory requiring original inspection and reconciliation with
+  main 8 and maintained LRTA*/RTA*. Retain the exact reference under nested 393; no
+  bulk novelty assertion.", "disposition": "pending_inspection", "next_check": "Inspect
+  framework and reconcile its concrete variants with main 8 and maintained LRTA/RTA;
+  no bulk novelty claim.", "original": {"access": "Reference only.", "candidate":
+  "Real-time heuristic-search variants and unifying framework", "disposition": "pending_inspection",
+  "next_check": "Inspect framework and reconcile its concrete variants with main8
+  and maintained LRTA/RTA; no bulk novelty claim.", "provenance": {"ledger": {"path":
+  "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256":
+  "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original":
+  {"access": "Reference only.", "candidate": "Real-time heuristic-search variants
+  and unifying framework", "next_check": "Inspect framework and reconcile its concrete
+  variants with main8 and maintained LRTA/RTA; no bulk novelty claim.", "source":
+  "Bulitko and Lee2006, Learning in real-time search: A unifying framework, JAIR25:119–157;
+  manuscript reference7"}, "pointer": "/leads/4"}, "source": "Bulitko and Lee2006,
+  Learning in real-time search: A unifying framework, JAIR25:119–157; manuscript reference7"}}]}}'
+- 'predecessor_search_source_owner_contexts: {"main:8": {"candidate": "KBFS, multi-state
+  commitment and real-time search variants", "carried_from": "research/discovery/20261014T082648Z-annealed-importance-sampling.json",
+  "cohort356_resolution": {"nested_residual_owner": {"family": "nested", "field":
+  "source_followups", "index": 393, "resolution": "cohort356_resolution"}, "previous_sha256":
+  "0164719a964214bec45d2c17fea332148d03c77c979b771eba840c13d9700762", "reason": "Add
+  the separately evidenced LSS-LRTA* algorithm through its existing nested 393 responsibility.
+  KBFS, multi-state commitment and other real-time variants remain unresolved; this
+  umbrella is not exhausted.", "record_ids": ["AIMech:LocalSearchSpaceLearningRealTimeAStar"],
+  "source_pointer_scope": "Real-time-search umbrella retains KBFS and multi-state
+  commitment source scope. LSS is resolved through nested393; pending LSS citation
+  residuals live there, not duplicated under cross-links3/286."}, "disposition": "partially_addressed",
+  "next_check": "Inspect the original KBFS/multi-state commitment sources and retain
+  the five LSS-specific source/variant questions under nested 393; do not duplicate
+  their responsibility under crosslinks 3/286.", "record_ids": ["AIMech:LocalSearchSpaceLearningRealTimeAStar"],
+  "url": "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "main:910": {"access_scope":
+  "Only the 2010 comparison sections and bibliography were inspected for this restoration;
+  the original FF full method is not claimed read.", "candidate": "Enforced hill climbing",
+  "cohort356_resolution": {"previous_sha256": "a7e6a83b7195283182cff13cf77bb177b3f810b72011ae31a016321025aa462a",
+  "reason": "Add the 2001 unpruned EHC controller while retaining the full FF composition,
+  relaxed heuristic, two pruning components, goal agenda, HSP and 2000 predecessor
+  as seven explicit unresolved source questions.", "record_ids": ["AIMech:EnforcedHillClimbing"],
+  "source_followups": [{"candidate": "FF planning architecture and full controller
+  composition", "disposition": "pending_inspection", "locator": "Section2 Figure1
+  and Section5.2, PDF3 and15", "next_check": "Decide whether the scientifically useful
+  native identity is the composite planning algorithm rather than a particular software
+  release; distinguish relaxed-plan heuristic, pruning and fallback components.",
+  "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json",
+  "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original":
+  {"candidate": "FF planning architecture and full controller composition", "locator":
+  "Section2 Figure1 and Section5.2, PDF3 and15", "next_check": "Decide whether the
+  scientifically useful native identity is the composite planning algorithm rather
+  than a particular software release; distinguish relaxed-plan heuristic, pruning
+  and fallback components."}, "pointer": "/leads/0"}, "reconciliation": "The full
+  FF system combines this controller with a particular relaxed-plan heuristic, pruning
+  and fallback. EHC creation does not represent that composition; retain component-versus-system
+  identity research under main 910.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"},
+  {"candidate": "Relaxed GRAPHPLAN heuristic used by FF", "disposition": "pending_inspection",
+  "locator": "Section4, PDF5–12", "next_check": "Assess heuristic identity, relaxed-plan
+  extraction and tie conventions; distinguish optimal h-plus and the original complete
+  GRAPHPLAN algorithm. The method was read for context but no dedicated candidate
+  dossier has been completed.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json",
+  "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original":
+  {"candidate": "Relaxed GRAPHPLAN heuristic used by FF", "locator": "Section4, PDF5–12",
+  "next_check": "Assess heuristic identity, relaxed-plan extraction and tie conventions;
+  distinguish optimal h-plus and the original complete GRAPHPLAN algorithm. The method
+  was read for context but no dedicated candidate dossier has been completed."}, "pointer":
+  "/leads/1"}, "reconciliation": "Relaxed GRAPHPLAN extraction computes the supplied
+  heuristic, rather than the escape controller itself. It is distinct from optimal
+  h-plus and original GRAPHPLAN. Retain its own method/tie/identity assessment under
+  main 910.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"},
+  {"candidate": "Helpful-actions pruning", "disposition": "pending_inspection", "locator":
+  "Section6.1, PDF16–19", "next_check": "Evaluate the equation5 set of applicable
+  actions achieving at least one first-layer relaxed subgoal, not simply selected
+  first-step actions; retain the explicit incompleteness counterexample and ADL equation6
+  extension.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json",
+  "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original":
+  {"candidate": "Helpful-actions pruning", "locator": "Section6.1, PDF16–19", "next_check":
+  "Evaluate the equation5 set of applicable actions achieving at least one first-layer
+  relaxed subgoal, not simply selected first-step actions; retain the explicit incompleteness
+  counterexample and ADL equation6 extension."}, "pointer": "/leads/2"}, "reconciliation":
+  "The first-layer relaxed-subgoal action restriction is a pruning component with
+  an explicit incompleteness boundary. It is neither an EHC alias nor ordinary helpful-action
+  prose; retain source-scoped assessment under main 910.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"},
+  {"candidate": "Added-goal-deletion pruning", "disposition": "pending_inspection",
+  "locator": "Section6.2, PDF19–21", "next_check": "Assess goal/newly-achieved-goal
+  bookkeeping and the unavoidable-delete counterexample; distinguish the Goal Agenda
+  method.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json",
+  "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original":
+  {"candidate": "Added-goal-deletion pruning", "locator": "Section6.2, PDF19–21",
+  "next_check": "Assess goal/newly-achieved-goal bookkeeping and the unavoidable-delete
+  counterexample; distinguish the Goal Agenda method."}, "pointer": "/leads/3"}, "reconciliation":
+  "Newly-achieved-goal bookkeeping and deletion-based restriction constitute a separate
+  pruning question. Retain the counterexample and distinguish the goal-agenda method;
+  no identity acceptance follows from EHC.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"},
+  {"candidate": "Goal agenda planning", "disposition": "pending_inspection", "locator":
+  "Section6.2.2 and references, PDF20–21,48", "next_check": "Acquire the original
+  Koehler 1998 and Koehler–Hoffmann 2000 source; the brief adapted FF mechanism alone
+  is not a full original-method assessment.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json",
+  "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original":
+  {"candidate": "Goal agenda planning", "locator": "Section6.2.2 and references, PDF20–21,48",
+  "next_check": "Acquire the original Koehler1998 and Koehler–Hoffmann2000 source;
+  the brief adapted FF mechanism alone is not a full original-method assessment."},
+  "pointer": "/leads/4"}, "reconciliation": "The adapted FF agenda passage does not
+  substitute for Koehler 1998 and Koehler–Hoffmann 2000 original-source inspection.
+  Retain the agenda/composition question under main 910.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"},
+  {"candidate": "HSP heuristic search planner and additive heuristic", "disposition":
+  "pending_inspection", "locator": "Section4 introduction, Section9, bibliography
+  PDF5,44–45,47", "next_check": "Follow Bonet–Geffner primary publications and separate
+  the h-add heuristic, HSP1 hill-climbing implementation, HSP-r backward search and
+  system identity. No original HSP source was read. Reconcile that historical Scribd
+  hsp-r retrieval route with an authoritative original before using it as evidence.",
+  "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json",
+  "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original":
+  {"candidate": "HSP heuristic search planner and additive heuristic", "locator":
+  "Section4 introduction, Section9, bibliography PDF5,44–45,47", "next_check": "Follow
+  Bonet–Geffner primary publications and separate the h-add heuristic, HSP1 hill-climbing
+  implementation, HSP-r backward search and system identity. No original HSP source
+  was read."}, "pointer": "/leads/5"}, "reconciliation": "HSP system versions, backward-search
+  variation and the h-add heuristic require source-specific separation; neither maintained
+  hill climbing nor EHC resolves this citation group. Retain under main 910 without
+  a novelty assertion. Fresh search group 1 retains https://www.scribd.com/document/2604605/hsp-r
+  from the historical state-cost-search report as an uninspected search-return URL,
+  not authenticated primary evidence.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"},
+  {"candidate": "ISMIS2000 enforced hill-climbing predecessor", "disposition": "source_followup",
+  "locator": "Acknowledgments/reference PDF46–47", "next_check": "Acquire Hoffmann2000,
+  A heuristic for domain independent planning and its use in an enforced hill-climbing
+  algorithm, pp216–227. This is earlier-source/version follow-up for EHC, not automatically
+  a new concept.", "provenance": {"ledger": {"path": "/private/tmp/aimech-ehc-research-20261015/citation-leads.json",
+  "sha256": "3e0c6b54ec67e0a2b23c4a99601c2dff6037e8b47ab635c46a4926c4ea16963f"}, "original":
+  {"candidate": "ISMIS2000 enforced hill-climbing predecessor", "locator": "Acknowledgments/reference
+  PDF46–47", "next_check": "Acquire Hoffmann2000, A heuristic for domain independent
+  planning and its use in an enforced hill-climbing algorithm, pp216–227. This is
+  earlier-source/version follow-up for EHC, not automatically a new concept."}, "pointer":
+  "/leads/6"}, "reconciliation": "The ISMIS 2000 citation is an earlier-source/version
+  question for the EHC method, not automatically another concept. The accepted2001
+  record explicitly disclaims original-source reading and invention priority; retain
+  source follow-up.", "source": "https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf"}],
+  "source_pointer_scope": "Historical2010 comparison pointer remains immutable provenance.2001
+  unpruned EHC is added; six component/system leads and the unread2000 earlier-source
+  lead remain pending."}, "disposition": "partially_addressed", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Inspect the seven retained source/component questions, including original ISMIS
+  2000 and component-specific sources; separate system, heuristic and pruning identities
+  before any addition.", "record_ids": ["AIMech:EnforcedHillClimbing"], "related_record_ids":
+  ["AIMech:HillClimbing", "AIMech:StochasticLocalSearch"], "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "nested:393": {"access_scope": "The 2010 comparison and its bibliography were read;
+  no original full-method, convergence-proof or experiment assessment is asserted.",
+  "candidate": "LSS-LRTA-star", "cohort356_resolution": {"previous_sha256": "4fcf5b91edac2864c2b73ce1345ade59c6bf3cb6312b3fb2c8fc71b94c47af15",
+  "reason": "Add source-scoped2009 LSS-LRTA* under its existing main 8 responsibility.
+  The 2006 RTAA paper supplies comparison evidence; it is not an added RTAA record.
+  Five source/variant questions remain distinct.", "record_ids": ["AIMech:LocalSearchSpaceLearningRealTimeAStar"],
+  "source_followups": [{"access": "Full primary method and theorem reading completed
+  here as a comparison, exact artifact retained.", "candidate": "RTAA*", "disposition":
+  "pending_inspection", "next_check": "Build its own current-state candidate/mapping
+  dossier and check the historical 2018 RTAA URL’s relationship; do not treat either
+  as already curated. Resolve the exact historical route https://www.cs.unh.edu/~ruml/papers/rtaa-star-socs18.pdf
+  without assuming its content from its filename.", "provenance": {"ledger": {"path":
+  "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256":
+  "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original":
+  {"access": "Full primary method and theorem reading completed here as a comparison,
+  exact artifact retained.", "candidate": "RTAA*", "next_check": "Build its own current-state
+  candidate/mapping dossier and check the historical2018 RTAA URL’s relationship;
+  do not treat either as already curated.", "source": "https://idm-lab.org/bib/abstracts/papers/aamas06.pdf"},
+  "pointer": "/leads/0"}, "reconciliation": "The 2006 RTAA primary paper was inspected
+  for the F-minus-g update and movement-cap comparison. A distinct current candidate/mapping
+  dossier and historical 2018 source reconciliation are still needed; no RTAA record
+  is added by LSS. Fresh search group 4 retains https://www.cs.unh.edu/~ruml/papers/rtaa-star-socs18.pdf
+  as the uninspected historical 2018 retrieval route; it is not the accepted 2006
+  primary artifact.", "source": "https://idm-lab.org/bib/abstracts/papers/aamas06.pdf"},
+  {"access": "Only description in inspected comparison article, not original full
+  method.", "candidate": "D* Lite", "disposition": "pending_inspection", "next_check":
+  "Acquire original source and analyze incremental g/rhs repair, key/update conditions
+  and relation to Lifelong Planning A*.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json",
+  "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original":
+  {"access": "Only description in inspected comparison article, not original full
+  method.", "candidate": "D* Lite", "next_check": "Acquire original source and analyze
+  incremental g/rhs repair, key/update conditions and relation to Lifelong Planning
+  A*.", "source": "Koenig and Likhachev2002, AAAI,476–483; reference21 in primary
+  manuscript"}, "pointer": "/leads/1"}, "reconciliation": "The2009 comparison describes
+  D* Lite but the original 2002 g/rhs repair method is not claimed read. Ordinary
+  A* and LSS are not equivalent owners; retain original-source and Lifelong Planning
+  A* boundary research under nested 393.", "source": "Koenig and Likhachev2002, AAAI,476–483;
+  reference21 in primary manuscript"}, {"access": "Bibliographic and2006 methodological
+  context only; original not acquired/read.", "candidate": "LSS2004 predecessor source",
+  "disposition": "source_followup", "next_check": "Resolve earlier version and name/method
+  continuity; retain as source follow-up under LSS rather than automatically inventing
+  a separate concept.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json",
+  "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original":
+  {"access": "Bibliographic and2006 methodological context only; original not acquired/read.",
+  "candidate": "LSS2004 predecessor source", "next_check": "Resolve earlier version
+  and name/method continuity; retain as source follow-up under LSS rather than automatically
+  inventing a separate concept.", "source": "Koenig2004, A comparison of fast search
+  methods for real-time situated agents, AAMAS864–871; reference20"}, "pointer": "/leads/2"},
+  "reconciliation": "The 2004 reference is earlier version/identity continuity for
+  LSS. Retain a source follow-up without claiming either exact equivalence before
+  inspection or a new concept solely from date/name variation.", "source": "Koenig2004,
+  A comparison of fast search methods for real-time situated agents, AAMAS864–871;
+  reference20"}, {"access": "RTAA’s complete-search derivation read; original2005
+  source unread.", "candidate": "Adaptive A*", "disposition": "pending_inspection",
+  "next_check": "Assess repeated complete-search heuristic learning separately from
+  real-time truncation and existing A* identity.", "provenance": {"ledger": {"path":
+  "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json", "sha256":
+  "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original":
+  {"access": "RTAA’s complete-search derivation read; original2005 source unread.",
+  "candidate": "Adaptive A*", "next_check": "Assess repeated complete-search heuristic
+  learning separately from real-time truncation and existing A* identity.", "source":
+  "Koenig and Likhachev2005, Adaptive A* poster abstract, AAMAS1311–1312; RTAA reference7"},
+  "pointer": "/leads/3"}, "reconciliation": "Complete repeated-search heuristic updates
+  in Adaptive A* need the original2005 source and separation from truncated RTAA/LSS
+  searches. The existing ordinary A* identity does not resolve that question.", "source":
+  "Koenig and Likhachev2005, Adaptive A* poster abstract, AAMAS1311–1312; RTAA reference7"},
+  {"access": "Reference only.", "candidate": "Real-time heuristic-search variants
+  and unifying framework", "disposition": "pending_inspection", "next_check": "Inspect
+  framework and reconcile its concrete variants with main 8 and maintained LRTA/RTA;
+  no bulk novelty claim.", "provenance": {"ledger": {"path": "/private/tmp/aimech-lss-lrta-research-20261015/citation-leads.json",
+  "sha256": "2640f241a254e6ceb0ce2839cf1e297824544e69ac15b444a1d67e9a3bcec99b"}, "original":
+  {"access": "Reference only.", "candidate": "Real-time heuristic-search variants
+  and unifying framework", "next_check": "Inspect framework and reconcile its concrete
+  variants with main8 and maintained LRTA/RTA; no bulk novelty claim.", "source":
+  "Bulitko and Lee2006, Learning in real-time search: A unifying framework, JAIR25:119–157;
+  manuscript reference7"}, "pointer": "/leads/4"}, "reconciliation": "Bulitko–Lee
+  2006 is a framework/variant inventory requiring original inspection and reconciliation
+  with main 8 and maintained LRTA*/RTA*. Retain the exact reference under nested 393;
+  no bulk novelty assertion.", "source": "Bulitko and Lee2006, Learning in real-time
+  search: A unifying framework, JAIR25:119–157; manuscript reference7"}], "source_pointer_scope":
+  "Real-time-search umbrella retains KBFS and multi-state commitment source scope.
+  LSS is resolved through nested393; pending LSS citation residuals live there, not
+  duplicated under cross-links3/286."}, "disposition": "partially_addressed", "historical_origin":
+  {"carried_in": "research/discovery/20261011T060240Z-beam-search.json/prior_frontier_accounting[2]",
+  "field": "new_frontier[2]", "original_object": {"candidate": "Enforced hill climbing
+  and LSS-LRTA-star", "disposition": "pending_inspection", "next_check": "Read the
+  remaining comparison sections and original papers; distinguish breadth-first escape
+  from local-minimum learning and execution commitment.", "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"},
+  "report": "research/discovery/20261011T054555Z-best-first-search.json"}, "next_check":
+  "Assess the original RTAA*, D* Lite, LSS2004 predecessor, Adaptive A* and Bulitko–Lee
+  framework questions with exact identity/source boundaries; preserve main 3/286 crosslinks
+  and main 8 broader residuals.", "record_ids": ["AIMech:LocalSearchSpaceLearningRealTimeAStar"],
+  "related_existing_owners": [{"candidate": "Limited discrepancy search, generalized
+  LDS and depth-first beam search", "index_at_dated_snapshot": 3, "scope": "Cross-link
+  to the already explicit additional real-time variants residual; not a second responsible
+  owner."}, {"candidate": "Learning Real-Time A-star", "index_at_dated_snapshot":
+  286, "scope": "Basic LRTA* predecessor context; not evidence of the LSS method being
+  resolved."}], "related_record_ids": ["AIMech:LearningRealTimeAStar", "AIMech:RealTimeAStar",
+  "AIMech:AStarSearch"], "responsible_existing_owner": {"candidate": "KBFS, multi-state
+  commitment and real-time search variants", "index_at_dated_snapshot": 8, "source_url":
+  "https://www.ijcai.org/Proceedings/05/Papers/0596.pdf"}, "url": "https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf"}}'
+- 'predecessor_metadata_audit: {"path": "/private/tmp/aimech-cohort356-exact-head-audit.json",
+  "sha256": "b49fc2dbe191b686f17f1891740a756f05ad67e0ba120ba56e41ce988f8ab8aa"}'
+- 'original_355_write: {"path": "/private/tmp/aimech-softq-svgd-cohort355-write.json",
+  "sha256": "456484f26bb178a696dec30090da23d6c63f934bd56a38ec5feea11c998f3dae"}'
+- 'Actual owner-plan/frontier outcome: {"additional_source_question_count": 10, "changed_main_indexes":
+  [], "changed_nested_indexes": [], "main": 914, "nested": 394, "new_main_rows": 1,
+  "new_nested_rows": 0, "retained_bibliography_occurrences": 22, "unchanged_other_main":
+  913, "unchanged_other_nested": 394}'
+- 'Actual source accounting digest (sorted compact JSON UTF-8): 3fc1c0accaf7fe6a8449ab6de85a557b9eb234c6f9b1074a2972f9a87651b0c5'
+- 'Actual historical/current identity changes: [{"id": "AIMech:RitterGallegosTwoStageOutlierMixtureFitting",
+  "field": "identity_notes", "historical": "The name and POP–BAS–OUT alias are descriptive
+  AIMech labels for Section2.2, not a claim that the authors used them as formal method
+  names. This is the fitting procedure, not the IECO classifier, all robust estimation,
+  generic mixture modeling or an EM update. BAS and OUT may overlap and are not a
+  hard partition. Anscombe premium protection and ellipsoidal trimming are cited predecessors,
+  not exact aliases. At historical clean base 14e9168ee3496e914545ae5c449e3ee190f0294b,
+  normalized comparison covered all786 native IDs/names/aliases and442 AIO IDs/labels/scoped
+  synonyms. All511 distinct matching texts from four ignored-inclusive roots were
+  read, along with360 semantic ID/name/alias/definition projections,17 selected native
+  mechanism/limitation projections and19 exact AIO CLASS nodes with all annotations
+  and outgoing edges. No duplicate identity was established in that scoped corpus.
+  This does not clear a future write base or establish global novelty.", "current":
+  "Current identity assessment at base 7d38dafe42243c93664bc246a5ff77beca593cd3 compared
+  the IDs, names, aliases and scoped synonyms of all 1234 records (4896 field occurrences;
+  3739 unique normalized values), 19 AIO contexts and 17 native neighbors against
+  the accepted unchanged historical records, plus the current ignored/hidden-inclusive
+  four-root search and full frontier labels with matched/plausible owner bodies. This
+  record is the threshold-driven POP/BAS/OUT component-law fitting procedure, separate
+  from the IECO classifier that consumes distributions and class-slot constraints.
+  EM/CEM and fixed-weight EM optimize other objectives; SVDD, LOF and nearest-neighbor
+  data descriptions estimate support or scores, and Cutout is image augmentation.
+  No exact pinned AIO identity was established in the inspected scope; the selected
+  AIO:MachineLearningTask related_match connects an algorithm to a task, not an equivalence
+  or subclass claim. Proposed main:913 is shared source responsibility for two separate
+  records, retaining all 22 bibliography occurrences and explicit residual questions.
+  AutoClass retains main:610. Frozen issue402 and issues404/406 plus the prior twelve
+  search questions remain unchanged; no source exhaustion is claimed.", "root_decision":
+  "records/AIMech:RitterGallegosTwoStageOutlierMixtureFitting/identity_notes"}, {"id":
+  "AIMech:IECOConstrainedMixtureClassification", "field": "identity_notes", "historical":
+  "IECO is the authors’ elliptical regular/outlier specialization of the general mixed-class
+  assignment construction. The descriptive label keeps the decision procedure distinct
+  from a fitted distribution family, the POP–BAS–OUT parameter estimator and a generic
+  Hungarian solver. The1995 IEC construction is the singleton-category fixed-multiplicity
+  special case; it is lineage context, not an exact IECO alias or a third proposed
+  record. The1996 abstract minimizes over quality before assignment, whereas the1997
+  procedure sums quality likelihoods first. Bare IEC and IECO were searched but are
+  not asserted as unique aliases. At historical clean base 14e9168ee3496e914545ae5c449e3ee190f0294b,
+  normalized comparison covered all786 native IDs/names/aliases and442 AIO IDs/labels/scoped
+  synonyms. All511 distinct matching texts from four ignored-inclusive roots were
+  read, along with360 semantic ID/name/alias/definition projections,17 selected native
+  mechanism/limitation projections and19 exact AIO CLASS nodes with all annotations
+  and outgoing edges. No duplicate identity was established in that scoped corpus.
+  This does not clear a future write base or establish global novelty.", "current":
+  "Current identity assessment at base 7d38dafe42243c93664bc246a5ff77beca593cd3 compared
+  the IDs, names, aliases and scoped synonyms of all 1234 records (4896 field occurrences;
+  3739 unique normalized values), 19 AIO contexts and 17 native neighbors against
+  the accepted unchanged historical records, plus the current ignored/hidden-inclusive
+  four-root search and full frontier labels with matched/plausible owner bodies. This
+  record is the supplied-density IECO constrained virtual-slot assignment procedure,
+  with categories marginalized before MAP of Phi. It is distinct from POP/BAS/OUT
+  parameter fitting, independent per-object Gaussian QDA/LDA, Naive Bayes feature
+  independence, SeLa learned pseudo-label transport, and iterative conditional estimation.
+  The 1995 singleton-category fixed-count setting is contextual lineage, not an exact
+  alias; the 1996 maximum-over-quality rule differs from the 1997 category sum. No
+  universal MAP claim for aggregated biological labels is made. No exact pinned AIO
+  identity was established in the inspected scope; the selected AIO:Classification
+  related_match connects an algorithm to a task, not an equivalence or subclass claim.
+  Proposed main:913 is shared source responsibility for two separate records, retaining
+  all 22 bibliography occurrences and explicit residual questions. AutoClass retains
+  main:610. Frozen issue402 and issues404/406 plus the prior twelve search questions
+  remain unchanged; no source exhaustion is claimed.", "root_decision": "records/AIMech:IECOConstrainedMixtureClassification/identity_notes"}]'
+```
