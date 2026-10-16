@@ -1,0 +1,278 @@
+id: AIMech:DispatchDependentDualQueuePlanning
+name: Dispatch-dependent dual-queue planning
+concept_kind: algorithm
+aliases: []
+definition: A concurrent temporal-planning search procedure that alternates node expansion
+  between a weighted goal-progress open list and a dispatch-conditioned estimated-failure
+  open list, synchronizes their frontier membership, and periodically refreshes failure
+  estimates while retaining the surrounding temporal planner’s dispatch reasoning.
+definition_evidence:
+- source_id: coles2025
+  locator: Author PDF pp.5–6, Sections 4.1–5; official pp.8487–8488.
+  relation: supports
+claims:
+- claim_id: temporal-planning-setting
+  kind: scope
+  statement: The described procedure operates in concurrent propositional temporal
+    planning with Boolean fluents, nonnegative-duration actions, start, invariant
+    and end conditions, and start/end effects, known timed initial literals, and goals.
+    Actions may be emitted incrementally before a complete plan is available, but
+    each scheduled start must be at or after its emission time. This defines the source
+    setting, not a general partially observable or stochastic-execution model.
+  evidence:
+  - source_id: coles2025
+    locator: Author PDF pp.1–2, Section 2.1, problem tuple and emission/start-time
+      constraint; official pp.8483–8484.
+    relation: supports
+- claim_id: goal-and-dispatch-priorities
+  kind: mechanism
+  statement: The first open list uses the weighted goal-progress score f(i)=g(i)+w*h(i),
+    where h(i) is relaxed-plan length. The second uses pf(i), described as the estimated
+    probability of missing the deadline when all remaining undispatched actions on
+    the path to i are assumed dispatched. Ties in pf are broken by f. Relating this
+    score to the inclusive success event in Eq.3 gives the explicit interpretation
+    pf(i,t)=1−V(i,t)=Pr[m>d(i)−t] for that assumed-dispatch context; this complement
+    is an interpretation of the prose interface, not a separately printed executable
+    equation.
+  evidence:
+  - source_id: coles2025
+    locator: Author PDF p.4 Eq.3; p.5 Section 4.1, f, assumed-dispatch pf and tie-breaking;
+      official pp.8486–8487.
+    relation: supports
+- claim_id: alternating-synchronized-frontier
+  kind: mechanism
+  statement: Node expansion alternates between the f-priority and pf-priority open
+    lists. Selecting and removing a state from either list removes it from both; successors
+    of the expansion are inserted into both. The lists therefore provide two orderings
+    of the shared frontier rather than two independent searches whose outputs are
+    combined.
+  evidence:
+  - source_id: coles2025
+    locator: Author PDF p.5, Section 4.1, dual open-list paragraph; official p.8487.
+    relation: supports
+- claim_id: periodic-failure-score-refresh
+  kind: mechanism
+  statement: The described implementation computes pf when a node is inserted, using
+    the current time and then-current remaining-search-time estimate. It recomputes
+    pf for all open nodes every 100 expansions with updated time and search-time estimates.
+    The mechanism is periodic refresh, not continuously exact scoring or a proof that
+    successive estimates are monotonic.
+  evidence:
+  - source_id: coles2025
+    locator: Author PDF p.5, Section 4.1, insertion and t_u=100 refresh paragraph;
+      official p.8487.
+    relation: supports
+- claim_id: surrounding-dispatch-integration
+  kind: scope
+  statement: The evaluated planner is called dual in the paper and is implemented
+    within the temporal planner identified there as OPTIC. It retains the earlier
+    Coles et al. (2024) dispatch reasoning while removing that method’s restriction
+    of search to a promising subtree; the two expansion priorities provide the alternative
+    information-gathering mechanism. A dispatch threshold remains. Choosing a frontier
+    node by pf is not itself the complete decision to execute an action.
+  evidence:
+  - source_id: coles2025
+    locator: Author PDF pp.3–4, prior dispatch integration; p.6, opening of Section
+      5; official pp.8485–8486 and 8488.
+    relation: supports
+identity_notes: 'This record denotes the 2025 source-local dual planner as a descriptive,
+  disambiguated temporal-planning procedure. Empty aliases preserve its distinction
+  from maintained DUAL*, generic dual search, OPTIC/COLIN and the CoPE problem setting.
+  Alternating synchronized goal-progress and modeled failure priorities, refreshing
+  estimates and retaining the surrounding dispatch logic define the algorithm. The
+  separately represented dispatch-dependent value functional is a scoring component,
+  not the whole procedure. Current insertion context was reconciled at merged commit
+  cc0c9ef618dae4da01fd32e8e4523e8481bcb138: 810 native and 442 pinned AIO records,
+  4,958 identity-field occurrences and 3,790 normalized values. Four ignored- and
+  hidden-inclusive roots returned 49 distinct matching contents and 200 occurrences.
+  Forty contents reuse exact historical reading with attribution; all nine new report/review
+  contents were read. All 1,249 records from the historical assessment are byte-identical,
+  and the three added ILBFS/RBFS identities and definitions were read as distinct
+  search controls. The 20 selected AIO nodes and 62 incident edges were freshly read
+  on the unchanged pin; historical whole-label screening and 96-definition/21-neighbor
+  scientific context are attributed to their original reading. Existing main911 coordinates
+  source tracking, without equating this 2025 family to its nine prior methods or
+  resolving the independent 2023/2004 routes.'
+limitations:
+- The background calls D_i a deadline CDF and Eq.1 uses 1−D_i, but the deterministic-deadline
+  paragraph then assigns D_i=1 before or on latest_start and 0 afterward. That decreasing
+  step is inconsistent with the stated CDF role. Both inspected PDF versions retain
+  the presentation conflict; no implementation defect, original-paper erratum or silently
+  repaired convention is asserted.
+- Eq.3 is a success probability, whereas Section 4.1 describes a failure score. The
+  complementary interpretation is pf=Pr[m>d−t], with deadline equality counted as
+  success; replacing > by >= needs an additional no-atom convention. The background
+  Eq.1 survival convention and Eq.3 inclusive event must not be silently unified,
+  and the prose does not provide a complete numerical implementation.
+- For a fixed remaining-search law M and fixed deadline d, V(t)=Pr[m<=d−t] is nonincreasing.
+  For nonnegative m and finite d, V(d)=Pr[m=0] and V(t)=0 is guaranteed for t>d (it
+  can also be zero earlier); it need not be zero exactly at d. These fixed-model facts
+  do not make the periodically refreshed scores monotonic when estimates, relaxed
+  plans or deadlines change.
+- Remaining search time is estimated from expansion-delay/search statistics and relaxed-plan
+  length, while relaxed-plan deadline estimates are explicitly described as inadmissible.
+  The scores are modeled probabilities, without a demonstrated calibration or error
+  bound. The weighted f form does not transfer a weighted-A* quality bound, completeness
+  theorem or successful-dispatch guarantee to this combined procedure.
+- The none/all prefix argument requires a reasonable ancestor relaxed plan and a forward
+  successor with a matching suffix. It matches assumed commitment contexts; it does
+  not establish equality of node-specific search-time laws or probabilities, preservation
+  of all relevant ancestors in the frontier, or sufficiency for arbitrary dispatch
+  policies. Actual irreversible dispatch can make a goal unreachable.
+- The abstract metareasoning background uses mutually exclusive non-preemptible domain
+  actions with computation concurrent with at most one action. The selected temporal-planning
+  setting and multi-robot evaluation allow concurrent actions. The abstract exclusivity
+  restriction must not be assigned to every evaluated action, nor does that evaluation
+  establish arbitrary uncertain execution dynamics.
+- The paper gives prose queue and dispatch integration, not a complete executable
+  specification. Duplicate-state handling, tie/cycle corner cases, sound dispatch
+  and scheduling depend on the underlying planner and earlier dispatch procedure.
+  Code is described as available from the authors upon request, but no request, code
+  acquisition or algorithm execution occurred in this research.
+- Section 4.1 associates OPTIC with Benton et al. (2012), while Section 5 cites Coles
+  et al. (2012) for the implementation and the bibliography names that work COLIN.
+  The discrepancy is retained without treating OPTIC and COLIN as aliases or diagnosing
+  an implementation error.
+- The evaluation sets w=5, uses the described 100-expansion score refresh and tests
+  dispatch thresholds 0.025, 0.1 and 0.25. Removing subtree focus or the earlier allocate-t_u
+  search restriction does not remove these parameters. No universally best threshold
+  or expansion-rate-independent setting is established.
+- The reported evaluation uses 100 RCLL scenarios with one-, two- and three-robot
+  variants and eight simulated expansion rates from 10 to 1000 expansions per second.
+  Those rates are simulated timing, not measured hardware speed or complete queue/heuristic
+  overhead. Sums across rates reuse scenarios and are not counts of independent scenarios;
+  the experiment does not establish general deployment performance.
+- The paper’s virtual best solver selects a configuration by robot-count/domain and
+  expansion-rate setting, not an explicitly instance-wise oracle. Aggregate coverage
+  advantages are not uniform across settings, and the displayed tables report no confidence
+  intervals or repeated-run uncertainty. No causal benefit or universal runtime advantage
+  follows from the queue-agreement diagnostic.
+- The author and official PDFs are distinct byte artifacts of one 2025 work, with
+  different title-block forms of Shimony’s name and layout metadata. The institutional
+  2029 date remains a metadata question. The curated descriptive name disambiguates
+  the source-local dual label from the maintained 1987 game-tree DUAL* algorithm;
+  aliases are empty. All original bibliography and follow-up questions remain retained,
+  not resolved by this draft.
+evidence_sources:
+- source_id: coles2025
+  title: Concurrent Planning and Execution Using Dispatch-Dependent Values
+  authors:
+  - Andrew Coles
+  - Erez Karpas
+  - Solomon Eyal Shimony
+  - Shahaf Shperberg
+  - Wheeler Ruml
+  source_type: primary_paper
+  url: https://www.cs.unh.edu/~ruml/papers/dual-cope-ijcai-2025.pdf
+  persistent_id: doi:10.24963/ijcai.2025/943
+  version: Author-hosted eight-page IJCAI 2025 paper corresponding to official proceedings
+    pp.8483–8490. Locators give author PDF pages and official printed pages. This
+    SHA-256 identifies the inspected author PDF, not the byte-distinct official PDF.
+    The author title block uses Solomon Eyal Shimony; official IJCAI metadata uses
+    Eyal Shimony. These are retained metadata forms for the same work, not separate
+    studies.
+  access_level: full_text
+  accessed_at: '2026-10-16T06:32:13Z'
+  sha256: b81abd754f7becb49d22adce33803c3493512b54aceebf21ff71db93609d4be7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+aio_no_match:
+  search_scope: All 442 pinned AIO IDs, labels and scoped synonyms were screened;
+    20 relevant full nodes, annotations and all 62 incident edges were freshly read.
+    Selection follows planning, control, probability/time scoring and the most plausible
+    generic type confusions, not a prescribed target count. These are the inspected
+    targets, not all conceivable ontology classes. This is the historical 2026-10-16
+    prospective snapshot at HEAD 7991f0c2fdc71e461117fc598529a2678ea8ef7f, with 807
+    native and 442 AIO records; it is not a future insertion clearance.
+  rationale: No examined target identifies or usefully subsumes the two-queue temporal-planning
+    procedure. Generic task overlap, robot applications and a mathematical component
+    are insufficient mappings of the whole algorithm.
+  examined_targets:
+  - target: AIO:MachineLearningTask
+    rejection_reason: The subject is a temporal-planning control procedure. Updating
+      search-time estimates is a component, not evidence that this entire procedure
+      is a process for building methods that learn from data. The source does not
+      establish a specific learning-task identity or an informative method-level related
+      mapping.
+  - target: AIO:Model
+    rejection_reason: The complete subject is an executable-style search and dispatch
+      procedure, not merely an abstract representation of a complex system. Its embedded
+      probability estimates and action model do not identify the planner as this generic
+      model class.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The complete planner maintains and alternates two open lists,
+      expands nodes and interacts with dispatch decisions. Its functional score is
+      a component; mapping that component does not map the entire algorithm to a mathematical
+      rule.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Explicit planning and deadline reasoning here do not use a large
+      language model or language-task inference. The related synonym reasoning cannot
+      expand this LLM class into all symbolic planning.
+  - target: AIO:EmbodiedLLM
+    rejection_reason: The robot benchmark does not make this symbolic temporal planner
+      a language-grounded multimodal model. Application overlap is insufficient.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The inspected procedure searches a supplied temporal model and
+      uses deadline/search-time estimates; it does not define reward-driven policy
+      learning. Goal progress and information gathering are not by themselves reinforcement
+      learning.
+  - target: AIO:ReinforcementLearningLLM
+    rejection_reason: There is no language-model reward fine-tuning or generated-text
+      objective in the proposed procedure.
+  - target: AIO:PolicyLayer
+    rejection_reason: A planner deciding when to expand or dispatch is not a neural-network
+      layer predicting an action distribution. Its probability is a timely-search
+      estimate, not the output distribution of the described layer.
+  - target: AIO:GraphConvolutionalPolicyNetwork
+    rejection_reason: The subject neither uses graph convolution nor trains graph-generation
+      policies with rewards and adversarial loss.
+  - target: AIO:ActiveLearning
+    rejection_reason: Expanding a node to improve dispatch information does not query
+      an annotator for labels of new training points. Information gathering alone
+      does not supply the target class identity.
+  - target: AIO:TimeSeriesAnalysis
+    rejection_reason: The algorithm is not a task of extracting characteristics from
+      time-series observations; wall-clock dependence and refreshed estimates do not
+      establish that task relation.
+  - target: AIO:TimeSeriesForecasting
+    rejection_reason: Estimated remaining search time guides planning, but the full
+      algorithm is not a procedure for forecasting a time-series sequence from previous
+      values.
+  - target: AIO:SurvivalAnalysis
+    rejection_reason: A tail probability of estimated search completion relative to
+      a deadline is a scoring component. The complete planner is not the described
+      time-to-event analysis task, and mere use of a probability tail is too generic
+      for a useful related mapping.
+  - target: AIO:ProportionalHazardsModel
+    rejection_reason: The source does not impose a proportional-hazards regression
+      model or multiplicative covariate effect on a hazard rate.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The search tree is a space of partial action plans, not a graph
+      specifying conditional dependence among random variables. A probability estimate
+      at a search node does not turn the controller into this target task.
+  - target: AIO:MarkovChain
+    rejection_reason: The queue procedure is not a stochastic transition model whose
+      next-event law depends only on the preceding state; the source score alone does
+      not establish a Markov-chain identity.
+  - target: AIO:BayesianNetwork
+    rejection_reason: No directed acyclic conditional-dependence network is specified
+      as the algorithm identity.
+  - target: AIO:DecisionTree
+    rejection_reason: A search tree of possible plans is not the pinned classification/decision-support
+      tree model. Branching does not establish classifier or predictor identity.
+  - target: AIO:ContinualLearning
+    rejection_reason: Continued search and distribution refresh do not constitute
+      the target deep neural network learning sequential tasks without access to old
+      task data.
+  - target: AIO:EnsembleLearning
+    rejection_reason: Alternating two priorities on one shared search frontier is
+      not a predictive ensemble of learned algorithms.
+curation:
+  created_at: '2026-10-16T07:37:16Z'
+  updated_at: '2026-10-16T07:37:16Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
