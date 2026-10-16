@@ -1,0 +1,130 @@
+id: AIMech:RitterGallegosTwoStageOutlierMixtureFitting
+name: Ritter–Gallegos two-stage outlier-mixture fitting
+aliases:
+- POP–BAS–OUT mixture fitting
+concept_kind: algorithm
+definition: A two-stage mixture-parameter fitting procedure that estimates a regular
+  component from a threshold-selected basic subset of a contaminated population, then
+  identifies and fits an outlier component using the original population scored against
+  that regular-component approximation.
+definition_evidence:
+- source_id: ritter1997
+  locator: PDF pp.5–6, Section2.2 and dependency diagram
+  relation: supports
+claims:
+- claim_id: population-to-basic-fit
+  kind: mechanism
+  statement: Given contaminated observations POP, a family M and a scalar outlier
+    indicator chi(mu,x), first estimate mu_POP in M. Define BAS by chi(mu_POP,x)<=cut_BAS
+    for x in POP, using a cutoff specified in advance. Fit mu_BAS in the same family
+    M and use it as an approximation to the regular-component law. In an elliptical
+    family the source proposes Mahalanobis distance as an indicator; the general procedure
+    is not restricted to that choice.
+  evidence:
+  - source_id: ritter1997
+    locator: PDF p.5, Section2.2
+    relation: supports
+- claim_id: original-population-outlier-fit
+  kind: mechanism
+  statement: Score the original POP against mu_BAS and set OUT={x in POP:chi(mu_BAS,x)>cut_OUT},
+    with a separately specified cutoff. Estimate mu_OUT from OUT. BAS and OUT can
+    overlap because their membership tests use different fitted distributions. The
+    procedure estimates both component laws rather than discarding every outlier from
+    the statistical model.
+  evidence:
+  - source_id: ritter1997
+    locator: PDF pp.5–6, Section2.2; PDF p.4, Section2.1
+    relation: supports
+- claim_id: two-stage-and-prior-boundary
+  kind: scope
+  statement: The selected procedure makes the two stated fitting stages; iteration
+    is mentioned but is not part of this identity. Cutoffs require calibration, and
+    the indicator and component families must permit reliable estimation from the
+    retained observations. The contamination mixing prior is a separate part of the
+    mixture specification; the BAS/OUT sample fractions are not asserted to estimate
+    it.
+  evidence:
+  - source_id: ritter1997
+    locator: PDF pp.4–6, Sections2.1–2.2
+    relation: supports
+- claim_id: separate-classifier-and-covariance-components
+  kind: scope
+  statement: The fitted laws can supply class-conditional mixture models for the later
+    constrained classifier, but fitting does not itself perform class assignment.
+    Section2.3 separately discusses covariance weighting attributed to Piper and colleagues;
+    it is not a mandatory definition of the two-stage estimator or a transferred James–Stein
+    risk guarantee.
+  evidence:
+  - source_id: ritter1997
+    locator: PDF pp.6–7, Section2.3; p.13, Section5 training protocol
+    relation: supports
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: The procedure learns component-distribution parameters from observed
+    data. The inspected AIO target is a task/process context and does not identify
+    POP/BAS/OUT fitting; this is a related algorithm-to-task association, not equivalence
+    or an upstream subclass assertion. Selecting subsets during parameter fitting
+    does not make the complete procedure a raw-data preprocessing transform.
+limitations:
+- This is a heuristic fitting rule. No likelihood-ascent, consistency, global-optimum,
+  universally robust cutoff or contamination-rate guarantee is asserted.
+- The basic subset must support the chosen regular-family fit, and OUT must contain
+  enough suitable observations for its own fit. Empty subsets, singular covariance
+  estimates and high-dimensional low-sample cases need explicit estimation policies.
+- BAS and OUT overlap is permitted; their empirical frequencies cannot be used as
+  complementary mixture weights without an additional rule.
+- The 1997 text names cutREG on PDF p.6 without defining it locally. The earlier1996
+  abstract defines cutREG, but that does not authorize silently replacing cutBAS or
+  repairing the1997 text. This proposal uses the explicitly defined cutBAS and cutOUT
+  sequence.
+- The 1996 conference abstract is retained as context only. Its later classification
+  step differs from the1997 category-marginalized rule, and it does not provide independent
+  full-method support.
+- The defining evidence is the exact author-hosted1997 manuscript, not byte-verified
+  publisher full text. No inferred journal-page offset, author-code execution, historical
+  experiment or numerical performance advantage is claimed.
+- Covariance weighting, premium protection, minimum-volume ellipsoid estimation, other
+  robust estimators and alternative mixture fits retain separate source questions.
+review_status: DRAFT
+identity_notes: Current identity assessment at base 7d38dafe42243c93664bc246a5ff77beca593cd3
+  compared the IDs, names, aliases and scoped synonyms of all 1234 records (4896 field
+  occurrences; 3739 unique normalized values), 19 AIO contexts and 17 native neighbors
+  against the accepted unchanged historical records, plus the current ignored/hidden-inclusive
+  four-root search and full frontier labels with matched/plausible owner bodies. This
+  record is the threshold-driven POP/BAS/OUT component-law fitting procedure, separate
+  from the IECO classifier that consumes distributions and class-slot constraints.
+  EM/CEM and fixed-weight EM optimize other objectives; SVDD, LOF and nearest-neighbor
+  data descriptions estimate support or scores, and Cutout is image augmentation.
+  No exact pinned AIO identity was established in the inspected scope; the selected
+  AIO:MachineLearningTask related_match connects an algorithm to a task, not an equivalence
+  or subclass claim. Proposed main:913 is shared source responsibility for two separate
+  records, retaining all 22 bibliography occurrences and explicit residual questions.
+  AutoClass retains main:610. Frozen issue402 and issues404/406 plus the prior twelve
+  search questions remain unchanged; no source exhaustion is claimed.
+evidence_sources:
+- source_id: ritter1997
+  title: Outliers in Statistical Pattern Recognition and an Application to Automatic
+    Chromosome Classification
+  authors:
+  - Gunter Ritter
+  - María Teresa Gallegos
+  source_type: primary_paper
+  url: https://www.fim.uni-passau.de/fileadmin/dokumente/fakultaeten/fim/lehrstuhl/ritter/publications/rigall_outlier97.pdf
+  persistent_id: doi:10.1016/S0167-8655(97)00049-4
+  version: Author-hosted 17-page manuscript bearing the header Appeared in Pattern
+    Recognition Letters18(1997)525–539; publisher byte equivalence unverified. Locators
+    use internal PDF pages, not inferred journal offsets.
+  access_level: full_text
+  accessed_at: '2026-10-15T23:01:09Z'
+  sha256: 3e52f264d9803cdc4a5d9086592391203858d2a3eefc33f8a235e311ace53e25
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-16T02:03:17Z'
+  updated_at: '2026-10-16T02:03:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
