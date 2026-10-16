@@ -1,0 +1,187 @@
+id: AIMech:TabuSearchForSAT
+name: Tabu search for SAT (TSAT)
+concept_kind: algorithm
+aliases: []
+definition: The SAT-specific basic tabu-search method described by Mazure, Saïs and Grégoire in 1997,
+  which systematically excludes recently flipped variables using a fixed-length chronological FIFO list,
+  updates that list after each flip and permits no aspiration override in the surrounding GSAT assignment-search
+  setting.
+definition_evidence:
+- source_id: mazure1997
+  locator: PDF pp. 1–3 / printed pp. 281–283, introduction and Restricting randomness; Figure 3 provides
+    surrounding basic-GSAT context only.
+  relation: supports
+claims:
+- claim_id: gsat-model-finding-context
+  kind: scope
+  statement: TSAT is introduced in the GSAT model-finding setting for CNF formulas, using complete Boolean
+    assignments and single-variable flips. The surrounding GSAT presentation uses random initial assignments,
+    per-attempt flip budgets and an outer attempt budget; its best-score flip can have zero or negative
+    gain. Figure 3 is explicitly basic GSAT and is not a complete dedicated TSAT pseudocode.
+  evidence:
+  - source_id: mazure1997
+    locator: PDF pp. 1–3 / printed pp. 281–283, introduction, Random Walk Strategy GSAT and Figure 3.
+    relation: supports
+- claim_id: systematic-fifo-variable-exclusion
+  kind: mechanism
+  statement: TSAT maintains a fixed-length, chronologically ordered FIFO list of flipped variables. A
+    variable in the tabu list is forbidden from being flipped again while it remains listed. The list
+    is updated every time a flip is made, so the restriction systematically tracks recent variable changes
+    rather than being applied only after a detected local minimum.
+  evidence:
+  - source_id: mazure1997
+    locator: PDF p. 3 / printed p. 283, Restricting randomness, fixed-length chronological FIFO and update
+      on every flip.
+    relation: supports
+- claim_id: no-aspiration-and-attribute-memory
+  kind: mechanism
+  statement: 'The described basic TSAT uses no aspiration criterion: a favorable clause score does not
+    by itself override tabu status. Its list stores variables rather than complete forbidden truth assignments.
+    Thus the memory restricts move attributes and does not constitute a set of all previously visited
+    search states.'
+  evidence:
+  - source_id: mazure1997
+    locator: PDF p. 3 / printed p. 283, Restricting randomness, no aspiration and variable rather than
+      interpretation storage.
+    relation: supports
+- claim_id: random-walk-branch-distinction
+  kind: mechanism
+  statement: TSAT removes the additional random-walk branch used by RWS-GSAT and instead applies the systematic
+    tabu restriction. This does not mean that every choice becomes deterministic. The paper retains the
+    random-start GSAT setting and discusses random basic-GSAT ties, without restating a complete TSAT
+    tie or reset specification.
+  evidence:
+  - source_id: mazure1997
+    locator: PDF pp. 1–3 / printed pp. 281–283, abstract, GSAT/RWS-GSAT setting and Restricting randomness;
+      PDF p. 4 conclusion.
+    relation: supports
+- claim_id: versioned-gsat-tabu-selector
+  kind: scope
+  statement: In the separately versioned UBCSAT 1.0.0 archive, the unweighted GSAT/TABU registration cites
+    Mazure, Saïs and Grégoire’s CP95 work. Its PickGSatTabu selector filters variables using the last-change
+    cutoff, scans the non-tabu variables for a minimum cached score, and selects uniformly when several
+    candidates tie for that minimum. These are static implementation details of that archive, not certification
+    that it reproduces every convention of the 1997 experimental program.
+  evidence:
+  - source_id: ubcsat1-gsat-tabu
+    locator: Archive member src/gsat-tabu.c, unweighted AddGSatTabu registration lines 30–43 and PickGSatTabu
+      lines 58–106; exact member hash retained in source metadata.
+    relation: supports
+limitations:
+- The 1997 presentation does not supply a complete dedicated TSAT pseudocode. Initialization and reset
+  of tabu memory, ties, the discrete tenure boundary and empty-admissible-set behavior need explicit operational
+  conventions. Figure 3 is basic GSAT; later implementation choices must not be silently substituted for
+  the original account.
+- A declared integer tenure and variable universe are needed. For n>0 variables and a tabu set of at most
+  T distinct variables, 0≤T<n ensures that some variable is admissible. If T≥n, all variables can become
+  tabu without an intervening reset. The inspected paper gives no general all-tabu fallback or aspiration
+  escape; a fitted fractional tenure also needs an integer convention.
+- Finite unsuccessful search is not an UNSAT certificate, and recent-variable exclusion does not prove
+  global cycle freedom or eventual success. On the unsatisfiable conjunction of all four two-variable
+  clauses, every flip has zero gain; tenure one can permit alternating x,y flips that revisit an assignment
+  after four steps and an augmented assignment/list state after the fifth, absent an intervening cutoff
+  or reset. This is a hand boundary example, not an observed run.
+- The best admissible flip need not improve the clause score, and a useful move can be tabu. No-aspiration
+  TSAT differs from tabu configurations with aspiration, adaptive tenure or longer-term intensification
+  and diversification. Constant-time circular FIFO access does not establish constant-time evaluation
+  of all flips or constant-time search.
+- The displayed linear formula for an experimentally best tabu-list length is a fit for the reported random
+  K-SAT studies, not a universal optimum, theorem, rounding rule or guarantee for structured SAT. The
+  paper identifies dynamic lengths and structured examples as further work; no fixed tenure is mandated
+  here for every problem.
+- Table 1 reports time and flip averages on solved instances, with solved percentages relative to an approximately
+  50% expected satisfiable subset at the phase transition. These denominators and the common C/Linux/Pentium
+  platform, budgets and tested distributions limit interpretation. The comparisons do not establish universal
+  speedups, exact satisfiable-instance success rates or whole-solver complexity, and no benchmark was
+  reproduced.
+- The CP95 reference, the 1997 paper and later GSAT/TABU documentation remain distinct versions. The inspected
+  UBCSAT selector has no explicit zero-candidate branch before reading candidate index zero; complete
+  infrastructure and runtime behavior were not audited, so no observed implementation failure is asserted.
+  The earlier timid TSAT and the clause-focused WalkSAT/TABU/null-move variants are not aliases of this
+  scoped method.
+aio_no_match:
+  search_scope: At clean merged base14e9168ee3496e914545ae5c449e3ee190f0294b, the current inventory has786
+    native and442 pinned AIO records:4876 identity-field occurrences,3723 normalized values, and no candidate
+    collision. Four full-checkout searches included ignored and hidden files; all1329 distinct matching
+    contents (23381 occurrences) were read by the attributed root/team partitions, with18 contextual fields
+    across ten neighboring records assessed separately. This is bounded identity evidence, not proof of
+    universal semantic absence. Exact pinned AIO CLASS neighborhoods and incident edges remain the separately
+    accepted research assessment; 9 examined targets retain their individual rejection rationales. Shared
+    score, memory or randomness vocabulary does not make symbolic SAT search a neural architecture or
+    an ML training procedure.
+  rationale: Symbolic SAT-specific search, with a fixed supplied objective and recency restrictions, is
+    not a model or necessarily an ML training task. No mapping is forced from generic memory, score or
+    stochastic vocabulary.
+  examined_targets:
+  - target: AIO:ReasoningLLM
+    rejection_reason: The target is a language model, not a Boolean assignment search.
+  - target: AIO:TrainingStrategy
+    rejection_reason: A SAT-specific move restriction need not preprocess or train an ML model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Bookkeeping recent flips does not require a process that learns from data.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Clause scores and exploration do not establish a learned policy or value function.
+  - target: AIO:MarkovChain
+    rejection_reason: An augmented-state stochastic representation does not by itself map this named SAT
+      search to the pinned network/model class and its hidden-layer relation.
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: No connected artificial-neuron network is required.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: A FIFO variable list is not external memory in a language model.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: A list of forbidden variables is not the pinned neural cell layer.
+  - target: AIO:HopfieldNetwork
+    rejection_reason: Boolean flips with tabu restrictions do not require a symmetric recurrent neural
+      memory.
+review_status: DRAFT
+identity_notes: The1997 Mazure et al. SAT procedure uses systematic fixed FIFO variable exclusion with
+  no aspiration; broader TabuSearch is a framework rather than this source-scoped algorithm. Timid TSAT
+  in the earlier GenSAT family is separate and remains pending underowner298. Later UBCSAT1.0.0 GSAT/TABU
+  is explicitly versioned contextual evidence; unreported paper tie/reset/all-tabu behavior is not filled
+  from code. At clean merged base14e9168ee3496e914545ae5c449e3ee190f0294b, the current inventory has786
+  native and442 pinned AIO records:4876 identity-field occurrences,3723 normalized values, and no candidate
+  collision. Four full-checkout searches included ignored and hidden files; all1329 distinct matching
+  contents (23381 occurrences) were read by the attributed root/team partitions, with18 contextual fields
+  across ten neighboring records assessed separately. This is bounded identity evidence, not proof of
+  universal semantic absence.
+evidence_sources:
+- source_id: mazure1997
+  title: Tabu Search for SAT
+  authors:
+  - Bertrand Mazure
+  - Lakhdar Saïs
+  - Éric Grégoire
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1997/AAAI97-044.pdf
+  version: Five-page publisher scan of AAAI-97 proceedings pp. 281–285. PDF locators are physical pages;
+    Figure 3 is explicitly basic GSAT. The PDF creation/modification timestamps postdate publication and
+    do not identify its publication date. All five native pages and visuals 1, 3 and 4 were read for this
+    source-scoped assessment.
+  access_level: full_text
+  accessed_at: '2026-10-15T21:45:45Z'
+  sha256: d5593e3e1a1efd01bffb9bf36649d2dadd3cfddef660ff4880b8e9f96f31eb93
+- source_id: ubcsat1-gsat-tabu
+  title: 'UBCSAT 1.0.0 source archive: GSAT/TABU selector in src/gsat-tabu.c'
+  authors:
+  - Dave Tompkins
+  - UBCSAT project
+  source_type: official_documentation
+  url: https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/ubcsat-1-0-0.tar.gz
+  version: Official project-linked version 1.0.0 archive. The SHA-256 identifies the complete download;
+    inspected member src/gsat-tabu.c has SHA-256 6195d250d9725a6e90210afb6f070edbc94cdad8d6a03b70623756bdf5fbca37.
+    The unweighted registration and selector at lines 30–106 were inspected statically. Its attribution
+    is CP95, and its complete runtime/initialization machinery was not certified as the 1997 experimental
+    executable.
+  access_level: documentation
+  accessed_at: '2026-10-15T21:29:18Z'
+  sha256: 62a15f14ea22246ece58de7fb430f96493da0c91af54dafbd11157a1c3ffee62
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T23:35:54Z'
+  updated_at: '2026-10-15T23:35:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
