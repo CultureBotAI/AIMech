@@ -15,8 +15,11 @@
   <nav>
     <a href="../index.html">Home</a>
     <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
@@ -37,18 +40,84 @@
   <p class="lead" style="margin-bottom: 0;">Defined conditions and loss metrics used to assess model behavior or predictions.</p>
 </div>
 
-<div class="browser-controls">
-  <div class="search-bar">
-    <input type="text" id="searchInput" class="search-input" placeholder="Filter Evaluation Criteria by name, definition, or keyword...">
-  </div>
-  <div class="filter-row">
-    <button type="button" id="resetFilters" class="btn">Clear</button>
-    <div class="filter-count">
-      Showing <span id="matchCount">5</span> of <span id="totalCount">5</span>
+<div class="browse-layout">
+  <aside class="facet-sidebar" aria-label="Concept kind filters">
+    <h2 style="font-size: 0.95rem; margin: 0;">Filter Evaluation Criteria</h2>
+    <div class="browser-controls">
+      <div class="facet-group">
+        <label for="searchInput" class="facet-label">Search Evaluation Criteria</label>
+        <input type="search" id="searchInput" name="q" class="search-input" placeholder="Filter by name, definition, or keyword…">
+      </div>
+      <div class="facet-group">
+        <label for="sortSelect" class="facet-label">Sort by</label>
+        <select id="sortSelect" name="sort" class="filter-select">
+          <option value="name-asc">Concept name (A–Z)</option>
+          <option value="name-desc">Concept name (Z–A)</option>
+          <option value="claims-desc">Curated claims (high–low)</option>
+          <option value="sources-desc">Evidence sources (high–low)</option>
+          <option value="id-asc">Identifier (A–Z)</option>
+        </select>
+      </div>
+      <div class="facet-actions">
+        <div class="filter-count">
+          Showing <span id="matchCount">5</span> of <span id="totalCount">5</span>
+        </div>
+        <button type="button" id="resetFilters" class="btn">Clear</button>
+      </div>
     </div>
-  </div>
-</div>
 
+    <div class="facet-group">
+      <div class="facet-label">Concept Kinds</div>
+      <div class="facet-list">
+        <a class="facet-link " href="../kinds/algorithm.html">
+          <span>Algorithms</span>
+          <small>567</small>
+        </a>
+        <a class="facet-link " href="../kinds/model_family.html">
+          <span>Model Families</span>
+          <small>91</small>
+        </a>
+        <a class="facet-link " href="../kinds/architecture.html">
+          <span>Architectures</span>
+          <small>71</small>
+        </a>
+        <a class="facet-link " href="../kinds/mathematical_method.html">
+          <span>Mathematical Methods</span>
+          <small>52</small>
+        </a>
+        <a class="facet-link " href="../kinds/layer.html">
+          <span>Layers &amp; Modules</span>
+          <small>18</small>
+        </a>
+        <a class="facet-link active" href="../kinds/evaluation_criterion.html">
+          <span>Evaluation Criteria</span>
+          <small>5</small>
+        </a>
+        <a class="facet-link " href="../kinds/learning_paradigm.html">
+          <span>Learning Paradigms</span>
+          <small>4</small>
+        </a>
+        <a class="facet-link " href="../kinds/preprocessing_method.html">
+          <span>Preprocessing Methods</span>
+          <small>4</small>
+        </a>
+        <a class="facet-link " href="../kinds/evaluation_method.html">
+          <span>Evaluation Methods</span>
+          <small>3</small>
+        </a>
+        <a class="facet-link " href="../kinds/coordination_mechanism.html">
+          <span>Coordination Mechanisms</span>
+          <small>1</small>
+        </a>
+        <a class="facet-link " href="../kinds/computational_paradigm.html">
+          <span>Computational Paradigms</span>
+          <small>1</small>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="browse-main">
 <div class="table-wrap">
   <table id="conceptTable">
     <thead>
@@ -64,6 +133,10 @@
       <tr data-origin="curated"
           data-kind="evaluation_criterion"
           data-branch=""
+          data-name="counterfactual fairness"
+          data-id="aimech:counterfactualfairness"
+          data-claims="3"
+          data-sources="3"
           data-search="counterfactual fairness counterfactualfairness aimech:counterfactualfairness evaluation criteria evaluation_criterion a fairness criterion in a specified causal model requiring a predictor&#39;s conditional output distribution, given an individual&#39;s observed attributes and protected-attribute value, to remain unchanged under counterfactual interventions that assign other attainable protected-attribute values. this is kusner and colleagues&#39; definition 5, an equality of conditional counterfactual distributions. it is not merely changing an input feature while freezing its causal descendants, a group-level observational equality, the fairlearning algorithm, or a generic guarantee of social fairness. all 442 pinned aio labels/scoped synonyms, 94 preceding native identities and ignored-inclusive text in both checkouts were searched. later parity connections do not establish identity under an arbitrary fixed causal model. cf (counterfactual fairness) condition on the factual context x=x,a=a to infer background-variable uncertainty; replace the protected-attribute structural assignment by a counterfactual value and propagate that intervention through the causal model. compare the resulting prediction distributions for all attainable protected values while retaining the same factual conditioning context. the criterion is distributional, and the paper gives using non-descendants of the protected attributes as a sufficient construction, not a necessary restriction on all possible predictors. the sensitivity study distinguishes a guessed model used to construct a fair predictor from a model allowing additional unobserved confounding through correlated errors. fairness in the guessed model does not guarantee fairness under the alternative data-generating assumptions; the paper frames this as sensitivity analysis rather than identification of a uniquely correct hidden model. rosenblatt and witter&#39;s parity connections use their explicit independence criterion for latent and protected variables, and the demographic-parity-to-counterfactual-fairness direction constructs a causal model and latent representation. the paper distinguishes that setting from assessment with a fixed causal model; the relationship is not an unrestricted synonym assertion. counterfactual fairness the sensitivity of counterfactual fairness to unmeasured confounding counterfactual fairness is basically demographic parity matt j. kusner joshua r. loftus chris russell ricardo silva niki kilbertus philip j. ball matt j. kusner adrian weller ricardo silva lucas rosenblatt r. teal witter">
         <td>
           <a href="../curated/CounterfactualFairness.html" style="font-weight: 600; font-size: 1rem;">Counterfactual fairness</a>
@@ -90,6 +163,10 @@
       <tr data-origin="curated"
           data-kind="evaluation_criterion"
           data-branch=""
+          data-name="demographic parity"
+          data-id="aimech:demographicparity"
+          data-claims="3"
+          data-sources="3"
           data-search="demographic parity demographicparity aimech:demographicparity evaluation criteria evaluation_criterion a group-level prediction criterion requiring the distribution of a decision or prediction to be independent of a specified protected attribute; for a binary decision, the positive-decision rate is equal across the compared groups. the record denotes exact distributional parity, also called statistical parity in the inspected fairness literature. it is not equalized odds, equality of true-positive rates, an approximate disparity tolerance, or a complete fairness judgment. all 442 aio identities/scoped synonyms, 94 native identities and ignored-inclusive text in both checkouts were searched. conditional parity and parity for selected subgroups require separately stated conditioning and scope. statistical parity compare the prediction distributions conditional on each protected group without conditioning on the target outcome. in binary classification the condition reduces to equality of p(prediction=1 | a=a) across groups. for the statistical-parity formulation of dwork and colleagues, exact parity is the zero-tolerance case in which the total-variation distance between group output distributions vanishes. the statistical-parity formulation compares group output distributions by total variation with a stated tolerance; exact parity is its zero-tolerance case. the accompanying examples show that group parity can coexist with unequal treatment within groups and does not imply parity for all subgroups. rosenblatt and witter derive connections with counterfactual fairness using their criteria 3 independence assumption. their conversion from demographic parity introduces a causal model and latent-variable construction of their choice; they explicitly distinguish that setting from checking a predictor against a fixed causal model. these results do not justify treating the two criterion identities as synonyms. equality of opportunity in supervised learning fairness through awareness counterfactual fairness is basically demographic parity moritz hardt eric price nathan srebro cynthia dwork moritz hardt toniann pitassi omer reingold richard zemel lucas rosenblatt r. teal witter">
         <td>
           <a href="../curated/DemographicParity.html" style="font-weight: 600; font-size: 1rem;">Demographic parity</a>
@@ -116,6 +193,10 @@
       <tr data-origin="curated"
           data-kind="evaluation_criterion"
           data-branch=""
+          data-name="equal opportunity in binary classification"
+          data-id="aimech:equalopportunity"
+          data-claims="1"
+          data-sources="1"
           data-search="equal opportunity in binary classification equalopportunity aimech:equalopportunity evaluation criteria evaluation_criterion a binary-classification fairness criterion requiring equal probabilities of a positive prediction across specified protected groups among individuals whose target outcome is the designated positive outcome. the identity is hardt, price and srebro&#39;s definition 2.2, with the positive target designated as the advantaged outcome. it is not the wider philosophical meaning of equal opportunity, the full equalized-odds condition, or a threshold-adjustment algorithm. identity searches covered all 442 aio labels and scoped synonyms, 94 preceding native records and ignored/hidden-inclusive text in both checkouts. equal opportunity (true-positive parity) equality of opportunity (true-positive parity) for each compared protected group a, evaluate p(prediction=1 | a=a,y=1) and require equality across groups. this constrains true-positive rates and imposes no corresponding equality requirement at y=0. it relaxes the binary equalized-odds criterion by retaining only the designated positive-outcome condition. equality of opportunity in supervised learning moritz hardt eric price nathan srebro">
         <td>
           <a href="../curated/EqualOpportunity.html" style="font-weight: 600; font-size: 1rem;">Equal opportunity in binary classification</a>
@@ -142,6 +223,10 @@
       <tr data-origin="curated"
           data-kind="evaluation_criterion"
           data-branch=""
+          data-name="equalized odds"
+          data-id="aimech:equalizedodds"
+          data-claims="1"
+          data-sources="1"
           data-search="equalized odds equalizedodds aimech:equalizedodds evaluation criteria evaluation_criterion a fairness criterion requiring a predictor&#39;s output to be conditionally independent of a specified protected attribute given the target outcome; for binary predictions and outcomes, it requires equal true-positive and false-positive rates across the compared groups. this is the distributional criterion in hardt, price and srebro&#39;s definition 2.1, not their postprocessing algorithm, a bias type, demographic parity or a claim of overall social fairness. equal opportunity is a weaker positive-outcome-only constraint. all 442 pinned aio labels/scoped synonyms and 94 preceding native identities were compared, with ignored-inclusive text searches in both checkouts. equalised odds assess whether the conditional distribution of the prediction given the outcome is the same across protected groups. in the binary case, test both p(prediction=1 | a=a,y=1) and p(prediction=1 | a=a,y=0) across a. the general independence definition also applies to scores and nonbinary variables; thresholding an equalized-odds score by a common rule preserves the property. equality of opportunity in supervised learning moritz hardt eric price nathan srebro">
         <td>
           <a href="../curated/EqualizedOdds.html" style="font-weight: 600; font-size: 1rem;">Equalized odds</a>
@@ -168,6 +253,10 @@
       <tr data-origin="curated"
           data-kind="evaluation_criterion"
           data-branch=""
+          data-name="lipschitz individual fairness"
+          data-id="aimech:lipschitzindividualfairness"
+          data-claims="1"
+          data-sources="1"
           data-search="lipschitz individual fairness lipschitzindividualfairness aimech:lipschitzindividualfairness evaluation criteria evaluation_criterion an individual-fairness criterion requiring the distance between the output distributions assigned by a randomized classifier to any two individuals to be no greater than their task-specific similarity distance. the record is the explicit (d,d)-lipschitz condition in dwork and colleagues&#39; framework. it is narrower than every possible notion of individual fairness and separate from their loss-minimizing linear-program construction, metric-learning algorithms, differential privacy and group parity. identity assessment covered 442 aio labels/scoped synonyms, 94 preceding native identities and ignored-inclusive searches of both checkouts. individual fairness (dwork et al.) fairness through awareness (lipschitz criterion) given a mapping m from individuals to distributions over outcomes, an externally specified task distance d and an output-distribution distance d, require d(m(x),m(y)) &lt;= d(x,y) for every compared pair. the criterion constrains permissible mappings; choosing among them requires a separate utility objective. the paper studies total-variation and relative-l-infinity output distances as particular choices. fairness through awareness cynthia dwork moritz hardt toniann pitassi omer reingold richard zemel">
         <td>
           <a href="../curated/LipschitzIndividualFairness.html" style="font-weight: 600; font-size: 1rem;">Lipschitz individual fairness</a>
@@ -193,11 +282,13 @@
       </tr>
     </tbody>
   </table>
+</div>  </div>
 </div>
+
 <script src="../record-browser.js"></script>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-16 (<code>5033b9689595</code>)</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

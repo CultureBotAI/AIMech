@@ -3,16 +3,22 @@
 {% block title %}{{ c.name }} · AIO Ontology Class · AIMech{% endblock %}
 
 {% block content %}
-<div class="breadcrumbs">
-  <a href="{{ root }}index.html">Home</a>
-  <span>/</span>
-  <a href="{{ root }}browse.html?origin=aio">AIO Classes</a>
-  {% if c.branches %}
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="{{ root }}index.html">Home</a>
     <span>/</span>
-    <a href="{{ root }}branches/{{ c.branches[0] }}.html">{{ c.branches[0] }}</a>
-  {% endif %}
-  <span>/</span>
-  <strong>{{ c.name }}</strong>
+    <a href="{{ root }}browse.html?origin=aio">AIO Classes</a>
+    {% if c.branches %}
+      <span>/</span>
+      <a href="{{ root }}branches/{{ c.branches[0] }}.html">{{ c.branches[0] }}</a>
+    {% endif %}
+    <span>/</span>
+    <strong>{{ c.name }}</strong>
+  </div>
+  <form class="page-search" action="{{ root }}browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
 </div>
 
 <div class="detail-header">
@@ -171,9 +177,36 @@
 </div>
 {% endif %}
 
+<!-- Ontology Hierarchy & Grounding Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="{{ root }}graph.html?q={{ c.id | urlencode }}">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology hierarchy diagram for {{ c.name }}" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-aio" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-aio)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-aio)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">PARENT / BRANCH</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">{% if c.parents %}{{ c.parents[0] }}{% elif c.branches %}{{ c.branches[0] }}{% else %}Root Class{% endif %}</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">{{ c.id }}</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">{{ c.name | truncate(26) }}</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">{{ c.branches | join(', ') | truncate(28) }}</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">GROUNDED CONCEPTS</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">{{ c.mapped_curated | length }} curated · {{ c.relationships | length }} rel{% if c.relationships | length != 1 %}s{% endif %}</text>
+  </svg>
+</div>
+
 <!-- Import Provenance -->
 <div class="section-header">
-  <h2>Import Provenance & Upstream Synchronization</h2>
+  <h2>Import Provenance &amp; Upstream Synchronization</h2>
 </div>
 <div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
@@ -189,6 +222,25 @@
     <a href="https://github.com/CultureBotAI/AIMech/blob/main/{{ source_path }}" target="_blank" rel="noopener">
       <code>{{ source_path }}</code>
     </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">
+      <code>aimech.yaml</code>
+    </a>
   </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="{{ root }}map.html?q={{ c.name | urlencode }}"> Embedding Map</a>
+  <a class="badge badge-curated" href="{{ root }}graph.html?q={{ c.id | urlencode }}"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
 </div>
 {% endblock %}

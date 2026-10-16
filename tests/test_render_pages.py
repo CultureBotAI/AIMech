@@ -130,7 +130,37 @@ def test_theme_toggle_is_vendored_and_loaded():
     assert "Mech theme toggle" in toggle_script
     assert "mech-theme" in toggle_script
 
-    for page_name in ["index.html", "browse.html", "404.html"]:
+    for page_name in ["index.html", "browse.html", "404.html", "map.html"]:
         content = (PAGES_DIR / page_name).read_text(encoding="utf-8")
         assert "theme-toggle.js" in content
         assert "style.css" in content
+
+
+def test_embedding_map_and_unified_layout():
+    map_json = REPO_ROOT / "data" / "embeddings" / "corpus_map.json"
+    assert map_json.is_file()
+    map_data = json.loads(map_json.read_text(encoding="utf-8"))
+    assert map_data["model"] == "BAAI/bge-large-en-v1.5"
+    assert map_data["method"] == "pacmap"
+    assert map_data["n"] == len(map_data["points"])
+    assert map_data["n"] >= 1200
+
+    map_html = (PAGES_DIR / "map.html").read_text(encoding="utf-8")
+    assert 'id="corpus-map"' in map_html
+    assert 'id="corpus-map-data"' in map_html
+    assert 'class="facet-sidebar"' in map_html
+    assert 'class="browse-layout"' in map_html
+
+    index_html = (PAGES_DIR / "index.html").read_text(encoding="utf-8")
+    assert 'class="hero-search"' in index_html
+    assert 'action="browse.html"' in index_html
+    assert 'href="map.html"' in index_html
+
+    browse_html = (PAGES_DIR / "browse.html").read_text(encoding="utf-8")
+    assert 'class="facet-sidebar"' in browse_html
+    assert 'class="browse-layout"' in browse_html
+
+    adam_html = (PAGES_DIR / "curated" / "Adam.html").read_text(encoding="utf-8")
+    assert 'class="page-search"' in adam_html
+    assert 'action="../browse.html"' in adam_html
+

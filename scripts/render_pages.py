@@ -11,7 +11,9 @@ from __future__ import annotations
 
 import argparse
 import filecmp
+import hashlib
 import json
+import math
 import shutil
 import sys
 import tempfile
@@ -399,6 +401,172 @@ def render(out_dir: Path) -> None:
     total_claims = sum(c["claims_count"] for c in curated_items)
     total_sources = sum(c["sources_count"] for c in curated_items)
 
+    # Deterministic corpus build provenance
+    curation_dates: list[str] = []
+    digest_hasher = hashlib.sha256()
+    for r in sorted(all_records, key=lambda x: x["id"]):
+        digest_hasher.update(
+            f"{r['id']}|{r['name']}|{r['origin']}|{r['claims_count']}|{r['sources_count']}\n".encode("utf-8")
+        )
+        if r["origin"] == "curated":
+            cur = r.get("curation") or {}
+            for k in ("updated_at", "created_at"):
+                val = str(cur.get(k) or "").strip()
+                if val:
+                    curation_dates.append(val[:10])
+        else:
+            prov = r.get("provenance") or {}
+            val = str(prov.get("imported_at") or "").strip()
+            if val:
+                curation_dates.append(val[:10])
+
+    build_provenance = {
+        "total_concepts": total_concepts,
+        "curated_count": curated_count,
+        "aio_count": aio_count,
+        "total_claims": total_claims,
+        "total_sources": total_sources,
+        "latest_curation": max(curation_dates) if curation_dates else "2026-04",
+        "corpus_digest": digest_hasher.hexdigest()[:12],
+    }
+    env.globals["build_provenance"] = build_provenance
+
+    # Build Ontology & Grounding Network Graph data
+    graph_nodes: list[dict[str, Any]] = []
+    graph_edges: list[dict[str, Any]] = []
+    node_idx_by_id: dict[str, int] = {}
+
+    def _add_node(node: dict[str, Any]) -> int:
+        nid = node["id"]
+        if nid in node_idx_by_id:
+            return node_idx_by_id[nid]
+        idx = len(graph_nodes)
+        node_idx_by_id[nid] = idx
+        graph_nodes.append(node)
+        return idx
+
+    # Ring 1: Hub nodes for 8 AIO branches + 11 Curated concept kinds
+    hub_entries: list[tuple[str, str, str, str, int]] = []
+    for b in branches_meta:
+        hub_entries.append((f"branch:{b['id']}", b["label"], "branch", b["page"], b["count"]))
+    for k in kinds_meta:
+        hub_entries.append((f"kind:{k['id']}", k["label"], "kind", k["page"], k["count"]))
+
+    hub_angles: dict[str, float] = {}
+    n_hubs = max(1, len(hub_entries))
+    for i, (hid, hlabel, htype, hpage, hcount) in enumerate(hub_entries):
+        angle = 2.0 * math.pi * i / n_hubs
+        hub_angles[hid] = angle
+        _add_node({
+            "id": hid,
+            "name": hlabel,
+            "type": htype,
+            "origin": "aio" if htype == "branch" else "curated",
+            "group": hid.split(":", 1)[1],
+            "href": hpage,
+            "count": hcount,
+            "x": round(0.5 + 0.17 * math.cos(angle), 4),
+            "y": round(0.5 + 0.17 * math.sin(angle), 4),
+        })
+
+    # Ring 2: AIO classes (grouped around their primary branch hub)
+    aio_sorted = sorted(aio_items, key=lambda x: x["id"])
+    for idx_a, a in enumerate(aio_sorted):
+        primary_branch = a["branches"][0] if a["branches"] else "Model"
+        base_angle = hub_angles.get(f"branch:{primary_branch}", 0.0)
+        jitter = ((idx_a % 37) - 18) * 0.014
+        ring_r = 0.30 if a["mapped_curated"] else (0.34 + (idx_a % 5) * 0.018)
+        angle = base_angle + jitter
+        _add_node({
+            "id": a["id"],
+            "name": a["name"],
+            "type": "aio",
+            "origin": "aio",
+            "group": primary_branch,
+            "href": a["page"],
+            "count": len(a["mapped_curated"]) + len(a["parents"]) + len(a["relationships"]),
+            "x": round(min(0.95, max(0.05, 0.5 + ring_r * math.cos(angle))), 4),
+            "y": round(min(0.95, max(0.05, 0.5 + ring_r * math.sin(angle))), 4),
+        })
+
+    # Ring 3: Curated AI concepts (grouped around their concept_kind hub)
+    curated_sorted = sorted(curated_items, key=lambda x: x["id"])
+    for idx_c, c in enumerate(curated_sorted):
+        k_id = c["kind_id"]
+        base_angle = hub_angles.get(f"kind:{k_id}", 0.0)
+        jitter = ((idx_c % 41) - 20) * 0.013
+        ring_r = 0.42 + (idx_c % 4) * 0.014
+        angle = base_angle + jitter
+        _add_node({
+            "id": c["id"],
+            "name": c["name"],
+            "type": "curated",
+            "origin": "curated",
+            "group": k_id,
+            "href": c["page"],
+            "count": c["claims_count"],
+            "x": round(min(0.95, max(0.05, 0.5 + ring_r * math.cos(angle))), 4),
+            "y": round(min(0.95, max(0.05, 0.5 + ring_r * math.sin(angle))), 4),
+        })
+
+    # Edges: curated -> kind hub, curated -> mapped AIO class
+    for c in curated_sorted:
+        src_idx = node_idx_by_id[c["id"]]
+        kind_hid = f"kind:{c['kind_id']}"
+        if kind_hid in node_idx_by_id:
+            graph_edges.append({
+                "source": src_idx,
+                "target": node_idx_by_id[kind_hid],
+                "type": "kind",
+                "label": "has_kind",
+            })
+        for m in c["aio_mappings"]:
+            t_id = m.get("target", "")
+            if t_id in node_idx_by_id:
+                graph_edges.append({
+                    "source": src_idx,
+                    "target": node_idx_by_id[t_id],
+                    "type": "mapping",
+                    "label": m.get("relation", "maps_to"),
+                })
+
+    # Edges: AIO class -> parent AIO class, axiomatic relationships, and primary branch hub
+    for a in aio_sorted:
+        src_idx = node_idx_by_id[a["id"]]
+        if a["branches"]:
+            b_hid = f"branch:{a['branches'][0]}"
+            if b_hid in node_idx_by_id:
+                graph_edges.append({
+                    "source": src_idx,
+                    "target": node_idx_by_id[b_hid],
+                    "type": "branch",
+                    "label": "in_branch",
+                })
+        for p_id in a["parents"]:
+            if p_id in node_idx_by_id:
+                graph_edges.append({
+                    "source": src_idx,
+                    "target": node_idx_by_id[p_id],
+                    "type": "parent",
+                    "label": "subClassOf",
+                })
+        for rel in a["relationships"]:
+            rt_id = rel.get("target", "")
+            if rt_id in node_idx_by_id:
+                graph_edges.append({
+                    "source": src_idx,
+                    "target": node_idx_by_id[rt_id],
+                    "type": "relationship",
+                    "label": rel.get("predicate", "related_to"),
+                })
+
+    graph_data = {
+        "n_nodes": len(graph_nodes),
+        "n_edges": len(graph_edges),
+        "nodes": graph_nodes,
+        "edges": graph_edges,
+    }
+
     # Directories
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "curated").mkdir(parents=True, exist_ok=True)
@@ -441,6 +609,30 @@ def render(out_dir: Path) -> None:
     # Render 404.html
     page_404_html = env.get_template("404.html").render(root="")
     (out_dir / "404.html").write_text(page_404_html, encoding="utf-8")
+
+    # Render map.html and copy corpus_map.json if corpus_map.json exists
+    corpus_map_path = REPO_ROOT / "data" / "embeddings" / "corpus_map.json"
+    if corpus_map_path.exists():
+        shutil.copy(corpus_map_path, out_dir / "corpus_map.json")
+        map_data = json.loads(corpus_map_path.read_text(encoding="utf-8"))
+        map_data["hrefs"] = {r["id"]: r["page"] for r in all_records}
+        map_html = env.get_template("map.html").render(
+            root="",
+            map_data=map_data,
+            map_data_json=json.dumps(map_data, separators=(",", ":")).replace("</", "<\\/"),
+        )
+        (out_dir / "map.html").write_text(map_html, encoding="utf-8")
+
+    # Render graph.html
+    if (TEMPLATES_DIR / "graph.html").exists():
+        graph_html = env.get_template("graph.html").render(
+            root="",
+            graph_data=graph_data,
+            graph_data_json=json.dumps(graph_data, separators=(",", ":")).replace("</", "<\\/"),
+            kinds_meta=kinds_meta,
+            branches_meta=branches_meta,
+        )
+        (out_dir / "graph.html").write_text(graph_html, encoding="utf-8")
 
     # Write index.json
     index_json_data = [

@@ -53,3 +53,12 @@ render:
 
 render-check:
     uv run --locked python scripts/render_pages.py --check
+
+embed-dry:
+    python3 scripts/embed_records.py --dry-run
+
+embed *args:
+    python3 scripts/embed_records.py {{args}}
+
+embed-map *args:
+    python3 scripts/embed_map.py {{args}}

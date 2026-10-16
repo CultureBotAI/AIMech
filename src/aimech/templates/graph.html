@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+{% block title %}Ontology & Grounding Network Graph — AIMech{% endblock %}
+{% block content %}
+<div class="page-top-bar">
+  <nav class="breadcrumbs"><a href="{{ root }}index.html">AIMech</a> / <span>Network graph</span></nav>
+  <form class="page-search" action="{{ root }}browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<h1>Ontology &amp; Grounding Network Graph</h1>
+<p class="lead">
+  Interactive topology of <strong>{{ graph_data.n_nodes }}</strong> AIMech nodes and <strong>{{ graph_data.n_edges }}</strong> grounding &amp; axiomatic edges connecting curated AI concepts, concept kinds, AIO ontology classes, and AIO branches. Click any node to open its concept or category page.
+</p>
+
+<div class="browse-layout">
+  <aside class="facet-sidebar" aria-label="Network graph filters">
+    <h2 style="font-size: 0.95rem; margin: 0;">Filter network</h2>
+    <div class="facet-group">
+      <label class="facet-label" for="graph-search">Search nodes</label>
+      <input id="graph-search" type="search" placeholder="Filter by concept name, ID, or group…" autocomplete="off">
+      <div class="map-search-status" id="graph-count"></div>
+    </div>
+
+    <div class="facet-group">
+      <label class="facet-label" for="graph-origin">Origin</label>
+      <select id="graph-origin" class="filter-select">
+        <option value="all">All Origins</option>
+        <option value="curated">Curated Concepts &amp; Kinds</option>
+        <option value="aio">AIO Classes &amp; Branches</option>
+      </select>
+    </div>
+
+    <div class="facet-group">
+      <label class="facet-label" for="graph-type">Node Type</label>
+      <select id="graph-type" class="filter-select">
+        <option value="all">All Node Types</option>
+        <option value="curated">Curated Concepts</option>
+        <option value="aio">AIO Ontology Classes</option>
+        <option value="kind">Concept Kind Hubs</option>
+        <option value="branch">AIO Branch Hubs</option>
+      </select>
+    </div>
+
+    <div class="facet-actions">
+      <button type="button" id="graph-reset" class="btn">Reset view</button>
+    </div>
+  </aside>
+
+  <div class="browse-main">
+    <div class="map-wrap">
+      <canvas id="network-graph" width="980" height="640"></canvas>
+      <div id="graph-tip" class="map-tip" hidden></div>
+      <div class="map-hint">scroll to zoom · drag to pan · double-click to reset · click node to open page · Esc clears filter</div>
+    </div>
+  </div>
+</div>
+
+<script id="network-graph-data" type="application/json">{{ graph_data_json | safe }}</script>
+<script>
+(function () {
+  const G = JSON.parse(document.getElementById('network-graph-data').textContent);
+  const canvas = document.getElementById('network-graph');
+  const ctx = canvas.getContext('2d');
+  const tip = document.getElementById('graph-tip');
+  const search = document.getElementById('graph-search');
+  const originSelect = document.getElementById('graph-origin');
+  const typeSelect = document.getElementById('graph-type');
+  const resetBtn = document.getElementById('graph-reset');
+  const countEl = document.getElementById('graph-count');
+
+  const dpr = window.devicePixelRatio || 1;
+  let W = 980, H = 640;
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    W = Math.max(360, Math.floor(rect.width));
+    H = Math.max(420, Math.min(700, Math.floor(W * 0.66)));
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+
+  const PAD = 32;
+  let k = 1, tx = 0, ty = 0;
+  function sx(x) { return (PAD + x * (W - 2 * PAD)) * k + tx; }
+  function sy(y) { return (PAD + y * (H - 2 * PAD)) * k + ty; }
+
+  let query = '';
+  let originFilter = 'all';
+  let typeFilter = 'all';
+  let hover = -1;
+
+  function nodeColor(n) {
+    const cs = getComputedStyle(document.documentElement);
+    if (n.type === 'branch') return cs.getPropertyValue('--cls2').trim() || '#3b5ba5';
+    if (n.type === 'kind') return cs.getPropertyValue('--cls1').trim() || '#b84a24';
+    if (n.type === 'curated') return cs.getPropertyValue('--cls0').trim() || '#0f6b63';
+    return cs.getPropertyValue('--accent').trim() || '#5662a8';
+  }
+
+  function matchNode(n) {
+    if (originFilter !== 'all' && n.origin !== originFilter) return false;
+    if (typeFilter !== 'all' && n.type !== typeFilter) return false;
+    if (!query) return true;
+    return n.name.toLowerCase().includes(query) ||
+           n.id.toLowerCase().includes(query) ||
+           (n.group || '').toLowerCase().includes(query);
+  }
+
+  function syncUrl() {
+    if (!window.history || !window.history.replaceState) return;
+    const params = new URLSearchParams();
+    if (query) params.set('q', query);
+    if (originFilter !== 'all') params.set('origin', originFilter);
+    if (typeFilter !== 'all') params.set('type', typeFilter);
+    const qs = params.toString();
+    window.history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : ''));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const matched = G.nodes.map(matchNode);
+    const hasFilter = Boolean(query || originFilter !== 'all' || typeFilter !== 'all');
+    const cs = getComputedStyle(document.documentElement);
+    const lineCol = cs.getPropertyValue('--line').trim() || '#d5d9e8';
+    const accentCol = cs.getPropertyValue('--accent').trim() || '#5662a8';
+
+    ctx.lineWidth = 0.85;
+    for (let i = 0; i < G.edges.length; i++) {
+      const e = G.edges[i];
+      const s = G.nodes[e.source];
+      const t = G.nodes[e.target];
+      const activeEdge = (hover === e.source || hover === e.target) ||
+                         (hasFilter && matched[e.source] && matched[e.target]);
+      ctx.globalAlpha = activeEdge ? 0.65 : (hasFilter ? 0.05 : 0.16);
+      ctx.strokeStyle = activeEdge ? accentCol : lineCol;
+      ctx.beginPath();
+      ctx.moveTo(sx(s.x), sy(s.y));
+      ctx.lineTo(sx(t.x), sy(t.y));
+      ctx.stroke();
+    }
+
+    let shown = 0;
+    for (let i = 0; i < G.nodes.length; i++) {
+      const n = G.nodes[i];
+      const isMatch = matched[i];
+      if ( isMatch ) shown++;
+      ctx.globalAlpha = isMatch ? 0.9 : 0.12;
+      ctx.fillStyle = nodeColor(n);
+      const baseR = (n.type === 'branch' || n.type === 'kind') ? 6.2 : (n.type === 'curated' ? 3.8 : 2.9);
+      const r = Math.max(2.2, Math.min(9.0, baseR * Math.sqrt(k)));
+      ctx.beginPath();
+      ctx.arc(sx(n.x), sy(n.y), isMatch && hasFilter ? r * 1.2 : r, 0, 6.2832);
+      ctx.fill();
+    }
+
+    if (hover >= 0) {
+      const n = G.nodes[hover];
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = cs.getPropertyValue('--ink').trim() || '#1a1c2e';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(sx(n.x), sy(n.y), 7.5, 0, 6.2832);
+      ctx.stroke();
+    }
+
+    ctx.globalAlpha = 1;
+    countEl.textContent = `${shown} / ${G.nodes.length} nodes shown · ${G.edges.length} edges`;
+  }
+
+  function pick(mx, my) {
+    let best = -1, bestD = 12 * 12;
+    for (let i = 0; i < G.nodes.length; i++) {
+      const n = G.nodes[i];
+      if (!matchNode(n)) continue;
+      const dx = sx(n.x) - mx, dy = sy(n.y) - my;
+      const d = dx * dx + dy * dy;
+      if (d < bestD) { bestD = d; best = i; }
+    }
+    return best;
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  let drag = null, moved = false;
+  canvas.addEventListener('mousedown', (e) => {
+    drag = { x: e.clientX - tx, y: e.clientY - ty, sx: e.clientX, sy: e.clientY };
+    moved = false;
+  });
+  window.addEventListener('mousemove', (e) => {
+    if (drag) {
+      if (Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) > 3) moved = true;
+      tx = e.clientX - drag.x;
+      ty = e.clientY - drag.y;
+      tip.hidden = true;
+      draw();
+      return;
+    }
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    if (mx < 0 || my < 0 || mx > W || my > H) {
+      if (hover !== -1) { hover = -1; tip.hidden = true; draw(); }
+      return;
+    }
+    const h = pick(mx, my);
+    if (h !== hover) { hover = h; draw(); }
+    if (h >= 0) {
+      const n = G.nodes[h];
+      tip.innerHTML = `<strong>${esc(n.name)}</strong><br><span>${esc(n.id)} · ${esc(n.type)} (${esc(n.group)})</span>`;
+      tip.style.left = Math.min(W - 240, Math.max(8, mx + 12)) + 'px';
+      tip.style.top = Math.max(8, my - 36) + 'px';
+      tip.hidden = false;
+      canvas.style.cursor = 'pointer';
+    } else {
+      tip.hidden = true;
+      canvas.style.cursor = 'grab';
+    }
+  });
+  window.addEventListener('mouseup', () => { drag = null; });
+
+  canvas.addEventListener('click', () => {
+    if (moved || hover < 0) return;
+    const href = G.nodes[hover].href;
+    if (href) window.location.href = href;
+  });
+
+  canvas.addEventListener('dblclick', () => { k = 1; tx = 0; ty = 0; draw(); });
+
+  canvas.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    const f = Math.exp(-e.deltaY * 0.0018);
+    const nk = Math.max(0.7, Math.min(24, k * f));
+    tx = mx - (mx - tx) * (nk / k);
+    ty = my - (my - ty) * (nk / k);
+    k = nk;
+    draw();
+  }, { passive: false });
+
+  search.addEventListener('input', () => {
+    query = search.value.trim().toLowerCase();
+    syncUrl();
+    draw();
+  });
+  search.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      search.value = '';
+      query = '';
+      syncUrl();
+      draw();
+    }
+  });
+  originSelect.addEventListener('change', () => {
+    originFilter = originSelect.value;
+    syncUrl();
+    draw();
+  });
+  typeSelect.addEventListener('change', () => {
+    typeFilter = typeSelect.value;
+    syncUrl();
+    draw();
+  });
+  resetBtn.addEventListener('click', () => {
+    search.value = '';
+    query = '';
+    originSelect.value = 'all';
+    originFilter = 'all';
+    typeSelect.value = 'all';
+    typeFilter = 'all';
+    k = 1; tx = 0; ty = 0;
+    syncUrl();
+    draw();
+  });
+
+  const initParams = new URLSearchParams(window.location.search);
+  if (initParams.get('q')) {
+    search.value = initParams.get('q');
+    query = search.value.trim().toLowerCase();
+  }
+  if (initParams.get('origin')) {
+    originSelect.value = initParams.get('origin');
+    originFilter = originSelect.value;
+  }
+  if (initParams.get('type')) {
+    typeSelect.value = initParams.get('type');
+    typeFilter = typeSelect.value;
+  }
+
+  window.addEventListener('resize', () => { resize(); draw(); });
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  draw();
+})();
+</script>
+{% endblock %}
