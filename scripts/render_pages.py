@@ -619,7 +619,7 @@ def render(out_dir: Path) -> None:
         map_html = env.get_template("map.html").render(
             root="",
             map_data=map_data,
-            map_data_json=json.dumps(map_data, separators=(",", ":")),
+            map_data_json=json.dumps(map_data, separators=(",", ":")).replace("</", "<\\/"),
         )
         (out_dir / "map.html").write_text(map_html, encoding="utf-8")
 
@@ -628,7 +628,7 @@ def render(out_dir: Path) -> None:
         graph_html = env.get_template("graph.html").render(
             root="",
             graph_data=graph_data,
-            graph_data_json=json.dumps(graph_data, separators=(",", ":")),
+            graph_data_json=json.dumps(graph_data, separators=(",", ":")).replace("</", "<\\/"),
             kinds_meta=kinds_meta,
             branches_meta=branches_meta,
         )

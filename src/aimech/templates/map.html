@@ -109,6 +109,12 @@
   };
   toggleHolder.appendChild(allBtn);
 
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
   function formatClassLabel(cls) {
     return cls.replace(/^(curated|aio):/, '').replace(/_/g, ' ');
   }
@@ -124,7 +130,7 @@
     b.className = 'pill facet-pill';
     b.title = 'Click to toggle · Shift-click to solo (' + cls + ')';
     const prefix = cls.startsWith('curated:') ? 'Curated' : 'AIO';
-    b.innerHTML = `<span class="sw" style="background:${colors[i]}"></span><span class="facet-pill-name">${formatClassLabel(cls)}</span><small>${prefix} · ${counts[i]}</small>`;
+    b.innerHTML = `<span class="sw" style="background:${colors[i]}"></span><span class="facet-pill-name">${esc(formatClassLabel(cls))}</span><small>${prefix} · ${counts[i]}</small>`;
     b.onclick = (e) => {
       if (e.shiftKey) {
         const solo = active.filter((v, idx) => v && matchesOrigin(idx)).length === 1 && active[i];
@@ -264,7 +270,7 @@
     if (h !== hover) { hover = h; draw(); }
     if (h >= 0) {
       const p = D.points[h];
-      tip.innerHTML = `<strong>${p[4]}</strong><br><span>${p[3]} · ${D.classes[p[2]]}</span>`;
+      tip.innerHTML = `<strong>${esc(p[4])}</strong><br><span>${esc(p[3])} · ${esc(D.classes[p[2]])}</span>`;
       tip.style.left = Math.min(W - 240, Math.max(8, mx + 12)) + 'px';
       tip.style.top = Math.max(8, my - 36) + 'px';
       tip.hidden = false;

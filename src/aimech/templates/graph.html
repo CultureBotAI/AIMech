@@ -184,6 +184,12 @@
     return best;
   }
 
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
   let drag = null, moved = false;
   canvas.addEventListener('mousedown', (e) => {
     drag = { x: e.clientX - tx, y: e.clientY - ty, sx: e.clientX, sy: e.clientY };
@@ -208,7 +214,7 @@
     if (h !== hover) { hover = h; draw(); }
     if (h >= 0) {
       const n = G.nodes[h];
-      tip.innerHTML = `<strong>${n.name}</strong><br><span>${n.id} · ${n.type} (${n.group})</span>`;
+      tip.innerHTML = `<strong>${esc(n.name)}</strong><br><span>${esc(n.id)} · ${esc(n.type)} (${esc(n.group)})</span>`;
       tip.style.left = Math.min(W - 240, Math.max(8, mx + 12)) + 'px';
       tip.style.top = Math.max(8, my - 36) + 'px';
       tip.hidden = false;
