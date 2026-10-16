@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soft Q-learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Soft Q-learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Soft Q-learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SoftQLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    The 2017 maximum-entropy continuous-control learning algorithm that fits neural soft action values from replayed transitions and trains an amortized Stein sampler toward the corresponding Boltzmann action policy.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The selected identity is the 2017 Haarnoja source-defined control algorithm combining entropy-regularized soft action values and an amortized Stein action sampler. It is distinct from 2018 SoftActorCritic, ordinary maximum-backup QLearning, DQN and deterministic DDPG. Original SVGD particle inference is a reusable mechanism, not an alias of the complete control algorithm. Fresh collection on 16 October 2026 at 00:05:44–00:06:43 UTC followed actual cohort 354 merge 008d1eafc23cb19605953fa860475256d1b28895. It compared all 788 native and 442 pinned AIO records: 4,882 ID/local-ID/name/alias/scoped-synonym occurrences and 3,728 normalized values, with zero candidate collisions and 28 contextual matches. Four checkout searches included ignored and hidden files and returned 1,233, 942, 3,008 and 3,783 occurrences, retained as 665 distinct contents. Root read the complete contents of groups 440–664; two supporting agents read groups 0–219 and 220–439 and all occurrence provenance in those partitions. Root read their complete assessments and all recovered question semantics. Root also read all 28 normalized context fields, all 12 matched complete frontier objects, 16 native identity/definition/claim/limitation/mapping projections, and nine exact AIO CLASS nodes with all 33 incident-edge entries. Native identity_notes, source metadata and curation fields were not all reread in these current neighbor projections; separately bound prior primary/draft inspections remain historical evidence. All 913 main and 394 nested objects were mechanically queried recursively; this is not a full manual reading of every unmatched object. All 665 contents were read across the team, without claiming root manually read every repeated occurrence. Thirty-three recovered historical source questions remain explicitly pending under issue 406; no global novelty or family-exhaustion claim is made.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#entropy-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The 2017 method learns continuous-action policies under a reward-plus-conditional-policy-entropy formulation with a positive entropy coefficient alpha. Entropy enters future soft-value targets rather than serving only as Boltzmann exploration of an ordinary Q table; the source separately qualifies its discounted state-weighting convention.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-haarnoja2017-main">Reinforcement Learning with Deep Energy-Based Policies</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1–2.2, PDF pp. 2–3, Equations 2–7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-haarnoja2017-supp">Reinforcement Learning with Deep Energy-Based Policies — supplementary material</a></span>
+        <span>· <strong>Locator:</strong> Appendix A, PDF p. 11, discounted-objective discussion and Equations 15–16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#energy-policy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a finite positive action normalizer, the target policy is proportional to exp(Q(s,a)/alpha), with V(s)=alpha*log(integral exp(Q(s,a)/alpha) da). The neural scalar action value acts as negative energy. This describes the target policy family; a finite learned sampler need not represent it exactly.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-haarnoja2017-main">Reinforcement Learning with Deep Energy-Based Policies</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, PDF p. 3, Equations 3–6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#soft-backup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The idealized soft backup replaces the hard next-action maximum by the log-partition soft value: Q_new(s,a)=r(s,a)+gamma*E[V(s_next)]. The source gives an exact fixed-point result under boundedness and finite-partition assumptions with discount below one. This operator result is separate from the practical neural, replay and finite-sampling approximations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-haarnoja2017-main">Reinforcement Learning with Deep Energy-Based Policies</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, PDF pp. 3–4, Theorem 3 and Equations 8–9</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-haarnoja2017-supp">Reinforcement Learning with Deep Energy-Based Policies — supplementary material</a></span>
+        <span>· <strong>Locator:</strong> Appendix A.2, PDF pp. 12–13, exact soft-backup argument</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#approximate-value-fit</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The practical procedure estimates soft next-state values by taking the logarithm of a sample mean of importance weights exp(Q_target(s_next,a)/alpha)/q(a), scaled by alpha, for proposal actions with suitable support and density. Replayed transition minibatches then fit neural Q values by squared soft Bellman residuals using delayed target parameters.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-haarnoja2017-main">Reinforcement Learning with Deep Energy-Based Policies</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, PDF p. 4, Equations 10–11; Algorithm 1, PDF p. 5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-haarnoja2017-supp">Reinforcement Learning with Deep Energy-Based Policies — supplementary material</a></span>
+        <span>· <strong>Locator:</strong> Appendix C.2, PDF p. 14, proposal-density discussion and Equation 33</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#amortized-stein-sampler</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A state-conditioned sampler transforms random noise into actions. Its update projects a kernelized Stein transport direction through the sampler Jacobian, using particle averages of an action-value-gradient attraction term and a kernel-gradient repulsion term. Main Equation 13 weights the repulsion by alpha. The projected quantity is treated as an update direction, with the source sign and scaling conventions retained explicitly.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-haarnoja2017-main">Reinforcement Learning with Deep Energy-Based Policies</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, PDF p. 5, Equations 12–14</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-haarnoja2017-supp">Reinforcement Learning with Deep Energy-Based Policies — supplementary material</a></span>
+        <span>· <strong>Locator:</strong> Appendix C.1, PDF pp. 13–14, empirical particle projection</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-scope" style="font-size: 0.7rem;">context</span>
+        <span><strong>Source:</strong> <a href="#source-haarnoja-code-context">softqlearning SQL implementation, softqlearning/algorithms/sql.py</a></span>
+        <span>· <strong>Locator:</strong> Lines 247–268 at the pinned 2019 commit; later negative-surrogate sign convention is context only, not the original method version</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#replay-alternation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Algorithm 1 alternates environment interaction, replay-buffer minibatch action-value fitting and sampler fitting, and periodically copies current parameters into target parameters. It specifies a reusable off-policy learning procedure rather than a single trained controller or an exact sampling oracle.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-haarnoja2017-main">Reinforcement Learning with Deep Energy-Based Policies</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4 and Algorithm 1, PDF p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The exact soft-backup result requires a suitable bounded function class, discount below one and finite positive action integrals. It does not certify convergence of finite replay estimates, a nonconvex neural Q approximator or an imperfect sampler.</li>
+      <li>The partition sample mean and its logarithm have different bias properties. The log estimate is generally Jensen-biased; constant importance weights require the exact normalized proposal for the same Q being integrated, not merely an approximate or delayed sampler.</li>
+      <li>The single-inverse density expression in Appendix C.2 needs global one-to-one support or an appropriate sum over preimages. Equal dimension and a nonsingular local Jacobian alone are insufficient; the source’s suggested switch away from uniform proposals is not an injectivity certificate.</li>
+      <li>The Stein projection is an update direction rather than a generally exact ordinary parameter gradient of KL. Main Equation 13 retains alpha on repulsion, while Appendix C.1 writes coefficient one; the sign and temperature convention must be explicit. The pinned 2019 author code minimizes a negative surrogate, but is later context and is not established as the original experimental version.</li>
+      <li>Appendix A qualifies discounted state weighting and has a future-sum index mismatch in its opening display; Appendix B Equation 32 displays a descent sign rather than the literal derivative of its squared loss. These source-local issues do not justify importing an unqualified objective or gradient-equivalence theorem.</li>
+      <li>Finite action partitions, proposal support and action-density assumptions are constitutive; differential entropy depends on the chosen action measure. A zero empirical residual or a nonsingular Jacobian at sampled points does not establish the required global properties.</li>
+      <li>The selected evidence is the official 2017 main paper and supplementary artifact. Their finite simulations do not establish universal exploration, multimodal recovery or transfer performance. ArXiv version metadata and later author code are qualified context; no training reproduction, complete implementation audit or later SAC/compositional extension is included.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html" style="font-weight: 600;"><code>AIO:ReinforcementLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Reinforcement Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source-defined algorithm learns action values and a reward-driven policy through interaction and replay, with an entropy term influencing exploration. This supports a qualified relation to the pinned reinforcement-learning task, not exact identity or an algorithm-to-task subclass assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-haarnoja2017-main">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">haarnoja2017-main</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v70/haarnoja17a/haarnoja17a.pdf" target="_blank" rel="noopener">Reinforcement Learning with Deep Energy-Based Policies</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tuomas Haarnoja, Haoran Tang, Pieter Abbeel, Sergey Levine
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v70/haarnoja17a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:060b03d843a0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-haarnoja2017-supp">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">haarnoja2017-supp</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v70/haarnoja17a/haarnoja17a-supp.pdf" target="_blank" rel="noopener">Reinforcement Learning with Deep Energy-Based Policies — supplementary material</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tuomas Haarnoja, Haoran Tang, Pieter Abbeel, Sergey Levine
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v70/haarnoja17a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bca2563b0d8a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-haarnoja-code-context">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">haarnoja-code-context</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/haarnoja/softqlearning/blob/6f51eaca77d15b35c6443363c51a5a53ff4e9854/softqlearning/algorithms/sql.py" target="_blank" rel="noopener">softqlearning SQL implementation, softqlearning/algorithms/sql.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tuomas Haarnoja and softqlearning contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fb395bab4c71…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-16T00:26:14Z</div>
+    <div><strong>Updated:</strong> 2026-10-16T00:26:14Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SoftQLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SoftQLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
