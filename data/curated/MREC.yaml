@@ -1,0 +1,193 @@
+id: AIMech:MREC
+name: MREC
+aliases: []
+definition: A recursive heuristic search algorithm that retains an explicit search
+  graph within available additional memory, explores unstored successors virtually
+  when that storage is unavailable, and backs up remaining-cost estimates between
+  bounded recursive passes.
+identity_notes: MREC denotes Sen and Bagchi's 1989 recursive best-first memory-controlled
+  procedure, with an explicitly stored graph and virtual unstored successors, backed-up
+  remaining costs and a separate recursion stack. It is not LIMMARK, REC_A, MA*, A*
+  with an OPEN list, learned IDA*IM, or a generic A*/IDA* hybrid title; the zero-additional-graph-memory
+  endpoint does not make the complete method an IDA* alias. Preserve the inclusive
+  UPDATE recursion test versus the adjacent strict prose comparison; MREC’s early
+  goal-found return bypasses the final node-bound backup assignments. The actual cohort
+  358 collection at dd7a5a99eb412b5b587efb1e598cbb760a9bba0d contains 1,236 records
+  (794 native and 442 pinned AIO), 4,903 identity-field occurrences including local
+  IDs and 3,745 normalized values. Candidate IDs, names, aliases and retained source
+  spellings have no normalized collision in that inventory. The collection includes
+  ignored and hidden files in four-root text searches; semantic raw-search assessment
+  is separately attributed. All 1,230 records in the older scientific-research inventory
+  retain their bytes; six later additions were read as current definition/identity
+  context. The seven normalized matches concern existing A*, IDA*, IDA*IM, beam-stack
+  and RBFS-family contexts, not candidate identities. Current memory-search source
+  owner 911 is only partially resolved; MA*/MAO* and separate IE owner 912 remain
+  pending.
+claims:
+- claim_id: stored-and-virtual-search
+  kind: mechanism
+  statement: EXPLORE descends recursively from the start. At an explicit tip it adds
+    successors and edges when memory permits; otherwise UPDATE explores successors
+    without adding them to the explicit graph. The algorithm uses no OPEN list.
+  evidence:
+  - source_id: mrec1989
+    locator: Section 2, printed pp. 297–298 / PDF pp. 1–2; EXPLORE and UPDATE
+    relation: supports
+- claim_id: retained-graph-estimates
+  kind: mechanism
+  statement: EXPAND initializes a newly stored successor estimate with its heuristic
+    value and records an edge to that successor; when the successor is already in
+    the explicit graph, it adds the edge without creating another stored node. UPDATE
+    uses the stored estimate when available and the heuristic estimate otherwise.
+  evidence:
+  - source_id: mrec1989
+    locator: Section 2, printed p. 298 / PDF p. 2; EXPAND and UPDATE pseudocode
+    relation: supports
+- claim_id: inclusive-recursion-and-backup
+  kind: mechanism
+  statement: In the printed UPDATE pseudocode, a successor is explored recursively
+    when its current estimate plus transition cost is less than or equal to the current
+    node bound. The recursive bound is the current bound minus that cost. If no goal
+    terminates the traversal early, the returned node bound is the minimum resulting
+    successor estimate plus transition cost, and a stored node receives that updated
+    bound; the goal-found branch instead records the path and returns before those
+    final backup assignments.
+  evidence:
+  - source_id: mrec1989
+    locator: Section 2, printed p. 298 / PDF p. 2; UPDATE pseudocode, inclusive test
+      newb + c(n,n_i) <= bnode
+    relation: supports
+- claim_id: extra-memory-control
+  kind: scope
+  statement: The parameter M describes storage additional to the implicit recursion
+    stack. With no additional graph storage the method operates in the IDA* manner;
+    with storage available it retains explicit graph information between recursive
+    passes rather than becoming an OPEN-based A* implementation.
+  evidence:
+  - source_id: mrec1989
+    locator: Abstract and Sections 1–2, printed pp. 297–299 / PDF pp. 1–3; property
+      1 and property 2
+    relation: supports
+concept_kind: algorithm
+definition_evidence:
+- source_id: mrec1989
+  locator: Sections 1–2, printed pp. 297–299 / PDF pp. 1–3; EXPLORE, EXPAND and UPDATE
+  relation: supports
+evidence_sources:
+- source_id: mrec1989
+  title: Fast Recursive Formulations for Best-First Search That Allow Controlled Use
+    of Memory
+  authors:
+  - Anup K. Sen
+  - A. Bagchi
+  source_type: primary_paper
+  url: https://www.ijcai.org/Proceedings/89-1/Papers/047.pdf
+  version: IJCAI 1989, 297–302
+  access_level: full_text
+  accessed_at: '2026-10-15T23:35:13Z'
+  sha256: 33980007d540bbf1b0adf285031ba37b52078e5c2761f53fc93da3d79767717f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Pinned AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a, SHA-256
+    8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6: complete 442-CLASS
+    identity/synonym inventory mechanically searched; 104 search, planning, heuristic,
+    graph, reasoning, memory, decision, function and learning-related definition projections
+    read; the 12 examined CLASS nodes below read in full with scoped synonyms and
+    all incident edges. This is a mapping assessment of this snapshot, not a global
+    ontology-absence claim.'
+  rationale: The inspected candidate is a source-defined heuristic search algorithm.
+    No inspected AIO class supplies a defensible broader, narrower or specifically
+    related mapping; the tempting graph, recursion, reasoning, task and memory classes
+    have different defining scopes. No mapping is inferred solely from an implementation
+    using mathematical functions or from an algorithm being used in AI.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: The pinned class is a language model over graph-structured input
+      or output. A heuristic search procedure over states and transitions is not that
+      language-model class; graph vocabulary alone does not support a related mapping.
+  - target: AIO:ReasoningLLM
+    rejection_reason: The pinned class is an LLM for explicit logical reasoning in
+      language tasks. A state-space search algorithm does not become an LLM because
+      it supports reasoning.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: The pinned class combines neural and symbolic reasoning in an
+      LLM. The source algorithm specifies search control without an LLM or a learned
+      neural-symbolic architecture.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: The pinned class is a recursive neural language model with neural
+      composition and layer relations. Recursion in a search routine is not neural
+      recursive composition.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The pinned definition concerns processes that build methods
+      learning from data. The source algorithm searches using supplied states, costs
+      and heuristics; an AI algorithm is not automatically a machine-learning task.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The pinned class denotes a mathematical rule assigning a dependent
+      value. Although the algorithm uses heuristic and bound functions, the complete
+      search-control procedure is not itself that class and incidental use does not
+      justify a mapping.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The pinned class is a machine-learning task involving exploration
+      and exploitation for learning. These source search operations do not define
+      reward-driven policy learning.
+  - target: AIO:DecisionTree
+    rejection_reason: The pinned definition is a classification technique using a
+      decision-tree model. The algorithmic search tree represents alternative state
+      transitions, not a learned classifier.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned class concerns data preprocessing for model training.
+      Memory allocation, bound propagation and successor selection here control search
+      rather than ML training.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: The pinned class is an LLM with external read/write memory.
+      Stored search nodes and bounds do not make this algorithm a memory-augmented
+      LLM.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: The pinned class is a neural-network layer of cells with internal
+      state and weights. Search-node records and heuristic bounds are not neural memory
+      cells.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The pinned class represents conditional dependence among random
+      variables using a graph. A state-space search graph or tree with costs is not
+      thereby a probabilistic graphical model.
+limitations:
+- M is additional storage beyond the implicit recursion stack; M = 0 does not mean
+  zero total memory. The paper does not specify a portable byte-level accounting of
+  graph nodes, edges and runtime overhead.
+- The operational recursion condition here follows the inclusive comparison in the
+  UPDATE pseudocode. The explanatory paragraph below it instead prints a strict comparison
+  with confusing subscripts, so the two presentations are not silently treated as
+  identical.
+- The source states a minimum-cost-solution property for admissible heuristics, but
+  this record does not certify general termination or solution existence. The main
+  procedure repeats exploration until a goal is found and does not specify a general
+  unsolvable-instance exit.
+- No completeness or cost-optimality guarantee is extended here to infinite search
+  spaces, zero-cost cycles or arbitrary negative costs. Conditions such as finite
+  cost contours, a positive lower bound on edge costs, and a goal heuristic of zero
+  would require an explicit independent argument; they are not attributed to an uninspected
+  theorem in this paper.
+- Retaining an explicit graph permits reuse of stored successor identities, but it
+  is not a claim that every encountered state remains in a global closed set. Virtual
+  successors are deliberately not retained when additional storage is unavailable.
+- Even with ample storage, the source distinguishes MREC from A* by expansion order
+  and potentially by the returned solution path. The configurable MREC identity is
+  not collapsed into A* or IDA* merely because the algorithms share cost estimates
+  or a memory endpoint.
+- LIMMARK, the proposed removal of nonpromising stored nodes, and the AND/OR extension
+  REC_A are separate variants or follow-up methods. Their uninspected implementation
+  details and cyclic AND/OR guarantees are not included in this MREC record.
+- The reported experiments concern particular puzzle, traveling-salesman, knapsack
+  and artificial-tree setups. Retaining more graph information adds update work and
+  does not establish a universal runtime improvement, a universal memory/time tradeoff,
+  or identical results for another implementation.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-16T02:50:54Z'
+  updated_at: '2026-10-16T02:50:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

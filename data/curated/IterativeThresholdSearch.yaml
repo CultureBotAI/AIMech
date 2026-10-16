@@ -1,0 +1,193 @@
+id: AIMech:IterativeThresholdSearch
+name: Iterative threshold search
+aliases: []
+definition: A limited-memory heuristic tree-search algorithm that explores branches
+  within an iteratively revised cost threshold, stores bounds for branches whose children
+  may still be ungenerated, and backs up those bounds when retracting stored nodes.
+identity_notes: Iterative threshold search denotes the limited-memory tree procedure
+  of Ghosh, Mahanti and Nau (1994), which combines cost-threshold passes with per-branch
+  bounds including ungenerated successors, retraction and retained lower-bound information.
+  It is distinct from ordinary smallest-excess IDA*, learned threshold-prediction
+  IDA*IM, MREC, RBFS and beam search. The ambiguous bare acronym ITS is not added
+  as an alias. The literal Background h(n)>0 versus Example 1 h(n)=0 discrepancy is
+  retained. The two-tip retraction guard preserves the current path, so S=0 does not
+  imply zero total storage. The actual cohort 358 collection at dd7a5a99eb412b5b587efb1e598cbb760a9bba0d
+  contains 1,236 records (794 native and 442 pinned AIO), 4,903 identity-field occurrences
+  including local IDs and 3,745 normalized values. Candidate IDs, names, aliases and
+  retained source spellings have no normalized collision in that inventory. The collection
+  includes ignored and hidden files in four-root text searches; semantic raw-search
+  assessment is separately attributed. All 1,230 records in the older scientific-research
+  inventory retain their bytes; six later additions were read as current definition/identity
+  context. The seven normalized matches concern existing A*, IDA*, IDA*IM, beam-stack
+  and RBFS-family contexts, not candidate identities. Current memory-search source
+  owner 911 is only partially resolved; MA*/MAO* and separate IE owner 912 remain
+  pending.
+claims:
+- claim_id: branch-state-before-child-generation
+  kind: mechanism
+  statement: When installing a node, ITS creates a branch for each applicable operator
+    without needing to invoke that operator to generate its child. Each branch bound
+    B starts at the installed node’s g + h; a dummy branch is installed when no operator
+    applies.
+  evidence:
+  - source_id: its1994
+    locator: Algorithm ITS, printed pp. 1353–1354 / PDF pp. 1–2; branch representation
+      and Install procedure
+    relation: supports
+- claim_id: threshold-and-leftmost-selection
+  kind: mechanism
+  statement: Each outer iteration sets the threshold to the minimum bound among tip
+    branches. ITS repeatedly selects the leftmost tip branch whose bound does not
+    exceed that threshold, tests its parent node for a goal, and either handles a
+    dummy branch or installs the selected child.
+  evidence:
+  - source_id: its1994
+    locator: Printed p. 1354 / PDF p. 2; Procedure ITS, steps 2(a)–2(b)iii
+    relation: supports
+- claim_id: retraction-and-bound-backup
+  kind: mechanism
+  statement: Before installing a child, if the stored tree has at least S nodes and
+    at least two tip nodes, ITS retracts the leftmost tip node whose outgoing branch
+    bounds all exceed the threshold, or otherwise the rightmost tip node. It places
+    the minimum outgoing bound on the retracted node’s incoming branch and removes
+    the node and its outgoing branches.
+  evidence:
+  - source_id: its1994
+    locator: Printed p. 1354 / PDF p. 2; Procedure ITS, step 2(b)iiiA and definitions
+      of tip node and retraction
+    relation: supports
+- claim_id: minimum-storage-keeps-active-path
+  kind: scope
+  statement: S controls the amount of node storage used by the retraction condition.
+    In the S = 0 setting described in the experiments, ITS retains the current search
+    path while retracting other nodes; per-branch bounds and operator information
+    still have to be represented.
+  evidence:
+  - source_id: its1994
+    locator: Printed pp. 1354–1355 / PDF pp. 2–3; storage definition, two-tip retraction
+      guard and Experimental Results memory-setting paragraph
+    relation: supports
+concept_kind: algorithm
+definition_evidence:
+- source_id: its1994
+  locator: Algorithm ITS and basic properties, printed pp. 1353–1355 / PDF pp. 1–3;
+    Install and Procedure ITS
+  relation: supports
+evidence_sources:
+- source_id: its1994
+  title: 'ITS: An Efficient Limited-Memory Heuristic Tree Search Algorithm'
+  authors:
+  - Subrata Ghosh
+  - Ambuj Mahanti
+  - Dana S. Nau
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1994/AAAI94-208.pdf
+  version: AAAI 1994, 1353–1358
+  access_level: full_text
+  accessed_at: '2026-10-15T23:35:14Z'
+  sha256: 27d9e868e2e05f54fd74728bb1c3bf6241a07d0a75461d1a57a135d1ce2bff20
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Pinned AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a, SHA-256
+    8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6: complete 442-CLASS
+    identity/synonym inventory mechanically searched; 104 search, planning, heuristic,
+    graph, reasoning, memory, decision, function and learning-related definition projections
+    read; the 12 examined CLASS nodes below read in full with scoped synonyms and
+    all incident edges. This is a mapping assessment of this snapshot, not a global
+    ontology-absence claim.'
+  rationale: The inspected candidate is a source-defined heuristic search algorithm.
+    No inspected AIO class supplies a defensible broader, narrower or specifically
+    related mapping; the tempting graph, recursion, reasoning, task and memory classes
+    have different defining scopes. No mapping is inferred solely from an implementation
+    using mathematical functions or from an algorithm being used in AI.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: The pinned class is a language model over graph-structured input
+      or output. A heuristic search procedure over states and transitions is not that
+      language-model class; graph vocabulary alone does not support a related mapping.
+  - target: AIO:ReasoningLLM
+    rejection_reason: The pinned class is an LLM for explicit logical reasoning in
+      language tasks. A state-space search algorithm does not become an LLM because
+      it supports reasoning.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: The pinned class combines neural and symbolic reasoning in an
+      LLM. The source algorithm specifies search control without an LLM or a learned
+      neural-symbolic architecture.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: The pinned class is a recursive neural language model with neural
+      composition and layer relations. Recursion in a search routine is not neural
+      recursive composition.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The pinned definition concerns processes that build methods
+      learning from data. The source algorithm searches using supplied states, costs
+      and heuristics; an AI algorithm is not automatically a machine-learning task.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The pinned class denotes a mathematical rule assigning a dependent
+      value. Although the algorithm uses heuristic and bound functions, the complete
+      search-control procedure is not itself that class and incidental use does not
+      justify a mapping.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The pinned class is a machine-learning task involving exploration
+      and exploitation for learning. These source search operations do not define
+      reward-driven policy learning.
+  - target: AIO:DecisionTree
+    rejection_reason: The pinned definition is a classification technique using a
+      decision-tree model. The algorithmic search tree represents alternative state
+      transitions, not a learned classifier.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned class concerns data preprocessing for model training.
+      Memory allocation, bound propagation and successor selection here control search
+      rather than ML training.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: The pinned class is an LLM with external read/write memory.
+      Stored search nodes and bounds do not make this algorithm a memory-augmented
+      LLM.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: The pinned class is a neural-network layer of cells with internal
+      state and weights. Search-node records and heuristic bounds are not neural memory
+      cells.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The pinned class represents conditional dependence among random
+      variables using a graph. A state-space search graph or tree with costs is not
+      thereby a probabilistic graphical model.
+limitations:
+- S counts nodes in the algorithmic storage model, not bytes, and the two-tip-node
+  retraction guard preserves the current path. S = 0 therefore does not mean zero
+  memory or a strict zero-node cap; branch bounds and operator bookkeeping also consume
+  storage.
+- The Background prints h(n) > 0 and admissibility h(n) <= h*(n), whereas Example
+  1 sets h(n) = 0 for every node. This record preserves that source discrepancy rather
+  than silently changing the strict inequality. Under a nonnegative admissible interpretation
+  with zero remaining cost at a goal, h(goal) = 0 follows; that is a conditional interpretation,
+  not a consequence of the literal strict-positive display.
+- Theorem 2 states termination with an optimal solution, while the paper refers its
+  proofs to Ghosh’s 1994 thesis, which has not been inspected. This record does not
+  certify unrestricted termination for unsolvable or infinite instances, zero-cost
+  cycles or arbitrary negative costs, and does not attribute unprinted finite-contour
+  or positive-cost premises to that theorem.
+- ITS maintains a search tree even when the underlying problem is described as a directed
+  state graph. The inspected pseudocode does not specify a general graph transposition
+  table or closed-list/reopening mechanism.
+- Theorem 4’s node-generation comparison with IDA* requires the same left-to-right
+  sequence of operators. Its generation counts are not a universal wall-clock-runtime
+  comparison, and changing ordering can fall outside that statement.
+- The paper’s constructed asymptotic example is a particular family of finite binary
+  trees. Its sampled traveling-salesman results and optimality suggestion do not prove
+  average-case or asymptotic optimality across arbitrary problem distributions.
+- The modified ITS-prime(0) used for the flow-shop comparison in Table 1 is distinct
+  from standard ITS(0) in Table 2. Results for that modification are not silently
+  attributed to the standard ITS algorithm.
+- Runtime depends on bookkeeping and node-generation cost; fewer generated nodes do
+  not imply a faster implementation. The 15-puzzle discussion also warns that the
+  two largest reported cases were affected by counter overflow and possible thrashing,
+  so those results are not clean general performance evidence.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-16T02:50:54Z'
+  updated_at: '2026-10-16T02:50:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

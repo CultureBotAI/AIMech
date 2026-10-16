@@ -1,0 +1,187 @@
+id: AIMech:SimplifiedMemoryBoundedAStar
+name: Simplified memory-bounded A-star search
+aliases:
+- SMA*
+definition: A node-budgeted best-first tree-search algorithm that generates one successor
+  at a time, propagates evaluation values through pathmax and completed-node backup,
+  and deletes selected high-cost nodes while retaining parent bounds for later regeneration.
+identity_notes: SMA* denotes Russell's 1992 simplified memory-bounded A* tree procedure,
+  with a node budget, incremental successor generation, pathmax, guarded completed-node
+  backup and least-promising-node deletion with retained parent bounds. It is distinct
+  from unrestricted A*, frontier-cap beam search, earlier MA*/MAO*, MREC and IE; later
+  textbook variants and generic graph duplicate handling are not imported. The exact
+  source parent guard and original storage/completeness qualifications remain part
+  of its scope. The actual cohort 358 collection at dd7a5a99eb412b5b587efb1e598cbb760a9bba0d
+  contains 1,236 records (794 native and 442 pinned AIO), 4,903 identity-field occurrences
+  including local IDs and 3,745 normalized values. Candidate IDs, names, aliases and
+  retained source spellings have no normalized collision in that inventory. The collection
+  includes ignored and hidden files in four-root text searches; semantic raw-search
+  assessment is separately attributed. All 1,230 records in the older scientific-research
+  inventory retain their bytes; six later additions were read as current definition/identity
+  context. The seven normalized matches concern existing A*, IDA*, IDA*IM, beam-stack
+  and RBFS-family contexts, not candidate identities. Current memory-search source
+  owner 911 is only partially resolved; MA*/MAO* and separate IE owner 912 remain
+  pending.
+claims:
+- claim_id: best-leaf-and-single-successor
+  kind: mechanism
+  statement: SMA* chooses the deepest least-f-cost leaf in OPEN, tests that selected
+    node for a goal, and generates its next successor. The successor receives the
+    maximum of the parent’s backed-up f value and its own g + h value.
+  evidence:
+  - source_id: sma1992
+    locator: Section 3.1, manuscript p. 3 / PDF p. 3; SMA*(start) pseudocode
+    relation: supports
+- claim_id: completed-node-backup
+  kind: mechanism
+  statement: When the selected node has no unexamined successors, SMA* calls BACKUP.
+    In the displayed procedure, a completed node that has a parent receives the least
+    successor f value; if that value changes, BACKUP is called on its parent under
+    the same completion-and-parent guard. A node whose successors are all in memory
+    is removed from OPEN.
+  evidence:
+  - source_id: sma1992
+    locator: Section 3.1, manuscript p. 3 / PDF p. 3; completed-node definition, SMA*
+      and BACKUP pseudocode
+    relation: supports
+- claim_id: bounded-pruning-and-regeneration
+  kind: mechanism
+  statement: After successor generation raises USED above MAX, the displayed algorithm
+    deletes the shallowest highest-f-cost node in OPEN, removes it from its parent’s
+    successor list and reinserts that parent in OPEN if necessary. Parent bounds and
+    successor bookkeeping allow later regeneration without retaining every deleted
+    descendant’s information.
+  evidence:
+  - source_id: sma1992
+    locator: Sections 3.1–3.3, manuscript pp. 3–4 / PDF pp. 3–4; pruning steps and
+      Figure 2 discussion
+    relation: supports
+- claim_id: node-budget-and-bookkeeping
+  kind: scope
+  statement: MAX specifies the number of nodes that can be accommodated and USED tracks
+    nodes in memory. Each node stores g, h and f, the minimum f among examined successors,
+    and information indicating the next successor to generate.
+  evidence:
+  - source_id: sma1992
+    locator: Section 3.1, manuscript p. 3 / PDF p. 3; paragraph after BACKUP, continuing
+      at top of right column
+    relation: supports
+concept_kind: algorithm
+definition_evidence:
+- source_id: sma1992
+  locator: Sections 3–3.3, manuscript pp. 3–4 / PDF pp. 3–4; SMA*, BACKUP and Figure
+    2
+  relation: supports
+evidence_sources:
+- source_id: sma1992
+  title: Efficient Memory-Bounded Search Methods
+  authors:
+  - Stuart Russell
+  source_type: primary_paper
+  url: https://www2.cs.uh.edu/~ceick/ai/SMA.pdf
+  version: ECAI 1992, 1–5; five-page university-mirrored manuscript
+  access_level: full_text
+  accessed_at: '2026-10-15T23:35:14Z'
+  sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Pinned AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a, SHA-256
+    8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6: complete 442-CLASS
+    identity/synonym inventory mechanically searched; 104 search, planning, heuristic,
+    graph, reasoning, memory, decision, function and learning-related definition projections
+    read; the 12 examined CLASS nodes below read in full with scoped synonyms and
+    all incident edges. This is a mapping assessment of this snapshot, not a global
+    ontology-absence claim.'
+  rationale: The inspected candidate is a source-defined heuristic search algorithm.
+    No inspected AIO class supplies a defensible broader, narrower or specifically
+    related mapping; the tempting graph, recursion, reasoning, task and memory classes
+    have different defining scopes. No mapping is inferred solely from an implementation
+    using mathematical functions or from an algorithm being used in AI.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: The pinned class is a language model over graph-structured input
+      or output. A heuristic search procedure over states and transitions is not that
+      language-model class; graph vocabulary alone does not support a related mapping.
+  - target: AIO:ReasoningLLM
+    rejection_reason: The pinned class is an LLM for explicit logical reasoning in
+      language tasks. A state-space search algorithm does not become an LLM because
+      it supports reasoning.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: The pinned class combines neural and symbolic reasoning in an
+      LLM. The source algorithm specifies search control without an LLM or a learned
+      neural-symbolic architecture.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: The pinned class is a recursive neural language model with neural
+      composition and layer relations. Recursion in a search routine is not neural
+      recursive composition.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The pinned definition concerns processes that build methods
+      learning from data. The source algorithm searches using supplied states, costs
+      and heuristics; an AI algorithm is not automatically a machine-learning task.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The pinned class denotes a mathematical rule assigning a dependent
+      value. Although the algorithm uses heuristic and bound functions, the complete
+      search-control procedure is not itself that class and incidental use does not
+      justify a mapping.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The pinned class is a machine-learning task involving exploration
+      and exploitation for learning. These source search operations do not define
+      reward-driven policy learning.
+  - target: AIO:DecisionTree
+    rejection_reason: The pinned definition is a classification technique using a
+      decision-tree model. The algorithmic search tree represents alternative state
+      transitions, not a learned classifier.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned class concerns data preprocessing for model training.
+      Memory allocation, bound propagation and successor selection here control search
+      rather than ML training.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: The pinned class is an LLM with external read/write memory.
+      Stored search nodes and bounds do not make this algorithm a memory-augmented
+      LLM.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: The pinned class is a neural-network layer of cells with internal
+      state and weights. Search-node records and heuristic bounds are not neural memory
+      cells.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The pinned class represents conditional dependence among random
+      variables using a graph. A state-space search graph or tree with costs is not
+      thereby a probabilistic graphical model.
+limitations:
+- MAX is a node count, not a byte limit. Per-node fields, successor bookkeeping, OPEN
+  data structures, recursive backup and transient successor construction must be accounted
+  for separately in any concrete memory implementation.
+- The paper’s optimal-solution statement requires MAX to accommodate at least the
+  nodes on an optimal solution path. Its introductory setting uses admissible heuristic
+  estimates and enforces monotone f values through pathmax; the statement is not an
+  unconditional guarantee at arbitrarily small memory budgets.
+- The inspected treatment concerns trees; the author explicitly excludes the treatment
+  of transpositions in graphs. No graph closed-list, reopening rule or complete duplicate-detection
+  procedure is asserted for this SMA* record.
+- No general termination result is supplied here for infinite trees, zero-cost cycles
+  or negative costs. Finite-contour, positive-cost and goal-zero-heuristic premises
+  would need to be stated and justified before extending the source’s claims to such
+  cases.
+- Constant retained information per node loses some information about deleted descendants.
+  Regenerating a subtree can therefore use a weaker inherited value than a value previously
+  known deeper in that subtree.
+- The record follows the displayed 1992 pseudocode. It does not import the depth-limit-to-infinity
+  rule found in later presentations, or claim that an uninspected textbook or implementation
+  uses identical tie, dead-end and backup behavior.
+- MA* and IE remain separate source questions. The paper’s MA* sketch is explicitly
+  approximate and sometimes describes how SMA* works instead; similarities between
+  IE and existing RBFS require a complete control-flow and tie/dead-end comparison
+  before any alias decision.
+- The experiments use modified 8-puzzle conditions and do not establish universal
+  superiority over A*, IDA*, MA* or other memory-bounded searches. The paper does
+  not provide an exhaustive MA* comparison.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-16T02:50:54Z'
+  updated_at: '2026-10-16T02:50:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
