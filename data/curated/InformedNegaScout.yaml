@@ -1,0 +1,280 @@
+definition: An adversarial game-tree search procedure that augments NegaScout’s minimal-window
+  traversal with recursively retained information from an initial search, using remembered
+  inferior left regions and successor upper bounds to guide a later re-search.
+definition_evidence:
+- source_id: marsland1987
+  locator: Sections1–2.3, printed pp.186,188–191 / PDF pp.2,4–7
+  relation: supports
+concept_kind: algorithm
+claims:
+- claim_id: adjacent-window-probes
+  kind: mechanism
+  statement: In the displayed integer-score INS procedure, the first successor uses
+    the incoming open window and later initial-search successors use an adjacent-value
+    minimal window around the current bound. A failed-high probe may require an opened-window
+    re-search; the displayed first-successor, fail-low, beta-cutoff, depth-at-most-two
+    and remembered PROVEBEST cases determine when that additional search is avoided.
+  evidence:
+  - source_id: marsland1987
+    locator: Section2, printed p.186 / PDF p.2; Figure3, printed p.191 / PDF p.7
+    relation: supports
+- claim_id: ignore-left-information
+  kind: mechanism
+  statement: INS retains the path information identifying the leftmost terminal variation
+    responsible for the initial failure. During a later re-search, previously examined
+    inferior siblings to the left of that variation at even relative levels can be
+    skipped. The source presents ignore-left pruning as a special case of prove-best
+    pruning using remembered extreme merits and successor ordering.
+  evidence:
+  - source_id: marsland1987
+    locator: Sections2.2–2.3 and Figure2, printed pp.188–190 / PDF pp.4–6
+    relation: supports
+- claim_id: prove-best-upper-bounds
+  kind: mechanism
+  statement: At odd levels relative to a re-search root, INS retains successor upper
+    bounds from the initial traversal. It uses them to order successors, stop when
+    the larger of the current result a and incoming alpha reaches the next remaining
+    upper bound, and narrow later search windows. Figure3 tests max(a,alpha)>=merit[i+1]
+    and then sets a=max(a,merit[i+1]); the returned result can remain only a fail-low
+    bound. The negamax score orientation and validity of the retained bounds are part
+    of this source-scoped interpretation.
+  evidence:
+  - source_id: marsland1987
+    locator: Sections2.2–2.3 and Figure2, printed pp.188–190 / PDF pp.4–6; Figure3,
+      printed p.191 / PDF p.7
+    relation: supports
+- claim_id: recursive-information-storage
+  kind: mechanism
+  statement: 'The complete-information INS presentation saves information recursively
+    throughout the initial search subtree: the relevant successor index at ignore-left
+    nodes and returned successor merits at prove-best nodes. SaveInfo and GetInfo
+    hide its storage management. The reported experiments use a linked tree retaining
+    all this information; the paper separately describes a hash-table option that
+    can lose information through conflicts.'
+  evidence:
+  - source_id: marsland1987
+    locator: Section2.3, printed p.190 / PDF p.6; Figure3, printed p.191 / PDF p.7
+    relation: supports
+- claim_id: research-flag-and-unvisited-region
+  kind: mechanism
+  statement: Figure3 distinguishes the invocation’s research flag from a mutable resflag.
+    A re-search invocation retrieves and sorts remembered successor information; when
+    the procedure moves beyond remembered ignore-left information, resflag becomes
+    false for subsequent recursive calls. The displayed SaveInfo call is guarded by
+    research being false, and the procedure returns its current score or bound.
+  evidence:
+  - source_id: marsland1987
+    locator: Figure3, printed p.191 / PDF p.7; storage explanation, printed p.190
+      / PDF p.6
+    relation: supports
+- claim_id: reported-comparison-design
+  kind: scope
+  statement: The journal compares INS with NS, PNS, SSS* and DUAL* on generated uniform-width,
+    fixed-depth trees with random or specified sibling ordering. The plotted terminal-visit
+    counts are percentages of a minimal game-tree size, averaged over the same twenty
+    sample trees for each displayed setting; they are not wall-clock measurements
+    or universal node-dominance guarantees.
+  evidence:
+  - source_id: marsland1987
+    locator: Sections4.1.1–4.1.2, printed pp.193–194 / PDF pp.9–10; Figures5–7, printed
+      pp.195–197 / PDF pp.11–13
+    relation: supports
+limitations:
+- The source-scoped procedure and experiments concern finite, fixed-depth alternating
+  game trees, with uniform positive branching in the displays. No general cyclic-graph
+  duplicate policy, stochastic-game semantics, quiescence treatment or arbitrary early-terminal
+  interface is established.
+- The adjacent-value window uses integer score units. A failed-window return may be
+  a bound rather than an exact minimax value; arbitrary real-valued epsilon rules,
+  floating-point tolerances and terminal scoring conventions are not specified.
+- Figure3 delegates storage to SaveInfo/GetInfo and does not visibly populate merit
+  with each returned v during the initial loop. Array initialization, value capture,
+  cache misses, validity and lifetime therefore remain source-presentation questions
+  rather than a complete executable contract or a proved algorithm defect.
+- The displayed pseudocode uses one-based successor indices and reads merit[i+1].
+  Excluding the i==w case is stated in a comment rather than encoded in that Boolean
+  guard. The listing is not directly executable C and must not be silently repaired.
+- A finite hash table can lose remembered information and potential cutoffs; the reported
+  full-information experiment instead retains the generated subtree. Neither establishes
+  a hard total byte bound including the recursion stack, successor arrays, cache policy
+  and allocator overhead.
+- Terminal-count curves are conditional on the supplied tree generator, width, depth
+  parity, ordering and twenty shared samples. The paper discusses sampling variability;
+  these results do not prove universal dominance over SSS*, DUAL*, NS, PNS or alpha-beta.
+- Preliminary execution-time and OPEN-management observations describe the authors’
+  implementations, with details deferred to report12. They are not reproduced results,
+  hardware-independent speedups or evidence that fewer terminal visits always means
+  lower time.
+- The paper’s PNS stores relevant upper bounds only at the first level, and its footnote
+  discusses NegaScout/PVS lineage. Those descriptions do not by themselves establish
+  PNS as this full INS procedure, global PVS aliases, or equivalence to all later
+  implementations. The 1985 original has been read separately; its version differences
+  and the other cited lineage questions remain separately tracked.
+- The defining evidence is the inspected15-page author-hosted1987 journal reproduction.
+  The separate18-page author rendering was inspected only in selected regions, and
+  the TR85-16 route has a cover/title/page-count discrepancy; neither is treated as
+  a wholly equivalent publisher artifact or a fully read independent defining source.
+- The draft records the described pruning and recursion mechanism while retaining
+  the abbreviated helper and guard conventions. It does not certify a full correctness
+  or node-dominance theorem, execute INS, or import uninspected proofs from SSS*,
+  NegaScout or alpha-beta references.
+evidence_sources:
+- source_id: marsland1987
+  title: Low Overhead Alternatives to SSS*
+  authors:
+  - T.A. Marsland
+  - Alexander Reinefeld
+  - Jonathan Schaeffer
+  source_type: primary_paper
+  url: https://webdocs.cs.ualberta.ca/~jonathan/publications/ai_publications/lowoverhead.pdf
+  persistent_id: doi:10.1016/0004-3702(87)90019-1
+  version: Artificial Intelligence31 (1987),185–199; inspected15-page author-hosted
+    journal reproduction. The hash identifies these downloaded bytes, not a verified
+    publisher-byte copy. Article received December1985/revised August1986; later PDF
+    creation metadata is not a new algorithm version. Issue number is omitted because
+    author bibliographies disagree.
+  access_level: full_text
+  accessed_at: '2026-10-16T04:31:29Z'
+  sha256: cd73f50f0356a948ace89aea2dff7a1ef59d21c5a9c0fd349151931db2ed0bd0
+id: AIMech:InformedNegaScout
+name: Informed NegaScout
+aliases: []
+identity_notes: Current prewrite comparison at merged base b5db0b5d88c5fdc5bdc920dedcb26b9b35af6a4f
+  on 2026-10-16 compared 1,246 records (804 native, 442 pinned AIO), 4,937 identity-field
+  occurrences and 3,774 normalized values. Candidate identity collisions were empty;
+  ITERSSS* was the sole normalized context match. Four explicit roots were searched
+  with ignored and hidden files included, using literal source/name probes and separate
+  word-bounded INS/PNS context probes. The 328 distinct complete matching contents
+  were semantically reviewed, and all 602 occurrence references were mechanically
+  reconstructed; the successor collection preserved their exact line multisets. This
+  record selects the 1987 complete-information NegaScout procedure with recursive
+  retained bounds and ignore-left/prove-best control. It remains distinct from the
+  separately defined 1985 partial-information policy, baseline NegaScout/PVS, DUAL*,
+  SSS* and memory-controlled ITERSSS*. INS is source-local and is not a global alias.
+  The 1985 source has now been read separately; its correspondence to the 1987 helper/storage/retention
+  descriptions and the other original lineage sources remain tracked. Main911 carries
+  the existing source responsibility while retaining all earlier records and unresolved
+  questions. The pinned 30-target AIO no-match assessment is retained with its historical
+  reading scope; current identity clearance is bounded to the inspected corpus and
+  explicit search roots, not global novelty.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Historical prospective snapshot on 2026-10-16 at 04:51–04:52 UTC,
+    branch goal/discover-ai-concepts-round360, HEAD 3cd85f801666b505b906cedab979423e4f305c40.
+    Compared all 801 maintained and 442 pinned AIO identities (1,243 records; 4,927
+    identity-field occurrences; 3,766 normalized values). Four fixed-string, case-insensitive,
+    word-delimited searches included ignored and hidden files and excluded .git internals:
+    10,522 occurrences in 749 distinct contents. Fresh semantic reading covers 747
+    complete contents and all matching leaves in two large historical wrappers; unrelated
+    wrapper fields were not reread. Read all 30 full candidate AIO nodes and 97 incident
+    triples plus 20 maintained native definitions, identity fields, claim statements
+    and limitations. This historical scope does not clear any future base or assign
+    a source owner.'
+  rationale: No positive target selected after the pinned442identity rows and30full
+    AIO nodes/97incident triples. Generic tree/classification, neural memory, recursion,
+    reinforcement learning and math-operation overlap do not establish a source-backed
+    target relation.
+  examined_targets:
+  - target: AIO:MachineLearningTask
+    rejection_reason: Its definition requires building methods that learn from data.
+      Retaining computed minimax search bounds is not on its own a source-established
+      machine-learning task.
+  - target: AIO:Model
+    rejection_reason: A generic abstract representation is not the identity of either
+      operational search algorithm; shared modeling context supplies no informative
+      source-backed mapping.
+  - target: AIO:Network
+    rejection_reason: A network is an interconnected system. Search-tree nodes alone
+      do not establish a useful algorithm-to-Network mapping or equivalence.
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: The candidates contain no artificial-neuron architecture or
+      neural training mechanism.
+  - target: AIO:DecisionTree
+    rejection_reason: The pinned node is a Classification subclass. Its broad decision-support
+      comment does not identify game-tree minimax algorithms as classification procedures.
+      Tree shape or use in choosing moves is insufficient.
+  - target: AIO:RandomForest
+    rejection_reason: Random Forest is an ensemble of learned trees, not alternative
+      game-tree searches.
+  - target: AIO:MathematicalFunction
+    rejection_reason: Computing minima/maxima and score bounds does not identify an
+      operational search algorithm with a generic scalar mathematical rule; no specific
+      functional target relation is established.
+  - target: AIO:MaximumLayer
+    rejection_reason: Elementwise tensor maximum merging differs from alternating-player
+      tree backup and bound manipulation.
+  - target: AIO:MinimumLayer
+    rejection_reason: Elementwise tensor minimum merging differs from adversarial
+      tree-search control.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: Storing search information is not a layer of neural memory cells.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: These algorithms are not language models and retained search
+      bounds do not establish the external-memory LLM architecture.
+  - target: AIO:NeuralTuringMachineNetwork
+    rejection_reason: Neither source procedure uses a neural Turing-machine network;
+      algorithmic memory alone does not supply this mapping.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Searching a supplied game tree with fixed leaf scores and retained
+      bounds is not evidence of reinforcement learning from reward interactions or
+      a policy-learning procedure.
+  - target: AIO:ReinforcementLearningLLM
+    rejection_reason: Neither procedure is a language model fine-tuned with rewards.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The source controls search and storage, not a preprocessing/training
+      strategy for machine-learning models.
+  - target: AIO:ActiveLearning
+    rejection_reason: Information acquisition from a search traversal does not query
+      labels for new training data; INS is not active learning merely because it retains
+      information.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Neither is an LLM; minimax reasoning does not establish language-task
+      architecture.
+  - target: AIO:RecursiveLLM
+    rejection_reason: Recursive calls are control flow, not recursive neural language
+      modeling or TreeLSTM composition.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: The source does not define a deep recursive language model or
+      syntactic composition architecture.
+  - target: AIO:RecursiveNeuralNetwork
+    rejection_reason: Recursion over a game tree does not mean applying learned neural
+      weights to structured inputs.
+  - target: AIO:GraphConvolutionalPolicyNetwork
+    rejection_reason: Neither method generates goal-directed graphs with a graph convolutional
+      policy network or reinforcement/adversarial training.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The game tree encodes choices and minimax evaluation, not random-variable
+      conditional dependence.
+  - target: AIO:CausalGraphicalModel
+    rejection_reason: An acyclic search tree is not automatically a causal probabilistic
+      data-generating graph.
+  - target: AIO:Classification
+    rejection_reason: Choosing a game move/value is not supervised distribution of
+      observations into classes.
+  - target: AIO:HierarchicalClassification
+    rejection_reason: A tree hierarchy of moves is not hierarchical classification.
+  - target: AIO:HashingLayer
+    rejection_reason: INS optional hashing for search-information retention is not
+      categorical feature hashing/bucketing preprocessing.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: Game-tree representations do not make either procedure a graph
+      language model.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: Neither combines neural language modeling with symbolic reasoning;
+      symbolic control alone is insufficient.
+  - target: AIO:PolicyLayer
+    rejection_reason: The procedures do not output a learned neural probability distribution
+      over actions from a layer.
+  - target: AIO:GenerativeAdversarialNetwork
+    rejection_reason: Minimax/adversarial game terminology does not establish two-neural-network
+      generative training or GAN identity.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-16T06:16:44Z'
+  updated_at: '2026-10-16T06:16:44Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
