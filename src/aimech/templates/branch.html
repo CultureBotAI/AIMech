@@ -19,19 +19,49 @@
   <p class="lead" style="margin-bottom: 0;">{{ branch.blurb }}</p>
 </div>
 
-<div class="browser-controls">
-  <div class="search-bar">
-    <input type="text" id="searchInput" class="search-input" placeholder="Filter {{ branch.label }} classes by name, definition, or ID...">
-  </div>
-  <div class="filter-row">
-    <button type="button" id="resetFilters" class="btn">Clear</button>
-    <div class="filter-count">
-      Showing <span id="matchCount">{{ records | length }}</span> of <span id="totalCount">{{ records | length }}</span>
+<div class="browse-layout">
+  <aside class="facet-sidebar" aria-label="Ontology branch filters">
+    <h2 style="font-size: 0.95rem; margin: 0;">Filter {{ branch.label }}</h2>
+    <div class="browser-controls">
+      <div class="facet-group">
+        <label for="searchInput" class="facet-label">Search {{ branch.label }}</label>
+        <input type="search" id="searchInput" name="q" class="search-input" placeholder="Filter by name, definition, or ID…">
+      </div>
+      <div class="facet-group">
+        <label for="sortSelect" class="facet-label">Sort by</label>
+        <select id="sortSelect" name="sort" class="filter-select">
+          <option value="name-asc">Concept name (A–Z)</option>
+          <option value="name-desc">Concept name (Z–A)</option>
+          <option value="id-asc">Identifier (A–Z)</option>
+        </select>
+      </div>
+      <div class="facet-actions">
+        <div class="filter-count">
+          Showing <span id="matchCount">{{ records | length }}</span> of <span id="totalCount">{{ records | length }}</span>
+        </div>
+        <button type="button" id="resetFilters" class="btn">Clear</button>
+      </div>
     </div>
+
+    {% if branches_meta %}
+    <div class="facet-group">
+      <div class="facet-label">AIO Branches</div>
+      <div class="facet-list">
+        {% for b in branches_meta %}
+        <a class="facet-link {% if b.id == branch.id %}active{% endif %}" href="{{ root }}{{ b.page }}">
+          <span>{{ b.label }}</span>
+          <small>{{ b.count }}</small>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </aside>
+
+  <div class="browse-main">
+    {% include "record_table.html" %}
   </div>
 </div>
-
-{% include "record_table.html" %}
 
 <script src="{{ root }}record-browser.js"></script>
 {% endblock %}

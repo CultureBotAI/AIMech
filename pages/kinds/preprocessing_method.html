@@ -15,8 +15,11 @@
   <nav>
     <a href="../index.html">Home</a>
     <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
@@ -37,18 +40,84 @@
   <p class="lead" style="margin-bottom: 0;">Feature engineering, data augmentation, and tokenization procedures.</p>
 </div>
 
-<div class="browser-controls">
-  <div class="search-bar">
-    <input type="text" id="searchInput" class="search-input" placeholder="Filter Preprocessing Methods by name, definition, or keyword...">
-  </div>
-  <div class="filter-row">
-    <button type="button" id="resetFilters" class="btn">Clear</button>
-    <div class="filter-count">
-      Showing <span id="matchCount">4</span> of <span id="totalCount">4</span>
+<div class="browse-layout">
+  <aside class="facet-sidebar" aria-label="Concept kind filters">
+    <h2 style="font-size: 0.95rem; margin: 0;">Filter Preprocessing Methods</h2>
+    <div class="browser-controls">
+      <div class="facet-group">
+        <label for="searchInput" class="facet-label">Search Preprocessing Methods</label>
+        <input type="search" id="searchInput" name="q" class="search-input" placeholder="Filter by name, definition, or keyword…">
+      </div>
+      <div class="facet-group">
+        <label for="sortSelect" class="facet-label">Sort by</label>
+        <select id="sortSelect" name="sort" class="filter-select">
+          <option value="name-asc">Concept name (A–Z)</option>
+          <option value="name-desc">Concept name (Z–A)</option>
+          <option value="claims-desc">Curated claims (high–low)</option>
+          <option value="sources-desc">Evidence sources (high–low)</option>
+          <option value="id-asc">Identifier (A–Z)</option>
+        </select>
+      </div>
+      <div class="facet-actions">
+        <div class="filter-count">
+          Showing <span id="matchCount">4</span> of <span id="totalCount">4</span>
+        </div>
+        <button type="button" id="resetFilters" class="btn">Clear</button>
+      </div>
     </div>
-  </div>
-</div>
 
+    <div class="facet-group">
+      <div class="facet-label">Concept Kinds</div>
+      <div class="facet-list">
+        <a class="facet-link " href="../kinds/algorithm.html">
+          <span>Algorithms</span>
+          <small>549</small>
+        </a>
+        <a class="facet-link " href="../kinds/model_family.html">
+          <span>Model Families</span>
+          <small>90</small>
+        </a>
+        <a class="facet-link " href="../kinds/architecture.html">
+          <span>Architectures</span>
+          <small>71</small>
+        </a>
+        <a class="facet-link " href="../kinds/mathematical_method.html">
+          <span>Mathematical Methods</span>
+          <small>51</small>
+        </a>
+        <a class="facet-link " href="../kinds/layer.html">
+          <span>Layers &amp; Modules</span>
+          <small>18</small>
+        </a>
+        <a class="facet-link " href="../kinds/evaluation_criterion.html">
+          <span>Evaluation Criteria</span>
+          <small>5</small>
+        </a>
+        <a class="facet-link " href="../kinds/learning_paradigm.html">
+          <span>Learning Paradigms</span>
+          <small>4</small>
+        </a>
+        <a class="facet-link active" href="../kinds/preprocessing_method.html">
+          <span>Preprocessing Methods</span>
+          <small>4</small>
+        </a>
+        <a class="facet-link " href="../kinds/evaluation_method.html">
+          <span>Evaluation Methods</span>
+          <small>3</small>
+        </a>
+        <a class="facet-link " href="../kinds/coordination_mechanism.html">
+          <span>Coordination Mechanisms</span>
+          <small>1</small>
+        </a>
+        <a class="facet-link " href="../kinds/computational_paradigm.html">
+          <span>Computational Paradigms</span>
+          <small>1</small>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="browse-main">
 <div class="table-wrap">
   <table id="conceptTable">
     <thead>
@@ -64,6 +133,10 @@
       <tr data-origin="curated"
           data-kind="preprocessing_method"
           data-branch=""
+          data-name="cutout"
+          data-id="aimech:cutout"
+          data-claims="1"
+          data-sources="1"
           data-search="cutout cutout aimech:cutout preprocessing methods preprocessing_method a training-image augmentation method that removes information from a randomly located square region by replacing that region with zeros in the normalized input while keeping the original target. this record denotes the original random square masking procedure. it is distinct from unit-level dropout, input-and-label mixup, replacement with content from another image, and an augmentation policy that merely includes a cutout operation. a policy implementation can use a different fill value or mask-size convention without redefining the original paper’s exact rule. no normalized identity match was found across all 442 pinned aio labels/scoped synonyms and 238 preceding native ids/names/aliases. full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 34 lines in each from prior discovery, saved reviews and related native records. ten exact aio class nodes, their scoped synonyms and outgoing edges, plus five neighboring native mechanisms were inspected. this absence assessment is bounded to the pinned snapshot and inspected semantic neighborhood. for each training image, randomly choose a pixel within the image as the center of a fixed-size square mask. set pixels in the overlapping image region to zero; the square may extend beyond the image boundaries, so its visible area can be smaller than the specified square. apply the mask during training with the original label. the paper applies cutout to zero-centered data: zero denotes the normalization origin rather than necessarily a black pixel in the unnormalized image. mask size is a tunable parameter. at test time, use the complete image without cutout or the activation rescaling associated with dropout. the earlier feature-activation-guided masking investigation and the fully-contained mask used with 50% probability are explored alternatives, not the final random-center rule. improved regularization of convolutional neural networks with cutout terrance devries graham w. taylor">
         <td>
           <a href="../curated/Cutout.html" style="font-weight: 600; font-size: 1rem;">Cutout</a>
@@ -88,6 +161,10 @@
       <tr data-origin="curated"
           data-kind="preprocessing_method"
           data-branch=""
+          data-name="rapid support vector data description sampling"
+          data-id="aimech:rapidsupportvectordatadescriptionsampling"
+          data-claims="8"
+          data-sources="5"
           data-search="rapid support vector data description sampling rapidsupportvectordatadescriptionsampling aimech:rapidsupportvectordatadescriptionsampling preprocessing methods preprocessing_method a density-based training-subset selection method for support vector data description that prefilters low-density observations and greedily removes high-density inliers while testing a retained-density threshold on the original inlier set. rapid denotes the englhardt-trittenbach-kottke-sick-böhm density-pruning procedure, expanded as reducing samples by pruning of inlier densities. the intended candidate-set rule, printed pseudocode and versioned implementation conventions are distinguished below. it is neither an svdd prediction rule nor a generic random-sampling algorithm. compared all 442 pinned aio ids, labels and scoped synonyms with all 518 preceding native ids, names and aliases. no normalized identity collision was found. fixed-string whole-word searches included ignored and hidden files in both checkouts, expanded names, rapid, the publication title, doi and arxiv identifier. all 126 distinct matched-text windows were read: these are prior discovery/review references, pending rapid leads and ordinary uses of rapid, not an existing rapid concept. all 125 semantic aio rows and 114 native name/definition rows were read or reused after exact equality checks. annotated aio nodes and outgoing edges, and 29 contextual yamls with full readings, distinguish preprocessing, prediction tasks, neural components and neighboring subset-selection methods. absence is bounded to this snapshot and maintained corpus. rapid reducing samples by pruning of inlier densities for a nonempty finite observation set x and a unit-diagonal kernel k with k(x,x)=1, compute the unnormalized empirical density d_x(x)=sum_{z in x} k(x,z). an expected-outlier parameter selects a low-density threshold; keep i={x in x:d_x(x)&gt;=theta_pre}, discard the other observations and recompute densities using only i as kernel centers. subsequent subset selection prepares data for hard svdd with c=1. this prefilter-plus-hard-fit procedure is not identical to fitting arbitrary-c soft svdd on the original data. the paper leaves quantile index rounding, endpoints and ties under-specified; exact requested rejection fractions are not assured. the stated intended rule starts with s=i and, while |s|&gt;1, selects a highest-density retained observation r, and subtracts its kernel contribution at every original inlier. for the candidate t=s minus {r}, define theta_t=min_{z in t} d_t(z). accept the removal only if d_t(x)&gt;=theta_t for every x in i; otherwise stop and return the preceding s. if s reaches a singleton, return it without testing an empty candidate. this intended-rule stopping convention is distinct from the stricter public-code floor described below. the returned observations are used to train svdd. the rule is a greedy density-surrogate selection, not repeated svdd optimization, a globally minimum-cardinality subset, or a certified global solution of the mixed-integer problem. the source sop minimizes the range theta_max-theta_min of empirical densities over the original inlier set, subject to nonempty binary subset selection and a selected minimum-density witness. minimum cardinality is a tie-breaker between sop optima. theorem 1 establishes a finite-inlier label statement for exactly uniform densities, not a quantitative bound on a continuous decision boundary under approximate uniformity. theorem 2 uses separated density extrema and a small-bandwidth limiting argument, while its displayed comparison treats old extrema as if they remained extrema after removal. those steps do not establish an unconditional finite-data svdd boundary-preservation guarantee for greedy pruning. unweighted kernel-density level sets and fitted finite-sample svdd decision regions are generally different. an exact curator example uses k(x,y)=2^(-(x-y)^2) on points 0,1,4. positive hard-svdd coefficients (1205376,1198391,1802240)/4206007 give the same weighted boundary score 1804599/4206007 at all three nonstationary boundary crossings. their unweighted densities are respectively 98305/65536, 769/512 and 65665/65536, so no single unweighted-density threshold has all three as boundary points. this challenges an unqualified global identity, not the trivial fact that two rules can accept the same finite inlier set. the cited vert-vert results concern asymptotic density-level estimation under distribution, regularization and bandwidth conditions; they do not supply that finite global identity. printed algorithm 2 subtracts r from the density sum but computes the minimum over the old s before deleting r. this differs from the candidate-set rule in the prose and inspected julia code. for the specified gaussian kernel 2^(-(x-y)^2), with retained inliers 0,1,2, removing the middle point leaves densities (17/16,1,17/16). the old-set minimum 1 accepts the removal, whereas the candidate-set minimum 17/16 rejects it because the removed middle observation is still an original inlier. the literal printed flow can continue to one point for this nonidentical dataset. this is exact pseudocode arithmetic after retaining all three inliers, not an execution of the public code or its percentage-prefilter convention. at the inspected public commit, rapid removes r from the candidate mask before the minimum test and reconstructs the final mask from accepted removals, undoing a failed candidate. for m initial inliers, its loop starts at i=1 and continues while i&lt;m-2, permitting at most m-3 accepted removals when m&gt;=3; smaller sets are unchanged. the percentage threshold clamps floor(p_out*n) to the one-based index range and averages adjacent sorted densities. with a unique minimum it can exclude one observation at p_out=0; equal-density ties can retain all observations. the source also offers a ground-truth mask and a mode deriving p_out from supplied labels, so all package configurations are not unsupervised. these are source-code observations, not verified historical experimental behavior. the paper calls exp(-gamma*||x-y||) gaussian in its displayed formula, omitting the squared norm. the inspected sampling code delegates to mlkernels.gaussiankernel; the evaluation-pinned mlkernels v0.4.0 implements exp(-gamma*||x-y||^2). these formulas must not be silently conflated. although the mlkernels tree matches the evaluation manifest, its oneclasssampling entry points to an author-local development directory without a revision or tree hash. the inspected public sampling commit therefore cannot be identified as the exact experimental version from that manifest. the source gives o(n^2) sampling work under unit-cost kernel evaluation, and its optional gram matrix and inspected kde cache use quadratic storage. input dimension, parameter selection and the downstream svdd fit add costs. the experiments compare selected synthetic mixtures and real outlier datasets with specified bandwidth heuristics and prefiltering; the main setup supplies the true outlier percentage. some costly competitors are excluded and the full-data baseline is limited to smaller datasets. these results do not establish universal speed, accuracy, compression or preserved generalization. the method still requires a kernel and an outlier-setting convention; no numerical performance advantage is curated. efficient svdd sampling with approximation guarantees for the decision boundary oneclasssampling.jl rapid implementation and density utilities ocs-evaluation dependency manifest mlkernels.jl gaussian kernel implementation consistency and convergence rates of one-class svms and related algorithms adrian englhardt holger trittenbach daniel kottke bernhard sick klemens böhm adrian englhardt adrian englhardt tim thatcher régis vert jean-philippe vert">
         <td>
           <a href="../curated/RapidSupportVectorDataDescriptionSampling.html" style="font-weight: 600; font-size: 1rem;">RAPID support vector data description sampling</a>
@@ -114,6 +191,10 @@
       <tr data-origin="curated"
           data-kind="preprocessing_method"
           data-branch=""
+          data-name="smote-nc"
+          data-id="aimech:smotenc"
+          data-claims="6"
+          data-sources="1"
           data-search="smote-nc smotenc aimech:smotenc preprocessing methods preprocessing_method the original mixed nominal/continuous extension of smote that synthesizes minority-class training examples by finding minority neighbors with a continuous-distance and nominal-mismatch rule, interpolating their continuous coordinates and assigning nominal coordinates through neighbor votes. this record denotes the original mixed nominal/continuous smote-nc preprocessing procedure, distinct from the existing continuous-feature smote record and from the separately proposed nominal-only smote-n. fresh inventory of 739 maintained and 442 pinned aio identities at merged base 50d9a115a61f9a8d40db79fef421ce23c3409bd9 found no normalized identity collision. four ignored/hidden-inclusive checkout searches yielded 280/283/787/829 occurrences and ten complete distinct strings read by root, consisting of existing leads and continuous-smote context or its historical/derived representations. historical research inspected 47 selected definitions, four full neighboring records and thirteen exact aio class nodes with all 49 incident edges. minority-only median standard deviations and nominal-neighbor voting distinguish this procedure; the original prose continuous interpolation interpretation and pseudocode discrepancy remain explicit. the local-to-broader dataaugmentation mapping is retained with its bounded rationale, not equivalence or an accuracy guarantee. no claim of exhaustive modern implementation coverage is made. the original smote-nc procedure extends continuous-feature smote to training examples with both continuous and nominal features. it creates additional examples assigned to the minority class by using minority-class neighbors, continuous interpolation and nominal-feature votes. the procedure is training-data preprocessing rather than a fitted classifier. its mixed-feature construction is distinct from the original continuous-only method and from the separately proposed nominal-only smote-n construction. compute the standard deviation of each continuous feature using the minority-class examples, then take the median m across those feature-wise standard deviations. this single scale supplies the nominal-mismatch penalty in neighbor distance. it is not a median of raw feature values, a median of variances, or a statistic pooled across all classes. for minority examples x and y, the displayed distance rule is d(x,y)=sqrt(sum_continuous (x_j-y_j)^2 + m^2*sum_nominal 1[x_j!=y_j]). each differing nominal coordinate contributes a separate m^2 inside the square root. the displayed example has two nominal mismatches and therefore two such terms. this rule does not assign numeric interpolation values to category labels and is not the value-difference construction discussed for smote-n. for a minority-class seed, identify k nearest neighbors among minority examples using the mixed distance, then apply the earlier smote generation procedure with randomly selected members of that neighbor set and a requested oversampling amount. the earlier implementation uses k=5, while its algorithm takes k and the oversampling percentage as inputs. this does not define five as a universal requirement or fully settle ties, self-inclusion and neighbor-reuse conventions. following the earlier prose and table 1 formulation, for the seed x and one selected minority neighbor y, generate the continuous subvector as x_cont+r*(y_cont-x_cont), using one random scalar r between zero and one for that synthetic example. the continuous subvector therefore lies on their continuous-coordinate line segment. this record explicitly follows that shared-scalar description: the printed pseudocode instead places the gap draw inside its coordinate loop, an unresolved source inconsistency. for each nominal coordinate, assign the value described as occurring in the majority of the k nearest neighbors. this is a vote over feature values within the selected minority-neighbor set, not a vote to predict the class of a query example. the printed nc rule does not expressly add the seed to this vote. it does not completely specify how to choose a category when frequencies tie or when no category has a strict majority. smote: synthetic minority over-sampling technique nitesh v. chawla kevin w. bowyer lawrence o. hall w. philip kegelmeyer">
         <td>
           <a href="../curated/SMOTENC.html" style="font-weight: 600; font-size: 1rem;">SMOTE-NC</a>
@@ -138,6 +219,10 @@
       <tr data-origin="curated"
           data-kind="preprocessing_method"
           data-branch=""
+          data-name="synthetic minority over-sampling technique"
+          data-id="aimech:syntheticminorityoversamplingtechnique"
+          data-claims="1"
+          data-sources="1"
           data-search="synthetic minority over-sampling technique syntheticminorityoversamplingtechnique aimech:syntheticminorityoversamplingtechnique preprocessing methods preprocessing_method a minority-class oversampling method that generates synthetic labeled feature vectors by interpolating between an observed minority example and selected neighbors from the same class. this record denotes the original continuous-feature smote method. it generates training examples rather than fitting a classifier. it differs from replacement sampling, majority undersampling, cross-class input/label mixing in mixup, and hidden-representation mixing. smote-nc and the proposed nominal-only smote-n extension require separate feature-distance and synthesis rules. no normalized identity match was found across all 442 pinned aio labels/scoped synonyms and 273 preceding native ids/names/aliases. full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 18 and 18 lines respectively. every text hit was a prior candidate lead. eleven exact aio class nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. absence is bounded to this snapshot and semantic neighborhood. smote for each selected minority-class training example, find a configured number k of nearest neighbors within the minority class and randomly choose neighbors according to the requested oversampling amount. in the prose and table1 formulation, construct a synthetic vector as the original vector plus a random fraction between zero and one of the neighbor-minus-original vector, retaining the minority-class label. the paper uses k=5 in its implementation, but k and the oversampling amount are parameters. its pseudocode treats percentages below100 by selecting a random subset of minority examples; higher amounts are expressed as integral multiples of100. majority-class undersampling is a separately described operation that may be combined with smote, not a required step of synthetic generation. smote: synthetic minority over-sampling technique nitesh v. chawla kevin w. bowyer lawrence o. hall w. philip kegelmeyer">
         <td>
           <a href="../curated/SyntheticMinorityOversamplingTechnique.html" style="font-weight: 600; font-size: 1rem;">Synthetic Minority Over-sampling Technique</a>
@@ -163,11 +248,13 @@
       </tr>
     </tbody>
   </table>
+</div>  </div>
 </div>
+
 <script src="../record-browser.js"></script>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-16 (<code>7ba3bc7a24c0</code>)</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
