@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iterative linear best-first search · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Iterative linear best-first search</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Iterative linear best-first search</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:IterativeLinearBestFirstSearch</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ILBFS
+    </div>
+
+  <div class="detail-desc">
+    An iterative organization of best-first tree search that explicitly retains a principal path and its immediate children, eagerly collapses a departing branch into backed-up frontier values, and regenerates a selected collapsed branch through conditional value inheritance, as the procedural counterpart of full RBFS described by Felner in 2015.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes Felner’s named iterative principal-branch procedure and explicit OPEN/TREE collapse/regeneration organization. The defining paper describes full RBFS as its recursive counterpart with corresponding steps under its conventions. The accepted separation is procedural representation, not a new extensional priority order, solution-quality advantage or universal implementation-equivalence result. ILBFS is the source abbreviation; RBFS, SRBFS, IE and generic best-first search are not aliases. Conditional backed-up inheritance, depth-first ties, the high-level ancestry discrepancy and root/dead-end/graph interfaces remain explicit. The later 2024 versions and pinned code are research context for preserved limitations, not replacements for the 2015 definition. Current insertion context was reconciled at merged commit c222454fe2e2ce2b9be5fd78a01d47e9961d1f26: 807 native and 442 pinned AIO records, 4,946 identity-field occurrences and 3,781 normalized values. Four ignored- and hidden-inclusive roots returned 165 matching contents / 1,085 occurrences, all byte-identical to the bound prior readings; no candidate exact normalized identity collision was found. All 1,249 native and generated record files match that evidence. Earlier full 25-node / 92-edge AIO and native-neighbor readings are reused with attribution, not claimed as fresh whole-ontology review. Source tracking uses existing main 912 while preserving prior IE, main 6/7/822/911 responsibilities and every historical source question.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#principal-branch-and-frontier</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The explicit TREE representation retains a principal branch of internal nodes and their immediate children, while OPEN contains its frontier. With branching bounded by b, retained depth bounded by d and bounded per-node data, this path-and-children representation uses O(b*d) node storage, which is depth-linear when b is fixed.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-felner2015">Position Paper: The Collapse Macro in Best-First Search Algorithms and an Iterative Variant of RBFS</a></span>
+        <span>· <strong>Locator:</strong> PDF p.4, principal-branch description and Figure 2; PDF p.6, Table 1 and continuum discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#minimum-frontier-selection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The low-level loop selects a node with minimum stored value from OPEN and checks for a goal before changing the retained branch. It then generates children of the selected node and inserts them into OPEN and TREE. Root, tie and exhaustion conventions must be supplied consistently with the qualified source outline.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-felner2015">Position Paper: The Collapse Macro in Best-First Search Algorithms and an Iterative Variant of RBFS</a></span>
+        <span>· <strong>Locator:</strong> PDF p.5, Algorithm 2 lines 1–6 and 12–17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#eager-bottom-up-collapse</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When the newly selected node is not a child of the previously expanded node, the operational prose and low-level listing collapse the departing branch bottom-up: back up the minimum child value, return that parent to OPEN, remove its children from OPEN and TREE, and continue toward the parent of the new best node. Collapse is triggered by a branch switch rather than by exhausting a fixed memory budget.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-felner2015">Position Paper: The Collapse Macro in Best-First Search Algorithms and an Iterative Variant of RBFS</a></span>
+        <span>· <strong>Locator:</strong> PDF p.4, Case 2 and Figure 2(c–d); PDF p.5, collapse explanation and Algorithm 2 lines 7–11; PDF p.6, continuum discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#conditional-value-inheritance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a generated child C, the low-level rule first assigns its static evaluation f(C). Only when the selected parent has F(best)&gt;f(best) does it raise a child value below F(best) to that stored parent value. Ordinary iterations with this conditional rule carry out the source’s regeneration process; the rule is not unconditional pathmax on an initial visit.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-felner2015">Position Paper: The Collapse Macro in Best-First Search Algorithms and an Iterative Variant of RBFS</a></span>
+        <span>· <strong>Locator:</strong> PDF p.5, Algorithm 2 lines 12–16 and Observations 1–2; PDF p.6, opening restore discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#depth-first-tie-conditioned-collapse-marker</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For its particular collapse process, the paper argues that depth-first tie handling makes a departing collapsed branch satisfy F(B)&gt;f(B), and uses the F&gt;f test to identify prior collapse. The paper explicitly extends these observations to nonmonotone static evaluations. This is a source-qualified invariant under that process and tie convention, not a universal property of every collapse policy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-felner2015">Position Paper: The Collapse Macro in Best-First Search Algorithms and an Iterative Variant of RBFS</a></span>
+        <span>· <strong>Locator:</strong> PDF p.5, Observations 1–2, proof and footnote 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#explicit-counterpart-to-full-rbfs</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper presents ILBFS as an iterative counterpart of the compared full RBFS formulation, with corresponding search steps under its conventions. ILBFS represents the principal branch and alternatives explicitly in OPEN/TREE; RBFS retains corresponding information through recursive frames and a competitive bound. The distinction is procedural organization, without a claimed new search ordering or solution-quality advantage over that counterpart.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-felner2015">Position Paper: The Collapse Macro in Best-First Search Algorithms and an Iterative Variant of RBFS</a></span>
+        <span>· <strong>Locator:</strong> PDF pp.6–7, RBFS and its relation to ILBFS; PDF p.6, Figure 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The high-level Algorithm 1 line 8 reverses the sibling/ancestor description of the branch to collapse relative to the Case 2 prose and low-level Algorithm 2. The mechanism above follows the latter two explicitly; the literal high-level discrepancy is retained and no repaired implementation is certified.</li>
+      <li>The printed low-level outline leaves root/NULL-parent conventions, empty-child minima and complete infinity/exhausted-frontier handling incompletely specified. The compared RBFS listing explicitly includes an empty-successor return and a finite-value guard. ILBFS goal testing precedes collapse, and the outline is not a complete production interface for every dead end or unsolvable input.</li>
+      <li>The path-and-children description does not provide a complete general graph duplicate-state, cycle or reopening policy. Generic best-first discussion assumes reopening for inconsistent heuristics, but that is not a demonstrated ILBFS graph implementation. No completeness, optimality or termination guarantee is extended here to arbitrary infinite spaces, zero-cost cycles or unspecified goal/cost assumptions.</li>
+      <li>A generic collapse stores only a frontier summary and is described as lossy compression. Its monotone bounded-search restoration discussion must not be promoted to an exact inverse for arbitrary collapsed subtrees. The ILBFS-specific F&gt;f regeneration argument depends on its own branch-switch and depth-first tie conventions; changing those conventions requires a new argument.</li>
+      <li>O(b*d) is a retained-node model with bounded branching, attained depth and per-node data, not a fixed maximum-node budget or a total-byte guarantee. State encodings, heuristic tables, explicit queues, transient allocations and any duplicate/transposition tables require separate space accounting; SMA* memory-budget properties do not follow from shared backup/deletion ideas.</li>
+      <li>The same-step comparison is to the full RBFS formulation reproduced in this source under compatible selection and tie conventions. It is not a global alias claim for every RBFS version or for SRBFS or Russell’s Iterative Expansion. In particular, unconditional first-visit inheritance and conditional inheritance can differ with nonmonotone evaluations, and the cited 1993 RBFS journal version remains a retained version question.</li>
+      <li>The later 2024 text describes its depth-first tie rule as taking the node inserted first, while the inspected pinned comparator favors greater creation times for equal F and its child timestamps increase. This is a prose/code distinction at commit e0e5ec40751ab9108d9b0a36bbc81ac843f5ca8c; a complete trace-equivalence result or proof of cycle freedom is not supplied by that static comparison.</li>
+      <li>The 2024 heap discussion conflates observing a minimum with extracting it and restoring heap order. Its arbitrary-node deletion procedures include linear search/removal work; for positive k their stated O(k*n+n) and O(k*(n+log n)) totals are both O(k*n) as n grows. No general asymptotic or measured runtime superiority is inferred from that discussion.</li>
+      <li>The 2024 versions report different experiment designs and one v1 caption conflicts with its memory axis. The v2 table does not show a slower ILBFS time in every row. The pinned notebook source, imports and start-inclusive path-length bins do not establish reproduction of the v2 move-length experiment, and traced Python allocations are not total process memory. No code, notebook or benchmark was run for this draft.</li>
+      <li>The 2015 work already reports an implementation, so the 2024 first-implementation assertion is retained as a source conflict rather than a historical fact. Pedagogical ease is not an evaluated learning outcome. The later epsilon paragraph’s RBFS_CR label does not establish equivalence to the distinct 2015 histogram method; source versions, author-name/publication metadata and all bibliography/retrieval questions remain explicit research context.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> Iterative linear best-first search is a source-defined search-control procedure. No inspected target denotes its identity or a justified hierarchy, and the source establishes no sufficiently specific positive related mapping to these learning/model/layer classes.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> Prospective snapshot collected at HEAD bcf1e846fe3d3dbb6d0651d32db6b7045fd28cae on goal/discover-ai-concepts-round361: 804 native and 442 AIO records, 4,937 ID/local-ID/name/alias/scoped-synonym occurrences and 3,774 normalized values. Four roots searched including ignored and hidden files (excluding .git internals), 142 complete distinct matching contents/977 occurrences freshly read. All inventory identities were screened and normalized exact probes compared. Full 25 selected pinned AIO CLASS nodes and all 92 incident edge occurrences were freshly read. Four closest native records were read in full; definition, identity and claim statements of 18 other selected neighbors were freshly read. This is bounded historical prospective evidence, not future insertion clearance or all-ontology semantic absence.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html"><code>AIO:ArtificialNeuralNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithms traverse search nodes and maintain cost bounds; their defining mechanisms do not use artificial neurons or learned connection weights.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/AvailabilityHeuristicBias.html"><code>AIO:AvailabilityHeuristicBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Heuristic cost estimates and additive tolerance are algorithmic control quantities, not the human availability bias of overweighting easily recalled information.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DecisionTree.html"><code>AIO:DecisionTree</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A search tree of possible paths is not the classification/decision-support model defined by this node and its Classification parent.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GraphConvolutionalNetwork.html"><code>AIO:GraphConvolutionalNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            No graph convolution or neural-layer architecture is part of the source-defined procedures.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GraphConvolutionalPolicyNetwork.html"><code>AIO:GraphConvolutionalPolicyNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedures do not learn a graph-generating policy using rewards and adversarial loss; a planning application alone is insufficient.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GraphLanguageModel.html"><code>AIO:GraphLanguageModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The node concerns graph-structured language modeling, not search-tree generation and bound-based traversal.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LinearFunction.html"><code>AIO:LinearFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Linear storage in depth does not mean an affine activation. Weighted g/h evaluation is a scalar component, not the identity of the complete search algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The inspected mechanisms search with supplied evaluations and per-search backups. They do not by themselves build a method that learns from data; no specific training relationship is established.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Each algorithm evaluates mathematical quantities but also selects, stores, regenerates and terminates search. Mere arithmetic use is not an exact, hierarchical or sufficiently specific related mapping.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MaximumLayer.html"><code>AIO:MaximumLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Conditional max inheritance is a scalar search-bound rule, not a tensor-merging neural layer.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MemoryAugmentedLLM.html"><code>AIO:MemoryAugmentedLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Stored branch alternatives or OPEN/TREE are search memory, not an external memory component of an LLM.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MemoryCellLayer.html"><code>AIO:MemoryCellLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Retained search-node values are not cells or weights of a neural-network layer.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MinimumLayer.html"><code>AIO:MinimumLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Minimum alternatives and backups in a search controller do not identify an element-wise tensor-merging layer.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Model.html"><code>AIO:Model</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm operates on a problem representation; it is not the abstract system representation itself.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Network.html"><code>AIO:Network</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An interconnected state graph can be input to a search procedure. That input structure does not make the traversal procedure a network entity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/NeuralTuringMachineNetwork.html"><code>AIO:NeuralTuringMachineNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            No feedforward neural architecture, learned pattern matching or neural memory controller is required by these procedures.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/NeuroSymbolicLLM.html"><code>AIO:NeuroSymbolicLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Symbolic search without a neural language model is not a neuro-symbolic LLM.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html"><code>AIO:ProbabilisticGraphicalModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Search-tree branches and backed-up costs do not encode conditional dependencies among random variables.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReasoningLLM.html"><code>AIO:ReasoningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Goal-directed heuristic search is not, by itself, deductive inference during language tasks in a large language model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RecursiveLLM.html"><code>AIO:RecursiveLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The definition requires recursive neural language architecture such as TreeLSTM; program recursion or iterative emulation does not establish it.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RecursiveLanguageModel.html"><code>AIO:RecursiveLanguageModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Its DeepNeuralNetwork and input/memory/output-layer relations concern learned syntactic composition, not recursive bounded search.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RecursiveNeuralNetwork.html"><code>AIO:RecursiveNeuralNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            RBFS recursion and its iterative emulation apply search control, not shared learned weights over structured input.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Exploring alternative search branches with given costs is not evidence for a learning process balancing exploration and exploitation over trials.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The sources define search-control procedures, not preprocessing or model-training strategies; optional use inside training would require separate evidence.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/WeightedLayer.html"><code>AIO:WeightedLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The kth-root variant weights a heuristic scalar; this does not define values applied to neurons or a layer in a network.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-felner2015">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">felner2015</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://tzin.bgu.ac.il/~felner/2015/SoCS/Collpase.pdf" target="_blank" rel="noopener">Position Paper: The Collapse Macro in Best-First Search Algorithms and an Iterative Variant of RBFS</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ariel Felner
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1609/socs.v6i1.18355</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:49d2f827a18d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-16T06:52:12Z</div>
+    <div><strong>Updated:</strong> 2026-10-16T06:52:12Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/IterativeLinearBestFirstSearch.yaml" target="_blank" rel="noopener">
+      <code>data/curated/IterativeLinearBestFirstSearch.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
