@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prior-to-posterior divergence conflict diagnostic · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Prior-to-posterior divergence conflict diagnostic</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Prior-to-posterior divergence conflict diagnostic</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PriorToPosteriorDivergenceConflictDiagnostic</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Prior-to-posterior Rényi divergence prior-data conflict check, Relative belief prior-to-posterior divergence conflict diagnostic
+    </div>
+
+  <div class="detail-desc">
+    A Bayesian prior-data conflict diagnostic algorithm that measures belief change from a proper prior g(theta) to the posterior g(theta | y) using the Rényi divergence R_alpha(y) of order alpha &gt; 0 (including Kullback-Leibler divergence at alpha = 1 and log maximum relative belief as alpha -&gt; infinity), calibrates the observed divergence R_alpha(y_obs) against its reference distribution under the prior predictive p(y), and extends to hierarchical priors g(theta_1 | theta_2)g(theta_2) by decomposing checking into a marginal prior-predictive divergence test for theta_2 and a posterior-integrated (or partial-posterior) conditional divergence test for theta_1 | theta_2.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      No normalized identity match for the prior-to-posterior divergence conflict diagnostic across all 442 pinned AIO records and 564 maintained IDs, names, aliases and scoped synonyms. Fixed-string searches across data, sources, research, history, and reviews returned only frontier-tracking references in prior discovery reports noting Nott, Wang, Evans, &amp; Englert (2020) as a pending concept. Distinct from AIMech:PriorExpansionScoreConflictDiagnostic, which evaluates the local directional derivative (Fisher score) of a family of prior expansions around the baseline prior rather than the global prior-to-posterior Rényi divergence of a fixed prior. Distinct from AIMech:EvansMoshonovPriorDataConflictCheck (and sufficient-statistic prior predictive checks), which compare the prior predictive density p(t_obs) of a minimal sufficient statistic T rather than the sufficiency-invariant posterior-to-prior divergence R_alpha(y).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#renyi-relative-belief-discrepancy-invariance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The diagnostic defines the checking discrepancy as the prior-to-posterior Rényi divergence R_alpha(y) = (alpha - 1)^(-1) log int g(theta | y)^alpha g(theta)^(1 - alpha) dtheta = log ||RB(theta | y)||_{alpha - 1}, where RB(theta | y) = g(theta | y) / g(theta) is the relative belief ratio, and computes the tail probability p_alpha = P(R_alpha(Y) &gt;= R_alpha(y_obs)) for Y ~ p(y) = int g(theta) p(y | theta) dtheta; because R_alpha(y) depends on the data only through the posterior distribution, it is automatically a function of any minimal sufficient statistic and invariant to its choice.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nott-wang2020">Checking for Prior-Data Conflict Using Prior to Posterior Divergences</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Equations 2–4 and 6–7, lines 25–39</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nott-seah2020">Using Prior Expansions for Prior-Data Conflict Checking</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Equations 1–2, PDF pp. 4–5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#hierarchical-conditional-and-marginal-divergence-decomposition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a partitioned parameter theta = (theta_1, theta_2) with hierarchical prior g(theta_1 | theta_2) g(theta_2), the check decomposes into (i) a marginal divergence R_{alpha 2}(y) between g(theta_2 | y) and g(theta_2) calibrated under the joint prior predictive p(y), and (ii) an expected conditional divergence R_{alpha 1}(y) = E_{g(theta_2 | y_obs)}[R_alpha(theta_1 | y, theta_2)] calibrated under the mixed reference predictive distribution m(y) = int g(theta_2 | y_obs) p(y | theta) g(theta_1 | theta_2) dtheta_1 dtheta_2 (or its partial-posterior / leave-one-out variant).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nott-wang2020">Checking for Prior-Data Conflict Using Prior to Posterior Divergences</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Equations 8–12, lines 41–55; Section 3.3, Example 3.3, lines 90–105</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#asymptotic-jeffreys-and-reference-prior-calibration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under regularity conditions as sample size n -&gt; infinity with true parameter theta*, R_alpha(y) - (d/2) log(n / (2*pi)) + (d / (2*alpha)) log(alpha) converges almost surely to -log g(theta*) + 0.5 log |I(theta*)|, where I(theta) is the per-observation Fisher information matrix, so p_alpha converges to P(g(theta)|I(theta)|^(-1/2) &lt;= g(theta*)|I(theta*)|^(-1/2)) for theta ~ g(theta), yielding a limiting p-value of 1 under Jeffreys&#39; prior (and under two-stage reference priors for the hierarchical checks).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nott-wang2020">Checking for Prior-Data Conflict Using Prior to Posterior Divergences</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Equation 5, lines 33–34; Section 3.2, Equation 17, lines 75–85; Section 4, Equations 19–20, lines 121–131</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#variational-and-gaussian-mixture-divergence-approximation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To avoid expensive Markov chain Monte Carlo posterior integration across M + 1 simulated prior-predictive datasets, the diagnostic replaces g(theta | y) with fast variational Bayes approximations q(theta) in the same exponential family as the prior (yielding closed-form Rényi divergences) or with Gaussian mixture variational posteriors combined with the closed-form Hershey-Olsen Kullback-Leibler divergence bound.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nott-wang2020">Checking for Prior-Data Conflict Using Prior to Posterior Divergences</a></span>
+        <span>· <strong>Locator:</strong> Section 5, Examples 5.1–5.2 and Equation 21, lines 133–155</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Because the asymptotic calibration P(g(theta)|I(theta)|^(-1/2) &lt;= g(theta*)|I(theta*)|^(-1/2)) measures prior density relative to Jeffreys&#39; prior |I(theta)|^(1/2) rather than Lebesgue measure, a flat proper prior on a bounded parameter (such as Beta(1, 1) on a Binomial proportion) can produce small divergence p-values near the boundary even when the prior predictive distribution is completely uniform.</li>
+      <li>In the hierarchical level-1 check, integrating over the full hyperparameter posterior g(theta_2 | y_obs) rather than the partial posterior g(theta_2 | y_obs \ R_{alpha 1}(y_obs)) uses the observed discrepancy information twice, inflating the reference predictive scale and making the check more conservative when level-1 conflict is strong.</li>
+      <li>Direct Monte Carlo evaluation requires computing posterior-to-prior divergences across M + 1 simulated datasets, and variational or Hershey-Olsen Gaussian mixture approximations introduce approximation error when the true posterior is poorly captured by the variational family.</li>
+      <li>All 749 lines of Nott, Wang, Evans, &amp; Englert (2020, arXiv:1611.00113v1) and all 31 pages of Nott et al. (2020, arXiv:1902.10393v2) were read. No author variational Bayes or MCMC code for the Missouri cancer or Bristol Royal Infirmary datasets was executed; constructed numerical checks in research/discovery/prior-posterior-divergence-conflict-boundaries.py verify analytical Normal, Beta-Binomial, Normal-Inverse-Gamma, and Hershey-Olsen mixture boundaries only.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The prior-to-posterior divergence conflict diagnostic checks prior-data consistency across single-level and hierarchical Bayesian models (directed acyclic graphs of parameters and data). AIO:BayesianNetwork supplies the probabilistic graphical modeling context rather than an algorithmic superclass.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-nott-wang2020">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">nott-wang2020</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1611.00113" target="_blank" rel="noopener">Checking for Prior-Data Conflict Using Prior to Posterior Divergences</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David J. Nott, Xueou Wang, Michael Evans, Berthold-Georg Englert
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/19-STS731</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8347841fa2b6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-nott-seah2020">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">nott-seah2020</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1902.10393v2" target="_blank" rel="noopener">Using Prior Expansions for Prior-Data Conflict Checking</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David J. Nott, Maxine Seah, Luai Al-Labadi, Michael Evans, Hui Khoon Ng, Berthold-Georg Englert
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/20-BA1204</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2d36e3af352a…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini 3</div>    <div><strong>Created:</strong> 2026-10-17T09:16:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-17T09:16:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PriorToPosteriorDivergenceConflictDiagnostic.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PriorToPosteriorDivergenceConflictDiagnostic.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
