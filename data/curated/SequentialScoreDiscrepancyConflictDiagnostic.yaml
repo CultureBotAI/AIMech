@@ -1,0 +1,154 @@
+id: AIMech:SequentialScoreDiscrepancyConflictDiagnostic
+name: Sequential score-discrepancy conflict diagnostic
+aliases:
+- Sequential score-based node conflict check
+- Two-stage parent-child score conflict diagnostic
+concept_kind: algorithm
+definition: A two-stage Bayesian directed acyclic graph (DAG) node-conflict diagnostic algorithm that
+  partitions observed data around a selected separator parameter block into parent-linked data and child-linked
+  data, propagates parent-submodel posterior draws to define conditional priors for the separator parameter,
+  evaluates a prior-expansion score discrepancy on the child submodel for each parent draw, and aggregates
+  the resulting dependent conditional conflict p-values via order-statistic bounds or the Half-Cauchy
+  Combination Test.
+identity_notes: 'No normalized identity match for the sequential score-discrepancy conflict diagnostic
+  across all 442 pinned AIO records and 562 maintained IDs, names, aliases and scoped synonyms. Fixed-string
+  searches across data, sources, research, history, and reviews returned only references in the Round
+  167 discovery report and prior-expansion record noting Yang, Nott, & Presanis (2026) Section 3.1 (Algorithm
+  1) as a separate pending concept. Distinct from AIMech:PriorExpansionScoreConflictDiagnostic, which
+  defines the general prior-expansion Fisher-score prior-data conflict check on a baseline prior or hierarchical
+  stage without two-stage parent-to-child DAG posterior propagation, single-draw conditional score approximation,
+  and dependent p-value combination across parent posterior draws. Distinct from AIMech:SeparatorNodeConflictDiagnostic,
+  AIMech:MultipleTestingNodeConflictDiagnostic, and AIMech:INLAGroupNodeConflictDiagnostic, which duplicate
+  separator or latent group nodes into split copies and compare split posteriors via density-level, Mahalanobis,
+  or Gaussian-cut discrepancy tails rather than evaluating prior-expansion score statistics sequentially
+  from parent posterior draws to a child submodel.'
+definition_evidence:
+- source_id: yang2026
+  locator: Section 1, PDF pp. 2–4; Section 3.1, Equations 10–15 and Algorithm 1, PDF pp. 13–16
+  relation: supports
+claims:
+- claim_id: two-stage-dag-parent-child-partition
+  kind: mechanism
+  statement: For a selected separator parameter block theta_2 in a Bayesian directed acyclic graph with
+    ancestor parameter block theta_1 and partitioned data y = (y_pa, y_ch), the first stage fits the parent
+    submodel to y_pa_obs alone to draw M samples theta_1^(1), ..., theta_1^(M) from p(theta_1 | y_pa_obs),
+    so that each parent draw induces a conditional prior p(theta_2 | theta_1^(m)) for theta_2 in the child
+    submodel.
+  evidence:
+  - source_id: yang2026
+    locator: Section 3.1, PDF pp. 13–14; Algorithm 1 Step 1, PDF p. 16
+    relation: supports
+  - source_id: presanis2013
+    locator: Section 2.1–2.2, PDF pp. 3–5
+    relation: supports
+- claim_id: conditional-prior-expansion-score-discrepancy
+  kind: mechanism
+  statement: In the second stage, the conditional prior p(theta_2 | theta_1) is embedded into a smooth
+    expansion family p(theta_2 | theta_1, alpha) with baseline alpha = alpha_0, and for each parent draw
+    theta_1^(m) the child-stage conflict score S_alpha^(m)(y_ch) is defined via Fisher's identity as the
+    conditional posterior expectation of d/d_alpha log p(theta_2 | theta_1^(m), alpha) at alpha = alpha_0
+    under p(theta_2 | y_ch, theta_1^(m)), combined for vector alpha into the quadratic form S_alpha^(m)(y_ch)^T
+    V_{S^(m)}^-1 S_alpha^(m)(y_ch).
+  evidence:
+  - source_id: yang2026
+    locator: Section 2.3, Equations 6–8, PDF pp. 11–12; Section 3.1, Equations 10–12, PDF pp. 14–15
+    relation: supports
+- claim_id: single-draw-posterior-score-approximation-and-scaling
+  kind: mechanism
+  statement: To avoid running a full inner Markov chain Monte Carlo chain for each parent posterior draw
+    theta_1^(m), Algorithm 1 approximates the conditional posterior expectation by drawing a single sample
+    theta_2^(m) ~ p(theta_2 | y_ch, theta_1^(m)) and evaluating d/d_alpha log p(theta_2^(m) | theta_1^(m),
+    alpha) at alpha_0 for both the observed child data y_ch_obs and conditional prior-predictive replicates
+    y_ch_rep^(m); because a single posterior draw adds conditional posterior variance relative to the
+    exact posterior expectation, observed and replicate discrepancies must use a matched estimator or
+    explicit variance scaling.
+  evidence:
+  - source_id: yang2026
+    locator: Section 3.1, Equation 13 and Algorithm 1 Step 2, PDF pp. 15–16; Appendix D.2, PDF p. 43
+    relation: supports
+- claim_id: dependent-pvalue-aggregation
+  kind: mechanism
+  statement: Because the conditional conflict p-values p^(1), ..., p^(M) evaluated across parent posterior
+    draws theta_1^(1), ..., theta_1^(M) all condition on the same observed child dataset y_ch_obs, they
+    are statistically dependent and are combined into an overall conflict summary using either order-statistic
+    bounds such as min(1, M * min_m p^(m)) or the Half-Cauchy Combination Test statistic T_HCCT = (1/M)
+    * sum_{m=1}^M tan((pi/2) * (1 - p^(m))) with upper-tail reference probability 1 - (2/pi) * arctan(T_HCCT).
+  evidence:
+  - source_id: yang2026
+    locator: Section 2.4, Equation 9, PDF p. 13; Section 3.1, Equations 14–15 and Algorithm 1 Step 3,
+      PDF pp. 15–16
+    relation: supports
+- claim_id: avoidance-of-split-posterior-density-estimation
+  kind: application
+  statement: Evaluating conflict through conditional prior-expansion scores and scalar p-value aggregation
+    avoids estimating a multivariate posterior difference density across duplicated separator nodes when
+    the separator parameter block theta_2 has moderate or high dimension.
+  evidence:
+  - source_id: yang2026
+    locator: Section 1, PDF pp. 3–4; Section 3.1, PDF pp. 13–16; Section 4, PDF pp. 21–28
+    relation: supports
+evidence_sources:
+- source_id: yang2026
+  title: Detecting Conflicts in Evidence Synthesis Models Using Score Discrepancies
+  authors:
+  - Fuming Yang
+  - David J. Nott
+  - Anne M. Presanis
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2511.02977v2
+  persistent_id: https://doi.org/10.48550/arXiv.2511.02977
+  version: 'arXiv:2511.02977v2, dated 2026-09-12. Complete 52-page PDF read, including Sections 1–6, Algorithms
+    1–2, Figures 1–8, Tables 1–5, Appendices A–E and references; locators use PDF pages 1–52.'
+  access_level: full_text
+  accessed_at: '2026-10-17T08:20:00Z'
+  sha256: 4829e0d63d562483aa6aab88a418c62e6d336cd63e9205ee175bf9e9c1bade2d
+- source_id: presanis2013
+  title: Conflict Diagnostics in Directed Acyclic Graphs, with Applications in Bayesian Evidence Synthesis
+  authors:
+  - Anne M. Presanis
+  - David Ohlssen
+  - David J. Spiegelhalter
+  - Daniela De Angelis
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1310.0628v1
+  persistent_id: https://doi.org/10.1214/13-STS426
+  version: 'arXiv:1310.0628v1, 2013-10-02; complete 22-page electronic reprint of Statistical Science
+    28(3):376–397 read, including Figures 1–16, Table 1 and references. Locators use PDF pages 1–22.'
+  access_level: full_text
+  accessed_at: '2026-10-17T08:20:00Z'
+  sha256: 9cff5092b47d7ba20f9ae654b6ea63bd4fdf75ea8ccfdb663427ccab36f3d3a0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: related_match
+  rationale: The sequential score-discrepancy conflict diagnostic operates on a parent-child partition
+    of a Bayesian directed acyclic graph (Bayesian network), propagating posterior draws from the parent
+    subgraph to conditional prior-expansion score checks in the child subgraph. AIO:BayesianNetwork provides
+    the graphical model representation context rather than an algorithmic superclass.
+limitations:
+- Requires an explicit directed acyclic graph partition into parent-linked data y_pa and child-linked
+  data y_ch around the selected separator block theta_2 such that the parent submodel p(theta_1 | y_pa_obs)
+  and conditional child submodel p(theta_2 | y_ch, theta_1) are well-defined and proper.
+- When Algorithm 1 uses a single conditional posterior draw theta_2^(m) ~ p(theta_2 | y_ch, theta_1^(m))
+  rather than the exact conditional posterior expectation of the prior score, the single-draw score includes
+  additional conditional posterior Monte Carlo variance; comparing an exact observed score to single-draw
+  replicate scores (or vice versa) without the Appendix D.2 variance scaling factor distorts the reference
+  tail probability.
+- Order-statistic p-value bounds can be conservative under strong positive dependence across parent posterior
+  draws, whereas the Half-Cauchy Combination Test relies on heavy-tail asymptotic approximation and does
+  not guarantee exact finite-threshold Uniform(0,1) calibration under arbitrary finite-sample dependence
+  structures.
+- All 52 pages of Yang, Nott, & Presanis (2026, arXiv:2511.02977v2) and 22 pages of Presanis et al. (2013,
+  arXiv:1310.0628v1) were read. No author MCMC implementation, epidemic model fit, or empirical repeated-data
+  calibration benchmark was executed; constructed numerical checks in research/discovery/sequential-score-conflict-boundaries.py
+  verify analytical variance scaling and dependent p-value combination boundaries only.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T08:46:00Z'
+  updated_at: '2026-10-17T08:46:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
