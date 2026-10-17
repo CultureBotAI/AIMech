@@ -1,0 +1,157 @@
+id: AIMech:HalfCauchyCombinationTest
+name: Half-Cauchy combination test
+aliases:
+- HCCT
+- Heavily right Half-Cauchy p-value combination test
+concept_kind: mathematical_method
+definition: A statistical p-value combination method that transforms m individual hypothesis test p-values
+  p_1, ..., p_m in (0, 1] into non-negative standard Half-Cauchy random variables X_j = tan((1 - p_j)
+  * pi / 2), forms the non-negatively weighted sum T_HC(p) = sum_{j=1}^m w_j tan((1 - p_j) * pi / 2) with
+  sum_{j=1}^m w_j = 1, and evaluates global significance using the exact finite-sample Half-Cauchy convolution
+  null distribution (or its location-shifted Landau domain-of-attraction approximation as m -> infinity),
+  thereby remaining insensitive to large p-values near 1, guaranteeing strictly convex confidence regions
+  under linear-Gaussian test inversion, and preserving asymptotic valid tail control under pairwise asymptotically
+  independent or bivariate normal test statistics.
+identity_notes: No normalized identity match for the Half-Cauchy combination test across all 442 pinned
+  AIO records and 565 maintained IDs, names, aliases and scoped synonyms. Fixed-string searches across
+  data, sources, research, history, and reviews returned only frontier-tracking references in prior discovery
+  reports noting Liu, Meng, & Pillai (2025) as a pending concept. Distinct from the standard Cauchy Combination
+  Test (CCT) of Liu & Xie (2020), which maps p_j to full-support Cauchy variables tan((0.5 - p_j) * pi)
+  that diverge to -infinity as p_j -> 1, allowing a single large p-value to cancel a small p-value and
+  producing disconnected confidence sets when inverted. Distinct from the Harmonic Mean P-Value (HMP)
+  and Exact Harmonic Mean P-Value (EHMP), which transform p_j via reciprocal Pareto variables 1/p_j rather
+  than the Half-Cauchy tangent map tan((1 - p_j) * pi / 2).
+definition_evidence:
+- source_id: liu-meng-pillai2025
+  locator: Section 1.1, Equation 1.4, lines 124–166; Section 2, Theorems 2.1–2.3 and Equations 2.1–2.10,
+    lines 302–385
+  relation: supports
+- source_id: yang2026
+  locator: Section 4.1, PDF p. 25
+  relation: supports
+claims:
+- claim_id: half-cauchy-tangent-map-and-large-p-insensitivity
+  kind: mechanism
+  statement: For individual p-values p_j in (0, 1] and non-negative weights w_j summing to 1, HCCT defines
+    T_HC(p) = sum_{j=1}^m w_j tan((1 - p_j) * pi / 2), where each X_j = tan((1 - p_j) * pi / 2) follows
+    a standard Half-Cauchy distribution HC(0, 1) on [0, infinity) under Uniform(0, 1); because tan((1
+    - p_j) * pi / 2) -> 0 as p_j -> 1, p-values near 1 contribute negligible non-negative mass and cannot
+    cancel strong evidence from small p-values, unlike the two-sided Cauchy transformation tan((0.5 -
+    p_j) * pi) -> -infinity.
+  evidence:
+  - source_id: liu-meng-pillai2025
+    locator: Section 1.1, Equations 1.2–1.4, lines 109–166; Section 1.2, lines 167–205
+    relation: supports
+- claim_id: exact-convolution-and-landau-domain-of-attraction-null
+  kind: mechanism
+  statement: Under independent Uniform(0, 1) p-values, T_HC(p) has an exact finite-sample null distribution
+    given by the m-fold weighted Half-Cauchy convolution (with closed-form density f_{m=2}(t) = (4 / (pi^2
+    * (t^2 + 4))) * [pi/2 + (t/2) log(t^2 / 4) + ((t^2 - 4)/(4t)) * arctan(t/2)] for m = 2 equal weights
+    in Theorem 2.3), and as m -> infinity with max_j w_j -> 0, (pi / 2) * (T_HC(p) - A_m) converges in
+    distribution to the standard Landau law Stable(1, 1, 1, 0), where A_m = (2 / pi) * (1 - gamma - sum_{j=1}^m
+    w_j log w_j) and gamma is the Euler-Mascheroni constant.
+  evidence:
+  - source_id: liu-meng-pillai2025
+    locator: Section 2, Theorem 2.1, Theorem 2.3, and Equations 2.1–2.10, lines 302–385; Appendix B.1–B.2,
+      lines 1681–1785
+    relation: supports
+- claim_id: convex-confidence-regions-and-inconsistency-lower-bound
+  kind: mechanism
+  statement: When combining two-sided normal test p-values p_j(theta) = 2 * Phi(-||A_j(hat_theta_j - theta)||_2)
+    for a shared parameter vector theta in R^d, each composite function tan((1 - p_j(theta)) * pi / 2)
+    is strictly convex on R^d, so inverting T_HC(p(theta)) <= c_{m, 1 - alpha} yields a bounded, connected,
+    convex confidence set I_{1 - alpha}^HC and a unique minimizer hat_theta_HC = arg min_theta T_HC(p(theta))
+    whose minimum value satisfies T_HC(p(hat_theta_HC)) >= (4 / (m * pi)) * sum_{1 <= k < j <= m} ||Sigma_{kj}^(-1/2)(hat_theta_k
+    - hat_theta_j)||_2 for equal weights, providing an intrinsic inter-study inconsistency check that
+    rejects all theta (producing an empty confidence set) when between-study conflict is severe.
+  evidence:
+  - source_id: liu-meng-pillai2025
+    locator: Section 1.2, Example 1 and Figure 2, lines 206–299; Section 3, Theorems 3.1–3.2 and Equation
+      3.7, lines 387–485; Appendix C, lines 1786–1985
+    relation: supports
+- claim_id: asymptotic-validity-under-dependent-test-statistics
+  kind: application
+  statement: For fixed m as threshold t -> infinity, P(T_HC(p) > t) / P(HC(0, 1) > t) -> 1 whenever the
+    transformed variables X_j are pairwise quasi-asymptotically independent or when underlying test statistics
+    follow a multivariate normal distribution with any non-unit pairwise correlations, enabling valid
+    global combination of dependent conflict or association p-values across high-dimensional studies and
+    Bayesian evidence-synthesis submodels.
+  evidence:
+  - source_id: liu-meng-pillai2025
+    locator: Section 4, Theorems 4.1–4.5, lines 486–575; Appendix D, lines 1986–2147
+    relation: supports
+  - source_id: yang2026
+    locator: Section 4.1, PDF p. 25
+    relation: supports
+evidence_sources:
+- source_id: liu-meng-pillai2025
+  title: A Heavily Right Strategy for Integrating Dependent Studies in Any Dimension
+  authors:
+  - Kairong Liu
+  - Xiao-Li Meng
+  - Natesh S. Pillai
+  source_type: primary_paper
+  url: https://arxiv.org/html/2501.01065v1
+  persistent_id: https://doi.org/10.48550/arXiv.2501.01065
+  version: arXiv:2501.01065v1, dated 2025-01-02 (first author Kairong Liu). Complete full-text HTML conversion
+    read across Sections 1–6, Theorems 2.1–4.5, Appendices A–F, and references (2,200 lines, 197,302 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T09:10:00Z'
+  sha256: 2fe912b58a74ff5008a52f8f319cef872ffe8f0510fbadb94f14d7cbe265f6e3
+- source_id: yang2026
+  title: Detecting Conflicts in Evidence Synthesis Models Using Score Discrepancies
+  authors:
+  - Fuming Yang
+  - David J. Nott
+  - Anne M. Presanis
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2511.02977v2
+  persistent_id: https://doi.org/10.48550/arXiv.2511.02977
+  version: arXiv:2511.02977v2, dated 2026-09-12. Complete 52-page PDF read, including Section 4.1 (PDF
+    p. 25) applying Cauchy/Half-Cauchy p-value combination to dependent conflict tests.
+  access_level: full_text
+  accessed_at: '2026-10-17T08:20:00Z'
+  sha256: 4829e0d63d562483aa6aab88a418c62e6d336cd63e9205ee175bf9e9c1bade2d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: The Half-Cauchy combination test aggregates multiple hypothesis test p-values across dependent
+    studies, features, or submodels to control global Type I error and prevent false-positive inflation
+    from multiple testing (AIO:DataDredgingBias). AIO:DataDredgingBias denotes the use-and-interpretation
+    bias rather than the statistical combination method.
+- target: AIO:BayesianNetwork
+  relation: related_match
+  rationale: In Bayesian directed acyclic graphical evidence synthesis (Yang, Nott, & Presanis, 2026),
+    heavy-tailed Cauchy and Half-Cauchy p-value combination rules aggregate dependent node-level conflict
+    p-values into a global model-checking statistic without requiring an explicit joint correlation matrix.
+limitations:
+- Because the individual Half-Cauchy terms X_j = tan((1 - p_j) * pi / 2) are strictly positive with infinite
+  mean, the finite-sample null distribution of T_HC(p) shifts upward at rate (2 / pi) * log m as the number
+  of combined tests m grows; applying the unadjusted single HC(0, 1) tail 1 - (2 / pi) * arctan(t) at
+  moderate thresholds t without the finite-m convolution or Landau location shift A_m inflates Type I
+  error when m is large.
+- Asymptotic tail equivalence under arbitrary dependence holds in the extreme right tail (t -> infinity,
+  or significance level alpha -> 0); at conventional significance levels (such as alpha = 0.05) and large
+  dimension m, strong positive dependence or heavy-tailed copulas outside pairwise asymptotic independence
+  can cause finite-threshold size distortion.
+- When inverting T_HC(p(theta)) <= c_{m, 1 - alpha} to form a confidence set for a shared parameter theta,
+  severe inter-study conflict where T_HC(p(hat_theta_HC)) > c_{m, 1 - alpha} yields an empty confidence
+  set, signaling violation of the common-parameter assumption rather than providing a pooled interval
+  estimate.
+- All 2,200 lines of Liu, Meng, & Pillai (2025, arXiv:2501.01065v1) and all 52 pages of Yang, Nott, &
+  Presanis (2026, arXiv:2511.02977v2) were read. Note that the first author name in arXiv:2501.01065v1
+  is Kairong Liu; both are noted in provenance. No author R package or empirical GWAS/meta-analysis pipeline
+  was executed; constructed numerical checks in research/discovery/half-cauchy-combination-test-boundaries.py
+  verify large-p insensitivity, exact m = 2 convolution, Example 1 confidence-set convexity, and Landau
+  location shifts only.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T09:35:00Z'
+  updated_at: '2026-10-17T09:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
