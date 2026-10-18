@@ -1,0 +1,194 @@
+id: AIMech:RestrictedEigenvaluePropertiesForCorrelatedGaussianDesigns
+name: Restricted Eigenvalue Properties for Correlated Gaussian Designs
+concept_kind: mathematical_method
+aliases:
+- Restricted Eigenvalue Properties for Correlated Gaussian Designs (Raskutti, Wainwright, & Yu 2010)
+- Gordon-Slepian Restricted Eigenvalue Lower Bound for Correlated Gaussian Random Designs
+- Raskutti-Wainwright-Yu Restricted Eigenvalue Transfer Theorem for Correlated Gaussian Ensembles
+- Restricted Nullspace and Restricted Eigenvalue Guarantee for Correlated Gaussian Designs
+definition: 'Restricted Eigenvalue Properties for Correlated Gaussian Designs is a high-dimensional random
+  matrix and sparse recovery analysis framework introduced by Raskutti, Wainwright, and Yu (2010, Journal
+  of Machine Learning Research 11:2241-2259) that establishes high-probability uniform lower bounds on
+  the empirical quadratic form ||X v||_2 / sqrt(n) of n x p design matrices X with independent rows X_i
+  ~ N(0, Sigma) having arbitrary correlation structure Sigma. Using Gordon''s Gaussian comparison inequality
+  on the doubly-indexed min-max Gaussian process Y_{u, v} = u^T W Sigma^{1/2} v over S^{n-1} x V(r) (Equations
+  5-6, Lemma 1), Lipschitz concentration of Gaussian measure in Frobenius norm (Lemma 2), and geometric
+  peeling over dyadic l_1 shells (Section 4.4, Lemma 3), Theorem 1 (Equation 3) proves that with probability
+  at least 1 - c'' exp(-c n), ||X v||_2 / sqrt(n) >= (1/4) ||Sigma^{1/2} v||_2 - 9 rho(Sigma) sqrt((log
+  p)/n) ||v||_1 simultaneously for all v in R^p, where rho^2(Sigma) := max_{j=1,...,p} Sigma_{jj}. Consequently,
+  Corollary 1 (Equation 4) proves that whenever the population covariance Sigma satisfies the Restricted
+  Eigenvalue (RE) condition of order k with parameters (alpha, gamma) on the cone C(S; alpha) := {theta
+  in R^p : ||theta_{S^c}||_1 <= alpha ||theta_S||_1} (|S| = k) and n > c'''' rho^2(Sigma) (1 + alpha)^2
+  k (log p) / gamma^2, the sample covariance matrix Sigma_hat = X^T X / n satisfies the RE condition of
+  order k with parameters (alpha, gamma / 8) (and hence the Restricted Nullspace property when alpha >=
+  1) with probability at least 1 - c'' exp(-c n), improving entrywise l_infinity coherence bounds from
+  n = Omega(k^2 log p) to the minimax-optimal linear scaling n = Omega(k log p) while encompassing strongly
+  correlated Toeplitz, spiked-identity, and rank-degenerate covariance structures that violate the Restricted
+  Isometry Property (RIP).'
+identity_notes: 'Resolved against all 442 pinned AIO records and 625 maintained AIMech records. Distinct
+  from AIMech:DecomposableRegularizerAndRestrictedStrongConvexityMEstimatorFramework (Negahban, Ravikumar,
+  Wainwright, & Yu 2012, Statistical Science 27(4):538-557, arXiv:1010.2731v1/v3, which formulates general
+  decomposable regularizer M-estimation under Restricted Strong Convexity and invokes Raskutti, Wainwright,
+  & Yu 2010 in Proposition 1 for linear regression), from AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  (Raskutti, Wainwright, & Yu 2011, IEEE Trans. Inf. Theory 57(10):6976-6994, arXiv:0910.2042v1, which
+  derives information-theoretic minimax lower and upper bounds over l_q-balls), from AIMech:RandomizedSketchesOfConvexProgramsWithTangentConeGaussianWidthGuarantees
+  (Pilanci & Wainwright 2015, IEEE Trans. Inf. Theory 61(9):5096-5115, which studies randomized sketches
+  S X of convex programs over tangent cones of fixed datasets), and from AIO:LassoRegression and AIO:LinearRegression:
+  Raskutti, Wainwright, & Yu (2010, JMLR 11:2241-2259) establish the Gordon-Slepian min-max comparison,
+  Frobenius-Lipschitz concentration, and dyadic l_1 peeling proof of Theorem 1 (Equation 3) and Corollary
+  1 (Equation 4), and prove via Examples 1-3 that Toeplitz, spiked-identity, and rank-degenerate population
+  covariance matrices satisfy RE at sample size n = Omega(k log p) even when RIP and full-rank positive
+  definiteness fail.'
+definition_evidence:
+- source_id: raskutti2010-re-gaussian-pdf
+  locator: Abstract, p. 2241; Sections 1-3, pp. 2241-2250, Equations (1)-(4), Theorem 1, Corollary 1,
+    Examples 1-3; Section 4 and Appendices A-B, pp. 2250-2257, Equations (5)-(6), Lemmas 1-3
+  relation: supports
+- source_id: raskutti2010-re-gaussian-jmlr
+  locator: Journal of Machine Learning Research 11(76):2241-2259 (2010) metadata and abstract
+  relation: supports
+claims:
+- claim_id: uniform-empirical-l2-lower-bound-and-restricted-eigenvalue-transfer-theorem
+  kind: mechanism
+  statement: 'For any n x p Gaussian random design matrix X with independent rows X_i ~ N(0, Sigma) and
+    maximal diagonal variance rho^2(Sigma) := max_{j=1,...,p} Sigma_{jj}, Theorem 1 (Section 3.1, p. 2246,
+    Equation 3) proves that there exist universal positive constants c, c'' such that with probability
+    at least 1 - c'' exp(-c n), ||X v||_2 / sqrt(n) >= (1/4) ||Sigma^{1/2} v||_2 - 9 rho(Sigma) sqrt((log
+    p)/n) ||v||_1 simultaneously for all v in R^p. Consequently, Corollary 1 (p. 2246, Equation 4) shows
+    that if the population covariance Sigma satisfies the Restricted Eigenvalue (RE) condition of order
+    k with parameters (alpha, gamma) on the cone C(S; alpha) := {theta in R^p : ||theta_{S^c}||_1 <= alpha
+    ||theta_S||_1} (meaning ||Sigma^{1/2} theta||_2 >= gamma ||theta||_2 for all theta in cup_{|S|=k}
+    C(S; alpha)) and the sample size satisfies n > c'''' rho^2(Sigma) (1 + alpha)^2 k (log p) / gamma^2,
+    then because ||theta||_1 <= (1 + alpha) sqrt(k) ||theta||_2 on C(S; alpha), the empirical design X
+    satisfies ||X theta||_2 / sqrt(n) >= (gamma / 8) ||theta||_2 for all theta in cup_{|S|=k} C(S; alpha)
+    (the RE condition of order k with parameters (alpha, gamma / 8), and the Restricted Nullspace property
+    C(S; 1) cap null(X) = {0} when alpha >= 1) with probability at least 1 - c'' exp(-c n), reducing the
+    sample complexity required by entrywise l_infinity bounds ||X^T X / n - Sigma||_infty = O(sqrt((log
+    p)/n)) (Section 3.2, pp. 2247-2248) from n = Omega(k^2 log p) to the minimax-optimal linear scaling
+    n = Omega(k log p).'
+  evidence:
+  - source_id: raskutti2010-re-gaussian-pdf
+    locator: Sections 2.1-2.2 and 3.1-3.2, pp. 2243-2248, Equations (1)-(4), Theorem 1, Corollary 1
+    relation: supports
+- claim_id: separation-from-restricted-isometry-and-rank-degenerate-covariance-structures
+  kind: scope
+  statement: 'Section 3.3 (pp. 2248-2250, Examples 1-3) proves that the Restricted Eigenvalue condition
+    on Sigma is strictly weaker than both the Restricted Isometry Property (RIP) and full-rank positive
+    definiteness: (1) for Toeplitz covariance matrices Sigma_{ij} = a^{|i-j|} with a in [0, 1) (Example
+    1) and spiked identity covariance matrices Sigma = (1 - a) I_{p x p} + a 1 1^T with a in (0, 1) (Example
+    2), every k x k principal submatrix Sigma_{SS} of the spiked covariance has minimum eigenvalue lambda_min(Sigma_{SS})
+    = 1 - a and maximum eigenvalue lambda_max(Sigma_{SS}) = 1 + a(k - 1), so the empirical submatrix condition
+    number lambda_max(Sigma_hat_{SS}) / lambda_min(Sigma_hat_{SS}) >= (1/4) (1 + a(k - 1)) / (1 - a) diverges
+    as k -> infinity (violating the RIP bounded-condition-number requirement with high probability), whereas
+    Sigma has bounded minimum eigenvalue 1 - a > 0 and rho^2(Sigma) = 1 so Corollary 1 guarantees RE of
+    order k for n = Omega(k log p); and (2) Example 3 (p. 2250) shows that setting Sigma_deg = Sigma_hat
+    = X^T X / n for an initial sample of size n < p yields a population covariance matrix with p - n zero
+    eigenvalues (a (p - n)-dimensional nullspace) that nonetheless satisfies the RE condition of order
+    k, so resampled designs X_tilde_i ~ N(0, Sigma_deg) satisfy RE of order k for n = Omega(k log p).'
+  evidence:
+  - source_id: raskutti2010-re-gaussian-pdf
+    locator: Section 3.3, pp. 2248-2250, Examples 1, 2, and 3
+    relation: supports
+- claim_id: gordon-slepian-minmax-comparison-lipschitz-concentration-and-dyadic-l1-peeling
+  kind: mechanism
+  statement: 'Writing X = W Sigma^{1/2} with standard normal W in R^{n x p} and rescaling by ||Sigma^{1/2}
+    v||_2 = 1 onto V(r) := {v in R^p : ||Sigma^{1/2} v||_2 = 1, ||v||_1 <= r}, Section 4.1 (p. 2251, Equation
+    5) expresses M(r, X) := 1 - inf_{v in V(r)} ||X v||_2 / sqrt(n) = 1 + (1/sqrt(n)) sup_{v in V(r)}
+    inf_{u in S^{n-1}} u^T W Sigma^{1/2} v and controls it in three steps: (1) Lemma 1 (Section 4.2, pp.
+    2251-2253) compares Y_{u, v} = u^T W v_tilde (v_tilde = Sigma^{1/2} v in S^{p-1}) against the separable
+    Gaussian process Z_{u, v} = g^T u + h^T Sigma^{1/2} v by verifying Equation (6), E[(Y_{u, v} - Y_{u'',
+    v''})^2] = |||u v_tilde^T - u'' (v_tilde'')^T|||_F^2 = ||u - u''||_2^2 + ||v_tilde - v_tilde''||_2^2
+    - 2(1 - u^T u'')(1 - v_tilde^T v_tilde'') <= E[(Z_{u, v} - Z_{u'', v''})^2] with equality when v =
+    v'', yielding via Gordon''s inequality E[M(r, X)] <= t(r) := 1/4 + 3 rho(Sigma) sqrt((log p)/n) r
+    for n >= 19; (2) Lemma 2 (Section 4.3, pp. 2253-2254) proves that h(W) := M(r, X) - 1 is (1/sqrt(n))-Lipschitz
+    in W under the Frobenius norm because |u^T (W - W'') v_tilde| <= |||u v_tilde^T|||_F |||W - W''|||_F
+    = |||W - W''|||_F, giving P[M(r, X) >= (3/2) t(r)] <= 2 exp(-n t^2(r) / 8); and (3) Section 4.4 and
+    Lemma 3 (pp. 2254-2256, Appendix A) partition V = {v : ||Sigma^{1/2} v||_2 = 1} into dyadic shells
+    A_m = {v in A : 2^{m-1} mu <= g(h(v)) <= 2^m mu} with g(r) = (3/2) t(r) >= mu = 3/8 and sum the tail
+    probabilities sum_{m=1}^infty 2 exp(-c n 2^{2m} mu^2) <= 2 exp(-4 c n mu^2) / (1 - exp(-4 c n mu^2))
+    to establish Theorem 1 uniformly over all r > 0.'
+  evidence:
+  - source_id: raskutti2010-re-gaussian-pdf
+    locator: Sections 4.1-4.4 and Appendices A-B, pp. 2250-2257, Equations (5)-(6), Lemmas 1, 2, and 3
+    relation: supports
+evidence_sources:
+- source_id: raskutti2010-re-gaussian-pdf
+  title: Restricted Eigenvalue Properties for Correlated Gaussian Designs
+  authors:
+  - Garvesh Raskutti
+  - Martin J. Wainwright
+  - Bin Yu
+  source_type: primary_paper
+  url: https://jmlr.org/papers/volume11/raskutti10a/raskutti10a.pdf
+  persistent_id: https://jmlr.org/papers/v11/raskutti10a.html
+  version: Journal of Machine Learning Research 11:2241-2259 (August 2010, 19 pages, 153447 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-18T14:20:00Z'
+  sha256: 6d4ad6baf930abe80799b6a09539e2a3b723b9b34c21b015a1b46e44322758fa
+- source_id: raskutti2010-re-gaussian-jmlr
+  title: Restricted Eigenvalue Properties for Correlated Gaussian Designs (JMLR v11 Metadata)
+  authors:
+  - Garvesh Raskutti
+  - Martin J. Wainwright
+  - Bin Yu
+  source_type: primary_paper
+  url: https://jmlr.org/papers/v11/raskutti10a.html
+  persistent_id: https://jmlr.org/papers/v11/raskutti10a.html
+  version: Journal of Machine Learning Research 11(76):2241-2259 (2010) metadata record (6481 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T14:20:00Z'
+  sha256: 906be5efecb9205bc6956ea6c875e8a07419b2e8da63025d44b7e50ea160f401
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: AIO:LassoRegression represents L1-penalized linear regression broadly, whereas Raskutti,
+    Wainwright, & Yu (2010) establish the Restricted Eigenvalue and Restricted Nullspace random design
+    guarantees for correlated Gaussian ensembles that certify minimax-optimal l_2 and l_1 recovery of
+    the Lasso and Dantzig selector.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: AIO:LinearRegression represents linear regression models broadly, whereas Raskutti, Wainwright,
+    & Yu (2010) analyze the random design matrix X in R^{n x p} of high-dimensional sparse linear regression
+    y = X beta* + w under general Gaussian covariate correlation Sigma.
+limitations:
+- 'Gaussian Design Distribution Requirement: Theorem 1 and Corollary 1 rely on the rows of X being drawn
+  from a multivariate Gaussian distribution N(0, Sigma) so that Gordon''s Gaussian comparison inequality
+  (Lemma 1) and Gaussian concentration of Lipschitz functions (Lemma 2) apply directly; as noted in Section
+  5 (p. 2255), extending sharp n = Omega(k log p) Restricted Eigenvalue guarantees to general non-Gaussian
+  or heavy-tailed correlated designs requires different small-ball or multiplier-process arguments.'
+- 'Conservative Universal Constants: The prefactor 1/4 in Theorem 1 (and gamma / 8 in Corollary 1) together
+  with the l_1 penalty multiplier 9 rho(Sigma) are chosen for analytical transparency of the three-step
+  Gordon comparison and dyadic peeling proof rather than sharp numerical constants.'
+- 'Primary-Source Typographical Notes in Raskutti, Wainwright, & Yu (2010, JMLR 11:2241-2259): Verified
+  four self-correcting typographical details during full-text inspection: (1) Section 2.1 (p. 2244, Equation
+  2) prints the basis pursuit objective as beta_hat in arg min_{beta_hat in R^p} ||beta||_1 with a hat
+  on the minimization variable beta_hat under arg min; (2) Section 3.1 (p. 2247, Remark (a)) prints the
+  Restricted Nullspace condition as C(S, 1) cap (X) = {0}, omitting the word null before (X) (i.e., C(S;
+  1) cap null(X) = {0}); (3) Section 4.2 (p. 2251, bottom display) writes E[M(r, X)] = 1 + E[sup_{v in
+  V(r)} inf_{u in S^{n-1}} Y_{u, v}] <= 1 + E[sup_{v in V(r)} inf_{u in S^{n-1}} Z_{u, v}], omitting the
+  factor 1/sqrt(n) before both expectations (which is present in Equation 5 on p. 2251 and restored on
+  p. 2253 when dividing by sqrt(n)); and (4) Section 4.4 (pp. 2254-2255) vs. Appendix A (p. 2256, Lemma
+  3) defines the bad event T on p. 2254 with f(v; X) >= g(||v||_1) whereas Lemma 3 (p. 2256) bounds E
+  := {exists v in A s.t. f(v; X) >= 2 g(h(v))} with factor 2 g(h(v)) = 3 t(||v||_1), which matches the
+  top of p. 2255 writing 1 - ||X v||_2 / sqrt(n) <= 3 t(||v||_1) = 3/4 + 9 rho(Sigma) sqrt((log p)/n)
+  ||v||_1 and Theorem 1''s constants 1 - 3/4 = 1/4 and 9.'
+- All 19 pages of Raskutti, Wainwright, & Yu (2010, JMLR 11:2241-2259) were read. Constructed numerical
+  checks in research/discovery/restricted-eigenvalue-properties-correlated-gaussian-designs-boundaries.py
+  verify (1) the Gordon-Slepian variance identity and inequality in Equation (6) (max identity error 2.66e-15,
+  min variance gap 0.4526 >= 0, exact equality when v = v') and the Corollary 1 RE transfer constant >=
+  gamma / 8; (2) Example 2 spiked-identity submatrix condition number growth [13.0, 49.0, 193.0, 769.0]
+  violating RIP while satisfying RE with gamma = 0.5, and Example 3 rank-degenerate covariance (n = 14
+  < p = 28) having a non-trivial nullspace vector outside C(S; 1) (ratio 12.68 > 1) while maintaining
+  positive gain >= 0.615 on C(S; 1); and (3) Lemma 2 Frobenius-Lipschitz scaling <= 1/sqrt(n) and Lemma
+  3 dyadic peeling geometric series bound (0.047036 <= 0.048168).
+review_status: DRAFT
+curation:
+  created_at: '2026-10-18T21:26:00Z'
+  updated_at: '2026-10-18T21:26:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
