@@ -1,0 +1,528 @@
+# Scientific author self-review of Generalized Bernstein-Orlicz sub-Weibull concentration and high-dimensional misspecified Lasso
+
+- Review: 20261018T191200Z-sub-weibull-gbo-concentration-and-lasso
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-18T19:10:00Z
+- Finished UTC: 2026-10-18T19:12:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Generalized Bernstein-Orlicz sub-Weibull concentration and high-dimensional misspecified Lasso as a distinct DRAFT mathematical_method with related LinearRegression and LassoRegression mappings. All four claims and locators across Kuchibhotla &amp; Chakrabortty (2022, Information and Inference 11(4):1389-1456, arXiv:1804.02605v4, DOI:10.1093/imaiai/iaac012) are supported with explicit non-convex quasi-norm and marginal vs. joint sample-complexity limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base f80771dba63ba19988a6613677ae162374e9e0d7.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso | data/curated/GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.yaml | maintained | Generalized Bernstein-Orlicz sub-Weibull concentration and high-dimensional misspecified Lasso |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso | All 613 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso | Exited 0 without output. |
+| Constructed Kuchibhotla &amp; Chakrabortty 2022 GBO norm equivalence, joint-vs-marginal divergence, free-s RE(k) optimization, and misspecified Lasso oracle checks | passed | True | AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso | {<br>  "concept_id": "AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso",<br>  "regime_1_gbo_and_product_orlicz_norms": {<br>    "min_phi_over_psi_ratio": 1.357017,<br>    "max_phi_over_psi_ratio": 2.0,<br>    "min_inv_ratio": 1.051306,<br>    "max_inv_ratio": 2.0,<br>    "product_holder_ratio": 0.913063,<br>    "proposition_a1_and_d2_verified": true<br>  },<br>  "regime_2_joint_vs_marginal_and_maximal_inequality": {<br>    "q_dim": 64,<br>    "joint_to_marginal_collinear_ratio": 8.0,<br>    "expected_sqrt_q": 8.0,<br>    "gbo_second_order_rate": 1.105241,<br>    "cck_second_order_rate": 13.794337,<br>    "joint_vs_marginal_and_remark_3_2_verified": true<br>  },<br>  "regime_3_rsc_and_re_sample_complexity_optimization": {<br>    "k_sparsity": 40,<br>    "optimal_free_s": 3,<br>    "penalty_at_s_opt": 0.257321,<br>    "penalty_at_s_1": 0.297524,<br>    "penalty_at_s_k": 0.579424,<br>    "re_free_s_optimization_verified": true<br>  },<br>  "regime_4_misspecified_lasso_oracle_inequality": {<br>    "grad_inf_at_beta0": 0.162479,<br>    "lambda_n": 0.357454,<br>    "nu_sc_l1": 0.07,<br>    "cone_rhs_3_nu_s_plus_4_beta0_sc": 2.991519,<br>    "lasso_l2_error": 0.548536,<br>    "equation_e10_cone_and_oracle_verified": true<br>  },<br>  "all_passed": true<br>} |
+
+## Scientific And Domain Assessments
+
+### Distinctness of Generalized Bernstein-Orlicz sub-Weibull concentration and high-dimensional misspecified Lasso
+
+identity: supported. Targets: AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.
+
+Distinct from simultaneous normal-equation PoSI, single-model moving-target OLS, Chernozhukov et al. (2013/2017) Gaussian multiplier bootstrap, and generic LassoRegression.
+
+Confirmed via normalized identity check and full-text reading of Kuchibhotla &amp; Chakrabortty (2022, arXiv:1804.02605v4, DOI:10.1093/imaiai/iaac012).
+
+### AIO mappings for AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+
+grounding: supported. Targets: AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.
+
+related_match to AIO:LinearRegression and AIO:LassoRegression is accurate.
+
+Pinned AIO (2026-07-22) contains LinearRegression and LassoRegression broadly without Generalized Bernstein-Orlicz sub-Weibull concentration or hard-sparsity-free misspecified Lasso oracle bounds.
+
+### Definition and scope
+
+evidence: supported. Targets: AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.
+
+Definition accurately captures the GBO quasi-norm &#124;&#124;.&#124;&#124;_{Psi_{alpha,L}}, closed-form equivalence &#124;&#124;.&#124;&#124;_{phi_{alpha,L}}, marginal vs. joint sub-Weibull separation, sum/maximum/product/empirical-process bounds, free-s RSC/RE optimization, and misspecified Lasso oracle inequalities.
+
+All equations and claims verified against Sections 1-5 and Appendices A-E of arXiv:1804.02605v4.
+
+### generalized-bernstein-orlicz-norm-and-marginal-vs-joint-sub-weibull-separation
+
+evidence: supported. Targets: AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.
+
+Supported by Section 2, Section 4 (Equation 4.1), Appendix A (Propositions A.1-A.7), and boundary script.
+
+Verified Proposition A.1 closed-form Orlicz equivalence and Equation 4.1 exact sqrt(q) = 8.0 ratio between joint and marginal sub-Weibull norms under collinearity for q = 64.
+
+### gbo-sum-and-maximum-concentration-product-orlicz-and-empirical-processes
+
+evidence: supported. Targets: AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.
+
+Supported by Section 3 (Theorems 3.1-3.4, Remarks 3.2-3.3), Appendix B (Theorem B.1), Appendix D (Proposition D.2), and boundary script.
+
+Verified Proposition D.2 Holder-type product Orlicz inequality (ratio 0.913063 &lt;= 1.0) and Remark 3.2 strict improvement of GBO second-order rate (1.105241) over Chernozhukov et al. (2017) rate (13.794337).
+
+### high-dimensional-covariance-rip-rsc-and-free-s-restricted-eigenvalue-optimization
+
+evidence: supported. Targets: AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.
+
+Supported by Sections 4.1-4.3 (Theorems 4.1-4.4, Section 4.3.1, Equations 4.2-4.27) and boundary script.
+
+Verified Section 4.3.1 free-sparsity s optimization achieving strictly tighter RE(k) cone penalty at s_opt = 3 (0.257321) than at s = 1 (0.297524) or s = k = 40 (0.579424).
+
+### hard-sparsity-free-misspecified-lasso-oracle-inequality-under-heavy-tailed-errors
+
+evidence: supported. Targets: AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.
+
+Supported by Section 4.4 (Theorems 4.5-4.6) and Appendix E (Proposition E.1, Equations E.9-E.11) and boundary script.
+
+Verified Equation (E.10) approximate cone condition &#124;&#124;nu(S^c)&#124;&#124;_1 = 0.07 &lt;= 3&#124;&#124;nu(S)&#124;&#124;_1 + 4&#124;&#124;beta_0(S^c)&#124;&#124;_1 = 2.991519 and Equation (E.9) l2 oracle bound.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, three primary sources with exact SHA-256 digests, pinned AIO mappings and rationales, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261018T191000Z-sub-weibull-gbo-concentration-and-lasso.json | supports | No normalized identity match for Generalized Bernstein-Orlicz sub-Weibull concentration and high-dimensional misspecified Lasso across 442 pinned AIO records and 612 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected LinearRegression and LassoRegression in the pinned AIO snapshot (2026-07-22). Provides accurate related_match context. |
+| calculation | research/discovery/sub-weibull-gbo-concentration-and-lasso-boundaries.py | supports | Executed pure-Python verification in research/discovery/sub-weibull-gbo-concentration-and-lasso-boundaries.py (SHA-256 c47082e9200ab482fa76ded57c303d80fe0b1eb277f7f925d7220043ca693748): verified (1) Proposition A.1 closed-form Orlicz equivalence &#124;&#124;X&#124;&#124;_{Psi_{alpha,L}} &lt;= &#124;&#124;X&#124;&#124;_{phi_{alpha,L}} &lt;= 2&#124;&#124;X&#124;&#124;_{Psi_{alpha,L}} and Proposition D.2 Holder-type product Orlicz inequality; (2) Definitions 2.4-2.5 and Equation 4.1 sqrt(q) divergence of joint vs. marginal sub-Weibull norms under collinearity and Remark 3.2 strict improvement of Theorem 3.4 over Chernozhukov et al. (2017, Lemma E.1); (3) Theorem 4.4 unified Restricted Strong Convexity (RSC) and Section 4.3.1 free-s optimization min_{1&lt;=s&lt;=p}{Xi_{n,s} + k Xi_{n,s}/s} for Restricted Eigenvalue RE(k) sample complexity; and (4) Proposition E.1 deterministic hard-sparsity-free approximate cone condition and l2 oracle bound for misspecified Lasso. |
+| kuchibhotla2022-gbo-pdf | https://arxiv.org/pdf/1804.02605; Pages 1-68, Sections 1-5 and Appendices A-E (Definitions 2.1-2.5, Theorems 3.1-3.4, 4.1-4.6, B.1, Propositions A.1-A.7, B.1-B.4, D.2, E.1) | supports | All 68 pages of the full-text PDF of arXiv:1804.02605v4 read. Checked all definitions, theorems, propositions, and proofs. |
+| kuchibhotla2022-gbo-abs | https://arxiv.org/abs/1804.02605; arXiv:1804.02605v4 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| kuchibhotla2022-gbo-crossref | https://api.crossref.org/works/10.1093/imaiai/iaac012; Information and Inference: A Journal of the IMA 11(4):1389-1456 (2022), DOI 10.1093/imaiai/iaac012 | supports | Crossref metadata for Information and Inference 11(4):1389-1456 (2022) read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Generalized Bernstein-Orlicz sub-Weibull concentration and high-dimensional misspecified Lasso record, yielding 613 native and 442 unchanged generated records.
+- All 68 PDF pages of arXiv:1804.02605v4 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261018T191200Z-sub-weibull-gbo-concentration-and-lasso
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Generalized Bernstein-Orlicz sub-Weibull concentration
+  and high-dimensional misspecified Lasso
+started_at: '2026-10-18T19:10:00Z'
+finished_at: '2026-10-18T19:12:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from SimultaneousNormalEquationPostSelectionConfidenceRegions,
+    UnifiedAssumptionLeanMovingTargetLinearRegressionAndScoreBootstrap, NonAsymptoticHighDimensionalCentralLimitAndMultiplierBootstrapForMaximaOfSums,
+    and AIO:LassoRegression, verified Proposition A.1 closed-form Orlicz equivalence,
+    Proposition D.2 product Orlicz Holder inequality, Definitions 2.4-2.5 marginal
+    vs. joint sub-Weibull separation, Theorem 3.4 / Remark 3.2 maximal inequality
+    improvement, Theorem 4.4 / Section 4.3.1 free-s RSC and RE(k) optimization, and
+    Proposition E.1 / Theorems 4.5-4.6 misspecified Lasso oracle bounds, and documented
+    five typographical notes in arXiv:1804.02605v4 (pp. 9, 49, 57, 60, 63-64). This
+    is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Generalized Bernstein-Orlicz sub-Weibull concentration and high-dimensional
+  misspecified Lasso as a distinct DRAFT mathematical_method with related LinearRegression
+  and LassoRegression mappings. All four claims and locators across Kuchibhotla &
+  Chakrabortty (2022, Information and Inference 11(4):1389-1456, arXiv:1804.02605v4,
+  DOI:10.1093/imaiai/iaac012) are supported with explicit non-convex quasi-norm and
+  marginal vs. joint sample-complexity limitations.
+source:
+  git_revision: f80771dba63ba19988a6613677ae162374e9e0d7
+  state: working_tree
+  inputs:
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/curated/GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.yaml
+    sha256: 8df5e9c9871f408d2708a2e4b45b9912ffa056933a9735cb65259d56fd7cb36b
+    role: target
+  - path: data/curated/SimultaneousNormalEquationPostSelectionConfidenceRegions.yaml
+    sha256: 50d7b68b232bb3e4e37990bc59735d2b4982e758bf384b286217cfa25ac49c4d
+    role: context
+  - path: data/curated/UnifiedAssumptionLeanMovingTargetLinearRegressionAndScoreBootstrap.yaml
+    sha256: 1d198602c98642314bc45566f4085b7861709858658de496e302580fd8657b8d
+    role: context
+  - path: research/discovery/20261018T191000Z-sub-weibull-gbo-concentration-and-lasso.json
+    sha256: dd8fbd595207ea06af7714eed1a56134c883f86f920cfee023d4eeb7a3229314
+    role: context
+  - path: research/discovery/sub-weibull-gbo-concentration-and-lasso-boundaries.py
+    sha256: c47082e9200ab482fa76ded57c303d80fe0b1eb277f7f925d7220043ca693748
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  path: data/curated/GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.yaml
+  label: Generalized Bernstein-Orlicz sub-Weibull concentration and high-dimensional
+    misspecified Lasso
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 613 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Kuchibhotla & Chakrabortty 2022 GBO norm equivalence, joint-vs-marginal
+    divergence, free-s RE(k) optimization, and misspecified Lasso oracle checks
+  command: python3 research/discovery/sub-weibull-gbo-concentration-and-lasso-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept_id\": \"AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso\"\
+    ,\n  \"regime_1_gbo_and_product_orlicz_norms\": {\n    \"min_phi_over_psi_ratio\"\
+    : 1.357017,\n    \"max_phi_over_psi_ratio\": 2.0,\n    \"min_inv_ratio\": 1.051306,\n\
+    \    \"max_inv_ratio\": 2.0,\n    \"product_holder_ratio\": 0.913063,\n    \"\
+    proposition_a1_and_d2_verified\": true\n  },\n  \"regime_2_joint_vs_marginal_and_maximal_inequality\"\
+    : {\n    \"q_dim\": 64,\n    \"joint_to_marginal_collinear_ratio\": 8.0,\n   \
+    \ \"expected_sqrt_q\": 8.0,\n    \"gbo_second_order_rate\": 1.105241,\n    \"\
+    cck_second_order_rate\": 13.794337,\n    \"joint_vs_marginal_and_remark_3_2_verified\"\
+    : true\n  },\n  \"regime_3_rsc_and_re_sample_complexity_optimization\": {\n  \
+    \  \"k_sparsity\": 40,\n    \"optimal_free_s\": 3,\n    \"penalty_at_s_opt\":\
+    \ 0.257321,\n    \"penalty_at_s_1\": 0.297524,\n    \"penalty_at_s_k\": 0.579424,\n\
+    \    \"re_free_s_optimization_verified\": true\n  },\n  \"regime_4_misspecified_lasso_oracle_inequality\"\
+    : {\n    \"grad_inf_at_beta0\": 0.162479,\n    \"lambda_n\": 0.357454,\n    \"\
+    nu_sc_l1\": 0.07,\n    \"cone_rhs_3_nu_s_plus_4_beta0_sc\": 2.991519,\n    \"\
+    lasso_l2_error\": 0.548536,\n    \"equation_e10_cone_and_oracle_verified\": true\n\
+    \  },\n  \"all_passed\": true\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261018T191000Z-sub-weibull-gbo-concentration-and-lasso.json
+  accessed_at: '2026-10-18T19:10:00Z'
+  support: supports
+  summary: No normalized identity match for Generalized Bernstein-Orlicz sub-Weibull
+    concentration and high-dimensional misspecified Lasso across 442 pinned AIO records
+    and 612 maintained IDs, names, aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-18T19:10:00Z'
+  support: supports
+  summary: Inspected LinearRegression and LassoRegression in the pinned AIO snapshot
+    (2026-07-22). Provides accurate related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/sub-weibull-gbo-concentration-and-lasso-boundaries.py
+  accessed_at: '2026-10-18T19:10:00Z'
+  snapshot_sha256: c47082e9200ab482fa76ded57c303d80fe0b1eb277f7f925d7220043ca693748
+  support: supports
+  summary: 'Executed pure-Python verification in research/discovery/sub-weibull-gbo-concentration-and-lasso-boundaries.py
+    (SHA-256 c47082e9200ab482fa76ded57c303d80fe0b1eb277f7f925d7220043ca693748): verified
+    (1) Proposition A.1 closed-form Orlicz equivalence ||X||_{Psi_{alpha,L}} <= ||X||_{phi_{alpha,L}}
+    <= 2||X||_{Psi_{alpha,L}} and Proposition D.2 Holder-type product Orlicz inequality;
+    (2) Definitions 2.4-2.5 and Equation 4.1 sqrt(q) divergence of joint vs. marginal
+    sub-Weibull norms under collinearity and Remark 3.2 strict improvement of Theorem
+    3.4 over Chernozhukov et al. (2017, Lemma E.1); (3) Theorem 4.4 unified Restricted
+    Strong Convexity (RSC) and Section 4.3.1 free-s optimization min_{1<=s<=p}{Xi_{n,s}
+    + k Xi_{n,s}/s} for Restricted Eigenvalue RE(k) sample complexity; and (4) Proposition
+    E.1 deterministic hard-sparsity-free approximate cone condition and l2 oracle
+    bound for misspecified Lasso.'
+- evidence_id: kuchibhotla2022-gbo-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1804.02605
+  locator: Pages 1-68, Sections 1-5 and Appendices A-E (Definitions 2.1-2.5, Theorems
+    3.1-3.4, 4.1-4.6, B.1, Propositions A.1-A.7, B.1-B.4, D.2, E.1)
+  accessed_at: '2026-10-18T11:45:00Z'
+  snapshot_sha256: 47098d42e994743cae6a78627a85697478dc18350dc6bc4c9ed3bb1656d14ecc
+  support: supports
+  summary: All 68 pages of the full-text PDF of arXiv:1804.02605v4 read. Checked all
+    definitions, theorems, propositions, and proofs.
+- evidence_id: kuchibhotla2022-gbo-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1804.02605
+  locator: arXiv:1804.02605v4 abstract
+  accessed_at: '2026-10-18T11:43:00Z'
+  snapshot_sha256: d410c2530d014a0403653172250e8c8cdbda20f88475ff562f7988e8c015bb62
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: kuchibhotla2022-gbo-crossref
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1093/imaiai/iaac012
+  locator: 'Information and Inference: A Journal of the IMA 11(4):1389-1456 (2022),
+    DOI 10.1093/imaiai/iaac012'
+  accessed_at: '2026-10-18T11:44:00Z'
+  snapshot_sha256: 74ef9f5d18ec5ac0051d26e2fbb84bcf43a33b24391a7cce5441787fa6f790db
+  support: supports
+  summary: Crossref metadata for Information and Inference 11(4):1389-1456 (2022)
+    read and verified.
+assessments:
+- assessment_id: identity-boundary
+  area: identity
+  topic: Distinctness of Generalized Bernstein-Orlicz sub-Weibull concentration and
+    high-dimensional misspecified Lasso
+  outcome: supported
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  evidence_ids:
+  - identity
+  - kuchibhotla2022-gbo-pdf
+  - kuchibhotla2022-gbo-abs
+  summary: Distinct from simultaneous normal-equation PoSI, single-model moving-target
+    OLS, Chernozhukov et al. (2013/2017) Gaussian multiplier bootstrap, and generic
+    LassoRegression.
+  details: Confirmed via normalized identity check and full-text reading of Kuchibhotla
+    & Chakrabortty (2022, arXiv:1804.02605v4, DOI:10.1093/imaiai/iaac012).
+- assessment_id: aio-mappings
+  area: grounding
+  topic: AIO mappings for AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  outcome: supported
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  evidence_ids:
+  - mapping
+  - kuchibhotla2022-gbo-pdf
+  summary: related_match to AIO:LinearRegression and AIO:LassoRegression is accurate.
+  details: Pinned AIO (2026-07-22) contains LinearRegression and LassoRegression broadly
+    without Generalized Bernstein-Orlicz sub-Weibull concentration or hard-sparsity-free
+    misspecified Lasso oracle bounds.
+- assessment_id: definition
+  area: evidence
+  topic: Definition and scope
+  outcome: supported
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  evidence_ids:
+  - kuchibhotla2022-gbo-pdf
+  - kuchibhotla2022-gbo-abs
+  - kuchibhotla2022-gbo-crossref
+  summary: Definition accurately captures the GBO quasi-norm ||.||_{Psi_{alpha,L}},
+    closed-form equivalence ||.||_{phi_{alpha,L}}, marginal vs. joint sub-Weibull
+    separation, sum/maximum/product/empirical-process bounds, free-s RSC/RE optimization,
+    and misspecified Lasso oracle inequalities.
+  details: All equations and claims verified against Sections 1-5 and Appendices A-E
+    of arXiv:1804.02605v4.
+- assessment_id: generalized-bernstein-orlicz-norm-and-marginal-vs-joint-sub-weibull-separation
+  area: evidence
+  topic: generalized-bernstein-orlicz-norm-and-marginal-vs-joint-sub-weibull-separation
+  outcome: supported
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  evidence_ids:
+  - kuchibhotla2022-gbo-pdf
+  - calculation
+  summary: Supported by Section 2, Section 4 (Equation 4.1), Appendix A (Propositions
+    A.1-A.7), and boundary script.
+  details: Verified Proposition A.1 closed-form Orlicz equivalence and Equation 4.1
+    exact sqrt(q) = 8.0 ratio between joint and marginal sub-Weibull norms under collinearity
+    for q = 64.
+- assessment_id: gbo-sum-and-maximum-concentration-product-orlicz-and-empirical-processes
+  area: evidence
+  topic: gbo-sum-and-maximum-concentration-product-orlicz-and-empirical-processes
+  outcome: supported
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  evidence_ids:
+  - kuchibhotla2022-gbo-pdf
+  - calculation
+  summary: Supported by Section 3 (Theorems 3.1-3.4, Remarks 3.2-3.3), Appendix B
+    (Theorem B.1), Appendix D (Proposition D.2), and boundary script.
+  details: Verified Proposition D.2 Holder-type product Orlicz inequality (ratio 0.913063
+    <= 1.0) and Remark 3.2 strict improvement of GBO second-order rate (1.105241)
+    over Chernozhukov et al. (2017) rate (13.794337).
+- assessment_id: high-dimensional-covariance-rip-rsc-and-free-s-restricted-eigenvalue-optimization
+  area: evidence
+  topic: high-dimensional-covariance-rip-rsc-and-free-s-restricted-eigenvalue-optimization
+  outcome: supported
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  evidence_ids:
+  - kuchibhotla2022-gbo-pdf
+  - calculation
+  summary: Supported by Sections 4.1-4.3 (Theorems 4.1-4.4, Section 4.3.1, Equations
+    4.2-4.27) and boundary script.
+  details: Verified Section 4.3.1 free-sparsity s optimization achieving strictly
+    tighter RE(k) cone penalty at s_opt = 3 (0.257321) than at s = 1 (0.297524) or
+    s = k = 40 (0.579424).
+- assessment_id: hard-sparsity-free-misspecified-lasso-oracle-inequality-under-heavy-tailed-errors
+  area: evidence
+  topic: hard-sparsity-free-misspecified-lasso-oracle-inequality-under-heavy-tailed-errors
+  outcome: supported
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  evidence_ids:
+  - kuchibhotla2022-gbo-pdf
+  - calculation
+  summary: Supported by Section 4.4 (Theorems 4.5-4.6) and Appendix E (Proposition
+    E.1, Equations E.9-E.11) and boundary script.
+  details: Verified Equation (E.10) approximate cone condition ||nu(S^c)||_1 = 0.07
+    <= 3||nu(S)||_1 + 4||beta_0(S^c)||_1 = 2.991519 and Equation (E.9) l2 oracle bound.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  evidence_ids:
+  - identity
+  - mapping
+  - kuchibhotla2022-gbo-pdf
+  - kuchibhotla2022-gbo-abs
+  - kuchibhotla2022-gbo-crossref
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, four claims and locators, three primary sources with exact SHA-256
+    digests, pinned AIO mappings and rationales, four scoped limitations, and UTC
+    curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Generalized Bernstein-Orlicz sub-Weibull concentration and high-dimensional
+  misspecified Lasso record, yielding 613 native and 442 unchanged generated records.
+- All 68 PDF pages of arXiv:1804.02605v4 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- sub-weibull
+- concentration-inequalities
+- high-dimensional-lasso
+- self-review
+- discovery-ongoing
+```
