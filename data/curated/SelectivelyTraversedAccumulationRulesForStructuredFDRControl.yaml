@@ -1,0 +1,212 @@
+id: AIMech:SelectivelyTraversedAccumulationRulesForStructuredFDRControl
+name: Selectively traversed accumulation rules for structured false discovery rate control
+aliases:
+- STAR Framework for Interactive Structured Multiple Testing
+- Selectively Traversed Accumulation Rules (STAR)
+- Interactive Masked Peeling for Structured FDR Control
+- Accumulation-Masked Interactive Peeling Under Structural Constraints
+concept_kind: mathematical_method
+definition: 'An interactive multiple-testing methodology (Lei, Ramdas, & Fithian 2021, Biometrika 108(2):253-267,
+  arXiv:1710.02776) that controls the false discovery rate (FDR) in finite samples while enforcing arbitrary
+  structural constraints R_t in K on the discovery set (including rooted tree heredity, directed acyclic
+  graph heredity, spatial convexity or connectedness, and polynomially sized group structures). Given
+  a bounded non-decreasing accumulation function h : [0, 1] -> [0, infinity) satisfying int_0^1 h(p) dp
+  = 1, STAR constructs a paired continuous strictly decreasing reflection s : [0, 1] -> [0, 1] via H(s(p))
+  = H(p) where H(x) = int_0^x (h(p) - 1) dp, and reveals to the analyst only the masked p-values g(p_i)
+  = min{p_i, s(p_i)} together with side information x_i, the unmasked p-values (p_i)_{i notin R_t} outside
+  the current candidate set R_t, and the aggregate false discovery proportion estimate FDP_hat_t = (h(1)
+  + sum_{i in R_t} h(p_i)) / (1 + |R_t|). Starting from R_0 = [n], the analyst iteratively peels R_{t+1}
+  subsetneq R_t inside K using any F_t-measurable model-assisted or human-in-the-loop rule until tau =
+  inf{t : FDP_hat_t <= alpha}, guaranteeing exact finite-sample conditional FDR control E[FDP(R_tau) |
+  (x_i, g(p_i))_{i=1}^n] <= alpha via optional stopping (Theorem 2.3).'
+identity_notes: No normalized identity match for selectively traversed accumulation rules or interactive
+  structured FDR control (STAR) across all 442 pinned AIO records and 586 maintained IDs, names, aliases
+  and scoped synonyms. Fixed-string searches across data, sources, research, history, and reviews returned
+  only frontier references in the Round 191 discovery report. Distinct from AIMech:AdaptivePValueThresholding
+  (Lei & Fithian 2018, AdaPT), which adapts coordinatewise rejection thresholds s(x_i) to covariates via
+  symmetric mirror reflection min(p_i, 1 - p_i) without coupling general accumulation functions h(p) to
+  reflection maps s(p) via H(s(p)) = H(p) or enforcing hard combinatorial structural constraints R_t in
+  K (trees, DAGs, spatial regions) through boundary peeling and one-group EM working models; distinct
+  from AIMech:FocusedBH (Katsevich, Sabatti, & Bogomolov 2023), which applies an upfront monotonic structural
+  filter F(P, alpha) to unmasked p-values and calibrates a single scalar p-value cutoff via permutation
+  simulation rather than interactive partial-masking peeling adapted to F_t; and distinct from AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  (Katsevich & Ramdas 2020), which constructs simultaneous high-probability upper envelopes on FDP across
+  fixed nested paths rather than controlling FDR at an interactive stopping time tau along a data-adaptively
+  traversed path of structured candidate sets.
+definition_evidence:
+- source_id: lei2021-star-structured-fdr-ar5iv
+  locator: Section 1, lines 28–118; Section 2.1–2.3, lines 119–272, Algorithm 2.1, Proposition 2.1, Theorem
+    2.3, Theorem 2.5, Equations 1–5; Appendix A.1–A.3, lines 398–546
+  relation: supports
+- source_id: lei2021-star-structured-fdr-crossref
+  locator: Biometrika, Vol. 108, Issue 2, pp. 253–267, June 2021 bibliographic record (DOI:10.1093/biomet/asaa064)
+  relation: supports
+- source_id: lei2021-star-structured-fdr-abs
+  locator: arXiv:1710.02776v2 abstract and Biometrika publication metadata
+  relation: supports
+claims:
+- claim_id: integral-reflection-accumulation-masking-pairing-and-monotone-null-supermartingale-property
+  kind: mechanism
+  statement: 'For any bounded non-decreasing accumulation function h : [0, 1] -> [0, infinity) satisfying
+    int_0^1 h(p) dp = 1 (including SeqStep h(p) = (1/(1 - p_*)) 1{p > p_*} and truncated ForwardStop /
+    HingeExp rules), the cumulative integral H(x) = int_0^x (h(p) - 1) dp is continuous and convex with
+    H(0) = H(1) = 0, and Theorem 2.5 guarantees a unique continuous strictly decreasing reflection s :
+    [0, 1] -> [0, 1] with s(0) = 1, s(1) = 0, and H(s(p)) = H(p) such that the paired masking function
+    g(p) = min{p, s(p)} satisfies E_{U[0,1]}[h(p) | g(p)] = 1 almost surely (Section 2.3, Theorem 2.5,
+    Equation 5; Appendix A.3 and B.3); furthermore, under Proposition 2.1, for any conservative null distribution
+    P_0 with non-decreasing density on [0, 1], E_{P_0}[h(p) | g(p)] >= 1 almost surely (Section 2.1, Proposition
+    2.1, Assumption 2; Appendix A.1).'
+  evidence:
+  - source_id: lei2021-star-structured-fdr-ar5iv
+    locator: Section 2.1, lines 119–196, Proposition 2.1, Assumption 2, Equations 1–2; Section 2.3, lines
+      236–272, Theorem 2.5, Equation 5; Appendix A.1 and A.3, lines 398–455 and 501–546; Appendix B.3,
+      lines 618–668
+    relation: supports
+  - source_id: lei2021-star-structured-fdr-abs
+    locator: Abstract (accumulation-test generalization and partial p-value masking)
+    relation: supports
+- claim_id: interactive-filtration-peeling-optional-stopping-fdr-control-under-hard-structural-constraints
+  kind: mechanism
+  statement: 'Starting from R_0 = [n], at each step t = 0, 1, ..., n the STAR oracle reveals the filtration
+    F_t = sigma((x_i, g(p_i))_{i=1}^n, (p_i)_{i notin R_t}, sum_{i in R_t} h(p_i)) and computes FDP_hat_t
+    = (h(1) + sum_{i in R_t} h(p_i)) / (1 + |R_t|); if the analyst selects any shrinking sequence of structured
+    candidate sets R_0 supsetneq R_1 supsetneq ... with R_t in K and R_t measurable with respect to F_{t-1}
+    and stops at tau = inf{t : FDP_hat_t <= alpha}, Theorem 2.3 guarantees exact finite-sample conditional
+    FDR control E[FDP(R_tau) | (x_i, g(p_i))_{i=1}^n] <= alpha and marginal FDR <= alpha under independent
+    null p-values satisfying E[h(p_i) | g(p_i)] >= 1 for i in H_0 (Section 2.1–2.2, Algorithm 2.1, Theorem
+    2.3, Equations 3–4; Appendix A.2, Lemma A.4), while guaranteeing R_tau in K with probability 1 across
+    rooted-tree heredity, DAG heredity, spatial convexity, and group constraints through bottom-up leaf
+    or boundary peeling (Section 4, Appendix D, Appendix E).'
+  evidence:
+  - source_id: lei2021-star-structured-fdr-ar5iv
+    locator: Section 2.1–2.2, lines 155–235, Algorithm 2.1, Theorem 2.3, Equations 3–4; Section 4, lines
+      302–338; Appendix A.2, lines 456–500, Lemma A.4; Appendix D.1–D.3, lines 742–865
+    relation: supports
+  - source_id: lei2021-star-structured-fdr-crossref
+    locator: Biometrika 108(2):253–267 publication record
+    relation: supports
+- claim_id: model-assisted-one-group-em-peeling-scores-and-structured-knockoff-variable-selection
+  kind: mechanism
+  statement: To rank candidate boundary hypotheses for peeling using covariates or spatial/graph smoothers
+    phi(x_i) without the non-identifiability and variance inflation of two-group mixture EM on partially
+    masked data, STAR fits a conditional one-group exponential-family working model p_i ~ f(p; mu_i) with
+    link eta(mu_i) = theta(phi(x_i)) via an EM algorithm on F_{t-1} that imputes posterior sign weights
+    tilde{w}_{t,i} = P(p_i = g(p_i) | g(p_i); mu_i^{(r-1)}) for i in R_{t-1} in the E-step and solves
+    a weighted GLM / kernel smoothing problem on the resulting pseudo-dataset in the M-step (Section 3.2,
+    Section 4, Section 5; Appendix B.4, Equations 17–18, Examples 1–2); furthermore, Section 6 extends
+    STAR directly to model-X and fixed-design knockoff feature statistics W_i by mapping signs and magnitudes
+    to p_i = (1 + 1{W_i <= 0}) / 2 (with h(p_i) = 2 * 1{W_i <= 0} and side information |W_i|), controlling
+    finite-sample FDR under structural variable-selection constraints without assuming knockoff signs
+    are independent of non-null magnitudes.
+  evidence:
+  - source_id: lei2021-star-structured-fdr-ar5iv
+    locator: Section 3.2, lines 287–301; Section 4–6, lines 302–397; Appendix B.4, lines 669–741, Equations
+      17–18, Examples 1–2
+    relation: supports
+- claim_id: asymptotic-power-dominance-over-plain-accumulation-tests-and-minimum-rejection-boundary
+  kind: mechanism
+  statement: Under the two-group model with non-null proportion pi_1 and alternative accumulation mean
+    mu = E_1[h(p)] < 1, when prior ordering is uninformative and pi_1 < (1 - alpha) / (1 - mu), any plain
+    ordered accumulation test has asymptotic rejection threshold t_{AT}^* = 0 and zero asymptotic power,
+    whereas non-interactive STAR ordered by the canonical masked score g(p_i) achieves a strictly positive
+    asymptotic threshold t^* > 0 and strictly higher asymptotic power (Appendix I.1–I.3, Equations 19–22);
+    conversely, because FDP_hat_t = (h(1) + sum_{i in R_t} h(p_i)) / (1 + |R_t|) >= h(1) / (1 + |R_t|),
+    STAR cannot make any non-empty rejections unless the candidate set size satisfies |R_t| >= ceil(h(1)
+    / alpha - 1) (requiring smaller p_* with smaller h(1) = 1/(1 - p_*) when true discoveries are sparse
+    or alpha is small, Section 5.2), and violating F_t-measurability by peeking at unmasked h(p_i) values
+    inside R_t when choosing which hypothesis to peel destroys the optional-stopping supermartingale and
+    inflates FDR (Section 2.2, Section 3.1).
+  evidence:
+  - source_id: lei2021-star-structured-fdr-ar5iv
+    locator: Section 2.2, lines 202–235; Section 3.1, lines 273–286; Section 5.2, lines 352–375; Appendix
+      I.1–I.3, lines 1105–1215, Equations 19–22
+    relation: supports
+evidence_sources:
+- source_id: lei2021-star-structured-fdr-ar5iv
+  title: A general interactive framework for false discovery rate control under structural constraints
+  authors:
+  - Lihua Lei
+  - Aaditya Ramdas
+  - William Fithian
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1710.02776
+  persistent_id: https://doi.org/10.1093/biomet/asaa064
+  version: arXiv:1710.02776v2 (published in Biometrika, Vol. 108, Issue 2, pp. 253–267, June 2021). Complete
+    full-text ar5iv HTML conversion read across Sections 1–6 and Appendices A–I (1,509 lines, 128,594
+    bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T14:35:00Z'
+  sha256: 0aca9bd13ad69478f54a7497ca753df3b5b0fc7304c8304e0e8287292dbb76fa
+- source_id: lei2021-star-structured-fdr-crossref
+  title: A general interactive framework for false discovery rate control under structural constraints
+    (Biometrika Record)
+  authors:
+  - Lihua Lei
+  - Aaditya Ramdas
+  - William Fithian
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1093/biomet/asaa064
+  persistent_id: https://doi.org/10.1093/biomet/asaa064
+  version: Biometrika, Vol. 108, Issue 2, pp. 253–267, June 2021 Crossref bibliographic metadata record
+    (3,319 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T14:35:00Z'
+  sha256: f2e31895442898d6f0b6b6cdf46fc6bce259ed9304652a2694f7ba10d70c65ba
+- source_id: lei2021-star-structured-fdr-abs
+  title: 'STAR: A general interactive framework for FDR control under structural constraints (arXiv:1710.02776
+    Abstract)'
+  authors:
+  - Lihua Lei
+  - Aaditya Ramdas
+  - William Fithian
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1710.02776
+  persistent_id: https://doi.org/10.48550/arXiv.1710.02776
+  version: arXiv:1710.02776v2 abstract and Biometrika 2021 publication metadata record (6,282 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T14:35:00Z'
+  sha256: 64ad42aee0a91894f831dc3d3206c4009c4a8eca793a8ae966c3876770962de2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: STAR prevents post-hoc selection and data-dredging bias (AIO:DataDredgingBias) during interactive
+    human-in-the-loop or model-assisted hypothesis exploration under structural constraints by restricting
+    peeling decisions to the masked filtration F_t.
+limitations:
+- Finite-sample FDR control in Theorem 2.3 requires that null p-values be mutually independent and independent
+  of non-null p-values and satisfy the conditional accumulation expectation bound E[h(p_i) | g(p_i)] >=
+  1 almost surely (Assumption 2 / Proposition 2.1), and that the analyst's peeling rule R_{t+1} subsetneq
+  R_t be strictly measurable with respect to the masked filtration F_t without peeking at unmasked p-values
+  inside R_t (Section 2.2, Section 3.1).
+- Because the empirical false discovery proportion estimator satisfies FDP_hat_t = (h(1) + sum_{i in R_t}
+  h(p_i)) / (1 + |R_t|) >= h(1) / (1 + |R_t|), STAR cannot reject any non-empty discovery set of cardinality
+  smaller than ceil(h(1) / alpha - 1), which limits power when true non-nulls are sparse or target FDR
+  alpha is very small unless a smaller SeqStep parameter p_* (with smaller h(1) = 1/(1 - p_*)) is chosen
+  (Section 5.2).
+- The interactive peeling protocol requires nested candidate sets R_0 supsetneq R_1 supsetneq ... and
+  therefore cannot add back an already-peeled hypothesis once its unmasked p-value p_i is revealed upon
+  leaving R_t (the no-look-back restriction, Section 3.1).
+- All 1,509 lines of Lei, Ramdas, & Fithian (2021, Biometrika 108(2):253-267, arXiv:1710.02776v2) were
+  read. Constructed numerical checks in research/discovery/selectively-traversed-accumulation-rules-for-structured-fdr-control-boundaries.py
+  verify (1) Theorem 2.5 integral symmetry H(s(p)) = H(p) (max error 0.0 for SeqStep and 0.0 for truncated
+  ForwardStop), Uniform(0,1) conditional expectation E[h(p)|g(p)] = 1 (max error 0.0), and Proposition
+  2.1 conservative Beta(2,1) lower bound (min E[h(p)|g(p)] = 1.155556 >= 1), (2) Theorem 2.3 finite-sample
+  FDR control (0.049024 <= 0.20) with 100% rooted-subtree constraint satisfaction (1.0 vs. standard BH
+  0.0) and bottom-up leaf peeling power gain over top-down hierarchical testing (0.839 vs. 0.271), (3)
+  Appendix B.4 one-group EM score correlation with oracle smoother (0.971733), higher spatial convex-interval
+  power than canonical scores (0.965476 vs. 0.864286) with controlled FDR (0.067853 <= 0.15), and Section
+  6 structured knockoff FDR control (0.050822 <= 0.15, power 0.783333), and (4) Appendix I.3 asymptotic
+  power dominance over plain accumulation tests under uninformative ordering (0.819583 vs. 0.0 when pi_1
+  = 0.25 < 0.804109), Section 5.2 minimum rejection floor (19 at p_*=0.5 vs. 12 at p_*=0.2), and filtration-violating
+  peeking failure (global-null FDR = 1.0 > 0.20).
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T14:35:00Z'
+  updated_at: '2026-10-17T14:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
