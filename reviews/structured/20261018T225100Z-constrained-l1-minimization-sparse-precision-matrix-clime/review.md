@@ -1,0 +1,515 @@
+# Scientific author self-review of Constrained L1 Minimization for Sparse Precision Matrix Estimation
+
+- Review: 20261018T225100Z-constrained-l1-minimization-sparse-precision-matrix-clime
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-18T22:50:00Z
+- Finished UTC: 2026-10-18T22:51:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Constrained L1 Minimization for Sparse Precision Matrix Estimation (CLIME) as a distinct DRAFT mathematical_method with related_match LassoRegression and LinearRegression mappings. All three claims and locators across Cai, Liu, &amp; Luo (2011, JASA 106(494):594-607, arXiv:1102.2233v1) are supported with explicit finite-sample positive-definiteness, matrix L1 norm M scaling, secondary thresholding, and primary-source typographical limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 123203ecfb10a24ebd3a6fb5c1e62fc5a1e1d5d8.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation | data/curated/ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.yaml | maintained | Constrained L1 Minimization for Sparse Precision Matrix Estimation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation | Validated 634 curated concept record(s). |
+| aimech seed --check | passed | True | AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation | Checked 442 record(s); 0 drift. |
+| aimech validate-history | passed | True | AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation | Validated 287 history file(s). |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation | Vendored record_review files match. |
+| aimech check-source | passed | True | AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation | Exited 0 without output. |
+| Constructed Cai, Liu, &amp; Luo 2011 CLIME columnwise LP decomposition, minimum-magnitude symmetrization, Theorem 6 perturbation chain without edge-Hessian incoherence, and Theorem 7 signed support recovery checks | passed | True | AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation | {"actual_cov_err": 0.00195506, "all_passed": true, "checks": {"cone_decomposition_hj2_le_hj1": true, "eq13_linf_bound_holds": true, "eq14_l1_bound_holds": true, "eq15_frob_bound_holds": true, "eq24_omega0_feasible": true, "eq25_column_l1_optimality": true, "eq26_sample_residual_bound": true, "eq27_hj1_bound_holds": true, "glasso_incoherence_violated_gt_1": true, "pop_residual_bound_4lambda": true, "thm7_exact_signed_support_recovery": true, "thm7_theta_min_gt_2tau_n": true}, "eq13_rhs": 0.02264055, "eq14_rhs": 1.08674642, "eq15_rhs": 0.02460454, "eq24_lhs": 0.00272012, "eq26_lhs": 0.00591117, "frob_avg": 0.00013627, "glasso_incoherence_param": 1.0736, "l1_omega_hat": 1.68540576, "l1_omega_hat_1": 1.68550576, "lambda_n": 0.00332655, "linf_err_tn": 0.0093, "max_col_l1_err": 0.0313, "omega0_l1_norm_M": 1.70150576, "pop_res_lhs": 0.005868, "rho_diamond": 0.22, "sparsity_s0_q0": 4, "tau_n": 0.02264055, "theta_min": 0.10717449} |
+
+## Scientific And Domain Assessments
+
+### Distinctness of Constrained L1 Minimization for Sparse Precision Matrix Estimation (CLIME)
+
+identity: supported. Targets: AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.
+
+Distinct mathematical_method for constrained l1 minimization sparse precision matrix estimation (CLIME).
+
+Resolved as a distinct AIMech-native mathematical_method concept from Cai, Liu, and Luo (2011, Journal of the American Statistical Association 106(494):594-607; arXiv:1102.2233v1, DOI:10.1198/jasa.2011.tm10155). Distinct from AIMech:HighDimensionalCovarianceEstimationByL1PenalizedLogDeterminantDivergence (Ravikumar, Wainwright, Raskutti, &amp; Yu 2011), which solves the coupled nonlinear log-determinant Bregman program argmin_{Theta succ 0} {&lt;Theta, Sigma_n&gt; - log det(Theta) + lambda_n &#124;&#124;Theta&#124;&#124;_{1,off}} and requires the edge-Hessian irrepresentable condition &#124;&#124;Gamma_{S^c S}(Gamma_{SS})^{-1}&#124;&#124;_{L1} &lt;= 1 - alpha (with Gamma = Sigma_0^{-1} otimes Sigma_0^{-1}) and yields slower polynomial-tail rates O(sqrt(p^{tau/(gamma+1+delta/4)} / n)), whereas CLIME decouples into p columnwise linear programs followed by minimum-magnitude symmetrization, requires no irrepresentable condition, and achieves identical O_P(sqrt(log p / n)) elementwise l_infty and O_P(s_0(p) (log p / n)^{(1-q)/2}) spectral-norm rates under both sub-Gaussian (C1) and polynomial-moment (C2) tails. Also distinct from AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso (Meinshausen &amp; Buhlmann 2006, which recovers only the support of nodewise regression ratios -omega^0_{ij}/omega^0_{ii} rather than estimating Omega_0), from AIMech:DantzigSelector (Candes &amp; Tao 2007, which estimates a single linear regression vector beta in y = X beta + z rather than a p x p precision matrix with minimum-magnitude symmetrization and weak-l_q matrix perturbation bounds), and from AIMech:HighDimensionalCovarianceRegularizationByHardThresholding (Bickel &amp; Levina 2008, which thresholds the sample covariance matrix Sigma_n assuming Sigma_0 itself is sparse).
+
+### AIO mappings for AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+
+grounding: supported. Targets: AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.
+
+related_match to AIO:LassoRegression and AIO:LinearRegression is accurate.
+
+Verified exact target existence in data/aio/ and documented why directed AIO:BayesianNetwork is rejected.
+
+### Definition and scope
+
+evidence: supported. Targets: AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.
+
+Definition accurately captures Lemma 1, Conditions C1-C2, and Theorems 1-7.
+
+All equations and claims verified against arXiv:1102.2233v1 (pp. 1-41).
+
+### Lemma 1 columnwise decomposition, LP relaxation Eq. 19, minimum-magnitude symmetrization Eq. 2, and rho-perturbed initialization
+
+evidence: supported. Targets: AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.
+
+Claim 1 (Lemma 1 columnwise decomposition, LP relaxation Eq. 19, minimum-magnitude symmetrization Eq. 2, and rho-perturbed initialization) is verified.
+
+Checked column L1 optimality &#124;&#124;Omega_hat&#124;&#124;_{L1} = 1.68540576 &lt;= &#124;&#124;Omega_hat_1&#124;&#124;_{L1} = 1.68550576 &lt;= &#124;&#124;Omega_0&#124;&#124;_{L1} = 1.70150576.
+
+### Theorem 6 deterministic elementwise l_infty, spectral/matrix-L1, and Frobenius bounds via cone decomposition
+
+evidence: supported. Targets: AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.
+
+Claim 2 (Theorem 6 deterministic elementwise l_infty, spectral/matrix-L1, and Frobenius bounds via cone decomposition) is verified.
+
+Checked Eqs. (13)-(15) and (23)-(27) on a 4-node diamond graph where graphical Lasso incoherence is violated (1.0736 &gt; 1).
+
+### Theorems 1-5 under exponential and polynomial tails and Theorem 7 signed support recovery
+
+evidence: supported. Targets: AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.
+
+Claim 3 (Theorems 1-5 under exponential and polynomial tails and Theorem 7 signed support recovery) is verified.
+
+Checked exact signed support recovery M(Omega_tilde) = M(Omega_0) with theta_min = 0.10717449 &gt; 2*tau_n = 0.0452811.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.yaml and verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261018T225000Z-constrained-l1-minimization-sparse-precision-matrix-clime.json | supports | No normalized identity match for Constrained L1 Minimization for Sparse Precision Matrix Estimation across 442 pinned AIO records and 633 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected LassoRegression and LinearRegression in the pinned AIO snapshot (2026-07-22). Provide accurate related_match context. |
+| calculation | research/discovery/constrained-l1-minimization-sparse-precision-matrix-clime-boundaries.py | supports | Executed pure-Python verification in research/discovery/constrained-l1-minimization-sparse-precision-matrix-clime-boundaries.py (SHA-256 ca862efa1df1ad3c35fcc34822d7465f6537e7d1ff238547be44bc72ed88107b): verified (1) on a 4-node diamond precision matrix with rho = 0.22 where the graphical Lasso edge-Hessian irrepresentable parameter 4&#124;rho&#124;(&#124;rho&#124;+1) = 1.0736 &gt; 1 is violated (Section 3.3, Eq. 17), CLIME satisfies exact feasibility &#124;I - Sigma_n Omega_0&#124;_infty = 0.00272012 &lt;= lambda_n = 0.00332655 (Eq. 24) and column L1 optimality &#124;&#124;Omega_hat&#124;&#124;_{L1} = 1.68540576 &lt;= &#124;&#124;Omega_hat_1&#124;&#124;_{L1} = 1.68550576 &lt;= &#124;&#124;Omega_0&#124;&#124;_{L1} = 1.70150576 (Eq. 25); and (2) sample residual &#124;Sigma_n(Omega_hat_1 - Omega_0)&#124;_infty = 0.00591117 &lt;= 2*lambda_n = 0.0066531 (Eq. 26), population residual &#124;Sigma_0(Omega_hat_1 - Omega_0)&#124;_infty = 0.005868 &lt;= 4*lambda_n = 0.0133062, elementwise l_infty bound &#124;Omega_hat - Omega_0&#124;_infty = 0.0093 &lt;= 4*&#124;&#124;Omega_0&#124;&#124;_{L1}*lambda_n = 0.02264055 (Theorem 6, Eq. 13), cone decomposition &#124;h^2_j&#124;_1 &lt;= &#124;h^1_j&#124;_1 and Eq. (27), matrix L1 bound 0.0313 &lt;= 1.08674642 (Eq. 14), average Frobenius bound 0.00013627 &lt;= 0.02460454 (Eq. 15), and exact Theorem 7 signed support recovery M(Omega_tilde) = M(Omega_0) with theta_min = 0.10717449 &gt; 2*tau_n = 0.0452811. |
+| cll2011-clime-pdf | https://export.arxiv.org/pdf/1102.2233.pdf; Pages 1-41, Sections 1-7 (Lemma 1, Theorems 1-7, Conditions C1-C2, Equations 1-33) | supports | All 41 pages of Cai, Liu, &amp; Luo (2011, JASA 106(494):594-607, arXiv:1102.2233v1) read and verified. |
+| cll2011-clime-abs | https://export.arxiv.org/abs/1102.2233; arXiv:1102.2233 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| cll2011-clime-cr | https://api.crossref.org/works/10.1198/jasa.2011.tm10155; DOI:10.1198/jasa.2011.tm10155 Crossref metadata | supports | JASA 2011 Crossref metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Constrained L1 Minimization for Sparse Precision Matrix Estimation record, yielding 634 native and 442 unchanged generated records.
+- All 41 PDF pages of arXiv:1102.2233v1 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261018T225100Z-constrained-l1-minimization-sparse-precision-matrix-clime
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Constrained L1 Minimization for Sparse Precision
+  Matrix Estimation
+started_at: '2026-10-18T22:50:00Z'
+finished_at: '2026-10-18T22:51:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from HighDimensionalCovarianceEstimationByL1PenalizedLogDeterminantDivergence,
+    HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso, HighDimensionalCovarianceRegularizationByHardThresholding,
+    and DantzigSelector, verified Lemma 1 and Theorems 1-7, and documented four primary-source
+    typographical notes in Cai, Liu, & Luo (2011, arXiv:1102.2233v1). This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Constrained L1 Minimization for Sparse Precision Matrix Estimation
+  (CLIME) as a distinct DRAFT mathematical_method with related_match LassoRegression
+  and LinearRegression mappings. All three claims and locators across Cai, Liu, &
+  Luo (2011, JASA 106(494):594-607, arXiv:1102.2233v1) are supported with explicit
+  finite-sample positive-definiteness, matrix L1 norm M scaling, secondary thresholding,
+  and primary-source typographical limitations.
+source:
+  git_revision: 123203ecfb10a24ebd3a6fb5c1e62fc5a1e1d5d8
+  state: working_tree
+  inputs:
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/curated/ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.yaml
+    sha256: bd68f667761e16bdc0916f2f44bf4751263e127633cfa319c84ea4c712315b98
+    role: target
+  - path: data/curated/HighDimensionalCovarianceEstimationByL1PenalizedLogDeterminantDivergence.yaml
+    sha256: 59f61518b33d6b2f9a43c902d8a7cdc207246ff30d3e78daca4bdc9a94cb56d9
+    role: context
+  - path: data/curated/HighDimensionalCovarianceRegularizationByHardThresholding.yaml
+    sha256: 88744208883977cc24688f1be111758e3de60b77d3c994617e5bb1d2400857fd
+    role: context
+  - path: data/curated/HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.yaml
+    sha256: 9db249ebd0a792b5640ff3b86920d4be08de3b540a208ecacd337fe67928ce95
+    role: context
+  - path: research/discovery/20261018T225000Z-constrained-l1-minimization-sparse-precision-matrix-clime.json
+    sha256: fa86955e9fa6725d880056333b3095df0cdeefcabefb83375089226dc5f23b82
+    role: context
+  - path: research/discovery/constrained-l1-minimization-sparse-precision-matrix-clime-boundaries.py
+    sha256: ca862efa1df1ad3c35fcc34822d7465f6537e7d1ff238547be44bc72ed88107b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  path: data/curated/ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.yaml
+  label: Constrained L1 Minimization for Sparse Precision Matrix Estimation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 634 curated concept record(s).
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 record(s); 0 drift.
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 287 history file(s).
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored record_review files match.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Cai, Liu, & Luo 2011 CLIME columnwise LP decomposition, minimum-magnitude
+    symmetrization, Theorem 6 perturbation chain without edge-Hessian incoherence,
+    and Theorem 7 signed support recovery checks
+  command: python3 research/discovery/constrained-l1-minimization-sparse-precision-matrix-clime-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"actual_cov_err": 0.00195506, "all_passed": true, "checks": {"cone_decomposition_hj2_le_hj1":
+    true, "eq13_linf_bound_holds": true, "eq14_l1_bound_holds": true, "eq15_frob_bound_holds":
+    true, "eq24_omega0_feasible": true, "eq25_column_l1_optimality": true, "eq26_sample_residual_bound":
+    true, "eq27_hj1_bound_holds": true, "glasso_incoherence_violated_gt_1": true,
+    "pop_residual_bound_4lambda": true, "thm7_exact_signed_support_recovery": true,
+    "thm7_theta_min_gt_2tau_n": true}, "eq13_rhs": 0.02264055, "eq14_rhs": 1.08674642,
+    "eq15_rhs": 0.02460454, "eq24_lhs": 0.00272012, "eq26_lhs": 0.00591117, "frob_avg":
+    0.00013627, "glasso_incoherence_param": 1.0736, "l1_omega_hat": 1.68540576, "l1_omega_hat_1":
+    1.68550576, "lambda_n": 0.00332655, "linf_err_tn": 0.0093, "max_col_l1_err": 0.0313,
+    "omega0_l1_norm_M": 1.70150576, "pop_res_lhs": 0.005868, "rho_diamond": 0.22,
+    "sparsity_s0_q0": 4, "tau_n": 0.02264055, "theta_min": 0.10717449}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261018T225000Z-constrained-l1-minimization-sparse-precision-matrix-clime.json
+  accessed_at: '2026-10-18T22:50:00Z'
+  support: supports
+  summary: No normalized identity match for Constrained L1 Minimization for Sparse
+    Precision Matrix Estimation across 442 pinned AIO records and 633 maintained IDs,
+    names, aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-18T22:50:00Z'
+  support: supports
+  summary: Inspected LassoRegression and LinearRegression in the pinned AIO snapshot
+    (2026-07-22). Provide accurate related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/constrained-l1-minimization-sparse-precision-matrix-clime-boundaries.py
+  accessed_at: '2026-10-18T22:50:00Z'
+  snapshot_sha256: ca862efa1df1ad3c35fcc34822d7465f6537e7d1ff238547be44bc72ed88107b
+  support: supports
+  summary: 'Executed pure-Python verification in research/discovery/constrained-l1-minimization-sparse-precision-matrix-clime-boundaries.py
+    (SHA-256 ca862efa1df1ad3c35fcc34822d7465f6537e7d1ff238547be44bc72ed88107b): verified
+    (1) on a 4-node diamond precision matrix with rho = 0.22 where the graphical Lasso
+    edge-Hessian irrepresentable parameter 4|rho|(|rho|+1) = 1.0736 > 1 is violated
+    (Section 3.3, Eq. 17), CLIME satisfies exact feasibility |I - Sigma_n Omega_0|_infty
+    = 0.00272012 <= lambda_n = 0.00332655 (Eq. 24) and column L1 optimality ||Omega_hat||_{L1}
+    = 1.68540576 <= ||Omega_hat_1||_{L1} = 1.68550576 <= ||Omega_0||_{L1} = 1.70150576
+    (Eq. 25); and (2) sample residual |Sigma_n(Omega_hat_1 - Omega_0)|_infty = 0.00591117
+    <= 2*lambda_n = 0.0066531 (Eq. 26), population residual |Sigma_0(Omega_hat_1 -
+    Omega_0)|_infty = 0.005868 <= 4*lambda_n = 0.0133062, elementwise l_infty bound
+    |Omega_hat - Omega_0|_infty = 0.0093 <= 4*||Omega_0||_{L1}*lambda_n = 0.02264055
+    (Theorem 6, Eq. 13), cone decomposition |h^2_j|_1 <= |h^1_j|_1 and Eq. (27), matrix
+    L1 bound 0.0313 <= 1.08674642 (Eq. 14), average Frobenius bound 0.00013627 <=
+    0.02460454 (Eq. 15), and exact Theorem 7 signed support recovery M(Omega_tilde)
+    = M(Omega_0) with theta_min = 0.10717449 > 2*tau_n = 0.0452811.'
+- evidence_id: cll2011-clime-pdf
+  kind: primary_source
+  reference: https://export.arxiv.org/pdf/1102.2233.pdf
+  locator: Pages 1-41, Sections 1-7 (Lemma 1, Theorems 1-7, Conditions C1-C2, Equations
+    1-33)
+  accessed_at: '2026-10-18T15:52:42Z'
+  snapshot_sha256: 32c1984fb425daec3a32a0677b73f7be579497a95d93cf78d2292bfff892ae63
+  support: supports
+  summary: All 41 pages of Cai, Liu, & Luo (2011, JASA 106(494):594-607, arXiv:1102.2233v1)
+    read and verified.
+- evidence_id: cll2011-clime-abs
+  kind: primary_source
+  reference: https://export.arxiv.org/abs/1102.2233
+  locator: arXiv:1102.2233 abstract
+  accessed_at: '2026-10-18T15:52:50Z'
+  snapshot_sha256: f8dd832d7fe28ad0450c556a532bf1920cf68662b23963131a3a33c7510e679f
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: cll2011-clime-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1198/jasa.2011.tm10155
+  locator: DOI:10.1198/jasa.2011.tm10155 Crossref metadata
+  accessed_at: '2026-10-18T15:52:50Z'
+  snapshot_sha256: d99ccafbe878b7d18d642a8fd2345303a0ca2db7d835ce6fd5a4eaf625ce830c
+  support: supports
+  summary: JASA 2011 Crossref metadata read and verified.
+assessments:
+- assessment_id: identity-boundary
+  area: identity
+  topic: Distinctness of Constrained L1 Minimization for Sparse Precision Matrix Estimation
+    (CLIME)
+  outcome: supported
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  evidence_ids:
+  - identity
+  - cll2011-clime-pdf
+  - cll2011-clime-abs
+  - cll2011-clime-cr
+  summary: Distinct mathematical_method for constrained l1 minimization sparse precision
+    matrix estimation (CLIME).
+  details: Resolved as a distinct AIMech-native mathematical_method concept from Cai,
+    Liu, and Luo (2011, Journal of the American Statistical Association 106(494):594-607;
+    arXiv:1102.2233v1, DOI:10.1198/jasa.2011.tm10155). Distinct from AIMech:HighDimensionalCovarianceEstimationByL1PenalizedLogDeterminantDivergence
+    (Ravikumar, Wainwright, Raskutti, & Yu 2011), which solves the coupled nonlinear
+    log-determinant Bregman program argmin_{Theta succ 0} {<Theta, Sigma_n> - log
+    det(Theta) + lambda_n ||Theta||_{1,off}} and requires the edge-Hessian irrepresentable
+    condition ||Gamma_{S^c S}(Gamma_{SS})^{-1}||_{L1} <= 1 - alpha (with Gamma = Sigma_0^{-1}
+    otimes Sigma_0^{-1}) and yields slower polynomial-tail rates O(sqrt(p^{tau/(gamma+1+delta/4)}
+    / n)), whereas CLIME decouples into p columnwise linear programs followed by minimum-magnitude
+    symmetrization, requires no irrepresentable condition, and achieves identical
+    O_P(sqrt(log p / n)) elementwise l_infty and O_P(s_0(p) (log p / n)^{(1-q)/2})
+    spectral-norm rates under both sub-Gaussian (C1) and polynomial-moment (C2) tails.
+    Also distinct from AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+    (Meinshausen & Buhlmann 2006, which recovers only the support of nodewise regression
+    ratios -omega^0_{ij}/omega^0_{ii} rather than estimating Omega_0), from AIMech:DantzigSelector
+    (Candes & Tao 2007, which estimates a single linear regression vector beta in
+    y = X beta + z rather than a p x p precision matrix with minimum-magnitude symmetrization
+    and weak-l_q matrix perturbation bounds), and from AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+    (Bickel & Levina 2008, which thresholds the sample covariance matrix Sigma_n assuming
+    Sigma_0 itself is sparse).
+- assessment_id: aio-mappings
+  area: grounding
+  topic: AIO mappings for AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  outcome: supported
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  evidence_ids:
+  - mapping
+  - cll2011-clime-pdf
+  summary: related_match to AIO:LassoRegression and AIO:LinearRegression is accurate.
+  details: Verified exact target existence in data/aio/ and documented why directed
+    AIO:BayesianNetwork is rejected.
+- assessment_id: definition
+  area: evidence
+  topic: Definition and scope
+  outcome: supported
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  evidence_ids:
+  - cll2011-clime-pdf
+  - cll2011-clime-abs
+  - cll2011-clime-cr
+  summary: Definition accurately captures Lemma 1, Conditions C1-C2, and Theorems
+    1-7.
+  details: All equations and claims verified against arXiv:1102.2233v1 (pp. 1-41).
+- assessment_id: claim-1-columnwise-lp-and-symmetrization
+  area: evidence
+  topic: Lemma 1 columnwise decomposition, LP relaxation Eq. 19, minimum-magnitude
+    symmetrization Eq. 2, and rho-perturbed initialization
+  outcome: supported
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  evidence_ids:
+  - cll2011-clime-pdf
+  - calculation
+  summary: Claim 1 (Lemma 1 columnwise decomposition, LP relaxation Eq. 19, minimum-magnitude
+    symmetrization Eq. 2, and rho-perturbed initialization) is verified.
+  details: Checked column L1 optimality ||Omega_hat||_{L1} = 1.68540576 <= ||Omega_hat_1||_{L1}
+    = 1.68550576 <= ||Omega_0||_{L1} = 1.70150576.
+- assessment_id: claim-2-master-perturbation-theorem6
+  area: evidence
+  topic: Theorem 6 deterministic elementwise l_infty, spectral/matrix-L1, and Frobenius
+    bounds via cone decomposition
+  outcome: supported
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  evidence_ids:
+  - cll2011-clime-pdf
+  - calculation
+  summary: Claim 2 (Theorem 6 deterministic elementwise l_infty, spectral/matrix-L1,
+    and Frobenius bounds via cone decomposition) is verified.
+  details: Checked Eqs. (13)-(15) and (23)-(27) on a 4-node diamond graph where graphical
+    Lasso incoherence is violated (1.0736 > 1).
+- assessment_id: claim-3-rates-and-support-recovery
+  area: evidence
+  topic: Theorems 1-5 under exponential and polynomial tails and Theorem 7 signed
+    support recovery
+  outcome: supported
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  evidence_ids:
+  - cll2011-clime-pdf
+  - calculation
+  summary: Claim 3 (Theorems 1-5 under exponential and polynomial tails and Theorem
+    7 signed support recovery) is verified.
+  details: Checked exact signed support recovery M(Omega_tilde) = M(Omega_0) with
+    theta_min = 0.10717449 > 2*tau_n = 0.0452811.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+  evidence_ids:
+  - identity
+  - mapping
+  - cll2011-clime-pdf
+  - cll2011-clime-abs
+  - cll2011-clime-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Read every field of ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation.yaml
+    and verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Constrained L1 Minimization for Sparse Precision Matrix Estimation
+  record, yielding 634 native and 442 unchanged generated records.
+- All 41 PDF pages of arXiv:1102.2233v1 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- precision-matrix-estimation
+- clime
+- linear-programming
+- graphical-models
+- self-review
+- discovery-ongoing
+```

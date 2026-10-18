@@ -1,0 +1,109 @@
+id: AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation
+name: Constrained L1 Minimization for Sparse Precision Matrix Estimation
+review_status: DRAFT
+concept_kind: mathematical_method
+aliases:
+- CLIME
+- Constrained L1-Minimization for Inverse Matrix Estimation
+- Columnwise Linear-Programming Sparse Precision Matrix Estimator
+definition: 'A high-dimensional sparse inverse covariance (precision) matrix estimation and graphical model selection methodology (CLIME) that solves the constrained elementwise l1 minimization program min ||Omega||_1 subject to |Sigma_n Omega - I|_infty <= lambda_n by decomposing it into p independent linear programs min |beta|_1 subject to |Sigma_n beta - e_i|_infty <= lambda_n (1 <= i <= p) and applying entrywise minimum-magnitude symmetrization omega_hat_{ij} = omega_hat_{ji} = omega_hat^1_{ij} I{|omega_hat^1_{ij}| <= |omega_hat^1_{ji}|} + omega_hat^1_{ji} I{|omega_hat^1_{ij}| > |omega_hat^1_{ji}|}, achieving elementwise l_infty rate O_P(M^2 sqrt(log p / n)), spectral-norm rate O_P(M^{2-2q} s_0(p) (log p / n)^{(1-q)/2}), normalized Frobenius-norm rate O_P(M^{4-2q} s_0(p) (log p / n)^{1-q/2}), and thresholded signed graphical model recovery M(Omega_tilde) = M(Omega_0) over the weak-l_q precision matrix class U(q, s_0(p)) = {Omega succ 0 : ||Omega||_{L1} <= M, max_i sum_{j=1}^p |omega_{ij}|^q
+  <= s_0(p)} (0 <= q < 1) under both exponential-type and polynomial-type tail conditions without requiring any log-determinant edge-Hessian mutual incoherence condition.'
+identity_notes: Resolved as a distinct AIMech-native mathematical_method concept from Cai, Liu, and Luo (2011, Journal of the American Statistical Association 106(494):594-607; arXiv:1102.2233v1, DOI:10.1198/jasa.2011.tm10155). Distinct from AIMech:HighDimensionalCovarianceEstimationByL1PenalizedLogDeterminantDivergence (Ravikumar, Wainwright, Raskutti, & Yu 2011), which solves the coupled nonlinear log-determinant Bregman program argmin_{Theta succ 0} {<Theta, Sigma_n> - log det(Theta) + lambda_n ||Theta||_{1,off}} and requires the edge-Hessian irrepresentable condition ||Gamma_{S^c S}(Gamma_{SS})^{-1}||_{L1} <= 1 - alpha (with Gamma = Sigma_0^{-1} otimes Sigma_0^{-1}) and yields slower polynomial-tail rates O(sqrt(p^{tau/(gamma+1+delta/4)} / n)), whereas CLIME decouples into p columnwise linear programs followed by minimum-magnitude symmetrization, requires no irrepresentable condition, and achieves identical O_P(sqrt(log p / n)) elementwise l_infty and O_P(s_0(p) (log p / n)^{(1-q)/2})
+  spectral-norm rates under both sub-Gaussian (C1) and polynomial-moment (C2) tails. Also distinct from AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso (Meinshausen & Buhlmann 2006, which recovers only the support of nodewise regression ratios -omega^0_{ij}/omega^0_{ii} rather than estimating Omega_0), from AIMech:DantzigSelector (Candes & Tao 2007, which estimates a single linear regression vector beta in y = X beta + z rather than a p x p precision matrix with minimum-magnitude symmetrization and weak-l_q matrix perturbation bounds), and from AIMech:HighDimensionalCovarianceRegularizationByHardThresholding (Bickel & Levina 2008, which thresholds the sample covariance matrix Sigma_n assuming Sigma_0 itself is sparse).
+definition_evidence:
+- source_id: cll2011-clime-pdf
+  locator: Section 2, Lemma 1 and Equations (1)-(3), pp. 6-7; Section 3.1-3.2, Theorems 1-6 and Equations (6)-(15), pp. 8-14; Section 3.3, Equations (16)-(18), pp. 15-16; Section 4, Theorem 7, pp. 17-18
+  relation: supports
+- source_id: cll2011-clime-abs
+  locator: Abstract
+  relation: supports
+- source_id: cll2011-clime-cr
+  locator: DOI:10.1198/jasa.2011.tm10155 article metadata
+  relation: supports
+claims:
+- claim_id: columnwise-linear-programming-decomposition-and-symmetrization
+  kind: mechanism
+  statement: The CLIME optimization problem min ||Omega||_1 subject to |Sigma_n Omega - I|_infty <= lambda_n (Eq. 1) relaxes the nonlinear graphical Lasso KKT constraint |Omega^{-1} - Sigma_n|_infty <= lambda_n (Eqs. 4-5) by right-multiplying by Omega, and by Lemma 1 (p. 7; Proof on pp. 31-32, Eqs. 21-22) its solution set {Omega_hat_1} decomposes exactly into p independent vector convex problems min |beta|_1 subject to |Sigma_n beta - e_i|_infty <= lambda_n for 1 <= i <= p (Eq. 3), each solvable as a standard linear program in 2p variables with 4p linear inequality constraints (Eq. 19, p. 19), followed by entrywise minimum-magnitude symmetrization omega_hat_{ij} = omega_hat_{ji} = omega_hat^1_{ij} I{|omega_hat^1_{ij}| <= |omega_hat^1_{ji}|} + omega_hat^1_{ji} I{|omega_hat^1_{ij}| > |omega_hat^1_{ji}|} (Eq. 2). Replacing Sigma_n by Sigma_{n,rho} = Sigma_n + rho I (rho > 0, Eqs. 8-10) guarantees a feasible interior initialization Sigma_{n,rho}^{-1} when p > n and bounds ||Omega_hat_{1,rho}||_{L1}
+    <= rho^{-1} p so that E||Omega_hat_rho - Omega_0||_2^2 is finite.
+  evidence:
+  - source_id: cll2011-clime-pdf
+    locator: Section 2, Lemma 1 and Equations (1)-(5), pp. 6-8; Section 3.1, Equations (8)-(10), pp. 11-12; Section 5, Equation (19), pp. 19-20; Section 7, Proof of Lemma 1 and Equations (21)-(22), pp. 31-32
+    relation: supports
+- claim_id: deterministic-perturbation-bounds-and-weak-lq-cone-decomposition
+  kind: mechanism
+  statement: 'By Theorem 6 (p. 14, Eqs. 13-15; Proof on pp. 32-34, Eqs. 23-27), whenever Omega_0 in U(q, s_0(p)) = {Omega succ 0 : ||Omega||_{L1} <= M, max_i sum_{j=1}^p |omega_{ij}|^q <= s_0(p)} (0 <= q < 1) and lambda_n >= ||Omega_0||_{L1} (max_{i,j} |sigma_hat_{ij} - sigma^0_{ij}| + rho), feasibility of Omega_0 (|I - Sigma_n Omega_0|_infty <= lambda_n, Eq. 24) and column l1 optimality ||Omega_hat_1||_{L1} <= ||Omega_0||_{L1} (Eq. 25) imply |Sigma_n(Omega_hat_1 - Omega_0)|_infty <= 2 lambda_n (Eq. 26), |Sigma_0(Omega_hat_1 - Omega_0)|_infty <= 4 lambda_n, and the deterministic elementwise l_infty error bound |Omega_hat_rho - Omega_0|_infty <= 4 ||Omega_0||_{L1} lambda_n (Eq. 13). Decomposing each column error h_j = omega_hat_j - omega^0_j into h^1_j = (omega_hat_{ij} I{|omega_hat_{ij}| >= 2 t_n}) - omega^0_j and h^2_j = h_j - h^1_j with t_n = |Omega_hat - Omega_0|_infty yields |h^2_j|_1 <= |h^1_j|_1 and |h^1_j|_1 <= (1 + 2^{1-q} + 3^{1-q}) t_n^{1-q} s_0(p) (Eq. 27), establishing ||Omega_hat_rho
+    - Omega_0||_2 <= C_4 s_0(p) lambda_n^{1-q} with C_4 <= 2(1 + 2^{1-q} + 3^{1-q})(4 ||Omega_0||_{L1})^{1-q} (Eq. 14) and p^{-1} ||Omega_hat_rho - Omega_0||_F^2 <= C_5 s_0(p) lambda_n^{2-q} with C_5 <= 4 ||Omega_0||_{L1} C_4 (Eq. 15).'
+  evidence:
+  - source_id: cll2011-clime-pdf
+    locator: Section 3.1-3.2, Theorem 6 and Equations (13)-(15), pp. 10, 14; Section 7, Proof of Theorem 6 and Equations (23)-(27), pp. 32-34
+    relation: supports
+- claim_id: convergence-rates-and-signed-support-recovery-without-incoherence
+  kind: scope
+  statement: 'Under either exponential-type tails (C1: log p / n <= eta < 1/4, E[e^{t(X_i - mu_i)^2}] <= K for |t| <= eta) with lambda_n = C_0 M sqrt(log p / n) or polynomial-type tails (C2: p <= c_1 n^gamma, E|X_i - mu_i|^{4*gamma + 4 + delta} <= K) with lambda_n = C_2 M sqrt(log p / n) (proved via truncation at sqrt(n / (log p)^3) and Bernstein''s inequality, Eqs. 28-33), CLIME attains the spectral-norm rate ||Omega_hat - Omega_0||_2 = O_P(M^{2-2q} s_0(p) (log p / n)^{(1-q)/2}) (Theorem 1, Eqs. 6-7; Theorem 2 in expectation), the elementwise l_infty rate |Omega_hat - Omega_0|_infty = O_P(M^2 sqrt(log p / n)) and normalized Frobenius rate p^{-1} ||Omega_hat - Omega_0||_F^2 = O_P(M^{4-2q} s_0(p) (log p / n)^{1-q/2}) (Theorems 4-5), the bandable precision rate ||Omega_hat - Omega_0||_2 = O(B^2 (log p / n)^{alpha / (2*alpha + 2)}) on U_o(alpha, B) (Theorem 3, Eqs. 11-12), and exact signed graphical model support recovery M(Omega_tilde) = M(Omega_0) for the thresholded estimator omega_tilde_{ij}
+    = omega_hat_{ij} I{|omega_hat_{ij}| >= tau_n} with tau_n >= 4 M lambda_n whenever theta_min = min_{(i,j) in S(Omega_0)} |omega^0_{ij}| > 2 tau_n (Theorem 7, pp. 17-18).'
+  evidence:
+  - source_id: cll2011-clime-pdf
+    locator: Section 3.1-3.3, Conditions (C1)-(C2), Theorems 1-5, and Equations (6)-(18), pp. 8-16; Section 4, Theorem 7, pp. 17-18; Section 7, Proofs of Theorems 1-5 and Equations (28)-(33), pp. 34-38
+    relation: supports
+evidence_sources:
+- source_id: cll2011-clime-pdf
+  title: A Constrained L1 Minimization Approach to Sparse Precision Matrix Estimation
+  authors:
+  - Tony Cai
+  - Weidong Liu
+  - Xi Luo
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1102.2233.pdf
+  persistent_id: https://doi.org/10.1198/jasa.2011.tm10155
+  version: arXiv:1102.2233v1 full-text 41-page PDF (445193 bytes); published in Journal of the American Statistical Association 106(494):594-607 (2011).
+  access_level: full_text
+  accessed_at: '2026-10-18T15:52:42Z'
+  sha256: 32c1984fb425daec3a32a0677b73f7be579497a95d93cf78d2292bfff892ae63
+- source_id: cll2011-clime-abs
+  title: A Constrained L1 Minimization Approach to Sparse Precision Matrix Estimation (arXiv abstract)
+  authors:
+  - Tony Cai
+  - Weidong Liu
+  - Xi Luo
+  source_type: primary_paper
+  url: https://export.arxiv.org/abs/1102.2233
+  persistent_id: https://doi.org/10.48550/arXiv.1102.2233
+  version: arXiv:1102.2233v1 abstract and metadata (5935 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T15:52:50Z'
+  sha256: f8dd832d7fe28ad0450c556a532bf1920cf68662b23963131a3a33c7510e679f
+- source_id: cll2011-clime-cr
+  title: A Constrained l1 Minimization Approach to Sparse Precision Matrix Estimation (JASA Crossref metadata)
+  authors:
+  - Tony Cai
+  - Weidong Liu
+  - Xi Luo
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1198/jasa.2011.tm10155
+  persistent_id: https://doi.org/10.1198/jasa.2011.tm10155
+  version: Journal of the American Statistical Association 106(494):594-607 (2011) Crossref metadata (1518 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T15:52:50Z'
+  sha256: d99ccafbe878b7d18d642a8fd2345303a0ca2db7d835ce6fd5a4eaf625ce830c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: CLIME replaces the l1-penalized log-determinant (graphical Lasso) and nodewise Lasso programs with columnwise l1-minimization under elementwise l_infty residual constraints |Sigma_n beta - e_i|_infty <= lambda_n.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Each column subproblem of CLIME solves a Dantzig-selector-style constrained l1 linear system Sigma_n beta approx e_i and the estimated precision matrix Omega_hat parameterizes high-dimensional linear discriminant analysis (Section 5.2, Eq. 20).
+limitations:
+- 'Finite-sample positive definiteness is not enforced as a hard constraint in the linear programs (1) and (3): although the symmetrized estimator Omega_hat is positive definite with high probability asymptotically when ||Omega_hat - Omega_0||_2 < lambda_min(Omega_0) (Section 2, p. 7), in finite samples with p > n and noisy Sigma_n it is not guaranteed to be positive definite without sufficient sample size or two-stage log-determinant refitting Omega_breve (Section 5, p. 20).'
+- All convergence bounds in Theorems 1, 2, 4, 5, and 6 scale with powers of the matrix L1 norm M = ||Omega_0||_{L1} (specifically M^2 for l_infty error, M^{2-2q} for spectral error, and M^{4-2q} for squared Frobenius error), which can grow with p if the columns of Omega_0 are not uniformly bounded in l1 norm (Section 3.1-3.3, pp. 10-16).
+- Exact signed graphical model support recovery (Theorem 7, pp. 17-18) requires an explicit second hard-thresholding step omega_tilde_{ij} = omega_hat_{ij} I{|omega_hat_{ij}| >= tau_n} with threshold tau_n >= 4 M lambda_n and a minimum signal strength condition theta_min > 2 tau_n.
+- 'Primary-source typographical notes verified during full-text inspection of arXiv:1102.2233v1: (1) p. 7 (Eq. 4), p. 15 (Eq. 16), and p. 21 (display for Omega_hat_SCAD) write the positive-definite constraint beneath argmin as Theta succ 0 while the optimization variable in the objective is Omega; (2) p. 32, line 6 (Proof of Lemma 1) writes |omega_hat_i|_1 > |beta_hat_i|_1, omitting superscript 1 on omega_hat^1_i; (3) p. 32, line 13 (Proof of Theorem 6) writes Omega_hat_{n,rho} instead of Omega_hat_{1,rho} (or Omega_hat_rho); and (4) p. 38, line 1 (Proof of Theorem 3) writes the band truncation indicator in h^1_j as I{1 <= i <= k_n} instead of the diagonal-band indicator I{|i - j| < k_n} matching the tail sum sum_{|i-j| >= k_n} |omega^0_{ij}| <= M k_n^{-alpha}.'
+curation:
+  created_at: '2026-10-18T22:50:00Z'
+  updated_at: '2026-10-18T22:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
