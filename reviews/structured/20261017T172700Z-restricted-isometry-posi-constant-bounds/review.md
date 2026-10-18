@@ -1,0 +1,499 @@
+# Scientific author self-review of Restricted isometry post-selection inference (PoSI) constant upper and lower bounds
+
+- Review: 20261017T172700Z-restricted-isometry-posi-constant-bounds
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-17T17:25:00Z
+- Finished UTC: 2026-10-17T17:27:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Restricted isometry post-selection inference (PoSI) constant upper and lower bounds as a distinct DRAFT mathematical_method with related LinearRegression and DataDredgingBias mappings. All four claims and locators across Bachoc, Blanchard, &amp; Neuvial (2018, Electronic Journal of Statistics 12(2):3736-3757, arXiv:1804.07566v2) are supported with explicit RIP range delta &lt; 0.36, NP-hardness of exact RIP evaluation, and primary-source typographical notes.
+
+## Scope And Provenance
+
+All fields of the exact maintained RestrictedIsometryPostSelectionInferenceConstantBounds record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base f8c1c0fe6441fa30763793005005bc773cc4fda0.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds | data/curated/RestrictedIsometryPostSelectionInferenceConstantBounds.yaml | maintained | Restricted isometry post-selection inference (PoSI) constant upper and lower bounds |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds | All 606 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds | Exited 0 without output. |
+| Constructed Bachoc-Blanchard-Neuvial 2018 RIP PoSI constant upper and lower bound checks | passed | True | AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds | {"section_2_invariance_and_concentration": {"lemma_2_2_max_corr_diff": 0.0, "lemma_2_2_max_w_diff": 1e-15, "lemma_a3_t_inf": 6.216203, "lemma_a3_t_r100": 6.573291}, "section_3_theorem_3_3_and_figure_2": {"alpha": 0.05, "c_delta": 1.046277, "delta": 0.03, "optimal_split_t": 0.978, "p": 1000, "s": 15, "u_bar_rip": 7.45679, "u_orth": 3.898949, "u_rip": 4.740587, "u_sparse": 13.406862, "u_tilde_rip_gaussian_split": 5.430915}, "section_4_lower_bound_construction": {"attained_submodels_count": 84, "c": 0.25, "equation_18_max_inverse_error": 0.0, "exact_dist_w_minus_z": 0.4440995, "k": 9, "lemma_4_1_exact_delta": 0.4330127019, "lemma_4_1_theoretical_delta": 0.4330127019, "p": 10, "s": 4, "theorem_3_3_perturbation_bound": 1.82844677}} |
+
+## Scientific And Domain Assessments
+
+### RestrictedIsometryPostSelectionInferenceConstantBounds versus ValidPostSelectionInferencePoSIConstant and SimultaneousLinearContrastPostSelectionInference
+
+identity: supported. Targets: AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds.
+
+Retain Restricted isometry post-selection inference (PoSI) constant upper and lower bounds as a distinct DRAFT mathematical_method.
+
+Bachoc, Blanchard, &amp; Neuvial (2018) establish correlation-matrix scale invariance of K(X, M, alpha, r) (Lemma 2.2), Gaussian-concentration studentized quantile control (Proposition 2.3), the explicit RIP perturbation upper bound U_RIP(p, s, delta) (Theorem 3.3) and Beta-Fisher union-split bound U_tilde_RIP (Section 3.3), and the matching block-equicorrelated lower bound and minimax rate optimality (Lemma 4.1, Proposition 4.2, Corollary 4.3).
+
+### Mappings to AIO:LinearRegression and AIO:DataDredgingBias
+
+grounding: supported. Targets: AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds.
+
+Related mappings to LinearRegression and DataDredgingBias are supported.
+
+RIP PoSI bounds calibrate universal post-selection confidence intervals for s-sparse linear regression models (AIO:LinearRegression) and prevent data-snooping coverage invalidation (AIO:DataDredgingBias).
+
+### correlation-matrix-scale-invariance-and-gaussian-concentration-envelope
+
+evidence: supported. Targets: AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds.
+
+Supported by Section 2 (Equations 1-8, Lemma 2.2, Proposition 2.3, Lemma 2.4) and Appendices A-B.
+
+Verified Lemma 2.2 column-rescaling invariance, Lemma 2.4 sparse cardinality bound, and Lemma A.3 finite-r quantile bound.
+
+### restricted-isometry-perturbation-upper-bound-on-gaussian-width
+
+evidence: supported. Targets: AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds.
+
+Supported by Sections 3.1-3.2 (Equations 9-16, Definition 3.1, Lemma 3.2, Theorem 3.3, Figure 1) and Appendix B.
+
+Verified operator-norm perturbation bound &#124;&#124;w_{M, i} - z_{M, i}&#124;&#124; &lt;= 2 * delta * c(delta) and U_RIP(p, s, delta).
+
+### computable-concentration-and-beta-fisher-union-split-posi-bounds
+
+evidence: supported. Targets: AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds.
+
+Supported by Section 3.3 (Page 9, Figure 2) and Appendix C (Pages 18-20, Equation 25).
+
+Verified U_tilde_RIP &lt; U_bar_RIP &lt;&lt; U_sparse on the Figure 2 regime (p = 1000, s = 15, delta = 0.03).
+
+### block-equicorrelated-rip-lower-bound-and-minimax-rate-optimality
+
+evidence: supported. Targets: AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds.
+
+Supported by Section 4 (Pages 10-12, Equations 17-18, Lemma 4.1, Proposition 4.2, Corollary 4.3).
+
+Exhaustively verified Lemma 4.1 exact RIP constant delta(Z^{(c, k)}, s) = c * sqrt(s - 1) and Equation (18) block inverse identity.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of RestrictedIsometryPostSelectionInferenceConstantBounds.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, three primary sources with exact SHA-256 digests, pinned AIO mappings and rationales, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261017T172500Z-restricted-isometry-posi-constant-bounds.json | supports | No normalized identity match for Restricted isometry post-selection inference (PoSI) constant upper and lower bounds across 442 pinned AIO records and 605 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected LinearRegression and DataDredgingBias in the pinned AIO snapshot (2026-07-22). Both provide accurate related_match context. |
+| calculation | research/discovery/restricted-isometry-posi-constant-bounds-boundaries.py | supports | Executed pure-Python verification in research/discovery/restricted-isometry-posi-constant-bounds-boundaries.py (SHA-256 ddb5c03dffeb5b06b49c0032e04629ef49e8c42c7f3913e388dfdeb8c41ac5fb): (1) Section 2 Invariance &amp; Concentration: verified Lemma 2.2 column-rescaling invariance (max &#124;&#124;w_X - w_Z&#124;&#124;_inf = 1e-15), Lemma 2.4 sparse cardinality bound, and Lemma A.3 finite-r bound T(3.5, 100, 0.975) &lt;= 6.573291 vs. T(3.5, infty, 0.975) = 6.216203. (2) Section 3 Theorem 3.3 &amp; Figure 2: verified on p = 1000, s = 15, delta = 0.03, alpha = 0.05 that U_orth = 3.898949 &lt; U_RIP = 4.740587 &lt; U_tilde_RIP = 5.430915 &lt; U_bar_RIP = 7.45679 &lt;&lt; U_sparse = 13.406862. (3) Section 4 Block-Equicorrelated Lower Bound: verified exhaustively over all submodels of Z^{(c, k)} (p = 10, k = 9, s = 4, c = 0.25) that Lemma 4.1 exact delta = 0.4330127019 = c * sqrt(s - 1) = 0.4330127019 (attained on all 84 submodels containing p and s - 1 indices in {1, ..., k}), Equation (18) inverse identity error = 0.0, and &#124;&#124;w_{M, p} - z_{M, p}&#124;&#124; = 0.4440995 &lt;= 2 * delta * c(delta) = 1.82844677. |
+| bbn2018-pdf | https://arxiv.org/pdf/1804.07566; Pages 1-22, Sections 1-5 and Appendices A-C (Equations 1-25, Lemmas 2.2, 2.4, 3.2, 4.1, A.3, Propositions 2.3, 4.2, A.2, Theorem 3.3, Corollary 4.3, Figures 1-2) | supports | All 22 pages of the full-text PDF of arXiv:1804.07566v2 read. Checked all definitions, lemmas, propositions, theorems, figures, and proofs. |
+| bbn2018-crossref | https://api.crossref.org/works/10.1214/18-EJS1490; Electronic Journal of Statistics 12(2):3736-3757 publication record | supports | Official Electronic Journal of Statistics 12(2):3736-3757 Crossref record read and verified. |
+| bbn2018-abs | https://arxiv.org/abs/1804.07566; arXiv:1804.07566v2 abstract and metadata | supports | arXiv:1804.07566v2 abstract and metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Restricted isometry post-selection inference (PoSI) constant upper and lower bounds record, yielding 606 native and 442 unchanged generated records.
+- All 22 PDF pages of arXiv:1804.07566v2 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261017T172700Z-restricted-isometry-posi-constant-bounds
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Restricted isometry post-selection inference
+  (PoSI) constant upper and lower bounds
+started_at: '2026-10-17T17:25:00Z'
+finished_at: '2026-10-17T17:27:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from ValidPostSelectionInferencePoSIConstant
+    (Berk et al. 2013) and SimultaneousLinearContrastPostSelectionInference, verified
+    Lemma 2.2 scale invariance, Theorem 3.3 RIP Gaussian-width perturbation bounds,
+    Section 3.3 Figure 2 union-split bounds, and Lemma 4.1 / Proposition 4.2 block-equicorrelated
+    lower bounds, and documented three typographical slips in arXiv:1804.07566v2 (pp.
+    3, 12, 14). This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Restricted isometry post-selection inference (PoSI) constant upper
+  and lower bounds as a distinct DRAFT mathematical_method with related LinearRegression
+  and DataDredgingBias mappings. All four claims and locators across Bachoc, Blanchard,
+  & Neuvial (2018, Electronic Journal of Statistics 12(2):3736-3757, arXiv:1804.07566v2)
+  are supported with explicit RIP range delta < 0.36, NP-hardness of exact RIP evaluation,
+  and primary-source typographical notes.
+source:
+  git_revision: f8c1c0fe6441fa30763793005005bc773cc4fda0
+  state: working_tree
+  inputs:
+  - path: data/aio/DataDredgingBias.yaml
+    sha256: 335067e88f1462e141ac5f35e697cd42f7d250ec4dde9250531babe0d96cc1d0
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/curated/ReferenceFamilyJERPostHocConfidenceBounds.yaml
+    sha256: 7e0edec4d6cecc10454f8004806f7bc4b178af9a5daa540242f1771d387050eb
+    role: context
+  - path: data/curated/RestrictedIsometryPostSelectionInferenceConstantBounds.yaml
+    sha256: 317e5e5fb341d3f207d90f7a9571f612a4f6115ce5c057a6ade1055f931f4b73
+    role: target
+  - path: data/curated/SimesClosedTestingConcentrationShortcutAndDoubleAsymptoticFDPConsistency.yaml
+    sha256: 41cef06cda3799d6493029160b8fbfce2e2d6ede43cb8250c851eb18216a078d
+    role: context
+  - path: research/discovery/20261017T172500Z-restricted-isometry-posi-constant-bounds.json
+    sha256: 90d41ce7ce806c67a0adea610a79a0d1b94e6afa4ce45b562d7d9baba3a00147
+    role: context
+  - path: research/discovery/restricted-isometry-posi-constant-bounds-boundaries.py
+    sha256: ddb5c03dffeb5b06b49c0032e04629ef49e8c42c7f3913e388dfdeb8c41ac5fb
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  path: data/curated/RestrictedIsometryPostSelectionInferenceConstantBounds.yaml
+  label: Restricted isometry post-selection inference (PoSI) constant upper and lower
+    bounds
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/RestrictedIsometryPostSelectionInferenceConstantBounds.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained RestrictedIsometryPostSelectionInferenceConstantBounds
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 606 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Bachoc-Blanchard-Neuvial 2018 RIP PoSI constant upper and lower
+    bound checks
+  command: python3 research/discovery/restricted-isometry-posi-constant-bounds-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"section_2_invariance_and_concentration": {"lemma_2_2_max_corr_diff":
+    0.0, "lemma_2_2_max_w_diff": 1e-15, "lemma_a3_t_inf": 6.216203, "lemma_a3_t_r100":
+    6.573291}, "section_3_theorem_3_3_and_figure_2": {"alpha": 0.05, "c_delta": 1.046277,
+    "delta": 0.03, "optimal_split_t": 0.978, "p": 1000, "s": 15, "u_bar_rip": 7.45679,
+    "u_orth": 3.898949, "u_rip": 4.740587, "u_sparse": 13.406862, "u_tilde_rip_gaussian_split":
+    5.430915}, "section_4_lower_bound_construction": {"attained_submodels_count":
+    84, "c": 0.25, "equation_18_max_inverse_error": 0.0, "exact_dist_w_minus_z": 0.4440995,
+    "k": 9, "lemma_4_1_exact_delta": 0.4330127019, "lemma_4_1_theoretical_delta":
+    0.4330127019, "p": 10, "s": 4, "theorem_3_3_perturbation_bound": 1.82844677}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261017T172500Z-restricted-isometry-posi-constant-bounds.json
+  accessed_at: '2026-10-17T17:25:00Z'
+  support: supports
+  summary: No normalized identity match for Restricted isometry post-selection inference
+    (PoSI) constant upper and lower bounds across 442 pinned AIO records and 605 maintained
+    IDs, names, aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-17T17:25:00Z'
+  support: supports
+  summary: Inspected LinearRegression and DataDredgingBias in the pinned AIO snapshot
+    (2026-07-22). Both provide accurate related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/restricted-isometry-posi-constant-bounds-boundaries.py
+  accessed_at: '2026-10-17T17:25:00Z'
+  snapshot_sha256: ddb5c03dffeb5b06b49c0032e04629ef49e8c42c7f3913e388dfdeb8c41ac5fb
+  support: supports
+  summary: 'Executed pure-Python verification in research/discovery/restricted-isometry-posi-constant-bounds-boundaries.py
+    (SHA-256 ddb5c03dffeb5b06b49c0032e04629ef49e8c42c7f3913e388dfdeb8c41ac5fb): (1)
+    Section 2 Invariance & Concentration: verified Lemma 2.2 column-rescaling invariance
+    (max ||w_X - w_Z||_inf = 1e-15), Lemma 2.4 sparse cardinality bound, and Lemma
+    A.3 finite-r bound T(3.5, 100, 0.975) <= 6.573291 vs. T(3.5, infty, 0.975) = 6.216203.
+    (2) Section 3 Theorem 3.3 & Figure 2: verified on p = 1000, s = 15, delta = 0.03,
+    alpha = 0.05 that U_orth = 3.898949 < U_RIP = 4.740587 < U_tilde_RIP = 5.430915
+    < U_bar_RIP = 7.45679 << U_sparse = 13.406862. (3) Section 4 Block-Equicorrelated
+    Lower Bound: verified exhaustively over all submodels of Z^{(c, k)} (p = 10, k
+    = 9, s = 4, c = 0.25) that Lemma 4.1 exact delta = 0.4330127019 = c * sqrt(s -
+    1) = 0.4330127019 (attained on all 84 submodels containing p and s - 1 indices
+    in {1, ..., k}), Equation (18) inverse identity error = 0.0, and ||w_{M, p} -
+    z_{M, p}|| = 0.4440995 <= 2 * delta * c(delta) = 1.82844677.'
+- evidence_id: bbn2018-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1804.07566
+  locator: Pages 1-22, Sections 1-5 and Appendices A-C (Equations 1-25, Lemmas 2.2,
+    2.4, 3.2, 4.1, A.3, Propositions 2.3, 4.2, A.2, Theorem 3.3, Corollary 4.3, Figures
+    1-2)
+  accessed_at: '2026-10-17T17:25:00Z'
+  snapshot_sha256: c703312f4db92644aeb50fa0fc55b377de0386920bba1cbdba0a6eadc8a4a090
+  support: supports
+  summary: All 22 pages of the full-text PDF of arXiv:1804.07566v2 read. Checked all
+    definitions, lemmas, propositions, theorems, figures, and proofs.
+- evidence_id: bbn2018-crossref
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/18-EJS1490
+  locator: Electronic Journal of Statistics 12(2):3736-3757 publication record
+  accessed_at: '2026-10-17T17:25:00Z'
+  snapshot_sha256: 6983055f26d21f1f9622d49c0447357c975da594f66f2e86a37dd6d39405b643
+  support: supports
+  summary: Official Electronic Journal of Statistics 12(2):3736-3757 Crossref record
+    read and verified.
+- evidence_id: bbn2018-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1804.07566
+  locator: arXiv:1804.07566v2 abstract and metadata
+  accessed_at: '2026-10-17T17:25:00Z'
+  snapshot_sha256: 86886d722b4e8751c11c4339717c9531702523ab11382800bd860a1a874d1b7e
+  support: supports
+  summary: arXiv:1804.07566v2 abstract and metadata read and verified.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: RestrictedIsometryPostSelectionInferenceConstantBounds versus ValidPostSelectionInferencePoSIConstant
+    and SimultaneousLinearContrastPostSelectionInference
+  outcome: supported
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  evidence_ids:
+  - identity
+  - bbn2018-pdf
+  - bbn2018-crossref
+  summary: Retain Restricted isometry post-selection inference (PoSI) constant upper
+    and lower bounds as a distinct DRAFT mathematical_method.
+  details: Bachoc, Blanchard, & Neuvial (2018) establish correlation-matrix scale
+    invariance of K(X, M, alpha, r) (Lemma 2.2), Gaussian-concentration studentized
+    quantile control (Proposition 2.3), the explicit RIP perturbation upper bound
+    U_RIP(p, s, delta) (Theorem 3.3) and Beta-Fisher union-split bound U_tilde_RIP
+    (Section 3.3), and the matching block-equicorrelated lower bound and minimax rate
+    optimality (Lemma 4.1, Proposition 4.2, Corollary 4.3).
+- assessment_id: mapping
+  area: grounding
+  topic: Mappings to AIO:LinearRegression and AIO:DataDredgingBias
+  outcome: supported
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  evidence_ids:
+  - mapping
+  - bbn2018-pdf
+  summary: Related mappings to LinearRegression and DataDredgingBias are supported.
+  details: RIP PoSI bounds calibrate universal post-selection confidence intervals
+    for s-sparse linear regression models (AIO:LinearRegression) and prevent data-snooping
+    coverage invalidation (AIO:DataDredgingBias).
+- assessment_id: correlation-matrix-scale-invariance-and-gaussian-concentration-envelope
+  area: evidence
+  topic: correlation-matrix-scale-invariance-and-gaussian-concentration-envelope
+  outcome: supported
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  evidence_ids:
+  - bbn2018-pdf
+  - bbn2018-crossref
+  - calculation
+  summary: Supported by Section 2 (Equations 1-8, Lemma 2.2, Proposition 2.3, Lemma
+    2.4) and Appendices A-B.
+  details: Verified Lemma 2.2 column-rescaling invariance, Lemma 2.4 sparse cardinality
+    bound, and Lemma A.3 finite-r quantile bound.
+- assessment_id: restricted-isometry-perturbation-upper-bound-on-gaussian-width
+  area: evidence
+  topic: restricted-isometry-perturbation-upper-bound-on-gaussian-width
+  outcome: supported
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  evidence_ids:
+  - bbn2018-pdf
+  - bbn2018-abs
+  - calculation
+  summary: Supported by Sections 3.1-3.2 (Equations 9-16, Definition 3.1, Lemma 3.2,
+    Theorem 3.3, Figure 1) and Appendix B.
+  details: Verified operator-norm perturbation bound ||w_{M, i} - z_{M, i}|| <= 2
+    * delta * c(delta) and U_RIP(p, s, delta).
+- assessment_id: computable-concentration-and-beta-fisher-union-split-posi-bounds
+  area: evidence
+  topic: computable-concentration-and-beta-fisher-union-split-posi-bounds
+  outcome: supported
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  evidence_ids:
+  - bbn2018-pdf
+  - calculation
+  summary: Supported by Section 3.3 (Page 9, Figure 2) and Appendix C (Pages 18-20,
+    Equation 25).
+  details: Verified U_tilde_RIP < U_bar_RIP << U_sparse on the Figure 2 regime (p
+    = 1000, s = 15, delta = 0.03).
+- assessment_id: block-equicorrelated-rip-lower-bound-and-minimax-rate-optimality
+  area: evidence
+  topic: block-equicorrelated-rip-lower-bound-and-minimax-rate-optimality
+  outcome: supported
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  evidence_ids:
+  - bbn2018-pdf
+  - bbn2018-crossref
+  - calculation
+  summary: Supported by Section 4 (Pages 10-12, Equations 17-18, Lemma 4.1, Proposition
+    4.2, Corollary 4.3).
+  details: Exhaustively verified Lemma 4.1 exact RIP constant delta(Z^{(c, k)}, s)
+    = c * sqrt(s - 1) and Equation (18) block inverse identity.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+  evidence_ids:
+  - identity
+  - mapping
+  - bbn2018-pdf
+  - bbn2018-crossref
+  - bbn2018-abs
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of RestrictedIsometryPostSelectionInferenceConstantBounds.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, four claims and locators, three primary sources with exact SHA-256
+    digests, pinned AIO mappings and rationales, four scoped limitations, and UTC
+    curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Restricted isometry post-selection inference (PoSI) constant upper
+  and lower bounds record, yielding 606 native and 442 unchanged generated records.
+- All 22 PDF pages of arXiv:1804.07566v2 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- post-selection-inference
+- restricted-isometry-property
+- linear-regression
+- self-review
+- discovery-ongoing
+```
