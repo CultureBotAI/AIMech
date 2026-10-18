@@ -1,0 +1,512 @@
+# Scientific author self-review of asymptotically optimal rejection curve false discovery rate control and adjusted step-up-down testing
+
+- Review: 20261017T162700Z-asymptotically-optimal-rejection-curve-fdr-control
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-17T16:25:00Z
+- Finished UTC: 2026-10-17T16:27:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain asymptotically optimal rejection curve false discovery rate control and adjusted step-up-down testing as a distinct DRAFT mathematical_method with a related DataDredgingBias mapping. All four claims and locators across Finner, Dickhaus, &amp; Roters (2009 Annals of Statistics 37(2):596-618) are supported with explicit unadjusted alpha_{n:n} = 1 degeneracy, finite-sample Dirac-uniform overshoot, and r^* = 0 boundary condition limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained AsymptoticallyOptimalRejectionCurveFDRControl record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 6ad9303c1290e431954e795a99f097277b659c8b.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AsymptoticallyOptimalRejectionCurveFDRControl | data/curated/AsymptoticallyOptimalRejectionCurveFDRControl.yaml | maintained | asymptotically optimal rejection curve false discovery rate control and adjusted step-up-down testing |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:AsymptoticallyOptimalRejectionCurveFDRControl | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:AsymptoticallyOptimalRejectionCurveFDRControl | All 600 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:AsymptoticallyOptimalRejectionCurveFDRControl | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:AsymptoticallyOptimalRejectionCurveFDRControl | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:AsymptoticallyOptimalRejectionCurveFDRControl | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:AsymptoticallyOptimalRejectionCurveFDRControl | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:AsymptoticallyOptimalRejectionCurveFDRControl | Exited 0 without output. |
+| Constructed Finner-Dickhaus-Roters 2009 AORC, Dirac-uniform finite-sample FDR benchmark, and beta_n adjustment checks | passed | True | AIMech:AsymptoticallyOptimalRejectionCurveFDRControl | {<br>  "concept_id": "AIMech:AsymptoticallyOptimalRejectionCurveFDRControl",<br>  "primary_source": "Finner, Dickhaus, &amp; Roters (2009), Annals of Statistics 37(2):596-618 (arXiv:0903.5161v1, DOI:10.1214/07-AOS569)",<br>  "section_3_and_figure_1_parameters": {<br>    "alpha": 0.05,<br>    "x_star": 0.5,<br>    "kappa_1_tangent_adjusted": 0.27452375,<br>    "kappa_2_secant_adjusted": 0.47368421,<br>    "f_alpha_at_kappa_2": 0.94736842<br>  },<br>  "section_6_figure_2_finite_sample_benchmark": {<br>    "n": 100,<br>    "alpha": 0.05,<br>    "violating_n0_range": [<br>      11,<br>      44<br>    ],<br>    "violating_n0_count": 34,<br>    "argmax_n0": 16,<br>    "max_fdr_at_n0_16": 0.058013,<br>    "paper_reported_max_fdr": 0.05801,<br>    "fdr_at_n0_11": 0.051489,<br>    "fdr_at_n0_12": 0.054106,<br>    "fdr_at_n0_35": 0.051997,<br>    "fdr_at_n0_36": 0.051914<br>  },<br>  "section_6_eq_6_1_beta_adjustment_verification": {<br>    "n": 100,<br>    "alpha": 0.05,<br>    "max_fdr_beta_1_0_step_up": 0.060123,<br>    "max_fdr_beta_1_76_step_up": 0.049959,<br>    "argmax_n0_beta_1_76": 15<br>  },<br>  "section_5_asymptotic_optimality_comparison": {<br>    "zeta": 0.25,<br>    "t_lsu": 0.03797468,<br>    "r_lsu": 0.75949367,<br>    "fdr_lsu": 0.0125,<br>    "t_aorc": 0.15789474,<br>    "r_aorc": 0.78947368,<br>    "fdr_aorc": 0.05,<br>    "zeta_star_at_kappa_0_5": 0.0952381,<br>    "fdr_truncated_at_zeta_0_08": 0.04166667<br>  },<br>  "all_assertions_passed": true<br>} |
+
+## Scientific And Domain Assessments
+
+### AsymptoticallyOptimalRejectionCurveFDRControl versus ExactStepUpStepDownFDPMomentsAndLFCAnalysis and StepUpDownLeastFavorableConfigurationFDRBounds
+
+identity: supported. Targets: AIMech:AsymptoticallyOptimalRejectionCurveFDRControl.
+
+Retain asymptotically optimal rejection curve false discovery rate control and adjusted step-up-down testing as a distinct DRAFT mathematical_method.
+
+AsymptoticallyOptimalRejectionCurveFDRControl defines the Asymptotically Optimal Rejection Curve f_alpha(t) = t / (t*(1 - alpha) + alpha) and its critical values alpha_{i:n} = i*alpha / (n - i*(1 - alpha)), the regularized SUD, tangent/secant-adjusted SU, and truncated SU families, the least isotonic majorant finite-sample bound under (D1)-(D2), the Glivenko-Cantelli crossing-point asymptotic FDR theorems and pointwise minimality / power optimality over M_1, and the beta_n-adjusted critical values Eq. (6.1).
+
+### Mapping to AIO:DataDredgingBias
+
+grounding: supported. Targets: AIMech:AsymptoticallyOptimalRejectionCurveFDRControl.
+
+Related mapping to DataDredgingBias is supported.
+
+Asymptotically optimal rejection curves and regularized step-up-down and step-up procedures directly control false discovery rates in simultaneous hypothesis testing, mitigating multiplicity-induced false positives (AIO:DataDredgingBias).
+
+### dirac-uniform-aorc-derivation-and-regularized-rejection-curves
+
+evidence: supported. Targets: AIMech:AsymptoticallyOptimalRejectionCurveFDRControl.
+
+Supported by Section 3, Equation (3.1), Remark 3.1, Examples 3.1-3.3, and Figure 1.
+
+Verified AORC identities, symmetry f_alpha^{-1}(t) = 1 - f_alpha(1 - t), and Figure 1 tangent and secant adjustment parameters (kappa_1 = 0.27452375, kappa_2 = 0.47368421 for x^* = 0.5, alpha = 0.05).
+
+### finite-sample-fdr-bounds-under-monotonicity-and-isotonic-majorant
+
+evidence: supported. Targets: AIMech:AsymptoticallyOptimalRejectionCurveFDRControl.
+
+Supported by Section 4, Theorems 4.1-4.3, and Equations (4.1)-(4.12).
+
+Verified the Theorem 4.3 exact Dirac-uniform step-up identity FDR_{n_0,n} = (n_0/n) E_{n_0-1,n}[q(R_n/n)] under (A2) via Bolshev/Steck evaluation across n_0 = 1..44.
+
+### glivenko-cantelli-asymptotic-fdr-control-and-aorc-optimality
+
+evidence: supported. Targets: AIMech:AsymptoticallyOptimalRejectionCurveFDRControl.
+
+Supported by Section 5, Theorems 5.1-5.5, Corollary 5.1, and Equations (5.1)-(5.14).
+
+Verified Corollary 5.1 and Theorem 5.5 asymptotic rejection proportion dominance of AORC over Simes LSU (0.78947368 vs 0.75949367 at zeta = 0.25, alpha = 0.05) and truncation threshold zeta^*(0.5) = 0.0952381.
+
+### finite-sample-dirac-uniform-overshoot-and-beta-adjusted-critical-values
+
+evidence: supported. Targets: AIMech:AsymptoticallyOptimalRejectionCurveFDRControl.
+
+Supported by Section 6, Figure 2, and Equation (6.1).
+
+Verified exact agreement with Figure 2 at n = 100, alpha = 0.05 (argmax n_0 = 16, max FDR = 0.058013 ~= 0.05801) and confirmed that beta_{100} = 1.76 in Equation (6.1) reduces max Dirac-uniform step-up FDR to 0.049959 &lt;= 0.05.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:AsymptoticallyOptimalRejectionCurveFDRControl.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of AsymptoticallyOptimalRejectionCurveFDRControl.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, three primary sources with exact SHA-256 digests, pinned AIO mapping and rationale, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261017T162500Z-asymptotically-optimal-rejection-curve-fdr-control.json | supports | No normalized identity match for asymptotically optimal rejection curve false discovery rate control and adjusted step-up-down testing across 442 pinned AIO records and 599 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected DataDredgingBias in the pinned AIO snapshot (2026-07-22). DataDredgingBias provides frequentist multiplicity error-control context via related_match. |
+| calculation | research/discovery/asymptotically-optimal-rejection-curve-fdr-control-boundaries.py | supports | Constructed analytical and numerical checks for Section 3 AORC identities and tangent/secant regularizations, Section 6 Figure 2 exact Dirac-uniform FDR benchmark (0.05801 at n_0 = 16 for n = 100), Equation (6.1) beta_{100} = 1.76 adjustment, and Section 5 asymptotic power optimality. |
+| finner-dickhaus-roters2009-pdf | https://arxiv.org/pdf/0903.5161; Pages 596-618, Sections 1-7 (Equation (3.1), Examples 3.1-3.3, Theorems 4.1-4.3, Equations (4.1)-(4.12), Theorems 5.1-5.5, Corollary 5.1, Equations (5.1)-(5.14), Equation (6.1), Figures 1-2) | supports | All 24 pages of the full-text PDF of arXiv:0903.5161v1 read. Checked all definitions, examples, theorems, corollaries, remarks, equations, and proofs. |
+| finner-dickhaus-roters2009-crossref | https://api.crossref.org/works/10.1214/07-AOS569; Annals of Statistics 37(2):596-618 publication record | supports | Official Annals of Statistics 37(2):596-618 Crossref record read and verified. |
+| finner-dickhaus-roters2009-abs | https://arxiv.org/abs/0903.5161; arXiv:0903.5161v1 abstract and metadata | supports | arXiv:0903.5161v1 abstract and metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT asymptotically optimal rejection curve false discovery rate control and adjusted step-up-down testing record, yielding 600 native and 442 unchanged generated records.
+- All 24 PDF pages of Finner, Dickhaus, &amp; Roters (2009, arXiv:0903.5161v1) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261017T162700Z-asymptotically-optimal-rejection-curve-fdr-control
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of asymptotically optimal rejection curve false
+  discovery rate control and adjusted step-up-down testing
+started_at: '2026-10-17T16:25:00Z'
+finished_at: '2026-10-17T16:27:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from ExactStepUpStepDownFDPMomentsAndLFCAnalysis
+    (Roquain & Villers 2011) and StepUpDownLeastFavorableConfigurationFDRBounds (Blanchard
+    et al. 2014), verified the exact finite-sample Dirac-uniform FDR overshoot (0.05801
+    at n_0 = 16 for n = 100) via high-precision Bolshev/Steck recursion, and checked
+    the two-decimal threshold beta_{100} = 1.76 vs 1.75 in Eq. (6.1). This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain asymptotically optimal rejection curve false discovery rate control
+  and adjusted step-up-down testing as a distinct DRAFT mathematical_method with a
+  related DataDredgingBias mapping. All four claims and locators across Finner, Dickhaus,
+  & Roters (2009 Annals of Statistics 37(2):596-618) are supported with explicit unadjusted
+  alpha_{n:n} = 1 degeneracy, finite-sample Dirac-uniform overshoot, and r^* = 0 boundary
+  condition limitations.
+source:
+  git_revision: 6ad9303c1290e431954e795a99f097277b659c8b
+  state: working_tree
+  inputs:
+  - path: data/aio/DataDredgingBias.yaml
+    sha256: 335067e88f1462e141ac5f35e697cd42f7d250ec4dde9250531babe0d96cc1d0
+    role: context
+  - path: data/curated/ArchimedeanCopulaStepUpFDRBounds.yaml
+    sha256: 8a1f1f0ef3c4ec4ac45ede2c42f6ada4aaff38b4a6c59bf4d2fc18265aef96d7
+    role: context
+  - path: data/curated/AsymptoticallyOptimalRejectionCurveFDRControl.yaml
+    sha256: fa6f6a7c44a7f51eaced5de206ddb6679c8bf92489442a4265e6b5c7a6373bf9
+    role: target
+  - path: data/curated/ContinuumMeasureSpaceStepUpFDRControl.yaml
+    sha256: 498a31bc6bb08aee30af0e7c6162801b1333a932df59620b4b1eb56820498444
+    role: context
+  - path: data/curated/ExactStepUpStepDownFDPMomentsAndLFCAnalysis.yaml
+    sha256: d58e0d5d29e1c28fe4115471e06c8d76d0f66c4265c51c4cf4f33134c4091593
+    role: context
+  - path: data/curated/OneAndTwoStageAdaptiveStepUpFDRUnderDependence.yaml
+    sha256: 651276db83f388cdf782125e0ac769bacdb09ce89e63ebf1e9378b3a0d36d91f
+    role: context
+  - path: data/curated/SelfConsistencyAndDependencyControlFDRFramework.yaml
+    sha256: 03444e07e1d84f9bdc618210e31fc12764d6e8dc40c4311bef2fe5a40c0e7a80
+    role: context
+  - path: data/curated/StepUpDownLeastFavorableConfigurationFDRBounds.yaml
+    sha256: 364829550c002d6abacfff66a6b7f140112c4985d9e1148925c2e81ea34a0342
+    role: context
+  - path: research/discovery/20261017T162500Z-asymptotically-optimal-rejection-curve-fdr-control.json
+    sha256: 4a574f7e0484f9e9f7528ad6f99014501558f43eb4ffb9c4f040e5fb0c08db0b
+    role: context
+  - path: research/discovery/asymptotically-optimal-rejection-curve-fdr-control-boundaries.py
+    sha256: 7044b86e383d07f258fa7ad1acb875a58d7a4fbc9da2ed45282ba3fccf8518f2
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  path: data/curated/AsymptoticallyOptimalRejectionCurveFDRControl.yaml
+  label: asymptotically optimal rejection curve false discovery rate control and adjusted
+    step-up-down testing
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AsymptoticallyOptimalRejectionCurveFDRControl.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained AsymptoticallyOptimalRejectionCurveFDRControl
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:AsymptoticallyOptimalRejectionCurveFDRControl'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 600 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Finner-Dickhaus-Roters 2009 AORC, Dirac-uniform finite-sample
+    FDR benchmark, and beta_n adjustment checks
+  command: python3 research/discovery/asymptotically-optimal-rejection-curve-fdr-control-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept_id\": \"AIMech:AsymptoticallyOptimalRejectionCurveFDRControl\"\
+    ,\n  \"primary_source\": \"Finner, Dickhaus, & Roters (2009), Annals of Statistics\
+    \ 37(2):596-618 (arXiv:0903.5161v1, DOI:10.1214/07-AOS569)\",\n  \"section_3_and_figure_1_parameters\"\
+    : {\n    \"alpha\": 0.05,\n    \"x_star\": 0.5,\n    \"kappa_1_tangent_adjusted\"\
+    : 0.27452375,\n    \"kappa_2_secant_adjusted\": 0.47368421,\n    \"f_alpha_at_kappa_2\"\
+    : 0.94736842\n  },\n  \"section_6_figure_2_finite_sample_benchmark\": {\n    \"\
+    n\": 100,\n    \"alpha\": 0.05,\n    \"violating_n0_range\": [\n      11,\n  \
+    \    44\n    ],\n    \"violating_n0_count\": 34,\n    \"argmax_n0\": 16,\n   \
+    \ \"max_fdr_at_n0_16\": 0.058013,\n    \"paper_reported_max_fdr\": 0.05801,\n\
+    \    \"fdr_at_n0_11\": 0.051489,\n    \"fdr_at_n0_12\": 0.054106,\n    \"fdr_at_n0_35\"\
+    : 0.051997,\n    \"fdr_at_n0_36\": 0.051914\n  },\n  \"section_6_eq_6_1_beta_adjustment_verification\"\
+    : {\n    \"n\": 100,\n    \"alpha\": 0.05,\n    \"max_fdr_beta_1_0_step_up\":\
+    \ 0.060123,\n    \"max_fdr_beta_1_76_step_up\": 0.049959,\n    \"argmax_n0_beta_1_76\"\
+    : 15\n  },\n  \"section_5_asymptotic_optimality_comparison\": {\n    \"zeta\"\
+    : 0.25,\n    \"t_lsu\": 0.03797468,\n    \"r_lsu\": 0.75949367,\n    \"fdr_lsu\"\
+    : 0.0125,\n    \"t_aorc\": 0.15789474,\n    \"r_aorc\": 0.78947368,\n    \"fdr_aorc\"\
+    : 0.05,\n    \"zeta_star_at_kappa_0_5\": 0.0952381,\n    \"fdr_truncated_at_zeta_0_08\"\
+    : 0.04166667\n  },\n  \"all_assertions_passed\": true\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261017T162500Z-asymptotically-optimal-rejection-curve-fdr-control.json
+  accessed_at: '2026-10-17T16:25:00Z'
+  support: supports
+  summary: No normalized identity match for asymptotically optimal rejection curve
+    false discovery rate control and adjusted step-up-down testing across 442 pinned
+    AIO records and 599 maintained IDs, names, aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-17T16:25:00Z'
+  support: supports
+  summary: Inspected DataDredgingBias in the pinned AIO snapshot (2026-07-22). DataDredgingBias
+    provides frequentist multiplicity error-control context via related_match.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/asymptotically-optimal-rejection-curve-fdr-control-boundaries.py
+  accessed_at: '2026-10-17T16:25:00Z'
+  snapshot_sha256: 7044b86e383d07f258fa7ad1acb875a58d7a4fbc9da2ed45282ba3fccf8518f2
+  support: supports
+  summary: Constructed analytical and numerical checks for Section 3 AORC identities
+    and tangent/secant regularizations, Section 6 Figure 2 exact Dirac-uniform FDR
+    benchmark (0.05801 at n_0 = 16 for n = 100), Equation (6.1) beta_{100} = 1.76
+    adjustment, and Section 5 asymptotic power optimality.
+- evidence_id: finner-dickhaus-roters2009-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/0903.5161
+  locator: Pages 596-618, Sections 1-7 (Equation (3.1), Examples 3.1-3.3, Theorems
+    4.1-4.3, Equations (4.1)-(4.12), Theorems 5.1-5.5, Corollary 5.1, Equations (5.1)-(5.14),
+    Equation (6.1), Figures 1-2)
+  accessed_at: '2026-10-17T16:25:00Z'
+  snapshot_sha256: f93ddc34225fa03697bd0d1e3ab98ca0878de9fcb3e092b0603136b6285725ff
+  support: supports
+  summary: All 24 pages of the full-text PDF of arXiv:0903.5161v1 read. Checked all
+    definitions, examples, theorems, corollaries, remarks, equations, and proofs.
+- evidence_id: finner-dickhaus-roters2009-crossref
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/07-AOS569
+  locator: Annals of Statistics 37(2):596-618 publication record
+  accessed_at: '2026-10-17T16:25:00Z'
+  snapshot_sha256: f19c0022412bfd1ba3648625a0f537f20e6d47ac08ccc157baec76b90be66093
+  support: supports
+  summary: Official Annals of Statistics 37(2):596-618 Crossref record read and verified.
+- evidence_id: finner-dickhaus-roters2009-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/0903.5161
+  locator: arXiv:0903.5161v1 abstract and metadata
+  accessed_at: '2026-10-17T16:25:00Z'
+  snapshot_sha256: edcb1378aed6555d8febb02d583c6826304f3e95d9e9d259e13eb7e00d03742f
+  support: supports
+  summary: arXiv:0903.5161v1 abstract and metadata read and verified.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: AsymptoticallyOptimalRejectionCurveFDRControl versus ExactStepUpStepDownFDPMomentsAndLFCAnalysis
+    and StepUpDownLeastFavorableConfigurationFDRBounds
+  outcome: supported
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  evidence_ids:
+  - identity
+  - finner-dickhaus-roters2009-pdf
+  - finner-dickhaus-roters2009-crossref
+  summary: Retain asymptotically optimal rejection curve false discovery rate control
+    and adjusted step-up-down testing as a distinct DRAFT mathematical_method.
+  details: AsymptoticallyOptimalRejectionCurveFDRControl defines the Asymptotically
+    Optimal Rejection Curve f_alpha(t) = t / (t*(1 - alpha) + alpha) and its critical
+    values alpha_{i:n} = i*alpha / (n - i*(1 - alpha)), the regularized SUD, tangent/secant-adjusted
+    SU, and truncated SU families, the least isotonic majorant finite-sample bound
+    under (D1)-(D2), the Glivenko-Cantelli crossing-point asymptotic FDR theorems
+    and pointwise minimality / power optimality over M_1, and the beta_n-adjusted
+    critical values Eq. (6.1).
+- assessment_id: mapping
+  area: grounding
+  topic: Mapping to AIO:DataDredgingBias
+  outcome: supported
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  evidence_ids:
+  - mapping
+  - finner-dickhaus-roters2009-pdf
+  summary: Related mapping to DataDredgingBias is supported.
+  details: Asymptotically optimal rejection curves and regularized step-up-down and
+    step-up procedures directly control false discovery rates in simultaneous hypothesis
+    testing, mitigating multiplicity-induced false positives (AIO:DataDredgingBias).
+- assessment_id: dirac-uniform-aorc-derivation-and-regularized-rejection-curves
+  area: evidence
+  topic: dirac-uniform-aorc-derivation-and-regularized-rejection-curves
+  outcome: supported
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  evidence_ids:
+  - finner-dickhaus-roters2009-pdf
+  - finner-dickhaus-roters2009-abs
+  - calculation
+  summary: Supported by Section 3, Equation (3.1), Remark 3.1, Examples 3.1-3.3, and
+    Figure 1.
+  details: Verified AORC identities, symmetry f_alpha^{-1}(t) = 1 - f_alpha(1 - t),
+    and Figure 1 tangent and secant adjustment parameters (kappa_1 = 0.27452375, kappa_2
+    = 0.47368421 for x^* = 0.5, alpha = 0.05).
+- assessment_id: finite-sample-fdr-bounds-under-monotonicity-and-isotonic-majorant
+  area: evidence
+  topic: finite-sample-fdr-bounds-under-monotonicity-and-isotonic-majorant
+  outcome: supported
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  evidence_ids:
+  - finner-dickhaus-roters2009-pdf
+  - calculation
+  summary: Supported by Section 4, Theorems 4.1-4.3, and Equations (4.1)-(4.12).
+  details: Verified the Theorem 4.3 exact Dirac-uniform step-up identity FDR_{n_0,n}
+    = (n_0/n) E_{n_0-1,n}[q(R_n/n)] under (A2) via Bolshev/Steck evaluation across
+    n_0 = 1..44.
+- assessment_id: glivenko-cantelli-asymptotic-fdr-control-and-aorc-optimality
+  area: evidence
+  topic: glivenko-cantelli-asymptotic-fdr-control-and-aorc-optimality
+  outcome: supported
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  evidence_ids:
+  - finner-dickhaus-roters2009-pdf
+  - finner-dickhaus-roters2009-abs
+  - calculation
+  summary: Supported by Section 5, Theorems 5.1-5.5, Corollary 5.1, and Equations
+    (5.1)-(5.14).
+  details: Verified Corollary 5.1 and Theorem 5.5 asymptotic rejection proportion
+    dominance of AORC over Simes LSU (0.78947368 vs 0.75949367 at zeta = 0.25, alpha
+    = 0.05) and truncation threshold zeta^*(0.5) = 0.0952381.
+- assessment_id: finite-sample-dirac-uniform-overshoot-and-beta-adjusted-critical-values
+  area: evidence
+  topic: finite-sample-dirac-uniform-overshoot-and-beta-adjusted-critical-values
+  outcome: supported
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  evidence_ids:
+  - finner-dickhaus-roters2009-pdf
+  - calculation
+  summary: Supported by Section 6, Figure 2, and Equation (6.1).
+  details: Verified exact agreement with Figure 2 at n = 100, alpha = 0.05 (argmax
+    n_0 = 16, max FDR = 0.058013 ~= 0.05801) and confirmed that beta_{100} = 1.76
+    in Equation (6.1) reduces max Dirac-uniform step-up FDR to 0.049959 <= 0.05.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:AsymptoticallyOptimalRejectionCurveFDRControl
+  evidence_ids:
+  - identity
+  - mapping
+  - finner-dickhaus-roters2009-pdf
+  - finner-dickhaus-roters2009-crossref
+  - finner-dickhaus-roters2009-abs
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of AsymptoticallyOptimalRejectionCurveFDRControl.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, four claims and locators, three primary sources with exact SHA-256
+    digests, pinned AIO mapping and rationale, four scoped limitations, and UTC curation
+    metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT asymptotically optimal rejection curve false discovery rate control
+  and adjusted step-up-down testing record, yielding 600 native and 442 unchanged
+  generated records.
+- All 24 PDF pages of Finner, Dickhaus, & Roters (2009, arXiv:0903.5161v1) were read
+  in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- multiple-testing
+- false-discovery-rate
+- asymptotically-optimal-rejection-curve
+- step-up-down
+- self-review
+- discovery-ongoing
+```
