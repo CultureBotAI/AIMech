@@ -1,0 +1,247 @@
+id: AIMech:ModelRobustNonlinearityConsistentSandwichAndRAVSpecificationTest
+name: Model-robust nonlinearity-consistent sandwich variance and Ratio of Asymptotic Variances (RAV) specification
+  test
+concept_kind: mathematical_method
+aliases:
+- Models as Approximations I model-robust linear regression framework (Buja et al. 2019)
+- Ratio of Asymptotic Variances (RAV_j) regressor-specific misspecification diagnostic and test
+- Canonical Noise and Approximation Estimation Offset (EO) decomposition
+- Case-wise and pairwise adjusted-regressor weighted slope representations
+definition: A model-robust theory and diagnostic methodology for ordinary least squares (OLS) linear regression
+  under arbitrary joint regressor-response distributions P = P_{Y, X_vec} without assuming linearity or
+  homoskedasticity (Buja, Berk, Brown, George, Pitkin, Traskin, Zhao, & Zhang 2019). Viewing the population
+  OLS parameter beta(P) = E[X_vec X_vec']^{-1} E[X_vec Y] = E[X_vec X_vec']^{-1} E[X_vec mu(X_vec)] (Equations
+  3-4) as a statistical functional of the joint distribution P, Proposition 4.1 proves that regressor
+  ancillarity fails whenever the conditional mean mu(x_vec) = E[Y | X_vec = x_vec] is nonlinear because
+  beta(P) then depends on the marginal regressor distribution P_{X_vec}. Decomposing the response as Y
+  = beta' X_vec + eta(X_vec) + eps with canonical nonlinearity eta(X_vec) = mu(X_vec) - beta' X_vec and
+  noise eps = Y - mu(X_vec) satisfying E[X_vec eta(X_vec)] = 0, E[X_vec eps] = 0, E[eta(X_vec) eps] =
+  0, and conditional MSE m^2(X_vec) = sigma^2(X_vec) + eta^2(X_vec) (Section 5, Equations 6-9), the framework
+  separates the Total Estimation Offset beta_hat - beta(P) into the uncorrelated Noise Estimation Offset
+  beta_hat - beta(X) and Approximation Estimation Offset beta(X) - beta(P), where beta(X) = (X'X)^{-1}
+  X' mu(X) is the conditional target of fixed-X regression (Equations 10-15), both of order O_P(N^{-1/2})
+  with asymptotic covariance matrices E[X_vec X_vec']^{-1} E[sigma^2(X_vec) X_vec X_vec'] E[X_vec X_vec']^{-1}
+  and E[X_vec X_vec']^{-1} E[eta^2(X_vec) X_vec X_vec'] E[X_vec X_vec']^{-1} whose sum is consistently
+  estimated by the Eicker-Huber-White sandwich estimator AV_hat_sand[beta] = lim_{M -> infty} M V_{P_hat_N}[beta^*_M]
+  (Propositions 7, 8.1, 8.2, Equations 16-20). Using adjusted regressors X_{j.} = X_j - beta_{-j}' X_vec_{-j},
+  the j-th slope admits case-wise and pairwise weighted-average representations (Section 10, Equations
+  22-23), and the Ratio of Asymptotic Variances RAV[beta_j, m^2] = AV_total[beta_j] / AV_lin[beta_j] =
+  E[m^2(X_vec) X_{j.}^2] / (E[m^2(X_vec)] E[X_{j.}^2]) = w_sigma RAV[beta_j, sigma^2] + w_eta RAV[beta_j,
+  eta^2] (Definition 11.4, Lemma E.2, Equation 27) quantifies regressor-specific protective (RAV < 1)
+  vs. anti-protective (RAV > 1) standard-error distortion within sharp range [P-min X_{j.}^2 / E[X_{j.}^2],
+  P-max X_{j.}^2 / E[X_{j.}^2]] (Proposition 11.5) and yields the regressor-specific test statistic RAV_hat_j
+  = N <r^2, X_{j,.hat}^2> / (||r||^2 ||X_{j,.hat}||^2) with asymptotic null variance (E[delta^4]/E[delta^2]^2)(E[X_{j.}^4]/E[X_{j.}^2]^2)
+  - 1 (Proposition 12.2, Equation 30) and a permutation test (Section 12.3).
+identity_notes: 'Distinct from AIMech:ValidPostSelectionInferencePoSIConstant (Berk, Brown, Buja, Zhang,
+  & Zhao 2013), which studies fixed-design homoskedastic Gaussian simultaneous post-selection confidence
+  intervals across submodels M in M_all. Distinct from AIMech:PostModelSelectionPredictorPoSIConfidenceIntervals
+  (Bachoc, Leeb, & Pötscher 2019) and AIMech:UniformlyValidPostModelSelectionConfidenceIntervals (Bachoc,
+  Preinerstorfer, & Steinberger 2020), which study post-model-selection simultaneous coverage constants.
+  Buja, Berk, Brown, George, Pitkin, Traskin, Zhao, & Zhang (2019, Statistical Science 34(4):523-544,
+  arXiv:1404.1578v4, DOI:10.1214/18-STS693) establish the foundational model-robust theory of linear OLS
+  under nonlinear misspecification and random regressors: proving the failure of regressor ancillarity
+  under nonlinearity (Proposition 4.1), the canonical orthogonal decomposition into Noise Estimation Offset
+  beta_hat - beta(X) and Approximation Estimation Offset beta(X) - beta(P) (Sections 5-7, Proposition
+  7), the exact characterization of the plug-in sandwich estimator as the M -> infty limit of the M-of-N
+  pairs bootstrap (Proposition 8.2), the case-wise and pairwise adjusted-regressor weighted slope representations
+  (Section 10, Equations 22-23), and the Ratio of Asymptotic Variances (RAV) functional, sharp bounds,
+  and regressor-specific specification test RAV_hat_j (Sections 11-12, Definition 11.4, Propositions 11.5
+  & 12.2, Appendix E).'
+definition_evidence:
+- source_id: buja2019p1-pdf
+  locator: Sections 1-14, Pages 1-30, Equations (1)-(30), Proposition 4.1, Proposition 7, Propositions
+    8.1-8.2, Definition 11.4, Proposition 11.5, Definition 12.1, Proposition 12.2; Appendices A-F, Pages
+    30-41, Lemmas E.2, E.3
+  relation: supports
+- source_id: buja2019p1-crossref
+  locator: Statistical Science 34(4):523-544 (2019) Crossref bibliographic metadata and abstract
+  relation: supports
+- source_id: buja2019p1-abs
+  locator: arXiv:1404.1578v4 abstract and metadata
+  relation: supports
+claims:
+- claim_id: regressor-ancillarity-failure-and-canonical-noise-nonlinearity-decomposition
+  kind: mechanism
+  statement: 'For a joint regressor-response distribution P with integrable second moments and full-rank
+    second-moment matrix E[X_vec X_vec''], the population OLS functional beta(P) = argmin_beta E[(Y -
+    beta'' X_vec)^2] = E[X_vec X_vec'']^{-1} E[X_vec Y] = E[X_vec X_vec'']^{-1} E[X_vec mu(X_vec)] (Section
+    3, Equations 3-4) depends on P_{X_vec} whenever the conditional expectation mu(x_vec) = E[Y | X_vec
+    = x_vec] is nonlinear: Proposition 4.1 (Section 4, page 10, proved in Appendix E.1, page 36) proves
+    that beta(P) is independent of the marginal regressor distribution P_{X_vec} if and only if mu(X_vec)
+    = beta_0'' X_vec almost surely for some beta_0, invalidating conditionality/ancillarity of X_vec under
+    model misspecification. Decomposing the response as Y = beta'' X_vec + eta(X_vec) + eps with population
+    residual delta = Y - beta'' X_vec = eta(X_vec) + eps, nonlinearity eta(X_vec) = mu(X_vec) - beta''
+    X_vec, and noise eps = Y - mu(X_vec) (Section 5, page 11, Equations 6-9) yields exact orthogonality
+    E[X_vec delta] = E[X_vec eta(X_vec)] = E[X_vec eps] = 0, E[eta(X_vec) eps] = 0, and pointwise conditional
+    MSE decomposition m^2(X_vec) = E[delta^2 | X_vec] = sigma^2(X_vec) + eta^2(X_vec).'
+  evidence:
+  - source_id: buja2019p1-pdf
+    locator: Sections 3-5, Pages 9-12, Equations (1)-(9), Proposition 4.1; Appendix E.1, Page 36
+    relation: supports
+  - source_id: buja2019p1-crossref
+    locator: Statistical Science 34(4):523-544 abstract
+    relation: supports
+- claim_id: estimation-offset-pythagorean-clt-and-pairs-bootstrap-sandwich-limit
+  kind: mechanism
+  statement: Conditioning on the random design matrix X = (X_vec_1, ..., X_vec_N)' defines the conditional
+    target beta(X) = E[beta_hat | X] = (X'X)^{-1} X' mu(X) (Section 5, page 12, Equation 11) and decomposes
+    the Total Estimation Offset beta_hat - beta(P) into the Noise Estimation Offset beta_hat - beta(X)
+    = (X'X)^{-1} X' eps_vec and the Approximation Estimation Offset beta(X) - beta(P) = (X'X)^{-1} X'
+    eta_vec (Equation 12), which are exactly uncorrelated for finite N (Cov(beta_hat - beta(X), beta(X)
+    - beta(P)) = 0, Equation 13) and satisfy the Pythagorean covariance identity V[beta_hat] = E[V[beta_hat
+    | X]] + V[beta(X)] (Equations 14-15) and the decomposed Central Limit Theorems N^{1/2}(beta_hat -
+    beta(X)) ->^D N(0, E[X_vec X_vec']^{-1} E[sigma^2(X_vec) X_vec X_vec'] E[X_vec X_vec']^{-1}), N^{1/2}(beta(X)
+    - beta(P)) ->^D N(0, E[X_vec X_vec']^{-1} E[eta^2(X_vec) X_vec X_vec'] E[X_vec X_vec']^{-1}), and
+    N^{1/2}(beta_hat - beta(P)) ->^D N(0, E[X_vec X_vec']^{-1} E[m^2(X_vec) X_vec X_vec'] E[X_vec X_vec']^{-1})
+    (Section 7, page 16, Proposition 7, Equation 16). Furthermore, Proposition 8.1 proves that the Eicker-Huber-White
+    plug-in sandwich estimator AV_hat_sand[beta] = (X'X/N)^{-1} (1/N sum_{i=1}^N r_i^2 x_vec_i x_vec_i')
+    (X'X/N)^{-1} (Equation 17) is consistent under combined nonlinearity and heteroskedasticity, while
+    Proposition 8.2 (Section 8.2, page 18, Equations 18-20) proves that for a fixed sample P_hat_N, the
+    M-of-N x-y bootstrap estimator beta^*_M satisfies M^{1/2}(beta^*_M - beta_hat) ->^D N(0, AV_hat_sand[beta])
+    and AV_hat_sand[beta] = lim_{M -> infty} M V_{P_hat_N}[beta^*_M].
+  evidence:
+  - source_id: buja2019p1-pdf
+    locator: Sections 5-8, Pages 12-19, Equations (10)-(20), Proposition 7, Propositions 8.1-8.2; Appendix
+      C, Pages 32-34
+    relation: supports
+  - source_id: buja2019p1-abs
+    locator: arXiv:1404.1578v4 abstract
+    relation: supports
+- claim_id: adjusted-regressor-weighted-slopes-and-rav-convex-bounds
+  kind: mechanism
+  statement: Using the population adjusted regressor X_{j.} = X_j - argmin_{L} E[(X_j - L(X_vec_{-j}))^2]
+    and empirical adjusted regressor X_{j,.hat} (Section 9, pages 19-20, Proposition 9.1), Section 10
+    (pages 20-21, Equations 22-23) proves that beta_hat_j = <y, X_{j,.hat}> / ||X_{j,.hat}||^2 admits
+    both the case-wise weighted slope representation beta_hat_j = sum_{i=1}^N v_i (y_i / X_{i,j.hat})
+    with weights v_i = X_{i,j.hat}^2 / ||X_{j,.hat}||^2 and the pairwise weighted slope representation
+    beta_hat_j = sum_{i,k} w_{i,k} (y_i - y_k) / (X_{i,j.hat} - X_{k,j.hat}) with weights w_{i,k} = (X_{i,j.hat}
+    - X_{k,j.hat})^2 / (2 N ||X_{j,.hat}||^2) summing to 1. Section 11 and Appendix E (pages 21-25, 36-40,
+    Definition 11.4, Lemma E.2, Proposition 11.5, Proposition E.3, Equations 24-28) define the Ratio of
+    Asymptotic Variances RAV[beta_j, m^2] = AV_total[beta_j] / AV_lin[beta_j] = E[m^2(X_vec) X_{j.}^2]
+    / (E[m^2(X_vec)] E[X_{j.}^2]), prove the convex combination identity RAV[beta_j, m^2] = w_sigma RAV[beta_j,
+    sigma^2] + w_eta RAV[beta_j, eta^2] with w_sigma = E[sigma^2(X_vec)] / E[m^2(X_vec)] and w_eta = E[eta^2(X_vec)]
+    / E[m^2(X_vec)] (Equation 27), and establish the sharp range [P-min X_{j.}^2 / E[X_{j.}^2], P-max
+    X_{j.}^2 / E[X_{j.}^2]] classifying misspecification as protective (RAV < 1, when m^2 concentrates
+    near X_{j.} = 0) or anti-protective (RAV > 1, when m^2 concentrates in the tails of X_{j.}^2).
+  evidence:
+  - source_id: buja2019p1-pdf
+    locator: Sections 9-11, Pages 19-25, Equations (21)-(28), Proposition 9.1, Definition 11.4, Lemma
+      11.4, Proposition 11.5; Appendix E.2-E.4, Pages 36-40, Lemma E.2, Proposition E.3
+    relation: supports
+- claim_id: regressor-specific-rav-specification-test-and-null-asymptotics
+  kind: mechanism
+  statement: Section 12 (pages 25-27, Definition 12.1, Proposition 12.2, Equations 29-30) defines the
+    plug-in test statistic RAV_hat_j = SE_sand[beta_hat_j]^2 / SE_lin[beta_hat_j]^2 = N <r^2, X_{j,.hat}^2>
+    / (||r||^2 ||X_{j,.hat}||^2) where r = Y - X beta_hat, and proves in Proposition 12.2 (proved in Appendix
+    F, page 41) that under the null hypothesis H_0 that delta^2 and X_{j.}^2 are independent (implied
+    by well-specification and homoskedasticity) and fourth moments exist, N^{1/2}(RAV_hat_j - 1) ->^D
+    N(0, (E[delta^4]/E[delta^2]^2)(E[X_{j.}^4]/E[X_{j.}^2]^2) - 1), which equals N(0, 8) when delta and
+    X_{j.} are Gaussian, and pairs this normal test with a heavy-tail-robust permutation test (Section
+    12.3, page 27) that randomly permutes the squared residuals r_i^2 against X_{i,j.hat}^2.
+  evidence:
+  - source_id: buja2019p1-pdf
+    locator: Section 12, Pages 25-27, Equations (29)-(30), Definition 12.1, Proposition 12.2, Section
+      12.3; Appendix F, Page 41
+    relation: supports
+  - source_id: buja2019p1-crossref
+    locator: Statistical Science 34(4):523-544 abstract
+    relation: supports
+evidence_sources:
+- source_id: buja2019p1-pdf
+  title: 'Models as Approximations I: Consequences Illustrated with Linear Regression'
+  authors:
+  - Andreas Buja
+  - Richard Berk
+  - Lawrence Brown
+  - Edward George
+  - Emil Pitkin
+  - Mikhail Traskin
+  - Linda Zhao
+  - Kai Zhang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1404.1578
+  persistent_id: https://doi.org/10.1214/18-STS693
+  version: arXiv:1404.1578v4 (6 Jul 2019; published in Statistical Science, Vol. 34, No. 4, pp. 523-544,
+    2019). Complete 43-page full-text PDF (849867 bytes) read across Sections 1-14 and Appendices A-F.
+  access_level: full_text
+  accessed_at: '2026-10-17T17:55:00Z'
+  sha256: 11d501663ce1861ce2fd446b367d12360456fe6a1f4d0b8ffef1a49b5674a61d
+- source_id: buja2019p1-crossref
+  title: 'Models as Approximations I: Consequences Illustrated with Linear Regression (Statistical Science
+    Crossref Record)'
+  authors:
+  - Andreas Buja
+  - Richard Berk
+  - Lawrence Brown
+  - Edward George
+  - Emil Pitkin
+  - Mikhail Traskin
+  - Linda Zhao
+  - Kai Zhang
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/18-STS693
+  persistent_id: https://doi.org/10.1214/18-STS693
+  version: Statistical Science 34(4):523-544 Crossref bibliographic metadata record (6236 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T17:55:00Z'
+  sha256: 72ef24d405646eeaed1810f783df3afe2bc62ac2fc2d50b082bd873c165ea715
+- source_id: buja2019p1-abs
+  title: 'Models as Approximations I: Consequences Illustrated with Linear Regression (arXiv:1404.1578
+    Abstract)'
+  authors:
+  - Andreas Buja
+  - Richard Berk
+  - Lawrence Brown
+  - Edward George
+  - Emil Pitkin
+  - Mikhail Traskin
+  - Linda Zhao
+  - Kai Zhang
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1404.1578
+  persistent_id: https://doi.org/10.48550/arXiv.1404.1578
+  version: arXiv:1404.1578v4 abstract and metadata record (6643 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T17:55:00Z'
+  sha256: 38a840a331cdab71ed15d55946e521ee7bbbdd73a77a5d06f9b6b6aa248e55ca
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Reconstructs ordinary least squares linear regression model-freely as a population projection
+    functional beta(P) under nonlinearity and heteroskedasticity, with sandwich/bootstrap standard errors
+    and the regressor-specific RAV_hat_j specification test (AIO:LinearRegression).
+limitations:
+- Model-robustness via the Eicker-Huber-White sandwich estimator AV_hat_sand[beta] or the x-y pairs bootstrap
+  requires finite fourth moments of the regressors X_vec and residuals delta; as emphasized in Section
+  12.2 (page 26) and Section 13 (pages 27-28), model robustness is distinct from heavy-tail/outlier robustness
+  and can suffer from high variance under heavy-tailed regressor or error distributions.
+- A population value RAV[beta_j, m^2] = 1 is necessary but not sufficient for linearity and homoskedasticity,
+  because protective (RAV < 1) and anti-protective (RAV > 1) deviations of m^2(X_vec) across the domain
+  of X_{j.}^2 can cancel in expectation E[m^2(X_vec) X_{j.}^2] = E[m^2(X_vec)] E[X_{j.}^2] (Section 12.1,
+  page 25).
+- 'Four minor typographical notes in arXiv:1404.1578v4 were identified and verified during full-text inspection:
+  (1) the Section 5 heading (page 11) prints ''DEPOMPOSITION'' for ''DECOMPOSITION''; (2) Section 13 (page
+  28, line 4) prints ''boostrap'' for ''bootstrap'' and ''R (2008))'' with an extra closing parenthesis;
+  (3) Section 14 (page 29, line 9) prints ''dissatified'' for ''dissatisfied''; and (4) Appendix E.1 (page
+  36) duplicates a 4-line paragraph in the proof of Proposition 4.1 (lines 20-29) and writes ''\mu_o(\vec{X})''
+  with a letter ''o'' instead of ''0''.'
+- All 43 pages of the full-text PDF of Buja, Berk, Brown, George, Pitkin, Traskin, Zhao, & Zhang (2019,
+  Statistical Science 34(4):523-544, arXiv:1404.1578v4, DOI:10.1214/18-STS693) were read. Constructed
+  numerical checks in research/discovery/model-robust-nonlinearity-sandwich-and-rav-test-boundaries.py
+  verify (1) Proposition 4.1 regressor-distribution dependence under nonlinearity vs. invariance under
+  linearity and Equations 6-9 canonical orthogonality, (2) Equations 12-15 Estimation Offset Pythagorean
+  decomposition and Proposition 8.2 convergence of M * V_{P_hat_N}[beta^*_M] to AV_hat_sand[beta], (3)
+  Section 10 case-wise and pairwise adjusted-regressor slope identities and Lemma E.2 / Proposition 11.5
+  RAV convex decomposition and sharp bounds, and (4) Proposition 12.2 Gaussian null variance (= 8) and
+  Section 12.3 permutation test detection of regressor-specific nonlinearity.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T17:55:00Z'
+  updated_at: '2026-10-17T17:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
