@@ -1,0 +1,223 @@
+id: AIMech:IterativeHessianSketchForConstrainedLeastSquares
+name: Iterative Hessian Sketch for Constrained Least-Squares and Information-Theoretic Classical Sketching
+  Lower Bounds
+concept_kind: mathematical_method
+aliases:
+- Iterative Hessian Sketch (IHS, Pilanci & Wainwright 2016)
+- Hessian Sketch for Constrained Least-Squares
+- Tangent-Cone Gaussian-Width Sketched Least-Squares Iteration
+- Fano Information-Theoretic Classical Sketching Lower Bound
+definition: 'Iterative Hessian Sketch for Constrained Least-Squares and Information-Theoretic Classical
+  Sketching Lower Bounds is a randomized sketching and statistical optimization methodology introduced
+  by Pilanci and Wainwright (2016, Journal of Machine Learning Research 17(53):1-38, arXiv:1411.0347v1)
+  for solving large-scale convex-constrained least-squares problems x^{LS} := argmin_{x in C} (1/2) ||A
+  x - y||_2^2 with data matrix A in R^{n x d}, response y in R^n, and convex constraint set C subseteq
+  R^d. First, under noisy observations y = A x^* + w with w ~ N(0, sigma^2 I_n) and any sketching matrix
+  S in R^{m x n} satisfying ||E[S^T (S S^T)^{-1} S]||_op <= eta (m/n) (with eta = 1 for Gaussian and randomized
+  orthonormal system sketches and eta = alpha for alpha-balanced row sampling), Theorem 1 proves via Fano''s
+  inequality that any estimator (S A, S y) |-> x^dagger constructed from classically sketched data suffers
+  worst-case prediction risk sup_{x^* in C_0} E[||x^dagger - x^*||_A^2] >= (sigma^2 / (128 eta)) * log(M_{1/2}
+  / 2) / min{m, n} (where ||u||_A^2 := (1/n)||A u||_2^2 and M_{1/2} is the 1/2-packing cardinality of
+  A(C_0) cap B_2(delta sqrt(n))), showing that one-shot classical sketching requires m asymp n to match
+  the statistical rate of x^{LS}. Second, to eliminate this statistical sub-optimality without forming
+  A^T A, the Iterative Hessian Sketch (IHS) sketches only the quadratic Hessian term while retaining exact
+  residual inner products with y: starting from x^0 = 0, iteration t + 1 draws an independent isotropic
+  sketch matrix S^{t+1} in R^{m x n} with E[(S^{t+1})^T S^{t+1} / m] = I_n and updates x^{t+1} = argmin_{x
+  in C} { (1/(2m)) ||S^{t+1} A (x - x^t)||_2^2 - <A^T (y - A x^t), x> } (Equation 24). Over the transformed
+  tangent cone K^{LS} := {t A(x - x^{LS}) : t >= 0, x in C}, Theorem 2 proves the deterministic contraction
+  ||x^N - x^{LS}||_A <= (prod_{t=1}^N Z_2(S^t) / Z_1(S^t)) ||x^{LS}||_A and shows that sketch dimension
+  m >= (c_0 / rho^2) W^2(K^{LS}) (scaling with the squared Gaussian width of K^{LS}, such as O(d), O(s
+  log(ed/s)) for s-sparse l_1 balls, or O(r(d_1 + d_2)) for rank-r nuclear-norm balls) yields geometric
+  convergence ||x^N - x^{LS}||_A <= rho^N ||x^{LS}||_A in N = O(log n) rounds.'
+identity_notes: Resolved against all 442 pinned AIO records and 620 maintained AIMech records. Distinct
+  from AIMech:NewtonSketchRandomizedHessianProjectedOptimization (Pilanci & Wainwright 2017, SIAM J. Optim.
+  27(1):205-245, arXiv:1505.02250v1, which develops general second-order Newton Sketch updates using state-dependent
+  Hessian square roots nabla^2 f(x^t)^{1/2} for general twice-differentiable convex objectives and self-concordant
+  interior-point barrier methods, whereas Pilanci & Wainwright 2016 establishes the Fano information-theoretic
+  lower bound for any estimator based on classically sketched pairs (S A, S y), the deterministic tangent-cone
+  directional contraction ratio Z_2(S)/Z_1(S) around the constrained least-squares estimator x^{LS}, and
+  minimax statistical risk matching via localized Gaussian widths varepsilon_n^2(K^*) in O(log n) constrained
+  least-squares rounds), from AIMech:CountSketchLeveragedHybridRandomizedConstrainedAndRidgeRegression
+  (Wang, Gittens, & Mahoney 2018, which studies single-pass CountSketch-plus-leverage-score preconditioners
+  for unconstrained/ridge/L1-L2 regression), and from AIMech:StatisticallyPreconditionedAcceleratedIterativeSketchingLeastSquaresAndRidge
+  (Dereziński et al. 2025, which analyzes heavy-ball momentum and DPP/leverage-score preconditioning for
+  unconstrained/ridge linear systems).
+definition_evidence:
+- source_id: pilanci2016-ihs-pdf
+  locator: Abstract, p. 1; Sections 1-3, pp. 1-20, Theorem 1, Examples 1-3, Propositions 1-2, Lemma 1,
+    Theorem 2, Corollaries 1-4, Equations (1)-(33); Appendices A-E, pp. 23-31, Lemmas 2-7, Equations (34)-(48)
+  relation: supports
+- source_id: pilanci2016-ihs-abs
+  locator: arXiv:1411.0347v1 abstract and metadata
+  relation: supports
+- source_id: pilanci2016-ihs-jmlr
+  locator: Journal of Machine Learning Research 17(53):1-38 (2016) metadata and abstract
+  relation: supports
+claims:
+- claim_id: fano-information-theoretic-lower-bound-for-classical-sketching
+  kind: mechanism
+  statement: Consider the noisy linear model y = A x^* + w with w ~ N(0, sigma^2 I_n) and x^* in C_0 subseteq
+    C, where accuracy is measured in the normalized prediction semi-norm ||x - x^*||_A^2 := (1/n) ||A(x
+    - x^*)||_2^2 (Equations 3 and 7). For any random sketching matrix S in R^{m x n} independent of w
+    whose projection expectation satisfies ||E[S^T (S S^T)^{-1} S]||_op <= eta (m/n) (Equation 9; satisfied
+    with equality eta = 1 for Gaussian and Hadamard/Fourier ROS sketches because E[S^T (S S^T)^{-1} S]
+    = (m/n) I_n, and with eta = alpha for alpha-balanced row-sampling sketches, Appendix A.1), Lemma 2
+    (Appendix A.2, p. 24) bounds the conditional Kullback-Leibler divergence between P_{x^j} and P_{x^k}
+    given S by E_S[D(P_{x^j} || P_{x^k} | S)] <= (n eta m / (2 sigma^2 min{m, n})) ||x^j - x^k||_A^2.
+    Applying Fano's inequality over a delta/2-packing of A(C_0) cap B_2(delta sqrt(n)) of cardinality
+    M_{1/2} >= 4, Theorem 1 (Equation 11a) proves that any estimator (S A, S y) |-> x^dagger satisfies
+    sup_{x^* in C_0} E_{S,w}[||x^dagger - x^*||_A^2] >= (sigma^2 / (128 eta)) * log(M_{1/2} / 2) / min{m,
+    n}. Consequently, any one-shot classical sketch incurs risk lower bounds c (sigma^2 / eta) min{d,
+    n} / min{m, n} for unconstrained least squares (Example 1, Equation 12), c (sigma^2 / eta) s log(ed/s)
+    / min{m, n} for s-sparse l_1-constrained regression (Example 2, Equation 14), and c (sigma^2 / eta)
+    r(d_1 + d_2) / min{m, n} for rank-r nuclear-norm matrix regression (Example 3, Equation 15b), all
+    multiplied by n/m relative to the minimax rate of x^{LS}.
+  evidence:
+  - source_id: pilanci2016-ihs-pdf
+    locator: Section 2.2, pp. 6-9, Theorem 1, Examples 1-3, Equations (8)-(15b); Appendix A, pp. 23-24,
+      Lemma 2, Equations (34)-(36)
+    relation: supports
+- claim_id: hessian-sketch-tangent-cone-contraction-and-iterative-hessian-sketch
+  kind: mechanism
+  statement: 'Let K^{LS} := {t A(x - x^{LS}) : t >= 0, x in C} cap R^n be the transformed tangent cone
+    at the exact constrained least-squares solution x^{LS} (Equation 17), and define Z_1(S) := inf_{v
+    in K^{LS} cap S^{n-1}} (1/m) ||S v||_2^2 and Z_2(S) := sup_{v in K^{LS} cap S^{n-1}} |<u, ((1/m) S^T
+    S - I_n) v>| for any fixed unit vector u in S^{n-1} (Equations 18a-18b). Proposition 1 (p. 10, Equation
+    19) proves that the single-step Hessian sketch x_hat = argmin_{x in C} { (1/(2m)) ||S A x||_2^2 -
+    <A^T y, x> } deterministically satisfies ||x_hat - x^{LS}||_A <= (Z_2(S) / Z_1(S)) ||x^{LS}||_A. In
+    the Iterative Hessian Sketch (IHS, Equation 24), starting from x^0 = 0 and solving x^{t+1} = argmin_{x
+    in C} { (1/(2m)) ||S^{t+1} A (x - x^t)||_2^2 - <A^T(y - A x^t), x> } with independent sketches S^1,
+    ..., S^N, Appendix C (Equations 38-39) establishes the per-step contraction ||x^{t+1} - x^{LS}||_A
+    <= (Z_2(S^{t+1}) / Z_1(S^{t+1})) ||x^t - x^{LS}||_A for u_t = A(x^{LS} - x^t) / ||A(x^{LS} - x^t)||_2,
+    yielding Theorem 2 (Equations 26a-26b): ||x^N - x^{LS}||_A <= (prod_{t=1}^N Z_2(S^t) / Z_1(S^t)) ||x^{LS}||_A.
+    By Lemma 1 (p. 11, Equations 22a-22b), for any rho in (0, 1/2), sketch size m >= (c_0 / rho^2) W^2(K^{LS})
+    for sub-Gaussian sketches (or m >= (c_0 / rho^2) log^4(n) W^2(K^{LS}) for ROS sketches over self-bounding
+    cones) ensures Z_1(S^t) >= 1 - rho >= 1/2 and Z_2(S^t) <= rho/2, so ||x^N - x^{LS}||_A <= rho^N ||x^{LS}||_A
+    with probability at least 1 - N c_1 e^{-c_2 m rho^2}.'
+  evidence:
+  - source_id: pilanci2016-ihs-pdf
+    locator: Sections 2.3-2.4, pp. 9-14, Proposition 1, Lemma 1, Theorem 2, Equations (16)-(26b); Appendices
+      B-D, pp. 25-29, Lemmas 3-6, Equations (37a)-(45b)
+    relation: supports
+- claim_id: minimax-localized-gaussian-width-statistical-optimality-and-applications
+  kind: scope
+  statement: 'Under the noisy model y = A x^* + w with x^* in C and transformed truth tangent cone K^*
+    := cl conv{t A(x - x^*) : t >= 0, x in C}, let varepsilon_n(K^*) := argmin_{eps >= 0} { sigma W(K^*
+    cap B_2(eps sqrt(n))) <= n eps^2 / 8 } be the localized Gaussian width critical radius (Equation 27a).
+    Proposition 2 (p. 15, Equation 27b) shows that E_w[||x^{LS} - x^*||_A^2] <= c_1 {varepsilon_n^2(K^*)
+    + sigma^2 / n}. Combining Proposition 2 with Theorem 2 via triangle inequality (Appendix C, Equations
+    40-41b), Corollary 1 (p. 15, Equation 28) proves that running IHS for N >= ceil(log(c_0 ||x^{LS}||_A
+    / varepsilon_n(K^*)) / log(1/rho)) iterations with m >= (c_0 / rho^2) W^2(K^{LS}) achieves E_w[||x^N
+    - x^*||_A^2] <= c_1'' {varepsilon_n^2(K^*) + sigma^2 / n} with probability at least 1 - N c_1 e^{-c_2
+    m rho^2} over the sketches. Specializing to concrete constraint sets in Section 3 yields minimax-optimal
+    prediction error in N = O(log n) rounds with sketch dimension m = (c_0 / rho^2) min{n, d} for unconstrained
+    OLS (Corollary 2, Total Flops O(N n d log m + d^3) with Fast Hadamard sketch vs. O(n d^2)), m = (c_0
+    / rho^2) (max_j ||a_j||_2^2 / (n gamma_s^-(A))) s log(ed/s) for l_1-constrained s-sparse regression
+    (Corollary 3, Lemma 7, Equation 31), and m = (c_0 / rho^2) (|||A|||_op^2 / gamma_{2r}^-(A)) r(d_1
+    + d_2) for nuclear-norm constrained rank-r matrix estimation (Corollary 4, Equation 33).'
+  evidence:
+  - source_id: pilanci2016-ihs-pdf
+    locator: Section 2.4.2, pp. 14-15, Proposition 2, Corollary 1, Equations (27a)-(28); Sections 3.1-3.3,
+      pp. 15-20, Corollaries 2-4, Equations (29)-(33); Appendix C, pp. 25-26, Equations (40)-(41b); Appendix
+      D.2.2, pp. 29-30, Lemma 7, Equations (46a)-(48)
+    relation: supports
+evidence_sources:
+- source_id: pilanci2016-ihs-pdf
+  title: 'Iterative Hessian Sketch: Fast and Accurate Solution Approximation for Constrained Least-Squares'
+  authors:
+  - Mert Pilanci
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1411.0347
+  persistent_id: https://doi.org/10.48550/arXiv.1411.0347
+  version: arXiv:1411.0347v1 (3 Nov 2014, 33 pages, 682666 bytes); published in Journal of Machine Learning
+    Research 17(53):1-38 (2016).
+  access_level: full_text
+  accessed_at: '2026-10-18T13:31:00Z'
+  sha256: dea3c1364a748d6a428dbfd16ba058ab9265c83fb8c11374812bd487c4c4d147
+- source_id: pilanci2016-ihs-abs
+  title: 'Iterative Hessian Sketch: Fast and Accurate Solution Approximation for Constrained Least-Squares
+    (arXiv Abstract)'
+  authors:
+  - Mert Pilanci
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1411.0347
+  persistent_id: https://doi.org/10.48550/arXiv.1411.0347
+  version: arXiv:1411.0347v1 abstract and metadata record (6449 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T13:31:00Z'
+  sha256: e6cc8cea30c1d6a8c76f9cc0ff30bd1174521c5ca0054a42c36a0078f3745634
+- source_id: pilanci2016-ihs-jmlr
+  title: 'Iterative Hessian Sketch: Fast and Accurate Solution Approximation for Constrained Least-Squares
+    (JMLR v17/14-460)'
+  authors:
+  - Mert Pilanci
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://jmlr.org/papers/v17/14-460.html
+  persistent_id: https://jmlr.org/papers/v17/14-460.html
+  version: Journal of Machine Learning Research 17(53):1-38 (2016) HTML metadata and abstract (6239 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T13:31:00Z'
+  sha256: 19fa92bd87c2ef95c737af6a6b880d52e2afd761eb83825ac636628fe0d41401
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: narrow_match
+  rationale: AIO:LinearRegression represents least-squares regression broadly, whereas Pilanci & Wainwright
+    (2016) establishes the Iterative Hessian Sketch (IHS) algorithm and information-theoretic Fano lower
+    bounds for classical vs. iterative Hessian sketching in unconstrained and convex-constrained least-squares
+    regression.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: AIO:LassoRegression represents L1-constrained/penalized sparse linear regression broadly,
+    whereas Section 2.2 Example 2 and Section 3.2 (Corollary 3, Lemma 7) establish the Fano lower bound
+    for classical sketched Lasso and the O(s log(ed/s)) sketch-size minimax convergence guarantee of Iterative
+    Hessian Sketch for l_1-constrained sparse least squares.
+limitations:
+- 'Multi-Pass Access to Matrix-Vector Products with A and A^T: Unlike single-pass classical sketching
+  (S A, S y) which compresses the data in one pass at the expense of an O(n/m) variance inflation factor
+  (Theorem 1), Iterative Hessian Sketch requires N = O(log n) rounds of computing exact residual gradients
+  A^T(y - A x^t) and fresh sketch products S^{t+1} A (Section 2.4, Equation 24).'
+- 'Dependence of Tangent-Cone Gaussian Width on Restricted Eigenvalue and Self-Bounding Cone Conditions:
+  For l_1-constrained and nuclear-norm-constrained regression (Corollaries 3-4, Lemma 7), the O(s log(ed/s))
+  and O(r(d_1 + d_2)) sketch-size bounds require the tuning parameter R to be binding at the true parameter
+  (||x^*||_1 = R or |||X^*|||_1 = R) and scale inversely with the s-sparse or 2r-rank restricted eigenvalue
+  gamma_s^-(A); moreover, randomized orthonormal system (ROS) sketches require an extra log^4(n) factor
+  and the self-bounding cone property (Lemma 1(b), Definition 1).'
+- 'Primary-Source Typographical Notes in Pilanci & Wainwright (2016, arXiv:1411.0347v1): Verified four
+  self-correcting typographical details across the 33-page manuscript: (1) Section 2.3 (p. 9, Equation
+  16) writes the single-step Hessian sketch objective as (1/2)||S A x||_2^2 - <A^T y, x> omitting the
+  1/m normalization (which is explicitly included in the IHS update Equation 24 on p. 12 and in Z_1(S),
+  Z_2(S) in Equations 18a-18b on p. 10), and Appendix B (p. 25, Equation 37a) writes the classical-sketch
+  optimality condition <A^T S^T (S A x_hat - y), x^{LS} - x_hat> >= 0 instead of the Hessian-sketch optimality
+  condition <(1/m) A^T S^T S A x_hat - A^T y, x^{LS} - x_hat> >= 0 (while the immediately following display
+  correctly uses the Hessian-sketch difference <(A^T A - (1/m) A^T S^T S A) x_hat, x^{LS} - x_hat> <=
+  0, omitting only the 1/m factor in I_n - S^T S below Equation 38); (2) Section 2.3 (p. 10, Equation
+  17) and Appendix D (p. 26, Equation 42) write ''v in R^d'' instead of ''v in R^n'' in the definition
+  of the transformed tangent cone K^{LS} := {v in R^n | v = t A(x - x^{LS}) for some t >= 0 and x in C},
+  and Example 2 (p. 8) writes ''C = {x in R^n | ||x||_1 <= R}'' instead of ''x in R^d''; (3) Lemma 1(a)
+  (p. 11, Equation 22a) prints ''1 - c_1 e^{-c_2 m delta^2}'' with delta^2 instead of rho^2, and Corollary
+  4 (p. 20) prints ''m = c_0 rho^2 (|||A|||_op^2 / gamma_{2r}^-(A)) r(d_1 + d_2)'' with rho^2 in the numerator
+  instead of the denominator c_0 / rho^2; and (4) Appendix A.2 (p. 24, last two lines) prints E||x_hat
+  - x^*||_2^2 instead of E||x_hat - x^*||_A^2 and writes delta = sigma^2 log(M/2) / (64 eta m) instead
+  of delta^2 = sigma^2 log(M/2) / (64 eta m).'
+- All 33 pages of the full-text PDF of Pilanci & Wainwright (2014/2016, JMLR 17(53):1-38, arXiv:1411.0347v1)
+  were read. Constructed numerical checks in research/discovery/iterative-hessian-sketch-constrained-least-squares-boundaries.py
+  verify (1) Theorem 1 and Corollary 2 sub-optimality of single-shot classical sketching (prediction error
+  0.12728) vs. unconstrained IHS matching exact OLS (prediction error 0.04110 vs. 0.04089, OLS gap 3.819e-4
+  vs. 0.11647), (2) Proposition 1 and Theorem 2 exact per-step deterministic tangent-cone inequalities
+  ||x^{t+1} - x^{LS}||_A <= (Z_2(S^{t+1})/Z_1(S^{t+1})) ||x^t - x^{LS}||_A across all 12 steps and cumulative
+  product bound, and (3) Section 3.2 Corollary 3 geometric convergence of constrained IHS on l_1-ball
+  sparse least squares (reducing gap from 1.41404 to 0.01169 in 5 rounds).
+review_status: DRAFT
+curation:
+  created_at: '2026-10-18T20:35:00Z'
+  updated_at: '2026-10-18T20:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
