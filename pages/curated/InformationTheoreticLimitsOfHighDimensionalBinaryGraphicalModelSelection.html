@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Information-Theoretic Limits of Selecting Binary Graphical Models in High Dimensions, Santhanam-Wainwright Ising Graphical Model Selection Capacity, Information-Theoretic Sample Complexity of High-Dimensional Ising Model Selection
+    </div>
+
+  <div class="detail-desc">
+    Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection is a minimax information-theoretic framework (Santhanam &amp; Wainwright 2012, IEEE Transactions on Information Theory 58(7):4117-4134, arXiv:0905.2639v1) that characterizes necessary and sufficient sample sizes n for exact structure recovery of p-vertex pairwise binary Markov random fields (zero-field Ising models P_theta(x) = (1/Z(theta)) exp(sum_{(s,t) in E} theta_{st} x_s x_t) on {-1, +1}^p) over bounded-degree graph families G_{p,d}(lambda, omega) (maximum degree at most d) and bounded-edge graph families G_{p,k}(lambda, omega) (at most k edges) parameterized by minimum edge weight lambda*(theta(G)) := min_{(s,t) in E} |theta_{st}| &gt;= lambda and maximum neighborhood weight omega*(theta(G)) := max_{s in V} sum_{t in N(s)} |theta_{st}| &lt;= omega. By combining Fano&#39;s inequality over single-edge, clique-minus-single-edge (K_m \ {(s,t)}), and full-graph packing ensembles with explicit maximum-likelihood and mean-parameter l_infty-projection graph decoders analyzed via symmetric-difference edge matchings and a spin-flipping separation lemma, the framework establishes that sample complexity grows exponentially in omega and that under non-saturation scalings lambda = O(1/d) (for G_{p,d}) or lambda = O(k^{-1/2}) (for G_{p,k}), n &gt; c max{d^2, lambda^{-2}} log p (respectively n &gt; c max{k, lambda^{-2}} log p) samples are necessary for any decoder to achieve worst-case error below 1/2 while n &gt; c&#39; max{d^2, lambda^{-2}} d log p (respectively n &gt; c&#39; k^2 log p for lambda ~ k^{-1/2}) samples suffice.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved against all 442 pinned AIO records in data/aio/ and sources/aio/aio.json and 630 maintained concepts in data/curated/. Distinct from AIMech:HighDimensionalIsingModelSelectionViaL1RegularizedLogisticRegression (Ravikumar, Wainwright, &amp; Lafferty 2010), which analyzes a polynomial-time nodewise l_1-regularized logistic regression estimator under sample/population Fisher mutual incoherence and proves sufficient sample complexity n = Omega(d^3 log p) for theta*_min = Omega(1/d) without establishing algorithm-independent Fano lower bounds, maximum-neighborhood-weight exponential barriers exp(omega/2), or information-theoretic ML/mean-projection decoders without incoherence assumptions. Distinct from AIMech:InformationTheoreticLimitsOfHighDimensionalNoisySparsityRecovery (Wainwright 2009), which studies vector support recovery in linear Gaussian regression Y = X beta + W rather than undirected binary graphical model selection on {-1, +1}^p. Distinct from AIMech:MinimaxInformationTheoreticLowerBoundsViaPackingsAndFanoInequality (Yu 1997; Yang &amp; Barron 1999), which provides general metric-entropy Fano/Le Cam/Assouad machinery rather than Ising-specific clique-minus-edge mean-parameter saturation bounds (Lemmas 1-3), FKG likelihood ratio bounds, symmetric-difference matching divergence bounds (Lemma 4), and spin-flipping separation lemmas (Lemmas 6-8).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#clique-minus-edge-mean-saturation-and-fano-necessary-sample-complexity-bounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For two Ising parameter vectors theta, theta&#39; in R^{C(p,2)}, the symmetrized Kullback-Leibler divergence satisfies S(theta || theta&#39;) := D(theta || theta&#39;) + D(theta&#39; || theta) = sum_{s != t} (theta_{st} - theta&#39;_{st})(mu_{st} - mu&#39;_{st}) where mu_{st} = E_theta[X_s X_t] (Equations 18, 21-22). On the edge-deleted complete graph G^{st} = K_m \ {(s,t)} with uniform edge weight lambda &gt; 0 and omega = lambda m &gt;= 2, Lemma 1 (Section 4.2, pp. 12-13, Equations 29-31) proves that the likelihood ratio on the missing edge (s, t) satisfies q_{st}/(1 - q_{st}) := P_{theta(G^{st})}[X_s X_t = +1] / P_{theta(G^{st})}[X_s X_t = -1] &gt;= exp(omega/2 - 3 lambda/2)/(m + 1) and therefore E_{theta(G^{st})}[X_s X_t] &gt;= 1 - 2(m + 1) exp(3 lambda/2)/(exp(omega/2) + (m + 1) exp(3 lambda/2)). Applying Fano&#39;s inequality (Lemma 2, pp. 11-12, Equations 27-28) to Ensemble A (M = C(p, 2) single-edge graphs with S = 2 lambda tanh(lambda)), Ensemble B (floor(p/(d+1)) cliques of size d+1 minus one edge, where Lemma 2 on p. 14 bounds S(theta(G^{st}) || theta(G^{uv})) &lt;= 8 lambda d exp(3 lambda/2)/exp(lambda d/2)), and Ensemble C (all graphs in G_{p,d}, where Lemma 1(b) on p. 10 bounds log |G_{p,d}| &gt;= (d p/4) log(p/(8d)) and I(X_1^n; G) &lt;= n p) establishes Theorem 1 (p. 6, Equations 8-9): any graph decoder phi has worst-case error &gt;= 1/2 over G_{p,d}(lambda, omega) if n &lt;= max{ log p / (2 lambda tanh(lambda)), exp(omega/4) d lambda log(p d/4 - 1) / (128 exp(3 lambda/2)), (d/8) log(p/(8d))}, yielding n &gt; c max{d^2, lambda^{-2}} log p when lambda = O(1/d) (Corollary 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sw2012-binary-graphical-limits-pdf">Information-theoretic limits of selecting binary graphical models in high dimensions</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, p. 6, Theorem 1, Corollary 1, Equations (8)-(9); Sections 4.1-4.3, pp. 9-15, Lemmas 1-2, Equations (17)-(32)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fkg-likelihood-ratio-bound-and-bounded-edge-necessary-conditions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the bounded-edge class G_{p,k}(lambda, omega), choosing the largest integer m with k + 1 &gt;= C(m, 2) &gt;= floor(sqrt(k)) &gt;= sqrt(k)/2 and forming the family of C(m, 2) subgraphs G^{st} = K_m \ {(s,t)} with uniform edge weight lambda &gt; 0, Lemma 3 (Section 4.4, pp. 15-17, Equations 33-34) applies the Fortuin-Kasteleyn-Ginibre (FKG) inequality to show that for (s, t) != (u, v), P_{theta(G^{uv})}[X_s X_t = +1] / P_{theta(G^{uv})}[X_s X_t = -1] &lt;= P_{theta(K_m)}[X_s X_t = +1] / P_{theta(K_m)}[X_s X_t = -1] = exp(2 lambda) q_{st}/(1 - q_{st}), which combined with Lemma 1 (Equation 29) bounds the symmetrized KL divergence by S(theta(G^{st}) || theta(G^{uv})) &lt;= 4 lambda (exp(2 lambda) - 1)(m + 1)/exp(omega/2 - 3 lambda/2) &lt;= 16 omega exp(5 lambda/2) sinh(lambda) / exp(omega/2). Combining this with Ensemble A via Fano&#39;s inequality proves Theorem 2 (Section 3.1, p. 7, Equations 10-11): any decoder has worst-case error &gt;= 1/2 over G_{p,k}(lambda, omega) if n &lt;= max{log p / (2 lambda tanh(lambda)), exp(omega/2) log(k/8) / (64 omega exp(5 lambda/2) sinh(lambda))}, implying n &gt; c max{k, lambda^{-2}} log p when lambda = O(k^{-1/2}) (Corollary 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sw2012-binary-graphical-limits-pdf">Information-theoretic limits of selecting binary graphical models in high dimensions</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, p. 7, Theorem 2, Corollary 2, Equations (10)-(11); Section 4.4, pp. 15-17, Lemma 3, Equations (33)-(34)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#matching-number-chernoff-achievability-and-mean-parameter-projection-decoding</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For known edge weights, the maximum likelihood decoder phi*(X_1^n) = argmax_{G in G} (1/n) sum_{i=1}^n log P_{theta(G)}[X^{(i)}] (Equations 35-36) satisfies the pairwise Chernoff bound P[ell_{theta(G&#39;)}(X_1^n) &gt;= ell_{theta(G)}(X_1^n)] &lt;= exp(-(n/2) J(theta(G) || theta(G&#39;))) where J(theta || theta&#39;) := D((theta + theta&#39;)/2 || theta) + D((theta + theta&#39;)/2 || theta&#39;) = log(Z(theta) Z(theta&#39;) / Z^2((theta + theta&#39;)/2)) (Lemma 3, p. 18, Equations 19-20, 37). Using the spin-flipping lemma (Lemma 8, Appendix B, pp. 26-27, Equation 56, proving that for any (s, t) in E \ E&#39; flipping x_s, x_t, or both changes Delta(x) by at least |theta_{st}|) and quadratic root contradiction (Lemma 7, Appendix A, pp. 24-26, Equation 50), Lemma 4 (Section 5.2, p. 18, Equation 38) lower bounds J(theta(G) || theta(G&#39;)) &gt;= (m(G, G&#39;) / (3 exp(2 omega) + 1)) sinh^2(lambda/4) where m(G, G&#39;) is the matching number of the symmetric difference E Delta E&#39; (with m(G, G&#39;) &gt;= |E Delta E&#39;|/(4d) on G_{p,d}), proving Theorem 3(a) (n = O(max{d^2, lambda^{-2}} d log p) for lambda = O(1/d), Corollary 3) and Theorem 4(a) (n = O(k^2 log p) for lambda ~ k^{-1/2}, Corollary 4). For unknown edge weights, the mean-parameter projection decoder phi^dagger(X_1^n) = argmin_{G in G} min_{theta in Theta_{lambda,omega}(G)} ||mu_hat - mu(theta)||_infty with mu_hat_{st} = (1/n) sum_{i=1}^n X_s^{(i)} X_t^{(i)} (Equations 41-42) combines Hoeffding concentration (Lemma 5, p. 21) with pairwise mean separation max_{u in {s,t}, v in V} |E_{theta(G)}[X_u X_v] - E_{theta(G&#39;)}[X_u X_v]| &gt;= sinh^2(lambda/4) / (2 omega (3 exp(2 omega) + 1)) (Lemma 6, pp. 21-23) to achieve error &lt;= delta for n &gt; [omega(3 exp(2 omega) + 1) / sinh^2(lambda/4)]^2 (16 log p + 4 log(2/delta)) (Theorems 3(b) and 4(b), Equation 14).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sw2012-binary-graphical-limits-pdf">Information-theoretic limits of selecting binary graphical models in high dimensions</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, pp. 8-9, Theorems 3-4, Corollaries 3-4, Equations (12)-(16); Section 5 and Appendices A-B, pp. 17-27, Lemmas 3-8, Equations (35)-(58)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The analysis is restricted to zero-field pairwise binary Ising Markov random fields on {-1, +1}^p without external node potentials or higher-order clique interactions (Section 2.1, p. 3, Equation 2; Section 6, p. 24).</li>
+      <li>Both the maximum-likelihood graph decoder phi* (Equation 36) and the mean-parameter l_infty-projection decoder phi^dagger (Equation 42) search exhaustively over the combinatorial graph class G_{p,d} or G_{p,k} and are therefore computationally intractable, serving strictly to establish information-theoretic achievability rather than polynomial-time algorithms (Section 1, p. 1; Section 5.1, p. 17; Section 5.5.1, p. 20).</li>
+      <li>For growing maximum degree d under lambda = O(1/d) (and growing edge count k under lambda ~ k^{-1/2}), a multiplicative gap of order d (respectively order k) remains between the necessary sample complexity Omega(d^2 log p) (respectively Omega(k log p)) and the sufficient sample complexity O(d^3 log p) (respectively O(k^2 log p)); moreover, for unknown edge weights, the mean-parameter projection bound scales as lambda^{-4} log p rather than lambda^{-2} log p (Section 3.2, pp. 8-9, Corollaries 3-4; Section 6, p. 24).</li>
+      <li>Primary-source typographical audit of arXiv:0905.2639v1: (1) Equation (3) (p. 3) writes Z(theta) := log[sum_x exp(...)] with an extra logarithm, whereas Equations (2) and (20) and pp. 16 and 18 use Z(theta) = sum_x exp(...) as the partition function; (2) Lemma numbers 1, 2, and 3 are each assigned twice (pp. 10 &amp; 12, pp. 11 &amp; 14, and pp. 15 &amp; 18); (3) Section 4.1.1 (p. 10) writes &#39;D(theta || theta&#39;) != D(theta || theta&#39;)&#39; for &#39;D(theta || theta&#39;) != D(theta&#39; || theta)&#39;, and Equation (31) (p. 13) indexes the binomial sum over m with exponent (2j - m + 1)^2 - 4 in place of the m - 2 vertices outside {s, t} with exponent (2j - (m - 2) + 2)^2 - 4; (4) Equation (14) (p. 8) and p. 21 print an unclosed parenthesis in &#39;3 exp(2 omega + 1&#39; for &#39;3 exp(2 omega) + 1&#39; and write J_G(G_hat) &lt;= ||mu_hat - theta(G)|| in place of J_G(mu_hat) &lt;= ||mu_hat - mu(theta(G))||_infty; (5) Lemma 4 (p. 18) writes E&#39; \ E&#39; for E&#39; \ E in E Delta E&#39;, and Sections 5.3-5.4 (pp. 19-20) write sinh^2(lambda/2) when substituting Lemma 4&#39;s sinh^2(lambda/4); and (6) Appendix A (p. 25, line 9) writes alpha(y)/beta(y) in place of beta(y)/alpha(y) in the second factor of Equation (53).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Information-theoretic limits for high-dimensional binary Ising graphical model selection establish the minimax benchmark (n = Omega(d^2 log p) necessary, n = O(d^3 log p) sufficient for lambda = O(1/d)) against which nodewise L1-regularized logistic regression (Ravikumar, Wainwright, &amp; Lafferty 2010) is evaluated.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LassoRegression.html" style="font-weight: 600;"><code>AIO:LassoRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Lasso Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The minimax sample complexity bounds for sparse binary graphical model selection parallel and benchmark L1-regularized neighborhood and covariance selection methods over bounded-degree and bounded-edge graphs.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-sw2012-binary-graphical-limits-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sw2012-binary-graphical-limits-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/0905.2639.pdf" target="_blank" rel="noopener">Information-theoretic limits of selecting binary graphical models in high dimensions</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Narayana P. Santhanam, Martin J. Wainwright
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TIT.2012.2191659</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:63398ef0dfc3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-sw2012-binary-graphical-limits-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sw2012-binary-graphical-limits-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/0905.2639" target="_blank" rel="noopener">[0905.2639] Information-theoretic limits of selecting binary graphical models in high dimensions (arXiv Abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Narayana P. Santhanam, Martin J. Wainwright
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.0905.2639</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:21071f8c7ca5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-sw2012-binary-graphical-limits-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sw2012-binary-graphical-limits-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1109/TIT.2012.2191659" target="_blank" rel="noopener">Information-Theoretic Limits of Selecting Binary Graphical Models in High Dimensions (IEEE Transactions on Information Theory Crossref Metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Narayana P. Santhanam, Martin J. Wainwright
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TIT.2012.2191659</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cea8bf9f0105…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini 3</div>    <div><strong>Created:</strong> 2026-10-18T22:26:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-18T22:26:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.yaml" target="_blank" rel="noopener">
+      <code>data/curated/InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

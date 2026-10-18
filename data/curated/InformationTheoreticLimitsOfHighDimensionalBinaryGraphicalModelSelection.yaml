@@ -1,0 +1,204 @@
+id: AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+name: Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection
+concept_kind: mathematical_method
+aliases:
+- Information-Theoretic Limits of Selecting Binary Graphical Models in High Dimensions
+- Santhanam-Wainwright Ising Graphical Model Selection Capacity
+- Information-Theoretic Sample Complexity of High-Dimensional Ising Model Selection
+definition: Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection is a minimax
+  information-theoretic framework (Santhanam & Wainwright 2012, IEEE Transactions on Information Theory
+  58(7):4117-4134, arXiv:0905.2639v1) that characterizes necessary and sufficient sample sizes n for exact
+  structure recovery of p-vertex pairwise binary Markov random fields (zero-field Ising models P_theta(x)
+  = (1/Z(theta)) exp(sum_{(s,t) in E} theta_{st} x_s x_t) on {-1, +1}^p) over bounded-degree graph families
+  G_{p,d}(lambda, omega) (maximum degree at most d) and bounded-edge graph families G_{p,k}(lambda, omega)
+  (at most k edges) parameterized by minimum edge weight lambda*(theta(G)) := min_{(s,t) in E} |theta_{st}|
+  >= lambda and maximum neighborhood weight omega*(theta(G)) := max_{s in V} sum_{t in N(s)} |theta_{st}|
+  <= omega. By combining Fano's inequality over single-edge, clique-minus-single-edge (K_m \ {(s,t)}),
+  and full-graph packing ensembles with explicit maximum-likelihood and mean-parameter l_infty-projection
+  graph decoders analyzed via symmetric-difference edge matchings and a spin-flipping separation lemma,
+  the framework establishes that sample complexity grows exponentially in omega and that under non-saturation
+  scalings lambda = O(1/d) (for G_{p,d}) or lambda = O(k^{-1/2}) (for G_{p,k}), n > c max{d^2, lambda^{-2}}
+  log p (respectively n > c max{k, lambda^{-2}} log p) samples are necessary for any decoder to achieve
+  worst-case error below 1/2 while n > c' max{d^2, lambda^{-2}} d log p (respectively n > c' k^2 log p
+  for lambda ~ k^{-1/2}) samples suffice.
+review_status: DRAFT
+identity_notes: Resolved against all 442 pinned AIO records in data/aio/ and sources/aio/aio.json and
+  630 maintained concepts in data/curated/. Distinct from AIMech:HighDimensionalIsingModelSelectionViaL1RegularizedLogisticRegression
+  (Ravikumar, Wainwright, & Lafferty 2010), which analyzes a polynomial-time nodewise l_1-regularized
+  logistic regression estimator under sample/population Fisher mutual incoherence and proves sufficient
+  sample complexity n = Omega(d^3 log p) for theta*_min = Omega(1/d) without establishing algorithm-independent
+  Fano lower bounds, maximum-neighborhood-weight exponential barriers exp(omega/2), or information-theoretic
+  ML/mean-projection decoders without incoherence assumptions. Distinct from AIMech:InformationTheoreticLimitsOfHighDimensionalNoisySparsityRecovery
+  (Wainwright 2009), which studies vector support recovery in linear Gaussian regression Y = X beta +
+  W rather than undirected binary graphical model selection on {-1, +1}^p. Distinct from AIMech:MinimaxInformationTheoreticLowerBoundsViaPackingsAndFanoInequality
+  (Yu 1997; Yang & Barron 1999), which provides general metric-entropy Fano/Le Cam/Assouad machinery rather
+  than Ising-specific clique-minus-edge mean-parameter saturation bounds (Lemmas 1-3), FKG likelihood
+  ratio bounds, symmetric-difference matching divergence bounds (Lemma 4), and spin-flipping separation
+  lemmas (Lemmas 6-8).
+definition_evidence:
+- source_id: sw2012-binary-graphical-limits-pdf
+  locator: Abstract, p. 1; Section 2, pp. 3-6, Equations (1)-(7), Example 1, Definition 1; Section 3,
+    pp. 6-9, Theorems 1-4, Corollaries 1-4, Equations (8)-(16)
+  relation: supports
+- source_id: sw2012-binary-graphical-limits-abs
+  locator: Abstract
+  relation: supports
+- source_id: sw2012-binary-graphical-limits-cr
+  locator: Metadata and abstract, pp. 4117-4134
+  relation: supports
+claims:
+- claim_id: clique-minus-edge-mean-saturation-and-fano-necessary-sample-complexity-bounds
+  kind: mechanism
+  statement: 'For two Ising parameter vectors theta, theta'' in R^{C(p,2)}, the symmetrized Kullback-Leibler
+    divergence satisfies S(theta || theta'') := D(theta || theta'') + D(theta'' || theta) = sum_{s !=
+    t} (theta_{st} - theta''_{st})(mu_{st} - mu''_{st}) where mu_{st} = E_theta[X_s X_t] (Equations 18,
+    21-22). On the edge-deleted complete graph G^{st} = K_m \ {(s,t)} with uniform edge weight lambda
+    > 0 and omega = lambda m >= 2, Lemma 1 (Section 4.2, pp. 12-13, Equations 29-31) proves that the likelihood
+    ratio on the missing edge (s, t) satisfies q_{st}/(1 - q_{st}) := P_{theta(G^{st})}[X_s X_t = +1]
+    / P_{theta(G^{st})}[X_s X_t = -1] >= exp(omega/2 - 3 lambda/2)/(m + 1) and therefore E_{theta(G^{st})}[X_s
+    X_t] >= 1 - 2(m + 1) exp(3 lambda/2)/(exp(omega/2) + (m + 1) exp(3 lambda/2)). Applying Fano''s inequality
+    (Lemma 2, pp. 11-12, Equations 27-28) to Ensemble A (M = C(p, 2) single-edge graphs with S = 2 lambda
+    tanh(lambda)), Ensemble B (floor(p/(d+1)) cliques of size d+1 minus one edge, where Lemma 2 on p.
+    14 bounds S(theta(G^{st}) || theta(G^{uv})) <= 8 lambda d exp(3 lambda/2)/exp(lambda d/2)), and Ensemble
+    C (all graphs in G_{p,d}, where Lemma 1(b) on p. 10 bounds log |G_{p,d}| >= (d p/4) log(p/(8d)) and
+    I(X_1^n; G) <= n p) establishes Theorem 1 (p. 6, Equations 8-9): any graph decoder phi has worst-case
+    error >= 1/2 over G_{p,d}(lambda, omega) if n <= max{ log p / (2 lambda tanh(lambda)), exp(omega/4)
+    d lambda log(p d/4 - 1) / (128 exp(3 lambda/2)), (d/8) log(p/(8d))}, yielding n > c max{d^2, lambda^{-2}}
+    log p when lambda = O(1/d) (Corollary 1).'
+  evidence:
+  - source_id: sw2012-binary-graphical-limits-pdf
+    locator: Section 3.1, p. 6, Theorem 1, Corollary 1, Equations (8)-(9); Sections 4.1-4.3, pp. 9-15,
+      Lemmas 1-2, Equations (17)-(32)
+    relation: supports
+- claim_id: fkg-likelihood-ratio-bound-and-bounded-edge-necessary-conditions
+  kind: mechanism
+  statement: 'For the bounded-edge class G_{p,k}(lambda, omega), choosing the largest integer m with k
+    + 1 >= C(m, 2) >= floor(sqrt(k)) >= sqrt(k)/2 and forming the family of C(m, 2) subgraphs G^{st} =
+    K_m \ {(s,t)} with uniform edge weight lambda > 0, Lemma 3 (Section 4.4, pp. 15-17, Equations 33-34)
+    applies the Fortuin-Kasteleyn-Ginibre (FKG) inequality to show that for (s, t) != (u, v), P_{theta(G^{uv})}[X_s
+    X_t = +1] / P_{theta(G^{uv})}[X_s X_t = -1] <= P_{theta(K_m)}[X_s X_t = +1] / P_{theta(K_m)}[X_s X_t
+    = -1] = exp(2 lambda) q_{st}/(1 - q_{st}), which combined with Lemma 1 (Equation 29) bounds the symmetrized
+    KL divergence by S(theta(G^{st}) || theta(G^{uv})) <= 4 lambda (exp(2 lambda) - 1)(m + 1)/exp(omega/2
+    - 3 lambda/2) <= 16 omega exp(5 lambda/2) sinh(lambda) / exp(omega/2). Combining this with Ensemble
+    A via Fano''s inequality proves Theorem 2 (Section 3.1, p. 7, Equations 10-11): any decoder has worst-case
+    error >= 1/2 over G_{p,k}(lambda, omega) if n <= max{log p / (2 lambda tanh(lambda)), exp(omega/2)
+    log(k/8) / (64 omega exp(5 lambda/2) sinh(lambda))}, implying n > c max{k, lambda^{-2}} log p when
+    lambda = O(k^{-1/2}) (Corollary 2).'
+  evidence:
+  - source_id: sw2012-binary-graphical-limits-pdf
+    locator: Section 3.1, p. 7, Theorem 2, Corollary 2, Equations (10)-(11); Section 4.4, pp. 15-17, Lemma
+      3, Equations (33)-(34)
+    relation: supports
+- claim_id: matching-number-chernoff-achievability-and-mean-parameter-projection-decoding
+  kind: mechanism
+  statement: For known edge weights, the maximum likelihood decoder phi*(X_1^n) = argmax_{G in G} (1/n)
+    sum_{i=1}^n log P_{theta(G)}[X^{(i)}] (Equations 35-36) satisfies the pairwise Chernoff bound P[ell_{theta(G')}(X_1^n)
+    >= ell_{theta(G)}(X_1^n)] <= exp(-(n/2) J(theta(G) || theta(G'))) where J(theta || theta') := D((theta
+    + theta')/2 || theta) + D((theta + theta')/2 || theta') = log(Z(theta) Z(theta') / Z^2((theta + theta')/2))
+    (Lemma 3, p. 18, Equations 19-20, 37). Using the spin-flipping lemma (Lemma 8, Appendix B, pp. 26-27,
+    Equation 56, proving that for any (s, t) in E \ E' flipping x_s, x_t, or both changes Delta(x) by
+    at least |theta_{st}|) and quadratic root contradiction (Lemma 7, Appendix A, pp. 24-26, Equation
+    50), Lemma 4 (Section 5.2, p. 18, Equation 38) lower bounds J(theta(G) || theta(G')) >= (m(G, G')
+    / (3 exp(2 omega) + 1)) sinh^2(lambda/4) where m(G, G') is the matching number of the symmetric difference
+    E Delta E' (with m(G, G') >= |E Delta E'|/(4d) on G_{p,d}), proving Theorem 3(a) (n = O(max{d^2, lambda^{-2}}
+    d log p) for lambda = O(1/d), Corollary 3) and Theorem 4(a) (n = O(k^2 log p) for lambda ~ k^{-1/2},
+    Corollary 4). For unknown edge weights, the mean-parameter projection decoder phi^dagger(X_1^n) =
+    argmin_{G in G} min_{theta in Theta_{lambda,omega}(G)} ||mu_hat - mu(theta)||_infty with mu_hat_{st}
+    = (1/n) sum_{i=1}^n X_s^{(i)} X_t^{(i)} (Equations 41-42) combines Hoeffding concentration (Lemma
+    5, p. 21) with pairwise mean separation max_{u in {s,t}, v in V} |E_{theta(G)}[X_u X_v] - E_{theta(G')}[X_u
+    X_v]| >= sinh^2(lambda/4) / (2 omega (3 exp(2 omega) + 1)) (Lemma 6, pp. 21-23) to achieve error <=
+    delta for n > [omega(3 exp(2 omega) + 1) / sinh^2(lambda/4)]^2 (16 log p + 4 log(2/delta)) (Theorems
+    3(b) and 4(b), Equation 14).
+  evidence:
+  - source_id: sw2012-binary-graphical-limits-pdf
+    locator: Section 3.2, pp. 8-9, Theorems 3-4, Corollaries 3-4, Equations (12)-(16); Section 5 and Appendices
+      A-B, pp. 17-27, Lemmas 3-8, Equations (35)-(58)
+    relation: supports
+evidence_sources:
+- source_id: sw2012-binary-graphical-limits-pdf
+  title: Information-theoretic limits of selecting binary graphical models in high dimensions
+  authors:
+  - Narayana P. Santhanam
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0905.2639.pdf
+  persistent_id: https://doi.org/10.1109/TIT.2012.2191659
+  version: arXiv:0905.2639v1 full-text 29-page PDF (349449 bytes); published as 'Information-Theoretic
+    Limits of Selecting Binary Graphical Models in High Dimensions' in IEEE Transactions on Information
+    Theory 58(7):4117-4134 (Jul 2012).
+  access_level: full_text
+  accessed_at: '2026-10-18T15:02:00Z'
+  sha256: 63398ef0dfc3f23b024155afe5f62fcaca825799f4fa510defa844249c0c6af9
+- source_id: sw2012-binary-graphical-limits-abs
+  title: '[0905.2639] Information-theoretic limits of selecting binary graphical models in high dimensions
+    (arXiv Abstract)'
+  authors:
+  - Narayana P. Santhanam
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0905.2639
+  persistent_id: https://doi.org/10.48550/arXiv.0905.2639
+  version: arXiv:0905.2639 abstract and metadata record (6942 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T15:02:00Z'
+  sha256: 21071f8c7ca508359b35aa3381c1cb37518c8473a7c4ae545f797b2b05f1a16c
+- source_id: sw2012-binary-graphical-limits-cr
+  title: Information-Theoretic Limits of Selecting Binary Graphical Models in High Dimensions (IEEE Transactions
+    on Information Theory Crossref Metadata)
+  authors:
+  - Narayana P. Santhanam
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1109/TIT.2012.2191659
+  persistent_id: https://doi.org/10.1109/TIT.2012.2191659
+  version: IEEE Transactions on Information Theory 58(7):4117-4134 (2012) Crossref metadata (2201 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T15:02:00Z'
+  sha256: cea8bf9f01058745545e236cea6d0e86396f0d5fbacc3a527f100ed77a3052ff
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Information-theoretic limits for high-dimensional binary Ising graphical model selection
+    establish the minimax benchmark (n = Omega(d^2 log p) necessary, n = O(d^3 log p) sufficient for lambda
+    = O(1/d)) against which nodewise L1-regularized logistic regression (Ravikumar, Wainwright, & Lafferty
+    2010) is evaluated.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: The minimax sample complexity bounds for sparse binary graphical model selection parallel
+    and benchmark L1-regularized neighborhood and covariance selection methods over bounded-degree and
+    bounded-edge graphs.
+limitations:
+- The analysis is restricted to zero-field pairwise binary Ising Markov random fields on {-1, +1}^p without
+  external node potentials or higher-order clique interactions (Section 2.1, p. 3, Equation 2; Section
+  6, p. 24).
+- Both the maximum-likelihood graph decoder phi* (Equation 36) and the mean-parameter l_infty-projection
+  decoder phi^dagger (Equation 42) search exhaustively over the combinatorial graph class G_{p,d} or G_{p,k}
+  and are therefore computationally intractable, serving strictly to establish information-theoretic achievability
+  rather than polynomial-time algorithms (Section 1, p. 1; Section 5.1, p. 17; Section 5.5.1, p. 20).
+- For growing maximum degree d under lambda = O(1/d) (and growing edge count k under lambda ~ k^{-1/2}),
+  a multiplicative gap of order d (respectively order k) remains between the necessary sample complexity
+  Omega(d^2 log p) (respectively Omega(k log p)) and the sufficient sample complexity O(d^3 log p) (respectively
+  O(k^2 log p)); moreover, for unknown edge weights, the mean-parameter projection bound scales as lambda^{-4}
+  log p rather than lambda^{-2} log p (Section 3.2, pp. 8-9, Corollaries 3-4; Section 6, p. 24).
+- 'Primary-source typographical audit of arXiv:0905.2639v1: (1) Equation (3) (p. 3) writes Z(theta) :=
+  log[sum_x exp(...)] with an extra logarithm, whereas Equations (2) and (20) and pp. 16 and 18 use Z(theta)
+  = sum_x exp(...) as the partition function; (2) Lemma numbers 1, 2, and 3 are each assigned twice (pp.
+  10 & 12, pp. 11 & 14, and pp. 15 & 18); (3) Section 4.1.1 (p. 10) writes ''D(theta || theta'') != D(theta
+  || theta'')'' for ''D(theta || theta'') != D(theta'' || theta)'', and Equation (31) (p. 13) indexes
+  the binomial sum over m with exponent (2j - m + 1)^2 - 4 in place of the m - 2 vertices outside {s,
+  t} with exponent (2j - (m - 2) + 2)^2 - 4; (4) Equation (14) (p. 8) and p. 21 print an unclosed parenthesis
+  in ''3 exp(2 omega + 1'' for ''3 exp(2 omega) + 1'' and write J_G(G_hat) <= ||mu_hat - theta(G)|| in
+  place of J_G(mu_hat) <= ||mu_hat - mu(theta(G))||_infty; (5) Lemma 4 (p. 18) writes E'' \ E'' for E''
+  \ E in E Delta E'', and Sections 5.3-5.4 (pp. 19-20) write sinh^2(lambda/2) when substituting Lemma
+  4''s sinh^2(lambda/4); and (6) Appendix A (p. 25, line 9) writes alpha(y)/beta(y) in place of beta(y)/alpha(y)
+  in the second factor of Equation (53).'
+curation:
+  created_at: '2026-10-18T22:26:00Z'
+  updated_at: '2026-10-18T22:26:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
