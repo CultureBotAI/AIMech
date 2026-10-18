@@ -1,0 +1,233 @@
+id: AIMech:RandomizedSketchesOfConvexProgramsWithTangentConeGaussianWidthGuarantees
+name: Randomized Sketches of Convex Programs with Tangent-Cone Gaussian-Width Cost-Approximation and Privacy
+  Mutual-Information Guarantees
+concept_kind: mathematical_method
+aliases:
+- Randomized Sketches of Convex Programs with Sharp Guarantees (Pilanci & Wainwright 2015)
+- Tangent-Cone Gaussian-Width Sketched Convex Programming
+- S-Gaussian and Rademacher Width Randomized Orthonormal System Convex Sketching
+- Privacy-Preserving Sketched Convex Optimization with Vanishing Mutual Information Rate
+- Second-Order Set-Difference Covering Reduction for Sketched Convex Cones
+definition: 'Randomized Sketches of Convex Programs with Tangent-Cone Gaussian-Width Cost-Approximation
+  and Privacy Mutual-Information Guarantees is a convex-analytic dimensionality-reduction and privacy-preserving
+  optimization framework introduced by Pilanci and Wainwright (2015, IEEE Transactions on Information
+  Theory 61(9):5096-5115, arXiv:1404.7203v1, DOI:10.1109/TIT.2015.2450722) for approximating constrained
+  convex quadratic programs x^* in argmin_{x in C} f(x) := ||A x - y||_2^2 over an arbitrary convex constraint
+  set C subseteq R^d by solving the projected program x_hat in argmin_{x in C} g(x) := ||S(A x - y)||_2^2
+  with a sketching matrix S in R^{m x n} (m < n). Let K := cl conv {Delta = t(x - x^*) : t >= 0, x in
+  C} denote the tangent cone of C at x^* (Equation 4) and AK = {A Delta : Delta in K} its linear image
+  with Gaussian width W(AK) := E_g[sup_{z in AK cap S^{n-1}} |<g, z>|] (Equation 5). Lemma 1 (p. 17, Equations
+  41a-45) proves that for any deterministic matrix S, the relative cost ratio satisfies f(x_hat) <= {1
+  + 2 Z_2(AK) / Z_1(AK)}^2 f(x^*), where Z_1(AK) := inf_{v in AK cap S^{n-1}} (1/m)||S v||_2^2 and Z_2(AK)
+  := sup_{v in AK cap S^{n-1}} |<u, (S^T S / m - I) v>| for u = (A x^* - y)/||A x^* - y||_2. For sigma-sub-Gaussian
+  sketches (Theorem 1, Equation 7), sketch size m >= (c_0 / delta^2) W^2(AK) guarantees multiplicative
+  delta-optimality f(x_hat) <= (1 + delta)^2 f(x^*) with probability at least 1 - c_1 e^{-c_2 m delta^2},
+  while Corollary 1 (Equation 8) proves that Gaussian sketching of i.i.d. data matrices with entry variance
+  gamma^2 bounds the mutual information per symbol by I(S A; A)/(n d) <= (c_0 / delta^2) (W^2(AK)/n) log(2
+  pi e gamma^2), which vanishes whenever W^2(AK) = o(n). For randomized orthonormal system (ROS) sketches
+  s_i = sqrt(n) D H^T p_i (Theorem 2, Equation 11) and non-convex set-difference covering reductions (Section
+  5, Lemmas 8-13), the framework establishes sharp sketch-dimension bounds for unconstrained least squares,
+  l_1-constrained Lasso, compressed sensing with folded noise, simplex-constrained dual SVMs and Markowitz
+  portfolios, weighted nuclear-norm matrix approximation, and group-sparse second-order cone programs
+  (Corollaries 2-7).'
+identity_notes: Resolved against all 442 pinned AIO records and 621 maintained AIMech records. Distinct
+  from AIMech:IterativeHessianSketchForConstrainedLeastSquares (Pilanci & Wainwright 2016, JMLR 17(53):1-38,
+  arXiv:1411.0347v1, which establishes Fano lower bounds on statistical estimation error ||x^dagger -
+  x^*||_A^2 under additive noise y = A x^* + w and introduces the multi-round Iterative Hessian Sketch
+  x^{t+1} = argmin_{x in C} {(1/(2m))||S^{t+1} A(x - x^t)||_2^2 - <A^T(y - A x^t), x>} that sketches only
+  the Hessian, whereas Pilanci & Wainwright 2015 analyzes one-shot joint sketching min_{x in C} ||S(A
+  x - y)||_2^2 for multiplicative cost approximation f(x_hat) <= (1 + delta)^2 f(x^*) via Lemma 1, Corollary
+  1 privacy-preserving mutual information rates I(SA; A)/(nd), Theorem 2 S-Gaussian/Rademacher width bounds,
+  Lemma 8 second-order set-difference covering, Lemma 13 rank-to-nuclear convex-hull support-function
+  inclusion, and Corollaries 4-7 on folded-noise compressed sensing, dual simplex SVMs, Markowitz portfolios,
+  and group-sparse SOCPs) and from AIMech:NewtonSketchRandomizedHessianProjectedOptimization (Pilanci
+  & Wainwright 2017, which performs iterative second-order Hessian-square-root sketching for general twice-differentiable
+  convex and self-concordant barrier objectives).
+definition_evidence:
+- source_id: pilanci2015-convex-sketches-pdf
+  locator: Abstract, p. 1; Sections 1-3, pp. 1-17, Theorems 1-2, Corollaries 1-7, Equations (1)-(40);
+    Sections 4-5 & Appendices A-D, pp. 17-34, Lemmas 1-13, Propositions 1-2, Equations (41a)-(86)
+  relation: supports
+- source_id: pilanci2015-convex-sketches-abs
+  locator: arXiv:1404.7203v1 abstract and metadata
+  relation: supports
+- source_id: pilanci2015-convex-sketches-crossref
+  locator: IEEE Transactions on Information Theory 61(9):5096-5115 (2015) Crossref metadata (DOI:10.1109/TIT.2015.2450722)
+  relation: supports
+claims:
+- claim_id: tangent-cone-cost-approximation-lemma-and-privacy-mutual-information-rate
+  kind: mechanism
+  statement: 'For the convex program x^* in argmin_{x in C} f(x) := ||A x - y||_2^2 and its sketched counterpart
+    x_hat in argmin_{x in C} g(x) := ||S(A x - y)||_2^2 with tangent cone K = cl conv{t(x - x^*) : t >=
+    0, x in C} (Equations 1-4), let Z_1(AK) := inf_{v in AK cap S^{n-1}} (1/m) ||S v||_2^2 and Z_2(AK)
+    := sup_{v in AK cap S^{n-1}} |<u, (S^T S / m - I) v>| with fixed unit residual u = (A x^* - y)/||A
+    x^* - y||_2 (Equations 41a-41b). Using the convex optimality condition <A^T(A x^* - y), x_hat - x^*>
+    >= 0 and g(x_hat) <= g(x^*), Lemma 1 (pp. 17-18, Equations 42-45) proves the deterministic inequalities
+    ||A(x_hat - x^*)||_2 / ||A x^* - y||_2 <= 2 Z_2(AK) / Z_1(AK) and f(x_hat) <= {1 + 2 Z_2(AK) / Z_1(AK)}^2
+    f(x^*). For sigma-sub-Gaussian sketches, Lemmas 2 and 3 (pp. 19-21, Equations 46-55, using orthant
+    splitting V_+ cup V_- and Sudakov-Fernique projection comparison) show that m >= (c_0 / delta^2) W^2(AK)
+    guarantees Z_1(AK) >= 1 - delta and Z_2(AK) <= delta, establishing Theorem 1 (Equation 7): f(x_hat)
+    <= (1 + delta)^2 f(x^*) with probability at least 1 - c_1 e^{-c_2 m delta^2}. When A in R^{n x d}
+    has i.i.d. entries of finite variance gamma^2, combining Theorem 1 with the Gaussian mutual-information
+    upper bound I(S A; A)/(n d) <= (m / (2n)) log(2 pi e gamma^2) yields Corollary 1 (p. 4, Equation 8):
+    m = (c_0 / delta^2) W^2(AK) achieves delta-optimality while bounding per-symbol mutual information
+    by (c_0 / delta^2) (W^2(AK)/n) log(2 pi e gamma^2) -> 0 whenever W^2(AK) = o(n).'
+  evidence:
+  - source_id: pilanci2015-convex-sketches-pdf
+    locator: Sections 2.1-2.2, pp. 3-5, Theorem 1, Corollary 1, Equations (1)-(8); Sections 4.1-4.2, pp.
+      17-21, Lemmas 1-3, Proposition 1, Equations (41a)-(55)
+    relation: supports
+- claim_id: ros-s-gaussian-rademacher-width-bounds-and-set-difference-covering-sharpening
+  kind: mechanism
+  statement: 'For a randomized orthonormal system (ROS) sketch S in R^{m x n} with rows s_i^T = sqrt(n)
+    p_i^T H diag(nu) formed in O(d n log m) time from a Hadamard or Fourier matrix H and Rademacher signs
+    nu in {-1, +1}^n (Section 2.3, p. 5), define the S-Gaussian width W_S(AK) := E_{g,S}[sup_{z in AK
+    cap S^{n-1}} |<g, S z / sqrt(m)>|] and Rademacher width R(AK) := E_eps[sup_{z in AK cap S^{n-1}} |<z,
+    eps>|] (Equations 9-10). By conditioning on the high-probability Rademacher truncation events G_1
+    cap G_2 (Equations 60-63) and applying Talagrand''s empirical-process concentration and Ledoux-Talagrand
+    contraction (Lemmas 4-7, Proposition 2, pp. 21-24 and Appendix B, pp. 31-32), Theorem 2 (Equation
+    11) proves that m / log m > (c_0 / delta^2) (R^2(AK) + log n) W_S^2(AK) guarantees delta-optimality
+    with probability at least 1 - c_1/(mn)^2 - c_1 exp(-c_2 m delta^2 / (R^2(AK) + log(mn))). Furthermore,
+    to eliminate the extra R^2(AK) factor for structured cones, Section 5.2 (p. 26, Lemma 8, Equations
+    66-68; proved in Appendix C, pp. 32-33) shows that if 0 in Y_0, Y_1 is convex, Y_1 subseteq cl conv(Y_0),
+    partial^2[Y_0] subseteq alpha Y_1, and Pi(partial^2[Y_0]) subseteq alpha Y_1, then any eps-cover {z^1,
+    ..., z^M} of partial[Y_0] = Y_0 - Y_0 with eps in (0, 1/(27 alpha^2)] satisfies sup_{z in Y_1} |z^T
+    Q z| <= 3 max_{j in [M]} |(z^j)^T Q z^j| for any symmetric matrix Q, which combined with Lemma 13
+    (Appendix D, p. 34, Equation 86: B_F(1) cap B_nuc(2 sqrt(r)) subseteq cl conv(B_F(3) cap B_rank(4r))
+    via support functions phi_1(X) <= (1 + sqrt(r/floor(r))) phi_0(X) <= 3 phi_0(X)) and Krahmer-Ward
+    RIP-to-JL embeddings yields sharpened ROS bounds (Lemmas 9-12).'
+  evidence:
+  - source_id: pilanci2015-convex-sketches-pdf
+    locator: Section 2.3, pp. 5-6, Theorem 2, Equations (9)-(11); Section 4.3, pp. 21-24, Lemmas 4-7,
+      Proposition 2, Equations (56)-(63); Section 5, pp. 24-29, Lemmas 8-12, Equations (64)-(81); Appendices
+      A-D, pp. 30-34, Lemma 13, Equations (82)-(86)
+    relation: supports
+- claim_id: concrete-sketch-dimension-instantiations-across-convex-programs
+  kind: scope
+  statement: 'Specializing Theorems 1-2 and Lemmas 8-13 yields concrete sketch-dimension bounds for delta-optimal
+    cost approximation across six problem families in Section 3: (1) Unconstrained least squares (Corollary
+    2, p. 6): m > c_0 rank(A) / delta^2 for sub-Gaussian sketches and m > c_0'' (rank(A) / delta^2) log^4(n)
+    for ROS sketches; (2) l_1-constrained least squares / Lasso (Corollary 3, p. 8, Equations 13-20) with
+    k-sparse optimum x^*: m >= (c_0 / delta^2) min{rank(A), (max_j ||a_j||_2^2 / gamma_k^-(A)) k log d}
+    for sub-Gaussian sketches and m > (c_0'' / delta^2) log^4(n) min{rank(A), ((max_j ||a_j||_2^2 / gamma_k^-(A))
+    k log d)^2 / log^4(n), (gamma_k^+(A) / gamma_k^-(A))^2 k log d} for ROS sketches; (3) Compressed sensing
+    and noise-folded denoising (Corollary 4, pp. 10-12, Equations 21-25, setting A = I_n in min_{||x||_1
+    <= R} ||x - y||_2^2): exact recovery x_hat = x_bar in the noiseless case f(x^*) = 0 and ||x_hat -
+    y||_2^2 <= (1 + delta)^2 ||x^* - y||_2^2 under folded noise S y = S x_bar + S w using m >= (c_0 /
+    delta^2) ||x^*||_0 log d sub-Gaussian or (c_0 / delta^2) min{||x^*||_0 log^5 d, ||x^*||_0^2 log d}
+    ROS projections; (4) Dual squared-hinge support vector machines and Markowitz portfolio allocation
+    over the simplex (Corollary 5, pp. 12-14, Equations 26-30): m >= (c_0 / delta^2) ||x^*||_0 log(d)
+    max_j ||a_j||_2^2 / gamma_k^-(A) scaling with the number of support vectors ||x^*||_0 on the margin;
+    (5) Weighted low-rank nuclear-norm matrix approximation (Corollary 6, pp. 14-16, Equations 31-37):
+    m >= (c_0 / delta^2) kappa^2(omega) r (d_1 + d_2) (sub-Gaussian) and with an additional log^4(d_1
+    d_2) factor for ROS; and (6) Group-sparse SOCP least squares (Corollary 7, pp. 16-17, Equations 38-40)
+    with k active groups and max group size M: O((k log |G| + k M) / delta^2).'
+  evidence:
+  - source_id: pilanci2015-convex-sketches-pdf
+    locator: Sections 3.1-3.6, pp. 6-17, Corollaries 2-7, Equations (12)-(40)
+    relation: supports
+evidence_sources:
+- source_id: pilanci2015-convex-sketches-pdf
+  title: Randomized Sketches of Convex Programs with Sharp Guarantees
+  authors:
+  - Mert Pilanci
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1404.7203
+  persistent_id: https://doi.org/10.1109/TIT.2015.2450722
+  version: arXiv:1404.7203v1 (29 Apr 2014, 37 pages, 400673 bytes); published in IEEE Transactions on
+    Information Theory 61(9):5096-5115 (2015).
+  access_level: full_text
+  accessed_at: '2026-10-18T13:41:00Z'
+  sha256: 899110b22c4ad05f9d27efd82d3d77cc3071bfd638e50d3b6907e42335dd860f
+- source_id: pilanci2015-convex-sketches-abs
+  title: Randomized Sketches of Convex Programs with Sharp Guarantees (arXiv Abstract)
+  authors:
+  - Mert Pilanci
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1404.7203
+  persistent_id: https://doi.org/10.48550/arXiv.1404.7203
+  version: arXiv:1404.7203v1 abstract and metadata record (6954 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T13:41:00Z'
+  sha256: 456699d94d7316fb287e723936a65211ee170cd6c3c00a64954d1458c2c26c16
+- source_id: pilanci2015-convex-sketches-crossref
+  title: Randomized Sketches of Convex Programs With Sharp Guarantees (IEEE Trans. Inf. Theory Crossref
+    Metadata)
+  authors:
+  - Mert Pilanci
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1109/TIT.2015.2450722
+  persistent_id: https://doi.org/10.1109/TIT.2015.2450722
+  version: IEEE Transactions on Information Theory 61(9):5096-5115 (2015) Crossref work record (2937 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T13:41:00Z'
+  sha256: 27b3fe6046311afa141ca9a1db13a28454e2dec09179ae37b99e555546e5c26e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: AIO:LinearRegression represents linear least-squares regression broadly, whereas Pilanci
+    & Wainwright (2015) analyzes randomized sub-Gaussian and ROS sketches of general convex-constrained
+    quadratic programs with tangent-cone Gaussian-width bounds (Theorems 1-2, Corollary 2).
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: AIO:LassoRegression represents L1-regularized linear regression broadly, whereas Section
+    3.2 (Corollary 3), Section 3.3 (Corollary 4), and Section 5.3 (Lemmas 9-10) establish O(k log d) sub-Gaussian
+    and ROS sketch dimension bounds and privacy mutual-information rates for l_1-constrained sparse regression
+    and compressed sensing.
+- target: AIO:SupportVectorMachine
+  relation: related_match
+  rationale: AIO:SupportVectorMachine represents support vector machines broadly, whereas Section 3.4
+    (Corollary 5, Equations 26-29) proves that the dual squared-hinge SVM quadratic program over the probability
+    simplex can be sketched to dimension O(||x^*||_0 log d) proportional to the number of support vectors
+    on the margin.
+limitations:
+- 'Cost-Value Multiplicative Approximation vs. Statistical Parameter Estimation Under Noise: As analyzed
+  in the companion paper Pilanci & Wainwright (2016, JMLR 17(53):1-38), Theorem 1 and Theorem 2 of Pilanci
+  & Wainwright (2015) bound the worst-case optimization cost ratio f(x_hat) <= (1 + delta)^2 f(x^*) for
+  a single joint sketch ||S(A x - y)||_2^2; when y = A x_0 + w contains additive noise with f(x^*) = O(n
+  sigma^2), a single joint sketch of dimension m << n incurs O(delta ||A x^* - y||_2) residual-to-parameter
+  cross-term error unless f(x^*) is small (as in noiseless compressed sensing, Corollary 4) or iterative
+  Hessian sketching is used.'
+- 'Optimization Dimension in Vectorized Nuclear-Norm Matrix Sketching: As explicitly noted in Section
+  3.5 (p. 16), for weighted low-rank matrix approximation min_{|||X|||_nuc <= R} ||S y - S A vec(X)||_2^2
+  (Corollary 6), sketching reduces the measurement dimension from D = d_1 d_2 to m = O(r(d_1 + d_2)) for
+  storage and privacy-sensitive optimization, but the matrix variable X itself remains d_1 x d_2 dimensional.'
+- 'Primary-Source Typographical Notes in Pilanci & Wainwright (2015, arXiv:1404.7203v1): Verified five
+  self-correcting typographical details across the 37-page manuscript: (1) Section 2.2 (p. 4, Equation
+  6) writes the sub-Gaussian tail exponent as -n t^2 / (2 sigma^2) whereas Proposition 1 (p. 19) uses
+  isotropic rows cov(s_i) = I_n (so that the 1/sqrt(m) normalization is applied inside S^T S / m); (2)
+  Section 4.1 (p. 18, Equations 44-45) and Section 4.2 (p. 19, Lemma 3, Equation 47) omit the 1/m normalization
+  factor on S^T S in (1/2)||S A e_hat||_2^2 and <u, (S^T S - I) v> (which is explicitly included in Lemma
+  1''s definitions of Z_1(AK) and Z_2(AK) in Equations 41a-41b on p. 17); (3) In Section 4.2.2 (p. 20),
+  Equation (51a) prints W(V) instead of W(U_+), the text below (51c) omits 1/sqrt(m) on 4 c_1 W(U_+),
+  Equation (52) prints |u^T Q u| on the left-hand side instead of sup_{v in V_+} |u^T Q v| (and omits
+  1/sqrt(m), which is restored in Equation 55 on p. 21), and Equation (53) prints W(V) instead of W(U_+);
+  (4) Section 3.6 (p. 17, Corollary 7, Equation 40) prints the unsquared operator norm |||A_g|||_op in
+  the numerator instead of |||A_g|||_op^2 (needed to match the quadratic scaling of gamma_{k,G}^-(A) and
+  to reduce to max_j ||a_j||_2^2 / gamma_k^-(A) in Equation 15 when |G| = d, M = 1); and (5) Section 5.2
+  (p. 25, Equation 65) writes Z(Y) = sup_{y in Y} |y^T (A^T S^T S A / m - I) y| with -I instead of -A^T
+  A (corrected to R = A^T S^T S A / m - A^T A in the proof of Lemma 9 on pp. 26-27).'
+- All 37 pages of the full-text PDF of Pilanci & Wainwright (2014/2015, IEEE Trans. Inf. Theory 61(9):5096-5115,
+  arXiv:1404.7203v1) were read. Constructed numerical checks in research/discovery/randomized-sketches-convex-programs-sharp-guarantees-boundaries.py
+  verify (1) Lemma 1 deterministic tangent-cone error and cost approximation bounds (lhs error ratio 0.2739
+  <= 2 Z_2/Z_1 = 0.9340, f(x_hat) = 52.749 <= 183.528, approx ratio 1.0750) and Corollary 1 vanishing
+  mutual information per symbol (0.4257 at n = 200 vs. 0.02128 at n = 4000), (2) Corollary 4 noiseless
+  compressed sensing exact recovery via sketched denoising (error 1.669e-15), folded-noise denoising approximation
+  ratio (1.7371), and Corollary 5 dual squared-hinge SVM simplex sketching approximation ratio (1.4377),
+  and (3) Lemma 13 support-function inequality phi_1(X) <= 3 phi_0(X) across 90 random matrices (max ratio
+  1.9737 <= 2 <= 3) and Lemma 8 Equation (84) convex-hull difference quadratic-form bound across 50 random
+  convex combinations.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-18T20:45:00Z'
+  updated_at: '2026-10-18T20:45:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
