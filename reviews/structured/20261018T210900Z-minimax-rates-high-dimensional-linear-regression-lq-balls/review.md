@@ -1,0 +1,500 @@
+# Scientific author self-review of Minimax Estimation Rates for High-Dimensional Linear Regression Over l_q-Balls
+
+- Review: 20261018T210900Z-minimax-rates-high-dimensional-linear-regression-lq-balls
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-18T21:08:00Z
+- Finished UTC: 2026-10-18T21:09:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Minimax Estimation Rates for High-Dimensional Linear Regression Over l_q-Balls as a distinct DRAFT mathematical_method with broad_match LinearRegression and related_match LassoRegression mappings. All three claims and locators across Raskutti, Wainwright, &amp; Yu (2011, IEEE Trans. Inf. Theory 57(10):6976-6994, arXiv:0910.2042v1) are supported with explicit non-convex optimization, sub-linear sparsity regime, and primary-source typographical limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 2d896254ac7f26e895929ad9fba338439e55e64b.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls | data/curated/MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.yaml | maintained | Minimax Estimation Rates for High-Dimensional Linear Regression Over l_q-Balls |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls | All 624 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls | Exited 0 without output. |
+| Constructed Raskutti et al. 2011 2x3 RE vs. l_0 separation, Lemma 1/2/7 bounds, and Lemma 5 ternary packing checks | passed | True | AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls | {<br>  "concept_id": "AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls",<br>  "section_3_3_1_counterexample": {<br>    "det_2x2_submatrices": [<br>      1.0,<br>      -1.0,<br>      3.0<br>    ],<br>    "kappa_l_on_B0_2": 0.16692526771109398,<br>    "delta_in_nullspace": true,<br>    "delta_in_Gamma_1_1": true,<br>    "delta_not_in_B0_2": true,<br>    "l1_norm_beta_star": 1.0,<br>    "l1_norm_beta_hat_wrong": 0.6666666666666666,<br>    "passed": true<br>  },<br>  "lemma1_lemma2_and_theorem2a": {<br>    "lemma2_ok": true,<br>    "x_root_sq": 3.3488722290691033,<br>    "four_max_b2_c": 5.1166214700950965,<br>    "diam2_nq": 0.7698003589195009,<br>    "f_l_over_kappa_l": 3.0792014356780038,<br>    "passed": true<br>  },<br>  "lemma5_packing_and_role_reversal": {<br>    "h_set_card": 3360,<br>    "packing_card": 181,<br>    "lemma5_min_card_bound": 9.0,<br>    "min_dist_sq": 0.5000000000000001,<br>    "max_dist_sq": 2.0000000000000004,<br>    "target_delta_n_sq": 0.25,<br>    "role_reversal_ok": true,<br>    "passed": true<br>  },<br>  "all_passed": true<br>} |
+
+## Scientific And Domain Assessments
+
+### Distinctness of Minimax Estimation Rates for High-Dimensional Linear Regression Over l_q-Balls
+
+identity: supported. Targets: AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.
+
+Distinct from decomposable regularizer M-estimator theory, randomized convex program sketches, and unanalyzed linear/Lasso regression records.
+
+Confirmed via normalized identity check and full-text reading of Raskutti, Wainwright, &amp; Yu (2011).
+
+### AIO mappings for AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+
+grounding: supported. Targets: AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.
+
+broad_match AIO:LinearRegression and related_match AIO:LassoRegression are accurate.
+
+Pinned AIO (2026-07-22) contains LinearRegression and LassoRegression broadly without l_q-ball minimax rate characterization or nullspace diameter bounds.
+
+### Definition and scope
+
+evidence: supported. Targets: AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.
+
+Definition accurately captures minimax l_p-parameter and l_2-prediction risks over B_q(R_q), nullspace diameter diam_p(N_q(X)), q-convex hull metric entropy, and the role reversal of design assumptions.
+
+All equations and claims verified against arXiv:0910.2042v1 (pp. 1-38).
+
+### nullspace-diameter-metric-entropy-and-minimax-lp-parameter-risk-bounds
+
+evidence: supported. Targets: AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.
+
+Supported by Sections 2.1-2.2, 4.1-4.3, Appendices A, D, E (Lemmas 1, 2, 3, 5, 6, 7, Theorems 1-2), and boundary script.
+
+Verified Lemma 1 nullspace diameter bound, Lemma 2 l_p/l_2 interpolation, Lemma 7 quadratic root bound, and Lemma 5 ternary Hamming packing.
+
+### minimax-prediction-risk-q-convex-hull-entropy-and-assumption-role-reversal
+
+evidence: supported. Targets: AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.
+
+Supported by Section 2.3, Sections 4.2.2 &amp; 4.3.2, Appendices C &amp; E.3 (Lemmas 4 &amp; 8, Theorems 3-4), and boundary script.
+
+Verified the role reversal of design assumptions and eigenvalue sensitivity between parameter and prediction error.
+
+### gaussian-design-restricted-curvature-and-re-vs-l0-identifiability-separation
+
+evidence: supported. Targets: AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.
+
+Supported by Sections 3.1-3.3, Appendix F (Proposition 1, Corollaries 1-2, Equation 29), and boundary script.
+
+Verified the explicit 2x3 matrix X = [[1, -2, -1], [2, -3, -3]] where l_0-constrained least squares succeeds on 1-sparse vectors while RE(1; 1) and Basis Pursuit fail.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, three claims and locators, three primary sources with exact SHA-256 digests, two pinned AIO mappings and rationales, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261018T210800Z-minimax-rates-high-dimensional-linear-regression-lq-balls.json | supports | No normalized identity match for Minimax Estimation Rates for High-Dimensional Linear Regression Over l_q-Balls across 442 pinned AIO records and 623 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected LinearRegression and LassoRegression in the pinned AIO snapshot (2026-07-22). Provide accurate broad_match and related_match context. |
+| calculation | research/discovery/minimax-rates-high-dimensional-linear-regression-lq-balls-boundaries.py | supports | Executed pure-Python verification in research/discovery/minimax-rates-high-dimensional-linear-regression-lq-balls-boundaries.py (SHA-256 1b469c490a7643a3435e01b0f1da65c99f1a661c923094dfb63af6222284f956): verified (1) the explicit 2x3 design matrix X = [[1, -2, -1], [2, -3, -3]] in Section 3.3.1 (p. 12, Equation 29) where ker(X) = span{[1, 1/3, 1/3]^T} satisfies B_0(2) cap ker(X) = {0} (so l_0-constrained least squares exactly recovers beta* = [1, 0, 0]^T) yet Delta = [1, 1/3, 1/3]^T in Gamma(1, 1) cap ker(X) violates the l_1 Restricted Eigenvalue condition RE(1; 1) and causes noiseless Basis Pursuit / Lasso on Y = [1, 2]^T to recover beta_hat = [0, -1/3, -1/3]^T with &#124;&#124;beta_hat&#124;&#124;_1 = 2/3 &lt; 1 = &#124;&#124;beta*&#124;&#124;_1; (2) Lemma 1 nullspace diameter bound diam_2(N_q(X)) &lt;= f_l / kappa_l, Lemma 2 l_p/l_2 interpolation over B_q(2 R_q), and Lemma 7 quadratic root bound x_root^2 = 3.348872 &lt;= 4 max{b^2, c} = 5.116621 in Theorem 2(a); and (3) Lemma 5 greedy ternary Hamming packing on H(s) for d = 10, s = 4 (yielding 181 packing points &gt;= ((d-s)/(s/2))^{s/2} = 9 with pairwise distances in [delta_n^2, 8 delta_n^2] = [0.25, 2.0]) and the exact role reversal of design eigenvalue sensitivity between l_2-parameter risk (ratio 100.0x) and l_2-prediction risk (ratio 1.0x). |
+| raskutti2011-minimax-lq-pdf | https://arxiv.org/pdf/0910.2042; Pages 1-38, Sections 1-5 and Appendices A-F (Assumptions 1-3, Lemmas 1-8, Theorems 1-4, Corollaries 1-2, Proposition 1, Equations 1-63) | supports | All 38 pages of Raskutti, Wainwright, &amp; Yu (2011, arXiv:0910.2042v1) read and verified. |
+| raskutti2011-minimax-lq-abs | https://arxiv.org/abs/0910.2042; arXiv:0910.2042 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| raskutti2011-minimax-lq-crossref | https://api.crossref.org/works/10.1109/TIT.2011.2165799; IEEE Trans. Inf. Theory 57(10):6976-6994 (2011) Crossref record | supports | IEEE Transactions on Information Theory 2011 Crossref metadata record read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Minimax Estimation Rates for High-Dimensional Linear Regression Over l_q-Balls record, yielding 624 native and 442 unchanged generated records.
+- All 38 PDF pages of arXiv:0910.2042v1 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261018T210900Z-minimax-rates-high-dimensional-linear-regression-lq-balls
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Minimax Estimation Rates for High-Dimensional
+  Linear Regression Over l_q-Balls
+started_at: '2026-10-18T21:08:00Z'
+finished_at: '2026-10-18T21:09:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from DecomposableRegularizerAndRestrictedStrongConvexityMEstimatorFramework
+    and RandomizedSketchesOfConvexProgramsWithTangentConeGaussianWidthGuarantees,
+    verified Theorems 1-4, Lemmas 1-8, Proposition 1, the 2x3 counterexample separating
+    l_0 identifiability from the l_1 Restricted Eigenvalue condition, and documented
+    five primary-source typographical notes in Raskutti, Wainwright, & Yu (2011, arXiv:0910.2042v1).
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Minimax Estimation Rates for High-Dimensional Linear Regression Over
+  l_q-Balls as a distinct DRAFT mathematical_method with broad_match LinearRegression
+  and related_match LassoRegression mappings. All three claims and locators across
+  Raskutti, Wainwright, & Yu (2011, IEEE Trans. Inf. Theory 57(10):6976-6994, arXiv:0910.2042v1)
+  are supported with explicit non-convex optimization, sub-linear sparsity regime,
+  and primary-source typographical limitations.
+source:
+  git_revision: 2d896254ac7f26e895929ad9fba338439e55e64b
+  state: working_tree
+  inputs:
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/curated/DecomposableRegularizerAndRestrictedStrongConvexityMEstimatorFramework.yaml
+    sha256: 2a49e9e54774839bfe6756dadbf4316940b3c3297c024458ff083938b7017afd
+    role: context
+  - path: data/curated/MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.yaml
+    sha256: 9b841a1bf38080c4ee2099381f701d4bafbda8e64c197f87044b4228e742ef36
+    role: target
+  - path: data/curated/RandomizedSketchesOfConvexProgramsWithTangentConeGaussianWidthGuarantees.yaml
+    sha256: d387d7abf16c903bdbeb9de17b977194e1a68c5f654ceb46c434c6cb42c0488e
+    role: context
+  - path: research/discovery/20261018T210800Z-minimax-rates-high-dimensional-linear-regression-lq-balls.json
+    sha256: fdb1360a243c0d429b9429351062372561fbea155325ece78002334741166526
+    role: context
+  - path: research/discovery/minimax-rates-high-dimensional-linear-regression-lq-balls-boundaries.py
+    sha256: 1b469c490a7643a3435e01b0f1da65c99f1a661c923094dfb63af6222284f956
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  path: data/curated/MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.yaml
+  label: Minimax Estimation Rates for High-Dimensional Linear Regression Over l_q-Balls
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 624 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Raskutti et al. 2011 2x3 RE vs. l_0 separation, Lemma 1/2/7 bounds,
+    and Lemma 5 ternary packing checks
+  command: python3 research/discovery/minimax-rates-high-dimensional-linear-regression-lq-balls-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept_id\": \"AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls\"\
+    ,\n  \"section_3_3_1_counterexample\": {\n    \"det_2x2_submatrices\": [\n   \
+    \   1.0,\n      -1.0,\n      3.0\n    ],\n    \"kappa_l_on_B0_2\": 0.16692526771109398,\n\
+    \    \"delta_in_nullspace\": true,\n    \"delta_in_Gamma_1_1\": true,\n    \"\
+    delta_not_in_B0_2\": true,\n    \"l1_norm_beta_star\": 1.0,\n    \"l1_norm_beta_hat_wrong\"\
+    : 0.6666666666666666,\n    \"passed\": true\n  },\n  \"lemma1_lemma2_and_theorem2a\"\
+    : {\n    \"lemma2_ok\": true,\n    \"x_root_sq\": 3.3488722290691033,\n    \"\
+    four_max_b2_c\": 5.1166214700950965,\n    \"diam2_nq\": 0.7698003589195009,\n\
+    \    \"f_l_over_kappa_l\": 3.0792014356780038,\n    \"passed\": true\n  },\n \
+    \ \"lemma5_packing_and_role_reversal\": {\n    \"h_set_card\": 3360,\n    \"packing_card\"\
+    : 181,\n    \"lemma5_min_card_bound\": 9.0,\n    \"min_dist_sq\": 0.5000000000000001,\n\
+    \    \"max_dist_sq\": 2.0000000000000004,\n    \"target_delta_n_sq\": 0.25,\n\
+    \    \"role_reversal_ok\": true,\n    \"passed\": true\n  },\n  \"all_passed\"\
+    : true\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261018T210800Z-minimax-rates-high-dimensional-linear-regression-lq-balls.json
+  accessed_at: '2026-10-18T21:08:00Z'
+  support: supports
+  summary: No normalized identity match for Minimax Estimation Rates for High-Dimensional
+    Linear Regression Over l_q-Balls across 442 pinned AIO records and 623 maintained
+    IDs, names, aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-18T21:08:00Z'
+  support: supports
+  summary: Inspected LinearRegression and LassoRegression in the pinned AIO snapshot
+    (2026-07-22). Provide accurate broad_match and related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/minimax-rates-high-dimensional-linear-regression-lq-balls-boundaries.py
+  accessed_at: '2026-10-18T21:08:00Z'
+  snapshot_sha256: 1b469c490a7643a3435e01b0f1da65c99f1a661c923094dfb63af6222284f956
+  support: supports
+  summary: 'Executed pure-Python verification in research/discovery/minimax-rates-high-dimensional-linear-regression-lq-balls-boundaries.py
+    (SHA-256 1b469c490a7643a3435e01b0f1da65c99f1a661c923094dfb63af6222284f956): verified
+    (1) the explicit 2x3 design matrix X = [[1, -2, -1], [2, -3, -3]] in Section 3.3.1
+    (p. 12, Equation 29) where ker(X) = span{[1, 1/3, 1/3]^T} satisfies B_0(2) cap
+    ker(X) = {0} (so l_0-constrained least squares exactly recovers beta* = [1, 0,
+    0]^T) yet Delta = [1, 1/3, 1/3]^T in Gamma(1, 1) cap ker(X) violates the l_1 Restricted
+    Eigenvalue condition RE(1; 1) and causes noiseless Basis Pursuit / Lasso on Y
+    = [1, 2]^T to recover beta_hat = [0, -1/3, -1/3]^T with ||beta_hat||_1 = 2/3 <
+    1 = ||beta*||_1; (2) Lemma 1 nullspace diameter bound diam_2(N_q(X)) <= f_l /
+    kappa_l, Lemma 2 l_p/l_2 interpolation over B_q(2 R_q), and Lemma 7 quadratic
+    root bound x_root^2 = 3.348872 <= 4 max{b^2, c} = 5.116621 in Theorem 2(a); and
+    (3) Lemma 5 greedy ternary Hamming packing on H(s) for d = 10, s = 4 (yielding
+    181 packing points >= ((d-s)/(s/2))^{s/2} = 9 with pairwise distances in [delta_n^2,
+    8 delta_n^2] = [0.25, 2.0]) and the exact role reversal of design eigenvalue sensitivity
+    between l_2-parameter risk (ratio 100.0x) and l_2-prediction risk (ratio 1.0x).'
+- evidence_id: raskutti2011-minimax-lq-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/0910.2042
+  locator: Pages 1-38, Sections 1-5 and Appendices A-F (Assumptions 1-3, Lemmas 1-8,
+    Theorems 1-4, Corollaries 1-2, Proposition 1, Equations 1-63)
+  accessed_at: '2026-10-18T13:58:00Z'
+  snapshot_sha256: 5e57de2c4f3312304da5cf4f0dd86cc885cb10a14442e7f6e533ec8a5c945778
+  support: supports
+  summary: All 38 pages of Raskutti, Wainwright, & Yu (2011, arXiv:0910.2042v1) read
+    and verified.
+- evidence_id: raskutti2011-minimax-lq-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/0910.2042
+  locator: arXiv:0910.2042 abstract
+  accessed_at: '2026-10-18T13:58:00Z'
+  snapshot_sha256: 9a6993ea8b2ef5e73df3de810fa22f57aa983269cbf0c7adfa768661d6ee40c3
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: raskutti2011-minimax-lq-crossref
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1109/TIT.2011.2165799
+  locator: IEEE Trans. Inf. Theory 57(10):6976-6994 (2011) Crossref record
+  accessed_at: '2026-10-18T13:58:00Z'
+  snapshot_sha256: 046e870f92902753d44fc1691470e3bed8b9cb0ede36cb48809e0d8df607dfac
+  support: supports
+  summary: IEEE Transactions on Information Theory 2011 Crossref metadata record read
+    and verified.
+assessments:
+- assessment_id: identity-boundary
+  area: identity
+  topic: Distinctness of Minimax Estimation Rates for High-Dimensional Linear Regression
+    Over l_q-Balls
+  outcome: supported
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  evidence_ids:
+  - identity
+  - raskutti2011-minimax-lq-pdf
+  - raskutti2011-minimax-lq-abs
+  - raskutti2011-minimax-lq-crossref
+  summary: Distinct from decomposable regularizer M-estimator theory, randomized convex
+    program sketches, and unanalyzed linear/Lasso regression records.
+  details: Confirmed via normalized identity check and full-text reading of Raskutti,
+    Wainwright, & Yu (2011).
+- assessment_id: aio-mappings
+  area: grounding
+  topic: AIO mappings for AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  outcome: supported
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  evidence_ids:
+  - mapping
+  - raskutti2011-minimax-lq-pdf
+  summary: broad_match AIO:LinearRegression and related_match AIO:LassoRegression
+    are accurate.
+  details: Pinned AIO (2026-07-22) contains LinearRegression and LassoRegression broadly
+    without l_q-ball minimax rate characterization or nullspace diameter bounds.
+- assessment_id: definition
+  area: evidence
+  topic: Definition and scope
+  outcome: supported
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  evidence_ids:
+  - raskutti2011-minimax-lq-pdf
+  - raskutti2011-minimax-lq-abs
+  - raskutti2011-minimax-lq-crossref
+  summary: Definition accurately captures minimax l_p-parameter and l_2-prediction
+    risks over B_q(R_q), nullspace diameter diam_p(N_q(X)), q-convex hull metric entropy,
+    and the role reversal of design assumptions.
+  details: All equations and claims verified against arXiv:0910.2042v1 (pp. 1-38).
+- assessment_id: nullspace-diameter-metric-entropy-and-minimax-lp-parameter-risk-bounds
+  area: evidence
+  topic: nullspace-diameter-metric-entropy-and-minimax-lp-parameter-risk-bounds
+  outcome: supported
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  evidence_ids:
+  - raskutti2011-minimax-lq-pdf
+  - calculation
+  summary: Supported by Sections 2.1-2.2, 4.1-4.3, Appendices A, D, E (Lemmas 1, 2,
+    3, 5, 6, 7, Theorems 1-2), and boundary script.
+  details: Verified Lemma 1 nullspace diameter bound, Lemma 2 l_p/l_2 interpolation,
+    Lemma 7 quadratic root bound, and Lemma 5 ternary Hamming packing.
+- assessment_id: minimax-prediction-risk-q-convex-hull-entropy-and-assumption-role-reversal
+  area: evidence
+  topic: minimax-prediction-risk-q-convex-hull-entropy-and-assumption-role-reversal
+  outcome: supported
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  evidence_ids:
+  - raskutti2011-minimax-lq-pdf
+  - calculation
+  summary: Supported by Section 2.3, Sections 4.2.2 & 4.3.2, Appendices C & E.3 (Lemmas
+    4 & 8, Theorems 3-4), and boundary script.
+  details: Verified the role reversal of design assumptions and eigenvalue sensitivity
+    between parameter and prediction error.
+- assessment_id: gaussian-design-restricted-curvature-and-re-vs-l0-identifiability-separation
+  area: evidence
+  topic: gaussian-design-restricted-curvature-and-re-vs-l0-identifiability-separation
+  outcome: supported
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  evidence_ids:
+  - raskutti2011-minimax-lq-pdf
+  - calculation
+  summary: Supported by Sections 3.1-3.3, Appendix F (Proposition 1, Corollaries 1-2,
+    Equation 29), and boundary script.
+  details: Verified the explicit 2x3 matrix X = [[1, -2, -1], [2, -3, -3]] where l_0-constrained
+    least squares succeeds on 1-sparse vectors while RE(1; 1) and Basis Pursuit fail.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  evidence_ids:
+  - identity
+  - mapping
+  - raskutti2011-minimax-lq-pdf
+  - raskutti2011-minimax-lq-abs
+  - raskutti2011-minimax-lq-crossref
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, three claims and locators, three primary sources with exact SHA-256
+    digests, two pinned AIO mappings and rationales, four scoped limitations, and
+    UTC curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Minimax Estimation Rates for High-Dimensional Linear Regression
+  Over l_q-Balls record, yielding 624 native and 442 unchanged generated records.
+- All 38 PDF pages of arXiv:0910.2042v1 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- minimax-rates
+- high-dimensional-regression
+- lq-balls
+- metric-entropy
+- self-review
+- discovery-ongoing
+```
