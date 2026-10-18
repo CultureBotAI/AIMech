@@ -1,0 +1,503 @@
+# Scientific author self-review of High-Dimensional Gaussian Graphical Model Neighborhood Selection with the Lasso
+
+- Review: 20261018T221900Z-high-dimensional-gaussian-graphical-model-lasso-neighborhood-selection
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-18T22:18:00Z
+- Finished UTC: 2026-10-18T22:19:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain High-Dimensional Gaussian Graphical Model Neighborhood Selection with the Lasso as a distinct DRAFT mathematical_method with broad_match LassoRegression and related_match LinearRegression mappings. All three claims and locators across Meinshausen &amp; Buhlmann (2006, Annals of Statistics 34(3):1436-1462, arXiv:math/0608017v1) are supported with explicit Neighborhood Stability S_a(b), prediction-oracle inconsistency, AND/OR aggregation, and primary-source typographical limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base b46d87ed9ce81227fbb9870c108431b85ab6e8ad.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso | data/curated/HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.yaml | maintained | High-Dimensional Gaussian Graphical Model Neighborhood Selection with the Lasso |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso | Validated 630 curated concept record(s). |
+| aimech seed --check | passed | True | AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso | Checked 442 record(s); 0 drift. |
+| aimech validate-history | passed | True | AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso | Validated 283 history file(s). |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso | Vendored record_review files match. |
+| aimech check-source | passed | True | AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso | Exited 0 without output. |
+| Constructed Meinshausen-Buhlmann 2006 precision-matrix neighborhood identity, prediction-oracle inconsistency, Neighborhood Stability S_a(b), and connectivity-component FWER checks | passed | True | AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso | {<br>  "concept_id": "AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso",<br>  "all_passed": true,<br>  "tests": {<br>    "precision_matrix_and_partial_correlation_identity": {<br>      "passed": true,<br>      "max_theta_err": 1.1102230246251565e-16,<br>      "max_var_err": 1.1102230246251565e-16,<br>      "max_pi_err": 1.6653345369377348e-16,<br>      "ne_0": [<br>        1,<br>        2<br>      ]<br>    },<br>    "prediction_oracle_inconsistency": {<br>      "passed": true,<br>      "s": 0.6,<br>      "tau_max": 0.42,<br>      "delta_star": 0.09,<br>      "L0": 0.6723999999999999,<br>      "L_delta_star": 0.6562,<br>      "diff_actual": -0.01619999999999988,<br>      "all_strictly_smaller_on_interval": true<br>    },<br>    "neighborhood_stability_and_kkt": {<br>      "passed": true,<br>      "S0_3_stable": 0.7,<br>      "neg_subgrad_3_stable": 0.7000000000007708,<br>      "theta_full_stable_node3": 0.0,<br>      "S0_3_unstable": 1.2,<br>      "neg_subgrad_3_unstable": 1.2000000000013216,<br>      "theta_full_unstable_node3": 0.028195488727501175,<br>      "S_tree": 0.75<br>    },<br>    "and_or_aggregation_and_fwer_bound": {<br>      "passed": true,<br>      "edges_and": [<br>        [<br>          0,<br>          1<br>        ],<br>        [<br>          2,<br>          3<br>        ]<br>      ],<br>      "edges_or": [<br>        [<br>          0,<br>          1<br>        ],<br>        [<br>          0,<br>          2<br>        ],<br>        [<br>          2,<br>          3<br>        ]<br>      ],<br>      "alpha": 0.1,<br>      "z_thresh": 2.9913161151837793,<br>      "empirical_fwer": 0.025<br>    }<br>  }<br>} |
+
+## Scientific And Domain Assessments
+
+### Distinctness of High-Dimensional Gaussian Graphical Model Neighborhood Selection with the Lasso
+
+identity: supported. Targets: AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.
+
+Distinct from binary Ising logistic neighborhood selection, single-response linear Lasso support recovery, and unanalyzed LassoRegression / LinearRegression records.
+
+Confirmed via normalized identity check and full-text reading of Meinshausen &amp; Buhlmann (2006).
+
+### AIO mappings for AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+
+grounding: supported. Targets: AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.
+
+broad_match to AIO:LassoRegression and related_match to AIO:LinearRegression are accurate.
+
+Pinned AIO (2026-07-22) contains LassoRegression and LinearRegression without Gaussian graphical model nodewise Lasso neighborhood selection, Neighborhood Stability S_a(b), or connectivity-component FWER bounds.
+
+### Definition and scope
+
+evidence: supported. Targets: AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.
+
+Definition accurately captures Propositions 1-4, Theorems 1-3, and Corollary 1.
+
+All equations and claims verified against arXiv:math/0608017v1 (pp. 1-28).
+
+### gaussian-precision-matrix-neighborhood-identity-and-prediction-oracle-inconsistency
+
+evidence: supported. Targets: AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.
+
+Supported by Sections 2.1-2.2 (Equations 1-3, Proposition 1) and Appendix (pp. 19-22, Equations A.20-A.22) and boundary script.
+
+Verified exact precision-matrix neighborhood identity and Proposition 1 prediction-oracle risk decrease.
+
+### neighborhood-stability-condition-and-exponential-nodewise-support-consistency
+
+evidence: supported. Targets: AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.
+
+Supported by Sections 2.3-2.5 (Assumptions 1-6, Propositions 2-4, Theorems 1-2) and Appendix (pp. 15-26, Lemmas A.1-A.3) and boundary script.
+
+Verified Neighborhood Stability S_a(b) threshold at 1 and KKT subgradient stationarity.
+
+### and-or-edge-aggregation-consistency-and-finite-sample-connectivity-component-fwer-bound
+
+evidence: supported. Targets: AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.
+
+Supported by Section 3 (Equations 7-9, Corollary 1, Theorem 3) and Appendix (p. 27) and boundary script.
+
+Verified AND/OR edge aggregation and finite-sample connectivity-component FWER bound.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, three claims and locators, three primary sources with exact SHA-256 digests, two pinned AIO mappings and rationales, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261018T221800Z-high-dimensional-gaussian-graphical-model-lasso-neighborhood-selection.json | supports | No normalized identity match for High-Dimensional Gaussian Graphical Model Neighborhood Selection with the Lasso across 442 pinned AIO records and 629 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected LassoRegression and LinearRegression in the pinned AIO snapshot (2026-07-22). Provide accurate broad_match and related_match context. |
+| calculation | research/discovery/high-dimensional-gaussian-graphical-model-lasso-neighborhood-selection-boundaries.py | supports | Executed pure-Python verification in research/discovery/high-dimensional-gaussian-graphical-model-lasso-neighborhood-selection-boundaries.py (SHA-256 d8213700ce6b3d41bcbe4dda9d17478a4739eb2c9fbe72a09b687506c4e60fe8): verified (1) exact Gaussian precision-matrix neighborhood identity theta_b^a = -K_{ab}/K_{aa} (error 1.11e-16), conditional variance 1/K_{aa} (error 1.11e-16), and partial correlation identity (error 1.67e-16); (2) Proposition 1 prediction-oracle inconsistency risk reduction L_{delta*} - L_0 = -0.0162 &lt; 0 at delta* = 0.5(s - tau_max); (3) Neighborhood Stability S_0(3) = 0.70 &lt; 1 (exact zero false positive) vs unstable S_0(3) = 1.20 &gt; 1 (forced false positive theta_hat_3 = 0.0282 &gt; 0, Proposition 3) and tree stability S_tree = 0.75 &lt; 1; and (4) AND/OR edge aggregation and Theorem 3 finite-sample connectivity-component FWER control (empirical FWER 0.025 &lt;= alpha = 0.10). |
+| mb2006-ggm-lasso-pdf | https://export.arxiv.org/pdf/math/0608017.pdf; Pages 1-28, Sections 1-4 and Appendix (Assumptions 1-6, Propositions 1-4, Theorems 1-3, Corollary 1, Lemmas A.1-A.3, Equations 1-9, A.1-A.33) | supports | All 28 pages of Meinshausen &amp; Buhlmann (2006, Annals of Statistics 34(3):1436-1462, arXiv:math/0608017v1) read and verified. |
+| mb2006-ggm-lasso-abs | https://arxiv.org/abs/math/0608017; arXiv:math/0608017 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| mb2006-ggm-lasso-cr | https://api.crossref.org/works/10.1214/009053606000000281; DOI:10.1214/009053606000000281 Crossref metadata | supports | The Annals of Statistics 2006 Crossref metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT High-Dimensional Gaussian Graphical Model Neighborhood Selection with the Lasso record, yielding 630 native and 442 unchanged generated records.
+- All 28 PDF pages of arXiv:math/0608017v1 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261018T221900Z-high-dimensional-gaussian-graphical-model-lasso-neighborhood-selection
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of High-Dimensional Gaussian Graphical Model
+  Neighborhood Selection with the Lasso
+started_at: '2026-10-18T22:18:00Z'
+finished_at: '2026-10-18T22:19:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from HighDimensionalIsingModelSelectionViaL1RegularizedLogisticRegression
+    and PrimalDualWitnessAndSharpThresholdsForHighDimensionalNoisyLassoSparsityRecovery,
+    verified Propositions 1-4, Theorems 1-3, Corollary 1, and Lemmas A.1-A.3, and
+    documented five primary-source typographical notes in Meinshausen & Buhlmann (2006,
+    arXiv:math/0608017v1). This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain High-Dimensional Gaussian Graphical Model Neighborhood Selection with
+  the Lasso as a distinct DRAFT mathematical_method with broad_match LassoRegression
+  and related_match LinearRegression mappings. All three claims and locators across
+  Meinshausen & Buhlmann (2006, Annals of Statistics 34(3):1436-1462, arXiv:math/0608017v1)
+  are supported with explicit Neighborhood Stability S_a(b), prediction-oracle inconsistency,
+  AND/OR aggregation, and primary-source typographical limitations.
+source:
+  git_revision: b46d87ed9ce81227fbb9870c108431b85ab6e8ad
+  state: working_tree
+  inputs:
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/curated/HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.yaml
+    sha256: 9db249ebd0a792b5640ff3b86920d4be08de3b540a208ecacd337fe67928ce95
+    role: target
+  - path: data/curated/HighDimensionalIsingModelSelectionViaL1RegularizedLogisticRegression.yaml
+    sha256: 34d1bc1aae2d4a12b49038316128795ffa77752a255c18b3a6dd97aa3fa927d7
+    role: context
+  - path: data/curated/PrimalDualWitnessAndSharpThresholdsForHighDimensionalNoisyLassoSparsityRecovery.yaml
+    sha256: 64c192e718047e38ec504469f205b87afc143956fc4d6c0704ac3ffe6b1473a3
+    role: context
+  - path: research/discovery/20261018T221800Z-high-dimensional-gaussian-graphical-model-lasso-neighborhood-selection.json
+    sha256: 24b4cc9c7c729eedfcbeb44f910b71cb248859deeade1fb8fce99bf72e08a47b
+    role: context
+  - path: research/discovery/high-dimensional-gaussian-graphical-model-lasso-neighborhood-selection-boundaries.py
+    sha256: d8213700ce6b3d41bcbe4dda9d17478a4739eb2c9fbe72a09b687506c4e60fe8
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  path: data/curated/HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.yaml
+  label: High-Dimensional Gaussian Graphical Model Neighborhood Selection with the
+    Lasso
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 630 curated concept record(s).
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 record(s); 0 drift.
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 283 history file(s).
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored record_review files match.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Meinshausen-Buhlmann 2006 precision-matrix neighborhood identity,
+    prediction-oracle inconsistency, Neighborhood Stability S_a(b), and connectivity-component
+    FWER checks
+  command: python3 research/discovery/high-dimensional-gaussian-graphical-model-lasso-neighborhood-selection-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept_id\": \"AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso\"\
+    ,\n  \"all_passed\": true,\n  \"tests\": {\n    \"precision_matrix_and_partial_correlation_identity\"\
+    : {\n      \"passed\": true,\n      \"max_theta_err\": 1.1102230246251565e-16,\n\
+    \      \"max_var_err\": 1.1102230246251565e-16,\n      \"max_pi_err\": 1.6653345369377348e-16,\n\
+    \      \"ne_0\": [\n        1,\n        2\n      ]\n    },\n    \"prediction_oracle_inconsistency\"\
+    : {\n      \"passed\": true,\n      \"s\": 0.6,\n      \"tau_max\": 0.42,\n  \
+    \    \"delta_star\": 0.09,\n      \"L0\": 0.6723999999999999,\n      \"L_delta_star\"\
+    : 0.6562,\n      \"diff_actual\": -0.01619999999999988,\n      \"all_strictly_smaller_on_interval\"\
+    : true\n    },\n    \"neighborhood_stability_and_kkt\": {\n      \"passed\": true,\n\
+    \      \"S0_3_stable\": 0.7,\n      \"neg_subgrad_3_stable\": 0.7000000000007708,\n\
+    \      \"theta_full_stable_node3\": 0.0,\n      \"S0_3_unstable\": 1.2,\n    \
+    \  \"neg_subgrad_3_unstable\": 1.2000000000013216,\n      \"theta_full_unstable_node3\"\
+    : 0.028195488727501175,\n      \"S_tree\": 0.75\n    },\n    \"and_or_aggregation_and_fwer_bound\"\
+    : {\n      \"passed\": true,\n      \"edges_and\": [\n        [\n          0,\n\
+    \          1\n        ],\n        [\n          2,\n          3\n        ]\n  \
+    \    ],\n      \"edges_or\": [\n        [\n          0,\n          1\n       \
+    \ ],\n        [\n          0,\n          2\n        ],\n        [\n          2,\n\
+    \          3\n        ]\n      ],\n      \"alpha\": 0.1,\n      \"z_thresh\":\
+    \ 2.9913161151837793,\n      \"empirical_fwer\": 0.025\n    }\n  }\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261018T221800Z-high-dimensional-gaussian-graphical-model-lasso-neighborhood-selection.json
+  accessed_at: '2026-10-18T22:18:00Z'
+  support: supports
+  summary: No normalized identity match for High-Dimensional Gaussian Graphical Model
+    Neighborhood Selection with the Lasso across 442 pinned AIO records and 629 maintained
+    IDs, names, aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-18T22:18:00Z'
+  support: supports
+  summary: Inspected LassoRegression and LinearRegression in the pinned AIO snapshot
+    (2026-07-22). Provide accurate broad_match and related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/high-dimensional-gaussian-graphical-model-lasso-neighborhood-selection-boundaries.py
+  accessed_at: '2026-10-18T22:18:00Z'
+  snapshot_sha256: d8213700ce6b3d41bcbe4dda9d17478a4739eb2c9fbe72a09b687506c4e60fe8
+  support: supports
+  summary: 'Executed pure-Python verification in research/discovery/high-dimensional-gaussian-graphical-model-lasso-neighborhood-selection-boundaries.py
+    (SHA-256 d8213700ce6b3d41bcbe4dda9d17478a4739eb2c9fbe72a09b687506c4e60fe8): verified
+    (1) exact Gaussian precision-matrix neighborhood identity theta_b^a = -K_{ab}/K_{aa}
+    (error 1.11e-16), conditional variance 1/K_{aa} (error 1.11e-16), and partial
+    correlation identity (error 1.67e-16); (2) Proposition 1 prediction-oracle inconsistency
+    risk reduction L_{delta*} - L_0 = -0.0162 < 0 at delta* = 0.5(s - tau_max); (3)
+    Neighborhood Stability S_0(3) = 0.70 < 1 (exact zero false positive) vs unstable
+    S_0(3) = 1.20 > 1 (forced false positive theta_hat_3 = 0.0282 > 0, Proposition
+    3) and tree stability S_tree = 0.75 < 1; and (4) AND/OR edge aggregation and Theorem
+    3 finite-sample connectivity-component FWER control (empirical FWER 0.025 <= alpha
+    = 0.10).'
+- evidence_id: mb2006-ggm-lasso-pdf
+  kind: primary_source
+  reference: https://export.arxiv.org/pdf/math/0608017.pdf
+  locator: Pages 1-28, Sections 1-4 and Appendix (Assumptions 1-6, Propositions 1-4,
+    Theorems 1-3, Corollary 1, Lemmas A.1-A.3, Equations 1-9, A.1-A.33)
+  accessed_at: '2026-10-18T14:53:00Z'
+  snapshot_sha256: 31ea50275de7a60188bb35b87632eea1d9a58859211abaf06a632a82324bf487
+  support: supports
+  summary: All 28 pages of Meinshausen & Buhlmann (2006, Annals of Statistics 34(3):1436-1462,
+    arXiv:math/0608017v1) read and verified.
+- evidence_id: mb2006-ggm-lasso-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/math/0608017
+  locator: arXiv:math/0608017 abstract
+  accessed_at: '2026-10-18T14:53:00Z'
+  snapshot_sha256: 30b67d7daf8b56c6d9cb043143ffab6bf22cd3ef7249e72337992d6066f41140
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: mb2006-ggm-lasso-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/009053606000000281
+  locator: DOI:10.1214/009053606000000281 Crossref metadata
+  accessed_at: '2026-10-18T14:53:00Z'
+  snapshot_sha256: 70f7d3ba95e7052eb95bb1b5597599d6ba647cb7d643ffa301887b74b6b16179
+  support: supports
+  summary: The Annals of Statistics 2006 Crossref metadata read and verified.
+assessments:
+- assessment_id: identity-boundary
+  area: identity
+  topic: Distinctness of High-Dimensional Gaussian Graphical Model Neighborhood Selection
+    with the Lasso
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  evidence_ids:
+  - identity
+  - mb2006-ggm-lasso-pdf
+  - mb2006-ggm-lasso-abs
+  - mb2006-ggm-lasso-cr
+  summary: Distinct from binary Ising logistic neighborhood selection, single-response
+    linear Lasso support recovery, and unanalyzed LassoRegression / LinearRegression
+    records.
+  details: Confirmed via normalized identity check and full-text reading of Meinshausen
+    & Buhlmann (2006).
+- assessment_id: aio-mappings
+  area: grounding
+  topic: AIO mappings for AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  evidence_ids:
+  - mapping
+  - mb2006-ggm-lasso-pdf
+  summary: broad_match to AIO:LassoRegression and related_match to AIO:LinearRegression
+    are accurate.
+  details: Pinned AIO (2026-07-22) contains LassoRegression and LinearRegression without
+    Gaussian graphical model nodewise Lasso neighborhood selection, Neighborhood Stability
+    S_a(b), or connectivity-component FWER bounds.
+- assessment_id: definition
+  area: evidence
+  topic: Definition and scope
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  evidence_ids:
+  - mb2006-ggm-lasso-pdf
+  - mb2006-ggm-lasso-abs
+  - mb2006-ggm-lasso-cr
+  summary: Definition accurately captures Propositions 1-4, Theorems 1-3, and Corollary
+    1.
+  details: All equations and claims verified against arXiv:math/0608017v1 (pp. 1-28).
+- assessment_id: gaussian-precision-matrix-neighborhood-identity-and-prediction-oracle-inconsistency
+  area: evidence
+  topic: gaussian-precision-matrix-neighborhood-identity-and-prediction-oracle-inconsistency
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  evidence_ids:
+  - mb2006-ggm-lasso-pdf
+  - calculation
+  summary: Supported by Sections 2.1-2.2 (Equations 1-3, Proposition 1) and Appendix
+    (pp. 19-22, Equations A.20-A.22) and boundary script.
+  details: Verified exact precision-matrix neighborhood identity and Proposition 1
+    prediction-oracle risk decrease.
+- assessment_id: neighborhood-stability-condition-and-exponential-nodewise-support-consistency
+  area: evidence
+  topic: neighborhood-stability-condition-and-exponential-nodewise-support-consistency
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  evidence_ids:
+  - mb2006-ggm-lasso-pdf
+  - calculation
+  summary: Supported by Sections 2.3-2.5 (Assumptions 1-6, Propositions 2-4, Theorems
+    1-2) and Appendix (pp. 15-26, Lemmas A.1-A.3) and boundary script.
+  details: Verified Neighborhood Stability S_a(b) threshold at 1 and KKT subgradient
+    stationarity.
+- assessment_id: and-or-edge-aggregation-consistency-and-finite-sample-connectivity-component-fwer-bound
+  area: evidence
+  topic: and-or-edge-aggregation-consistency-and-finite-sample-connectivity-component-fwer-bound
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  evidence_ids:
+  - mb2006-ggm-lasso-pdf
+  - calculation
+  summary: Supported by Section 3 (Equations 7-9, Corollary 1, Theorem 3) and Appendix
+    (p. 27) and boundary script.
+  details: Verified AND/OR edge aggregation and finite-sample connectivity-component
+    FWER bound.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso
+  evidence_ids:
+  - identity
+  - mapping
+  - mb2006-ggm-lasso-pdf
+  - mb2006-ggm-lasso-abs
+  - mb2006-ggm-lasso-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, three claims and locators, three primary sources with exact SHA-256
+    digests, two pinned AIO mappings and rationales, four scoped limitations, and
+    UTC curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT High-Dimensional Gaussian Graphical Model Neighborhood Selection
+  with the Lasso record, yielding 630 native and 442 unchanged generated records.
+- All 28 PDF pages of arXiv:math/0608017v1 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- gaussian-graphical-models
+- neighborhood-selection
+- lasso
+- neighborhood-stability
+- self-review
+- discovery-ongoing
+```

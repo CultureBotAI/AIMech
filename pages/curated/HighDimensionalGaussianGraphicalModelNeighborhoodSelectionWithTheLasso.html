@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>High-Dimensional Gaussian Graphical Model Neighborhood Selection with the Lasso · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>High-Dimensional Gaussian Graphical Model Neighborhood Selection with the Lasso</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">High-Dimensional Gaussian Graphical Model Neighborhood Selection with the Lasso</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Meinshausen-Buhlmann Neighborhood Selection, Lasso Gaussian Graphical Model Neighborhood Selection, Nodewise Lasso Covariance Selection, High-Dimensional Graphs and Variable Selection with the Lasso
+    </div>
+
+  <div class="detail-desc">
+    High-Dimensional Gaussian Graphical Model Neighborhood Selection with the Lasso is a nodewise L1-penalized regression method (Meinshausen &amp; Buhlmann 2006, The Annals of Statistics 34(3):1436-1462, arXiv:math/0608017v1) for estimating the conditional independence graph G = (Gamma(n), E) of a p(n)-dimensional multivariate Gaussian vector X = (X_1, ..., X_p) ~ N(mu, Sigma) with precision matrix K(n) = Sigma^{-1}(n) when p(n) = O(n^gamma) grows polynomially with sample size n. Exploiting the identity theta_b^a = -K_{ab}(n) / K_{aa}(n) for the optimal linear prediction coefficients theta^a = argmin_{theta: theta_a = 0} E[(X_a - sum_{k in Gamma(n)} theta_k X_k)^2] (Equations 1-2), the method solves for each node a in Gamma(n) the nodewise Lasso estimator theta_hat^{a, lambda} = argmin_{theta: theta_a = 0} {n^{-1} ||X_a - X theta||_2^2 + lambda ||theta||_1} (Equation 3) to estimate the neighborhood ne_hat_a^lambda = {b in Gamma(n) : theta_hat_b^{a, lambda} != 0}, and aggregates nodewise neighborhoods into an undirected edge set via intersection E_hat^{lambda, AND} = {(a, b) : a in ne_hat_b^lambda and b in ne_hat_a^lambda} (Equation 7) or union E_hat^{lambda, OR} = {(a, b) : a in ne_hat_b^lambda or b in ne_hat_a^lambda} (Equation 8). Whereas the prediction-oracle penalty lambda_oracle is inconsistent for neighborhood selection as p(n) -&gt; infty (Proposition 1), under Assumptions 1-6 including Neighborhood Stability |S_a(b)| = |sum_{k in ne_a} sign(theta_k^{a, ne_a}) theta_k^{b, ne_a}| &lt; delta &lt; 1 for all b not in ne_a (Equation 5, Assumption 6), choosing lambda_n ~ d n^{-(1-varepsilon)/2} with kappa &lt; varepsilon &lt; xi guarantees exponential Type I and Type II error decay P(ne_hat_a^lambda = ne_a) = 1 - O(exp(-c n^varepsilon)) and P(E_hat^lambda = E) = 1 - O(exp(-c n^varepsilon)) (Theorems 1-2, Corollary 1), while setting lambda(alpha) = (2 sigma_hat_a / sqrt(n)) Phi_tilde^{-1}(alpha / (2 p(n)^2)) (Equation 9) controls the finite-sample familywise probability of falsely connecting distinct connectivity components at level alpha (Theorem 3).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved against all 442 pinned AIO records and 629 maintained AIMech records. Distinct from AIMech:HighDimensionalIsingModelSelectionViaL1RegularizedLogisticRegression (Ravikumar, Wainwright, &amp; Lafferty 2010, Annals of Statistics 38(3):1287-1319, which estimates binary Ising Markov random fields on {-1, +1}^p via nodewise L1-regularized logistic regression with a parameter-dependent Fisher information matrix, whereas Meinshausen &amp; Buhlmann 2006 estimate continuous Gaussian graphical model precision-matrix sparsity K_{ab} = 0 via nodewise squared-error Lasso, prove prediction-oracle inconsistency in Proposition 1, introduce Neighborhood Stability S_a(b) in Equation 5, and establish finite-sample connectivity component FWER control in Theorem 3), from AIMech:PrimalDualWitnessAndSharpThresholdsForHighDimensionalNoisyLassoSparsityRecovery (Wainwright 2009, IEEE Trans. Inf. Theory 55(5):2183-2202, which analyzes single-response linear regression support recovery threshold theta(p, k, n) rather than p-node Gaussian graphical model covariance selection, AND/OR edge aggregation, and connectivity component FWER control), and from AIO:LassoRegression and AIO:LinearRegression.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#gaussian-precision-matrix-neighborhood-identity-and-prediction-oracle-inconsistency</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For X = (X_1, ..., X_{p(n)}) ~ N(mu, Sigma(n)) with inverse covariance (precision) matrix K(n) = Sigma^{-1}(n), the optimal population linear prediction vector theta^a = argmin_{theta: theta_a = 0} E[(X_a - sum_{k in Gamma(n)} theta_k X_k)^2] (Equation 1) satisfies theta_b^a = -K_{ab}(n) / K_{aa}(n) for all b in Gamma(n) \ {a}, so the graphical neighborhood ne_a = {b in Gamma(n) \ {a} : K_{ab}(n) != 0} coincides with the support {b in Gamma(n) : theta_b^a != 0} estimated by the nodewise Lasso theta_hat^{a, lambda} = argmin_{theta: theta_a = 0} (n^{-1} ||X_a - X theta||_2^2 + lambda ||theta||_1) (Equation 3). Proposition 1 (Section 2.2, pp. 5-6; proved in Appendix, pp. 20-22, Equations A.20-A.22) proves that for p(n) -&gt; infty with p(n) = o(n^gamma) and Sigma_{ab}(n) = s in (0, 1) as the sole off-diagonal covariance entry, the prediction-oracle penalty lambda_oracle = argmin_lambda E[(X_a - sum_{k in Gamma(n)} theta_hat_k^{a, lambda} X_k)^2] is inconsistent: P(ne_hat_a^{lambda_oracle} != ne_a) -&gt; 1 as n -&gt; infty because any strictly shrunk candidate (0, tau_max, 0, ..., 0) with tau_max &lt; s (Equation A.20) admits a perturbation (0, tau_max + delta_theta, delta_theta, 0, ..., 0) along an independent noise variable X_3 with directional sign match (Equation A.22) that reduces expected prediction risk by L_{delta_theta} - L_0 = -2(s - tau_max) delta_theta + 2 delta_theta^2 &lt; 0 for 0 &lt; delta_theta &lt; (1/2)(s - tau_max).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mb2006-ggm-lasso-pdf">High dimensional graphs and variable selection with the Lasso</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1-2.2, pp. 3-6, Equations (1)-(3), Proposition 1; Appendix, pp. 19-22, Equations (A.20)-(A.22)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#neighborhood-stability-condition-and-exponential-nodewise-support-consistency</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Assumptions 1-5 (polynomial dimension growth p(n) = O(n^gamma), non-degenerate conditional variance Var(X_a | X_{Gamma(n)\{a}}) &gt;= v^2 &gt; 0, sparsity max_a |ne_a| = O(n^kappa) with 0 &lt;= kappa &lt; 1, bounded restricted L1 norm ||theta^{a, ne_b \ {a}}||_1 &lt;= vartheta &lt; infty, and minimum partial correlation |pi_{ab}| &gt;= delta n^{-(1-xi)/2} for (a, b) in E with xi &gt; kappa) together with Assumption 6 (Neighborhood Stability: |S_a(b)| &lt; delta &lt; 1 for all b not in ne_a, where S_a(b) := sum_{k in ne_a} sign(theta_k^{a, ne_a}) theta_k^{b, ne_a}, Equation 5; satisfied whenever the L1-perturbed population problem has ne_a(eta) = ne_a(0) in Proposition 2, automatically on acyclic tree graphs where |S_a(b)| = sqrt(1 - v^2) &lt; 1, or under diagonal dominance of Sigma^{-1}(n)), choosing lambda_n ~ d n^{-(1-varepsilon)/2} with kappa &lt; varepsilon &lt; xi yields exponential control of both false positives and false negatives: Theorem 1 (p. 9; Appendix, pp. 23-25) proves P(ne_hat_a^lambda subseteq ne_a) = 1 - O(exp(-c n^varepsilon)) (while Proposition 3 proves P(ne_hat_a^lambda subseteq ne_a) -&gt; 0 if |S_a(b)| &gt; 1), and Theorem 2 (p. 10; Appendix, pp. 25-26) proves P(ne_a subseteq ne_hat_a^lambda) = 1 - O(exp(-c n^varepsilon)) via Lemmas A.1-A.3 (pp. 15-19, Equations A.1-A.19).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mb2006-ggm-lasso-pdf">High dimensional graphs and variable selection with the Lasso</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.3-2.5, pp. 6-10, Assumptions 1-6, Equations (4)-(6), Propositions 2-4, Theorems 1-2; Appendix, pp. 15-20, 22-26, Lemmas A.1-A.3, Equations (A.1)-(A.19), (A.23)-(A.33)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#and-or-edge-aggregation-consistency-and-finite-sample-connectivity-component-fwer-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Defining the estimated graph edge set by either the intersection rule E_hat^{lambda, AND} = {(a, b) : a in ne_hat_b^lambda and b in ne_hat_a^lambda} (Equation 7) or the union rule E_hat^{lambda, OR} = {(a, b) : a in ne_hat_b^lambda or b in ne_hat_a^lambda} (Equation 8), Corollary 1 (Section 3, p. 11) proves under the conditions of Theorems 1-2 that P(E_hat^lambda = E) = 1 - O(exp(-c n^varepsilon)) -&gt; 1 as n -&gt; infty for both estimators. Furthermore, for any finite sample size n in N without requiring Assumptions 1-6, setting the penalty lambda(alpha) = (2 sigma_hat_a / sqrt(n)) Phi_tilde^{-1}(alpha / (2 p(n)^2)) where Phi_tilde = 1 - Phi and sigma_hat_a^2 = n^{-1} &lt;X_a, X_a&gt; (Equation 9), Theorem 3 (Section 3, p. 13; proved in Appendix, p. 27) guarantees that the probability of falsely joining any two distinct connectivity components C_a = {b in Gamma(n) : a ~ b} of G is bounded by alpha: P(exists a in Gamma(n) : C_hat_a^lambda not subseteq C_a) &lt;= alpha (for both E_hat^{lambda(alpha), AND} and E_hat^{lambda(alpha), OR}).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mb2006-ggm-lasso-pdf">High dimensional graphs and variable selection with the Lasso</a></span>
+        <span>· <strong>Locator:</strong> Section 3, pp. 11-13, Equations (7)-(9), Corollary 1, Theorem 3; Appendix, p. 27, Proof of Theorem 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Neighborhood Stability Requirement and Pseudo-Likelihood Asymmetry: Exact asymptotic neighborhood recovery (Theorem 1 and Corollary 1) requires the Neighborhood Stability condition |S_a(b)| &lt; delta &lt; 1 for all b not in ne_a (Assumption 6, Equation 5; Proposition 3 proves inconsistency when |S_a(b)| &gt; 1), and because nodewise Lasso regressions are solved separately for each node a in Gamma(n), finite-sample neighborhood estimates can be asymmetric (a in ne_hat_b^lambda != b in ne_hat_a^lambda) prior to AND/OR edge aggregation (Equations 7-8) and do not directly produce a positive-definite precision matrix estimate.</li>
+      <li>Gaussian Conditional Independence Assumption: The exact equivalence between zero linear regression coefficient theta_b^a = 0, zero precision entry K_{ab} = 0, and conditional independence X_a _|_ X_b | X_{Gamma(n)\{a,b}} relies on multivariate normality X ~ N(mu, Sigma) (Section 2, pp. 3-4); for non-Gaussian distributions, theta_b^a = 0 characterizes zero partial correlation (linear projection) rather than general conditional independence.</li>
+      <li>Primary-Source Typographical Notes in Meinshausen &amp; Buhlmann (2006, arXiv:math/0608017v1): Verified five self-correcting typographical details during full-text inspection and numerical verification: (1) Section 2.3 (p. 7, line 23) and Appendix (p. 19, Proof of Lemma A.3, line 16) write pi_{ab} = theta_b^a / (Var(X_a | X_{Gamma(n)\{a}}) Var(X_b | X_{Gamma(n)\{b}}))^{1/2}, whereas since theta_b^a = -K_{ab}/K_{aa} and Var(X_a | X_{Gamma(n)\{a}}) = 1/K_{aa} (p. 19, line 12), the exact partial correlation is pi_{ab} = -K_{ab}/sqrt(K_{aa} K_{bb}) = theta_b^a sqrt(Var(X_b | X_{Gamma(n)\{b}}) / Var(X_a | X_{Gamma(n)\{a}})) = sign(theta_b^a) sqrt(theta_b^a theta_a^b) (under Assumption 2 where conditional variances are bounded in [v^2, 1], both ratios are bounded away from 0 and infty, leaving Assumption 5 and Lemma A.3 unchanged); (2) Section 2.3 (p. 7, lines 11-14) introduces theta^{b, A} and then writes ||theta^{a, ne_b \ {a}}||_1 &lt;= vartheta in Assumption 4 (used symmetrically as ||theta^{b, ne_a \ {b}}||_1 &lt;= vartheta in Equation A.7 on p. 17); (3) Appendix (p. 22, Proof of Proposition 1, line 17) writes 0 &lt; delta_theta &lt; 1/2(s - tau_max) for 0 &lt; delta_theta &lt; (1/2)(s - tau_max), where L_{delta_theta} - L_0 = -2(s - tau_max) delta_theta + 2 delta_theta^2 &lt; 0 holds on (0, s - tau_max) and achieves its minimum at delta_theta* = (1/2)(s - tau_max); (4) Appendix (p. 24, Proof of Theorem 1, line 18) writes &lt;X_a - X theta_hat_k^{a, ne_a, lambda}, V_b&gt; with an extraneous coordinate subscript k on the vector theta_hat^{a, ne_a, lambda}; and (5) Appendix (p. 27, Proof of Theorem 3, line 14) defines sigma_hat_a^2 = 4 n^{-1} ||X_a||_2^2 inside the proof (absorbing the factor 4 from R^2 &lt;= 4 n^{-1} ||X_a||_2^2), whereas Equation (9) on p. 12 defines sigma_hat_a^2 = n^{-1} &lt;X_a, X_a&gt; and writes the factor 2 explicitly in lambda(alpha) = (2 sigma_hat_a / sqrt(n)) Phi_tilde^{-1}(alpha / (2 p(n)^2)).</li>
+      <li>All 28 pages of Meinshausen &amp; Buhlmann (2006, Annals of Statistics 34(3):1436-1462, arXiv:math/0608017v1) were read. Constructed numerical checks in research/discovery/high-dimensional-gaussian-graphical-model-lasso-neighborhood-selection-boundaries.py verify (1) exact Gaussian precision-matrix neighborhood identity theta_b^a = -K_{ab}/K_{aa} (error 1.11e-16), conditional variance 1/K_{aa} (error 1.11e-16), and partial correlation identity (error 1.67e-16); (2) Proposition 1 prediction-oracle inconsistency risk reduction L_{delta*} - L_0 = -0.0162 &lt; 0 at delta* = 0.5(s - tau_max); (3) Neighborhood Stability S_0(3) = 0.70 &lt; 1 (exact zero false positive) vs unstable S_0(3) = 1.20 &gt; 1 (forced false positive theta_hat_3 = 0.0282 &gt; 0, Proposition 3) and tree stability S_tree = 0.75 &lt; 1; and (4) AND/OR edge aggregation and Theorem 3 finite-sample connectivity-component FWER control (empirical FWER 0.025 &lt;= alpha = 0.10).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LassoRegression.html" style="font-weight: 600;"><code>AIO:LassoRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Lasso Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:LassoRegression represents L1-penalized linear regression broadly, whereas this concept specifically captures nodewise Lasso neighborhood selection, Neighborhood Stability S_a(b), AND/OR edge aggregation, and finite-sample connectivity-component FWER control for high-dimensional Gaussian graphical models.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:LinearRegression represents linear prediction of a response from covariates, whose population coefficients theta_b^a = -K_{ab}/K_{aa} encode conditional independence in multivariate Gaussian graphical models.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-mb2006-ggm-lasso-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">mb2006-ggm-lasso-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/pdf/math/0608017.pdf" target="_blank" rel="noopener">High dimensional graphs and variable selection with the Lasso</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nicolai Meinshausen, Peter Buhlmann
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/009053606000000281</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:31ea50275de7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-mb2006-ggm-lasso-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">mb2006-ggm-lasso-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/math/0608017" target="_blank" rel="noopener">High dimensional graphs and variable selection with the Lasso (arXiv Abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nicolai Meinshausen, Peter Buhlmann
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.math/0608017</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:30b67d7daf8b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-mb2006-ggm-lasso-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">mb2006-ggm-lasso-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1214/009053606000000281" target="_blank" rel="noopener">High-dimensional graphs and variable selection with the Lasso (Annals of Statistics Crossref Metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nicolai Meinshausen, Peter Buhlmann
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/009053606000000281</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:70f7d3ba95e7…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini 3</div>    <div><strong>Created:</strong> 2026-10-18T22:18:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-18T22:18:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
