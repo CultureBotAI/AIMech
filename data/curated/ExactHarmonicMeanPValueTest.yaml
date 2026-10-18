@@ -1,0 +1,121 @@
+id: AIMech:ExactHarmonicMeanPValueTest
+name: Exact harmonic mean p-value combination test
+aliases:
+- EHMP
+- Exact Harmonic Mean P-Value Test
+concept_kind: mathematical_method
+definition: A statistical p-value combination method that aggregates m hypothesis test p-values p_1, ...,
+  p_m in (0, 1] with non-negative weights w_1, ..., w_m summing to 1 via the weighted reciprocal sum T_HMP(p)
+  = sum_{j=1}^m w_j / p_j (whose terms X_j = 1 / p_j follow standard Pareto(1, 1) distributions on [1,
+  infinity) under Uniform(0, 1)), evaluates the finite-sample null density and cumulative distribution
+  function for arbitrary weights using Laplace-transform contour integration expressed via second-order
+  exponential integrals (and switches to the unequal-weight Landau domain-of-attraction limit for large
+  m), and inverts the test statistic to construct connected, strictly convex confidence regions.
+identity_notes: No normalized identity match for the Exact Harmonic Mean P-Value combination test across
+  all 442 pinned AIO records and 566 maintained IDs, names, aliases and scoped synonyms. Fixed-string
+  searches across data, sources, research, history, and reviews returned only frontier-tracking references
+  in  the Round 171 discovery report. Distinct from AIMech:HalfCauchyCombinationTest (HCCT), which maps
+  p_j to [0, infinity) via tan((1 - p_j) * pi / 2) rather than to [1, infinity) via 1 / p_j and uses sine/cosine
+  integral Laplace transforms rather than second-order exponential integral Laplace transforms. Distinct
+  from the asymptotic equal-weight Harmonic Mean P-Value (HMP) approximation of Good (1958) and Wilson
+  (2019), which applies the m -> infinity equal-weight Landau limit without exact finite-m unequal-weight
+  Laplace contour integration or convex confidence-region inversion.
+definition_evidence:
+- source_id: liu-meng-pillai2025
+  locator: Section 2.1, Equation 2.1, lines 282–289; Section 2.3, lines 305–327; Appendix A, Theorems
+    A.1–A.3, lines 1645–1680; Appendix E, lines 2148–2165
+  relation: supports
+claims:
+- claim_id: pareto-reciprocal-statistic-and-laplace-contour-null
+  kind: mechanism
+  statement: For individual p-values p_j in (0, 1] and non-negative weights w_1, ..., w_m summing to 1,
+    EHMP forms T_HMP(p) = sum_{j=1}^m w_j / p_j, where each X_j = 1 / p_j has Pareto(1, 1) density f(x)
+    = x^(-2) I_{x >= 1} under Uniform(0, 1), and computes the exact finite-m null density f_{Pareto, w}(x)
+    and CDF for arbitrary unequal weights via Laplace-transform contour integration of X_j - 1 expressed
+    in terms of the second-order exponential integral Ei_2(z) and Ramanujan's scaled series for Ei(x)
+    / exp(x) to avoid numerical overflow.
+  evidence:
+  - source_id: liu-meng-pillai2025
+    locator: Section 2.1, lines 287–289; Section 2.3, lines 305–327; Appendix A, Theorem A.1, lines 1645–1654
+    relation: supports
+- claim_id: unequal-weight-landau-domain-of-attraction-limit
+  kind: mechanism
+  statement: For a triangular array of non-negative weights w_j^(m) summing to 1 with max_j w_j^(m) ->
+    0 as m -> infinity and i.i.d. Pareto(1, 1) variables X_j, the rescaled and shifted statistic (pi /
+    2) * (sum_{j=1}^m w_j^(m) X_j - A_m) converges in distribution to Landau(0, 1) with location shift
+    A_m = 1 - gamma - sum_{j=1}^m w_j^(m) log w_j^(m), where gamma is the Euler-Mascheroni constant.
+  evidence:
+  - source_id: liu-meng-pillai2025
+    locator: Appendix A, Theorem A.2, lines 1656–1674; Appendix E, Proof of Theorem A.2, lines 2151–2160
+    relation: supports
+- claim_id: convex-confidence-regions-via-pareto-convexity-dominance
+  kind: mechanism
+  statement: Because the Pareto(1, 1) convexity transform dominates the standard Half-Cauchy transform
+    on (0, 1), each reciprocal p-value term 1 / p_j(theta) for univariate t-tests (k_j >= 1) or multivariate
+    Hotelling's T^2 tests (k_j >= d_j + 1) is strictly convex in theta, guaranteeing that inverting T_HMP(p(theta))
+    <= c_{m, 1 - alpha} yields a single connected finite interval in R and a bounded convex confidence
+    region in R^d whenever the projection row spaces {Row(P_j)} span R^d.
+  evidence:
+  - source_id: liu-meng-pillai2025
+    locator: Section 3.1, lines 374–380; Appendix A, Theorem A.3, lines 1675–1680; Appendix E, Proof of
+      Theorem A.3, lines 2161–2165
+    relation: supports
+- claim_id: large-p-insensitivity-and-tail-resilience-under-dependence
+  kind: application
+  statement: Because 1 / p_j >= 1 for all p_j in (0, 1] and approaches 1 as p_j -> 1, T_HMP(p) is bounded
+    below by 1 and insensitive to large p-values near 1, while belonging to the alpha = 1 Landau domain
+    of attraction so that extreme right-tail calibration remains resilient across dependent studies.
+  evidence:
+  - source_id: liu-meng-pillai2025
+    locator: Section 1.2, Table 1, lines 282–283; Section 2.4–2.5, Proposition 2.6, lines 341–368
+    relation: supports
+evidence_sources:
+- source_id: liu-meng-pillai2025
+  title: A Heavily Right Strategy for Integrating Dependent Studies in Any Dimension
+  authors:
+  - Kairong Liu
+  - Xiao-Li Meng
+  - Natesh S. Pillai
+  source_type: primary_paper
+  url: https://arxiv.org/html/2501.01065v1
+  persistent_id: https://doi.org/10.48550/arXiv.2501.01065
+  version: arXiv:2501.01065v1, dated 2025-01-02. Complete full-text HTML conversion read across Sections
+    1–6, Theorems 2.1–4.5, Appendices A–F (including Theorems A.1–A.3 and Appendix E), and references
+    (2,200 lines, 197,302 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T09:10:00Z'
+  sha256: 2fe912b58a74ff5008a52f8f319cef872ffe8f0510fbadb94f14d7cbe265f6e3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: The exact harmonic mean p-value combination test aggregates multiple (potentially dependent)
+    hypothesis test p-values to control global Type I error and mitigate false-positive inflation under
+    multiple testing (AIO:DataDredgingBias). AIO:DataDredgingBias denotes the multiple-testing interpretation
+    bias rather than the statistical combination method.
+limitations:
+- Direct evaluation of the second-order exponential integral Ei_2(z) in Theorem A.1 via standard special-function
+  routines overflows for large real arguments because Ei(x) grows as exp(x) / x; numerical contour integration
+  requires evaluating the exponentially scaled ratio Ei(x) / exp(x) (for example via Ramanujan's series
+  expansion).
+- Because the individual Pareto(1, 1) terms X_j = 1 / p_j are bounded below by 1 with infinite mean, the
+  null distribution of T_HMP(p) shifts upward at rate log m as the number of studies m grows, and applying
+  the asymptotic equal-weight Landau approximation of Wilson (2019) at small m or under strongly unequal
+  weights distorts finite-sample Type I error.
+- Like HCCT, inverting T_HMP(p(theta)) <= c_{m, 1 - alpha} produces an empty confidence set when inter-study
+  inconsistency exceeds the critical threshold, and asymptotic tail validity under dependence is guaranteed
+  in the extreme right tail (t -> infinity) rather than uniformly at moderate significance levels.
+- All 2,200 lines of Liu, Meng, & Pillai (2025, arXiv:2501.01065v1) were read. No author contour-integration
+  package or empirical GWAS dataset was executed; constructed numerical checks in research/discovery/exact-harmonic-mean-pvalue-boundaries.py
+  verify the exact m = 2 unequal-weight Pareto(1, 1) convolution density/CDF, large-p insensitivity, Example
+  1 confidence-interval convexity, and Theorem A.2 Landau location shifts only.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T09:58:00Z'
+  updated_at: '2026-10-17T09:58:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
