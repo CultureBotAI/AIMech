@@ -1,0 +1,164 @@
+id: AIMech:EValueCalibrationAndMerging
+name: E-value calibration and merging
+aliases:
+- E-Value Calibration and Combination Framework
+- Vovk-Wang E-Merging and P-to-E Calibration
+- Admissible Symmetric E-Merging and Sequential U-Statistic E-Merging
+- Closed-Testing Family-Wise Valid E-Value Adjustment
+concept_kind: mathematical_method
+definition: 'A statistical hypothesis testing and evidence synthesis framework (Vovk & Wang 2021) based
+  on e-variables—nonnegative random variables E >= 0 satisfying E_Q[E] <= 1 under the null hypothesis
+  Q—that characterizes admissible p-to-e calibrators f: [0, 1] -> [0, infinity] via upper semicontinuity,
+  f(0) = infinity, and integral_0^1 f(p) dp = 1 (Proposition 2.1), establishes g(e) = min(1, 1/e) as the
+  unique admissible e-to-p calibrator (Proposition 2.2), proves that under arbitrary dependence the arithmetic
+  mean M_K(e_1, ..., e_K) = (1/K) sum_{k=1}^K e_k essentially dominates all symmetric e-merging functions
+  while {lambda + (1 - lambda) M_K : lambda in [0, 1]} forms the minimal complete class of admissible
+  symmetric e-merging functions (Proposition 3.1, Theorem 3.2), characterizes admissible U-statistic and
+  product e-merging functions under independent or sequential test-supermartingale e-variables (Propositions
+  4.1–4.2), and derives polynomial-time closed-testing adjustments for family-wise valid multiple testing
+  (Theorem 5.1, Algorithms 1–2).'
+identity_notes: No normalized identity match for E-Value Calibration and Merging across all 442 pinned
+  AIO records and 570 maintained IDs, names, aliases and scoped synonyms. Fixed-string searches across
+  data, sources, research, history, and reviews for EValueCalibrationAndMerging, e-merging, p-to-e calibrator,
+  e-to-p calibrator, ie-merging, and p-to-e merging returned only 29 lines matching the substring 'e-merging'
+  inside 'pvalue-merging' from Round 174. Distinct from AIMech:GeneralizedMeanPValueMerging (Vovk & Wang
+  2020), which combines p-values via Kolmogorov-Nagumo r-means calibrated by penalty multipliers a_{r,K}
+  rather than combining nonnegative e-variables E_Q[E] <= 1 via parameter-free arithmetic averaging or
+  sequential supermartingale products.
+definition_evidence:
+- source_id: vovk-wang2021-evalues
+  locator: Sections 2–5, lines 26–169, Propositions 2.1–2.2, Proposition 3.1, Theorem 3.2, Propositions
+    4.1–4.2, Theorem 5.1, and Algorithms 1–2
+  relation: supports
+- source_id: vovk-wang2020-biometrika
+  locator: Section 1, lines 24–40, and Section 3–4, lines 92–167 (contrast with p-merging penalty factors
+    for generalized means)
+  relation: supports
+claims:
+- claim_id: admissible-p-to-e-and-e-to-p-calibrator-characterization
+  kind: mechanism
+  statement: 'A decreasing function f: [0, 1] -> [0, infinity] is a p-to-e calibrator (mapping every p-variable
+    P to an e-variable f(P) with E_Q[f(P)] <= 1) if and only if integral_0^1 f(p) dp <= 1, and is admissible
+    if and only if f is upper semicontinuous (left-continuous), f(0) = infinity, and integral_0^1 f(p)
+    dp = 1, a class containing the Shafer power calibrators f_kappa(p) = kappa p^(kappa - 1) for kappa
+    in (0, 1) (Eq. 1) and the parameter-free mixture calibrator F(p) = (1 - p + p ln p) / (p (-ln p)^2)
+    (Eq. 2), whereas the Vovk-Sellke bound VS(p) = (-e p ln p)^(-1) for p <= e^(-1) is not a valid calibrator
+    (Proposition 2.1, Remark 2.3); conversely, g(t) = min(1, 1/t) is an e-to-p calibrator by Markov''s
+    inequality and strictly dominates every other e-to-p calibrator, making it the unique admissible e-to-p
+    calibrator (Proposition 2.2).'
+  evidence:
+  - source_id: vovk-wang2021-evalues
+    locator: Section 2, lines 26–74, Propositions 2.1–2.2, Equations 1–2, Remark 2.3; Appendix B, lines
+      993–1003, Equations B.1–B.2
+    relation: supports
+- claim_id: arithmetic-mean-essential-domination-and-minimal-complete-symmetric-class
+  kind: mechanism
+  statement: 'Under arbitrary dependence among K e-variables, the arithmetic mean M_K(e_1, ..., e_K) =
+    (1/K) sum_{k=1}^K e_k essentially dominates every symmetric e-merging function F (meaning M_K(e) >=
+    F(e) whenever F(e) > 1) and dominates every symmetric positively homogeneous e-merging function (Proposition
+    3.1); more generally, every symmetric e-merging function is dominated by F_lambda(e) = lambda + (1
+    - lambda) M_K(e) for some lambda in [0, 1], and a symmetric e-merging function is admissible if and
+    only if it belongs to the minimal complete class {lambda + (1 - lambda) M_K : lambda in [0, 1]} where
+    lambda = F(0) (Theorem 3.2 and Appendix E, Propositions E.1–E.6); for generalized r-means M_{r,K}
+    under arbitrary dependence, min(K^(1/r - 1), 1) M_{r,K} is a precise e-merging function for all r
+    in [-infinity, infinity] but is admissible if and only if r = 1 (Proposition 6.1).'
+  evidence:
+  - source_id: vovk-wang2021-evalues
+    locator: Section 3, lines 75–103, Proposition 3.1 and Theorem 3.2; Section 6, lines 170–211, Proposition
+      6.1 and Equations 18–19; Appendix E, lines 1110–1185, Propositions E.1–E.6
+    relation: supports
+- claim_id: independent-and-sequential-supermartingale-u-statistic-e-merging
+  kind: mechanism
+  statement: When K e-variables E_1, ..., E_K are independent (ie-merging) or sequential with E_Q[E_k
+    | E_1, ..., E_{k-1}] <= 1 (se-merging, so partial products form a nonnegative test supermartingale),
+    the product M^0_K(e_1, ..., e_K) = e_1 * ... * e_K (Eq. 7), the elementary symmetric U-statistics
+    U_n(e_1, ..., e_K) = C(K, n)^(-1) sum_{1<=k_1<...<k_n<=K} e_{k_1} ... e_{k_n} for n in {0, 1, ...,
+    K} (Eq. 8), and all their convex mixtures sum_{n=0}^K lambda_n U_n are admissible ie-merging and se-merging
+    functions (Proposition 4.1), and the product function e_1 * ... * e_K weakly dominates every ie-merging
+    and se-merging function F in that e_1 * ... * e_K >= F(e_1, ..., e_K) for all (e_1, ..., e_K) in [1,
+    infinity)^K (Proposition 4.2).
+  evidence:
+  - source_id: vovk-wang2021-evalues
+    locator: Section 4, lines 104–137, Propositions 4.1–4.2 and Equations 7–8
+    relation: supports
+- claim_id: closed-testing-family-wise-valid-multiple-testing-algorithms
+  kind: application
+  statement: 'Applying the Marcus-Peritz-Gabriel closure principle to intersection e-merging functions
+    F_I yields family-wise valid (FWV) adjusted e-values e*_k = min_{I subseteq {1,...,K}: k in I} F_I(e_I)
+    satisfying E_Q[max_{k in I_0} E*_k] <= 1 for the true null index set I_0 (Section 5, Theorem 5.1,
+    Equations 9–11; Appendix A.3, lines 955–983); for arbitrary dependence with F_I = M_{|I|}, sorting
+    e_(1) <= ... <= e_(K) and evaluating e*_(k) = min_{i in {0,...,k-1}} (sum_{j=1}^i e_(j) + e_(k)) /
+    (i + 1) computes the exact 2^K - 1 closure minimum in O(K^2) time and strictly dominates naive Bonferroni
+    e-adjustment e_k / K (Algorithm 1, Eq. 13), while for sequential or independent e-values with F_I(e_I)
+    = prod_{i in I} e_i, e*_k = e_k prod_{i != k} min(1, e_i) computes the exact closure minimum in O(K)
+    time without sorting (Algorithm 2, Eq. 14).'
+  evidence:
+  - source_id: vovk-wang2021-evalues
+    locator: Section 5, lines 138–169, Theorem 5.1, Equations 9–14, and Algorithms 1–2; Appendix A.3,
+      lines 955–983; Appendix G, lines 1234–1268, Propositions G.1–G.2
+    relation: supports
+evidence_sources:
+- source_id: vovk-wang2021-evalues
+  title: 'E-values: Calibration, combination, and applications'
+  authors:
+  - Vladimir Vovk
+  - Ruodu Wang
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1912.06116
+  persistent_id: https://doi.org/10.1214/20-AOS2020
+  version: arXiv:1912.06116 (published in The Annals of Statistics 49(3):1736–1754, 2021). Complete full-text
+    ar5iv HTML conversion read across Sections 1–8 and Appendices A–I (1,288 lines, 143,447 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T11:05:00Z'
+  sha256: 9ca237ebcb8210baf90d91a42ec337bc99f9adf64612f606376e46a241184eda
+- source_id: vovk-wang2020-biometrika
+  title: Combining p-values via averaging
+  authors:
+  - Vladimir Vovk
+  - Ruodu Wang
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1212.4966
+  persistent_id: https://doi.org/10.1093/biomet/asaa027
+  version: arXiv:1212.4966 (published in Biometrika 107(4):791–808, 2020). Complete full-text ar5iv HTML
+    conversion read across Sections 1–7 and Appendices A–B (928 lines, 108,828 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T10:35:00Z'
+  sha256: 795de89f2d3ab8ce1a5c07046cce1fb85a097610b08ba7ffd661ddeae22a16a3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: E-value calibration, symmetric arithmetic-mean e-merging, sequential test-supermartingale
+    product merging, and Algorithms 1–2 closed-testing adjustments preserve valid type I error and family-wise
+    validity under optional continuation, post-hoc study combination, and arbitrary dependence, preventing
+    false-positive inflation from data dredging (AIO:DataDredgingBias). AIO:DataDredgingBias denotes the
+    multiple-testing and optional-stopping bias rather than the e-value methodology.
+limitations:
+- 'Round-trip calibration between p-values and e-values is inherently lossy: calibrating a p-value p to
+  an e-value via f_kappa(p) = kappa p^(kappa - 1) and back via min(1, 1/e) yields p'' = min(1, p^(1 -
+  kappa) / kappa) > p, and the Vovk-Sellke upper bound VS(p) = (-e p ln p)^(-1) is not a valid p-to-e
+  calibrator because integral_0^1 VS(p) dp = infinity (Section 2, Propositions 2.1–2.2 and Remark 2.3).'
+- Under arbitrary dependence, no symmetric e-merging function can strictly exceed the arithmetic mean
+  M_K(e) in the rejection region M_K(e) >= 1 (Proposition 3.1 and Theorem 3.2), and all other generalized
+  r-means M_{r,K} for r != 1 require worst-case penalty multipliers min(K^(1/r - 1), 1) that make them
+  strictly inadmissible (Proposition 6.1).
+- Product e-merging e_1 * ... * e_K and Algorithm 2 O(K) closed testing require the sequential supermartingale
+  condition E_Q[E_k | E_1, ..., E_{k-1}] <= 1 (or independence); if e-variables are arbitrarily dependent,
+  product merging can violate E_Q[F(E)] <= 1 by up to K-th power growth, and if likelihood-ratio e-variables
+  are misspecified when the alternative holds only on part of a sequential stream, product merging can
+  lose accumulated evidence compared with universal test martingales (Section 4, Section 7, and Appendix
+  H, lines 1270–1274).
+- All 1,288 lines of Vovk & Wang (2021, arXiv:1912.06116) were read. Constructed numerical checks in research/discovery/evalue-calibration-and-merging-boundaries.py
+  verify Propositions 2.1–2.2 calibrator integrals, Proposition 3.1 / Theorem 3.2 / Proposition 6.1 domination
+  over scaled r-means, Propositions 4.1–4.2 sequential filtration tree U-statistic expectations, and Section
+  5 Algorithms 1 and 2 exact agreement with brute-force 2^K - 1 subset closure.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T11:05:00Z'
+  updated_at: '2026-10-17T11:05:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
