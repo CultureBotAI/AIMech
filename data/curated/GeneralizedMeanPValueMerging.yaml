@@ -1,0 +1,176 @@
+id: AIMech:GeneralizedMeanPValueMerging
+name: Generalized mean p-value merging
+aliases:
+- Power Mean P-Value Combination
+- Kolmogorov Generalized Mean P-Merging Function
+- Hardy-Littlewood-Polya r-Mean P-Value Merging
+- Vovk-Wang Generalized Mean P-Value Combination
+concept_kind: mathematical_method
+definition: A statistical p-value combination framework (Vovk & Wang 2020) that aggregates K arbitrarily
+  dependent hypothesis test p-values p_1, ..., p_K in [0, 1] using calibrated Hardy-Littlewood-Polya (Kolmogorov)
+  generalized r-means M_{r,K}(p_1, ..., p_K) = (K^(-1) sum_{k=1}^K p_k^r)^(1/r) (and simplex-weighted
+  generalizations M_{r,w}(p_1, ..., p_K) = (sum_{k=1}^K w_k p_k^r)^(1/r) for r in [-infinity, +infinity])
+  scaled by optimal worst-case multipliers a_{r,K} derived via dual robust risk-aggregation and joint
+  mixability theory so that sup_{U_1, ..., U_K in U} P(a_{r,K} M_{r,K}(U_1, ..., U_K) <= epsilon) <= epsilon
+  holds non-asymptotically for all epsilon in (0, 1) without distributional dependence assumptions.
+identity_notes: No normalized identity match for Generalized Mean P-Value Merging across all 442 pinned
+  AIO records and 568 maintained IDs, names, aliases and scoped synonyms. Fixed-string searches across
+  data, sources, research, history, and reviews returned only frontier references in predecessor discovery
+  reports and a bibliography mention in AIMech:ExactHarmonicMeanPValueTest. Distinct from AIMech:ExactHarmonicMeanPValueTest
+  (Wilson 2019; Fang et al. 2023), which calibrates the unscaled harmonic mean (r = -1) using the Landau
+  stable law S(1, 1, pi/2, mu_n) under independence or regularly varying bivariate Gaussian tail asymptotics
+  rather than Vovk & Wang's exact finite-K worst-case dependence multiplier a_K^H = (y_K + K)^2 / ((y_K
+  + 1) K) <= e * ln K across all joint copulas. Distinct from AIMech:LogarithmicOpinionPool, which aggregates
+  probability distributions via geometric means rather than calibrating hypothesis test p-values under
+  arbitrary dependence via multiplier e (r = 0).
+definition_evidence:
+- source_id: vovk-wang2020
+  locator: Section 1, lines 13–31, Equation 2; Section 2, lines 34–44, Lemma 1; Section 3.1–3.2, lines
+    45–150, Theorems 2 & 7 and Propositions 3–10
+  relation: supports
+- source_id: fang-chang-park-tseng2023
+  locator: Section 1, lines 17–21; Section 3.2, Remark on Vovk & Wang (2020), lines 86–92
+  relation: supports
+claims:
+- claim_id: integrable-exponent-merging-and-finite-sample-precision-interval
+  kind: mechanism
+  statement: For integrable exponents r in (-1, +infinity], scaling the generalized r-mean M_{r,K} by
+    (r + 1)^(1/r) (with continuous limits e * M_{0,K} for the geometric mean at r = 0, 2 * M_{1,K} for
+    the arithmetic mean at r = 1, and M_{infinity,K} = max_k p_k at r = +infinity) yields a valid and
+    asymptotically precise family of p-merging functions under arbitrary dependence (Proposition 3); the
+    multiplier (r + 1)^(1/r) is finite-sample precise (attaining sup P(F <= epsilon) = epsilon for all
+    epsilon in (0, 1)) if and only if r in [1/(K - 1), K - 1] (Proposition 4), whereas for all r in [1,
+    +infinity) and K >= 2 the sharpened multiplier min(r + 1, K)^(1/r) M_{r,K} is finite-sample precise
+    (Proposition 5).
+  evidence:
+  - source_id: vovk-wang2020
+    locator: Section 3.2, lines 76–111, Theorem 2 and Propositions 3–5; Appendix A, lines 860–896
+    relation: supports
+- claim_id: non-integrable-negative-exponent-and-harmonic-worst-case-multipliers
+  kind: mechanism
+  statement: For heavy-tailed non-integrable exponents r in [-infinity, -1), scaling M_{r,K} by (r / (r
+    + 1)) K^(1 + 1/r) (recovering the Bonferroni correction K * min_k p_k at r = -infinity) is valid and
+    asymptotically precise under arbitrary dependence (Proposition 8; Lemma 13 and Proposition 14); minimizing
+    (r / (r + 1)) K^(1 + 1/r) over r < -1 yields the optimal exponent r* = ln K / (1 - ln K) < -1 and
+    the conservative harmonic bound (e * ln K) M_{-1,K}, while for every K > 2 the exact finite-K precise
+    harmonic multiplier is a_K^H = (y_K + K)^2 / ((y_K + 1) K) <= e * ln K (with a_K^H / ln K -> 1 as
+    K -> infinity), where y_K > 0 is the unique positive root of y(y + K) / ((y + 1) K) = ln(y + 1) (Proposition
+    9; Appendix A, lines 939–955).
+  evidence:
+  - source_id: vovk-wang2020
+    locator: Section 3.2, lines 120–149, Theorem 7 and Propositions 8–10; Appendix A, lines 907–981
+    relation: supports
+  - source_id: fang-chang-park-tseng2023
+    locator: Section 1, lines 17–21; Section 3.2, lines 86–92
+    relation: supports
+- claim_id: simplex-weighted-generalized-mean-precision-conditions
+  kind: mechanism
+  statement: For prior weights w = (w_1, ..., w_K) in the probability simplex Delta_K with maximum weight
+    w_max = max_k w_k and weighted r-mean M_{r,w}(p_1, ..., p_K) = (sum_{k=1}^K w_k p_k^r)^(1/r), the
+    merging function (r + 1)^(1/r) M_{r,w} is valid for all r > -1 and is finite-sample precise if and
+    only if w_max <= 1/2 and r in [w_max / (1 - w_max), (1 - w_max) / w_max] (Proposition 4w); for r in
+    [1, +infinity), min(r + 1, 1 / w_max)^(1/r) M_{r,w} is finite-sample precise for every weight vector
+    w in Delta_K, reducing when r = 1 and w_1 = w_max > 1/2 to p_1 + sum_{k=2}^K (w_k / w_1) p_k (Proposition
+    5w).
+  evidence:
+  - source_id: vovk-wang2020
+    locator: Section 4, lines 151–172, Theorem 2w and Propositions 4w–5w; Appendix A, lines 860–896
+    relation: supports
+- claim_id: power-index-phase-transition-and-compound-bonferroni-averaging
+  kind: application
+  statement: 'Under exchangeable alternative p-values with power index Pi = sup{m >= 0 : E[p_1^(-m)] <
+    infinity} (where Pi = 1 / (1 - rho^2) > 1 for equicorrelated Gaussian z-tests with correlation rho
+    in (0, 1), Lemma 15), the unscaled r-mean P_{r,K} converges in probability to 0 if r < -Pi, to a non-zero
+    finite limit if r >= -Pi, and the Bonferroni-scaled r-mean K^(1+1/r) P_{r,K} diverges to +infinity
+    if r > -Pi (Proposition 11); because selecting r adaptively from data invalidates Type I error, the
+    compound Bonferroni-Arithmetic F_K^BA = 2 min(K min_k p_k, 2 M_{1,K}) and Bonferroni-Geometric F_K^BG
+    = 2 min(K min_k p_k, e M_{0,K}) merging functions provide asymptotically precise validity across both
+    weak and strong correlation regimes (Proposition 12).'
+  evidence:
+  - source_id: vovk-wang2020
+    locator: Section 5, lines 173–220, Proposition 11; Section 6, lines 221–309, Proposition 12 and Equations
+      17–18; Appendix A, Lemma 15, lines 983–1024
+    relation: supports
+  - source_id: gui-jiang-wang2023
+    locator: Section 1, lines 50–78
+    relation: supports
+evidence_sources:
+- source_id: vovk-wang2020
+  title: Combining p-values via averaging
+  authors:
+  - Vladimir Vovk
+  - Ruodu Wang
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1212.4966
+  persistent_id: https://doi.org/10.1093/biomet/asaa027
+  version: arXiv:1212.4966v6 (published in Biometrika 107(4):791–808, 2020). Complete full-text ar5iv
+    HTML conversion read across Sections 1–7 and Appendices A–B (1,046 lines, 91,320 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T10:35:00Z'
+  sha256: 795de89f2d3ab8ce1a5c07046cce1fb85a097610b08ba7ffd661ddeae22a16a3
+- source_id: fang-chang-park-tseng2023
+  title: Heavy-tailed distribution for combining dependent p-values with asymptotic robustness
+  authors:
+  - Yusi Fang
+  - Chung Chang
+  - Yongseok Park
+  - George C. Tseng
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2103.12967
+  persistent_id: https://doi.org/10.5705/ss.202021.0078
+  version: arXiv:2103.12967 (published in Statistica Sinica 33, 1115–1142, 2023). Complete full-text ar5iv
+    HTML conversion read across Sections 1–6 and Appendix A (546 lines, 99,310 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T09:10:00Z'
+  sha256: 432b18ec119b33e5b3cd66b32bb71015a243bb7dd28362cf7c9557f0e78a8402
+- source_id: gui-jiang-wang2023
+  title: Aggregating Dependent Signals with Heavy-Tailed Combination Tests
+  authors:
+  - Lin Gui
+  - Yuchao Jiang
+  - Jingshu Wang
+  source_type: primary_paper
+  url: https://arxiv.org/html/2310.20460v1
+  persistent_id: https://doi.org/10.48550/arXiv.2310.20460
+  version: arXiv:2310.20460v1, dated 2023-10-31. Complete full-text HTML conversion read across Sections
+    1–6 and Appendices (1,071 lines, 116,501 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T09:10:00Z'
+  sha256: 3f487fc6bca4b5db326053b80a172ec71bee5387faa78dc2605e6bf91c795f71
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Generalized mean p-value merging combines K arbitrarily dependent hypothesis test p-values
+    with exact non-asymptotic Type I error control across all copulas, preventing false-positive inflation
+    when screening or averaging multiple correlated tests (AIO:DataDredgingBias). AIO:DataDredgingBias
+    denotes the multiple-testing bias rather than the p-value merging method.
+limitations:
+- Because generalized mean p-merging functions guarantee Type I error control over the worst-case dependence
+  structure across all joint copulas of (U_1, ..., U_K), their penalty multipliers (such as 2 for arithmetic
+  mean, e for geometric mean, and a_K^H ~ ln K for harmonic mean) are substantially more conservative
+  than independence-based (Fisher, Stouffer) or bivariate-normal asymptotically robust (Cauchy, Landau
+  harmonic mean) calibrations when test statistics are weakly dependent (Fang et al. 2023, Section 3.2
+  Remark).
+- For finite K >= 2 and integrable exponents r outside [1/(K - 1), K - 1] (or simplex weights with max_k
+  w_k > 1/2), the asymptotic multiplier (r + 1)^(1/r) is strictly conservative rather than finite-sample
+  precise (Propositions 4 and 4w), and for r in (-1, 1/(K - 1)) the exact finite-K multiplier requires
+  solving a non-closed-form dual optimization problem (Proposition 6).
+- Selecting the exponent r post hoc after inspecting the observed p-values invalidates Type I error control;
+  combining multiple exponents requires an explicit multiplicity penalty such as the factor of 2 in the
+  compound Bonferroni-Arithmetic or Bonferroni-Geometric merging functions (Section 6, Proposition 12).
+- All 1,046 lines of Vovk & Wang (2020, arXiv:1212.4966) were read. In the ar5iv HTML-to-markdown conversion,
+  display-mode equations in Proposition 6 were omitted by the converter while all inline formulas in Propositions
+  3–5, 8–10, 4w–5w, 11–12, and Appendix A proofs were preserved verbatim. Constructed numerical checks
+  in research/discovery/generalized-mean-pvalue-merging-boundaries.py verify the Proposition 4/5/5w precision
+  boundaries, Proposition 8/9 exact harmonic multipliers, and Section 6 Equation 17 compound merging behavior.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T10:35:00Z'
+  updated_at: '2026-10-17T10:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
