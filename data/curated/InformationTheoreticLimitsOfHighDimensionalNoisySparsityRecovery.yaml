@@ -1,0 +1,191 @@
+id: AIMech:InformationTheoreticLimitsOfHighDimensionalNoisySparsityRecovery
+name: Information-Theoretic Limits of High-Dimensional Noisy Sparsity Recovery
+concept_kind: mathematical_method
+aliases:
+- Information-Theoretic Limits on Sparsity Recovery in the High-Dimensional and Noisy Setting (Wainwright
+  2009)
+- Optimal Subset-Projection Decoder and Fano Multiway Lower Bounds for Noisy Support Recovery
+- Exhaustive Projection Decoding and Linear-Sparsity Information-Computation Gap for Sparse Linear Regression
+definition: Information-Theoretic Limits of High-Dimensional Noisy Sparsity Recovery is an information-theoretic
+  and optimal subset-projection decoding framework introduced by Wainwright (2009, IEEE Transactions on
+  Information Theory 55(12):5728-5741, arXiv:math/0702301v2, DOI:10.1109/TIT.2009.2032816) for characterizing
+  necessary and sufficient conditions on the sample size n, ambient dimension p, support size s = |S|,
+  and minimum non-zero magnitude M(beta*) := min_{i in S} |beta*_i| (Equation 4) for exact 0-1 support
+  recovery rho(beta_hat, beta*) = I[{beta_hat_i != 0 forall i in S} cap {beta_hat_j = 0 forall j notin
+  S}] (Equation 3) from noisy standard Gaussian linear measurements Y = X beta* + W (X_{ij} ~ N(0, 1),
+  W_i ~ N(0, sigma^2) with sigma^2 = 1). Analyzing the optimal maximum-likelihood projection decoder phi_opt(Y)
+  = argmin_{|U|=s} ||Pi_U^perp Y||_2^2 where Pi_U^perp = I_n - X_U (X_U^T X_U)^{-1} X_U^T (Equations 9-12b)
+  via conditional non-central chi-squared tail bounds across overlap complement sizes k = |S \ U| in {1,
+  ..., s} (Lemmas 1-2, Equations 13-26), Theorem 1 (Equations 5, 27) proves that if (n - s) M^2(beta*)
+  -> +infty, then n > C max{s log(p/s), M(beta*)^{-2} log(p - s)} suffices for p_err(phi_opt) -> 0. Conversely,
+  applying Fano's inequality and Markov's inequality over the N = binom(p, s)-way uniform support ensemble
+  beta*_U = M(beta*) 1_U (Lemmas 3-4, Equations 28-30), Theorem 2 (Equations 6, 31) proves that any decoder
+  has error probability bounded away from zero whenever n < [C' / (s M^2(beta*))] s log(p/s).
+identity_notes: Resolved against all 442 pinned AIO records and 627 maintained AIMech records. Distinct
+  from AIMech:PrimalDualWitnessAndSharpThresholdsForHighDimensionalNoisyLassoSparsityRecovery (Wainwright
+  2009, IEEE Trans. Inf. Theory 55(5):2183-2202, arXiv:math/0605740v1, which characterizes polynomial-time
+  l_1-constrained quadratic programming (Lasso) via the primal-dual witness method and mutual incoherence;
+  comparing Theorem 1 here with the sharp noisy Lasso threshold n = 2s log(p - s) + s + 1 reveals an information-computation
+  gap in the linear sparsity regime s = alpha p, where optimal projection decoding succeeds with n = Theta(p)
+  samples while noisy Lasso requires n = Theta(p log p)), from AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  (Raskutti, Wainwright, & Yu 2011, IEEE Trans. Inf. Theory 57(10):6976-6994, which analyzes continuous
+  l_2 estimation and prediction error over l_q balls via metric entropy and local packing rather than
+  discrete 0-1 support recovery under minimum magnitude M(beta*)), and from AIO:LinearRegression and AIO:LassoRegression.
+definition_evidence:
+- source_id: wainwright2009-it-limits-pdf
+  locator: Abstract, p. 1; Sections 1.1-1.2, pp. 2-5, Equations (1)-(6), Theorems 1-2; Sections 2.2-2.3
+    and Appendices A-C, pp. 6-14, Lemmas 1-5, Equations (9)-(35b)
+  relation: supports
+- source_id: wainwright2009-it-limits-abs
+  locator: arXiv:math/0702301 abstract and submission metadata
+  relation: supports
+- source_id: wainwright2009-it-limits-cr
+  locator: IEEE Transactions on Information Theory 55(12):5728-5741 (2009), DOI:10.1109/TIT.2009.2032816
+    Crossref metadata
+  relation: supports
+claims:
+- claim_id: optimal-projection-decoder-residual-decomposition-and-noncentral-chisquared-sufficient-thresholds
+  kind: mechanism
+  statement: 'For the optimal maximum-likelihood subset decoder phi_opt(Y) = argmin_{|U|=s} f(U; Y, X,
+    beta*) minimizing the squared orthogonal-projection residual f(U) = min_{beta_U in R^s} ||Y - X_U
+    beta_U||_2^2 = ||Pi_U^perp Y||_2^2 where Pi_U^perp = I_n - X_U (X_U^T X_U)^{-1} X_U^T (Equations 9-12b;
+    Appendix A, p. 13), Lemma 1 (Section 2.2, p. 6, Equation 13) proves that phi_opt prefers an incorrect
+    support U != S over the true support S if and only if Delta(U) := ||Pi_U^perp (X_{S \ U} beta*_{S
+    \ U} + W)||_2^2 - ||Pi_S^perp W||_2^2 < 0. Conditioned on the noise W, the rescaled projection ||beta*_{S
+    \ U}||_2^{-2} ||Pi_U^perp (X_{S \ U} beta*_{S \ U} + W)||_2^2 follows a non-central chi-squared distribution
+    chi^2(d, nu) with d = n - s degrees of freedom and non-centrality parameter nu = ||beta*_{S \ U}||_2^{-2}
+    ||Pi_U^perp W||_2^2, while ||Pi_S^perp W||_2^2 - ||Pi_U^perp W||_2^2 is distributed as the difference
+    of two independent central chi_k^2 variates where k = |S \ U| is the overlap complement size (pp.
+    7-8). Applying Birge''s non-central chi-squared tail bound (Equation 35b) and Laurent-Massart central
+    chi-squared tail bounds (Equations 34a-34b), Lemma 2 (p. 7, Equation 15) and its simplified bound
+    P[Delta(U) <= 0] <= 3 exp(-(n - s) k M^2(beta*) / (12(k M^2(beta*) + 8))) (p. 9, Equation 22) summed
+    over N(k) = binom(s, k) binom(p - s, k) subsets for k in {1, ..., s} (Equations 23-26) prove Theorem
+    1 (p. 4, Equation 5; p. 10, Equation 27): if (n - s) M^2(beta*) -> +infty, then n > C max{s log(p/s),
+    M(beta*)^{-2} log(p - s)} suffices for p_err(phi_opt) -> 0.'
+  evidence:
+  - source_id: wainwright2009-it-limits-pdf
+    locator: Section 1.2, p. 4, Theorem 1, Equation (5); Section 2.2, pp. 6-10, Lemmas 1-2, Equations
+      (9)-(27); Appendix A, p. 13; Appendix C, p. 14, Equations (34a)-(35b)
+    relation: supports
+- claim_id: fano-multiway-hypothesis-testing-necessary-conditions-and-linear-sparsity-gap
+  kind: mechanism
+  statement: 'Restricting to the uniform N = binom(p, s)-way hypothesis ensemble where beta*_U = M(beta*)
+    1_U on each s-element support U subset {1, ..., p} so Y = X_U v + W with v = M(beta*) 1_s (Equation
+    28), the conditional Kullback-Leibler divergence given X between observation laws P_i and P_j (with
+    noise variance sigma^2 = 1) is D(P_i || P_j) = (1/2) ||X_{U[i]} v - X_{U[j]} v||_2^2 = (1/2) Z_{U,V}
+    where Z_{U,V} ~ gamma(U, V) chi_n^2 with scale factor gamma(U, V) = 2 M^2(beta*)(s - |U cap V|) <=
+    2 M^2(beta*) s (Equation 29). Lemma 4 (Section 2.3, p. 11; proved in Appendix B, p. 13, Equation 32)
+    applies Markov''s inequality to the ensemble average Z = N^{-2} sum_{U != V} Z_{U,V} (E[Z] <= 2 M^2(beta*)
+    s n) to show P[Z >= 4 M^2(beta*) s n] <= 1/2, so at least half of all Gaussian measurement matrices
+    X satisfy Z <= 4 M^2(beta*) s n; combining with Fano''s inequality (Lemma 3, p. 11) proves Theorem
+    2 (p. 4, Equation 6; p. 12, Equation 31): asymptotically reliable recovery is impossible whenever
+    n < [C'' / (s M^2(beta*))] s log(p/s).'
+  evidence:
+  - source_id: wainwright2009-it-limits-pdf
+    locator: Section 1.2, pp. 4-5, Theorem 2, Equation (6); Section 2.3, pp. 10-12, Lemmas 3-4, Equations
+      (28)-(31); Appendix B, p. 13, Equation (32)
+    relation: supports
+- claim_id: sublinear-versus-linear-sparsity-regime-comparison-with-noisy-lasso
+  kind: scope
+  statement: 'Comparing Theorems 1 and 2 with the sharp sample complexity threshold n = 2s log(p - s)
+    + s + 1 of l_1-constrained quadratic programming (Lasso) for standard Gaussian designs (Section 1.2,
+    p. 5) establishes two distinct regimes: (1) in the sublinear sparsity regime s = o(p) (such as s =
+    O(1) with M(beta*) = Theta(1) or growing s with critical signal scaling M^2(beta*) = Theta(1/s)),
+    the information-theoretic threshold n = Theta(s log(p/s)) = Theta(s log(p - s)) is achieved up to
+    constant factors by polynomial-time noisy Lasso; whereas (2) in the linear sparsity regime s = alpha
+    p (alpha in (0, 1)) with s M^2(beta*) -> +infty (e.g., M(beta*) = Theta(1)), the optimal projection
+    decoder succeeds with n = Theta(p) observations while noisy Lasso requires n = Omega(p log p), demonstrating
+    a strict information-computation gap.'
+  evidence:
+  - source_id: wainwright2009-it-limits-pdf
+    locator: Section 1.2, pp. 4-5, Theorems 1-2 and Discussion of Comparison with Lasso; Section 3, p.
+      12
+    relation: supports
+evidence_sources:
+- source_id: wainwright2009-it-limits-pdf
+  title: Information-Theoretic Limits on Sparsity Recovery in the High-Dimensional and Noisy Setting
+  authors:
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/math/0702301.pdf
+  persistent_id: https://doi.org/10.1109/TIT.2009.2032816
+  version: arXiv:math/0702301v2 (22 Sep 2009, 16 pages, 201812 bytes); published in IEEE Transactions
+    on Information Theory 55(12):5728-5741 (Dec 2009).
+  access_level: full_text
+  accessed_at: '2026-10-18T14:25:00Z'
+  sha256: d102257bf09627556031822b6ca712b587ce157ef6bfa86db7b63bb2f9f6dcf1
+- source_id: wainwright2009-it-limits-abs
+  title: Information-Theoretic Limits on Sparsity Recovery in the High-Dimensional and Noisy Setting (arXiv
+    Abstract)
+  authors:
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://arxiv.org/abs/math/0702301
+  persistent_id: https://doi.org/10.48550/arXiv.math/0702301
+  version: arXiv:math/0702301 abstract and metadata record (6303 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T14:25:00Z'
+  sha256: 24ca09c196ed8fefbc2c9a381037ba3551e720387604715c3084fa9859a03b05
+- source_id: wainwright2009-it-limits-cr
+  title: Information-Theoretic Limits on Sparsity Recovery in the High-Dimensional and Noisy Setting (IEEE
+    Trans. Inf. Theory Crossref Metadata)
+  authors:
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1109/TIT.2009.2032816
+  persistent_id: https://doi.org/10.1109/TIT.2009.2032816
+  version: IEEE Transactions on Information Theory 55(12):5728-5741 (2009) Crossref metadata (3224 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T14:43:00Z'
+  sha256: 9f4eb210c09faebbf443b25c5f680c3862be3242e5dbc9be280c6cd01645b011
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: broad_match
+  rationale: AIO:LinearRegression represents linear regression models broadly, whereas this concept specifically
+    characterizes the information-theoretic necessary and sufficient sample-complexity limits and optimal
+    subset-projection decoder for exact 0-1 support recovery in noisy high-dimensional sparse linear regression.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: AIO:LassoRegression represents L1-regularized linear regression, whose polynomial-time support-recovery
+    thresholds are directly benchmarked against the information-theoretic limits of Theorems 1 and 2.
+limitations:
+- 'Computational Intractability of the Optimal Projection Decoder: Achieving the sufficient sample complexity
+  of Theorem 1 via phi_opt(Y) = argmin_{|U|=s} ||Pi_U^perp Y||_2^2 requires evaluating all binom(p, s)
+  candidate supports of size s (Section 1.2, p. 4; Section 2.2, p. 6), which is computationally intractable
+  for large (p, s).'
+- 'Standard Gaussian Design and Exact 0-1 Support-Recovery Loss Scope: Theorems 1 and 2 assume i.i.d.
+  standard Gaussian measurement matrices X_{ij} ~ N(0, 1), known support size s = |S|, and exact 0-1 support
+  recovery rho(beta_hat, beta*) rather than partial support recovery or l_2 estimation loss.'
+- 'Primary-Source Typographical Notes in Wainwright (2009, arXiv:math/0702301v2): Verified four self-correcting
+  typographical details during full-text inspection and numerical verification: (1) Section 2.2 (p. 6,
+  Equation 9) writes f(U; Y, X, beta*) = argmin_{beta_U} {||Y - X_U beta_U||_2^2} using argmin_{beta_U}
+  instead of min_{beta_U} for the scalar minimum residual squared norm f(U) = ||Pi_U^perp Y||_2^2 (confirmed
+  in Appendix A, p. 13, where beta_hat_U = [X_U^T X_U]^{-1} X_U^T Y and f(U) = ||Y - X_U beta_hat_U||_2^2
+  = ||Pi_U^perp Y||_2^2); (2) Section 2.2 (p. 7, Proof of Lemma 2, line 4) contains a duplicated word
+  ''with with'' and writes ''mean vector W'' for the rescaled vector ||beta*_{S \ U}||_2^{-1}(X_{S \ U}
+  beta*_{S \ U} + W), whose conditional mean given W is ||beta*_{S \ U}||_2^{-1} W (matching nu = ||beta*_{S
+  \ U}||_2^{-2} ||Pi_U^perp W||_2^2 two lines below); (3) Section 2.2 (p. 8, bottom display) writes ||Pi_U^perp
+  W||_2^2 - ||Pi_S^perp W||_2^2 = ||Pi_U W||_2^2 - ||Pi_S W||_2^2 (since Pi_U^perp = I - Pi_U, ||Pi_U^perp
+  W||_2^2 - ||Pi_S^perp W||_2^2 = ||Pi_S W||_2^2 - ||Pi_U W||_2^2, which has the same symmetric difference-of-chi_k^2
+  distribution); and (4) Section 2.3 (p. 11, bottom display, vs. p. 12, Equation 30) includes the factor
+  1/2 from D(P_i || P_j) = (1/2) Z_{U,V} on p. 11, so substituting Z <= 4 M^2(beta*) s n yields 2 M^2(beta*)
+  s n / log[N - 1] (written 4 M^2(beta*) s n / log[N - 1] in Equation 30 on p. 12).'
+- All 16 pages of Wainwright (2009, IEEE Trans. Inf. Theory 55(12):5728-5741, arXiv:math/0702301v2) were
+  read. Constructed numerical checks in research/discovery/information-theoretic-limits-high-dimensional-noisy-sparsity-recovery-boundaries.py
+  verify (1) exact equality between ordinary-least-squares minimum residual squared norm f(U), orthogonal
+  projection norm ||Pi_U^perp Y||_2^2, and Lemma 1 test statistic Delta(U), as well as the orthogonal-projection
+  difference sign identity; (2) Birge's non-central chi-squared Chernoff exponent lower bound on the conditioning
+  event A and the exact Vandermonde overlap sum sum_{k=1}^s binom(s, k) binom(p - s, k) = binom(p, s)
+  - 1; and (3) expected conditional KL divergence n M^2(beta*)(s - |U cap V|) <= n s M^2(beta*) and the
+  diverging sample complexity ratio n_Lasso / n_IT in the linear sparsity regime s = alpha p.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-18T21:48:00Z'
+  updated_at: '2026-10-18T21:48:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
