@@ -1,0 +1,246 @@
+id: AIMech:ReverseSubmartingaleConvexDivergenceConfidenceSequences
+name: Reverse-submartingale confidence sequences for convex divergences and functionals
+aliases:
+- Reverse-Submartingale Convex Functional Confidence Sequences
+- Exchangeable-Filtration Reverse-Stitched Divergence Confidence Sequences
+- Partially Ordered Reverse-Submartingale Two-Sample Divergence Confidence Sequences
+- Time-Uniform Plug-In Convex Divergence Estimation
+concept_kind: mathematical_method
+definition: A sequential nonparametric estimation and inference methodology (Manole & Ramdas 2023, IEEE
+  Transactions on Information Theory 69(7):4641-4658, arXiv:2103.09267) that constructs time-uniform confidence
+  sequences for convex functionals Phi(P) of a single distribution and convex divergences Psi(P, Q) between
+  two distributions — including integral probability metrics (Kolmogorov-Smirnov distance, kernel Maximum
+  Mean Discrepancy, positive-definite V-statistics), optimal transport costs (Wasserstein and Gaussian-smoothed
+  Wasserstein distances), phi-divergences (Kullback-Leibler divergence, Total Variation, and Gaussian-smoothed
+  divergences), classification generalization risks (Rademacher complexity), and general-norm multivariate
+  means — by exploiting the property that empirical measures P_t and Q_s are measure-valued reverse martingales
+  with respect to the exchangeable filtrations (E_t^X)_{t>=1} and (E_s^Y)_{s>=1}, so plug-in estimators
+  Phi(P_t) and Psi(P_t, Q_s) form reverse submartingales (or partially ordered reverse submartingales
+  on N^2) to which Ville's reverse maximal inequality and Christofides-Serfling's partially ordered maximal
+  inequality are stitched across geometric sample-size epochs while affine variational minorants provide
+  matching upper confidence sequences.
+identity_notes: No normalized identity match for reverse-submartingale confidence sequences for convex
+  divergences and functionals across all 442 pinned AIO records and 581 maintained IDs, names, aliases
+  and scoped synonyms. Fixed-string searches across data, sources, research, history, and reviews returned
+  only prior discovery frontier entries where Manole & Ramdas (2023, IEEE Trans. Inf. Theory 69(7):4641-4658,
+  arXiv:2103.09267) was tracked as a pending frontier lead. Distinct from AIMech:SubPsiUniformBoundaryConfidenceSequences
+  (Howard, Ramdas, McAuliffe, & Sekhon 2020/2021), AIMech:BettingConfidenceSequencesForBoundedMeans (Waudby-Smith
+  & Ramdas 2024), and AIMech:SequentialNonparametricQuantileConfidenceSequences (Howard & Ramdas 2022),
+  which construct forward canonical-filtration supermartingales for linear functionals (means) or scalar
+  quantiles — a forward-filtration construction that provably fails to produce vanishing-width confidence
+  sequences for nonlinear convex divergences (Manole & Ramdas 2023, Appendix E Lemma 32) — and distinct
+  from AIMech:NonparametricTwoSampleTestingByBetting (Shekhar & Ramdas 2023) and AIMech:SequentialKernelizedIndependenceTestingByBetting
+  (Podkopaev et al. 2023), which construct forward betting martingales for point-null hypothesis testing
+  rather than two-sided exchangeable-filtration reverse-submartingale confidence sequences across one-
+  and two-sample index sets.
+definition_evidence:
+- source_id: manole2023-reverse-submartingale-ar5iv
+  locator: Section 1, lines 22–134; Section 2.1–2.4, lines 135–345, Lemma 1, Definition 1, Theorem 2,
+    Proposition 3, Equations 1–16; Section 3.1–3.3, lines 346–592, Theorem 4, Propositions 5–6, Theorem
+    7, Corollary 8, Proposition 9, Corollaries 10–11, Proposition 12, Equations 17–25
+  relation: supports
+- source_id: manole2023-reverse-submartingale-crossref
+  locator: IEEE Transactions on Information Theory, Vol. 69, Issue 7, pp. 4641–4658, July 2023 bibliographic
+    record (DOI:10.1109/TIT.2023.3250099)
+  relation: supports
+- source_id: manole2023-reverse-submartingale-abs
+  locator: arXiv:2103.09267v4 abstract and IEEE Transactions on Information Theory publication metadata
+  relation: supports
+claims:
+- claim_id: exchangeable-filtration-reverse-submartingale-loo-and-partially-ordered-ville-inequality
+  kind: mechanism
+  statement: 'For i.i.d. observations X_1, X_2, ... ~ P and Y_1, Y_2, ... ~ Q, the empirical measures
+    P_t = (1/t) sum_{i=1}^t delta_{X_i} and Q_s = (1/s) sum_{j=1}^s delta_{Y_j} are measure-valued reverse
+    martingales with respect to the exchangeable sigma-fields E_t^X and E_s^Y satisfying P_t(A) = E[P_{t-1}(A)
+    | E_t^X] = E[I(X_1 in A) | E_t^X] almost surely (Section 3.1, Appendix B.1 Lemma 27), so for any convex
+    functional Phi and convex two-sample functional Psi — or any permutation-invariant sequence satisfying
+    the leave-one-out inequality (1/(t+1)) sum_{i=1}^{t+1} f_t(X_{-i}) >= f_{t+1}(X_1, ..., X_{t+1}) (Proposition
+    5), including integral probability metrics, phi-divergences, optimal transport costs (Lemma 1), and
+    positive-definite V-statistics V_t and sqrt(V_t) (Proposition 16, whereas U-statistics form reverse
+    martingales for arbitrary symmetric kernels) — the plug-in process (Phi(P_t))_{t>=1} is a reverse
+    submartingale wrt (E_t^X)_{t>=1} and (Psi(P_t, Q_s))_{t,s>=1} is a partially ordered reverse submartingale
+    wrt E_{ts} = E_t^X vee E_s^Y (Definition 1, Theorem 4) satisfying Ville''s reverse maximal inequality
+    P(exists t >= t_0 : R_t >= u) <= E[R_{t_0}] / u (Theorem 2) and Christofides & Serfling''s partially
+    ordered maximal inequality (Proposition 3, Equations 14–15).'
+  evidence:
+  - source_id: manole2023-reverse-submartingale-ar5iv
+    locator: Section 2.1, lines 139–214, Lemma 1, Equations 1–8; Section 2.3–2.4, lines 273–345, Definition
+      1, Theorem 2, Proposition 3, Equations 12–16; Section 3.1, lines 351–415, Theorem 4, Proposition
+      5, Equations 17–18; Section 4.2, lines 686–712, Proposition 16; Appendix B.1–B.2, lines 1077–1204,
+      Lemma 27; Appendix D.2, lines 1495–1553
+    relation: supports
+  - source_id: manole2023-reverse-submartingale-abs
+    locator: Abstract (empirical measures as reverse martingales wrt the exchangeable filtration and plug-in
+      estimators of convex functionals as reverse submartingales)
+    relation: supports
+- claim_id: reverse-cramer-chernoff-geometric-epoch-stitching-variational-minorant-and-stopping-time-bias
+  kind: mechanism
+  statement: 'Exponentiating the centered processes N_t = Phi(P_t) - Phi(P) and M_{ts} = Psi(P_t, Q_s)
+    - Psi(P, Q) yields one-sample and two-sample reverse Cramér-Chernoff tail bounds P(exists t >= t_0
+    : N_t >= u) <= exp(-psi_{t_0}^*(u)) and P(exists t >= t_0, s >= s_0 : M_{ts} >= u) <= e * exp(-psi_{t_0
+    s_0}^*(u)) where psi_t^*(u) = sup_{lambda>=0}{lambda u - psi_t(lambda)} (Proposition 6, Equation 19),
+    which when stitched across geometric epochs [2^j, 2^{j+1}) and [2^j, 2^{j+1}) x [2^k, 2^{k+1}) with
+    bar{t} = ceil(t/2), bar{s} = ceil(s/2) and stitching functions ell, g produce time-uniform lower confidence
+    sequences P(exists t >= 1 : Phi(P_t) >= Phi(P) + gamma_t) <= delta and P(exists t, s >= 1 : Psi(P_t,
+    Q_s) >= Psi(P, Q) + gamma_{ts}) <= delta matching the offline concentration rate up to iterated-logarithm
+    log ell(log_2 t) factors without knowing finite-sample variance (Theorem 7, Corollary 8, Equations
+    20–21); conversely, when Phi(mu) = sup_{f in F} int f dmu and Psi(mu, nu) = sup_{(f,g) in G} (int
+    f dmu + int g dnu) attain their suprema at f_Phi and (f_Psi, g_Psi), N_t and M_{ts} are minorized
+    by mean-zero sample-average reverse martingales R_t = int f_Phi d(P_t - P) and R_t^X + R_s^Y (Proposition
+    9, Equations 22–23), proving nonnegative stopping-time upward bias E[Phi(P_tau)] >= Phi(P) and E[Psi(P_tau,
+    Q_sigma)] >= Psi(P, Q) for all stopping times (Corollary 10) and yielding matching upper confidence
+    sequences (Corollary 11, Appendix C.3 Proposition 29) and two-sided confidence sequences valid uniformly
+    over all stopping times in N^2 (Proposition 12), including sequential Kolmogorov-Smirnov (Corollaries
+    13–14) and kernel MMD (Corollary 15).'
+  evidence:
+  - source_id: manole2023-reverse-submartingale-ar5iv
+    locator: Section 3.1, lines 416–502, Proposition 6, Theorem 7, Corollary 8, Equations 19–21; Section
+      3.2, lines 503–565, Proposition 9, Corollary 10, Corollary 11, Equations 22–25; Section 3.3, lines
+      566–592, Proposition 12; Section 4.1–4.2, lines 595–685, Corollaries 13–15, Equations 26–32; Appendix
+      C.1–C.3, lines 1205–1466, Theorem 28, Proposition 29
+    relation: supports
+  - source_id: manole2023-reverse-submartingale-crossref
+    locator: IEEE Transactions on Information Theory 69(7):4641–4658 publication record
+    relation: supports
+- claim_id: finite-support-phi-divergences-optimal-transport-and-gaussian-smoothed-parametric-rates
+  kind: mechanism
+  statement: For discrete distributions on k >= 2 support points, reverse-stitching yields nonasymptotic
+    confidence sequences for Kullback-Leibler divergence KL(P_t || P) via the exact polynomial moment
+    generating function upper bound G_{k,t}(lambda) of Guo & Richardson (2021) (Proposition 18, Equation
+    35) and for Total Variation ||P_t - P||_TV with boundary sqrt((k/(4t)) max(1, 4/pi - 2/t)) + 2 sqrt((1/t)(log
+    ell(log_2 t) + log(1/delta))) (Corollary 19); for continuous distributions on R^d where unsmoothed
+    empirical phi-divergences are degenerate (||P_t - P||_TV = 1) and unsmoothed alpha-Holder optimal
+    transport suffers O((t wedge s)^{-alpha/d}) curse-of-dimensionality bias (Corollary 17, Equations
+    33–34), convolving P_t and P with a Gaussian kernel K_sigma of bandwidth sigma > 0 preserves functional
+    convexity and restores parametric O(sqrt((log log t)/t)) confidence sequences in arbitrary dimension
+    d for Gaussian-smoothed Total Variation ||P_t - P||_TV^sigma under tau^2-sub-Gaussian tails (Proposition
+    20(i), Equation 36), Gaussian-smoothed 1-Wasserstein distance W_1^sigma(P_t, P) under Talagrand T_1(tau^2)
+    transportation inequalities (Proposition 20(ii), Equation 37, Appendix D.5 Lemma 31), and plug-in
+    Gaussian-smoothed differential entropy h(P * K_sigma) on [-1, 1]^d (Corollary 21).
+  evidence:
+  - source_id: manole2023-reverse-submartingale-ar5iv
+    locator: Section 4.3, lines 713–754, Corollary 17, Equations 33–34; Section 4.4, lines 755–805, Proposition
+      18, Corollary 19, Equation 35; Section 4.5, lines 806–877, Proposition 20, Corollary 21, Equations
+      36–37; Appendix D.3–D.5, lines 1554–1716, Lemma 31
+    relation: supports
+- claim_id: rademacher-generalization-norm-estimation-upper-lil-and-forward-supermartingale-failure
+  kind: mechanism
+  statement: Beyond divergences, reverse-submartingale stitching establishes (1) stopping-time-valid uniform
+    classification risk bounds sup_{f in F} |R_t(f) - R(f)| <= R_{floor(t/2)}(F) + 2 sqrt((2/t)(log ell(log_2
+    t) + log(1/delta))) and the leave-one-out reverse-submartingale property of empirical Rademacher complexity
+    R_hat_t(F) wrt E_t^X yielding a time-uniform lower bound on R_{floor(t/2)}(F) (Section 4.6, Corollary
+    22, Appendix D.6), (2) general-norm multivariate mean confidence sequences ||mu_t - mu|| via gamma-covering
+    numbers N_gamma of the dual unit sphere S_*^{d-1} scaling at O(sqrt((log log t + d)/t)) (Section 4.7,
+    Corollary 23, Equations 38–40, Appendix D.7), and (3) a sharp one-sided upper Law of the Iterated
+    Logarithm limsup_{t->infty} sqrt(t / (2 sigma^2 log log t)) D(P_t || P) <= 1 almost surely whenever
+    E[D(P_t || P)] = o(sqrt((log log t)/t)) (Section 4.8, Corollary 24, Equation 41, Appendix D.8); in
+    contrast, Appendix E (Lemma 32, Lemma 33, Theorem 34) proves that forward canonical-filtration supermartingales
+    L_t(lambda) = exp(lambda t D(P_t || P) - t psi(lambda)) fail to yield vanishing-width confidence sequences
+    because E[D(delta_{X_1} || P)] > 0 (e.g., equal to Shannon entropy H(P) > 0 for discrete KL divergence),
+    forcing psi(lambda) to decay only linearly as lambda -> 0+ and leaving a non-vanishing asymptotic
+    width floor.
+  evidence:
+  - source_id: manole2023-reverse-submartingale-ar5iv
+    locator: Section 4.6, lines 878–924, Corollary 22; Section 4.7, lines 925–978, Corollary 23, Equations
+      38–40; Section 4.8, lines 979–1008, Corollary 24, Equation 41; Appendix D.6–D.8, lines 1717–1800;
+      Appendix E, lines 1801–1948, Lemma 32, Lemma 33, Theorem 34, Equations 63–69
+    relation: supports
+evidence_sources:
+- source_id: manole2023-reverse-submartingale-ar5iv
+  title: Martingale Methods for Sequential Estimation of Convex Functionals and Divergences
+  authors:
+  - Tudor Manole
+  - Aaditya Ramdas
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2103.09267
+  persistent_id: https://doi.org/10.1109/TIT.2023.3250099
+  version: arXiv:2103.09267v4 (published in IEEE Transactions on Information Theory, Vol. 69, Issue 7,
+    pp. 4641–4658, July 2023). Complete full-text ar5iv HTML conversion read across Sections 1–5 and Appendices
+    A–E (2,502 lines, 200,836 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T13:45:00Z'
+  sha256: 473bd824958b260761bdac2383a11e13f12e0f864dad5a097da3de03b9c331fe
+- source_id: manole2023-reverse-submartingale-crossref
+  title: Martingale Methods for Sequential Estimation of Convex Functionals and Divergences (IEEE Transactions
+    on Information Theory Record)
+  authors:
+  - Tudor Manole
+  - Aaditya Ramdas
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1109/TIT.2023.3250099
+  persistent_id: https://doi.org/10.1109/TIT.2023.3250099
+  version: IEEE Transactions on Information Theory, Vol. 69, Issue 7, pp. 4641–4658, July 2023 Crossref
+    bibliographic metadata record (3,901 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T13:45:00Z'
+  sha256: 2f4bded756bd8507874158acca0883f29751d3f8a6d6a51d45246a916410bc21
+- source_id: manole2023-reverse-submartingale-abs
+  title: Martingale Methods for Sequential Estimation of Convex Functionals and Divergences (arXiv:2103.09267
+    Abstract)
+  authors:
+  - Tudor Manole
+  - Aaditya Ramdas
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2103.09267
+  persistent_id: https://doi.org/10.48550/arXiv.2103.09267
+  version: arXiv:2103.09267v4 abstract and IEEE Transactions on Information Theory 2023 publication metadata
+    record (7,484 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T13:45:00Z'
+  sha256: 8fb54fe7ac0e37f396fa80bd29283642c1b46b70567b3dac986fb3aea0b53050
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Plug-in estimators of convex functionals and divergences suffer systematic upward bias E[Phi(P_tau)]
+    >= Phi(P) at data-dependent stopping times (Section 3.2 Corollary 10); reverse-submartingale confidence
+    sequences remain uniformly valid over all stopping times tau, sigma in N^2 (Section 3.3 Proposition
+    12), preventing optional-stopping inflation (AIO:DataDredgingBias).
+- target: AIO:TimeSeriesAnalysis
+  relation: related_match
+  rationale: Reverse-submartingale confidence sequences sequentially track convex functionals and two-sample
+    divergences across streaming sample paths indexed by t >= 1 and (t, s) in N^2 with respect to reverse
+    exchangeable filtrations (AIO:TimeSeriesAnalysis).
+limitations:
+- Because plug-in estimators of convex functionals Phi(P_t) are upward biased (E[Phi(P_t)] is nonincreasing
+  in t), every lower confidence sequence in Theorem 7 and Corollary 8 requires an explicit upper bound
+  on the finite-sample expected bias E[Phi(P_{ceil(t/2)}) - Phi(P)] at half the sample size; for unsmoothed
+  optimal transport in dimension d >= 3, this expected bias scales as O((t wedge s)^{-alpha/d}) (Corollary
+  17) with leading constants that are often not known in closed form.
+- While Gaussian convolution smoothing removes the curse of dimensionality from the O(t^{-1/2}) sample-size
+  exponent for smoothed Total Variation and smoothed 1-Wasserstein confidence sequences (Proposition 20),
+  the multiplicative prefactors c_d and C_d grow exponentially with dimension d when the smoothing bandwidth
+  sigma is fixed (Section 4.5, p. 4651).
+- Upper confidence sequences for Phi(P) and Psi(P, Q) cannot be obtained by applying Ville's maximal inequality
+  directly to -Phi(P_t) (which is a reverse supermartingale and lacks an infinite-horizon reverse maximal
+  inequality), and instead require a variational supremum representation whose supremum is attained at
+  an integrable witness function f_Phi or (f_Psi, g_Psi) with controlled tail behavior (Proposition 9,
+  Corollary 11, Proposition 29); similarly, while Corollary 22(ii) provides a time-uniform lower bound
+  on population Rademacher complexity R_{floor(t/2)}(F) via empirical Rademacher complexity R_hat_t(F),
+  deriving a time-uniform upper confidence sequence for R_t(F) to yield a fully empirical stopping-time
+  generalization bound remains an open problem (Section 4.6, p. 4652).
+- All 2,502 lines of Manole & Ramdas (2023, IEEE Trans. Inf. Theory 69(7):4641-4658, arXiv:2103.09267v4)
+  were read. Constructed numerical checks in research/discovery/reverse-submartingale-convex-divergence-confidence-sequences-boundaries.py
+  verify (1) Section 2.3 & Section 3.1 exact reverse-martingale identity E[P_t(A) | E_{t+1}^X] = P_{t+1}(A)
+  (max diff 0.0), leave-one-out reverse-submartingale nonnegativity for KL divergence (min excess 0.0),
+  Total Variation (min excess 0.0), and PSD V-statistics (min excess 0.0) vs. violation for non-PSD hollow-kernel
+  V-statistics (min excess -0.04) and exact equality for U-statistics (max diff 0.0), plus Ville's reverse
+  maximal inequality (empirical exceed prob 0.042 <= 0.2786), (2) Section 3.2 Corollary 10 & Section 4.1
+  Corollary 14 stopping-time upward bias of plug-in KS distance (mean stopped KS 0.6034 vs. true KS 0.25,
+  upward bias +0.3534) and 1.0 >= 0.90 simultaneous coverage of the two-sample reverse-stitched KS confidence
+  sequence, (3) Section 4.4 Corollary 19 & Section 4.5 Proposition 20(i) discrete TV CS violation rate
+  0.0 and continuous Gaussian-smoothed TV decay from 0.1016 (t=10) to 0.0192 (t=200) with 0.0 violation
+  rate vs. unsmoothed empirical TV = 1.0, and (4) Section 4.6 Corollary 22(ii) & Appendix E Lemma 32 empirical
+  Rademacher complexity leave-one-out nonnegativity (min excess 1e-16 >= 0) and non-vanishing forward
+  canonical-filtration supermartingale width limit H(P) = 1.029653 vs. vanishing reverse-submartingale
+  KL bound 0.066883 at t=500.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T13:45:00Z'
+  updated_at: '2026-10-17T13:45:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
