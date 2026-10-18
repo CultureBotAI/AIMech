@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>High-Dimensional Covariance Regularization by Hard Thresholding · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>High-Dimensional Covariance Regularization by Hard Thresholding</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">High-Dimensional Covariance Regularization by Hard Thresholding</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:HighDimensionalCovarianceRegularizationByHardThresholding</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Bickel-Levina Hard-Thresholded Sample Covariance Estimator, Operator-Norm Consistent Hard-Thresholding Covariance Regularization, Permutation-Invariant Weak-lq Sparse Covariance Thresholding
+    </div>
+
+  <div class="detail-desc">
+    A permutation-invariant high-dimensional covariance estimation and tuning-selection methodology that applies the entrywise hard-thresholding operator T_s(Sigma_hat) = [sigma_hat_{ij} 1(|sigma_hat_{ij}| &gt;= s)] at threshold t_n = M&#39;*sqrt(log p / n) to the empirical covariance matrix Sigma_hat = n^{-1} sum_{k=1}^n (X_k - X_bar)(X_k - X_bar)^T of n i.i.d. p-variate observations, achieving uniform operator-norm convergence ||T_{t_n}(Sigma_hat) - Sigma||_{(2,2)} = O_P(c_0(p) (log p / n)^{(1-q)/2}), inverse covariance convergence ||(T_{t_n}(Sigma_hat))^{-1} - Sigma^{-1}|| = O_P(c_0(p) (log p / n)^{(1-q)/2}), and average squared Frobenius error p^{-1} ||T_{t_n}(Sigma_hat) - Sigma||_F^2 = O_P(c_0(p) (log p / n)^{1-q/2}) over the weak-l_q covariance sparsity class U_tau(q, c_0(p), M) = {Sigma : sigma_{ii} &lt;= M, sum_{j=1}^p |sigma_{ij}|^q &lt;= c_0(p) for all i} (0 &lt;= q &lt; 1), together with repeated random sample-splitting threshold selection s_hat that attains asymptotic Frobenius oracle equivalence ||T_{s_hat}(Sigma_hat) - Sigma||_F = ||T_o(Sigma_hat) - Sigma||_F (1 + o_P(1)).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved as a distinct AIMech-native mathematical_method concept from Bickel and Levina (2008, The Annals of Statistics 36(6):2577-2604; arXiv:0901.3079v1, DOI:10.1214/08-AOS600). Distinct from AIMech:HighDimensionalCovarianceEstimationByL1PenalizedLogDeterminantDivergence (Ravikumar, Wainwright, Raskutti, &amp; Yu 2011), which estimates the inverse covariance (precision) matrix Theta* = (Sigma*)^{-1} via convex L1-penalized log-determinant Bregman optimization under edge-Hessian mutual incoherence |||Gamma*_{S^c S}(Gamma*_{SS})^{-1}|||_infty &lt;= 1 - alpha, whereas Bickel &amp; Levina (2008) directly regularize the covariance matrix Sigma = [sigma_{ij}] in O(p^2) closed form by entrywise hard thresholding T_s(Sigma_hat) without matrix inversion, convex programming, or Hessian incoherence conditions, and obtain inverse consistency ||(T_{t_n}(Sigma_hat))^{-1} - Sigma^{-1}|| on U_tau(q, c_0(p), M, eps_0) via operator-norm perturbation. Also distinct from ordered covariance banding/tapering B_k(M) = [m_{ij} 1(|i - j| &lt;= k)] (which requires a known variable ordering and fails under variable permutations, Table 1) and from linear eigenvalue shrinkage estimators (Ledoit &amp; Wolf 2003, which do not alter the inconsistent sample eigenvectors or induce sparsity).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#schur-operator-bound-positive-definiteness-and-weak-lq-bias</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a symmetric p x p matrix M, the hard-thresholding operator T_s(M) = [m_{ij} 1(|m_{ij}| &gt;= s)] (Eq. 3) preserves symmetry and is invariant under variable permutations P M P^T, unlike the banding operator B_k(M) = [m_{ij} 1(|i - j| &lt;= k)], and whenever ||T_s(M) - M||_{(2,2)} &lt;= eps and lambda_min(M) &gt; eps, T_s(M) is strictly positive definite because v^T T_s(M) v &gt;= lambda_min(M) - eps &gt; 0 for all unit vectors v (Eq. 4). Over the permutation-invariant weak-l_q covariance uniformity class U_tau(q, c_0(p), M) = {Sigma : sigma_{ii} &lt;= M, sum_{j=1}^p |sigma_{ij}|^q &lt;= c_0(p) for all i} (0 &lt;= q &lt; 1), the Schur/Holder bound ||Sigma||_{(2,2)} &lt;= ||Sigma||_{(1,1)} = max_j sum_i |sigma_{ij}| (Eq. 2) implies lambda_max(Sigma) &lt;= M^{1-q} c_0(p), and the deterministic thresholding bias satisfies ||T_t(Sigma) - Sigma||_{(1,1)} = max_i sum_{j=1}^p |sigma_{ij}| 1(|sigma_{ij}| &lt;= t) &lt;= t^{1-q} c_0(p) (Eq. 13).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-bl2008-covariance-thresholding-pdf">Covariance regularization by thresholding</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equations (1)-(4), p. 4; Section 2.1, p. 5; Section 2.2, Equation (13), p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#uniform-operator-inverse-and-frobenius-convergence-rates</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For n i.i.d. Gaussian or sub-Gaussian observations (E[e^{t X_{ij}^2}] &lt;= K &lt; infty for |t| &lt;= eta_j) with (log p)/n = o(1), decomposing ||T_t(Sigma_hat) - T_t(Sigma)||_{(1,1)} into false-positive, false-negative, and active-entry estimation errors I + II + III (Eqs. 14-22) and setting t_n = M&#39;*sqrt(log p / n) for sufficiently large M&#39; yields uniform operator-norm convergence ||T_{t_n}(Sigma_hat) - Sigma||_{(2,2)} = O_P(c_0(p) ((log p)/n)^{(1-q)/2}) on U_tau(q, c_0(p), M), uniform precision-matrix convergence ||(T_{t_n}(Sigma_hat))^{-1} - Sigma^{-1}||_{(2,2)} = O_P(c_0(p) ((log p)/n)^{(1-q)/2}) on U_tau(q, c_0(p), M, eps_0) (Theorem 1), and normalized squared Frobenius convergence p^{-1} ||T_{t_n}(Sigma_hat) - Sigma||_F^2 = O_P(c_0(p) ((log p)/n)^{1-q/2}) (Theorem 2, Eq. 23; Appendix Eqs. 42-45). Under finite polynomial moments E|X_{ij}|^{2(1+gamma)} &lt;= K (gamma &gt; 0), setting t_n = M p^{2/(1+gamma)} n^{-1/2} yields ||T_{t_n}(Sigma_hat) - Sigma||_{(2,2)} = O_P(c_0(p) (p^{2/(1+gamma)} / n^{1/2})^{1-q}) (Section 2.3, Eqs. 24-25).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-bl2008-covariance-thresholding-pdf">Covariance regularization by thresholding</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Theorem 1, Theorem 2, and Equations (6)-(23), pp. 6-9; Section 2.3, Equations (24)-(25), p. 9; Section 2.5, p. 10; Appendix, Proof of Theorem 2 and Equations (42)-(45), pp. 22-23</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#sample-splitting-cross-validation-oracle-equivalence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For data-driven threshold selection by N-split cross-validation R_hat(s) = N^{-1} sum_{nu=1}^N ||T_s(Sigma_hat_{1,nu}) - Sigma_hat_{2,nu}||_F^2 (Eq. 27), Proposition 1 (Pinelis max-projection inequality, Eq. 30) and Theorem 3 (general sample-splitting oracle inequality, Eqs. 31-38) establish that if the oracle estimator mu_hat^o satisfies |mu_hat^o - mu(P)|^2 = Omega_P(r_n), E_P max_{1&lt;=j&lt;=J} |(v_j, W_1 - mu)|^2 &lt;= C rho(J), and rho(J_n) (log J_n)/B_n = o(r_n), then the sample-splitting selector mu_hat^c achieves |mu_hat^c - mu(P)|^2 = |mu_hat^o - mu(P)|^2 (1 + o_P(1)). Combined with Wick-theorem variance bounds (Lemma A.1, Eq. 46), chi-square MGF tail bounds (Lemma A.2, Eqs. 47-54), and rho(J) &lt;= C(q, c_0, M) (log J)^2 p (Lemma A.3, Eqs. 55-57), searching over a grid of J thresholds with validation size B_n = n eps(n, p) and (log J)^3 = o(n^{q/2} c_0(p) (log p)^{1-q/2} eps(n, p)) yields Frobenius oracle equivalence ||T_{s_hat}(Sigma_hat) - Sigma||_F = ||T_o(Sigma_hat) - Sigma||_F (1 + o_P(1)) and achieves the optimal rate K c_0(p) p ((log p)/n)^{1-q/2} over U_tau(q, c_0(p), M) (Theorem 4, Eqs. 39-40).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-bl2008-covariance-thresholding-pdf">Covariance regularization by thresholding</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.3, Proposition 1, Theorem 3, Theorem 4, and Equations (27)-(40), pp. 11-15; Appendix, Lemmas A.1-A.3, Proof of Theorem 4, and Equations (46)-(57), pp. 23-27</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Finite-sample positive definiteness is not automatically guaranteed for arbitrary threshold values s: T_s(Sigma_hat) can exhibit small negative eigenvalues when s is large relative to lambda_min(Sigma) (as observed in the climate data EOF analysis, Section 5, p. 19), and positive definiteness is guaranteed only when ||T_s(Sigma_hat) - Sigma_hat||_{(2,2)} &lt; lambda_min(Sigma_hat) (Eq. 4, p. 4) or asymptotically as (log p)/n -&gt; 0 on U_tau(q, c_0(p), M, eps_0).</li>
+      <li>Cross-validation threshold selection (Theorem 4, Eq. 40) proves rate optimality under the normalized Frobenius norm p^{-1} ||T_{s_hat}(Sigma_hat) - Sigma||_F^2 rather than directly under the spectral/operator norm ||T_{s_hat}(Sigma_hat) - Sigma||_{(2,2)}^2 (Section 3.1, Eqs. 28-29, p. 11).</li>
+      <li>When variables possess a known true ordering and belong to the polynomial decay class V(eps_0, alpha, C), thresholding achieves rate ((log p)/n)^{(1-q)/2} with 1 - q &lt; alpha / (alpha + 1), which is slightly slower than the ordered banding rate ((log p)/n)^{alpha / (2(alpha + 1))} (Section 2.5, p. 10; Table 1, p. 16).</li>
+      <li>Primary-source typographical notes verified during full-text inspection of arXiv:0901.3079v1: (1) p. 5, third display from bottom writes V(eps, alpha, C) subset U(eps_0, alpha, C_1), omitting subscript 0 on the first eps; (2) p. 5, second display from bottom writes sum_j |sigma_{ij}|^q &lt;= eps_0^{-q} + C*(alpha+1)q/((alpha+1)q - 1) with factor C instead of C^q (or 2*C^q) from |sigma_{ij}|^q &lt;= C^q |i-j|^{-(alpha+1)q}; (3) p. 13, Eq. (33) writes the oracle estimator mu_hat^o with superscript zero as mu_hat^0 on the left-hand side 2(mu_hat^c - mu_hat^0, W_bar_B - mu); and (4) p. 26, display below Eq. (56) in the proof of Lemma A.3 writes int_{x^2}^infty e^{-sqrt(t)*delta} dt = int_x^infty v e^{-v*delta} dv = x e^{-x*delta} + delta^{-1} e^{-x*delta}, omitting the Jacobian factor 2 from dt = 2v dv and the delta^{-1}, delta^{-2} factors (absorbed into the generic constant C).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Operator-norm consistency ||T_{t_n}(Sigma_hat) - Sigma||_{(2,2)} -&gt; 0 of the hard-thresholded covariance estimator guarantees consistency of leading eigenvalues and principal component eigenvectors (EOFs), which Bickel &amp; Levina (2008, Sections 1, 4, 5, and 6) establish as a primary application of covariance thresholding.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LassoRegression.html" style="font-weight: 600;"><code>AIO:LassoRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Lasso Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Hard thresholding T_s(Sigma_hat) is the entrywise l_0 thresholding counterpart to l_1 (Lasso) soft-thresholding and penalized likelihood covariance/precision estimation (Section 1, pp. 2-3).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-bl2008-covariance-thresholding-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">bl2008-covariance-thresholding-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/pdf/0901.3079.pdf" target="_blank" rel="noopener">Covariance regularization by thresholding</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Peter J. Bickel, Elizaveta Levina
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/08-AOS600</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:048f947d5e8f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-bl2008-covariance-thresholding-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">bl2008-covariance-thresholding-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/abs/0901.3079" target="_blank" rel="noopener">Covariance regularization by thresholding (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Peter J. Bickel, Elizaveta Levina
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.0901.3079</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6f90d241cd1f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-bl2008-covariance-thresholding-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">bl2008-covariance-thresholding-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1214/08-AOS600" target="_blank" rel="noopener">Covariance regularization by thresholding (The Annals of Statistics Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Peter J. Bickel, Elizaveta Levina
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/08-AOS600</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cce2c7b8df8c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-18T22:42:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-18T22:42:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HighDimensionalCovarianceRegularizationByHardThresholding.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HighDimensionalCovarianceRegularizationByHardThresholding.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

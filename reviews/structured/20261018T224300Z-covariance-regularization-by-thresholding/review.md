@@ -1,0 +1,503 @@
+# Scientific author self-review of High-Dimensional Covariance Regularization by Hard Thresholding
+
+- Review: 20261018T224300Z-covariance-regularization-by-thresholding
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-18T22:42:00Z
+- Finished UTC: 2026-10-18T22:43:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain High-Dimensional Covariance Regularization by Hard Thresholding as a distinct DRAFT mathematical_method with related_match PrincipalComponentAnalysis and LassoRegression mappings. All three claims and locators across Bickel &amp; Levina (2008, The Annals of Statistics 36(6):2577-2604, arXiv:0901.3079v1) are supported with explicit positive-definiteness, Frobenius vs operator-norm cross-validation, ordered banding comparison, and primary-source typographical limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained HighDimensionalCovarianceRegularizationByHardThresholding record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 8fcfd2312be70cf85773c244ef84cc9c1e49996d.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:HighDimensionalCovarianceRegularizationByHardThresholding | data/curated/HighDimensionalCovarianceRegularizationByHardThresholding.yaml | maintained | High-Dimensional Covariance Regularization by Hard Thresholding |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:HighDimensionalCovarianceRegularizationByHardThresholding | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:HighDimensionalCovarianceRegularizationByHardThresholding | Validated 633 curated concept record(s). |
+| aimech seed --check | passed | True | AIMech:HighDimensionalCovarianceRegularizationByHardThresholding | Checked 442 record(s); 0 drift. |
+| aimech validate-history | passed | True | AIMech:HighDimensionalCovarianceRegularizationByHardThresholding | Validated 286 history file(s). |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:HighDimensionalCovarianceRegularizationByHardThresholding | Vendored record_review files match. |
+| aimech check-source | passed | True | AIMech:HighDimensionalCovarianceRegularizationByHardThresholding | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:HighDimensionalCovarianceRegularizationByHardThresholding | Exited 0 without output. |
+| Constructed Bickel &amp; Levina 2008 Schur (1,1)-norm, positive-definiteness preservation, permutation invariance, weak-l_q bias/variance decomposition, and sample-splitting oracle equivalence checks | passed | True | AIMech:HighDimensionalCovarianceRegularizationByHardThresholding | {"all_passed": true, "bias_bound_eq13": 0.58962273, "checks": {"banding_not_permutation_invariant": true, "bias_bound_eq13_holds": true, "eig_upper_bound_holds": true, "eq14_triangle_decomposition_holds": true, "lambda_min_sigma_positive": true, "pd_preservation_eq4_holds": true, "schur_bound_eq2_holds": true, "sec25_exponent_ordering_holds": true, "thm3_oracle_equivalence_ratio_close_to_1": true, "threshold_permutation_invariant": true}, "eig_upper_bound": 2.40712473, "err_11_ts": 0.11, "err_op_ts": 0.09372771, "exp_banding": 0.25, "exp_thresholding": 0.24, "lambda_max_sigma": 1.46440057, "lambda_min_sigma": 0.67086848, "lambda_min_ts": 0.61894882, "lhs_eq14": 0.10202256, "perm_invariance_diff_ts": 0.0, "perm_noninvariance_diff_b1": 0.51944444, "rhs_eq14": 0.12572714, "thm3_oracle_ratio": 1.0201, "threshold_s": 0.06, "weak_lq_c0_q05": 2.40712473} |
+
+## Scientific And Domain Assessments
+
+### Distinctness of High-Dimensional Covariance Regularization by Hard Thresholding
+
+identity: supported. Targets: AIMech:HighDimensionalCovarianceRegularizationByHardThresholding.
+
+Distinct mathematical_method for permutation-invariant entrywise hard-thresholding covariance regularization and sample-splitting threshold selection.
+
+Resolved as a distinct AIMech-native mathematical_method concept from Bickel and Levina (2008, The Annals of Statistics 36(6):2577-2604; arXiv:0901.3079v1, DOI:10.1214/08-AOS600). Distinct from AIMech:HighDimensionalCovarianceEstimationByL1PenalizedLogDeterminantDivergence (Ravikumar, Wainwright, Raskutti, &amp; Yu 2011), which estimates the inverse covariance (precision) matrix Theta* = (Sigma*)^{-1} via convex L1-penalized log-determinant Bregman optimization under edge-Hessian mutual incoherence &#124;&#124;&#124;Gamma*_{S^c S}(Gamma*_{SS})^{-1}&#124;&#124;&#124;_infty &lt;= 1 - alpha, whereas Bickel &amp; Levina (2008) directly regularize the covariance matrix Sigma = [sigma_{ij}] in O(p^2) closed form by entrywise hard thresholding T_s(Sigma_hat) without matrix inversion, convex programming, or Hessian incoherence conditions, and obtain inverse consistency &#124;&#124;(T_{t_n}(Sigma_hat))^{-1} - Sigma^{-1}&#124;&#124; on U_tau(q, c_0(p), M, eps_0) via operator-norm perturbation. Also distinct from ordered covariance banding/tapering B_k(M) = [m_{ij} 1(&#124;i - j&#124; &lt;= k)] (which requires a known variable ordering and fails under variable permutations, Table 1) and from linear eigenvalue shrinkage estimators (Ledoit &amp; Wolf 2003, which do not alter the inconsistent sample eigenvectors or induce sparsity).
+
+### AIO mappings for AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+
+grounding: supported. Targets: AIMech:HighDimensionalCovarianceRegularizationByHardThresholding.
+
+related_match to AIO:PrincipalComponentAnalysis and AIO:LassoRegression is accurate.
+
+Verified exact target existence in data/aio/ and documented why directed AIO:BayesianNetwork is rejected.
+
+### Definition and scope
+
+evidence: supported. Targets: AIMech:HighDimensionalCovarianceRegularizationByHardThresholding.
+
+Definition accurately captures Theorems 1-4, Proposition 1, and Lemmas A.1-A.3.
+
+All equations and claims verified against arXiv:0901.3079v1 (pp. 1-29).
+
+### Schur (1,1)-norm bound, positive-definiteness preservation, permutation invariance, and weak-l_q bias bound
+
+evidence: supported. Targets: AIMech:HighDimensionalCovarianceRegularizationByHardThresholding.
+
+Claim 1 (Schur bound, positive-definiteness preservation, permutation invariance, and weak-l_q bias bound) is verified.
+
+Checked &#124;&#124;T_s(Sigma) - Sigma&#124;&#124;_{(2,2)} = 0.09372771 &lt;= 0.11, lambda_min(T_s(Sigma)) = 0.61894882 &gt; 0, and exact permutation invariance (0.0 vs banding 0.51944444).
+
+### Theorems 1-2 operator-norm, inverse-covariance, Frobenius-norm, and polynomial-moment rates
+
+evidence: supported. Targets: AIMech:HighDimensionalCovarianceRegularizationByHardThresholding.
+
+Claim 2 (Theorems 1-2 operator-norm, inverse-covariance, Frobenius-norm, and polynomial-moment rates) is verified.
+
+Checked Eq. (14) decomposition (0.10202256 &lt;= 0.12572714) and Section 2.5 exponent ordering (0.24 &lt; 0.25).
+
+### Proposition 1, Theorem 3 sample-splitting inequality, Lemmas A.1-A.3, and Theorem 4 Frobenius oracle equivalence
+
+evidence: supported. Targets: AIMech:HighDimensionalCovarianceRegularizationByHardThresholding.
+
+Claim 3 (Proposition 1, Theorem 3 sample-splitting inequality, Lemmas A.1-A.3, and Theorem 4 Frobenius oracle equivalence) is verified.
+
+Checked Theorem 3 quadratic root bound a_n / r_n = 1.0201 and Lemmas A.1-A.3.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:HighDimensionalCovarianceRegularizationByHardThresholding.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of HighDimensionalCovarianceRegularizationByHardThresholding.yaml and verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261018T224200Z-covariance-regularization-by-thresholding.json | supports | No normalized identity match for High-Dimensional Covariance Regularization by Hard Thresholding across 442 pinned AIO records and 632 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected PrincipalComponentAnalysis and LassoRegression in the pinned AIO snapshot (2026-07-22). Provide accurate related_match context. |
+| calculation | research/discovery/covariance-regularization-by-thresholding-boundaries.py | supports | Executed pure-Python verification in research/discovery/covariance-regularization-by-thresholding-boundaries.py (SHA-256 34c20981c3c88cdf2f6af766990f450007ccbdcb2540616f8010ae5059e7289c): verified (1) Schur/Holder bound &#124;&#124;T_s(Sigma) - Sigma&#124;&#124;_{(2,2)} = 0.09372771 &lt;= &#124;&#124;T_s(Sigma) - Sigma&#124;&#124;_{(1,1)} = 0.11 (Eq. 2), positive-definiteness preservation lambda_min(T_s(Sigma)) = 0.61894882 &gt;= lambda_min(Sigma) - &#124;&#124;T_s(Sigma) - Sigma&#124;&#124;_{(2,2)} = 0.57714077 &gt; 0 (Eq. 4), and exact permutation invariance &#124;&#124;T_s(P Sigma P^T) - P T_s(Sigma) P^T&#124;&#124;_{(1,1)} = 0.0 vs banding failure &#124;&#124;B_1(P Sigma P^T) - P B_1(Sigma) P^T&#124;&#124;_{(1,1)} = 0.51944444 (Sections 2 &amp; 4); and (2) deterministic weak-l_q bias bound &#124;&#124;T_s(Sigma) - Sigma&#124;&#124;_{(1,1)} = 0.11 &lt;= s^{1-q} c_0(p) = 0.58962273 (Eq. 13), triangle decomposition &#124;&#124;T_s(Sigma_hat) - T_s(Sigma)&#124;&#124;_{(1,1)} = 0.10202256 &lt;= I + II + III = 0.12572714 (Eq. 14), Section 2.5 exponent ordering (1-q)/2 = 0.24 &lt; alpha/(2(alpha+1)) = 0.25, and Theorem 3 sample-splitting quadratic root bound a_n / r_n = 1.0201 (Eqs. 31-38). |
+| bl2008-covariance-thresholding-pdf | https://export.arxiv.org/pdf/0901.3079.pdf; Pages 1-29, Sections 1-6 and Appendix (Theorems 1-4, Proposition 1, Lemmas A.1-A.3, Equations 1-57) | supports | All 29 pages of Bickel &amp; Levina (2008, The Annals of Statistics 36(6):2577-2604, arXiv:0901.3079v1) read and verified. |
+| bl2008-covariance-thresholding-abs | https://export.arxiv.org/abs/0901.3079; arXiv:0901.3079 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| bl2008-covariance-thresholding-cr | https://api.crossref.org/works/10.1214/08-AOS600; DOI:10.1214/08-AOS600 Crossref metadata | supports | The Annals of Statistics 2008 Crossref metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT High-Dimensional Covariance Regularization by Hard Thresholding record, yielding 633 native and 442 unchanged generated records.
+- All 29 PDF pages of arXiv:0901.3079v1 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261018T224300Z-covariance-regularization-by-thresholding
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of High-Dimensional Covariance Regularization
+  by Hard Thresholding
+started_at: '2026-10-18T22:42:00Z'
+finished_at: '2026-10-18T22:43:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from HighDimensionalCovarianceEstimationByL1PenalizedLogDeterminantDivergence,
+    ordered matrix banding, and Ledoit-Wolf shrinkage, verified Theorems 1-4, Proposition
+    1, and Lemmas A.1-A.3, and documented four primary-source typographical notes
+    in Bickel & Levina (2008, arXiv:0901.3079v1). This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain High-Dimensional Covariance Regularization by Hard Thresholding as
+  a distinct DRAFT mathematical_method with related_match PrincipalComponentAnalysis
+  and LassoRegression mappings. All three claims and locators across Bickel & Levina
+  (2008, The Annals of Statistics 36(6):2577-2604, arXiv:0901.3079v1) are supported
+  with explicit positive-definiteness, Frobenius vs operator-norm cross-validation,
+  ordered banding comparison, and primary-source typographical limitations.
+source:
+  git_revision: 8fcfd2312be70cf85773c244ef84cc9c1e49996d
+  state: working_tree
+  inputs:
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/HighDimensionalCovarianceEstimationByL1PenalizedLogDeterminantDivergence.yaml
+    sha256: 59f61518b33d6b2f9a43c902d8a7cdc207246ff30d3e78daca4bdc9a94cb56d9
+    role: context
+  - path: data/curated/HighDimensionalCovarianceRegularizationByHardThresholding.yaml
+    sha256: 88744208883977cc24688f1be111758e3de60b77d3c994617e5bb1d2400857fd
+    role: target
+  - path: data/curated/HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.yaml
+    sha256: 9db249ebd0a792b5640ff3b86920d4be08de3b540a208ecacd337fe67928ce95
+    role: context
+  - path: research/discovery/20261018T224200Z-covariance-regularization-by-thresholding.json
+    sha256: 4e6e24a893c5cd41895924b411016c9134af0ee5f7c2b78a3de57fcdfaaf188d
+    role: context
+  - path: research/discovery/covariance-regularization-by-thresholding-boundaries.py
+    sha256: 34c20981c3c88cdf2f6af766990f450007ccbdcb2540616f8010ae5059e7289c
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  path: data/curated/HighDimensionalCovarianceRegularizationByHardThresholding.yaml
+  label: High-Dimensional Covariance Regularization by Hard Thresholding
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HighDimensionalCovarianceRegularizationByHardThresholding.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained HighDimensionalCovarianceRegularizationByHardThresholding
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:HighDimensionalCovarianceRegularizationByHardThresholding'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 633 curated concept record(s).
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 record(s); 0 drift.
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 286 history file(s).
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored record_review files match.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Bickel & Levina 2008 Schur (1,1)-norm, positive-definiteness preservation,
+    permutation invariance, weak-l_q bias/variance decomposition, and sample-splitting
+    oracle equivalence checks
+  command: python3 research/discovery/covariance-regularization-by-thresholding-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"all_passed": true, "bias_bound_eq13": 0.58962273, "checks": {"banding_not_permutation_invariant":
+    true, "bias_bound_eq13_holds": true, "eig_upper_bound_holds": true, "eq14_triangle_decomposition_holds":
+    true, "lambda_min_sigma_positive": true, "pd_preservation_eq4_holds": true, "schur_bound_eq2_holds":
+    true, "sec25_exponent_ordering_holds": true, "thm3_oracle_equivalence_ratio_close_to_1":
+    true, "threshold_permutation_invariant": true}, "eig_upper_bound": 2.40712473,
+    "err_11_ts": 0.11, "err_op_ts": 0.09372771, "exp_banding": 0.25, "exp_thresholding":
+    0.24, "lambda_max_sigma": 1.46440057, "lambda_min_sigma": 0.67086848, "lambda_min_ts":
+    0.61894882, "lhs_eq14": 0.10202256, "perm_invariance_diff_ts": 0.0, "perm_noninvariance_diff_b1":
+    0.51944444, "rhs_eq14": 0.12572714, "thm3_oracle_ratio": 1.0201, "threshold_s":
+    0.06, "weak_lq_c0_q05": 2.40712473}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261018T224200Z-covariance-regularization-by-thresholding.json
+  accessed_at: '2026-10-18T22:42:00Z'
+  support: supports
+  summary: No normalized identity match for High-Dimensional Covariance Regularization
+    by Hard Thresholding across 442 pinned AIO records and 632 maintained IDs, names,
+    aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-18T22:42:00Z'
+  support: supports
+  summary: Inspected PrincipalComponentAnalysis and LassoRegression in the pinned
+    AIO snapshot (2026-07-22). Provide accurate related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/covariance-regularization-by-thresholding-boundaries.py
+  accessed_at: '2026-10-18T22:42:00Z'
+  snapshot_sha256: 34c20981c3c88cdf2f6af766990f450007ccbdcb2540616f8010ae5059e7289c
+  support: supports
+  summary: 'Executed pure-Python verification in research/discovery/covariance-regularization-by-thresholding-boundaries.py
+    (SHA-256 34c20981c3c88cdf2f6af766990f450007ccbdcb2540616f8010ae5059e7289c): verified
+    (1) Schur/Holder bound ||T_s(Sigma) - Sigma||_{(2,2)} = 0.09372771 <= ||T_s(Sigma)
+    - Sigma||_{(1,1)} = 0.11 (Eq. 2), positive-definiteness preservation lambda_min(T_s(Sigma))
+    = 0.61894882 >= lambda_min(Sigma) - ||T_s(Sigma) - Sigma||_{(2,2)} = 0.57714077
+    > 0 (Eq. 4), and exact permutation invariance ||T_s(P Sigma P^T) - P T_s(Sigma)
+    P^T||_{(1,1)} = 0.0 vs banding failure ||B_1(P Sigma P^T) - P B_1(Sigma) P^T||_{(1,1)}
+    = 0.51944444 (Sections 2 & 4); and (2) deterministic weak-l_q bias bound ||T_s(Sigma)
+    - Sigma||_{(1,1)} = 0.11 <= s^{1-q} c_0(p) = 0.58962273 (Eq. 13), triangle decomposition
+    ||T_s(Sigma_hat) - T_s(Sigma)||_{(1,1)} = 0.10202256 <= I + II + III = 0.12572714
+    (Eq. 14), Section 2.5 exponent ordering (1-q)/2 = 0.24 < alpha/(2(alpha+1)) =
+    0.25, and Theorem 3 sample-splitting quadratic root bound a_n / r_n = 1.0201 (Eqs.
+    31-38).'
+- evidence_id: bl2008-covariance-thresholding-pdf
+  kind: primary_source
+  reference: https://export.arxiv.org/pdf/0901.3079.pdf
+  locator: Pages 1-29, Sections 1-6 and Appendix (Theorems 1-4, Proposition 1, Lemmas
+    A.1-A.3, Equations 1-57)
+  accessed_at: '2026-10-18T15:52:26Z'
+  snapshot_sha256: 048f947d5e8f2813ef84c64b863ea0f481788ff9eb835926c4cec5cf74b81506
+  support: supports
+  summary: All 29 pages of Bickel & Levina (2008, The Annals of Statistics 36(6):2577-2604,
+    arXiv:0901.3079v1) read and verified.
+- evidence_id: bl2008-covariance-thresholding-abs
+  kind: primary_source
+  reference: https://export.arxiv.org/abs/0901.3079
+  locator: arXiv:0901.3079 abstract
+  accessed_at: '2026-10-18T15:52:33Z'
+  snapshot_sha256: 6f90d241cd1fe0ab7585d521fee65ea25e7bb07de9e15a4523492081ae6c702b
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: bl2008-covariance-thresholding-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/08-AOS600
+  locator: DOI:10.1214/08-AOS600 Crossref metadata
+  accessed_at: '2026-10-18T15:40:00Z'
+  snapshot_sha256: cce2c7b8df8c389dc6671ca7dbecba1edde113d9ea79e9b1e84efa3e757e5e32
+  support: supports
+  summary: The Annals of Statistics 2008 Crossref metadata read and verified.
+assessments:
+- assessment_id: identity-boundary
+  area: identity
+  topic: Distinctness of High-Dimensional Covariance Regularization by Hard Thresholding
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  evidence_ids:
+  - identity
+  - bl2008-covariance-thresholding-pdf
+  - bl2008-covariance-thresholding-abs
+  - bl2008-covariance-thresholding-cr
+  summary: Distinct mathematical_method for permutation-invariant entrywise hard-thresholding
+    covariance regularization and sample-splitting threshold selection.
+  details: Resolved as a distinct AIMech-native mathematical_method concept from Bickel
+    and Levina (2008, The Annals of Statistics 36(6):2577-2604; arXiv:0901.3079v1,
+    DOI:10.1214/08-AOS600). Distinct from AIMech:HighDimensionalCovarianceEstimationByL1PenalizedLogDeterminantDivergence
+    (Ravikumar, Wainwright, Raskutti, & Yu 2011), which estimates the inverse covariance
+    (precision) matrix Theta* = (Sigma*)^{-1} via convex L1-penalized log-determinant
+    Bregman optimization under edge-Hessian mutual incoherence |||Gamma*_{S^c S}(Gamma*_{SS})^{-1}|||_infty
+    <= 1 - alpha, whereas Bickel & Levina (2008) directly regularize the covariance
+    matrix Sigma = [sigma_{ij}] in O(p^2) closed form by entrywise hard thresholding
+    T_s(Sigma_hat) without matrix inversion, convex programming, or Hessian incoherence
+    conditions, and obtain inverse consistency ||(T_{t_n}(Sigma_hat))^{-1} - Sigma^{-1}||
+    on U_tau(q, c_0(p), M, eps_0) via operator-norm perturbation. Also distinct from
+    ordered covariance banding/tapering B_k(M) = [m_{ij} 1(|i - j| <= k)] (which requires
+    a known variable ordering and fails under variable permutations, Table 1) and
+    from linear eigenvalue shrinkage estimators (Ledoit & Wolf 2003, which do not
+    alter the inconsistent sample eigenvectors or induce sparsity).
+- assessment_id: aio-mappings
+  area: grounding
+  topic: AIO mappings for AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  evidence_ids:
+  - mapping
+  - bl2008-covariance-thresholding-pdf
+  summary: related_match to AIO:PrincipalComponentAnalysis and AIO:LassoRegression
+    is accurate.
+  details: Verified exact target existence in data/aio/ and documented why directed
+    AIO:BayesianNetwork is rejected.
+- assessment_id: definition
+  area: evidence
+  topic: Definition and scope
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  evidence_ids:
+  - bl2008-covariance-thresholding-pdf
+  - bl2008-covariance-thresholding-abs
+  - bl2008-covariance-thresholding-cr
+  summary: Definition accurately captures Theorems 1-4, Proposition 1, and Lemmas
+    A.1-A.3.
+  details: All equations and claims verified against arXiv:0901.3079v1 (pp. 1-29).
+- assessment_id: claim-1-operator-and-pd-preservation
+  area: evidence
+  topic: Schur (1,1)-norm bound, positive-definiteness preservation, permutation invariance,
+    and weak-l_q bias bound
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  evidence_ids:
+  - bl2008-covariance-thresholding-pdf
+  - calculation
+  summary: Claim 1 (Schur bound, positive-definiteness preservation, permutation invariance,
+    and weak-l_q bias bound) is verified.
+  details: Checked ||T_s(Sigma) - Sigma||_{(2,2)} = 0.09372771 <= 0.11, lambda_min(T_s(Sigma))
+    = 0.61894882 > 0, and exact permutation invariance (0.0 vs banding 0.51944444).
+- assessment_id: claim-2-convergence-rates
+  area: evidence
+  topic: Theorems 1-2 operator-norm, inverse-covariance, Frobenius-norm, and polynomial-moment
+    rates
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  evidence_ids:
+  - bl2008-covariance-thresholding-pdf
+  - calculation
+  summary: Claim 2 (Theorems 1-2 operator-norm, inverse-covariance, Frobenius-norm,
+    and polynomial-moment rates) is verified.
+  details: Checked Eq. (14) decomposition (0.10202256 <= 0.12572714) and Section 2.5
+    exponent ordering (0.24 < 0.25).
+- assessment_id: claim-3-cross-validation-oracle
+  area: evidence
+  topic: Proposition 1, Theorem 3 sample-splitting inequality, Lemmas A.1-A.3, and
+    Theorem 4 Frobenius oracle equivalence
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  evidence_ids:
+  - bl2008-covariance-thresholding-pdf
+  - calculation
+  summary: Claim 3 (Proposition 1, Theorem 3 sample-splitting inequality, Lemmas A.1-A.3,
+    and Theorem 4 Frobenius oracle equivalence) is verified.
+  details: Checked Theorem 3 quadratic root bound a_n / r_n = 1.0201 and Lemmas A.1-A.3.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:HighDimensionalCovarianceRegularizationByHardThresholding
+  evidence_ids:
+  - identity
+  - mapping
+  - bl2008-covariance-thresholding-pdf
+  - bl2008-covariance-thresholding-abs
+  - bl2008-covariance-thresholding-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Read every field of HighDimensionalCovarianceRegularizationByHardThresholding.yaml
+    and verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT High-Dimensional Covariance Regularization by Hard Thresholding
+  record, yielding 633 native and 442 unchanged generated records.
+- All 29 PDF pages of arXiv:0901.3079v1 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- covariance-estimation
+- hard-thresholding
+- cross-validation
+- operator-norm
+- self-review
+- discovery-ongoing
+```
