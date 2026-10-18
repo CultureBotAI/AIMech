@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Post-model-selection predictor PoSI confidence intervals under full and active-only covariate observation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Post-model-selection predictor PoSI confidence intervals under full and active-only covariate observation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Post-model-selection predictor PoSI confidence intervals under full and active-only covariate observation</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:PostModelSelectionPredictorPoSIConfidenceIntervals</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Bachoc-Leeb-Pötscher post-model-selection predictor confidence intervals, Active-covariate partial-union-bound predictor PoSI hierarchy (K_1, K_2, K_3, K_4, K_5), Design-dependent in-sample and random-design out-of-sample post-selection prediction intervals, Post-selection linear predictor simultaneous coverage calibration
+    </div>
+
+  <div class="detail-desc">
+    A post-model-selection inference methodology for linear regression predictors x_0&#39;[M_hat] beta_hat_{M_hat} +- K(x_0, M_hat) * ||s_{M_hat}|| * sigma_hat (Equation 5), where s_M&#39; = x_0&#39;[M] (X[M]&#39; X[M])^{-1} X[M]&#39; (Equation 6) and bar{s}_M = s_M / ||s_M||, guaranteeing coverage &gt;= 1 - alpha simultaneously over all candidate models M in M_cal and any data-driven model selector M_hat without requiring the true mean mu to be linear. In fixed-design homoscedastic Gaussian regression Y ~ N(mu, sigma^2 I_n) targeting the in-sample optimal linear predictor x_0&#39;[M_hat] beta_{M_hat}^{(n)} with beta_M^{(n)} = (X[M]&#39; X[M])^{-1} X[M]&#39; mu (Equations 3-4, Remark 2.8), observing the full regressor vector x_0 in R^p yields the exact full-information constant K_1(x_0, r), the (1 - alpha)-quantile of max_{M in M_cal} |bar{s}_M&#39; (Y - mu)| / sigma_hat =^d G * max_{M in M_cal} |bar{s}_M&#39; V| (Equation 10, Proposition 2.1, Equation 23). When only the selected covariates x_0[M_hat] are observed at prediction time, K_1(x_0) is infeasible and is replaced by the active-covariate hierarchy K_naive &lt;= K_1(x_0) &lt;= K_2(x_0[M], M) &lt;= K_3(x_0[M], M) &lt;= K_4 &lt;= K_5 (Equations 11-15, Proposition 2.3, Corollary 2.4), where K_2(x_0[M], M) = sup_{x[M] = x_0[M]} K_1(x), K_3(x_0[M], M) is the (1 - alpha)-quantile of the partial spherical-cap union-bound distribution F_{M, x_0}(t) = E_G[1 - min(1, P(max_{M_* subset M} |bar{s}_{M_*}&#39; V| &gt; t/G) + c(M, M_cal) * (1 - F_{Beta, 1/2, (d-1)/2}((t/G)^2)))] separating nested submodels M_* subset M from the c(M, M_cal) non-nested models (Equations 12-14), K_4 = K_3(x_0[emptyset], emptyset) is the full union-bound constant, and K_5 is the Scheffé constant. In random-design regression Y = X beta + U with second-moment matrix Sigma, the same intervals (with either full-model or post-selection variance estimator sigma_hat_{M_hat}^2) asymptotically uniformly cover the design-independent out-of-sample optimal linear predictor x_0&#39;[M_hat] beta_{M_hat}^{(*)} with beta_M^{(*)} = beta[M] + (Sigma[M, M])^{-1} Sigma[M, M^c] beta[M^c] (Section 3, Remark 3.2, Theorem 3.6, Lemma C.2, Theorem D.6).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:ValidPostSelectionInferencePoSIConstant (Berk, Brown, Buja, Zhang, &amp; Zhao 2013, The Annals of Statistics 41(2):802-837, arXiv:1206.6451), which constructs simultaneous confidence intervals for individual submodel regression coefficients beta_{j, M} (corresponding to the sparse unit-vector special case x_0 = e_j) and shows that the coefficient PoSI constant scales as O(sqrt(log p)) under orthogonal designs. Bachoc, Leeb, &amp; Pötscher (2019, The Annals of Statistics 47(3):1475-1504, arXiv:1412.4605v3, DOI:10.1214/18-AOS1721) formulate post-selection inference for general linear predictors x_0&#39;[M_hat] beta_{M_hat} under both full observation of x_0 (K_1(x_0)) and active-only observation of x_0[M_hat] (K_2, K_3, K_4), prove exact tightness of the partial union bound in Lemma B.4, establish that even under orthogonal designs the predictor constants K_1(x_0, infty) and K_2(x_0[M], M, infty) grow at the polynomial rate Theta(sqrt(p)) with explicit lower-bound constant xi = sup_{b &gt; 0} phi(b)/sqrt(1 - Phi(b)) approx 0.6363 (Proposition 2.9) while K_3(x_0[M], M, infty) / K_4(infty) -&gt; 1 and K_4(infty)/sqrt(p) -&gt; sqrt(3)/2 approx 0.866 &lt; 1 (Proposition 2.10, Corollary 2.12), and prove uniform asymptotic validity for the random-design out-of-sample projection target x_0&#39;[M_hat] beta_{M_hat}^{(*)} (Theorem 3.6, Theorem D.6). Also distinct from AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds (Bachoc, Blanchard, &amp; Neuvial 2018), which bounds the regression-coefficient PoSI constant under s-sparse Restricted Isometry Property assumptions.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#full-and-active-covariate-predictor-posi-constant-hierarchy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed-design homoscedastic Gaussian regression Y ~ N(mu, sigma^2 I_n) with candidate model set M_cal subset 2^{{1, ..., p}}, rank d = rank(X), and variance estimator sigma_hat^2 independent of X&#39;Y distributed as (sigma^2 / r) chi^2_r (including r = infty when sigma is known), the post-model-selection predictor confidence interval CI(x_0) = x_0&#39;[M_hat] beta_hat_{M_hat} +- K(x_0, M_hat) * ||s_{M_hat}|| * sigma_hat (Equations 5-6) covers the design-dependent in-sample optimal target x_0&#39;[M_hat] beta_{M_hat}^{(n)} with probability &gt;= 1 - alpha for every model selector M_hat whenever K(x_0, M_hat) &gt;= K_1(x_0), where K_1(x_0) is the (1 - alpha)-quantile of max_{M in M_cal} |bar{s}_M&#39;(Y - mu)| / sigma_hat =^d G * max_{M in M_cal} |bar{s}_M&#39; V| with G ~ sqrt(d/r) * sqrt(chi^2_d / chi^2_r) independent of V ~ Unif(S^{d-1}) (Equation 10, Proposition 2.1, Corollary 2.2, Equation 23). When only active covariates x_0[M_hat] are observed, Proposition 2.3 and Corollary 2.4 (pages 9-10, Equations 11-17) establish the valid constant hierarchy K_naive = q_{r, 1-alpha/2} &lt;= K_1(x_0) &lt;= K_2(x_0[M], M) &lt;= K_3(x_0[M], M) &lt;= K_4 &lt;= K_5 and the anti-monotonicity K_i(x_0[M_2], M_2) &lt;= K_i(x_0[M_1], M_1) for M_1 subset M_2 (i = 2, 3), where K_2(x_0[M], M) = sup{K_1(x) : x[M] = x_0[M]} (Equation 11) and K_3(x_0[M], M) is the (1 - alpha)-quantile of F_{M, x_0}(t) = E_G[F^*_{M, x_0}(t/G)] with F^*_{M, x_0}(t) = 1 - min(1, P(max_{M_* in M_cal, M_* subset M} |bar{s}_{M_*}&#39; V| &gt; t) + c(M, M_cal) * (1 - F_{Beta, 1/2, (d-1)/2}(t^2))) (Equations 12-14).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-blp2019-pdf">Valid confidence intervals for post-model-selection predictors</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1-2.3, Pages 5-12, Equations (1)-(17), Proposition 2.1, Corollary 2.2, Proposition 2.3, Corollary 2.4, Remarks 2.5-2.8; Appendix B.1, Pages 32-34, Equations (22)-(24)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-blp2019-crossref">Valid confidence intervals for post-model-selection predictors (The Annals of Statistics Crossref Record)</a></span>
+        <span>· <strong>Locator:</strong> The Annals of Statistics 47(3):1475-1504 abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#exact-union-bound-geometry-and-monte-carlo-quantile-algorithms</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Lemma B.4 (Appendix B.1, page 34) proves that the spherical union bounds defining K_3(x_0[M], M) and K_4 can hold with exact equality: for p = d = 2, n &gt;= 2, M_cal = 2^{{1, 2}}, X^{(2)} = [[1, cos(2*pi/3)], [0, sin(2*pi/3)]], and x_0&#39; = (cos(4*pi/3), sin(4*pi/3)) X^{(2)}, the three unit vectors bar{s}_{{1}}&#39; = -(1, 0), bar{s}_{{2}}&#39; = -(cos(2*pi/3), sin(2*pi/3)), and bar{s}_{{1,2}}&#39; = (cos(4*pi/3), sin(4*pi/3)) have spherical caps {|bar{s}_{M_*}&#39; V| &gt; c} that are pairwise disjoint on S^1 for c &gt;= sqrt(3)/2 and cover S^1 for 0 &lt;= c &lt;= sqrt(3)/2, yielding F^*_{M, x_0}(t) = P(max_{M_* in M_cal} |bar{s}_{M_*}&#39; V| &lt;= t) and K_1(x_0) = K_2(x_0[M], M) = K_3(x_0[M], M) = K_4 &lt; K_5 for every M in M_cal. Appendix E (pages 48-53, Equations 37-42, Algorithms E.1-E.3) provides exact 1D numerical integration for K_4 (Equation 37) and conditional Monte Carlo integration over V ~ Unif(S^{d-1}) and V_tilde ~ Unif(S^{|M|-1}) for K_1(x_0) and K_3(x_0[M], M), reducing the inner nested maximization in K_3 from dimension d to dimension |M| via QR orthogonalization of X[M] (Equation 40, Algorithm E.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-blp2019-pdf">Valid confidence intervals for post-model-selection predictors</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, Pages 9-12; Appendix B.1, Page 34, Lemma B.4; Appendix E, Pages 48-53, Equations (37)-(42), Algorithms E.1-E.3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#orthogonal-design-sqrt-p-scaling-and-universal-k3-k4-asymptotics</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Whereas the Berk-Brown-Buja-Zhang-Zhao (2013) PoSI constant for individual regression coefficients scales as sqrt(2 log p) under orthogonal designs, Proposition 2.9 and Lemma B.6 (Section 2.4.1, pages 12-13, Appendix B.2, pages 35-36) prove that for any orthogonal design X(p) in X_sf(p) with M_cal = 2^{{1, ..., p}} and r = infty, choosing dense x_0 proportional to (1, ..., 1)&#39; yields liminf_{p -&gt; infty} K_1(x_0, infty) / sqrt(p) &gt;= xi = sup_{b &gt; 0} phi(b) / sqrt(1 - Phi(b)) approx 0.6363 (while sparse x_0 with sup_p ||x_0||_0 &lt; infty satisfies K_1(x_0, infty) = O(1)), and for any 0 &lt;= gamma &lt; 1, liminf_{p -&gt; infty} inf_{x_0, X in X_sf(p), |M| &lt;= gamma * p} K_2(x_0[M], M, infty) / sqrt(p) &gt;= xi * sqrt(1 - gamma). Furthermore, Proposition 2.10 and Corollaries 2.11-2.12 (Section 2.4.2, pages 13-14, Appendix B.2, pages 36-38) prove that whenever c(M, M_cal) &gt;= tau * |M_cal| (holding with tau = 1/3 for all M != {1, ..., p} when M_cal = {M : |M| &lt;= m_p}), K_3(x_0[M], M, r_p) / K_4(r_p) -&gt; 1 uniformly over design X, x_0, and M, and K_4(infty) ~ sqrt(min(n(p), p) * (1 - |M_cal|^{-2/(min(n(p), p) - 1)})), which for M_cal = 2^{{1, ..., p}} and n(p) &gt;= p gives lim_{p -&gt; infty} K_4(infty) / sqrt(p) = sqrt(3)/2 approx 0.866 &lt; 1 = lim_{p -&gt; infty} K_5(infty) / sqrt(p).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-blp2019-pdf">Valid confidence intervals for post-model-selection predictors</a></span>
+        <span>· <strong>Locator:</strong> Section 2.4, Pages 12-14, Proposition 2.9, Proposition 2.10, Corollaries 2.11-2.12; Appendix B.2, Pages 34-38, Lemmas B.5-B.6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-blp2019-abs">Valid confidence intervals for post-model-selection predictors (arXiv:1412.4605 Abstract)</a></span>
+        <span>· <strong>Locator:</strong> arXiv:1412.4605v3 abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#random-design-uniform-asymptotic-validity-for-out-of-sample-predictors</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the random-design regression model Y = X beta + U where (y_i, x_i&#39;) are i.i.d. with E[x_i x_i&#39;] = Sigma and E[u_i | x_i] = 0, Remark 2.8 and Section 3 (pages 11-12, 15-19, Equation 18, Remark 3.2) distinguish the design-dependent in-sample projection parameter beta_M^{(n)} = (X[M]&#39; X[M])^{-1} X[M]&#39; E[Y | X] from the design-independent out-of-sample optimal linear projection parameter beta_M^{(*)} = argmin_{gamma} E[(y_0 - x_0&#39;[M] gamma)^2] = beta[M] + (Sigma[M, M])^{-1} Sigma[M, M^c] beta[M^c]. Under Conditions 3.3-3.5 (moment bounds on X, U and spherical invariance of X Sigma^{-1/2} when |M_hat| &lt; p), Theorem 3.6 and Lemmas C.1-C.2 (Section 3, pages 17-19, Appendix C, pages 38-42) prove that the confidence intervals CI(x_0) calibrated with K(x_0, M_hat) in {K_1, K_2, K_3, K_4, K_5} and either the full-model variance estimator sigma_hat_OLS^2 or the post-selection variance estimator sigma_hat_{M_hat}^2 = ||Y - X[M_hat] beta_hat_{M_hat}||^2 / (n - |M_hat|) achieve uniform asymptotic coverage P(x_0&#39;[M_hat] beta_{M_hat}^{(*)} in CI(x_0) | x_0) &gt;= (1 - alpha) + o_p(1) uniformly over model selectors M_hat and spherical error-plus-design laws (extended to growing dimension p(n) -&gt; infty with p(n) = o(n^{1/2}) in Appendix D, Theorem D.6, pages 42-48).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-blp2019-pdf">Valid confidence intervals for post-model-selection predictors</a></span>
+        <span>· <strong>Locator:</strong> Remark 2.8, Pages 11-12; Section 3, Pages 15-19, Equation (18), Remarks 3.1-3.2, Conditions 3.3-3.5, Theorem 3.6; Appendix C, Pages 38-42, Equations (25)-(26), Lemmas C.1-C.2; Appendix D, Pages 42-48, Equations (27)-(36), Conditions D.1-D.4, Lemma D.5, Theorem D.6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-blp2019-crossref">Valid confidence intervals for post-model-selection predictors (The Annals of Statistics Crossref Record)</a></span>
+        <span>· <strong>Locator:</strong> The Annals of Statistics 47(3):1475-1504 abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Unlike the Berk-Brown-Buja-Zhang-Zhao (2013) PoSI constant for individual regression coefficients, which scales as sqrt(2 log p) under orthogonal designs, the predictor PoSI constants K_1(x_0) (for dense x_0) and K_2(x_0[M], M), K_3(x_0[M], M), K_4 grow at rate Theta(sqrt(p)) even under orthogonal designs when M_cal = 2^{{1, ..., p}}, because the predictor vectors bar{s}_M depend continuously on x_0 across all 2^p - 1 submodels (Proposition 2.9, Proposition 2.10, Corollary 2.12).</li>
+      <li>In the random-design setting (Section 3, Condition 3.5, Remark 3.7, and Appendix D Condition D.4), uniform asymptotic validity over misspecified submodels |M_hat| &lt; p requires spherical invariance of the standardized covariate vector Sigma^{-1/2} x_i (such as elliptical / Gaussian designs) to ensure that the omitted-variable projection residual x_i&#39;[M^c] beta[M^c] - x_i&#39;[M] (Sigma[M, M])^{-1} Sigma[M, M^c] beta[M^c] is uncorrelated with x_i[M] and conditionally homoscedastic.</li>
+      <li>Four minor typographical or corrigendum notes in arXiv:1412.4605v3 were identified and verified during full-text inspection: (1) Section 2.4.1 (page 13, line 6) explicitly notes a corrigendum to Berk et al. (2013a) Proposition 5.5, pointing out that the remainder term printed as &#39;o(d)&#39; in Berk et al. (2013a) should read &#39;o(1)&#39;; (2) in Appendix B.2 (page 37, proof of Proposition 2.10, line 6), &#39;K(|M| - 1, min(n(p).p), alpha)&#39; prints a period instead of a comma inside &#39;min(n(p), p)&#39;; (3) in Appendix E (page 49, paragraph preceding Algorithm E.2, line 4), &#39;\tilde{\bar{s}}_Minstead of \bar{s}_M&#39; omits the space before &#39;instead&#39;; and (4) in the References (page 56, Tian &amp; Taylor 2015), &#39;selective inferene&#39; is printed for &#39;selective inference&#39;.</li>
+      <li>All 56 pages of the full-text PDF of Bachoc, Leeb, &amp; Pötscher (2019, The Annals of Statistics 47(3):1475-1504, arXiv:1412.4605v3, DOI:10.1214/18-AOS1721) were read. Constructed numerical checks in research/discovery/post-model-selection-predictor-posi-confidence-intervals-boundaries.py verify (1) Lemma B.4 exact union-bound geometry on S^1 where K_1(x_0) = K_2 = K_3 = K_4 &lt; K_5, (2) the strict hierarchy and anti-monotonicity K_naive &lt; K_1 &lt; K_3(M_2) &lt; K_3(M_1) = K_4 &lt; K_5 for |M_1| = 1 &lt; |M_2| = 2, (3) Proposition 2.9&#39;s orthogonal-design constant xi approx 0.636328 and Corollary 2.12&#39;s limit K_4(infty)/sqrt(p) -&gt; sqrt(3)/2 approx 0.866025, and (4) Section 3&#39;s random-design coverage of the out-of-sample projection target beta_M^{(*)} using the post-selection variance estimator sigma_hat_{M_hat}^2.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Constructs universally valid post-model-selection confidence intervals for linear regression predictors x_0&#39;[M_hat] beta_hat_{M_hat} under both fixed and random designs (AIO:LinearRegression).
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DataDredgingBias.html" style="font-weight: 600;"><code>AIO:DataDredgingBias</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Data Dredging Bias</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Calibrates predictor confidence intervals via the PoSI hierarchy (K_1, K_2, K_3, K_4, K_5) to guarantee coverage &gt;= 1 - alpha across all data-driven model selection procedures, preventing post-selection data-snooping invalidation (AIO:DataDredgingBias).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-blp2019-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">blp2019-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1412.4605" target="_blank" rel="noopener">Valid confidence intervals for post-model-selection predictors</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            François Bachoc, Hannes Leeb, Benedikt M. Pötscher
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/18-AOS1721</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:222cfb10a74f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-blp2019-crossref">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">blp2019-crossref</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1214/18-AOS1721" target="_blank" rel="noopener">Valid confidence intervals for post-model-selection predictors (The Annals of Statistics Crossref Record)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            François Bachoc, Hannes Leeb, Benedikt M. Pötscher
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/18-AOS1721</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1b41a05db014…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-blp2019-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">blp2019-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1412.4605" target="_blank" rel="noopener">Valid confidence intervals for post-model-selection predictors (arXiv:1412.4605 Abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            François Bachoc, Hannes Leeb, Benedikt M. Pötscher
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1412.4605</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5df943653a28…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini 3</div>    <div><strong>Created:</strong> 2026-10-17T17:35:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-17T17:35:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PostModelSelectionPredictorPoSIConfidenceIntervals.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PostModelSelectionPredictorPoSIConfidenceIntervals.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
