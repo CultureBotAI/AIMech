@@ -1,0 +1,501 @@
+# Scientific author self-review of Simultaneous pathwise false discovery proportion bounds
+
+- Review: 20261017T141700Z-simultaneous-pathwise-false-discovery-proportion-bounds
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-17T14:15:00Z
+- Finished UTC: 2026-10-17T14:17:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Simultaneous pathwise false discovery proportion bounds as a distinct DRAFT mathematical_method with related DataDredgingBias and TimeSeriesAnalysis mappings. All four claims and locators across Katsevich &amp; Ramdas (2020 AoS 48(6):3465-3487) are supported with explicit offline-independence, null-symmetry, and small-sample multiplicative conservatism limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained SimultaneousPathwiseFalseDiscoveryProportionBounds record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 033816cd830b83529d7af6622cbcff2f3a86354b.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds | data/curated/SimultaneousPathwiseFalseDiscoveryProportionBounds.yaml | maintained | Simultaneous pathwise false discovery proportion bounds |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds | All 585 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds | Exited 0 without output. |
+| Constructed simultaneous pathwise false discovery proportion bounds checks | passed | True | AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds | {<br>  "claim1_sorted_path_and_poisson_lemma": {<br>    "alpha_cutoff_at_x_1_5": 0.318532,<br>    "c_sort_alpha_0_10": 1.927324,<br>    "mc_global_null_violation_rate": 0.056667,<br>    "mc_unadjusted_violation_rate": 1.0,<br>    "v_bar_dkw_intermediate": 66.0,<br>    "v_bar_robbins_intermediate": 125.0,<br>    "v_bar_sort_intermediate": 26.0<br>  },<br>  "claim2_lemma1_and_knockoff_simultaneous_fdp": {<br>    "c_backward_alpha_0_05": 20.0,<br>    "c_knockoff_alpha_0_05": 4.485775,<br>    "mc_knockoff_simultaneous_violation_rate": 0.006,<br>    "sm_factor_case1": 1.0,<br>    "sm_factor_case2": 1.0,<br>    "sm_factor_case3": 1.0<br>  },<br>  "claim3_interactive_path_power_and_coverage": {<br>    "avg_discoveries_interactive_fdp_0_20": 32.335,<br>    "avg_discoveries_sorted_fdp_0_20": 24.8425,<br>    "interactive_violation_rate": 0.0225<br>  },<br>  "claim4_online_posthoc_and_correlation_boundary": {<br>    "correlated_rho_0_90_q90_max_ratio": 11.333333,<br>    "correlated_rho_0_90_violation_rate": 0.23,<br>    "online_adaptive_violation_rate": 0.001,<br>    "online_simple_violation_rate": 0.001<br>  }<br>} |
+
+## Scientific And Domain Assessments
+
+### SimultaneousPathwiseFalseDiscoveryProportionBounds versus AdaptivePValueThresholding, FocusedBH, and DerandomizedKnockoffs
+
+identity: supported. Targets: AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds.
+
+Retain Simultaneous pathwise false discovery proportion bounds as a distinct DRAFT mathematical_method.
+
+SimultaneousPathwiseFalseDiscoveryProportionBounds constructs finite-sample simultaneous high-probability upper bounds on FDP(R_k) across all nested path steps k using Lemma 1 and closed-testing interpolation (Proposition 1), whereas AdaptivePValueThresholding and FocusedBH select a single threshold controlling expected FDR and DerandomizedKnockoffs aggregates knockoff runs for single-threshold PFER or k-FWER control.
+
+### Mappings to AIO:DataDredgingBias and AIO:TimeSeriesAnalysis
+
+grounding: supported. Targets: AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds.
+
+Related mappings to DataDredgingBias and TimeSeriesAnalysis are supported.
+
+Simultaneous pathwise FDP bounds prevent post-hoc threshold-snooping bias across nested rejection paths (AIO:DataDredgingBias) and provide simultaneous FDP envelopes across online sequential hypothesis streams (Theorems 4-5; AIO:TimeSeriesAnalysis).
+
+### closed-testing-interpolation-and-sorted-p-value-poissonized-empirical-process-bound
+
+evidence: supported. Targets: AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds.
+
+Supported by Section 2.1-2.3 Propositions 1-2, Theorem 1, Equations 6-11 and Section 7.1 Lemma 2.
+
+Verified exact multiplier c_sort(0.10) = 1.927324, Proposition 2 cutoff alpha(1.5) = 0.318532, tighter intermediate bound V_bar_sort = 26 vs. DKW = 66 and Robbins = 125, and global-null violation rate 0.056667 &lt;= 0.10 vs. unadjusted 1.0.
+
+### unifying-exponential-supermartingale-lemma-and-knockoff-simultaneous-fdp-bound
+
+evidence: supported. Targets: AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds.
+
+Supported by Section 4 Condition 2, Theorem 3, Equations 15-18 and Section 7.2 Lemma 1.
+
+Verified Lemma 1 supermartingale increment inequality &lt;= 1.0 across Cases 1-3, knockoff constant c_knock(0.05) = 4.485775 vs. backward 20.0, and knockoff simultaneous violation rate 0.006 &lt;= 0.05.
+
+### interactive-masked-p-value-peeling-simultaneous-fdp-envelopes
+
+evidence: supported. Targets: AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds.
+
+Supported by Section 3 Theorem 2, Equations 12-14 and Section 6.2.
+
+Verified interactive covariate-assisted path simultaneous violation rate 0.0225 &lt;= 0.10 and higher average discoveries (32.335 vs. 24.8425) than sorted p-values.
+
+### online-conditional-superuniformity-bounds-and-offline-independence-boundary
+
+evidence: supported. Targets: AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds.
+
+Supported by Section 5 Condition 3, Theorems 4-5, Equations 19-25 and Section 2.2 Condition 1.
+
+Verified simple and adaptive online simultaneous bounds (violation rates 0.001 &lt;= 0.10) and demonstrated offline violation rate 0.23 &gt; 0.10 under strong positive equicorrelation rho = 0.90.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of SimultaneousPathwiseFalseDiscoveryProportionBounds.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, three primary sources with exact SHA-256 digests, two pinned AIO mappings and rationales, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261017T141500Z-simultaneous-pathwise-false-discovery-proportion-bounds.json | supports | No normalized identity match for simultaneous pathwise false discovery proportion bounds across 442 pinned AIO records and 584 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected DataDredgingBias and TimeSeriesAnalysis in the pinned AIO snapshot (2026-07-22). DataDredgingBias and TimeSeriesAnalysis provide post-hoc selective inference and online hypothesis stream context via related_match. |
+| calculation | research/discovery/simultaneous-pathwise-false-discovery-proportion-bounds-boundaries.py | supports | Constructed analytical and numerical checks for closed-testing interpolation and Poissonized sorted p-value bounds, the unifying exponential supermartingale inequality (Lemma 1) and knockoff path bounds, interactive covariate-assisted STAR/AdaPT bounds, and online simultaneous bounds vs. strong offline equicorrelation. |
+| katsevich2020-simultaneous-fdp-ar5iv | https://ar5iv.labs.arxiv.org/html/1803.06790; Sections 1-7 (lines 1-1158, Propositions 1-2, Conditions 1-3, Theorems 1-5, Lemmas 1-2, Equations 1-25) | supports | All 1,158 lines of the full-text ar5iv HTML conversion of arXiv:1803.06790v5 read. Checked all theorems, propositions, conditions, lemmas, and proofs across Sections 1-7. |
+| katsevich2020-simultaneous-fdp-crossref | https://api.crossref.org/works/10.1214/19-AOS1938; The Annals of Statistics Vol. 48, No. 6, pp. 3465-3487 publication record | supports | Official The Annals of Statistics 48(6):3465-3487 Crossref record read and verified. |
+| katsevich2020-simultaneous-fdp-abs | https://arxiv.org/abs/1803.06790; arXiv:1803.06790v5 abstract and AoS 2020 metadata | supports | arXiv:1803.06790v5 abstract and AoS 2020 metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Simultaneous pathwise false discovery proportion bounds record, yielding 585 native and 442 unchanged generated records.
+- All 1,158 lines of Katsevich &amp; Ramdas (2020, arXiv:1803.06790v5) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261017T141700Z-simultaneous-pathwise-false-discovery-proportion-bounds
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Simultaneous pathwise false discovery proportion
+  bounds
+started_at: '2026-10-17T14:15:00Z'
+finished_at: '2026-10-17T14:17:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from AdaptivePValueThresholding,
+    FocusedBH, DerandomizedKnockoffs, and online FDR rules (LOND/LORD/SAFFRON), the
+    mutual independence requirement (Condition 1) of Theorem 1 under strong equicorrelation,
+    the mirror-conservativeness and coin-flip symmetry requirements of Theorems 2-3,
+    and the multiplicative conservatism c(alpha) > 1 for small rejection sets. This
+    is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Simultaneous pathwise false discovery proportion bounds as a distinct
+  DRAFT mathematical_method with related DataDredgingBias and TimeSeriesAnalysis mappings.
+  All four claims and locators across Katsevich & Ramdas (2020 AoS 48(6):3465-3487)
+  are supported with explicit offline-independence, null-symmetry, and small-sample
+  multiplicative conservatism limitations.
+source:
+  git_revision: 033816cd830b83529d7af6622cbcff2f3a86354b
+  state: working_tree
+  inputs:
+  - path: data/aio/DataDredgingBias.yaml
+    sha256: 335067e88f1462e141ac5f35e697cd42f7d250ec4dde9250531babe0d96cc1d0
+    role: context
+  - path: data/aio/TimeSeriesAnalysis.yaml
+    sha256: c26b267d0f5fb895e9cb0eb587fe86a115d461dae4d70e0ac6baf1eefb1d4eff
+    role: context
+  - path: data/curated/ForkConvexExchangeabilityTestingBySafeEProcesses.yaml
+    sha256: 300ea1665bdd8cedfa38746832f1e7d6b85a410eacb4a87ca16eab55ca833370
+    role: context
+  - path: data/curated/ModelXAnytimeValidConditionalIndependenceTesting.yaml
+    sha256: 00eba6063c717bd325de163ab10f91b16f906630f6e81a4b04d61f7fa698445e
+    role: context
+  - path: data/curated/ReverseSubmartingaleConvexDivergenceConfidenceSequences.yaml
+    sha256: 7ab66808e86837214be02e6ca9183a7ebd19df51f6c6dbd9ddadfd84a1d81afe
+    role: context
+  - path: data/curated/SimultaneousPathwiseFalseDiscoveryProportionBounds.yaml
+    sha256: 4eb73d4bf06e30006a686d5ead362dae952311a5d2e2ee7f62f43762849485de
+    role: target
+  - path: research/discovery/20261017T141500Z-simultaneous-pathwise-false-discovery-proportion-bounds.json
+    sha256: 0494f9ec531ce5a8e47c0f04f9e0c3beee70b27b1a75f865485f52acd2b693b5
+    role: context
+  - path: research/discovery/simultaneous-pathwise-false-discovery-proportion-bounds-boundaries.py
+    sha256: b4f6273c45f9dcb44f79bcf7bc052cb797e4b023ccb4abde527ecdd328438c77
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  path: data/curated/SimultaneousPathwiseFalseDiscoveryProportionBounds.yaml
+  label: Simultaneous pathwise false discovery proportion bounds
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SimultaneousPathwiseFalseDiscoveryProportionBounds.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained SimultaneousPathwiseFalseDiscoveryProportionBounds
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 585 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed simultaneous pathwise false discovery proportion bounds checks
+  command: python3 research/discovery/simultaneous-pathwise-false-discovery-proportion-bounds-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"claim1_sorted_path_and_poisson_lemma\": {\n    \"alpha_cutoff_at_x_1_5\"\
+    : 0.318532,\n    \"c_sort_alpha_0_10\": 1.927324,\n    \"mc_global_null_violation_rate\"\
+    : 0.056667,\n    \"mc_unadjusted_violation_rate\": 1.0,\n    \"v_bar_dkw_intermediate\"\
+    : 66.0,\n    \"v_bar_robbins_intermediate\": 125.0,\n    \"v_bar_sort_intermediate\"\
+    : 26.0\n  },\n  \"claim2_lemma1_and_knockoff_simultaneous_fdp\": {\n    \"c_backward_alpha_0_05\"\
+    : 20.0,\n    \"c_knockoff_alpha_0_05\": 4.485775,\n    \"mc_knockoff_simultaneous_violation_rate\"\
+    : 0.006,\n    \"sm_factor_case1\": 1.0,\n    \"sm_factor_case2\": 1.0,\n    \"\
+    sm_factor_case3\": 1.0\n  },\n  \"claim3_interactive_path_power_and_coverage\"\
+    : {\n    \"avg_discoveries_interactive_fdp_0_20\": 32.335,\n    \"avg_discoveries_sorted_fdp_0_20\"\
+    : 24.8425,\n    \"interactive_violation_rate\": 0.0225\n  },\n  \"claim4_online_posthoc_and_correlation_boundary\"\
+    : {\n    \"correlated_rho_0_90_q90_max_ratio\": 11.333333,\n    \"correlated_rho_0_90_violation_rate\"\
+    : 0.23,\n    \"online_adaptive_violation_rate\": 0.001,\n    \"online_simple_violation_rate\"\
+    : 0.001\n  }\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261017T141500Z-simultaneous-pathwise-false-discovery-proportion-bounds.json
+  accessed_at: '2026-10-17T14:15:00Z'
+  support: supports
+  summary: No normalized identity match for simultaneous pathwise false discovery
+    proportion bounds across 442 pinned AIO records and 584 maintained IDs, names,
+    aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-17T14:15:00Z'
+  support: supports
+  summary: Inspected DataDredgingBias and TimeSeriesAnalysis in the pinned AIO snapshot
+    (2026-07-22). DataDredgingBias and TimeSeriesAnalysis provide post-hoc selective
+    inference and online hypothesis stream context via related_match.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/simultaneous-pathwise-false-discovery-proportion-bounds-boundaries.py
+  accessed_at: '2026-10-17T14:15:00Z'
+  snapshot_sha256: b4f6273c45f9dcb44f79bcf7bc052cb797e4b023ccb4abde527ecdd328438c77
+  support: supports
+  summary: Constructed analytical and numerical checks for closed-testing interpolation
+    and Poissonized sorted p-value bounds, the unifying exponential supermartingale
+    inequality (Lemma 1) and knockoff path bounds, interactive covariate-assisted
+    STAR/AdaPT bounds, and online simultaneous bounds vs. strong offline equicorrelation.
+- evidence_id: katsevich2020-simultaneous-fdp-ar5iv
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/1803.06790
+  locator: Sections 1-7 (lines 1-1158, Propositions 1-2, Conditions 1-3, Theorems
+    1-5, Lemmas 1-2, Equations 1-25)
+  accessed_at: '2026-10-17T14:15:00Z'
+  snapshot_sha256: b636ac1329528fa685c8d178398956826d9f3aa85206cc2ad9b24cd38dc234b7
+  support: supports
+  summary: All 1,158 lines of the full-text ar5iv HTML conversion of arXiv:1803.06790v5
+    read. Checked all theorems, propositions, conditions, lemmas, and proofs across
+    Sections 1-7.
+- evidence_id: katsevich2020-simultaneous-fdp-crossref
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/19-AOS1938
+  locator: The Annals of Statistics Vol. 48, No. 6, pp. 3465-3487 publication record
+  accessed_at: '2026-10-17T14:15:00Z'
+  snapshot_sha256: 1a675bc830c88194d805a099b2bba29feaf62becd3a0ebfbc1e94b3c1bdde309
+  support: supports
+  summary: Official The Annals of Statistics 48(6):3465-3487 Crossref record read
+    and verified.
+- evidence_id: katsevich2020-simultaneous-fdp-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1803.06790
+  locator: arXiv:1803.06790v5 abstract and AoS 2020 metadata
+  accessed_at: '2026-10-17T14:15:00Z'
+  snapshot_sha256: 84e6c38e4fb79aec2eebe8489d5aa3152b258aa28b07bf3705b742d8417abc51
+  support: supports
+  summary: arXiv:1803.06790v5 abstract and AoS 2020 metadata read and verified.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: SimultaneousPathwiseFalseDiscoveryProportionBounds versus AdaptivePValueThresholding,
+    FocusedBH, and DerandomizedKnockoffs
+  outcome: supported
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  evidence_ids:
+  - identity
+  - katsevich2020-simultaneous-fdp-ar5iv
+  - katsevich2020-simultaneous-fdp-crossref
+  summary: Retain Simultaneous pathwise false discovery proportion bounds as a distinct
+    DRAFT mathematical_method.
+  details: SimultaneousPathwiseFalseDiscoveryProportionBounds constructs finite-sample
+    simultaneous high-probability upper bounds on FDP(R_k) across all nested path
+    steps k using Lemma 1 and closed-testing interpolation (Proposition 1), whereas
+    AdaptivePValueThresholding and FocusedBH select a single threshold controlling
+    expected FDR and DerandomizedKnockoffs aggregates knockoff runs for single-threshold
+    PFER or k-FWER control.
+- assessment_id: mapping
+  area: grounding
+  topic: Mappings to AIO:DataDredgingBias and AIO:TimeSeriesAnalysis
+  outcome: supported
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  evidence_ids:
+  - mapping
+  - katsevich2020-simultaneous-fdp-ar5iv
+  summary: Related mappings to DataDredgingBias and TimeSeriesAnalysis are supported.
+  details: Simultaneous pathwise FDP bounds prevent post-hoc threshold-snooping bias
+    across nested rejection paths (AIO:DataDredgingBias) and provide simultaneous
+    FDP envelopes across online sequential hypothesis streams (Theorems 4-5; AIO:TimeSeriesAnalysis).
+- assessment_id: closed-testing-interpolation-and-sorted-p-value-poissonized-empirical-process-bound
+  area: evidence
+  topic: closed-testing-interpolation-and-sorted-p-value-poissonized-empirical-process-bound
+  outcome: supported
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  evidence_ids:
+  - katsevich2020-simultaneous-fdp-ar5iv
+  - katsevich2020-simultaneous-fdp-abs
+  - calculation
+  summary: Supported by Section 2.1-2.3 Propositions 1-2, Theorem 1, Equations 6-11
+    and Section 7.1 Lemma 2.
+  details: Verified exact multiplier c_sort(0.10) = 1.927324, Proposition 2 cutoff
+    alpha(1.5) = 0.318532, tighter intermediate bound V_bar_sort = 26 vs. DKW = 66
+    and Robbins = 125, and global-null violation rate 0.056667 <= 0.10 vs. unadjusted
+    1.0.
+- assessment_id: unifying-exponential-supermartingale-lemma-and-knockoff-simultaneous-fdp-bound
+  area: evidence
+  topic: unifying-exponential-supermartingale-lemma-and-knockoff-simultaneous-fdp-bound
+  outcome: supported
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  evidence_ids:
+  - katsevich2020-simultaneous-fdp-ar5iv
+  - katsevich2020-simultaneous-fdp-crossref
+  - calculation
+  summary: Supported by Section 4 Condition 2, Theorem 3, Equations 15-18 and Section
+    7.2 Lemma 1.
+  details: Verified Lemma 1 supermartingale increment inequality <= 1.0 across Cases
+    1-3, knockoff constant c_knock(0.05) = 4.485775 vs. backward 20.0, and knockoff
+    simultaneous violation rate 0.006 <= 0.05.
+- assessment_id: interactive-masked-p-value-peeling-simultaneous-fdp-envelopes
+  area: evidence
+  topic: interactive-masked-p-value-peeling-simultaneous-fdp-envelopes
+  outcome: supported
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  evidence_ids:
+  - katsevich2020-simultaneous-fdp-ar5iv
+  - calculation
+  summary: Supported by Section 3 Theorem 2, Equations 12-14 and Section 6.2.
+  details: Verified interactive covariate-assisted path simultaneous violation rate
+    0.0225 <= 0.10 and higher average discoveries (32.335 vs. 24.8425) than sorted
+    p-values.
+- assessment_id: online-conditional-superuniformity-bounds-and-offline-independence-boundary
+  area: evidence
+  topic: online-conditional-superuniformity-bounds-and-offline-independence-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  evidence_ids:
+  - katsevich2020-simultaneous-fdp-ar5iv
+  - calculation
+  summary: Supported by Section 5 Condition 3, Theorems 4-5, Equations 19-25 and Section
+    2.2 Condition 1.
+  details: Verified simple and adaptive online simultaneous bounds (violation rates
+    0.001 <= 0.10) and demonstrated offline violation rate 0.23 > 0.10 under strong
+    positive equicorrelation rho = 0.90.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  evidence_ids:
+  - identity
+  - mapping
+  - katsevich2020-simultaneous-fdp-ar5iv
+  - katsevich2020-simultaneous-fdp-crossref
+  - katsevich2020-simultaneous-fdp-abs
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of SimultaneousPathwiseFalseDiscoveryProportionBounds.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, four claims and locators, three primary sources with exact SHA-256
+    digests, two pinned AIO mappings and rationales, four scoped limitations, and
+    UTC curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Simultaneous pathwise false discovery proportion bounds record,
+  yielding 585 native and 442 unchanged generated records.
+- All 1,158 lines of Katsevich & Ramdas (2020, arXiv:1803.06790v5) were read in full
+  text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- multiple-testing
+- false-discovery-proportion
+- simultaneous-inference
+- knockoffs
+- online-multiple-testing
+- self-review
+- discovery-ongoing
+```
