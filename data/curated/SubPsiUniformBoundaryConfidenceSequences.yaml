@@ -1,0 +1,210 @@
+id: AIMech:SubPsiUniformBoundaryConfidenceSequences
+name: Sub-psi uniform boundary confidence sequences
+aliases:
+- Time-Uniform Nonparametric Nonasymptotic Sub-Psi Confidence Sequences
+- Polynomial Stitched Sub-Gamma Uniform Boundary (S_alpha)
+- Conjugate Mixture Sub-Psi Uniform Boundaries (Normal, Beta-Binomial, Gamma-Exponential, Gamma-Poisson)
+- Discrete Mixture Sub-Psi Uniform Boundary (DM_alpha)
+- Self-Normalized Empirical Bernstein Sub-Exponential Confidence Sequence
+concept_kind: mathematical_method
+definition: 'A general nonparametric, nonasymptotic sequential estimation and boundary-crossing framework
+  (Howard, Ramdas, McAuliffe, & Sekhon 2021) for any pair of adapted processes (S_t, V_t)_{t>=0} satisfying
+  the sub-psi condition exp(lambda S_t - psi(lambda) V_t) <= L_t(lambda) for a non-negative supermartingale
+  L_t(lambda) with E[L_0(lambda)] <= l_0 and a CGF-like function psi : [0, lambda_max) -> R_>=0 (canonical
+  sub-Bernoulli psi_B, sub-Gaussian psi_N, sub-Poisson psi_P, sub-exponential psi_E, and sub-gamma psi_G;
+  Definitions 1–3, Proposition 1), constructing curved time-uniform boundaries u(V_t) via geometric epoch
+  stitching (Theorem 1), analytical conjugate mixtures (Propositions 2–10), geometric-grid discrete mixtures
+  (Theorem 2), and inverted stitching (Theorem 3) such that P(exists t >= 1 : S_t >= u(V_t)) <= alpha
+  and the induced confidence sequence (C_t)_{t>=1} satisfies P(forall t >= 1 : theta_t in C_t) >= 1 -
+  alpha equivalently at all arbitrary stopping times tau (Lemma 3).'
+identity_notes: No normalized identity match for Sub-psi uniform boundary confidence sequences across
+  all 442 pinned AIO records and 575 maintained IDs, names, aliases and scoped synonyms. Fixed-string
+  searches across data, sources, research, history, and reviews returned only lines in Round 180 discovery
+  artifacts where Howard, Ramdas, McAuliffe, & Sekhon (2021, arXiv:1810.08240) was queued as a pending
+  frontier lead. Distinct from AIMech:BettingConfidenceSequencesForBoundedMeans (Waudby-Smith & Ramdas
+  2024), which constructs multiplicative linear betting capital processes K_t(m) = prod_{i=1}^t (1 + lambda_i(m)(X_i
+  - m)) and predictable plug-in intervals for [0, 1]-bounded observations rather than sub-psi exponential
+  supermartingale uniform boundaries u(V_t) over intrinsic variance time V_t across the five canonical
+  sub-psi families (sub-Bernoulli, sub-Gaussian, sub-Poisson, sub-exponential, sub-gamma), polynomial
+  epoch stitching S_alpha(v), conjugate beta-binomial/gamma-exponential/gamma-Poisson mixtures, geometric
+  discrete mixtures DM_alpha(v), inverted stitching, and matrix finite-LIL eigenvalue bounds.
+definition_evidence:
+- source_id: howard-ramdas-mcauliffe-sekhon2021-subpsi
+  locator: Section 1.2–1.3, lines 44–108, Equation 1, Lemma 3 (Confidence sequences and stopping-time
+    equivalence); Section 2, lines 135–218, Definitions 1–2, Proposition 1, Figure 2 (Sub-psi process
+    and uniform boundary hierarchy); Section 3, lines 219–328, Theorems 1–3, Propositions 2–4
+  relation: supports
+- source_id: waudby-smith-ramdas2024-betting
+  locator: Section 1.2, lines 102–115; Section 3.2, lines 183–249 (Sub-psi exponential supermartingale
+    and stitched/conjugate-mixture confidence sequence baseline)
+  relation: supports
+claims:
+- claim_id: sub-psi-cumulant-hierarchy-and-universal-sub-gamma-reduction
+  kind: mechanism
+  statement: The five canonical CGF-like functions psi_{B,g,h}(lambda) = (1/(gh)) log((g e^{h lambda}
+    + h e^{-g lambda})/(g+h)), psi_N(lambda) = lambda^2/2, psi_{P,c}(lambda) = c^{-2}(e^{c lambda} - c
+    lambda - 1), psi_{E,c}(lambda) = c^{-2}(-log(1 - c lambda) - c lambda), and psi_{G,c}(lambda) = lambda^2
+    / (2(1 - c lambda)) satisfy the strict pointwise ordering psi_{B,1,1}(lambda) < psi_N(lambda) < psi_{P,1}(lambda)
+    < psi_{E,1}(lambda) < psi_{G,1}(lambda) on lambda in (0, 1) together with the universal sub-Poisson-to-sub-gamma
+    bound psi_{P,c}(lambda) <= psi_{G,c/3}(lambda) for all lambda in [0, 3/c) (Proposition 1), so every
+    sub-psi process is sub-gamma (and sub-exponential) with scale parameter c' and any sub-gamma or sub-exponential
+    uniform boundary applies universally across all five families with optimal variance-rescaling constants
+    a given by Proposition 11 and Table 1.
+  evidence:
+  - source_id: howard-ramdas-mcauliffe-sekhon2021-subpsi
+    locator: Section 2, lines 135–218, Definitions 1–2, Equations 2–6, Proposition 1, Figure 2; Appendix
+      B, lines 1336–1342, Proposition 11 and Table 1
+    relation: supports
+  - source_id: shin-ramdas-rinaldo2024-edetectors
+    locator: Section 5.1, lines 560–615, Table 2 (Canonical sub-psi CGF-like pair hierarchy)
+    relation: supports
+- claim_id: polynomial-epoch-stitching-and-inverted-stitching-uniform-boundaries
+  kind: mechanism
+  statement: Partitioning intrinsic variance time into geometric epochs [m eta^k, m eta^{k+1}) for eta
+    > 1, m > 0 and intersecting tangent linear boundaries g_k(v) = r_k / lambda_k + (psi_{G,c}(lambda_k)/lambda_k)
+    v tuned via the exact inverse psi_{G,c}^{-1}(u) = 2u / (c u + sqrt(2u + c^2 u^2)) at lambda_k = psi_{G,c}^{-1}(r_k
+    / (m eta^{k+1/2})) achieves exact normalized endpoint symmetry g_k(m eta^k)/eta^{k/2} = g_k(m eta^{k+1})/eta^{(k+1)/2}
+    and yields the closed-form sub-gamma stitched boundary S_alpha(v) = sqrt(k_1^2 v l(v) + c^2 k_2^2
+    l(v)^2) + c k_2 l(v) with k_1 = (eta^{1/4} + eta^{-1/4})/sqrt(2), k_2 = (sqrt(eta) + 1)/2, and l(v)
+    = s log log(eta v / m) + log(zeta(s)/(alpha log^s eta)), growing at the iterated-logarithm rate O(sqrt(v
+    log log v)) (Theorem 1, Appendix A.1 Equations 29–37); conversely, Theorem 3's inverted stitching
+    bounds the sub-Gaussian upcrossing probability of any nonnegative strictly concave curve g(v) over
+    [1, v_max] by sum_{k=0}^{lceil log_eta v_max rceil - 1} exp(-2 a_k b_k) using secant intercepts a_k
+    and slopes b_k.
+  evidence:
+  - source_id: howard-ramdas-mcauliffe-sekhon2021-subpsi
+    locator: Section 3.1, lines 221–248, Equations 7–11, Theorem 1; Section 3.4, lines 278–286, Equations
+      18–20, Theorem 3; Appendix A.1, lines 1096–1129, Equations 29–37; Appendix A.7, lines 1298–1313,
+      Lemma 8 and Proof of Theorem 3
+    relation: supports
+- claim_id: conjugate-and-discrete-mixture-boundaries-with-lambert-w-optimal-tuning
+  kind: mechanism
+  statement: 'Integrating exp(lambda S_t - psi(lambda) V_t) against a mixing distribution F produces a
+    supermartingale M_t whose inverted boundary M_alpha(v) = sup{s : m(s, v) < l_0/alpha} is continuous,
+    increasing, and concave (Lemma 9), achieves asymptotic rate sqrt(2 c v log(v)/2) when psi''''(0+)
+    = c > 0 (Proposition 2), and is unimprovable over 1-sub-Gaussian processes (Proposition 4), yielding
+    closed-form or special-function conjugate boundaries for two-sided and one-sided normal mixtures (Propositions
+    5–6), beta-binomial mixtures (Propositions 7–8), gamma-exponential mixtures (Proposition 9), and gamma-Poisson
+    mixtures (Proposition 10), where the normalized boundary u(v)/sqrt(v) of the two-sided normal mixture
+    is uniquely minimized at intrinsic time m when the precision parameter satisfies m / rho = -W_{-1}(-alpha^2
+    / (e l_0^2)) - 1 via the lower Lambert W_{-1} branch (Proposition 3, Section C.1), and Theorem 2''s
+    geometric-grid discrete mixture DM_alpha(v) with lambda_k = lambda_bar / eta^{k+1/2} and w_k = lambda_bar
+    (eta - 1) f(lambda_bar / eta^k) / eta^{k+1} conservatively upper-bounds exact continuous mixtures
+    for arbitrary nonincreasing densities f.'
+  evidence:
+  - source_id: howard-ramdas-mcauliffe-sekhon2021-subpsi
+    locator: Section 3.2–3.6, lines 249–328, Equations 12–17 and 21, Propositions 2–4, Theorem 2; Appendix
+      A.2–A.5, lines 1130–1291, Lemma 2, Propositions 5–10, Lemmas 4–7; Appendix C.1–C.2, lines 1344–1375,
+      Lemma 9
+    relation: supports
+- claim_id: self-normalized-empirical-bernstein-and-adaptive-ipw-ate-confidence-sequences
+  kind: application
+  statement: 'For any sequence X_t in [a, b] a.s. with average conditional expectation mu_t = t^{-1} sum_{i=1}^t
+    E_{i-1}[X_i] and any [a, b]-valued F_{t-1}-predictable sequence X_hat_t, the centered sum S_t = sum_{i=1}^t
+    (X_i - E_{i-1}[X_i]) is sub-exponential with scale c = b - a and empirical variance process V_t =
+    sum_{i=1}^t (X_i - X_hat_i)^2 via Fan et al.''s inequality exp(lambda xi - psi_{E,1}(lambda) xi^2)
+    <= 1 + lambda xi without taking a union bound over separate mean and variance concentration events,
+    yielding the time-uniform empirical Bernstein confidence sequence P(forall t >= 1 : |X_bar_t - mu_t|
+    < u(V_t)/t) >= 1 - 2 alpha (Theorem 4, Appendix A.8) that avoids the severe false-positive inflation
+    of the naive self-normalized sub-Gaussian mixture (Equation 24) on skewed bounded distributions (Section
+    5, Figure 4a), and extends directly to sequential Neyman-Rubin average treatment effect estimation
+    ATE_t under adaptive treatment assignment P_t in [p_min, 1 - p_min] with scale c = 2 / p_min (Corollary
+    2) as well as matrix martingale finite-LIL eigenvalue bounds (Corollaries 4–5).'
+  evidence:
+  - source_id: howard-ramdas-mcauliffe-sekhon2021-subpsi
+    locator: Section 4.1–4.3, lines 329–395, Equations 22–23, Theorem 4, Corollaries 2–5; Section 5, lines
+      440–515, Equation 24, Figure 4a; Appendix A.8–A.10, lines 1315–1335
+    relation: supports
+evidence_sources:
+- source_id: howard-ramdas-mcauliffe-sekhon2021-subpsi
+  title: Time-uniform, nonparametric, nonasymptotic confidence sequences
+  authors:
+  - Steven R. Howard
+  - Aaditya Ramdas
+  - Jon McAuliffe
+  - Jasjeet Sekhon
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1810.08240
+  persistent_id: https://doi.org/10.1214/20-AOS1991
+  version: arXiv:1810.08240 (published in The Annals of Statistics 49(2):1055–1080, 2021). Complete full-text
+    ar5iv HTML conversion read across Sections 1–6 and Appendices A–J (1,696 lines, 221,275 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T12:20:00Z'
+  sha256: aef352a6e271a2317826f200bf481b2aaf956b978323ee8a2b25b589c2ec1732
+- source_id: waudby-smith-ramdas2024-betting
+  title: Estimating means of bounded random variables by betting
+  authors:
+  - Ian Waudby-Smith
+  - Aaditya Ramdas
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2010.09686
+  persistent_id: https://doi.org/10.1093/jrsssb/qkad009
+  version: 'arXiv:2010.09686 (published as discussion paper in Journal of the Royal Statistical Society
+    Series B: Statistical Methodology 86(1):1–27, 2024). Complete full-text ar5iv HTML conversion read
+    across Sections 1–6 and Appendices A–F (1,971 lines, 218,082 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-17T12:05:00Z'
+  sha256: c41bcb5ff7e35853316a0709b17b18506ef1e4be8252a3a474ed38a4811f2495
+- source_id: shin-ramdas-rinaldo2024-edetectors
+  title: 'E-detectors: A nonparametric framework for sequential change detection'
+  authors:
+  - Jaehyeok Shin
+  - Aaditya Ramdas
+  - Alessandro Rinaldo
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2203.03532
+  persistent_id: https://doi.org/10.51387/23-NEJSDS51
+  version: arXiv:2203.03532 (published in The New England Journal of Statistics in Data Science 2(2):229–260,
+    2024). Complete full-text ar5iv HTML conversion read across Sections 1–6 and Appendices A–B (1,104
+    lines, 156,515 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T11:50:00Z'
+  sha256: 0c9c5ade08a826f69dd0bddfd9c25efe4fe6bcf34b7db331e2c55b90ecf50d73
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: 'Sub-psi uniform boundary confidence sequences maintain nonasymptotic coverage P(forall t
+    >= 1 : theta_t in C_t) >= 1 - alpha simultaneously across all times t >= 1 and arbitrary data-dependent
+    stopping times tau (Lemma 3), preventing false-positive inflation from optional stopping and continuous
+    peeking (AIO:DataDredgingBias).'
+- target: AIO:TimeSeriesAnalysis
+  relation: related_match
+  rationale: Sub-psi uniform boundaries track time-varying average conditional expectations mu_t = t^{-1}
+    sum_{i=1}^t E_{i-1}[X_i], sequential causal treatment effects ATE_t, and martingale state-space/matrix
+    processes over intrinsic variance time V_t without i.i.d. assumptions (AIO:TimeSeriesAnalysis).
+limitations:
+- 'No uniform boundary can be simultaneously tight across all intrinsic variance times V_t: conjugate
+  mixture boundaries with positive density at the origin grow asymptotically at rate O(sqrt(v log v))
+  (Proposition 2) rather than the O(sqrt(v log log v)) iterated-logarithm rate of polynomial stitched
+  (Theorem 1) and LIL discrete mixture boundaries (Theorem 2), trading asymptotic looseness as v -> infinity
+  for tighter intervals over approximately three orders of magnitude around the Lambert-W-tuned target
+  variance time m (Section 3.5, Proposition 3).'
+- Except for the two-sided normal mixture (Proposition 5), the closed-form upper bound for the one-sided
+  normal mixture (Proposition 6), and polynomial stitched sub-gamma boundaries (Theorem 1), evaluating
+  conjugate mixture boundaries (beta-binomial Propositions 7–8, gamma-exponential Proposition 9, gamma-Poisson
+  Proposition 10) and discrete mixture boundaries (Theorem 2) requires numerical root-finding over s at
+  each step t together with incomplete Beta or incomplete Gamma special functions (Appendix D).
+- Theorem 4's self-normalized empirical Bernstein confidence sequence and Corollary 2's adaptive IPW ATE
+  confidence sequence require known a priori support bounds X_t in [a, b] a.s. (and propensity scores
+  P_t bounded away from 0 and 1 in [p_min, 1 - p_min]) to fix the sub-exponential scale parameter c =
+  b - a (or c = 2 / p_min); naively substituting empirical variance V_t into a scale-free sub-Gaussian
+  normal mixture (Equation 24) fails violently on heavily skewed bounded distributions (Section 5, Figure
+  4a).
+- All 1,696 lines of Howard, Ramdas, McAuliffe, & Sekhon (2021, arXiv:1810.08240) were read. Constructed
+  numerical checks in research/discovery/sub-psi-uniform-boundary-confidence-sequences-boundaries.py verify
+  the strict five-family sub-psi hierarchy and Proposition 1 sub-gamma reduction, Theorem 1 epoch stitching
+  endpoint symmetry and dominance plus Theorem 3 inverted stitching, Propositions 3/5/6/9 Lambert W_{-1}
+  tuning and gamma-exponential-to-normal convergence plus Theorem 2 discrete mixture accuracy, and Theorem
+  4 / Corollary 2 empirical Bernstein and IPW ATE coverage vs. Section 5's skewed-distribution naive self-normalized
+  counterexample.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T12:20:00Z'
+  updated_at: '2026-10-17T12:20:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
