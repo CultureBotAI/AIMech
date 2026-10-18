@@ -1,0 +1,514 @@
+# Scientific author self-review of Optimal Spjøtvoll and sieve-grouped p-value weighting
+
+- Review: 20261017T152200Z-optimal-spjotvoll-and-sieve-grouped-p-value-weighting
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-17T15:20:00Z
+- Finished UTC: 2026-10-17T15:22:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Optimal Spjøtvoll and sieve-grouped p-value weighting as a distinct DRAFT mathematical_method with a related DataDredgingBias mapping. All four claims and locators across Roeder &amp; Wasserman (2009 Statistical Science 24(4):398-413) are supported with explicit Kolmogorov-Smirnov discontinuity, sieve group-size, and Gaussian/chi-square parametric limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained OptimalSpjotvollAndSieveGroupedPValueWeighting record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base ce28078a69f5eb6c5c536d474d5c87b13c929a65.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting | data/curated/OptimalSpjotvollAndSieveGroupedPValueWeighting.yaml | maintained | Optimal Spjøtvoll and sieve-grouped p-value weighting |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting | All 593 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting | Exited 0 without output. |
+| Constructed Roeder-Wasserman Spjøtvoll and sieve-grouped weighting checks | passed | True | AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting | {"lemma_3_6_and_theorems_3_7_3_8_ks_discontinuity_vs_power": {"expected_ratio_1_over_K_plus_1": 0.000999, "ks_distance_gamma": 0.1, "min_grid_power_over_u": 0.7529825, "rho_tilde_xi": 0.00999001, "rho_true": 10.0, "thm_3_7_xi_star_threshold": 5.91887833, "thm_3_8_c_star": 5.94833415, "thm_3_8_u_star": 3.44915472, "thm_3_8_worst_case_power": 0.75292715, "thm_3_8_xi_test": 4.2, "u_lemma_3_6": 0.030529, "unweighted_bonferroni_power_at_xi_test": 0.62149445, "weight_ratio_tilde_over_true": 0.000999, "worst_case_still_beats_bonferroni": true, "xi_lemma_3_6": 9.763185}, "theorem_3_1_and_lemma_3_2_oracle_weights": {"avg_oracle_power": 0.53897493, "avg_unweighted_bonferroni_power": 0.39544288, "budget_error": 2.22e-16, "c_star": 3.6167495309, "max_kkt_stationarity_error": 6.592e-17, "max_lemma_3_2_power_identity_error": 3.608e-16, "oracle_beats_bonferroni": true}, "theorems_3_4_and_lemma_3_5_sparse_robustness": {"B": 4.0, "R_B0_above_xi_star": -0.01657252, "R_B0_at_half_xi_star": 0.00053768, "R_B0_at_lemma_3_5_threshold": 0.00051182, "lemma_3_5_mills_ratio_threshold": 1.18817712, "safe_zone_positive_at_b_zero": true, "xi_star_exact_root": 2.41591146, "z_B_alpha_over_m": 4.10747965, "z_alpha_over_m": 4.41717341}, "theorems_4_1_4_2_and_section_5_sieve_grouped_weights": {"section_5_mom_max_pi_error": 5.551e-17, "section_5_mom_max_xi_error": 4.441e-16, "section_5_smoothed_group_weights": [2.875555, 0.969733, 0.104712, 0.05], "section_5_smoothed_null_group_weight_positive": true, "thm_4_1_B_star": 9.459504, "thm_4_1_max_robustness_R": 0.09446462, "thm_4_1_turnaround_B0": 111.65303, "thm_4_2_B_maximin": 16.130156, "thm_4_2_power_w0": 0.45060625, "thm_4_2_power_w1": 0.7, "thm_4_2_w0": 0.569311, "thm_4_2_w1": 9.183082}} |
+
+## Scientific And Domain Assessments
+
+### OptimalSpjotvollAndSieveGroupedPValueWeighting versus ConstrainedConvexPValueWeightingInMonotoneLikelihoodRatioFamilies and BayesOptimalPValueWeightingUnderGaussianPrior
+
+identity: supported. Targets: AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting.
+
+Retain Optimal Spjøtvoll and sieve-grouped p-value weighting as a distinct DRAFT mathematical_method.
+
+OptimalSpjotvollAndSieveGroupedPValueWeighting establishes the worst-case robustness function R(xi) (Theorems 3.3-3.4, Lemma 3.5), the Kolmogorov-Smirnov discontinuity of optimal weights vs. least-favorable worst-case power at u_* = sqrt(2 c_*) (Lemma 3.6, Theorems 3.7-3.8), closed-form maximin binary external weights (Theorems 4.1-4.3), and sieve-principle method-of-moments grouped p-value weighting (Section 5, Equations 12-13), whereas Dobriban (2018) solves an order- and box-constrained convex ROC program across general MLR families and Dobriban et al. (2015) integrate over Gaussian prior variance sigma_i^2 &gt; 0.
+
+### Mapping to AIO:DataDredgingBias
+
+grounding: supported. Targets: AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting.
+
+Related mapping to DataDredgingBias is supported.
+
+Optimal Spjøtvoll and sieve-grouped p-value weighting allocates per-hypothesis significance thresholds alpha w_j / m while controlling family-wise error rate against multiplicity-induced false positives (AIO:DataDredgingBias).
+
+### one-parameter-spjotvoll-optimal-weights-and-oracle-power
+
+evidence: supported. Targets: AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting.
+
+Supported by Section 2 Lemmas 2.1-2.2 and Section 3 Theorem 3.1 and Lemma 3.2.
+
+Verified Theorem 3.1 &amp; Lemma 3.2 one-parameter Spjøtvoll oracle weights and power identity (c^* = 3.6167495309, budget error = 2.22e-16, max KKT stationarity error = 6.592e-17, max Lemma 3.2 power identity error = 3.608e-16, average oracle power = 0.53897493 &gt; 0.39544288 unweighted Bonferroni).
+
+### sparse-weight-robustness-function-and-zero-weight-safe-zone
+
+evidence: supported. Targets: AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting.
+
+Supported by Section 3 Property I Theorems 3.3-3.4 and Lemma 3.5.
+
+Verified Theorem 3.4 &amp; Lemma 3.5 sparse-weight robustness at b = 0 and B = 4.0 (Mill's-ratio sufficient threshold = 1.18817712 &lt; exact zero-crossing xi_* = 2.41591146 &lt; z_{alpha/m} = 4.41717341, with R_{B,0} = +0.00051182 &gt; 0).
+
+### ks-discontinuity-versus-least-favorable-worst-case-power
+
+evidence: supported. Targets: AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting.
+
+Supported by Section 3 Property II Lemma 3.6 and Theorems 3.7-3.8.
+
+Verified Lemma 3.6 Kolmogorov-Smirnov discontinuity (at gamma = 0.1, K = 1000, c = 0.1: u = 0.030529, xi = 9.763185, weight reduced from rho(xi) = 10.0 to rho_tilde(xi) = 0.00999001, ratio = 0.000999 = 1/1001) versus Theorems 3.7-3.8 worst-case power at xi = 4.2 &lt; xi_* = 5.91887833 (least-favorable u_* = 3.44915472 gives worst-case power 0.75292715 &gt; 0.62149445 unweighted Bonferroni).
+
+### maximin-binary-weights-and-sieve-grouped-method-of-moments-weighting
+
+evidence: supported. Targets: AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting.
+
+Supported by Section 4 Theorems 4.1-4.3 and Section 5 Equations (12)-(13).
+
+Verified Theorems 4.1-4.2 optimal binary weights (unique mode B^* = 9.459504, turnaround B_0 = 111.65303, and maximin weights w_1 = 9.183082, w_0 = 0.569311 achieving exact target power 0.7) and Section 5 Equation (12) sieve-principle grouped method-of-moments estimation (max parameter recovery errors 5.551e-17 and 4.441e-16).
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of OptimalSpjotvollAndSieveGroupedPValueWeighting.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, three primary sources with exact SHA-256 digests, pinned AIO mapping and rationale, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261017T152000Z-optimal-spjotvoll-and-sieve-grouped-p-value-weighting.json | supports | No normalized identity match for Optimal Spjøtvoll and sieve-grouped p-value weighting across 442 pinned AIO records and 592 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected DataDredgingBias in the pinned AIO snapshot (2026-07-22). DataDredgingBias provides frequentist multiplicity error-control context via related_match. |
+| calculation | research/discovery/optimal-spjotvoll-and-sieve-grouped-p-value-weighting-boundaries.py | supports | Constructed analytical and numerical checks for Theorem 3.1 &amp; Lemma 3.2 one-parameter Spjøtvoll oracle weights and power, Theorem 3.4 &amp; Lemma 3.5 sparse-weight robustness at b=0, Lemma 3.6 &amp; Theorems 3.7-3.8 Kolmogorov-Smirnov discontinuity vs. worst-case power at u_* = sqrt(2 c_*), Theorems 4.1-4.2 maximin binary weights, and Section 5 Equation (12) sieve-principle grouped method-of-moments weighting. |
+| roeder-wasserman2009-ar5iv | https://ar5iv.labs.arxiv.org/html/1010.4637; Sections 1-6 and Appendix (lines 1-818, Lemmas 2.1-2.2, Theorem 3.1, Lemma 3.2, Theorems 3.3-3.8, Lemmas 3.5-3.6, Theorems 4.1-4.3, Equations 12-13) | supports | All 818 lines of the full-text ar5iv HTML conversion of arXiv:1010.4637v1 read. Checked all definitions, lemmas, theorems, method-of-moments derivations, GWAS simulations, and Appendix proofs. |
+| roeder-wasserman2009-crossref | https://api.crossref.org/works/10.1214/09-STS289; Statistical Science Vol. 24, Issue 4, pp. 398-413 publication record | supports | Official Statistical Science 24(4):398-413 Crossref record read and verified. |
+| roeder-wasserman2009-abs | https://arxiv.org/abs/1010.4637; arXiv:1010.4637v1 abstract and Statistical Science 2009 metadata | supports | arXiv:1010.4637v1 abstract and Statistical Science 2009 metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Optimal Spjøtvoll and sieve-grouped p-value weighting record, yielding 593 native and 442 unchanged generated records.
+- All 818 lines of Roeder &amp; Wasserman (2009, arXiv:1010.4637v1) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261017T152200Z-optimal-spjotvoll-and-sieve-grouped-p-value-weighting
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Optimal Spjøtvoll and sieve-grouped p-value
+  weighting
+started_at: '2026-10-17T15:20:00Z'
+finished_at: '2026-10-17T15:22:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from ConstrainedConvexPValueWeightingInMonotoneLikelihoodRatioFamilies
+    (Dobriban 2018), BayesOptimalPValueWeightingUnderGaussianPrior (Dobriban et al.
+    2015), and AdaptiveDataDrivenOptimalPValueWeighting (Durand 2019), the Kolmogorov-Smirnov
+    discontinuity of unsmoothed Spjøtvoll weights (Lemma 3.6), the sieve condition
+    K << m required for grouped method-of-moments FWER validity (Section 5), and Gaussian/chi-square
+    parametric assumptions. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Optimal Spjøtvoll and sieve-grouped p-value weighting as a distinct
+  DRAFT mathematical_method with a related DataDredgingBias mapping. All four claims
+  and locators across Roeder & Wasserman (2009 Statistical Science 24(4):398-413)
+  are supported with explicit Kolmogorov-Smirnov discontinuity, sieve group-size,
+  and Gaussian/chi-square parametric limitations.
+source:
+  git_revision: ce28078a69f5eb6c5c536d474d5c87b13c929a65
+  state: working_tree
+  inputs:
+  - path: data/aio/DataDredgingBias.yaml
+    sha256: 335067e88f1462e141ac5f35e697cd42f7d250ec4dde9250531babe0d96cc1d0
+    role: context
+  - path: data/curated/AdaptiveDataDrivenOptimalPValueWeighting.yaml
+    sha256: 87961708f5770edc0a05f6048c36f9d50507a48e453db008ec06cf37d9ecb32b
+    role: context
+  - path: data/curated/BayesOptimalPValueWeightingUnderGaussianPrior.yaml
+    sha256: b41f7ac57487b427d7bb97fb02c2e4408d93c2427f772554459327e665e78056
+    role: context
+  - path: data/curated/ConstrainedConvexPValueWeightingInMonotoneLikelihoodRatioFamilies.yaml
+    sha256: 97415576de3471717aa4c965626803a592de772077e8fabab033968b49bd05e5
+    role: context
+  - path: data/curated/CovariatePoweredCrossWeightedMultipleTesting.yaml
+    sha256: 84d7094933c475533243366de9802790a89da87fb149ceffcb6ff304eacd3cf9
+    role: context
+  - path: data/curated/OptimalMultiWeightedStepUpProcedureForFDRControl.yaml
+    sha256: 0ce681bedc7dae26198a31774cb3234dab960c9f788adebd3f28225aae14c1a8
+    role: context
+  - path: data/curated/OptimalSpjotvollAndSieveGroupedPValueWeighting.yaml
+    sha256: 5bcc259bbbe4758e8fff9ec95e7b7c967e7431c39327bad2b771284bcf9e1841
+    role: target
+  - path: research/discovery/20261017T152000Z-optimal-spjotvoll-and-sieve-grouped-p-value-weighting.json
+    sha256: 0bd229ebe8f4af78709f681bd9ffc6d8f61a7fcd435fdad2688f7ac5c97eba66
+    role: context
+  - path: research/discovery/optimal-spjotvoll-and-sieve-grouped-p-value-weighting-boundaries.py
+    sha256: b8cd995e32e5c6e5163a2f12fc3e7271118b406e8ae70ec1517273e5f96b06c2
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  path: data/curated/OptimalSpjotvollAndSieveGroupedPValueWeighting.yaml
+  label: Optimal Spjøtvoll and sieve-grouped p-value weighting
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/OptimalSpjotvollAndSieveGroupedPValueWeighting.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained OptimalSpjotvollAndSieveGroupedPValueWeighting
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 593 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Roeder-Wasserman Spjøtvoll and sieve-grouped weighting checks
+  command: python3 research/discovery/optimal-spjotvoll-and-sieve-grouped-p-value-weighting-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"lemma_3_6_and_theorems_3_7_3_8_ks_discontinuity_vs_power": {"expected_ratio_1_over_K_plus_1":
+    0.000999, "ks_distance_gamma": 0.1, "min_grid_power_over_u": 0.7529825, "rho_tilde_xi":
+    0.00999001, "rho_true": 10.0, "thm_3_7_xi_star_threshold": 5.91887833, "thm_3_8_c_star":
+    5.94833415, "thm_3_8_u_star": 3.44915472, "thm_3_8_worst_case_power": 0.75292715,
+    "thm_3_8_xi_test": 4.2, "u_lemma_3_6": 0.030529, "unweighted_bonferroni_power_at_xi_test":
+    0.62149445, "weight_ratio_tilde_over_true": 0.000999, "worst_case_still_beats_bonferroni":
+    true, "xi_lemma_3_6": 9.763185}, "theorem_3_1_and_lemma_3_2_oracle_weights": {"avg_oracle_power":
+    0.53897493, "avg_unweighted_bonferroni_power": 0.39544288, "budget_error": 2.22e-16,
+    "c_star": 3.6167495309, "max_kkt_stationarity_error": 6.592e-17, "max_lemma_3_2_power_identity_error":
+    3.608e-16, "oracle_beats_bonferroni": true}, "theorems_3_4_and_lemma_3_5_sparse_robustness":
+    {"B": 4.0, "R_B0_above_xi_star": -0.01657252, "R_B0_at_half_xi_star": 0.00053768,
+    "R_B0_at_lemma_3_5_threshold": 0.00051182, "lemma_3_5_mills_ratio_threshold":
+    1.18817712, "safe_zone_positive_at_b_zero": true, "xi_star_exact_root": 2.41591146,
+    "z_B_alpha_over_m": 4.10747965, "z_alpha_over_m": 4.41717341}, "theorems_4_1_4_2_and_section_5_sieve_grouped_weights":
+    {"section_5_mom_max_pi_error": 5.551e-17, "section_5_mom_max_xi_error": 4.441e-16,
+    "section_5_smoothed_group_weights": [2.875555, 0.969733, 0.104712, 0.05], "section_5_smoothed_null_group_weight_positive":
+    true, "thm_4_1_B_star": 9.459504, "thm_4_1_max_robustness_R": 0.09446462, "thm_4_1_turnaround_B0":
+    111.65303, "thm_4_2_B_maximin": 16.130156, "thm_4_2_power_w0": 0.45060625, "thm_4_2_power_w1":
+    0.7, "thm_4_2_w0": 0.569311, "thm_4_2_w1": 9.183082}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261017T152000Z-optimal-spjotvoll-and-sieve-grouped-p-value-weighting.json
+  accessed_at: '2026-10-17T15:20:00Z'
+  support: supports
+  summary: No normalized identity match for Optimal Spjøtvoll and sieve-grouped p-value
+    weighting across 442 pinned AIO records and 592 maintained IDs, names, aliases
+    and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-17T15:20:00Z'
+  support: supports
+  summary: Inspected DataDredgingBias in the pinned AIO snapshot (2026-07-22). DataDredgingBias
+    provides frequentist multiplicity error-control context via related_match.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/optimal-spjotvoll-and-sieve-grouped-p-value-weighting-boundaries.py
+  accessed_at: '2026-10-17T15:20:00Z'
+  snapshot_sha256: b8cd995e32e5c6e5163a2f12fc3e7271118b406e8ae70ec1517273e5f96b06c2
+  support: supports
+  summary: Constructed analytical and numerical checks for Theorem 3.1 & Lemma 3.2
+    one-parameter Spjøtvoll oracle weights and power, Theorem 3.4 & Lemma 3.5 sparse-weight
+    robustness at b=0, Lemma 3.6 & Theorems 3.7-3.8 Kolmogorov-Smirnov discontinuity
+    vs. worst-case power at u_* = sqrt(2 c_*), Theorems 4.1-4.2 maximin binary weights,
+    and Section 5 Equation (12) sieve-principle grouped method-of-moments weighting.
+- evidence_id: roeder-wasserman2009-ar5iv
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/1010.4637
+  locator: Sections 1-6 and Appendix (lines 1-818, Lemmas 2.1-2.2, Theorem 3.1, Lemma
+    3.2, Theorems 3.3-3.8, Lemmas 3.5-3.6, Theorems 4.1-4.3, Equations 12-13)
+  accessed_at: '2026-10-17T15:20:00Z'
+  snapshot_sha256: a7ac40415cd7649f2933c79f98fcc4e830f5fbf9c9c50602e2505cbb2878ff9f
+  support: supports
+  summary: All 818 lines of the full-text ar5iv HTML conversion of arXiv:1010.4637v1
+    read. Checked all definitions, lemmas, theorems, method-of-moments derivations,
+    GWAS simulations, and Appendix proofs.
+- evidence_id: roeder-wasserman2009-crossref
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/09-STS289
+  locator: Statistical Science Vol. 24, Issue 4, pp. 398-413 publication record
+  accessed_at: '2026-10-17T15:20:00Z'
+  snapshot_sha256: 26d259113110dcfc5f97fb2af1d85cface93638f2d1280b3f180b28d8e7f6523
+  support: supports
+  summary: Official Statistical Science 24(4):398-413 Crossref record read and verified.
+- evidence_id: roeder-wasserman2009-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1010.4637
+  locator: arXiv:1010.4637v1 abstract and Statistical Science 2009 metadata
+  accessed_at: '2026-10-17T15:20:00Z'
+  snapshot_sha256: b3d1954b604c394236efeb63499834c82d7639cd1a0753ce4584678b0eb9a80f
+  support: supports
+  summary: arXiv:1010.4637v1 abstract and Statistical Science 2009 metadata read and
+    verified.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: OptimalSpjotvollAndSieveGroupedPValueWeighting versus ConstrainedConvexPValueWeightingInMonotoneLikelihoodRatioFamilies
+    and BayesOptimalPValueWeightingUnderGaussianPrior
+  outcome: supported
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  evidence_ids:
+  - identity
+  - roeder-wasserman2009-ar5iv
+  - roeder-wasserman2009-crossref
+  summary: Retain Optimal Spjøtvoll and sieve-grouped p-value weighting as a distinct
+    DRAFT mathematical_method.
+  details: OptimalSpjotvollAndSieveGroupedPValueWeighting establishes the worst-case
+    robustness function R(xi) (Theorems 3.3-3.4, Lemma 3.5), the Kolmogorov-Smirnov
+    discontinuity of optimal weights vs. least-favorable worst-case power at u_* =
+    sqrt(2 c_*) (Lemma 3.6, Theorems 3.7-3.8), closed-form maximin binary external
+    weights (Theorems 4.1-4.3), and sieve-principle method-of-moments grouped p-value
+    weighting (Section 5, Equations 12-13), whereas Dobriban (2018) solves an order-
+    and box-constrained convex ROC program across general MLR families and Dobriban
+    et al. (2015) integrate over Gaussian prior variance sigma_i^2 > 0.
+- assessment_id: mapping
+  area: grounding
+  topic: Mapping to AIO:DataDredgingBias
+  outcome: supported
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  evidence_ids:
+  - mapping
+  - roeder-wasserman2009-ar5iv
+  summary: Related mapping to DataDredgingBias is supported.
+  details: Optimal Spjøtvoll and sieve-grouped p-value weighting allocates per-hypothesis
+    significance thresholds alpha w_j / m while controlling family-wise error rate
+    against multiplicity-induced false positives (AIO:DataDredgingBias).
+- assessment_id: one-parameter-spjotvoll-optimal-weights-and-oracle-power
+  area: evidence
+  topic: one-parameter-spjotvoll-optimal-weights-and-oracle-power
+  outcome: supported
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  evidence_ids:
+  - roeder-wasserman2009-ar5iv
+  - roeder-wasserman2009-crossref
+  - calculation
+  summary: Supported by Section 2 Lemmas 2.1-2.2 and Section 3 Theorem 3.1 and Lemma
+    3.2.
+  details: Verified Theorem 3.1 & Lemma 3.2 one-parameter Spjøtvoll oracle weights
+    and power identity (c^* = 3.6167495309, budget error = 2.22e-16, max KKT stationarity
+    error = 6.592e-17, max Lemma 3.2 power identity error = 3.608e-16, average oracle
+    power = 0.53897493 > 0.39544288 unweighted Bonferroni).
+- assessment_id: sparse-weight-robustness-function-and-zero-weight-safe-zone
+  area: evidence
+  topic: sparse-weight-robustness-function-and-zero-weight-safe-zone
+  outcome: supported
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  evidence_ids:
+  - roeder-wasserman2009-ar5iv
+  - calculation
+  summary: Supported by Section 3 Property I Theorems 3.3-3.4 and Lemma 3.5.
+  details: Verified Theorem 3.4 & Lemma 3.5 sparse-weight robustness at b = 0 and
+    B = 4.0 (Mill's-ratio sufficient threshold = 1.18817712 < exact zero-crossing
+    xi_* = 2.41591146 < z_{alpha/m} = 4.41717341, with R_{B,0} = +0.00051182 > 0).
+- assessment_id: ks-discontinuity-versus-least-favorable-worst-case-power
+  area: evidence
+  topic: ks-discontinuity-versus-least-favorable-worst-case-power
+  outcome: supported
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  evidence_ids:
+  - roeder-wasserman2009-ar5iv
+  - roeder-wasserman2009-abs
+  - calculation
+  summary: Supported by Section 3 Property II Lemma 3.6 and Theorems 3.7-3.8.
+  details: 'Verified Lemma 3.6 Kolmogorov-Smirnov discontinuity (at gamma = 0.1, K
+    = 1000, c = 0.1: u = 0.030529, xi = 9.763185, weight reduced from rho(xi) = 10.0
+    to rho_tilde(xi) = 0.00999001, ratio = 0.000999 = 1/1001) versus Theorems 3.7-3.8
+    worst-case power at xi = 4.2 < xi_* = 5.91887833 (least-favorable u_* = 3.44915472
+    gives worst-case power 0.75292715 > 0.62149445 unweighted Bonferroni).'
+- assessment_id: maximin-binary-weights-and-sieve-grouped-method-of-moments-weighting
+  area: evidence
+  topic: maximin-binary-weights-and-sieve-grouped-method-of-moments-weighting
+  outcome: supported
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  evidence_ids:
+  - roeder-wasserman2009-ar5iv
+  - calculation
+  summary: Supported by Section 4 Theorems 4.1-4.3 and Section 5 Equations (12)-(13).
+  details: Verified Theorems 4.1-4.2 optimal binary weights (unique mode B^* = 9.459504,
+    turnaround B_0 = 111.65303, and maximin weights w_1 = 9.183082, w_0 = 0.569311
+    achieving exact target power 0.7) and Section 5 Equation (12) sieve-principle
+    grouped method-of-moments estimation (max parameter recovery errors 5.551e-17
+    and 4.441e-16).
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting
+  evidence_ids:
+  - identity
+  - mapping
+  - roeder-wasserman2009-ar5iv
+  - roeder-wasserman2009-crossref
+  - roeder-wasserman2009-abs
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of OptimalSpjotvollAndSieveGroupedPValueWeighting.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, four claims and locators, three primary sources with exact SHA-256
+    digests, pinned AIO mapping and rationale, four scoped limitations, and UTC curation
+    metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Optimal Spjøtvoll and sieve-grouped p-value weighting record, yielding
+  593 native and 442 unchanged generated records.
+- All 818 lines of Roeder & Wasserman (2009, arXiv:1010.4637v1) were read in full
+  text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- multiple-testing
+- p-value-weighting
+- family-wise-error-rate
+- sieve-estimation
+- self-review
+- discovery-ongoing
+```
