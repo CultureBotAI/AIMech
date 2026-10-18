@@ -1,0 +1,234 @@
+id: AIMech:StepUpDownLeastFavorableConfigurationFDRBounds
+name: Step-up-down least favorable configuration and two-population Steck false discovery rate bounds
+aliases:
+- Blanchard-Dickhaus-Roquain-Villers Step-Up-Down LFC Framework
+- Two-Population Generalized Steck's Recursion for Step-Up-Down FDR
+- Non-Asymptotic Perturbation Bounds for Step-Up-Down Multiple Testing
+concept_kind: mathematical_method
+definition: 'A finite-sample and non-asymptotic statistical multiple-testing framework developed by Gilles
+  Blanchard, Thorsten Dickhaus, Etienne Roquain, and Fanny Villers (2014, Statistica Sinica 24(1):1-23,
+  arXiv:1108.5262v1, DOI:10.5705/ss.2011.205) that evaluates and bounds the False Discovery Rate (FDR)
+  of step-up-down procedures SUD_lambda(t) of order lambda in {1, ..., m} under two-group fixed-mixture
+  FM(m, m_0, F) and random-mixture RM(m, pi_0, F) independent p-value models: (1) generalizes Steck''s
+  order-statistic recursion to two heterogeneous populations (k_0 uniform true nulls and k - k_0 alternatives
+  with c.d.f. F; Proposition 5.1, Equation (18)) to compute exact finite-sample joint (V, R) distributions
+  and exact FDR(SUD_lambda(t)) (Theorem 5.2, Corollary 5.3); (2) disproves the conjecture (Conjecture
+  3.2) that the Dirac-uniform configuration (F == 1) is a universal finite-sample least favorable configuration
+  (LFC) for intermediate linear step-up-down procedures LSUD_lambda (Proposition 4.1); and (3) brackets
+  the discrete rejection fraction hat_k/m via the continuous fixed-point functional U(ell, G) (Definition
+  4.2, Lemma 4.3) to prove explicit Dvoretzky-Kiefer-Wolfowitz perturbation bounds (Theorem 4.4) and O((1
+  - zeta_m)^{-1} sqrt((log m) / m)) convergence rates (Corollary 4.5) quantifying the maximum excess of
+  FDR(SUD_lambda(t), F) over FDR(SUD_lambda(t), F == 1) for both Simes linear and Finner-Dickhaus-Roters
+  asymptotically optimal rejection curves (AORC).'
+identity_notes: Distinct from all 442 pinned AIO concepts and all 596 previously curated AIMech concepts.
+  While AIMech:SelfConsistencyAndDependencyControlFDRFramework (Blanchard & Roquain 2008), AIMech:OneAndTwoStageAdaptiveStepUpFDRUnderDependence
+  (Blanchard & Roquain 2009), and AIMech:ContinuumMeasureSpaceStepUpFDRControl (Blanchard, Delattre, &
+  Roquain 2014) establish FDR control for step-up and step-down procedures under self-consistency, dependency
+  control, or continuum weak PRDS, none of those records analyze the least favorable alternative configuration
+  (LFC) problem for intermediate step-up-down procedures SUD_lambda(t) (1 < lambda < m), derive the polynomial-time
+  two-population generalized Steck recursion Psi_{k, k_0, F}(t_1, ..., t_k) (Proposition 5.1), disprove
+  the finite-sample Dirac-uniform LFC conjecture for LSUD_lambda (Proposition 4.1), or establish the continuous
+  fixed-point bracketing U(lambda/m, hat_G_m) <= hat_k/m <= U(lambda/m, (hat_G_m + m^{-1}) wedge 1) and
+  DKW perturbation bounds (Lemma 4.3, Theorem 4.4, Corollary 4.5).
+definition_evidence:
+- source_id: blanchard-dickhaus-roquain-villers2014-pdf
+  locator: Section 2.2, page 6, Definition 2.1 and Equation (2); Section 4.1–4.3, pages 12–17, Proposition
+    4.1, Definition 4.2, Lemma 4.3, Theorem 4.4, and Corollary 4.5; Section 5.1–5.2, pages 18–20, Proposition
+    5.1, Theorem 5.2, and Corollary 5.3
+  relation: supports
+- source_id: blanchard-dickhaus-roquain-villers2014-ar5iv
+  locator: Sections 2, 4, and 5, lines 79–336 (SUD_lambda(t) definition, Proposition 4.1 counterexample,
+    Theorem 4.4 and Corollary 4.5 perturbation bounds, and Proposition 5.1 two-population Steck recursion)
+  relation: supports
+- source_id: blanchard-dickhaus-roquain-villers2014-crossref
+  locator: Statistica Sinica 24(1):1–23 (DOI:10.5705/ss.2011.205) bibliographic metadata record
+  relation: supports
+- source_id: blanchard-dickhaus-roquain-villers2014-abs
+  locator: Abstract (disproof of finite-sample Dirac-uniform LFC for intermediate SUD procedures via two-population
+    Steck recursion and non-asymptotic upper bounds)
+  relation: supports
+claims:
+- claim_id: two-population-steck-recursion-and-exact-sud-fdr
+  kind: mechanism
+  statement: For 0 <= k_0 <= k and independent variables (U_i)_{1 <= i <= k} comprising k_0 i.i.d. Uniform(0,
+    1) true null p-values and k - k_0 i.i.d. alternative p-values with continuous c.d.f. F, Proposition
+    5.1 (Equation (18)) proves that the joint order-statistic probability Psi_{k, k_0, F}(t_1, ..., t_k)
+    = P(U_{(1)} <= t_1, ..., U_{(k)} <= t_k) satisfies the polynomial-time recursion Psi_{k, k_0, F}(t_1,
+    ..., t_k) = (t_k)^{k_0} F(t_k)^{k - k_0} - sum_{0 <= j_0 <= j <= k - 2, j_0 <= k_0, j - j_0 <= k -
+    k_0} comb(k_0, j_0) comb(k - k_0, j - j_0) (t_k - t_{j+1})^{k_0 - j_0} (F(t_k) - F(t_{j+1}))^{k -
+    k_0 - j + j_0} Psi_{j, j_0, F}(t_1, ..., t_j) (with Psi_{0,0,F}(.) = 1 and 0^0 = 1), which combines
+    with the step-up/step-down event partition {p_{(lambda)} > t_lambda} cup {p_{(lambda)} <= t_lambda}
+    (Equation (25), Theorem 5.2, and Corollary 5.3, Equations (19)-(27)) to give exact finite-sample formulas
+    for FDR(SUD_lambda(t)) and P(FDP(SUD_lambda(t)) <= x) (Appendix A, Corollary A.1) in both FM(m, m_0,
+    F) and RM(m, pi_0, F).
+  evidence:
+  - source_id: blanchard-dickhaus-roquain-villers2014-pdf
+    locator: Section 5.1–5.2, pages 18–20, Equations (16)–(27), Proposition 5.1, Theorem 5.2, and Corollary
+      5.3; Section 7.1, page 23; Appendix A, page 28, Corollary A.1
+    relation: supports
+  - source_id: blanchard-dickhaus-roquain-villers2014-ar5iv
+    locator: Section 5, lines 247–336, Proposition 5.1, Theorem 5.2, and Corollary 5.3; Section 7.1, lines
+      344–347; Appendix A, lines 448–490
+    relation: supports
+- claim_id: intermediate-lsud-dirac-uniform-lfc-counterexample
+  kind: mechanism
+  statement: 'Although the Dirac-uniform configuration (F == 1, where alternative p-values have point
+    mass 1 at 0) is a finite-sample least favorable configuration for both linear step-up LSU = LSUD_m
+    (Benjamini & Yekutieli 2001) and linear step-down LSD = LSUD_1 over concave F in RM(m, pi_0, F) (Roquain
+    & Villers 2011a), Proposition 4.1 (Equation (8) and Figure 3) proves by exact two-population Steck
+    evaluation at m = 10, level alpha = 0.5, and m_0 = 7 (or pi_0 = 0.7) that for intermediate orders
+    lambda in {4, 5, 6, 7} (and across the complete intermediate set lambda in {3, 4, 5, 6, 7, 8, 9}),
+    the uniform zero-signal alternative F(x) = x yields strictly larger FDR than the Dirac-uniform configuration:
+    FDR(LSUD_lambda, F(x) = x) > FDR(LSUD_lambda, F == 1) in both FM(10, 7, F) (e.g., at lambda = 4: 0.342981
+    > 0.329850) and RM(10, 0.7, F) (at lambda = 4: 0.342981 > 0.334060), disproving Conjecture 3.2.'
+  evidence:
+  - source_id: blanchard-dickhaus-roquain-villers2014-pdf
+    locator: Section 3, pages 9–11, Conjecture 3.2 and Figure 2; Section 4.1, pages 12–13, Proposition
+      4.1, Equation (8), and Figure 3
+    relation: supports
+  - source_id: blanchard-dickhaus-roquain-villers2014-ar5iv
+    locator: Section 3, lines 99–116, Conjecture 3.2; Section 4.1, lines 120–139, Proposition 4.1
+    relation: supports
+- claim_id: continuous-threshold-bracketing-and-dkw-perturbation-bound
+  kind: mechanism
+  statement: 'For any continuous non-decreasing critical value function rho: [0, 1] -> [0, 1] such that
+    x -> rho(x)/x is non-decreasing and t_k = rho(k/m), Definition 4.2 and Lemma 4.3 (Equations (9)-(10))
+    prove that the continuous fixed-point functional U(ell, G) = min{u in [ell, 1] : G(rho(u)) <= u} if
+    G(rho(ell)) >= ell else max{u in [0, ell] : G(rho(u)) >= u} brackets the discrete rejection fraction
+    hat_k / m via U(lambda/m, hat_G_m) <= hat_k / m <= U(lambda/m, (hat_G_m + m^{-1}) wedge 1). Combining
+    this bracketing with Massart''s (1990) tight constant 2 in the Dvoretzky-Kiefer-Wolfowitz inequality
+    around G_zeta^{DU}(x) = (1 - zeta) + zeta x, Theorem 4.4 (Equations (11)-(13)) proves that for any
+    F in F, lambda in {1, ..., m}, zeta in (0, 1), and delta in (0, 1), FDR(SUD_lambda(t), m_0, F) <=
+    FDR(SUD_lambda(t), m_0, F == 1) + (m_0/m) varepsilon(delta, m, zeta, nu) in FM(m, m_0, F) (with nu
+    = max_{k in {m_0-1, m_0}} |k/m - zeta|) and FDR(SUD_lambda(t), pi_0, F) <= FDR(SUD_lambda(t), pi_0,
+    F == 1) + pi_0 varepsilon(delta, m, zeta, gamma) + 4 exp(-2 m (gamma - 1/m)_+^2) in RM(m, pi_0, F)
+    (with pi_0 = zeta), where u_delta^+ = U(lambda/m, (G_zeta^{DU} + delta) wedge 1), u_delta^- = U(lambda/m,
+    (G_zeta^{DU} - delta) vee 0), and varepsilon(delta, m, zeta, y) = (rho(u_delta^+) - rho(u_delta^-))
+    / u_delta^+ + (4 / (1 - zeta)) exp(-2 m (delta - y - 1/m)_+^2 (1 - y/zeta)_+).'
+  evidence:
+  - source_id: blanchard-dickhaus-roquain-villers2014-pdf
+    locator: Section 4.2, pages 13–15, Definition 4.2, Lemma 4.3, Theorem 4.4, and Equations (9)–(13);
+      Section 7.2–7.3, pages 23–27, Equations (28)–(36)
+    relation: supports
+  - source_id: blanchard-dickhaus-roquain-villers2014-ar5iv
+    locator: Section 4.2, lines 140–183, Definition 4.2, Lemma 4.3, and Theorem 4.4; Section 7.2–7.3,
+      lines 348–438
+    relation: supports
+- claim_id: vanishing-rate-for-linear-and-aorc-step-up-down
+  kind: mechanism
+  statement: For Simes linear critical values rho(x) = alpha x (where (rho(u_delta^+) - rho(u_delta^-))/u_delta^+
+    <= 2 alpha delta / (1 - zeta + delta)) or the Finner-Dickhaus-Roters (2009) asymptotically optimal
+    rejection curve (AORC) rho(u) = alpha u / (1 - u(1 - alpha)) (where (rho(u_delta^+) - rho(u_delta^-))/u_delta^+
+    ~ 2 alpha (1 - alpha) delta / ((zeta^2 - alpha zeta)(1 - zeta)) as delta -> 0 provided lambda/m <
+    v_delta = 1 - delta alpha / (zeta - alpha) + O(delta^2)), Corollary 4.5 (Equation (15)) proves that
+    when zeta_m in (alpha, 1) satisfies (1 - zeta_m)^{-1} sqrt((log m)/m) = o(1) (and (1 - lambda_m/m)^{-1}
+    sqrt((log m)/m) = o(1) for AORC), the positive part of the FDR excess over the Dirac-uniform model
+    vanishes at the explicit non-asymptotic rate (FDR(SUD_{lambda_m}(t), F) - FDR(SUD_{lambda_m}(t), F
+    == 1))_+ = O((1 - zeta_m)^{-1} sqrt((log m) / m)).
+  evidence:
+  - source_id: blanchard-dickhaus-roquain-villers2014-pdf
+    locator: Section 4.2, pages 15–16, Examples 1–2 and Equation (14); Section 4.3, pages 16–17, Corollary
+      4.5 and Equation (15); Section 7.4, page 27, Equation (37)
+    relation: supports
+  - source_id: blanchard-dickhaus-roquain-villers2014-ar5iv
+    locator: Section 4.2–4.3, lines 184–245, Examples 1–2 and Corollary 4.5; Section 7.4, lines 439–444
+    relation: supports
+evidence_sources:
+- source_id: blanchard-dickhaus-roquain-villers2014-pdf
+  title: On least favorable configurations for step-up-down tests
+  authors:
+  - Gilles Blanchard
+  - Thorsten Dickhaus
+  - Etienne Roquain
+  - Fanny Villers
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1108.5262
+  persistent_id: https://doi.org/10.5705/ss.2011.205
+  version: arXiv:1108.5262v1 full-text PDF (33 pages, 753,466 bytes; published in Statistica Sinica, Vol.
+    24, No. 1, pp. 1–23, 2014, DOI:10.5705/ss.2011.205). All 33 pages read in full across Sections 1–7
+    and Appendices A–C.
+  access_level: full_text
+  accessed_at: '2026-10-17T15:55:00Z'
+  sha256: 3276246bf48077619f74aa42f44a9707d4dab17309e1fb1377814a3321453bd1
+- source_id: blanchard-dickhaus-roquain-villers2014-ar5iv
+  title: On least favorable configurations for step-up-down tests (ar5iv HTML)
+  authors:
+  - Gilles Blanchard
+  - Thorsten Dickhaus
+  - Etienne Roquain
+  - Fanny Villers
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1108.5262
+  persistent_id: https://doi.org/10.5705/ss.2011.205
+  version: arXiv:1108.5262v1 full-text ar5iv HTML conversion (987 lines, 84,157 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T15:55:00Z'
+  sha256: ff44c60469e2615968d6008f77ade067d262e89dd3854daf870f371c727ac4aa
+- source_id: blanchard-dickhaus-roquain-villers2014-crossref
+  title: On least favorable configurations for step-up-down tests (Statistica Sinica Record)
+  authors:
+  - Gilles Blanchard
+  - Thorsten Dickhaus
+  - Etienne Roquain
+  - Fanny Villers
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.5705/ss.2011.205
+  persistent_id: https://doi.org/10.5705/ss.2011.205
+  version: Statistica Sinica 24(1):1–23 Crossref bibliographic metadata record (981 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T15:55:00Z'
+  sha256: b5a8c00ddcee85cd3f63afdadbd4b1313692f2afb9c65184c662c9dfda69580b
+- source_id: blanchard-dickhaus-roquain-villers2014-abs
+  title: On least favorable configurations for step-up-down tests (arXiv:1108.5262 Abstract)
+  authors:
+  - Gilles Blanchard
+  - Thorsten Dickhaus
+  - Etienne Roquain
+  - Fanny Villers
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1108.5262
+  persistent_id: https://doi.org/10.48550/arXiv.1108.5262
+  version: arXiv:1108.5262v1 abstract and metadata record (6,243 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T15:55:00Z'
+  sha256: 3a141ad1099f65a122b41b04ca60754c794d396a3011dfb77cb10de14fc7a4a2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Step-up-down multiple testing procedures and their least favorable configuration and non-asymptotic
+    perturbation bounds directly control the False Discovery Rate across simultaneous hypothesis tests,
+    preventing multiplicity-induced false positives (AIO:DataDredgingBias).
+limitations:
+- As proved in Proposition 4.1 (Section 4.1, Equation (8), Figure 3), the Dirac-uniform configuration
+  (F == 1) is NOT a finite-sample least favorable configuration for intermediate linear step-up-down procedures
+  LSUD_lambda (e.g., for m = 10, m_0 = 7, alpha = 0.5, lambda in {3, 4, 5, 6, 7, 8, 9}), so evaluating
+  finite-sample FDR solely at F == 1 can underestimate the maximum finite-sample FDR over F in F.
+- The explicit convergence rate O((1 - zeta_m)^{-1} sqrt((log m) / m)) in Corollary 4.5 requires (1 -
+  zeta_m)^{-1} sqrt((log m) / m) = o(1) and therefore excludes the highly sparse regime where the true-null
+  proportion zeta_m approaches 1 faster than 1 - sqrt((log m) / m) (Section 4.3, page 17).
+- For the Finner-Dickhaus-Roters asymptotically optimal rejection curve (AORC) rho(u) = alpha u / (1 -
+  u(1 - alpha)), the perturbation bound in Theorem 4.4 vanishes only when the step-up-down order satisfies
+  lambda_m / m < v_delta = 1 - delta alpha / (zeta - alpha) + O(delta^2), requiring the additional condition
+  (1 - lambda_m / m)^{-1} sqrt((log m) / m) = o(1) (Section 4.2–4.3, pages 16–17).
+- 'All 33 pages of the PDF and all 987 lines of the ar5iv HTML of Blanchard, Dickhaus, Roquain, & Villers
+  (2014, Statistica Sinica 24(1):1-23, arXiv:1108.5262v1, DOI:10.5705/ss.2011.205) were read. Constructed
+  numerical checks in research/discovery/step-up-down-least-favorable-configuration-fdr-bounds-boundaries.py
+  verify (1) Proposition 5.1 two-population generalized Steck recursion and Corollary 5.3 exact finite-sample
+  SUD FDR formulas in FM(10, 7, F) and RM(10, 0.7, F), (2) Proposition 4.1 counterexample across lambda
+  in [3, 4, 5, 6, 7, 8, 9] where FDR(LSUD_lambda, F(x)=x) > FDR(LSUD_lambda, F==1) (at lambda = 4: FM
+  0.342981 > 0.32985, RM 0.342981 > 0.33406), (3) Lemma 4.3 continuous fixed-point bracketing on the Figure
+  6 configuration (at lambda = 4: U_lower = 0.4 <= hat_k/m = 0.7 <= U_upper = 0.8), (4) Theorem 4.4 and
+  Corollary 4.5 O(sqrt((log m)/m)) decay across m in {100, 1000, 10000, 100000} (at m = 100000: bound
+  = 0.007018, scaled ratio = 0.654045), and (5) Lemma B.1 extreme configuration where FDR(SD) = 0.790285
+  > FDR(SU) = 0.7 at t_0 = 0.2 > 0.158018.'
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T15:55:00Z'
+  updated_at: '2026-10-17T15:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
