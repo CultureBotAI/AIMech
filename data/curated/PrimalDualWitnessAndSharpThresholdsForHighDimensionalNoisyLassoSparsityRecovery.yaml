@@ -1,0 +1,217 @@
+id: AIMech:PrimalDualWitnessAndSharpThresholdsForHighDimensionalNoisyLassoSparsityRecovery
+name: Primal-Dual Witness Method and Sharp Thresholds for High-Dimensional Noisy Lasso Sparsity Recovery
+concept_kind: mathematical_method
+aliases:
+- Sharp Thresholds for High-Dimensional and Noisy Sparsity Recovery Using l_1-Constrained Quadratic Programming
+  (Wainwright 2009)
+- Wainwright Primal-Dual Witness Method for Exact Signed Support Recovery of the Lasso
+- Sharp Sample Complexity Phase Transition n = 2s log(p - s) + s + 1 for Noisy Lasso Sparsity Recovery
+- Wainwright (2006/2009) Mutual Incoherence Threshold Theory for High-Dimensional Lasso Support Recovery
+definition: 'Primal-Dual Witness Method and Sharp Thresholds for High-Dimensional Noisy Lasso Sparsity
+  Recovery is a convex-optimality and high-dimensional phase-transition analysis framework introduced
+  by Wainwright (2009, IEEE Transactions on Information Theory 55(5):2183-2202, arXiv:math/0605740v1)
+  for characterizing exact signed support recovery sgn(beta_hat) = sgn(beta*) of an s-sparse vector beta*
+  in R^p (S = supp(beta*), |S| = s, N = |S^c| = p - s) from n noisy linear observations Y = X beta* +
+  W (W ~ N(0, sigma^2 I_n)) via the Lasso min_{beta in R^p} {(1/(2n)) ||Y - X beta||_2^2 + lambda_n ||beta||_1}
+  (Equation 3). Assuming X_S^T X_S is invertible, Lemma 1 (Equations 9a-9b, 10a-10b; Appendix A, Equations
+  35-36) reduces exact signed support recovery R(X, beta*, W, lambda_n) via Karush-Kuhn-Tucker primal-dual
+  witness construction to two extreme order-statistic events: off-support dual feasibility M(V) := {max_{j
+  in S^c} |V_j| <= lambda_n} (Equation 11) and on-support sign consistency beta*_S + U_S having sign b
+  = sgn(beta*_S) (secured by M(U) := {max_{i in S} |U_i| <= rho_n := min_{i in S} |beta*_i|}, Equation
+  12). For random Gaussian ensembles X_k ~ N(0, Sigma) satisfying eigenvalue bounds Lambda_min(Sigma_{SS})
+  >= C_min > 0, Lambda_max(Sigma) <= C_max < +infty, ||(Sigma_{SS})^{-1}||_infty <= D_max (Equation 17),
+  and mutual incoherence ||Sigma_{S^c S} (Sigma_{SS})^{-1}||_infty <= 1 - epsilon for epsilon in (0, 1]
+  (Equation 18), Theorem 1 (Equations 20-21) establishes explicit threshold constants theta_l := (sqrt(C_max)
+  - sqrt(C_max - 1/C_max))^2 / (C_max (2 - epsilon)^2) <= 1 and theta_u := C_max / (epsilon^2 C_min) >=
+  1 such that for any nu > 0, P[R(X, beta*, W, lambda_n)] -> 0 whenever n < 2(theta_l - nu) s log(p -
+  s) + s + 1, whereas P[R(X, beta*, W, lambda_n)] -> 1 whenever n > 2(theta_u + nu) s log(p - s) + s +
+  1 and lambda_n -> 0 satisfies (n lambda_n^2) / log(p - s) -> +infty and (1/rho_n)[lambda_n + sqrt((log
+  s)/n)] -> 0; for the standard Gaussian ensemble Sigma = I_p, theta_l = theta_u = 1, yielding the exact
+  sharp threshold n = 2s log(p - s) + s + 1.'
+identity_notes: 'Resolved against all 442 pinned AIO records and 626 maintained AIMech records. Distinct
+  from AIMech:RestrictedEigenvaluePropertiesForCorrelatedGaussianDesigns (Raskutti, Wainwright, & Yu 2010,
+  JMLR 11:2241-2259, which establishes Restricted Eigenvalue and Restricted Nullspace conditions for l_2/l_1
+  estimation error without mutual incoherence), from AIMech:DecomposableRegularizerAndRestrictedStrongConvexityMEstimatorFramework
+  (Negahban, Ravikumar, Wainwright, & Yu 2012, Statistical Science 27(4):538-557, which bounds l_2 and
+  regularizer estimation error under RSC), from AIMech:MinimaxEstimationRatesForHighDimensionalLinearRegressionOverLqBalls
+  (Raskutti, Wainwright, & Yu 2011, IEEE Trans. Inf. Theory 57(10):6976-6994, which derives l_2 prediction
+  and estimation minimax rates over l_q balls), and from AIO:LassoRegression: Wainwright (2009, IEEE Trans.
+  Inf. Theory 55(5):2183-2202, arXiv:math/0605740v1) formulates the KKT primal-dual witness reduction
+  to Gaussian extreme order statistics (Lemma 1, Equations 9-12), proves deterministic design consistency
+  under mutual incoherence (Proposition 1), and establishes the sharp sample complexity phase transition
+  thresholds theta_l and theta_u (Theorem 1, Corollaries 1-3) via conditional inverse-Wishart variance
+  concentration and Sudakov-Fernique / Chatterjee Gaussian comparison bounds (Lemmas 2-8).'
+definition_evidence:
+- source_id: wainwright2009-sharp-lasso-pdf
+  locator: Abstract, p. 1; Section 1.2, pp. 3-4, Equations (5)-(8); Section 2, pp. 4-8, Lemma 1, Proposition
+    1, Equations (9a)-(16); Section 3 and Appendices A-D, pp. 8-15, 18-26, Theorem 1, Corollaries 1-3,
+    Lemmas 2-11, Equations (17)-(52)
+  relation: supports
+- source_id: wainwright2009-sharp-lasso-abs
+  locator: arXiv:math/0605740 abstract and submission metadata
+  relation: supports
+- source_id: wainwright2009-sharp-lasso-cr
+  locator: IEEE Transactions on Information Theory 55(5):2183-2202 (2009), DOI:10.1109/TIT.2009.2016018
+    Crossref metadata
+  relation: supports
+claims:
+- claim_id: primal-dual-witness-kkt-characterization-and-deterministic-design-consistency
+  kind: mechanism
+  statement: Assuming the s x s sub-Gram matrix X_S^T X_S on the true support S = supp(beta*) (|S| = s,
+    N = |S^c| = p - s) is invertible, Lemma 1 (Section 2.1, p. 4, Equations 9a-9b, 10a-10b; proved in
+    Appendix A, p. 18, Equations 35-36) establishes by solving the restricted KKT system (1/n) X_S^T X_S
+    (beta_hat_S - beta*_S) - (1/n) X_S^T w = -lambda_n b (where b := sgn(beta*_S)) and substituting beta_hat_S
+    = beta*_S + U into the off-support subgradient equation that there exists an optimal Lasso solution
+    beta_hat achieving exact signed support recovery sgn(beta_hat) = sgn(beta*) if and only if the off-support
+    dual variables V_j := X_j^T {X_S (X_S^T X_S)^{-1} lambda_n b - [X_S (X_S^T X_S)^{-1} X_S^T - I_n]
+    (W/n)} satisfy M(V) := {max_{j in S^c} |V_j| <= lambda_n} (Equations 9a, 11) and the on-support perturbations
+    U_i := e_i^T ((1/n) X_S^T X_S)^{-1} [(1/n) X_S^T W - lambda_n b] preserve the signs of beta*_S (Equations
+    9b, 10a, for which M(U) := {max_{i in S} |U_i| <= rho_n := min_{i in S} |beta*_i|}, Equation 12, is
+    sufficient). For deterministic designs X with column norms ||X_j||_2^2 = n satisfying mutual incoherence
+    ||X_{S^c}^T X_S (X_S^T X_S)^{-1}||_infty <= 1 - epsilon (epsilon in (0, 1]) and minimum eigenvalue
+    Lambda_min((1/n) X_S^T X_S) >= C_min > 0 (Equations 14a-14b), Proposition 1 (Section 2.2, p. 6, Equation
+    15) proves P(R(X, beta*, W, lambda_n)) -> 1 whenever lambda_n -> 0 satisfies (n lambda_n^2) / log(p
+    - s) -> +infty and (1/rho_n) {sqrt((log s)/n) + lambda_n ||((1/n) X_S^T X_S)^{-1}||_infty} -> 0.
+  evidence:
+  - source_id: wainwright2009-sharp-lasso-pdf
+    locator: Sections 2.1-2.3 and Appendix A, pp. 4-8, 18, Lemma 1, Proposition 1, Equations (9a)-(16),
+      (35)-(36)
+    relation: supports
+- claim_id: sharp-sample-complexity-thresholds-and-noisy-versus-noiseless-scaling-separation
+  kind: mechanism
+  statement: 'For random Gaussian designs X_k ~ N(0, Sigma) with unit diagonal satisfying Lambda_min(Sigma_{SS})
+    >= C_min > 0, Lambda_max(Sigma) <= C_max < +infty, ||(Sigma_{SS})^{-1}||_infty <= D_max < +infty (Equation
+    17), and population mutual incoherence ||Sigma_{S^c S} (Sigma_{SS})^{-1}||_infty <= 1 - epsilon for
+    epsilon in (0, 1] (Equation 18), Theorem 1 (Section 3.1, pp. 8-9, Equations 20-21) defines the explicit
+    thresholds theta_l := (sqrt(C_max) - sqrt(C_max - 1/C_max))^2 / (C_max (2 - epsilon)^2) <= 1 and theta_u
+    := C_max / (epsilon^2 C_min) >= 1 and proves that as s, (n - s), (p - s) -> +infty, for any constant
+    nu > 0: (a) if n < 2(theta_l - nu) s log(p - s) + s + 1, then P[R(X, beta*, W, lambda_n)] -> 0 for
+    any non-increasing sequence lambda_n > 0; and (b) if n > 2(theta_u + nu) s log(p - s) + s + 1 and
+    lambda_n -> 0 satisfies (n lambda_n^2) / log(p - s) -> +infty and (1/rho_n)[lambda_n + sqrt((log s)/n)]
+    -> 0, then P[R(X, beta*, W, lambda_n)] -> 1. For the uniform (standard) Gaussian ensemble Sigma =
+    I_{p x p} (C_min = C_max = 1, epsilon = 1), theta_l = theta_u = 1 so the threshold n = 2s log(p -
+    s) + s + 1 is sharp; consequently, Corollaries 1 and 2 (pp. 9-10) prove that under linear sample scaling
+    n = gamma p (gamma in (0, 1)), noisy Lasso fails with probability converging to 1 for any linear-fraction
+    sparsity s = alpha p (requiring n > 2 alpha p log[(1 - alpha)p] + alpha p), in sharp contrast to noiseless
+    Basis Pursuit.'
+  evidence:
+  - source_id: wainwright2009-sharp-lasso-pdf
+    locator: Sections 3.1-3.2, pp. 8-10, Theorem 1, Corollaries 1, 2, and 3, Equations (17)-(22)
+    relation: supports
+- claim_id: conditional-gaussian-inverse-wishart-decomposition-and-sudakov-fernique-order-statistics
+  kind: mechanism
+  statement: Conditioned on (X_S, W), Lemma 2 (Section 3.3.1, p. 11, Equations 23-25; proved in Appendix
+    D.1, p. 19, Equations 40a-40b) proves that the off-support dual vector (V | W, X_S) is Gaussian with
+    mean bounded by |E[V | W, X_S]| <= lambda_n (1 - epsilon) 1 and conditional covariance cov[V | W,
+    X_S] = M_n Sigma_{(S^c | S)} = M_n [Sigma_{S^c S^c} - Sigma_{S^c S} (Sigma_{SS})^{-1} Sigma_{S S^c}],
+    where M_n := lambda_n^2 b^T (X_S^T X_S)^{-1} b + (1/n^2) W^T [I_n - X_S (X_S^T X_S)^{-1} X_S^T] W.
+    Lemma 3 (p. 11, Equations 26-27; proved in Appendix D.2, pp. 20-21, Equations 41-46, using the inverse-Wishart
+    expectation E[(X_S^T X_S)^{-1}] = (Sigma_{SS})^{-1} / (n - s - 1), Siskind's second-moment formula
+    for n > s + 3, and the rank-(n - s) orthogonal projection R = I_n - X_S (X_S^T X_S)^{-1} X_S^T) proves
+    E[M_n] = (lambda_n^2 / (n - s - 1)) b^T (Sigma_{SS})^{-1} b + sigma^2 (n - s) / n^2 and P[|M_n - E[M_n]|
+    >= delta E[M_n]] -> 0. Lemmas 4-5 (p. 12, Appendix D.3-D.4, pp. 22-23) upper-bound E[max_{j in S^c}
+    Z_tilde_j] via the Sudakov-Fernique inequality and Gaussian Lipschitz concentration to prove Theorem
+    1(b), while Lemmas 7-8 (Section 3.4, p. 15, Appendix D.6-D.7, pp. 25-27, Equations 50-52) apply Chatterjee's
+    quantitative Sudakov-Fernique error bound E[max_{j in S^c} Z_j] >= E[max_{j in S^c} X_j] - sqrt(Delta*
+    log N) with Delta* <= 2 v* (C_max - 1/C_max) to prove Theorem 1(a).
+  evidence:
+  - source_id: wainwright2009-sharp-lasso-pdf
+    locator: Sections 3.3-3.4 and Appendices B-D, pp. 11-15, 18-27, Lemmas 2-11, Equations (23)-(33),
+      (39a)-(52)
+    relation: supports
+evidence_sources:
+- source_id: wainwright2009-sharp-lasso-pdf
+  title: Sharp thresholds for high-dimensional and noisy recovery of sparsity
+  authors:
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/math/0605740.pdf
+  persistent_id: https://doi.org/10.1109/TIT.2009.2016018
+  version: arXiv:math/0605740v1 (30 May 2006, 29 pages, 724217 bytes); published in IEEE Transactions
+    on Information Theory 55(5):2183-2202 (May 2009).
+  access_level: full_text
+  accessed_at: '2026-10-18T14:26:00Z'
+  sha256: 0e6c3f08ca171c14c8e29b8d1c68a070da414ada2e9a01100035e04e2c4e521f
+- source_id: wainwright2009-sharp-lasso-abs
+  title: Sharp thresholds for high-dimensional and noisy recovery of sparsity (arXiv Abstract)
+  authors:
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://arxiv.org/abs/math/0605740
+  persistent_id: https://doi.org/10.48550/arXiv.math/0605740
+  version: arXiv:math/0605740 abstract and metadata record (6135 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T14:25:00Z'
+  sha256: 0635b8a0f63ad56ae5f4d009f500b69c5217ab8071208c9a0755882274e8d1ec
+- source_id: wainwright2009-sharp-lasso-cr
+  title: Sharp Thresholds for High-Dimensional and Noisy Sparsity Recovery Using l_1-Constrained Quadratic
+    Programming (Lasso) (IEEE Trans. Inf. Theory Crossref Metadata)
+  authors:
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1109/TIT.2009.2016018
+  persistent_id: https://doi.org/10.1109/TIT.2009.2016018
+  version: IEEE Transactions on Information Theory 55(5):2183-2202 (2009) Crossref metadata (2246 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T14:26:00Z'
+  sha256: bde884e6e5b2e9ab6bbddaed8a9ad8f702b8f255bbd6f8e891d053de1e472c55
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: broad_match
+  rationale: AIO:LassoRegression represents L1-regularized linear regression broadly, whereas this concept
+    specifically captures Wainwright's (2009) primal-dual witness characterization and sharp sample complexity
+    phase transition thresholds for exact signed support recovery of the high-dimensional noisy Lasso.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: AIO:LinearRegression represents linear regression models broadly, whereas Wainwright (2009)
+    analyzes exact support recovery of sparse linear observation models Y = X beta* + W via l_1-constrained
+    quadratic programming.
+limitations:
+- 'Mutual Incoherence and Minimum Signal Magnitude Conditions: Theorem 1 requires the population covariance
+  Sigma to satisfy the l_infinity mutual incoherence condition ||Sigma_{S^c S} (Sigma_{SS})^{-1}||_infty
+  <= 1 - epsilon for epsilon in (0, 1] (Equation 18) and the minimum active-set magnitude rho_n := min_{i
+  in S} |beta*_i| to dominate lambda_n + sqrt((log s)/n) (Equation 21); when mutual incoherence fails,
+  exact signed support recovery via the Lasso is not guaranteed even when Restricted Eigenvalue conditions
+  permit l_2 estimation.'
+- 'Threshold Gap for Non-Uniform Correlated Ensembles: While theta_l = theta_u = 1 yields a single sharp
+  threshold for the isotropic Gaussian ensemble Sigma = I_p, for correlated Gaussian ensembles with C_max
+  > 1 or epsilon < 1 (such as Toeplitz ensembles in Section 4, pp. 16-17, where theta_l < 1 < theta_u),
+  Theorem 1 provides separate necessary (theta_l) and sufficient (theta_u) threshold constants.'
+- 'Primary-Source Typographical Notes in Wainwright (2009, arXiv:math/0605740v1): Verified six self-correcting
+  typographical details during full-text inspection and numerical verification: (1) Section 2.1 (p. 4,
+  Lemma 1, Equation 9b) writes |beta*_S + U_S| > 0 (and Appendix A, p. 18, line 8 writes beta_hat_S !=
+  0) whereas exact signed support recovery sgn(beta_hat_S) = sgn(beta*_S) requires sgn(beta*_S + U_S)
+  = sgn(beta*_S) (secured by the sufficient condition M(U) = {max_{i in S} |U_i| <= rho_n} in Equation
+  12 when strict inequality holds) and Appendix A (p. 18, line 13) drops the minus sign when writing lambda
+  z_hat_{S^c} = X_{S^c}^T X_S (X_S^T X_S)^{-1}[(1/n) X_S^T w - lambda sgn(beta*_S)] - (1/n) X_{S^c}^T
+  w = -V_{S^c} (whereas line 10 has -lambda z_hat_{S^c} on the RHS so +lambda z_hat_{S^c} = +V_{S^c});
+  (2) Section 2.3 (p. 6, last display) prints a stray token ''|;'' before -(1 - epsilon) + (1/lambda_n)
+  min_j V_tilde_j; (3) Section 3.2.1 (p. 10) writes ''satisfying the conditions of Theorem 1(a)'' in Corollary
+  1(b) instead of Theorem 1(b), and writes ''s = O((log p)/p), as in Corollary 1'' in the paragraph after
+  Corollary 2, inverting s = O(p / log p); (4) Section 3.3.2 (p. 14, displays 2-4) writes 2 D_max lambda_n
+  n / (n - s - 1) in place of mu*_i = 6 D_max lambda_n n / (n - s - 1), and Section 3.4 (p. 14, display
+  5) omits the tilde on V_tilde_j in the second line; (5) Appendix D.2 (p. 21, bottom line) writes ''as
+  (n - s) -> 0'' instead of (n - s) -> +infty, and Appendix D.5 (p. 23, line 13) defines B_i = e_i^T (Sigma_{SS})^{-1}
+  b instead of B_i = (b^T (Sigma_{SS})^{-1} b)(e_i^T (Sigma_{SS})^{-1} e_i) while p. 24 writes (n - s)(n
+  - s - 3) / n^2 in place of (n - s)(n - s - 3) / (n - s - 1)^2 in var(Y''_i); and (6) Appendix D.6 (p.
+  25, line 11) writes Sigma_{(S^c | S)} = [Sigma^{-1}]_{S^c S^c} omitting the outer inverse ([Sigma^{-1}]_{S^c
+  S^c})^{-1} (though the eigenvalue lower bound Lambda_min(Sigma_{(S^c | S)}) >= 1/C_max still holds since
+  Lambda_min(Sigma_{(S^c | S)}) >= Lambda_min(Sigma) = C_min >= 1/C_max for unit-diagonal Sigma).'
+- All 29 pages of Wainwright (2009, IEEE Trans. Inf. Theory 55(5):2183-2202, arXiv:math/0605740v1) were
+  read. Constructed numerical checks in research/discovery/sharp-thresholds-high-dimensional-noisy-lasso-sparsity-recovery-boundaries.py
+  verify (1) exact KKT primal-dual witness stationarity (residual 1.53e-16) and signed support recovery
+  under M(V) and M(U); (2) exact collapse theta_l = theta_u = 1 for the standard Gaussian ensemble and
+  0 < theta_l < 1 < theta_u for the Toeplitz ensemble with rho = 0.10; and (3) idempotency and trace n
+  - s of the projection R, asymptotic decay of the inverse-Wishart relative variance H_2 / (E[M_n])^2,
+  and the exact Schur complement block-inverse identity (error 2.22e-16).
+review_status: DRAFT
+curation:
+  created_at: '2026-10-18T21:36:00Z'
+  updated_at: '2026-10-18T21:36:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
