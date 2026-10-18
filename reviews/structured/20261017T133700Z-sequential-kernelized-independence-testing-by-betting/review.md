@@ -1,0 +1,532 @@
+# Scientific author self-review of Sequential kernelized independence testing by betting
+
+- Review: 20261017T133700Z-sequential-kernelized-independence-testing-by-betting
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-17T13:35:00Z
+- Finished UTC: 2026-10-17T13:37:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Sequential kernelized independence testing by betting as a distinct DRAFT mathematical_method with related DataDredgingBias and TimeSeriesAnalysis mappings. All four claims and locators across Podkopaev et al. (2023 ICML / PMLR 202:27957-27993) are supported with explicit cumulative kernel complexity, simultaneous-marginal-shift, and spectral/symmetry consistency limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained SequentialKernelizedIndependenceTestingByBetting record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:SequentialKernelizedIndependenceTestingByBetting
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base f68d9f4cf52a49e75d664c9500d5abe73ec46a46.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SequentialKernelizedIndependenceTestingByBetting | data/curated/SequentialKernelizedIndependenceTestingByBetting.yaml | maintained | Sequential kernelized independence testing by betting |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:SequentialKernelizedIndependenceTestingByBetting | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:SequentialKernelizedIndependenceTestingByBetting | All 581 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:SequentialKernelizedIndependenceTestingByBetting | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:SequentialKernelizedIndependenceTestingByBetting | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:SequentialKernelizedIndependenceTestingByBetting | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:SequentialKernelizedIndependenceTestingByBetting | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:SequentialKernelizedIndependenceTestingByBetting | Exited 0 without output. |
+| Constructed sequential kernelized independence testing by betting checks | passed | True | AIMech:SequentialKernelizedIndependenceTestingByBetting | {"claim1_hsic_swap_payoff_linear_time_norm_and_ons_wealth_growth": {"example2_kelly_log_growth": 0.020136, "example2_overshoot_log_growth": -0.002447, "max_abs_normalized_hsic_payoff": 0.461126, "max_linear_vs_quadratic_norm_diff": 2e-15, "reduction_2st_mean_samples_to_stop": 180.0, "skit_alt_power": 1.0, "skit_mean_samples_to_stop": 95.43, "skit_null_type1_error": 0.0}, "claim2_time_varying_drift_validity_and_simultaneous_shift_counterexample": {"batch_permutation_drifting_null_type1_error": 1.0, "example3_simultaneous_shift_expected_payoff": 0.03125, "single_marginal_shift_expected_payoff": 0.0, "skit_drifting_null_type1_error": 0.0}, "claim3_coco_and_kcc_spectral_skit_and_cholesky_normalization": {"cholesky_exact_quad_norm": 3.889458, "cholesky_nuclear_upper_bound": 3.925962, "coco_nonlinear_alt_power": 1.0, "coco_null_type1_error": 0.0, "max_abs_coco_payoff": 0.754926}, "claim4_symmetry_based_skit_for_unbounded_kernels": {"max_unbounded_linear_kernel_W_t": 635.8096, "odd_payoff_alt_power": 1.0, "odd_payoff_null_type1": 0.0, "pred_payoff_alt_power": 0.9667, "pred_payoff_null_type1": 0.0, "rank_payoff_alt_power": 1.0, "rank_payoff_null_type1": 0.0}} |
+
+## Scientific And Domain Assessments
+
+### SequentialKernelizedIndependenceTestingByBetting versus NonparametricTwoSampleTestingByBetting
+
+identity: supported. Targets: AIMech:SequentialKernelizedIndependenceTestingByBetting.
+
+Retain Sequential kernelized independence testing by betting as a distinct DRAFT mathematical_method.
+
+SequentialKernelizedIndependenceTestingByBetting formulates sequential nonparametric independence testing via 2-observations-per-step coordinate-swapped RKHS witness payoffs (HSIC with O(t) cached norm updates, spectral COCO/KCC with incomplete Cholesky nuclear-norm scaling, and symmetry-based odd, signed-rank, and predictive payoffs for unbounded kernels) and characterizes single-marginal vs. simultaneous-marginal shift conditions under non-stationary drift, distinct from general two-sample IPM testing.
+
+### Mappings to AIO:DataDredgingBias and AIO:TimeSeriesAnalysis
+
+grounding: supported. Targets: AIMech:SequentialKernelizedIndependenceTestingByBetting.
+
+Related mappings to DataDredgingBias and TimeSeriesAnalysis are supported.
+
+SKIT controls Type-I error under optional stopping via Ville's inequality (AIO:DataDredgingBias) and tests independence across sequential and non-stationary time-varying data streams (AIO:TimeSeriesAnalysis).
+
+### hsic-swap-payoff-betting-martingale-linear-time-norm-and-ons-growth-rate
+
+evidence: supported. Targets: AIMech:SequentialKernelizedIndependenceTestingByBetting.
+
+Supported by Section 2 Proposition 1, Theorems 1-2, Example 2, Appendix B.2, and Appendix F.2.
+
+Verified Example 2 Kelly log-growth 0.020136 vs. overshoot -0.002447, exact match between O(t) cached norm updates and O(t^2) tensor-product norms (max diff 2e-15), and direct HSIC-SKIT power 1.0 (Type-I error 0.0 &lt;= 0.05) with 95.43 mean samples vs. 180.0 for the 3-sample two-sample reduction.
+
+### time-varying-instantaneous-independence-validity-and-simultaneous-shift-counterexample
+
+evidence: supported. Targets: AIMech:SequentialKernelizedIndependenceTestingByBetting.
+
+Supported by Section 1(ii) Example 1, Section 2 Assumption 2, Theorem 3, Appendix B.2.2, and Appendix D Example 3.
+
+Verified zero conditional payoff (0.0) under single-marginal drift vs. exact 1/32 (0.03125) bias in Appendix D Example 3 under simultaneous marginal shifts, and SKIT Type-I error 0.0 &lt;= 0.05 vs. batch permutation test Type-I error 1.0 under drifting marginals.
+
+### spectral-coco-and-kcc-generalized-eigenvalue-skit-and-cholesky-normalization
+
+evidence: supported. Targets: AIMech:SequentialKernelizedIndependenceTestingByBetting.
+
+Supported by Section 3 Algorithm 3, Theorem 4, Appendix B.3, Appendix D Remark 6, and Appendix F.1.
+
+Verified incomplete Cholesky nuclear-norm upper bound 3.8895 &lt;= 3.9260, bounded COCO payoff &lt;= 0.7549 &lt;= 1.0, and COCO-SKIT nonlinear quadratic-dependence power 1.0 (null Type-I error 0.0 &lt;= 0.05).
+
+### symmetry-based-skit-payoffs-for-unbounded-kernels
+
+evidence: supported. Targets: AIMech:SequentialKernelizedIndependenceTestingByBetting.
+
+Supported by Section 4 Proposition 2, Theorem 5, Algorithm 4, and Appendix B.4.
+
+Verified that under an unbounded linear kernel, raw contrast &#124;W_t&#124; reaches 635.81 &gt; 1.0, while symmetry-based odd (power 1.0, null Type-I 0.0), signed-rank (power 1.0, null Type-I 0.0), and predictive (power 0.9667, null Type-I 0.0) payoffs remain bounded in [-1, 1] and control Type-I error &lt;= 0.05.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:SequentialKernelizedIndependenceTestingByBetting.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of SequentialKernelizedIndependenceTestingByBetting.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, three primary sources with exact SHA-256 digests, two pinned AIO mappings and rationales, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261017T133500Z-sequential-kernelized-independence-testing-by-betting.json | supports | No normalized identity match for sequential kernelized independence testing by betting across 442 pinned AIO records and 580 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected DataDredgingBias, TimeSeriesAnalysis, KernelLayer, and SupportVectorMachine in the pinned AIO snapshot (2026-07-22). DataDredgingBias and TimeSeriesAnalysis provide optional-stopping and sequential-stream context via related_match. |
+| calculation | research/discovery/sequential-kernelized-independence-testing-by-betting-boundaries.py | supports | Constructed analytical and numerical checks for the HSIC swap-payoff O(t) cached norm identity, Example 2 Kelly vs. overshoot log-growth, direct SKIT vs. 3-sample two-sample reduction stopping sample sizes, Theorem 3 single-marginal drift validity vs. Example 3 simultaneous-shift counterexample, Section 3 COCO-SKIT and Cholesky nuclear-norm bound, and Section 4 symmetry-based unbounded-kernel SKITs. |
+| podkopaev2023-skit-ar5iv | https://ar5iv.labs.arxiv.org/html/2212.07383; Sections 1-6 and Appendices A-F (lines 1-1368, Theorems 1-5, Propositions 1-2, Lemmas 1-11, Examples 1-3, Algorithms 1-4) | supports | All 1,368 lines of the full-text ar5iv HTML conversion of arXiv:2212.07383 read. Checked Theorems 1-5, Propositions 1-2, Lemmas 1-11, Examples 1-3, and Algorithms 1-4. |
+| podkopaev2023-skit-pmlr | https://proceedings.mlr.press/v202/podkopaev23a.html; ICML 2023 / PMLR Vol. 202 pp. 27957-27993 publication record | supports | Official ICML 2023 / PMLR 202:27957-27993 publication page read and verified. |
+| podkopaev2023-skit-abs | https://arxiv.org/abs/2212.07383; arXiv:2212.07383 abstract and ICML 2023 metadata | supports | arXiv:2212.07383 abstract and ICML 2023 metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Sequential kernelized independence testing by betting record, yielding 581 native and 442 unchanged generated records.
+- All 1,368 lines of Podkopaev et al. (2023, arXiv:2212.07383) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261017T133700Z-sequential-kernelized-independence-testing-by-betting
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Sequential kernelized independence testing
+  by betting
+started_at: '2026-10-17T13:35:00Z'
+finished_at: '2026-10-17T13:37:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from NonparametricTwoSampleTestingByBetting
+    and BettingConfidenceSequencesForBoundedMeans, cumulative O(t^2) memory/time of
+    growing kernel histories despite O(t) per-step cached norm updates (Appendix F.2),
+    the necessity of forbidding simultaneous shifts in both marginals under time-varying
+    drift (Appendix D Example 3), and the scope of formal power-one guarantees for
+    spectral COCO/KCC and symmetry-based SKITs. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Sequential kernelized independence testing by betting as a distinct
+  DRAFT mathematical_method with related DataDredgingBias and TimeSeriesAnalysis mappings.
+  All four claims and locators across Podkopaev et al. (2023 ICML / PMLR 202:27957-27993)
+  are supported with explicit cumulative kernel complexity, simultaneous-marginal-shift,
+  and spectral/symmetry consistency limitations.
+source:
+  git_revision: f68d9f4cf52a49e75d664c9500d5abe73ec46a46
+  state: working_tree
+  inputs:
+  - path: data/aio/DataDredgingBias.yaml
+    sha256: 335067e88f1462e141ac5f35e697cd42f7d250ec4dde9250531babe0d96cc1d0
+    role: context
+  - path: data/aio/KernelLayer.yaml
+    sha256: 0723e7f15d57807a1f922cd87b878593fb167757c7429dd06e99bde723290d43
+    role: context
+  - path: data/aio/SupportVectorMachine.yaml
+    sha256: 0cc2faa913fdafdc539a7d04d08d26c0963f77ad3ca26b833b29ed3ed313e4e0
+    role: context
+  - path: data/aio/TimeSeriesAnalysis.yaml
+    sha256: c26b267d0f5fb895e9cb0eb587fe86a115d461dae4d70e0ac6baf1eefb1d4eff
+    role: context
+  - path: data/curated/BettingConfidenceSequencesForBoundedMeans.yaml
+    sha256: b7a7f4290f77d5f8152269f60afdaa354defb0251adccd88be92f055839249c7
+    role: context
+  - path: data/curated/CatoniStyleHeavyTailedConfidenceSequences.yaml
+    sha256: 5b4dc96917166cb9c70ab7d896501c5f167f5495329e712584ff212feff5b126
+    role: context
+  - path: data/curated/EDetectorSequentialChangeDetection.yaml
+    sha256: fb34abf117f642f21e36f7f68a8f3ea10faf4ace751965b8188ef139e36f1956
+    role: context
+  - path: data/curated/EValueBenjaminiHochbergProcedure.yaml
+    sha256: a9553e05b33722aab92042bef82fe67208d2ddb565f7133125bdb2cb79b27057
+    role: context
+  - path: data/curated/EValueCalibrationAndMerging.yaml
+    sha256: f5246f4bae50e562eaa72b28da34d9ab2100831ad5a4e148447754f4debd2107
+    role: context
+  - path: data/curated/HuberRobustHeavyTailedConfidenceSequences.yaml
+    sha256: bbc3017a6bdb3fc69cc076792b14903903a71dda687e467e3961e187340da36a
+    role: context
+  - path: data/curated/NonparametricTwoSampleTestingByBetting.yaml
+    sha256: 5c119acd76a48be2ae886b4ebcbcc952d5f4269de14ce3dece35766648d417ac
+    role: context
+  - path: data/curated/SequentialKernelizedIndependenceTestingByBetting.yaml
+    sha256: 13d50b1f150eec5c72de7b682597b072d55c89440d57ca0e2585bdf2b2d561d9
+    role: target
+  - path: data/curated/SequentialNonparametricQuantileConfidenceSequences.yaml
+    sha256: a3d72fae22daf9b8ad6d2049df0f3e79ce5b8ff72bb829ed14b162853030dc11
+    role: context
+  - path: data/curated/SubPsiUniformBoundaryConfidenceSequences.yaml
+    sha256: 8ad6737fae460a74a9f3c534284689f281dee04b225a5674ce91eb8488d3976a
+    role: context
+  - path: data/curated/UniversalInferenceSplitLikelihoodRatioTest.yaml
+    sha256: f5e33b1cf0e7733ebbd66e466e65044fa2b6d418a03440714eb82cc7fbff5ebb
+    role: context
+  - path: research/discovery/20261017T133500Z-sequential-kernelized-independence-testing-by-betting.json
+    sha256: b45dcca8dc553fbe35217864ea0f50a9dd34a4f03c38ecce906611fb2655a72e
+    role: context
+  - path: research/discovery/sequential-kernelized-independence-testing-by-betting-boundaries.py
+    sha256: 1011c0595c66b831608d3136f506507a0d185d18c24576ff66eaed218bde12ba
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SequentialKernelizedIndependenceTestingByBetting
+  path: data/curated/SequentialKernelizedIndependenceTestingByBetting.yaml
+  label: Sequential kernelized independence testing by betting
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SequentialKernelizedIndependenceTestingByBetting.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained SequentialKernelizedIndependenceTestingByBetting
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:SequentialKernelizedIndependenceTestingByBetting'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 581 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed sequential kernelized independence testing by betting checks
+  command: python3 research/discovery/sequential-kernelized-independence-testing-by-betting-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"claim1_hsic_swap_payoff_linear_time_norm_and_ons_wealth_growth": {"example2_kelly_log_growth":
+    0.020136, "example2_overshoot_log_growth": -0.002447, "max_abs_normalized_hsic_payoff":
+    0.461126, "max_linear_vs_quadratic_norm_diff": 2e-15, "reduction_2st_mean_samples_to_stop":
+    180.0, "skit_alt_power": 1.0, "skit_mean_samples_to_stop": 95.43, "skit_null_type1_error":
+    0.0}, "claim2_time_varying_drift_validity_and_simultaneous_shift_counterexample":
+    {"batch_permutation_drifting_null_type1_error": 1.0, "example3_simultaneous_shift_expected_payoff":
+    0.03125, "single_marginal_shift_expected_payoff": 0.0, "skit_drifting_null_type1_error":
+    0.0}, "claim3_coco_and_kcc_spectral_skit_and_cholesky_normalization": {"cholesky_exact_quad_norm":
+    3.889458, "cholesky_nuclear_upper_bound": 3.925962, "coco_nonlinear_alt_power":
+    1.0, "coco_null_type1_error": 0.0, "max_abs_coco_payoff": 0.754926}, "claim4_symmetry_based_skit_for_unbounded_kernels":
+    {"max_unbounded_linear_kernel_W_t": 635.8096, "odd_payoff_alt_power": 1.0, "odd_payoff_null_type1":
+    0.0, "pred_payoff_alt_power": 0.9667, "pred_payoff_null_type1": 0.0, "rank_payoff_alt_power":
+    1.0, "rank_payoff_null_type1": 0.0}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261017T133500Z-sequential-kernelized-independence-testing-by-betting.json
+  accessed_at: '2026-10-17T13:35:00Z'
+  support: supports
+  summary: No normalized identity match for sequential kernelized independence testing
+    by betting across 442 pinned AIO records and 580 maintained IDs, names, aliases
+    and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-17T13:35:00Z'
+  support: supports
+  summary: Inspected DataDredgingBias, TimeSeriesAnalysis, KernelLayer, and SupportVectorMachine
+    in the pinned AIO snapshot (2026-07-22). DataDredgingBias and TimeSeriesAnalysis
+    provide optional-stopping and sequential-stream context via related_match.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/sequential-kernelized-independence-testing-by-betting-boundaries.py
+  accessed_at: '2026-10-17T13:35:00Z'
+  snapshot_sha256: 1011c0595c66b831608d3136f506507a0d185d18c24576ff66eaed218bde12ba
+  support: supports
+  summary: Constructed analytical and numerical checks for the HSIC swap-payoff O(t)
+    cached norm identity, Example 2 Kelly vs. overshoot log-growth, direct SKIT vs.
+    3-sample two-sample reduction stopping sample sizes, Theorem 3 single-marginal
+    drift validity vs. Example 3 simultaneous-shift counterexample, Section 3 COCO-SKIT
+    and Cholesky nuclear-norm bound, and Section 4 symmetry-based unbounded-kernel
+    SKITs.
+- evidence_id: podkopaev2023-skit-ar5iv
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/2212.07383
+  locator: Sections 1-6 and Appendices A-F (lines 1-1368, Theorems 1-5, Propositions
+    1-2, Lemmas 1-11, Examples 1-3, Algorithms 1-4)
+  accessed_at: '2026-10-17T13:35:00Z'
+  snapshot_sha256: 7c7c96c17f9206e06efde4b3c4338b0cc297d40b6f0037f934523ed7077fbf51
+  support: supports
+  summary: All 1,368 lines of the full-text ar5iv HTML conversion of arXiv:2212.07383
+    read. Checked Theorems 1-5, Propositions 1-2, Lemmas 1-11, Examples 1-3, and Algorithms
+    1-4.
+- evidence_id: podkopaev2023-skit-pmlr
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v202/podkopaev23a.html
+  locator: ICML 2023 / PMLR Vol. 202 pp. 27957-27993 publication record
+  accessed_at: '2026-10-17T13:35:00Z'
+  snapshot_sha256: 2efc16eb3712b9ea2ed3532d73a94292582b04339a0a7fa6e2f41fad4c55b0c8
+  support: supports
+  summary: Official ICML 2023 / PMLR 202:27957-27993 publication page read and verified.
+- evidence_id: podkopaev2023-skit-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2212.07383
+  locator: arXiv:2212.07383 abstract and ICML 2023 metadata
+  accessed_at: '2026-10-17T13:35:00Z'
+  snapshot_sha256: 1206a67911e85351ce8a5edd08ed903f124446590204354a26275565b0e34d47
+  support: supports
+  summary: arXiv:2212.07383 abstract and ICML 2023 metadata read and verified.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: SequentialKernelizedIndependenceTestingByBetting versus NonparametricTwoSampleTestingByBetting
+  outcome: supported
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  evidence_ids:
+  - identity
+  - podkopaev2023-skit-ar5iv
+  - podkopaev2023-skit-pmlr
+  summary: Retain Sequential kernelized independence testing by betting as a distinct
+    DRAFT mathematical_method.
+  details: SequentialKernelizedIndependenceTestingByBetting formulates sequential
+    nonparametric independence testing via 2-observations-per-step coordinate-swapped
+    RKHS witness payoffs (HSIC with O(t) cached norm updates, spectral COCO/KCC with
+    incomplete Cholesky nuclear-norm scaling, and symmetry-based odd, signed-rank,
+    and predictive payoffs for unbounded kernels) and characterizes single-marginal
+    vs. simultaneous-marginal shift conditions under non-stationary drift, distinct
+    from general two-sample IPM testing.
+- assessment_id: mapping
+  area: grounding
+  topic: Mappings to AIO:DataDredgingBias and AIO:TimeSeriesAnalysis
+  outcome: supported
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  evidence_ids:
+  - mapping
+  - podkopaev2023-skit-ar5iv
+  summary: Related mappings to DataDredgingBias and TimeSeriesAnalysis are supported.
+  details: SKIT controls Type-I error under optional stopping via Ville's inequality
+    (AIO:DataDredgingBias) and tests independence across sequential and non-stationary
+    time-varying data streams (AIO:TimeSeriesAnalysis).
+- assessment_id: hsic-swap-payoff-betting-martingale-linear-time-norm-and-ons-growth-rate
+  area: evidence
+  topic: hsic-swap-payoff-betting-martingale-linear-time-norm-and-ons-growth-rate
+  outcome: supported
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  evidence_ids:
+  - podkopaev2023-skit-ar5iv
+  - podkopaev2023-skit-abs
+  - calculation
+  summary: Supported by Section 2 Proposition 1, Theorems 1-2, Example 2, Appendix
+    B.2, and Appendix F.2.
+  details: Verified Example 2 Kelly log-growth 0.020136 vs. overshoot -0.002447, exact
+    match between O(t) cached norm updates and O(t^2) tensor-product norms (max diff
+    2e-15), and direct HSIC-SKIT power 1.0 (Type-I error 0.0 <= 0.05) with 95.43 mean
+    samples vs. 180.0 for the 3-sample two-sample reduction.
+- assessment_id: time-varying-instantaneous-independence-validity-and-simultaneous-shift-counterexample
+  area: evidence
+  topic: time-varying-instantaneous-independence-validity-and-simultaneous-shift-counterexample
+  outcome: supported
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  evidence_ids:
+  - podkopaev2023-skit-ar5iv
+  - podkopaev2023-skit-pmlr
+  - calculation
+  summary: Supported by Section 1(ii) Example 1, Section 2 Assumption 2, Theorem 3,
+    Appendix B.2.2, and Appendix D Example 3.
+  details: Verified zero conditional payoff (0.0) under single-marginal drift vs.
+    exact 1/32 (0.03125) bias in Appendix D Example 3 under simultaneous marginal
+    shifts, and SKIT Type-I error 0.0 <= 0.05 vs. batch permutation test Type-I error
+    1.0 under drifting marginals.
+- assessment_id: spectral-coco-and-kcc-generalized-eigenvalue-skit-and-cholesky-normalization
+  area: evidence
+  topic: spectral-coco-and-kcc-generalized-eigenvalue-skit-and-cholesky-normalization
+  outcome: supported
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  evidence_ids:
+  - podkopaev2023-skit-ar5iv
+  - calculation
+  summary: Supported by Section 3 Algorithm 3, Theorem 4, Appendix B.3, Appendix D
+    Remark 6, and Appendix F.1.
+  details: Verified incomplete Cholesky nuclear-norm upper bound 3.8895 <= 3.9260,
+    bounded COCO payoff <= 0.7549 <= 1.0, and COCO-SKIT nonlinear quadratic-dependence
+    power 1.0 (null Type-I error 0.0 <= 0.05).
+- assessment_id: symmetry-based-skit-payoffs-for-unbounded-kernels
+  area: evidence
+  topic: symmetry-based-skit-payoffs-for-unbounded-kernels
+  outcome: supported
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  evidence_ids:
+  - podkopaev2023-skit-ar5iv
+  - calculation
+  summary: Supported by Section 4 Proposition 2, Theorem 5, Algorithm 4, and Appendix
+    B.4.
+  details: Verified that under an unbounded linear kernel, raw contrast |W_t| reaches
+    635.81 > 1.0, while symmetry-based odd (power 1.0, null Type-I 0.0), signed-rank
+    (power 1.0, null Type-I 0.0), and predictive (power 0.9667, null Type-I 0.0) payoffs
+    remain bounded in [-1, 1] and control Type-I error <= 0.05.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:SequentialKernelizedIndependenceTestingByBetting
+  evidence_ids:
+  - identity
+  - mapping
+  - podkopaev2023-skit-ar5iv
+  - podkopaev2023-skit-pmlr
+  - podkopaev2023-skit-abs
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of SequentialKernelizedIndependenceTestingByBetting.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, four claims and locators, three primary sources with exact SHA-256
+    digests, two pinned AIO mappings and rationales, four scoped limitations, and
+    UTC curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Sequential kernelized independence testing by betting record, yielding
+  581 native and 442 unchanged generated records.
+- All 1,368 lines of Podkopaev et al. (2023, arXiv:2212.07383) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- independence-testing
+- testing-by-betting
+- hsic
+- kernel-methods
+- anytime-valid-inference
+- self-review
+- discovery-ongoing
+```
