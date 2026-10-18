@@ -1,0 +1,235 @@
+id: AIMech:SimesClosedTestingConcentrationShortcutAndDoubleAsymptoticFDPConsistency
+name: Simes closed-testing concentration-set shortcut and double-asymptotic false discovery proportion
+  consistency
+concept_kind: mathematical_method
+aliases:
+- Goeman-Meijer-Krebs-Solari exact Simes closed-testing FDP shortcut
+- Simes closed-testing concentration set Z_alpha
+- Double-limit consistency of Simes closed-testing FDP confidence bounds
+- Simes-detectable non-consonant closed testing
+definition: 'Simes closed-testing concentration-set shortcut and double-asymptotic false discovery proportion
+  (FDP) consistency is the multiple-testing methodology introduced by Goeman, Meijer, Krebs, and Solari
+  (2019) for closed testing (Marcus, Peritz, & Gabriel 1976; Goeman & Solari 2011) with Simes local tests
+  I in U_alpha iff min_{1 <= i <= |I|} |I| * p_{(i:I)} / i <= alpha across m hypotheses H_1, ..., H_m
+  with true null index set T subseteq {1, ..., m}. Letting K_i = {r_{m-i+1}, ..., r_m} denote the index
+  set of the i largest p-values and defining Hommel''s worst-case non-rejected intersection size h_alpha
+  = max{0 <= i <= m : K_i not in U_alpha} (which yields the simultaneous (1 - alpha)-upper confidence
+  bound pi_hat_alpha = h_alpha / m on |T| / m), the method characterizes closed-testing rejections X_alpha
+  = {I : forall J supseteq I, J in U_alpha} via I in X_alpha iff exists 1 <= i <= |I| such that h_alpha
+  * p_{(i:I)} <= i * alpha (Lemma 2), and establishes the exact all-subset shortcut (Theorem 1) for the
+  simultaneous (1 - alpha)-lower bound d_alpha(S) = |S| - t_alpha(S) on true discoveries |S \ T| and upper
+  bound q_alpha(S) = t_alpha(S) / |S| on the FDP pi(S) = |T cap S| / |S|: d_alpha(S) = max_{1 <= u <=
+  |S|} (1 - u + |{i in S : h_alpha * p_i <= u * alpha}|), where the maximization over u restricts to 1
+  <= u <= z_alpha - m + h_alpha + 1 with z_alpha = min{m - h_alpha <= i <= m : h_alpha * p_{(i)} <= (i
+  - m + h_alpha + 1) * alpha} for h_alpha < m and 0 for h_alpha = m (Lemma 3), enabling O(|S|) per-subset
+  evaluation after a one-time O(m log m) computation of h_alpha. The concentration set Z_alpha = L_{z_alpha}
+  of the z_alpha smallest p-values is the unique minimal set satisfying d_alpha(S) = d_alpha(S cap Z_alpha)
+  for all S subseteq {1, ..., m}, with d_alpha(Z_alpha) = m - h_alpha and |S cap R_alpha| <= d_alpha(S)
+  <= |S cap Z_alpha| <= |S cap B_alpha| between Hommel''s elementary FWER set R_alpha and the Benjamini-Hochberg
+  (BH) set B_alpha = L_{b_alpha} (Lemma 4), while alpha * q_alpha(B_q) <= pi_hat_alpha * q holds simultaneously
+  for all q in [0, 1] (Lemma 5). Under Efron''s mixture model P_n(x) = gamma * x + (1 - gamma) * P_{1,n}(x),
+  Non-consonant Simes rejections yield non-vanishing average discovery power whenever P_n is Simes-detectable
+  (bar_pi_alpha = inf_{0 <= x < 1} (1 - P_n(x * alpha)) / (1 - x) < 1, Lemma 6 and Theorem 2) even though
+  |R_alpha| / m ->^P 0, and for any subset sequence S_m with plim_{m -> infty} |S_m| / m = c > 0 and consistent
+  alternative tests lim_{n -> infty} P^S_{1,n}(x) = 1, q_{alpha,m,n}(S_m) is a doubly asymptotically consistent
+  estimator of the true subset FDP gamma_S = plim_{m -> infty} pi(S_m) as (m, n) -> infty at arbitrary
+  relative rates for any fixed alpha in (0, 1) (Theorem 3).'
+identity_notes: 'Distinct from AIMech:ReferenceFamilyJERPostHocConfidenceBounds (Blanchard, Neuvial, &
+  Roquain 2020, The Annals of Statistics 48(3):1281-1303, arXiv:1703.02307), which formulates general
+  reference-family joint error rate (JER) interpolation V_bar_{R_ref}(R), single-step/step-down lambda-calibration
+  under known and unknown dependence, and balanced-template Higher Criticism optimality; Goeman, Meijer,
+  Krebs, & Solari (2019, Biometrika 106(4):841-856, arXiv:1611.06739v2, DOI:10.1093/biomet/asz041) specifically
+  analyze closed testing with Simes local tests via Hommel''s global worst-case size h_alpha, derive the
+  exact O(m log m) + O(|S|) counting-sort shortcut d_alpha(S) = max_{1 <= u <= |S|} (1 - u + |{i in S
+  : h_alpha * p_i <= u * alpha}|) and the unique minimal concentration set Z_alpha = L_{z_alpha} sandwiching
+  discoveries between Hommel''s FWER set R_alpha and Benjamini-Hochberg''s FDR set B_alpha, prove the
+  simultaneous adaptive BH tail bound alpha * q_alpha(B_q) <= pi_hat_alpha * q, prove that non-consonant
+  rejections drive non-vanishing large-m discovery power under Simes-detectability while consonant FWER
+  rejections vanish (|R_alpha|/m ->^P 0), and prove double-limit consistency plim_{(m,n)->infty} q_{alpha,m,n}(S_m)
+  = gamma_S at arbitrary relative rates of (m, n) via Hildebrandt''s iterated-limit theorem. Also distinct
+  from AIMech:ForestStructuredDKWPostHocConfidenceBounds (Durand, Blanchard, Neuvial, & Roquain 2020)
+  and AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality (Neuvial 2008).'
+definition_evidence:
+- source_id: gmks2019-pdf
+  locator: Sections 2-7, Pages 3-16, Equations (1)-(17), Lemmas 1-6, Theorems 1-3, Figures 1-3; Appendix
+    A, Pages 17-25, Equations (18)-(24), Lemmas 7-8
+  relation: supports
+- source_id: gmks2019-crossref
+  locator: Biometrika 106(4):841-856 (2019) Crossref bibliographic metadata and abstract
+  relation: supports
+- source_id: gmks2019-abs
+  locator: arXiv:1611.06739v2 abstract and metadata
+  relation: supports
+claims:
+- claim_id: hommel-h-characterization-and-exact-linear-time-all-subset-shortcut
+  kind: mechanism
+  statement: 'In closed testing with Simes local tests I in U_alpha iff min_{1 <= i <= |I|} |I| * p_{(i:I)}
+    / i <= alpha, Hommel''s worst-case non-rejected intersection size h_alpha = max{0 <= i <= m : K_i
+    not in U_alpha} (computed in O(m log m) time via bisection on the i largest p-values K_i = {r_{m-i+1},
+    ..., r_m}) satisfies t_alpha({1, ..., m}) = h_alpha, yielding the (1 - alpha)-upper confidence bound
+    pi_hat_alpha = h_alpha / m on the true null proportion |T| / m (Lemma 1, Equation 9), and characterizes
+    closed-testing rejections via I in X_alpha iff exists 1 <= i <= |I| such that h_alpha * p_{(i:I)}
+    <= i * alpha (Lemma 2). Consequently, for every nonempty subset S subseteq {1, ..., m}, the simultaneous
+    (1 - alpha)-lower confidence bound on true discoveries d_alpha(S) = |S| - t_alpha(S) is given exactly
+    by d_alpha(S) = max_{1 <= u <= |S|} (1 - u + |{i in S : h_alpha * p_i <= u * alpha}|) (Theorem 1,
+    Equation 10), where the maximizing u is bounded above by z_alpha - m + h_alpha + 1 with z_alpha =
+    min{m - h_alpha <= i <= m : h_alpha * p_{(i)} <= (i - m + h_alpha + 1) * alpha} for h_alpha < m and
+    0 for h_alpha = m (Lemma 3), allowing exact evaluation in O(|S|) time via counting sort on c_i = ceil(h_alpha
+    * p_i / alpha) and strictly improving upon the approximate O(|S|^2) shortcut of Goeman & Solari (2011)
+    (e.g., on the Figure 1 example with m = 4 and alpha/2 < p_1 <= p_2 <= p_3 <= 2*alpha/3 < alpha < p_4,
+    where R_alpha = empty, t_alpha({1,2,3}) = 1 < |{1,2,3} \ R_alpha| = 3, and t_alpha({1,2}) = 1 whereas
+    the 2011 shortcut fails on L_2 = {1,2} with bound 2).'
+  evidence:
+  - source_id: gmks2019-pdf
+    locator: Section 3, Pages 4-6, Equations (4)-(7), Figure 1; Section 4, Pages 6-8, Equations (8)-(10),
+      Lemmas 1-3, Theorem 1; Appendix A, Pages 17-18, Equations (18)-(19)
+    relation: supports
+  - source_id: gmks2019-crossref
+    locator: Biometrika 106(4):841-856 abstract
+    relation: supports
+- claim_id: concentration-set-minimality-and-benjamini-hochberg-sandwich-bounds
+  kind: mechanism
+  statement: 'Defining the concentration set Z_alpha = L_{z_alpha} of the z_alpha smallest p-values and
+    the Benjamini-Hochberg rejection set B_alpha = L_{b_alpha} with b_alpha = max{1 <= i <= m : m * p_{(i)}
+    <= i * alpha} (Equation 11), Lemma 4 proves that: (1) d_alpha(S) = d_alpha(S cap Z_alpha) for every
+    S subseteq {1, ..., m}, so no hypothesis outside Z_alpha contributes to any non-trivial discovery
+    bound; (2) Z_alpha is the unique minimal set with property (1) (if d_alpha(S) = d_alpha(S cap Y) for
+    all S, then Z_alpha subseteq Y); (3) d_alpha(Z_alpha) = m - h_alpha; and (4) m - h_alpha <= z_alpha
+    <= b_alpha (Z_alpha subseteq B_alpha), yielding the universal discovery sandwich |S cap R_alpha| <=
+    d_alpha(S) <= |S cap Z_alpha| <= |S cap B_alpha| and the non-trivial BH-set FDP bound q_alpha(B_alpha)
+    = (b_alpha - m + h_alpha) / b_alpha < 1 whenever b_alpha > 0. Moreover, for any q in [0, 1], Lemma
+    5 proves alpha * q_alpha(B_q) <= pi_hat_alpha * q (with equality iff pi_hat_alpha * q = 0, and more
+    strongly q_alpha(B_q) <= pi_hat_alpha * q / alpha - 1 / b_q when b_q > 0 and pi_hat_alpha * q > 0),
+    strictly improving upon the Lehmann-Romano (2005) Markov bound q / alpha simultaneously over all q
+    and bounding the simultaneously median-unbiased estimator q_hat(B_q) = q_{1/2}(B_q) <= 2 * q * pi_hat_{1/2}
+    (Equation 12).'
+  evidence:
+  - source_id: gmks2019-pdf
+    locator: Section 5, Pages 8-11, Equations (11)-(12), Lemmas 4-5, Figure 2; Appendix A, Pages 19-20,
+      Equation (20)
+    relation: supports
+- claim_id: simes-detectability-limit-and-non-vanishing-non-consonant-power
+  kind: mechanism
+  statement: 'Under Efron''s mixture model P_n(x) = gamma * x + (1 - gamma) * P_{1,n}(x) (Equation 13)
+    with independent (or Glivenko-Cantelli weakly dependent) p-values, as m -> infty at fixed sample size
+    n, Lemma 6 and Lemma 7 prove that pi_hat_alpha = h_alpha / m ->^P bar_pi_alpha = inf_{0 <= x < 1}
+    (1 - P(x * alpha)) / (1 - x) > 0 when P(alpha) < 1 (and 0 otherwise). While Hommel''s elementary FWER
+    rejection set R_alpha = {1 <= i <= m : h_alpha * p_i <= alpha} has vanishing discovery fraction |R_alpha|
+    / m ->^P 0 whenever P(alpha) < 1 and P(0) = 0 (Equation 14), Theorem 2 proves that for any q in [0,
+    1] such that P is Simes-detectable at q * alpha (meaning bar_pi_{q*alpha} < 1, i.e., P(x * q * alpha)
+    > x for some x in [0, 1) or P(q * alpha) = 1), the data-dependent set J_m = B_{tilde_alpha_m, m} with
+    tilde_alpha_m = q * alpha * bar_pi_alpha / pi_hat_{alpha,m} satisfies q_alpha(J_m) <= bar_pi_alpha
+    * q for all m and lim_{m -> infty} P(|J_m| / m >= y) = 1 for some y > 0, establishing non-vanishing
+    average discovery power driven asymptotically by non-consonant rejections.'
+  evidence:
+  - source_id: gmks2019-pdf
+    locator: Section 6, Pages 11-13, Equations (13)-(14), Lemma 6, Theorem 2; Appendix A, Pages 20-22,
+      Equation (21), Lemma 7
+    relation: supports
+  - source_id: gmks2019-abs
+    locator: arXiv:1611.06739v2 abstract
+    relation: supports
+- claim_id: double-asymptotic-fdp-consistency-at-arbitrary-relative-rates
+  kind: mechanism
+  statement: For any infinite target subset S subseteq N whose finite-m truncation S_m = S cap {1, ...,
+    m} has non-vanishing relative size plim_{m -> infty} |S_m| / m = c > 0 (Equation 17) and whose conditional
+    p-value distribution P^S_n(x) = gamma_S * x + (1 - gamma_S) * P^S_{1,n}(x) (Equation 15) has a consistent
+    alternative lim_{n -> infty} P^S_{1,n}(x) = 1 for all x in (0, 1] that is weakly increasing in n (Equation
+    16), Theorem 3 and Hildebrandt's iterated-limit theorem (Lemma 8) prove that for every fixed confidence
+    level alpha in (0, 1), plim_{(m,n) -> infty} q_{alpha,m,n}(S_m) = gamma_S = plim_{m -> infty} pi(S_m)
+    at arbitrary relative growth rates of m and n, whereas the Benjamini-Hochberg rejection set at fixed
+    alpha satisfies plim_{(m,n) -> infty} |B_{alpha,m,n}| / m = (1 - gamma) / (1 - alpha * gamma) > 1
+    - gamma whenever gamma > 0.
+  evidence:
+  - source_id: gmks2019-pdf
+    locator: Section 7, Pages 14-16, Equations (15)-(17), Theorem 3, Figure 3; Appendix A, Pages 22-25,
+      Equations (22)-(24), Lemma 8
+    relation: supports
+evidence_sources:
+- source_id: gmks2019-pdf
+  title: Simultaneous Control of All False Discovery Proportions in Large-Scale Multiple Hypothesis Testing
+  authors:
+  - Jelle J. Goeman
+  - Rosa J. Meijer
+  - Thijmen J. P. Krebs
+  - Aldo Solari
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1611.06739
+  persistent_id: https://doi.org/10.1093/biomet/asz041
+  version: arXiv:1611.06739v2 (12 Jul 2017; published in Biometrika, Vol. 106, No. 4, pp. 841-856, Dec
+    2019). Complete 27-page full-text PDF (291067 bytes) read across Sections 1-8 and Appendix A.
+  access_level: full_text
+  accessed_at: '2026-10-17T17:15:00Z'
+  sha256: a3f4992cffde630eb0dedf047efbce6bab4b4ece682962bd544b5f5321dcce41
+- source_id: gmks2019-crossref
+  title: Simultaneous control of all false discovery proportions in large-scale multiple hypothesis testing
+    (Biometrika Crossref Record)
+  authors:
+  - Jelle J. Goeman
+  - Rosa J. Meijer
+  - Thijmen J. P. Krebs
+  - Aldo Solari
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1093/biomet/asz041
+  persistent_id: https://doi.org/10.1093/biomet/asz041
+  version: Biometrika 106(4):841-856 Crossref bibliographic metadata record (4445 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T17:15:00Z'
+  sha256: ab62d4953d0e0bedf41c737d839e36bdcfa05a646895787d897bbfb48a47856a
+- source_id: gmks2019-abs
+  title: Simultaneous Control of All False Discovery Proportions in Large-Scale Multiple Hypothesis Testing
+    (arXiv:1611.06739 Abstract)
+  authors:
+  - Jelle J. Goeman
+  - Rosa J. Meijer
+  - Thijmen J. P. Krebs
+  - Aldo Solari
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1611.06739
+  persistent_id: https://doi.org/10.48550/arXiv.1611.06739
+  version: arXiv:1611.06739v2 abstract and metadata record (6176 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T17:15:00Z'
+  sha256: c162b611101e90effd5b25886112940e1997dd1f3967429f85e3f81245c55d7f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Simultaneous closed-testing FDP confidence bounds across all 2^m subsets protect against
+    post hoc data dredging and arbitrary subset revision (AIO:DataDredgingBias).
+limitations:
+- 'Finite-sample validity of Simes-based closed testing requires the Simes inequality P(exists 1 <= i
+  <= |T| : |T| * p_{(i:T)} <= i * alpha) <= alpha (Equation 5) to hold for the true null intersection
+  hypothesis T, which holds under independence and certain positive dependence structures (e.g., MTP_2
+  / PRDS) but can be violated under arbitrary negative oradversarial dependence.'
+- 'Double-limit consistency plim_{(m,n) -> infty} q_{alpha,m,n}(S_m) = gamma_S (Theorem 3) critically
+  requires both m -> infty and n -> infty and a non-vanishing subset proportion plim_{m -> infty} |S_m|
+  / m = c > 0 (Equation 17): if m is fixed while n -> infty, the probability of underestimating pi(S_m)
+  does not vanish; if c = 0 (such as singleton sets |S_m| = 1 or vanishing sets), the reference line endpoint
+  alpha * |S_m| / h_{m,n} -> 0 competes with the alternative convergence rate and the double-limit result
+  fails (Section 7, page 15).'
+- 'Primary-source typographical notes verified in arXiv:1611.06739v2: (1) in Section 4 (page 7, line 4),
+  the review of the Goeman & Solari (2011) shortcut on L_j writes ''t_alpha(L_j) <= |S| - d'' instead
+  of ''t_alpha(L_j) <= |L_j| - d'' (or ''j - d''); (2) in Section 4 (page 8, paragraph before Lemma 3),
+  the prose states ''we may restrict the values of u that need to be considered further to u <= z_alpha'',
+  whereas Lemma 3 immediately below gives the exact shifted upper bound ''1 <= u <= z_alpha - m + h +
+  1''; (3) in the caption of Figure 2 (page 10), ''(i + 1, p_i)'' is printed with un-ordered subscript
+  p_i instead of ordered p_{(i)}; and (4) in the proof of Theorem 3 (page 23, 3 lines from bottom), ''If
+  gamma > 0 we have P_n(alpha) <= P(alpha) < alpha'' prints ''< alpha'' where P(alpha) = 1 - gamma + alpha
+  * gamma < 1 (the condition P(alpha) < 1 required by Lemma 6).'
+- All 27 pages of the full-text PDF of Goeman, Meijer, Krebs, & Solari (2019, Biometrika 106(4):841-856,
+  arXiv:1611.06739v2, DOI:10.1093/biomet/asz041) were read. Constructed numerical checks in research/discovery/simes-closed-testing-concentration-shortcut-and-fdp-consistency-boundaries.py
+  verify (1) Section 3 Figure 1 non-consonant rejections and failure of the Goeman-Solari (2011) shortcut
+  on L_2 = {1,2}, (2) Lemmas 1-5 and Theorem 1 across all 256 subsets of an 8-hypothesis problem, and
+  (3) Lemma 6, Theorem 2 non-vanishing power vs. vanishing Hommel FWER power, and Theorem 3 double-limit
+  consistency.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T17:15:00Z'
+  updated_at: '2026-10-17T17:15:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
