@@ -1,0 +1,532 @@
+# Scientific author self-review of Archimedean copula linear step-up false discovery rate bounds and calibration
+
+- Review: 20261017T160700Z-archimedean-copula-step-up-fdr-bounds
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-17T16:05:00Z
+- Finished UTC: 2026-10-17T16:07:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Archimedean copula linear step-up false discovery rate bounds and calibration as a distinct DRAFT mathematical_method with a related DataDredgingBias mapping. All four claims and locators across Bodnar &amp; Dickhaus (2014 Electronic Journal of Statistics 8(2):2207-2241) are supported with explicit Dirac-uniform LFC, subset pivotality, and lower-bound regime limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained ArchimedeanCopulaStepUpFDRBounds record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:ArchimedeanCopulaStepUpFDRBounds
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 93745126edb116a766c1c9f8d308665b2494234d.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ArchimedeanCopulaStepUpFDRBounds | data/curated/ArchimedeanCopulaStepUpFDRBounds.yaml | maintained | Archimedean copula linear step-up false discovery rate bounds and calibration |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:ArchimedeanCopulaStepUpFDRBounds | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:ArchimedeanCopulaStepUpFDRBounds | All 598 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:ArchimedeanCopulaStepUpFDRBounds | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:ArchimedeanCopulaStepUpFDRBounds | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:ArchimedeanCopulaStepUpFDRBounds | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:ArchimedeanCopulaStepUpFDRBounds | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:ArchimedeanCopulaStepUpFDRBounds | Exited 0 without output. |
+| Constructed Bodnar-Dickhaus 2014 Archimedean copula FDR bounds and Bolshev recursion checks | passed | True | AIMech:ArchimedeanCopulaStepUpFDRBounds | {<br>  "concept_id": "AIMech:ArchimedeanCopulaStepUpFDRBounds",<br>  "primary_source": "Bodnar &amp; Dickhaus (2014), Electronic Journal of Statistics 8(2):2207-2241 (arXiv:1305.3897v3, DOI:10.1214/14-EJS950)",<br>  "benchmark_parameters": {<br>    "m": 20,<br>    "m0": 16,<br>    "q": 0.05,<br>    "classical_upper_bound": 0.04<br>  },<br>  "clayton_bounds_by_eta": {<br>    "0.05": {<br>      "sharper_upper_bound": 0.039856,<br>      "conservativity_reduction_b": 0.000144,<br>      "z_star": 0.79802562,<br>      "fz_z_star": 0.185002,<br>      "gamma_min": 0.738765,<br>      "lower_bound": 0.029551<br>    },<br>    "0.5": {<br>      "sharper_upper_bound": 0.036417,<br>      "conservativity_reduction_b": 0.003583,<br>      "z_star": 0.09646312,<br>      "fz_z_star": 0.016381,<br>      "gamma_min": 0.316445,<br>      "lower_bound": 0.012658<br>    },<br>    "1.0": {<br>      "sharper_upper_bound": 0.032494,<br>      "conservativity_reduction_b": 0.007506,<br>      "z_star": 0.00788351,<br>      "fz_z_star": 0.007853,<br>      "gamma_min": 0.188575,<br>      "lower_bound": 0.007543<br>    },<br>    "1.7": {<br>      "sharper_upper_bound": 0.030393,<br>      "conservativity_reduction_b": 0.009607,<br>      "z_star": 0.00019325,<br>      "fz_z_star": 0.005362,<br>      "gamma_min": 0.12503,<br>      "lower_bound": 0.005001<br>    },<br>    "2.0": {<br>      "sharper_upper_bound": 0.030236,<br>      "conservativity_reduction_b": 0.009764,<br>      "z_star": 3.754e-05,<br>      "fz_z_star": 0.004889,<br>      "gamma_min": 0.111783,<br>      "lower_bound": 0.004471<br>    },<br>    "3.0": {<br>      "sharper_upper_bound": 0.030725,<br>      "conservativity_reduction_b": 0.009275,<br>      "z_star": 1.4e-07,<br>      "fz_z_star": 0.004036,<br>      "gamma_min": 0.088324,<br>      "lower_bound": 0.003533<br>    },<br>    "5.0": {<br>      "sharper_upper_bound": 0.032095,<br>      "conservativity_reduction_b": 0.007905,<br>      "z_star": 0.0,<br>      "fz_z_star": 0.003391,<br>      "gamma_min": 0.071541,<br>      "lower_bound": 0.002862<br>    },<br>    "10.0": {<br>      "sharper_upper_bound": 0.034237,<br>      "conservativity_reduction_b": 0.005763,<br>      "z_star": 0.0,<br>      "fz_z_star": 0.002933,<br>      "gamma_min": 0.060225,<br>      "lower_bound": 0.002409<br>    }<br>  },<br>  "clayton_large_m_lower_bound": {<br>    "20": {<br>      "z_star": 0.00788351,<br>      "fz_z_star": 0.007853,<br>      "gamma_min": 0.188575,<br>      "fdr_lower_bound": 0.007543<br>    },<br>    "200": {<br>      "z_star": 0.00133124,<br>      "fz_z_star": 0.00133,<br>      "gamma_min": 0.031142,<br>      "fdr_lower_bound": 0.001246<br>    },<br>    "2000": {<br>      "z_star": 0.00019012,<br>      "fz_z_star": 0.00019,<br>      "gamma_min": 0.004293,<br>      "fdr_lower_bound": 0.000172<br>    }<br>  },<br>  "gumbel_z_star_by_eta": {<br>    "1.0": 1.0,<br>    "2.0": 0.1112694002,<br>    "5.0": 0.0004005219,<br>    "6.6": 2.23504e-05,<br>    "10.0": 5.03e-08<br>  },<br>  "kendall_tau_calibration_verification": {<br>    "clayton_eta_2": {<br>      "closed_form": 0.5,<br>      "integral": 0.5<br>    },<br>    "gumbel_eta_2": {<br>      "closed_form": 0.5,<br>      "integral": 0.5<br>    }<br>  },<br>  "all_assertions_passed": true<br>} |
+
+## Scientific And Domain Assessments
+
+### ArchimedeanCopulaStepUpFDRBounds versus StepUpDownLeastFavorableConfigurationFDRBounds and SelfConsistencyAndDependencyControlFDRFramework
+
+identity: supported. Targets: AIMech:ArchimedeanCopulaStepUpFDRBounds.
+
+Retain Archimedean copula linear step-up false discovery rate bounds and calibration as a distinct DRAFT mathematical_method.
+
+ArchimedeanCopulaStepUpFDRBounds exploits the Marshall-Olkin frailty representation of Archimedean p-value copulae with completely monotone generators to derive the sharper upper bound via Bolshev's recursion, the lower bound factor gamma_min(psi), the H_0-exchangeable MTP_2 equivalence, and Kendall's tau nominal-level calibration.
+
+### Mapping to AIO:DataDredgingBias
+
+grounding: supported. Targets: AIMech:ArchimedeanCopulaStepUpFDRBounds.
+
+Related mapping to DataDredgingBias is supported.
+
+Archimedean copula FDR bounds and copula-calibrated step-up procedures control false discoveries across dependent multiple hypothesis tests, mitigating multiplicity-induced false positives (AIO:DataDredgingBias).
+
+### marshall-olkin-sharper-upper-bound-and-direct-fdr-control
+
+evidence: supported. Targets: AIMech:ArchimedeanCopulaStepUpFDRBounds.
+
+Supported by Section 2.2 Theorem 2.1, Section 3 Theorem 3.1, Corollary 3.1, and Section 7.
+
+Verified non-negativity of the conservativity reduction term b(m, vartheta, psi) across all tested Clayton copula parameters eta in [0.05, 10.0].
+
+### generator-dependent-lower-bound-and-clayton-incomplete-gamma-formula
+
+evidence: supported. Targets: AIMech:ArchimedeanCopulaStepUpFDRBounds.
+
+Supported by Section 3 Theorem 3.2, Lemma 3.1, Corollary 3.2, and Section 4.2 Equations (24)-(25).
+
+Verified Clayton incomplete-gamma lower bound across eta in [0.05, 10.0] (at eta = 0.05: gamma_min = 0.738765, lower bound = 0.029551).
+
+### bolshev-recursion-u-shaped-fdr-and-kendall-tau-calibration
+
+evidence: supported. Targets: AIMech:ArchimedeanCopulaStepUpFDRBounds.
+
+Supported by Section 4.2-4.3 Equations (26)-(33), Figures 2-3, and Section 5 Equations (34)-(35).
+
+Verified U-shaped Clayton sharper upper bound via Bolshev's recursion (minimum 0.030236 at eta = 2.0) and Kendall's tau calibration identities.
+
+### infinite-exchangeable-archimedean-mtp2-characterization
+
+evidence: supported. Targets: AIMech:ArchimedeanCopulaStepUpFDRBounds.
+
+Supported by Section 3 Theorem 3.3, Corollary 3.3, Equations (20)-(21), and Section 7.
+
+Checked Theorem 3.3 proof via Laplace transform uniqueness on (0, infty) and Müller &amp; Scarsini (2005) log-convex generator MTP_2 characterization.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:ArchimedeanCopulaStepUpFDRBounds.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of ArchimedeanCopulaStepUpFDRBounds.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, four primary sources with exact SHA-256 digests, pinned AIO mapping and rationale, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261017T160500Z-archimedean-copula-step-up-fdr-bounds.json | supports | No normalized identity match for Archimedean copula linear step-up false discovery rate bounds and calibration across 442 pinned AIO records and 597 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected DataDredgingBias in the pinned AIO snapshot (2026-07-22). DataDredgingBias provides frequentist multiplicity error-control context via related_match. |
+| calculation | research/discovery/archimedean-copula-step-up-fdr-bounds-boundaries.py | supports | Constructed analytical and numerical checks for Theorem 3.1 Bolshev recursion sharper upper bound, Theorem 3.2 and Equations (24)-(25) Clayton incomplete-gamma lower bound, Gumbel threshold z^*, and Equations (34)-(35) Kendall's tau calibration. |
+| bodnar-dickhaus2014-pdf | https://arxiv.org/pdf/1305.3897; Pages 1-33, Sections 1-7 (Definition 2.1, Theorem 2.1, Theorems 3.1-3.3, Lemma 3.1, Corollaries 3.1-3.3, Equations (1)-(35), Figures 1-6) | supports | All 33 pages of the full-text PDF of arXiv:1305.3897v3 read. Checked all definitions, lemmas, theorems, corollaries, equations, and proofs. |
+| bodnar-dickhaus2014-ar5iv | https://ar5iv.labs.arxiv.org/html/1305.3897; Lines 1-737, Sections 1-7 | supports | All 737 lines of the full-text ar5iv HTML conversion of arXiv:1305.3897v3 read. |
+| bodnar-dickhaus2014-crossref | https://api.crossref.org/works/10.1214/14-EJS950; Electronic Journal of Statistics 8(2):2207-2241 publication record | supports | Official Electronic Journal of Statistics 8(2):2207-2241 Crossref record read and verified. |
+| bodnar-dickhaus2014-abs | https://arxiv.org/abs/1305.3897; arXiv:1305.3897v3 abstract and metadata | supports | arXiv:1305.3897v3 abstract and metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Archimedean copula linear step-up false discovery rate bounds and calibration record, yielding 598 native and 442 unchanged generated records.
+- All 33 PDF pages and 737 ar5iv HTML lines of Bodnar &amp; Dickhaus (2014, arXiv:1305.3897v3) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261017T160700Z-archimedean-copula-step-up-fdr-bounds
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Archimedean copula linear step-up false discovery
+  rate bounds and calibration
+started_at: '2026-10-17T16:05:00Z'
+finished_at: '2026-10-17T16:07:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from StepUpDownLeastFavorableConfigurationFDRBounds
+    (Blanchard et al. 2014), SelfConsistencyAndDependencyControlFDRFramework (Blanchard
+    & Roquain 2008), and ContinuumMeasureSpaceStepUpFDRControl (Blanchard, Delattre,
+    & Roquain 2014), verified the Bolshev order-statistic recursion and U-shaped Clayton
+    sharper upper bound, checked the eta -> 0+ limit of F_Z(z^*(eta)) = 1/2 versus
+    gamma_min(eta) -> 1, and verified Kendall's tau calibration identities. This is
+    adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Archimedean copula linear step-up false discovery rate bounds and
+  calibration as a distinct DRAFT mathematical_method with a related DataDredgingBias
+  mapping. All four claims and locators across Bodnar & Dickhaus (2014 Electronic
+  Journal of Statistics 8(2):2207-2241) are supported with explicit Dirac-uniform
+  LFC, subset pivotality, and lower-bound regime limitations.
+source:
+  git_revision: 93745126edb116a766c1c9f8d308665b2494234d
+  state: working_tree
+  inputs:
+  - path: data/aio/DataDredgingBias.yaml
+    sha256: 335067e88f1462e141ac5f35e697cd42f7d250ec4dde9250531babe0d96cc1d0
+    role: context
+  - path: data/curated/ArchimedeanCopulaStepUpFDRBounds.yaml
+    sha256: 8a1f1f0ef3c4ec4ac45ede2c42f6ada4aaff38b4a6c59bf4d2fc18265aef96d7
+    role: target
+  - path: data/curated/ContinuumMeasureSpaceStepUpFDRControl.yaml
+    sha256: 498a31bc6bb08aee30af0e7c6162801b1333a932df59620b4b1eb56820498444
+    role: context
+  - path: data/curated/OneAndTwoStageAdaptiveStepUpFDRUnderDependence.yaml
+    sha256: 651276db83f388cdf782125e0ac769bacdb09ce89e63ebf1e9378b3a0d36d91f
+    role: context
+  - path: data/curated/SelfConsistencyAndDependencyControlFDRFramework.yaml
+    sha256: 03444e07e1d84f9bdc618210e31fc12764d6e8dc40c4311bef2fe5a40c0e7a80
+    role: context
+  - path: data/curated/StepUpDownLeastFavorableConfigurationFDRBounds.yaml
+    sha256: 364829550c002d6abacfff66a6b7f140112c4985d9e1148925c2e81ea34a0342
+    role: context
+  - path: research/discovery/20261017T160500Z-archimedean-copula-step-up-fdr-bounds.json
+    sha256: 2e72fa1943b0a8681ac726d5725ab62e6a6fffa033152462d016fa5bcd9735cf
+    role: context
+  - path: research/discovery/archimedean-copula-step-up-fdr-bounds-boundaries.py
+    sha256: da5b022585fa3b4817d326042847552ee57a044fb5a1b25555cc1ee7ca1a1c13
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ArchimedeanCopulaStepUpFDRBounds
+  path: data/curated/ArchimedeanCopulaStepUpFDRBounds.yaml
+  label: Archimedean copula linear step-up false discovery rate bounds and calibration
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ArchimedeanCopulaStepUpFDRBounds.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained ArchimedeanCopulaStepUpFDRBounds
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:ArchimedeanCopulaStepUpFDRBounds'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 598 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Bodnar-Dickhaus 2014 Archimedean copula FDR bounds and Bolshev
+    recursion checks
+  command: python3 research/discovery/archimedean-copula-step-up-fdr-bounds-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept_id\": \"AIMech:ArchimedeanCopulaStepUpFDRBounds\",\n  \"\
+    primary_source\": \"Bodnar & Dickhaus (2014), Electronic Journal of Statistics\
+    \ 8(2):2207-2241 (arXiv:1305.3897v3, DOI:10.1214/14-EJS950)\",\n  \"benchmark_parameters\"\
+    : {\n    \"m\": 20,\n    \"m0\": 16,\n    \"q\": 0.05,\n    \"classical_upper_bound\"\
+    : 0.04\n  },\n  \"clayton_bounds_by_eta\": {\n    \"0.05\": {\n      \"sharper_upper_bound\"\
+    : 0.039856,\n      \"conservativity_reduction_b\": 0.000144,\n      \"z_star\"\
+    : 0.79802562,\n      \"fz_z_star\": 0.185002,\n      \"gamma_min\": 0.738765,\n\
+    \      \"lower_bound\": 0.029551\n    },\n    \"0.5\": {\n      \"sharper_upper_bound\"\
+    : 0.036417,\n      \"conservativity_reduction_b\": 0.003583,\n      \"z_star\"\
+    : 0.09646312,\n      \"fz_z_star\": 0.016381,\n      \"gamma_min\": 0.316445,\n\
+    \      \"lower_bound\": 0.012658\n    },\n    \"1.0\": {\n      \"sharper_upper_bound\"\
+    : 0.032494,\n      \"conservativity_reduction_b\": 0.007506,\n      \"z_star\"\
+    : 0.00788351,\n      \"fz_z_star\": 0.007853,\n      \"gamma_min\": 0.188575,\n\
+    \      \"lower_bound\": 0.007543\n    },\n    \"1.7\": {\n      \"sharper_upper_bound\"\
+    : 0.030393,\n      \"conservativity_reduction_b\": 0.009607,\n      \"z_star\"\
+    : 0.00019325,\n      \"fz_z_star\": 0.005362,\n      \"gamma_min\": 0.12503,\n\
+    \      \"lower_bound\": 0.005001\n    },\n    \"2.0\": {\n      \"sharper_upper_bound\"\
+    : 0.030236,\n      \"conservativity_reduction_b\": 0.009764,\n      \"z_star\"\
+    : 3.754e-05,\n      \"fz_z_star\": 0.004889,\n      \"gamma_min\": 0.111783,\n\
+    \      \"lower_bound\": 0.004471\n    },\n    \"3.0\": {\n      \"sharper_upper_bound\"\
+    : 0.030725,\n      \"conservativity_reduction_b\": 0.009275,\n      \"z_star\"\
+    : 1.4e-07,\n      \"fz_z_star\": 0.004036,\n      \"gamma_min\": 0.088324,\n \
+    \     \"lower_bound\": 0.003533\n    },\n    \"5.0\": {\n      \"sharper_upper_bound\"\
+    : 0.032095,\n      \"conservativity_reduction_b\": 0.007905,\n      \"z_star\"\
+    : 0.0,\n      \"fz_z_star\": 0.003391,\n      \"gamma_min\": 0.071541,\n     \
+    \ \"lower_bound\": 0.002862\n    },\n    \"10.0\": {\n      \"sharper_upper_bound\"\
+    : 0.034237,\n      \"conservativity_reduction_b\": 0.005763,\n      \"z_star\"\
+    : 0.0,\n      \"fz_z_star\": 0.002933,\n      \"gamma_min\": 0.060225,\n     \
+    \ \"lower_bound\": 0.002409\n    }\n  },\n  \"clayton_large_m_lower_bound\": {\n\
+    \    \"20\": {\n      \"z_star\": 0.00788351,\n      \"fz_z_star\": 0.007853,\n\
+    \      \"gamma_min\": 0.188575,\n      \"fdr_lower_bound\": 0.007543\n    },\n\
+    \    \"200\": {\n      \"z_star\": 0.00133124,\n      \"fz_z_star\": 0.00133,\n\
+    \      \"gamma_min\": 0.031142,\n      \"fdr_lower_bound\": 0.001246\n    },\n\
+    \    \"2000\": {\n      \"z_star\": 0.00019012,\n      \"fz_z_star\": 0.00019,\n\
+    \      \"gamma_min\": 0.004293,\n      \"fdr_lower_bound\": 0.000172\n    }\n\
+    \  },\n  \"gumbel_z_star_by_eta\": {\n    \"1.0\": 1.0,\n    \"2.0\": 0.1112694002,\n\
+    \    \"5.0\": 0.0004005219,\n    \"6.6\": 2.23504e-05,\n    \"10.0\": 5.03e-08\n\
+    \  },\n  \"kendall_tau_calibration_verification\": {\n    \"clayton_eta_2\": {\n\
+    \      \"closed_form\": 0.5,\n      \"integral\": 0.5\n    },\n    \"gumbel_eta_2\"\
+    : {\n      \"closed_form\": 0.5,\n      \"integral\": 0.5\n    }\n  },\n  \"all_assertions_passed\"\
+    : true\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261017T160500Z-archimedean-copula-step-up-fdr-bounds.json
+  accessed_at: '2026-10-17T16:05:00Z'
+  support: supports
+  summary: No normalized identity match for Archimedean copula linear step-up false
+    discovery rate bounds and calibration across 442 pinned AIO records and 597 maintained
+    IDs, names, aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-17T16:05:00Z'
+  support: supports
+  summary: Inspected DataDredgingBias in the pinned AIO snapshot (2026-07-22). DataDredgingBias
+    provides frequentist multiplicity error-control context via related_match.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/archimedean-copula-step-up-fdr-bounds-boundaries.py
+  accessed_at: '2026-10-17T16:05:00Z'
+  snapshot_sha256: da5b022585fa3b4817d326042847552ee57a044fb5a1b25555cc1ee7ca1a1c13
+  support: supports
+  summary: Constructed analytical and numerical checks for Theorem 3.1 Bolshev recursion
+    sharper upper bound, Theorem 3.2 and Equations (24)-(25) Clayton incomplete-gamma
+    lower bound, Gumbel threshold z^*, and Equations (34)-(35) Kendall's tau calibration.
+- evidence_id: bodnar-dickhaus2014-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1305.3897
+  locator: Pages 1-33, Sections 1-7 (Definition 2.1, Theorem 2.1, Theorems 3.1-3.3,
+    Lemma 3.1, Corollaries 3.1-3.3, Equations (1)-(35), Figures 1-6)
+  accessed_at: '2026-10-17T16:05:00Z'
+  snapshot_sha256: 16fbee085fb678e3980d53b58c99b8b359af995fad0b9b9dd20d18b45f4329d0
+  support: supports
+  summary: All 33 pages of the full-text PDF of arXiv:1305.3897v3 read. Checked all
+    definitions, lemmas, theorems, corollaries, equations, and proofs.
+- evidence_id: bodnar-dickhaus2014-ar5iv
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/1305.3897
+  locator: Lines 1-737, Sections 1-7
+  accessed_at: '2026-10-17T16:05:00Z'
+  snapshot_sha256: e227a5c91b327fad11af3a8af354663c481ca4f05c132d3298d522b07bdb195a
+  support: supports
+  summary: All 737 lines of the full-text ar5iv HTML conversion of arXiv:1305.3897v3
+    read.
+- evidence_id: bodnar-dickhaus2014-crossref
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/14-EJS950
+  locator: Electronic Journal of Statistics 8(2):2207-2241 publication record
+  accessed_at: '2026-10-17T16:05:00Z'
+  snapshot_sha256: 56e5fff839d0f6457f478539e8d6d5f820d819d08edded5fd4d41d1834ba9f01
+  support: supports
+  summary: Official Electronic Journal of Statistics 8(2):2207-2241 Crossref record
+    read and verified.
+- evidence_id: bodnar-dickhaus2014-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1305.3897
+  locator: arXiv:1305.3897v3 abstract and metadata
+  accessed_at: '2026-10-17T16:05:00Z'
+  snapshot_sha256: ba7e5b4627fc554fc9289c78b0a335eadeb0b667812b56832235bbc01c13c36a
+  support: supports
+  summary: arXiv:1305.3897v3 abstract and metadata read and verified.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: ArchimedeanCopulaStepUpFDRBounds versus StepUpDownLeastFavorableConfigurationFDRBounds
+    and SelfConsistencyAndDependencyControlFDRFramework
+  outcome: supported
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  evidence_ids:
+  - identity
+  - bodnar-dickhaus2014-pdf
+  - bodnar-dickhaus2014-crossref
+  summary: Retain Archimedean copula linear step-up false discovery rate bounds and
+    calibration as a distinct DRAFT mathematical_method.
+  details: ArchimedeanCopulaStepUpFDRBounds exploits the Marshall-Olkin frailty representation
+    of Archimedean p-value copulae with completely monotone generators to derive the
+    sharper upper bound via Bolshev's recursion, the lower bound factor gamma_min(psi),
+    the H_0-exchangeable MTP_2 equivalence, and Kendall's tau nominal-level calibration.
+- assessment_id: mapping
+  area: grounding
+  topic: Mapping to AIO:DataDredgingBias
+  outcome: supported
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  evidence_ids:
+  - mapping
+  - bodnar-dickhaus2014-pdf
+  summary: Related mapping to DataDredgingBias is supported.
+  details: Archimedean copula FDR bounds and copula-calibrated step-up procedures
+    control false discoveries across dependent multiple hypothesis tests, mitigating
+    multiplicity-induced false positives (AIO:DataDredgingBias).
+- assessment_id: marshall-olkin-sharper-upper-bound-and-direct-fdr-control
+  area: evidence
+  topic: marshall-olkin-sharper-upper-bound-and-direct-fdr-control
+  outcome: supported
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  evidence_ids:
+  - bodnar-dickhaus2014-pdf
+  - bodnar-dickhaus2014-ar5iv
+  - calculation
+  summary: Supported by Section 2.2 Theorem 2.1, Section 3 Theorem 3.1, Corollary
+    3.1, and Section 7.
+  details: Verified non-negativity of the conservativity reduction term b(m, vartheta,
+    psi) across all tested Clayton copula parameters eta in [0.05, 10.0].
+- assessment_id: generator-dependent-lower-bound-and-clayton-incomplete-gamma-formula
+  area: evidence
+  topic: generator-dependent-lower-bound-and-clayton-incomplete-gamma-formula
+  outcome: supported
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  evidence_ids:
+  - bodnar-dickhaus2014-pdf
+  - bodnar-dickhaus2014-ar5iv
+  - calculation
+  summary: Supported by Section 3 Theorem 3.2, Lemma 3.1, Corollary 3.2, and Section
+    4.2 Equations (24)-(25).
+  details: 'Verified Clayton incomplete-gamma lower bound across eta in [0.05, 10.0]
+    (at eta = 0.05: gamma_min = 0.738765, lower bound = 0.029551).'
+- assessment_id: bolshev-recursion-u-shaped-fdr-and-kendall-tau-calibration
+  area: evidence
+  topic: bolshev-recursion-u-shaped-fdr-and-kendall-tau-calibration
+  outcome: supported
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  evidence_ids:
+  - bodnar-dickhaus2014-pdf
+  - bodnar-dickhaus2014-ar5iv
+  - calculation
+  summary: Supported by Section 4.2-4.3 Equations (26)-(33), Figures 2-3, and Section
+    5 Equations (34)-(35).
+  details: Verified U-shaped Clayton sharper upper bound via Bolshev's recursion (minimum
+    0.030236 at eta = 2.0) and Kendall's tau calibration identities.
+- assessment_id: infinite-exchangeable-archimedean-mtp2-characterization
+  area: evidence
+  topic: infinite-exchangeable-archimedean-mtp2-characterization
+  outcome: supported
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  evidence_ids:
+  - bodnar-dickhaus2014-pdf
+  - bodnar-dickhaus2014-ar5iv
+  summary: Supported by Section 3 Theorem 3.3, Corollary 3.3, Equations (20)-(21),
+    and Section 7.
+  details: Checked Theorem 3.3 proof via Laplace transform uniqueness on (0, infty)
+    and Müller & Scarsini (2005) log-convex generator MTP_2 characterization.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:ArchimedeanCopulaStepUpFDRBounds
+  evidence_ids:
+  - identity
+  - mapping
+  - bodnar-dickhaus2014-pdf
+  - bodnar-dickhaus2014-ar5iv
+  - bodnar-dickhaus2014-crossref
+  - bodnar-dickhaus2014-abs
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of ArchimedeanCopulaStepUpFDRBounds.yaml: stable ID,
+    name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes,
+    four claims and locators, four primary sources with exact SHA-256 digests, pinned
+    AIO mapping and rationale, four scoped limitations, and UTC curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Archimedean copula linear step-up false discovery rate bounds and
+  calibration record, yielding 598 native and 442 unchanged generated records.
+- All 33 PDF pages and 737 ar5iv HTML lines of Bodnar & Dickhaus (2014, arXiv:1305.3897v3)
+  were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- multiple-testing
+- false-discovery-rate
+- archimedean-copula
+- bolshev-recursion
+- self-review
+- discovery-ongoing
+```
