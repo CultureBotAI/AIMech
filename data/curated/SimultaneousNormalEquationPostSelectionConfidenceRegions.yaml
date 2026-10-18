@@ -1,0 +1,244 @@
+id: AIMech:SimultaneousNormalEquationPostSelectionConfidenceRegions
+name: Simultaneous normal-equation post-selection confidence regions in model-free linear regression
+aliases:
+- Model-Free Normal-Equation PoSI Confidence Regions
+- Assumption-Lean Simultaneous Normal-Equation Confidence Regions (R_hat_{n,M}, R_hat_{n,M}^dagger)
+- Polynomial-Time Multiplier-Bootstrap Post-Selection Confidence Regions
+concept_kind: mathematical_method
+definition: 'Simultaneous normal-equation post-selection confidence regions in model-free linear regression
+  are an assumption-lean statistical inference methodology introduced by Kuchibhotla, Brown, Buja, Cai,
+  George, and Zhao (2020, The Annals of Statistics 48(5):2953-2981, arXiv:1806.04119v1, DOI:10.1214/19-AOS1917)
+  for constructing universally valid post-selection confidence regions across arbitrary data-dependent
+  submodel selectors M_hat in M_p subseteq M_p(p) := {M subseteq {1,...,p} : 1 <= |M| <= p} for independent
+  (possibly non-identically distributed) or functionally dependent observations (X_i^T, Y_i)^T in R^p
+  x R. For each submodel M, the submodel ordinary least squares estimator beta_hat_{n,M} and the model-free
+  submodel moving target beta_{n,M} solve the submodel normal equations Sigma_hat_n(M) beta_hat_{n,M}
+  = Gamma_hat_n(M) and Sigma_n(M) beta_{n,M} = Gamma_n(M), where Sigma_hat_n := 1/n sum_{i=1}^n X_i X_i^T,
+  Gamma_hat_n := 1/n sum_{i=1}^n X_i Y_i, Sigma_n := E[Sigma_hat_n], and Gamma_n := E[Gamma_hat_n] (Section
+  2.2, Equations 4-6). After proving that universal post-selection validity P(beta_{n,M_hat} in R_hat_{n,M_hat})
+  >= 1 - alpha over all selectors M_hat with P(M_hat in M_p) = 1 is strictly equivalent to simultaneous
+  family-wise validity P(bigcap_{M in M_p} {beta_{n,M} in R_hat_{n,M}}) >= 1 - alpha (Section 3, Theorem
+  3.1, Equation 9), the method exploits the assumption-free deterministic normal-equation inequality ||Sigma_hat_n(M)
+  {beta_{n,M} - beta_hat_{n,M}}||_infty <= D_n^Gamma + D_n^Sigma ||beta_{n,M}||_1 for all M in M_p(p)
+  (Equations 17-18), where D_n^Sigma := |||Sigma_hat_n - Sigma_n|||_infty = max_{M in M_p(2)} |||Sigma_hat_n(M)
+  - Sigma_n(M)|||_infty and D_n^Gamma := ||Gamma_hat_n - Gamma_n||_infty = max_{M in M_p(1)} ||Gamma_hat_n(M)
+  - Gamma_n(M)||_infty depend only on marginal and bivariate moments (Equation 12). Using bivariate joint
+  (1-alpha)-quantiles (C_n^Gamma(alpha), C_n^Sigma(alpha)) of (D_n^Gamma, D_n^Sigma) estimated in polynomial
+  O(n p^2) time via a high-dimensional Gaussian multiplier bootstrap on the q = p + p(p+1)/2 unique cross-product
+  and Gram coordinates W_i = ({X_i(j) Y_i}, {X_i(l) X_i(m)}_{l <= m}) (Section 5, Theorem 5.1), the method
+  defines the exact finite-sample simultaneous confidence region R_hat_{n,M} := {theta in R^{|M|} : ||Sigma_hat_n(M)(beta_hat_{n,M}
+  - theta)||_infty <= C_n^Gamma(alpha) + C_n^Sigma(alpha) ||theta||_1} (Equation 13, Theorem 4.1) and
+  its asymptotically valid 2|M|-constraint parallelepiped approximation R_hat_{n,M}^dagger := {theta in
+  R^{|M|} : ||Sigma_hat_n(M)(beta_hat_{n,M} - theta)||_infty <= C_n^Gamma(alpha) + C_n^Sigma(alpha) ||beta_hat_{n,M}||_1}
+  (Equation 14, Theorem 4.2), whose Lebesgue volume O_p(sqrt(|M| log(p)/n))^{|M|} adapts to the selected
+  model cardinality |M| rather than the maximum search size k (Proposition 4.1, Equations 21 and 28).'
+identity_notes: Evaluated against all 442 pinned AIO records and 611 maintained curated concepts in AIMech.
+  Distinct from AIMech:UniformlyValidPostModelSelectionConfidenceIntervals (Berk, Brown, Buja, Zhang,
+  & Zhao 2013, PoSI), which constructs coordinatewise max-|t| Scheffe-type confidence intervals under
+  fixed covariates X and homoscedastic Gaussian errors Y = mu + epsilon by computing a PoSI constant K(X,
+  M_p, alpha) over the selection collection M_p in exponential O(sum_{M in M_p} |M|^2) time with volume
+  O_p(sqrt(k log(p)/n))^{|M|} scaling with the maximum search size k rather than the selected model size
+  |M|. Distinct from AIMech:UnifiedAssumptionLeanMovingTargetLinearRegressionAndScoreBootstrap (Kuchibhotla,
+  Brown, & Buja 2018, arXiv:1809.10538v1), which analyzes a single fixed model (p = o(n^{1/5})) via multidimensional
+  Berry-Esseen bounds and score bootstraps without post-selection simultaneous inference over 2^p submodels.
+  Distinct from AIMech:ExactPolyhedralPostSelectionInference (Lee, Sun, Sun, & Taylor 2016), which conditions
+  on a specific polyhedral selection event {A y <= b} (such as Lasso at a fixed lambda) under exact Gaussianity
+  rather than providing universal selection-agnostic simultaneous validity over all M_hat in M_p via the
+  normal equations.
+definition_evidence:
+- source_id: kuchibhotla2020-posi-pdf
+  locator: Sections 1-5, Pages 1-30, Equations (4)-(28), Theorems 3.1, 4.1, 4.2, 5.1, Lemma 4.1, Proposition
+    4.1
+  relation: supports
+- source_id: kuchibhotla2020-posi-abs
+  locator: arXiv:1806.04119v1 abstract
+  relation: supports
+- source_id: kuchibhotla2020-posi-crossref
+  locator: The Annals of Statistics 48(5):2953-2981 (2020), DOI 10.1214/19-AOS1917
+  relation: supports
+claims:
+- claim_id: equivalence-of-universal-post-selection-and-simultaneous-inference
+  kind: mechanism
+  statement: 'Section 3 (pp. 10-13, Theorem 3.1, Equations 7-10) proves purely set-theoretically without
+    any distributional, independence, or dimensionality assumptions that for any family of confidence
+    regions {R_hat_{n,M} : M in M_p} and any level alpha in [0, 1], universal post-selection coverage
+    P(beta_{n,M_hat} in R_hat_{n,M_hat}) >= 1 - alpha for all data-dependent model selection procedures
+    M_hat satisfying P(M_hat in M_p) = 1 is strictly equivalent to simultaneous family-wise coverage P(bigcap_{M
+    in M_p} {beta_{n,M} in R_hat_{n,M}}) >= 1 - alpha, because any selector M_hat satisfies {beta_{n,M_hat}
+    in R_hat_{n,M_hat}} supseteq bigcap_{M in M_p} {beta_{n,M} in R_hat_{n,M}} while the adversarial selector
+    M_hat in argmin_{M in M_p} 1{beta_{n,M} in R_hat_{n,M}} achieves exact equality.'
+  evidence:
+  - source_id: kuchibhotla2020-posi-pdf
+    locator: Section 3, Pages 10-13, Theorem 3.1, Remarks 3.1-3.4, Equations (7)-(10)
+    relation: supports
+  - source_id: kuchibhotla2020-posi-abs
+    locator: arXiv:1806.04119v1 abstract
+    relation: supports
+- claim_id: deterministic-normal-equation-inequality-and-simultaneous-regions
+  kind: mechanism
+  statement: 'Sections 4.1-4.4 (pp. 14-21, Equations 11-19, Theorems 4.1-4.2, Lemma 4.1) define the bivariate
+    max-norm estimation errors D_n^Sigma := |||Sigma_hat_n - Sigma_n|||_infty = max_{M in M_p(2)} |||Sigma_hat_n(M)
+    - Sigma_n(M)|||_infty and D_n^Gamma := ||Gamma_hat_n - Gamma_n||_infty = max_{M in M_p(1)} ||Gamma_hat_n(M)
+    - Gamma_n(M)||_infty (Equation 12) and prove via the submodel normal equations that ||Sigma_hat_n(M){beta_{n,M}
+    - beta_hat_{n,M}}||_infty <= D_n^Gamma + D_n^Sigma ||beta_{n,M}||_1 holds deterministically for all
+    M in M_p(p) with probability 1 (Equations 17-18). Given bivariate (1-alpha)-quantiles (C_n^Gamma(alpha),
+    C_n^Sigma(alpha)) satisfying P(D_n^Gamma <= C_n^Gamma(alpha), D_n^Sigma <= C_n^Sigma(alpha)) >= 1
+    - alpha (Equation 15), Theorem 4.1 proves exact finite-sample simultaneous coverage P(bigcap_{M in
+    M_p(p)} {beta_{n,M} in R_hat_{n,M}}) >= 1 - alpha for all n, p >= 1 (including p >> n and singular
+    Sigma_hat_n(M)), and Lemma 4.1 and Theorem 4.2 prove uniform-in-model L1 consistency max_{M in M_p(k)}
+    ||beta_hat_{n,M} - beta_{n,M}||_1 <= k (D_n^Gamma + D_n^Sigma max_{M in M_p(k)} ||beta_{n,M}||_1)
+    / (Lambda_n(k) - k D_n^Sigma)_+ and asymptotic simultaneous validity of the 2|M|-constraint parallelepiped
+    R_hat_{n,M}^dagger over M_p(k) under Condition (A1)(k): k D_n^Sigma = o_p(Lambda_n(k)).'
+  evidence:
+  - source_id: kuchibhotla2020-posi-pdf
+    locator: Sections 4.1-4.4, Pages 14-21, Equations (11)-(19), Theorems 4.1-4.2, Lemma 4.1, Remarks
+      4.2-4.7
+    relation: supports
+  - source_id: kuchibhotla2020-posi-crossref
+    locator: The Annals of Statistics 48(5):2953-2981 (2020)
+    relation: supports
+- claim_id: model-cardinality-adaptive-volume-and-fixed-design-tightness
+  kind: mechanism
+  statement: 'Sections 4.5-4.6 and Appendix B (pp. 21-25 and 38-39, Lemma 4.2, Propositions 4.1-4.2, Equations
+    20-31 and 40) prove that under marginal sub-Weibull(gamma) tail bounds max_{i,j} ||Z_i(j)||_{psi_gamma}
+    <= K_{n,p}, max{C_n^Gamma(alpha), C_n^Sigma(alpha)} = O(sqrt(log(p)/n)) and the Lebesgue volume of
+    R_hat_{n,M}^dagger satisfies Leb(R_hat_{n,M}^dagger) = |Sigma_hat_n(M)|^{-1} {2 C_n^Gamma(alpha) +
+    2 C_n^Sigma(alpha) ||beta_hat_{n,M}||_1}^{|M|} = O_p(sqrt(|M| log(p)/n))^{|M|} uniformly over M in
+    M_p(k) (Proposition 4.1, Equation 21), adapting to the selected model cardinality |M| rather than
+    the maximum search size k in contrast to the Berk et al. (2013) max-|t| confidence region volume O_p(sqrt(k
+    log(p)/n))^{|M|} (Equation 28). Under fixed covariates (Sigma_hat_n = Sigma_n, D_n^Sigma = 0, C_n^Sigma(alpha)
+    = 0), R_hat_{n,M} = R_hat_{n,M}^dagger has volume O_p(|Sigma_n(M)|^{-1} (sqrt(log(p)/n))^{|M|}) (Equation
+    25) and is tight: sup_{M in M_p(p)} ||Sigma_n(M)(beta_hat_{n,M} - beta_{n,M})||_infty = D_n^Gamma,
+    achieved by the greedy marginal screening selector M_hat = {j_hat} with j_hat in argmax_{1 <= j <=
+    p} |1/n sum_{i=1}^n X_i(j)(Y_i - E[Y_i])|.'
+  evidence:
+  - source_id: kuchibhotla2020-posi-pdf
+    locator: Sections 4.5-4.6 and Appendix B, Pages 21-25 and 38-39, Lemma 4.2, Propositions 4.1-4.2,
+      Equations (20)-(31) and (40)
+    relation: supports
+- claim_id: polynomial-time-multiplier-bootstrap-surrogate-and-ellipsoidal-extensions
+  kind: mechanism
+  statement: Sections 5-7 and Appendices D-F (pp. 27-33 and 41-49, Theorems 5.1, 6.1, 7.1, E.1, E.2, F.1,
+    Equations 32-39 and 41-46) construct a polynomial-time O(n p^2) Gaussian multiplier bootstrap S_{n,j}^star
+    = 1/sqrt(n) sum_{i=1}^n e_{i,j} (W_i - W_bar_n) on the q = 2p + p(p-1)/2 = p + p(p+1)/2 unique coordinates
+    of W_i = ({X_i(j) Y_i}, {X_i(l) X_i(m)}_{l <= m}), proving via high-dimensional central limit theorems
+    (Chernozhukov et al. 2017) and Anderson's Lemma that the bootstrap quantiles are asymptotically exact
+    under i.i.d. observations and asymptotically conservative under non-identically distributed observations
+    (Theorem 5.1, Appendix E). Section 6 generalizes the confidence regions to arbitrary surrogate matrices
+    and vectors (Sigma_hat_n^star, Gamma_hat_n^star) for errors-in-variables, missing data, or outlier-robust
+    estimation (Theorem 6.1); Section 7 derives valid Lasso-type (R_ring_{n,M}, R_ring_{n,M}^dagger) and
+    sqrt-Lasso-type (R_breve_{n,M}, R_breve_{n,M}^dagger) ellipsoidal confidence regions whose intersection
+    R_hat_{n,M} cap R_hat_{n,M}^dagger cap R_ring_{n,M} remains simultaneously valid with smaller volume
+    (Theorem 7.1, Remark 7.1, Equation 43); and Appendix F proves concentration under Wu's (2005) functional
+    dependence measure (Theorem F.1).
+  evidence:
+  - source_id: kuchibhotla2020-posi-pdf
+    locator: Sections 5-7 and Appendices D-F, Pages 27-33 and 41-49, Theorems 5.1, 6.1, 7.1, E.1, E.2,
+      F.1, Equations (32)-(39) and (41)-(46)
+    relation: supports
+  - source_id: kuchibhotla2020-posi-abs
+    locator: arXiv:1806.04119v1 abstract
+    relation: supports
+evidence_sources:
+- source_id: kuchibhotla2020-posi-pdf
+  title: Valid post-selection inference in model-free linear regression
+  authors:
+  - Arun K. Kuchibhotla
+  - Lawrence D. Brown
+  - Andreas Buja
+  - Junhui Cai
+  - Edward I. George
+  - Linda H. Zhao
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1806.04119
+  persistent_id: https://doi.org/10.1214/19-AOS1917
+  version: The Annals of Statistics 48(5):2953-2981 (2020), arXiv:1806.04119v1. Complete 49-page full-text
+    PDF (504028 bytes) read across Sections 1-7 and Appendices A-F.
+  access_level: full_text
+  accessed_at: '2026-10-17T18:25:00Z'
+  sha256: a8fe11b4be553a44a0229121d0e2e377ffef2523bcabb340c1060228f8138e01
+- source_id: kuchibhotla2020-posi-abs
+  title: Valid post-selection inference in model-free linear regression (arXiv:1806.04119 Abstract)
+  authors:
+  - Arun K. Kuchibhotla
+  - Lawrence D. Brown
+  - Andreas Buja
+  - Junhui Cai
+  - Edward I. George
+  - Linda H. Zhao
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1806.04119
+  persistent_id: https://doi.org/10.48550/arXiv.1806.04119
+  version: arXiv:1806.04119v1 abstract and metadata record (6339 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T18:25:00Z'
+  sha256: 9b5d7d25f4791f8db067458d25a94a08b02483935075251bd9b76abd617da80b
+- source_id: kuchibhotla2020-posi-crossref
+  title: Valid post-selection inference in model-free linear regression (Crossref Metadata)
+  authors:
+  - Arun K. Kuchibhotla
+  - Lawrence D. Brown
+  - Andreas Buja
+  - Junhui Cai
+  - Edward I. George
+  - Linda H. Zhao
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/19-AOS1917
+  persistent_id: https://doi.org/10.1214/19-AOS1917
+  version: Crossref bibliographic metadata for The Annals of Statistics 48(5):2953-2981 (2020) (4396 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T18:25:00Z'
+  sha256: c6d6e7b85cbcd3120af0602daf22352993030ef0f8b8ef53807255719459c351
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: AIO:LinearRegression represents linear regression broadly, whereas AIMech:SimultaneousNormalEquationPostSelectionConfidenceRegions
+    specifically formulates assumption-lean simultaneous normal-equation confidence regions R_hat_{n,M}
+    and R_hat_{n,M}^dagger and their polynomial-time O(n p^2) Gaussian multiplier bootstrap for valid
+    post-selection inference across all submodels M in M_p(p).
+limitations:
+- 'Coordinatewise Projections Versus Joint Parallelepiped Shape: Remark 4.6 (p. 20) and Section 4.5 (pp.
+  22-23, Equation 29) show that while R_hat_{n,M}^dagger is a 2|M|-constraint parallelepiped whose joint
+  Lebesgue volume scales as O_p(sqrt(|M| log(p)/n))^{|M|}, projecting R_hat_{n,M}^dagger onto individual
+  coordinates yields coordinatewise confidence intervals of width 2(C_n^Gamma(alpha) + C_n^Sigma(alpha)
+  ||beta_hat_{n,M}||_1) ||Sigma_hat_n^{-1}(M) e_j||_1 = O_p(sqrt(|M| log(p)/n) ||beta_hat_{n,M}||_1),
+  which can be wider than Berk et al. (2013) coordinatewise intervals when |M| is close to k and ||beta_hat_{n,M}||_1
+  grows with sqrt(|M|).'
+- 'Sparse-Eigenvalue Condition (A1)(k) for R_hat_{n,M}^dagger and Null-Testing Power Loss: While R_hat_{n,M}
+  (Equation 13) is finite-sample valid for any n, p >= 1 without eigenvalue conditions, the plug-in parallelepiped
+  R_hat_{n,M}^dagger (Equation 14) requires Condition (A1)(k): k D_n^Sigma = o_p(Lambda_n(k)) with Lambda_n(k)
+  = min_{M in M_p(k)} lambda_min(Sigma_n(M)) > 0 (Theorem 4.2), and Remark 4.7 (p. 20) proves that 0 in
+  R_hat_{n,M} implies 0 in R_hat_{n,M}^dagger, so R_hat_{n,M}^dagger has strictly lower power than R_hat_{n,M}
+  for testing H_{0,M}: beta_{n,M} = 0.'
+- 'Primary-Source Typographical Notes in arXiv:1806.04119v1: Verified five typographical slips in the
+  primary manuscript: (1) Section 2.2 (p. 7, last line) prints ''beta_{n,M''}(1) != beta_{n,M''}(1)''
+  where the second term should be ''beta_{n,M}(1)''; (2) the proofs of Theorem 4.1 (p. 17, Equation 18),
+  Theorem 4.2 (p. 19, penultimate display), and Proposition 4.1 (Appendix B, p. 39, Equation 40) print
+  population ''Sigma_n(M)'' in place of empirical ''Sigma_hat_n(M)''; (3) Section 4.5 (p. 22, Equation
+  22) prints ''(log p)^{2/alpha} (log n)^{2/alpha - 1/2} = o(n^{1/2})'' with ''alpha'' in the exponent
+  instead of the sub-Weibull tail parameter ''gamma''; (4) Section 5 (p. 29, Step 2 of the multiplier
+  bootstrap algorithm) prints ''1/n sum_{i=1}^n e_{i,j}(W_i - W_bar_n)'' instead of ''1/sqrt(n) sum_{i=1}^n
+  e_{i,j}(W_i - W_bar_n)'' (matching S_n^{eW} on p. 28) and Step 3 sums ''i=1'' to B_n while indexing
+  ''j''; and (5) Section 6 (p. 30, line 13) prints ''Gamma_hat_n^star, Gamma_hat^star'' for ''Gamma_hat_n^star,
+  Gamma_n^star'' and Theorem 6.1 (p. 31) prints ''k D_{2n}^star'' for ''k D_n^{Sigma star}''.'
+- All 49 pages of the full-text PDF of Kuchibhotla, Brown, Buja, Cai, George, & Zhao (2020, arXiv:1806.04119v1,
+  DOI:10.1214/19-AOS1917) were read. Constructed numerical checks in research/discovery/simultaneous-normal-equation-posi-confidence-regions-boundaries.py
+  verify (1) Theorem 3.1 exact set-theoretic equivalence of universal post-selection coverage and simultaneous
+  family-wise coverage across all 2^p - 1 = 63 submodels using the adversarial selector, plus the Equations
+  (17)-(18) deterministic normal-equation inequality across all 18,900 (trial, submodel) pairs, (2) Theorems
+  4.1 & 4.2 finite-sample and asymptotic simultaneous coverage of R_hat_{n,M} and R_hat_{n,M}^dagger and
+  Lemma 4.1 uniform L1 bound, (3) Remark 4.7 superior null-hypothesis testing power of R_hat_{n,M} over
+  R_hat_{n,M}^dagger and Proposition 4.1 model-cardinality-adaptive volume vs. Berk et al. (2013) max-|t|
+  volume, and (4) Section 4.6 exact tightness under fixed covariates for the greedy marginal selector
+  and Section 5 polynomial-time O(n p^2) Gaussian multiplier bootstrap simultaneous coverage (96.0%).
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T18:25:00Z'
+  updated_at: '2026-10-17T18:25:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
