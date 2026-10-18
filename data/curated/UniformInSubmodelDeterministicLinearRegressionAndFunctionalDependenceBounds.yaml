@@ -1,0 +1,204 @@
+id: AIMech:UniformInSubmodelDeterministicLinearRegressionAndFunctionalDependenceBounds
+name: Uniform-in-submodel deterministic linear regression and functional dependence bounds
+aliases:
+- Model-Free Uniform-in-Submodel OLS Consistency and Bahadur Linear Representation Bounds
+- General Linear Regression Map beta_M(Sigma, Gamma) Deterministic Submodel Inequalities
+- Functional Dependence Sub-Weibull Concentration for Uniform-in-Submodel Regression
+concept_kind: mathematical_method
+definition: 'Uniform-in-submodel deterministic linear regression and functional dependence bounds are
+  a model-free high-dimensional statistical methodology introduced by Kuchibhotla, Brown, Buja, George,
+  and Zhao (2021, arXiv:1802.05801v3) for simultaneously controlling estimation error and first-order
+  Bahadur linear representation remainders across all covariate subsets M in M(k) := {M subseteq {1,...,p}
+  : 1 <= |M| <= k}. Defining the general linear regression map beta_M(Sigma, Gamma) := [Sigma(M)]^{-1}
+  Gamma(M) for any symmetric positive-definite p x p matrix Sigma and p-vector Gamma (encompassing ordinary
+  least squares, Catoni/Minsker heavy-tailed Gram estimators, outlier-robust estimators, and Loh-Wainwright
+  noisy or missing-data surrogate estimators, Section 3.3), the framework introduces the k-sparse submatrix
+  operator norm RIP(k, Sigma_1 - Sigma_2) := sup_{M in M(k)} ||Sigma_1(M) - Sigma_2(M)||_{op}, the k-sparse
+  vector norm D(k, Gamma_1 - Gamma_2) := sup_{M in M(k)} ||Gamma_1(M) - Gamma_2(M)||_2, and the k-sparse
+  minimum eigenvalue Lambda(k; Sigma_2) := inf_{||theta||_0<=k} ||Sigma_2 theta||_2 / ||theta||_2 (Equations
+  13-14). Whenever RIP(k, Sigma_1 - Sigma_2) < Lambda(k; Sigma_2), Theorem 1 proves the assumption-free
+  deterministic uniform l2 bound ||beta_M(Sigma_1, Gamma_1) - beta_M(Sigma_2, Gamma_2)||_2 <= [D(k, Gamma_1
+  - Gamma_2) + RIP(k, Sigma_1 - Sigma_2) ||beta_M(Sigma_2, Gamma_2)||_2] / [Lambda(k; Sigma_2) - RIP(k,
+  Sigma_1 - Sigma_2)] simultaneously for all M in M(k), and Theorem 3 proves the deterministic uniform
+  Bahadur linear representation bound ||beta_M(Sigma_1, Gamma_1) - beta_M(Sigma_2, Gamma_2) - [Sigma_2(M)]^{-1}{Gamma_1(M)
+  - Sigma_1(M) beta_M(Sigma_2, Gamma_2)}||_2 <= [RIP(k, Sigma_1 - Sigma_2) / Lambda(k; Sigma_2)] ||beta_M(Sigma_1,
+  Gamma_1) - beta_M(Sigma_2, Gamma_2)||_2 with matching two-sided sandwiching (Remarks 3.2-3.3). Combining
+  these deterministic inequalities with epsilon-net covering of Theta_k (Section 4) and a dyadic martingale
+  plus blocking decomposition under Wu''s (2005) functional dependence measure with dependence-adjusted
+  sub-Weibull norms ||{W}||_{psi_alpha,nu} (Section 5, Theorem 12) yields uniform O_p(sqrt(k log(ep/k)/n))
+  consistency and O_p(k log(ep/k)/n) linear representation remainders for independent and causal time-series
+  data.'
+identity_notes: Evaluated against all 442 pinned AIO records and 613 maintained curated concepts in AIMech.
+  Distinct from AIMech:SimultaneousNormalEquationPostSelectionConfidenceRegions (Kuchibhotla et al. 2020,
+  arXiv:1806.04119v1, DOI:10.1214/19-AOS1917), which avoids inverting Sigma_hat_n(M) by working directly
+  with the normal-equation residual ||Sigma_hat_n(M)(beta_{n,M} - beta_hat_{n,M})||_infty and bivariate
+  max-norm quantiles (D_n^Gamma, D_n^Sigma) over M_p(1) and M_p(2) to construct simultaneous post-selection
+  confidence regions R_hat_{n,M} and R_hat_{n,M}^dagger, whereas the present concept establishes deterministic
+  uniform-in-submodel l2 and l1 estimation error bounds and first-order Bahadur influence-function expansions
+  for the inverted submodel map beta_M(Sigma, Gamma) = [Sigma(M)]^{-1} Gamma(M) under k-sparse operator
+  norm RIP(k) and develops the dyadic martingale/blocking concentration theory (Theorem 12, Lemmas 1-4)
+  for dependence-adjusted sub-Weibull norms ||{W}||_{psi_alpha,nu}. Distinct from AIMech:GeneralizedBernsteinOrliczSubWeibullConcentrationAndHighDimensionalLasso
+  (Kuchibhotla & Chakrabortty 2022, arXiv:1804.02605v4), which studies independent observations via the
+  GBO norm ||.||_{Psi_{alpha,L}}, free-s RSC/RE optimization, and L1-penalized misspecified Lasso rather
+  than unregularized uniform-in-submodel Bahadur expansions and functional dependence time-series concentration.
+definition_evidence:
+- source_id: kuchibhotla2021-unif-submodel-pdf
+  locator: Sections 1-5, Pages 1-27, Theorems 1-12, Corollary 1, Appendices A-B, Pages 27-41
+  relation: supports
+- source_id: kuchibhotla2021-unif-submodel-abs
+  locator: arXiv:1802.05801v3 abstract
+  relation: supports
+claims:
+- claim_id: deterministic-uniform-in-submodel-l2-and-l1-consistency-bounds
+  kind: mechanism
+  statement: Sections 3.1-3.3 (pp. 8-13 and 15-16, Theorems 1-2, Remarks 3.1 and 3.4, Equations 11-17
+    and 23-24) define the general linear regression map beta_M(Sigma, Gamma) := [Sigma(M)]^{-1} Gamma(M)
+    over M in M(k) and prove purely deterministically that whenever RIP(k, Sigma_1 - Sigma_2) < Lambda(k;
+    Sigma_2), every M in M(k) satisfies ||beta_M(Sigma_1, Gamma_1) - beta_M(Sigma_2, Gamma_2)||_2 <= [D(k,
+    Gamma_1 - Gamma_2) + RIP(k, Sigma_1 - Sigma_2) ||beta_M(Sigma_2, Gamma_2)||_2] / [Lambda(k; Sigma_2)
+    - RIP(k, Sigma_1 - Sigma_2)] (Theorem 1, Equation 15), while Remark 3.1 proves the model-free population
+    moving-target bound S_{2,k}(Sigma_n, Gamma_n) := sup_{M in M(k)} ||beta_{n,M}||_2 <= (n^{-1} Lambda(k;
+    Sigma_n)^{-1} sum_{i=1}^n E[Y_i^2])^{1/2} (Equation 24) and Theorem 2 establishes the coordinatewise/L1
+    analogue under Infinity-norm Gram and cross-product errors.
+  evidence:
+  - source_id: kuchibhotla2021-unif-submodel-pdf
+    locator: Sections 3.1-3.3, Pages 8-13 and 15-16, Theorems 1-2, Remarks 3.1 and 3.4, Equations (11)-(17)
+      and (23)-(24)
+    relation: supports
+  - source_id: kuchibhotla2021-unif-submodel-abs
+    locator: arXiv:1802.05801v3 abstract
+    relation: supports
+- claim_id: deterministic-uniform-in-submodel-bahadur-linear-representation-and-sandwiching
+  kind: mechanism
+  statement: 'Section 3.2 (pp. 12-15, Theorems 3-4, Corollary 1, Remarks 3.2-3.3, Equations 18-22) proves
+    that for every M in M(k), the first-order Bahadur linear representation remainder satisfies ||beta_M(Sigma_1,
+    Gamma_1) - beta_M(Sigma_2, Gamma_2) - [Sigma_2(M)]^{-1}{Gamma_1(M) - Sigma_1(M) beta_M(Sigma_2, Gamma_2)}||_2
+    <= [RIP(k, Sigma_1 - Sigma_2) / Lambda(k; Sigma_2)] ||beta_M(Sigma_1, Gamma_1) - beta_M(Sigma_2, Gamma_2)||_2
+    (Theorem 3, Equation 19) with a matching lower bound C_*(k, Sigma_2) Lambda(k; Sigma_1 - Sigma_2)
+    ||beta_M(Sigma_1, Gamma_1) - beta_M(Sigma_2, Gamma_2)||_2 showing worst-case optimality (Remark 3.2),
+    and proves that whenever RIP(k, Sigma_1 - Sigma_2) <= Lambda(k; Sigma_2)/2, the estimation error is
+    sandwiched within a factor of 2 of the linear term: (1/2) ||beta_M(Sigma_1, Gamma_1) - beta_M(Sigma_2,
+    Gamma_2)||_2 <= ||[Sigma_2(M)]^{-1}{Gamma_1(M) - Sigma_1(M) beta_M(Sigma_2, Gamma_2)}||_2 <= (3/2)
+    ||beta_M(Sigma_1, Gamma_1) - beta_M(Sigma_2, Gamma_2)||_2 (Remark 3.3, Equation 22).'
+  evidence:
+  - source_id: kuchibhotla2021-unif-submodel-pdf
+    locator: Section 3.2, Pages 12-15, Theorems 3-4, Corollary 1, Remarks 3.2-3.3, Equations (18)-(22)
+    relation: supports
+- claim_id: epsilon-net-sparse-sphere-discretization-and-fixed-design-exact-linearity
+  kind: mechanism
+  statement: 'Section 4 and Appendix A (pp. 16-20 and 27-29, Theorems 5-6, Remarks 4.1-4.5, Equations
+    25-27) discretize the k-sparse unit sphere Theta_k := {theta in R^p : ||theta||_0 <= k, ||theta||_2
+    = 1} using an epsilon-net N(epsilon, Theta_k) of cardinality at most ((1 + epsilon^{-1}) e p / k)^k
+    (Equation 26) so that D(k, Gamma_hat_n - Gamma_n) <= (1 - epsilon)^{-1} max_{theta in N(epsilon, Theta_k)}
+    theta^T(Gamma_hat_n - Gamma_n) and RIP_n(k) <= (1 - 2 epsilon)^{-1} max_{theta in N(epsilon, Theta_k)}
+    |theta^T(Sigma_hat_n - Sigma_n)theta| (Equation 27), proving under marginal (MExp) or joint (JExp)
+    sub-Weibull(alpha) tails that sup_{M in M(k)} ||beta_hat_{n,M} - beta_{n,M}||_2 = O_p(sqrt(k log(ep/k)/n))
+    and the uniform Bahadur remainder is O_p(k log(ep/k)/n) (matching second-order degenerate U-statistics,
+    Remark 4.4), while under fixed covariates (Sigma_hat_n = Sigma_n) RIP_n(k) = 0 so the Bahadur remainder
+    is identically zero across all M in M(k) (Remark 4.3).'
+  evidence:
+  - source_id: kuchibhotla2021-unif-submodel-pdf
+    locator: Section 4 and Appendix A, Pages 16-20 and 27-29, Theorems 5-6, Remarks 4.1-4.5, Equations
+      (25)-(27)
+    relation: supports
+- claim_id: functional-dependence-adjusted-sub-weibull-concentration-for-time-series
+  kind: scope
+  statement: Section 5 and Appendix B (pp. 20-26 and 30-37, Theorems 7-12, Lemmas 1-4, Equations 28-45)
+    extend the uniform-in-submodel bounds to causal stationary and non-stationary time series W_i = G_i(...,
+    varepsilon_{i-1}, varepsilon_i) using Wu's (2005) physical functional dependence measure delta_{s,r,j}
+    = max_i ||W_i(j) - W_{i,s}(j)||_r, cumulative tail Delta_{m,r,j} = sum_{s=m}^infty delta_{s,r,j},
+    and dependence-adjusted sub-Weibull norm ||{W}||_{psi_alpha,nu} := sup_{r>=2} sup_{m>=0} r^{-1/alpha}(m+1)^nu
+    Delta_{m,r} (Equations 28-30). Via a dyadic martingale difference plus xi_ell-dependent blocking decomposition
+    and Rio's (2009) Burkholder inequality (Lemma 1, Equations 36-45), Theorem 12 proves part-Gaussian
+    tail bounds with effective tail exponent s(alpha) = (1/2 + 1/alpha)^{-1} and dependence factor Omega_n(nu)
+    = 1 (nu > 1/2), (log n)^{3/2} (nu = 1/2), or n^{1/2 - nu} (nu < 1/2) (Equation 31), while Lemmas 3-4
+    establish linear-combination and product persistence ||{W^{(1)} W^{(2)}}||_{psi_alpha, min(nu_1,nu_2)}
+    <= 2^{1+1/alpha} ||{W^{(1)}}||_{psi_{alpha_1},nu_1} ||{W^{(2)}}||_{psi_{alpha_2},nu_2} for 1/alpha
+    = 1/alpha_1 + 1/alpha_2.
+  evidence:
+  - source_id: kuchibhotla2021-unif-submodel-pdf
+    locator: Section 5 and Appendix B, Pages 20-26 and 30-37, Theorems 7-12, Lemmas 1-4, Equations (28)-(45)
+    relation: supports
+  - source_id: kuchibhotla2021-unif-submodel-abs
+    locator: arXiv:1802.05801v3 abstract
+    relation: supports
+evidence_sources:
+- source_id: kuchibhotla2021-unif-submodel-pdf
+  title: Uniform-in-Submodel Bounds for Linear Regression in a Model Free Framework
+  authors:
+  - Arun Kumar Kuchibhotla
+  - Lawrence D. Brown
+  - Andreas Buja
+  - Edward I. George
+  - Linda H. Zhao
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1802.05801
+  persistent_id: https://doi.org/10.48550/arXiv.1802.05801
+  version: arXiv:1802.05801v3 (2021). Complete 41-page full-text PDF (473519 bytes) read across Sections
+    1-5 and Appendices A-B.
+  access_level: full_text
+  accessed_at: '2026-10-18T11:55:00Z'
+  sha256: 9c5fdee6bbe4f85bdf03189e7e3d117235d38bbd6b51bca135eccaec8bc1ae4d
+- source_id: kuchibhotla2021-unif-submodel-abs
+  title: Uniform-in-Submodel Bounds for Linear Regression in a Model Free Framework (arXiv:1802.05801
+    Abstract)
+  authors:
+  - Arun Kumar Kuchibhotla
+  - Lawrence D. Brown
+  - Andreas Buja
+  - Edward I. George
+  - Linda H. Zhao
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1802.05801
+  persistent_id: https://doi.org/10.48550/arXiv.1802.05801
+  version: arXiv:1802.05801v3 abstract and metadata record (6389 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T11:54:00Z'
+  sha256: 6b632e53f4daf2cb078d0170c85aa4de1dd7ef8d50962a206844765105ef3726
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: AIO:LinearRegression represents linear regression broadly, whereas AIMech:UniformInSubmodelDeterministicLinearRegressionAndFunctionalDependenceBounds
+    formulates deterministic uniform-in-submodel consistency and Bahadur linear representation inequalities
+    for general regression maps beta_M(Sigma, Gamma) = [Sigma(M)]^{-1} Gamma(M) across M in M(k) and functional
+    dependence sub-Weibull concentration for time series.
+limitations:
+- 'Minimum k-Sparse Eigenvalue Condition RIP(k, Sigma_1 - Sigma_2) < Lambda(k; Sigma_2): Unlike the normal-equation
+  residual formulation in Kuchibhotla et al. (2020, arXiv:1806.04119v1), the deterministic uniform l2
+  and Bahadur bounds in Theorems 1 and 3 require positive k-sparse minimum eigenvalue Lambda(k; Sigma_2)
+  > 0 and RIP(k, Sigma_1 - Sigma_2) < Lambda(k; Sigma_2) to invert Sigma_1(M) and Sigma_2(M) across all
+  M in M(k).'
+- 'Effective Tail Exponent s(alpha) = (1/2 + 1/alpha)^{-1} < 2 and Slow-Decay Penalty Omega_n(nu) Under
+  Functional Dependence: In Theorem 12 (Equation 35), blocking dependent summands yields an effective
+  heavy-tail exponent s(alpha) = (1/2 + 1/alpha)^{-1} strictly smaller than min{alpha, 2}, and when the
+  functional dependence decay parameter satisfies nu < 1/2, the variance-like factor scales with Omega_n(nu)
+  = n^{1/2 - nu}, slowing the convergence rate below n^{-1/2}.'
+- 'Primary-Source Typographical Notes in arXiv:1802.05801v3: Verified five self-correcting typographical
+  slips in the primary manuscript: (1) Proof of Theorem 1 (p. 10, display 3) prints ''Lambda(k; Sigma_2)
+  - RIP(k; Sigma_2)'' in the denominator instead of ''Lambda(k; Sigma_2) - RIP(k, Sigma_1 - Sigma_2)'';
+  (2) Theorem 6 (p. 19) labels both parts ''(a)'' (''(a) under Assumption (MExp)'' and ''(a) under Assumption
+  (JExp)'') instead of ''(a)'' and ''(b)''; (3) Theorem 8 (p. 25, second display for RIP_n(k)) prints
+  ''Upsilon_{n,k}^Gamma'' under the square root instead of ''Upsilon_{n,k}^Sigma''; (4) Proof of Lemma
+  2(b) (p. 31, line 1) prints ''If beta > 1/2, then'' at the start of the third case where it should read
+  ''If beta < 1/2, then''; and (5) Theorem 12 (p. 31, Equation 35) and p. 36 (first display after Equation
+  45) print ''||{Z}||_{psi_alpha,nu}'' in the first (Gaussian) term instead of ''||{Z}||_{2,nu}'' (cf.
+  Equations 37 and 45), and Proof of Lemma 4 (p. 37, line 1) defines ''delta_{s,r}^{(j)} := ||W_i^{(1)}
+  - W_{i,s}^{(1)}||_r'' with superscript ''(1)'' instead of ''(j)''.'
+- All 41 pages of the full-text PDF of Kuchibhotla, Brown, Buja, George, & Zhao (2021, arXiv:1802.05801v3)
+  were read. Constructed numerical checks in research/discovery/uniform-in-submodel-deterministic-linear-regression-boundaries.py
+  verify (1) Theorem 1 deterministic uniform-in-submodel l2 bound and Equation (24) moving-target bound
+  across all 25 submodels, (2) Theorem 3 deterministic uniform Bahadur linear representation bound and
+  Remark 3.3 factor-of-2 sandwiching, (3) Remark 4.3 identically zero Bahadur remainder under fixed design
+  and Equation (26) sparse-sphere covering bound, and (4) Section 5 / Theorem 12 / Lemma 4 functional
+  dependence norms, effective exponent s(alpha), three Omega_n(nu) regimes, and product persistence.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-18T19:20:00Z'
+  updated_at: '2026-10-18T19:20:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
