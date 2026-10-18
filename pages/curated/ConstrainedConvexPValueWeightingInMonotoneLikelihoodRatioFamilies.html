@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Constrained convex p-value weighting in monotone likelihood ratio families (Princessp) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Constrained convex p-value weighting in monotone likelihood ratio families (Princessp)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Constrained convex p-value weighting in monotone likelihood ratio families (Princessp)</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:ConstrainedConvexPValueWeightingInMonotoneLikelihoodRatioFamilies</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Princessp, Prior-Informed Convexly Constrained Spjotvoll P-Value Weighting, Order- and Box-Constrained Convex P-Value Weighting, Monotone Likelihood Ratio Convex P-Value Weighting
+    </div>
+
+  <div class="detail-desc">
+    A convex-optimization p-value weighting methodology (Princessp: &#39;PRior-INformed, Convexly Constrained Spjotvoll&#39;) introduced by Edgar Dobriban (2018, Information and Inference: A Journal of the IMA 7(2):251-275, arXiv:1603.05334v2, DOI:10.1093/imaiai/iax013) for testing massive collections of J hypotheses H_{0,j}: theta_j = theta_{0,j} against H_{a,j}: theta_j = theta_{a,j} at per-test significance level q in (0, 1) using p-values P_j and prior weights w_j &gt;= 0 with J^{-1} sum_{j=1}^J w_j = 1 (controlling the family-wise error rate via weighted Bonferroni P_j &lt;= q w_j or the false discovery rate via weighted Benjamini-Hochberg). By re-parametrizing the power of the j-th test in terms of the p-value threshold u_j = q w_j as the receiver operating characteristic (ROC) function R_j(u_j) = F_{a,j}(F_{0,j}^{-1}(u_j)) rather than the non-concave critical-value parametrization c_j = F_{0,j}^{-1}(q w_j), Dobriban proves that R_j(u_j) is concave on [0, 1] whenever the test statistic comes from an absolutely continuous parametric family with monotone likelihood ratio (MLR) for one-sided tests (Proposition 2.1) or from a canonical exponential family for two-sided equal-tailed tests |T_j| &gt;= z(u_j/2) (Proposition 2.2), where unconstrained two-sided Gaussian weights take the closed form w_j^* = 2 q^{-1} Phi(-|mu_j|/2 - |mu_j|^{-1} arccosh(lambda exp(mu_j^2/2))) (Proposition 2.3). Because unconstrained Spjotvoll weights become non-monotone in |mu_j| when q exceeds a critical level (assigning less weight to the largest effect sizes; Propositions 3.1-3.2) and place zero weight on small prior effects, Princessp maximizes J^{-1} sum_{j=1}^J R_j(q w_j) subject to the convex constraint set C = {w in R^J : J^{-1} sum_{j=1}^J w_j = 1, l &lt;= w_j &lt;= u, w_1 &lt;= w_2 &lt;= ... &lt;= w_J} for hypotheses sorted by increasing |mu_j|, enforcing effect-size monotonicity and non-zero minimum weights l in (0, 1] via an O(J)-step interior-point Newton solver whose barrier Hessian + order-constraint KKT matrix reduces to a symmetric tridiagonal-plus-rank-1 system solved in O(J) time via the Sherman-Morrison formula combined with hybrid subsampling for large J.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      No normalized identity match for Constrained convex p-value weighting in monotone likelihood ratio families (Princessp) across all 442 pinned AIO records and 591 maintained IDs, names, aliases and scoped synonyms. Only frontier reference matches in Round 194-196 discovery artifacts were found. Distinct from AIMech:BayesOptimalPValueWeightingUnderGaussianPrior (Dobriban, Fortney, Kim, &amp; Owen 2015), which models uncertain Gaussian priors mu_i ~ N(eta_i, sigma_i^2) on one-sided Gaussian means and solves an unconstrained non-convex marginal power optimization via quadratic-root critical values and jump-discontinuity sorting, whereas Dobriban (2018) proves concavity of the ROC function R_j(q w_j) across general monotone likelihood ratio (MLR) families and two-sided exponential-family tests (Propositions 2.1-2.3), proves non-monotonicity of unconstrained Spjotvoll weights in |mu_j| for moderate q (Propositions 3.1-3.2), and formulates Princessp to maximize average ROC power under linear order constraints w_1 &lt;= ... &lt;= w_J and box bounds l &lt;= w_j &lt;= u via an O(J) tridiagonal-plus-rank-1 interior-point solver (Section 4.2); and distinct from AIMech:OptimalMultiWeightedStepUpProcedureForFDRControl (Roquain &amp; van de Wiel 2009) and AIMech:AdaptiveDataDrivenOptimalPValueWeighting (Durand 2019).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#roc-reparametrization-concavity-in-mlr-families</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Whereas the critical-value parametrization c_j -&gt; 1 - F_{a,j}(c_j) subject to J^{-1} sum_{j=1}^J (1 - F_{0,j}(c_j)) = q is non-convex (neither concave nor convex even in the Gaussian shift model), re-parametrizing power in terms of the per-test significance threshold u_j = q w_j via the receiver operating characteristic (ROC) function R_j(u_j) = 1 - F_{a,j}(F_{0,j}^{-1}(1 - u_j)) (for upper-tail tests) or F_{a,j}(F_{0,j}^{-1}(u_j)) (for lower-tail tests) yields a concave function on [0, 1] with derivative R_j&#39;(u_j) = f_{a,j}(F_{0,j}^{-1}(1 - u_j)) / f_{0,j}(F_{0,j}^{-1}(1 - u_j)) whenever the test statistic comes from an absolutely continuous parametric family {F_theta} with monotone likelihood ratio (MLR) and theta_{a,j} &gt; theta_{0,j} (Proposition 2.1, Section 6.1), reducing optimal p-value weighting under any convex constraint set C to a convex optimization problem.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dobriban2018-princessp-ar5iv">Weighted mining of massive collections of p-values by convex optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, lines 155–227, Proposition 2.1; Section 6.1, lines 682–711</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dobriban2018-princessp-crossref">Weighted mining of massive collections of P-values by convex optimization (Information and Inference Record)</a></span>
+        <span>· <strong>Locator:</strong> Information and Inference 7(2):251–275 publication record</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#two-sided-exponential-family-concavity-and-closed-form-gaussian-weights</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For two-sided tests rejecting H_{0,j}: theta_j = 0 in favor of theta_j != 0 when |T_j| &gt;= z(u_j/2) with F_0(z(u)) = 1 - u in a canonical one-parameter exponential family f_theta(t) = exp(theta t - A(theta)) f_0(t), the two-sided ROC function R_theta(u) = 1 - F_theta(z(u/2)) + F_theta(-z(u/2)) has derivative R_theta&#39;(u) = (1/2)[f_theta(z(u/2))/f_0(z(u/2)) + f_theta(-z(u/2))/f_0(-z(u/2))] = exp(-A(theta)) cosh(theta z(u/2)), which is non-increasing on [0, 1] because u -&gt; z(u/2) &gt;= 0 is decreasing and cosh(|theta| x) is increasing on [0, infinity), establishing concavity of R_theta(u) on [0, 1] (Proposition 2.2, Section 6.2); in particular, for the two-sided Gaussian model T_j ~ N(mu_j, 1) with mu_j != 0, whenever J^{-1} sum_{j=1}^J Phi(-|mu_j|/2) &gt;= q/2, the unconstrained Spjotvoll two-sided optimal weights are given in closed form by w_j^* = 2 q^{-1} Phi(-|mu_j|/2 - |mu_j|^{-1} arccosh(lambda exp(mu_j^2/2))), where lambda &gt; 1 is the unique root of J^{-1} sum_{j=1}^J w_j(lambda) = 1 (Proposition 2.3, Section 6.3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dobriban2018-princessp-ar5iv">Weighted mining of massive collections of p-values by convex optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, lines 228–285, Propositions 2.2 and 2.3; Section 6.2–6.3, lines 712–748</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dobriban2018-princessp-abs">Weighted mining of massive collections of p-values by convex optimization (arXiv:1603.05334 Abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract (convex optimization formulation for one-sided and two-sided tests)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#spjotvoll-non-monotonicity-at-moderate-significance-levels</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the Gaussian shift model with distinct non-zero prior effect sizes |mu_j|, there exists a critical significance threshold q_0 &gt; 0 such that the unconstrained Spjotvoll weight vector w^* is strictly increasing in |mu_j| (both one-sided for mu_j &lt; 0 and two-sided for mu_j != 0) for all q &lt;= q_0 (Proposition 3.1, Section 6.4), whereas for larger q &gt; q_0 when dual multiplier lambda &gt; 1, the weight function mu -&gt; w^*(mu) is unimodal on (-infinity, 0): it increases from 0 at mu = 0 to a peak at the negative root mu = -sqrt(2 log lambda) of mu^2/2 - log lambda = 0 (one-sided) or at the unique root mu = -sqrt(a^*) of a - 2 tanh(a/2 + acosh(lambda exp(a/2))) acosh(lambda exp(a/2)) = 0 (two-sided, Proposition 3.2, Section 6.5) and then decreases to Phi(0)/q = 1/(2q) as |mu| -&gt; infinity, paradoxically assigning smaller weights to the largest prior effects than to intermediate prior effects.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dobriban2018-princessp-ar5iv">Weighted mining of massive collections of p-values by convex optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1–3.2, lines 286–395, Propositions 3.1 and 3.2, Figures 1–2; Section 6.4–6.5, lines 749–830</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#princessp-order-and-box-constrained-tridiagonal-rank1-solver</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To eliminate both the non-monotonicity of unconstrained Spjotvoll weights at moderate q and the fragility of assigning zero weight to underestimated effects, Princessp (Section 3.1 &amp; Section 4.1–4.2) sorts hypotheses by |mu_1| &lt;= |mu_2| &lt;= ... &lt;= |mu_J| and maximizes J^{-1} sum_{j=1}^J R_j(q w_j) over the convex polytope C = {w in R^J : J^{-1} sum_{j=1}^J w_j = 1, l &lt;= w_j &lt;= u, w_1 &lt;= w_2 &lt;= ... &lt;= w_J} with lower bound l in (0, 1] and upper bound u &gt;= 1; in the log-barrier interior-point method minimizing t f_0(w) + sum_{k=1}^{J+1} phi_k(w) subject to 1^T w = J, the barrier Hessian H is symmetric tridiagonal (because each constraint w_k - w_{k+1} &lt;= 0 couples only adjacent indices), so the Newton KKT system [[H, 1], [1^T, 0]] [Delta w; nu] = [-g; 0] decomposes into two tridiagonal linear solves H x = -g and H y = 1 combined via the Sherman-Morrison formula nu = (1^T x)/(1^T y) and Delta w = x - nu y in O(J) arithmetic operations per Newton step (Section 4.2.1), while a hybrid subsampling and linear-interpolation scheme resolves numerical ill-conditioning from active equality clusters when J is large (Section 4.2.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dobriban2018-princessp-ar5iv">Weighted mining of massive collections of p-values by convex optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, lines 295–338; Section 4.1–4.2.2, lines 396–556; Section 5.1–5.2, lines 557–660</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Concavity of the receiver operating characteristic (ROC) objective R_j(q w_j) requires continuous test statistics with monotone likelihood ratio (Proposition 2.1) or canonical exponential-family structure for two-sided equal-tailed tests (Proposition 2.2); discrete test statistics produce piecewise-constant step-function ROC curves that are not concave (Section 2.1), and non-MLR heavy-tailed models such as the Cauchy shift family violate concavity (Section 2.1).</li>
+      <li>In the log-barrier interior-point solver (Section 4.2.1–4.2.2), adjacent weights that are equal at the constrained optimum (w_k^* = w_{k+1}^*) force the barrier Hessian entries (w_{k+1} - w_k)^{-2} -&gt; infinity as the barrier parameter t increases, causing numerical ill-conditioning for large J &gt; 10^3 that requires solving the convex program on a grid/subsample of size S ~ 500 and linearly interpolating the resulting monotone weight function (Section 4.2.2).</li>
+      <li>Princessp optimizes weights assuming point estimates mu_j of the prior effect sizes and requires user specification of the lower bound l in [0, 1] and upper bound u &gt;= 1 (typically l in {0.1, 0.25, 0.5}); when prior effect estimates have known heterogeneous standard errors sigma_j &gt; 0 in a Gaussian model without order constraints, analytical Bayes p-value weighting (Dobriban et al. 2015) directly integrates over the Gaussian prior uncertainty.</li>
+      <li>All 962 lines of Dobriban (2018, Information and Inference: A Journal of the IMA 7(2):251-275, arXiv:1603.05334v2, DOI:10.1093/imaiai/iax013) were read. Constructed numerical checks in research/discovery/constrained-convex-p-value-weighting-in-monotone-likelihood-ratio-families-boundaries.py verify (1) Proposition 2.1 ROC concavity in Gaussian shift and Exponential scale MLR families (gaussian_roc_strictly_concave = True, exp_mlr_strictly_concave = True) versus non-concavity of the critical-value parametrization (second derivative at c = -3 is +0.241971 &gt; 0) and discrete Bernoulli step ROC (bernoulli_step_roc_non_concave = True), (2) Propositions 2.2 &amp; 2.3 two-sided exponential-family concavity and exact closed-form two-sided Gaussian arccosh weights (lambda^* = 0.08047, budget error = 0.0, max KKT stationarity error = 9.71445146547012e-17), (3) Propositions 3.1 &amp; 3.2 small-q monotonicity at q = 4e-06 (monotone = True) versus moderate-q non-monotonicity at q = 0.001 where w^*(|mu|=3.5) = 1.16198 &lt; w^*(|mu|=2.2) = 2.375011 and Proposition 3.2 two-sided mode a^* = 230.464399 (root error = 2.6645352591003757e-15), and (4) Section 4.2 Princessp O(J) tridiagonal-plus-rank-1 Sherman-Morrison KKT solver (KKT residual = 4.6629367034256575e-15, order and box constraints satisfied = True / True, active-tie barrier curvature max H = 1.24e+10, and power on an underestimated true signal mu_true = -2.5 improved from 0.0 under Spjotvoll to 0.391248 under Princessp with l = 0.5).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DataDredgingBias.html" style="font-weight: 600;"><code>AIO:DataDredgingBias</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Data Dredging Bias</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Constrained convex p-value weighting (Princessp) allocates monotone, box-bounded per-hypothesis significance thresholds q w_j using prior effect-size estimates while strongly controlling frequentist family-wise error rate or false discovery rate to prevent multiplicity-induced false positives (AIO:DataDredgingBias).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-dobriban2018-princessp-ar5iv">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">dobriban2018-princessp-ar5iv</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1603.05334" target="_blank" rel="noopener">Weighted mining of massive collections of p-values by convex optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Edgar Dobriban
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1093/imaiai/iax013</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2cb5aec839dc…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-dobriban2018-princessp-crossref">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">dobriban2018-princessp-crossref</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1093/imaiai/iax013" target="_blank" rel="noopener">Weighted mining of massive collections of P-values by convex optimization (Information and Inference Record)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Edgar Dobriban
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1093/imaiai/iax013</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8c16d847b555…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-dobriban2018-princessp-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">dobriban2018-princessp-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1603.05334" target="_blank" rel="noopener">Weighted mining of massive collections of p-values by convex optimization (arXiv:1603.05334 Abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Edgar Dobriban
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1603.05334</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b43dd4a2f163…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini 3</div>    <div><strong>Created:</strong> 2026-10-17T15:15:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-17T15:15:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ConstrainedConvexPValueWeightingInMonotoneLikelihoodRatioFamilies.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ConstrainedConvexPValueWeightingInMonotoneLikelihoodRatioFamilies.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
