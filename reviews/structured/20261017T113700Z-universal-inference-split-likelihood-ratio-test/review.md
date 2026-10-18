@@ -1,0 +1,494 @@
+# Scientific author self-review of Universal inference split likelihood ratio test
+
+- Review: 20261017T113700Z-universal-inference-split-likelihood-ratio-test
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-17T11:35:00Z
+- Finished UTC: 2026-10-17T11:37:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Universal inference split likelihood ratio test as a distinct DRAFT mathematical_method with related DataDredgingBias mapping. All four claims and locators across Wasserman, Ramdas, &amp; Balakrishnan (2020), Vovk &amp; Wang (2021), and Wang &amp; Ramdas (2022) are supported with explicit regular-model conservatism, global null-MLE upper-bound, and single-split support-degeneracy limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained UniversalInferenceSplitLikelihoodRatioTest record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:UniversalInferenceSplitLikelihoodRatioTest
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base b065d33f57b6038fed82d8995c4f8fc0816a149d.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:UniversalInferenceSplitLikelihoodRatioTest | data/curated/UniversalInferenceSplitLikelihoodRatioTest.yaml | maintained | Universal inference split likelihood ratio test |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validation suite | passed | True | AIMech:UniversalInferenceSplitLikelihoodRatioTest | All AIMech schema, curated, seed, and history validations passed. |
+| just vendored-check | passed | True | AIMech:UniversalInferenceSplitLikelihoodRatioTest | Vendored CLAW review files match canonical checksums. |
+| aimech check-source | passed | True | AIMech:UniversalInferenceSplitLikelihoodRatioTest | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:UniversalInferenceSplitLikelihoodRatioTest | Exited 0 without output. |
+| Constructed Universal inference split likelihood ratio test boundaries | passed | True | AIMech:UniversalInferenceSplitLikelihoodRatioTest | {<br>  "section_3_multivariate_normal": {<br>    "alpha": 0.05,<br>    "approx_sq_radius_full_lrt": 2.760074,<br>    "asymptotic_leading_ratio": 4.0,<br>    "d": 500,<br>    "expected_sq_radius_split": 10.059915,<br>    "finite_d_ratio": 3.644799,<br>    "n_per_split": 100<br>  },<br>  "section_5_uniform_crossfit": {<br>    "alpha": 0.05,<br>    "crossfit_interval": [<br>      9.85,<br>      11.845114<br>    ],<br>    "crossfit_length": 1.995114,<br>    "n_per_split": 20,<br>    "pivotal_2n_interval": [<br>      9.85,<br>      10.616026<br>    ],<br>    "pivotal_2n_length": 0.766026,<br>    "split_interval_degenerate_infinite": true,<br>    "theta_hat_0": 9.85,<br>    "theta_hat_1": 9.6,<br>    "theta_true": 10.0<br>  },<br>  "section_6_powered_likelihood": {<br>    "eta": 0.5,<br>    "mu_0": 0.0,<br>    "mu_1": 1.2,<br>    "powered_expectation_analytical": 0.83527,<br>    "powered_expectation_quadrature": 0.83527,<br>    "renyi_divergence_d_eta": 0.36<br>  },<br>  "section_8_running_mle_sequential": {<br>    "anytime_p_bar_t": [<br>      1.0,<br>      1.0,<br>      1.0,<br>      1.0,<br>      1.0,<br>      1.0,<br>      1.0,<br>      1.0<br>    ],<br>    "l_t_oracle_martingale": [<br>      0.985112,<br>      0.932394,<br>      0.843665,<br>      0.843665,<br>      0.834227,<br>      0.834227,<br>      0.833185,<br>      0.821786<br>    ],<br>    "m_t_running_mle": [<br>      0.980199,<br>      0.904837,<br>      0.843665,<br>      0.839457,<br>      0.834227,<br>      0.827993,<br>      0.827846,<br>      0.821786<br>    ],<br>    "max_m_t_minus_l_t": 0.0<br>  },<br>  "theorems_1_and_3_validity": {<br>    "alpha": 0.05,<br>    "mean_un_split": 0.626315,<br>    "mean_wn_crossfit": 0.627306,<br>    "n_per_split": 10,<br>    "type1_error_crossfit": 0.0,<br>    "type1_error_split": 0.0,<br>    "un_exceeds_tn_violations": 0<br>  }<br>} |
+
+## Scientific And Domain Assessments
+
+### Universal Inference Split Likelihood Ratio Test versus EValueCalibrationAndMerging and EValueBenjaminiHochbergProcedure
+
+identity: supported. Targets: AIMech:UniversalInferenceSplitLikelihoodRatioTest.
+
+Retain Universal inference split likelihood ratio test as a distinct DRAFT mathematical_method.
+
+UniversalInferenceSplitLikelihoodRatioTest formalizes regularity-free finite-sample composite-null testing and confidence set construction via sample-split, crossfit, RIPR, and running-MLE likelihood ratio statistics, distinct from downstream e-value calibration/merging and e-BH multiple testing.
+
+### Mapping to AIO:DataDredgingBias
+
+grounding: supported. Targets: AIMech:UniversalInferenceSplitLikelihoodRatioTest.
+
+Related mapping to DataDredgingBias is supported.
+
+Running-MLE sequential likelihood ratio tests, anytime-valid p-values, and confidence sequences (Theorems 9-11) prevent false-positive inflation under peeking, optional stopping, and sequential model selection (AIO:DataDredgingBias).
+
+### finite-sample-validity-of-universal-confidence-sets-and-split-crossfit-lrt
+
+evidence: supported. Targets: AIMech:UniversalInferenceSplitLikelihoodRatioTest.
+
+Supported by Section 2 Theorems 1 &amp; 3 and Remarks 2 &amp; 4 of Wasserman et al. (2020).
+
+Verified pointwise dominance U_n &lt;= T_n(theta^*) (0 violations in 4,000 trials), E[U_n] = 0.626315 &lt;= 1, and E[W_n] = 0.627306 &lt;= 1.
+
+### dqm-parametric-and-hellinger-nonparametric-diameter-rates-and-gaussian-radius-scaling
+
+evidence: supported. Targets: AIMech:UniversalInferenceSplitLikelihoodRatioTest.
+
+Supported by Section 3 Theorems 5 &amp; 6, Equations 11-15, and Appendix A Lemmas 12-14.
+
+Verified exact leading-order squared-radius ratio 4.0 (and finite d=500, n=100 ratio 3.644799) between the universal confidence ball C_n and the full-sample LRT ball A_{2n}.
+
+### support-mismatch-degeneracy-elimination-via-crossfitting-and-multi-split-e-averaging
+
+evidence: supported. Targets: AIMech:UniversalInferenceSplitLikelihoodRatioTest.
+
+Supported by Section 4 ('Crossfitting can beat splitting: uniform distribution') and Section 5 ('Using many splits').
+
+Verified single-split degeneracy L_0(hat_theta_1) = 0 when hat_theta_1 = 9.60 &lt; hat_theta_0 = 9.85 on Uniform[0, 10] versus bounded crossfit interval [9.85, 11.845114].
+
+### profile-relaxed-powered-smoothed-ripr-extensions-and-running-mle-confidence-sequences
+
+evidence: supported. Targets: AIMech:UniversalInferenceSplitLikelihoodRatioTest.
+
+Supported by Sections 4, 6, 7 (Propositions 7-8), and 8 (Theorems 9-11) of Wasserman et al. (2020).
+
+Verified Renyi powered-likelihood integral exp(-(1-eta)D_eta) = 0.835270 and running-MLE pointwise martingale dominance M_t &lt;= L_t (max(M_t - L_t) = 0.0).
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:UniversalInferenceSplitLikelihoodRatioTest.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of UniversalInferenceSplitLikelihoodRatioTest.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, three full-text primary sources with exact SHA-256 digests, pinned AIO mapping and rationale, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261017T113500Z-universal-inference-split-likelihood-ratio-test.json | supports | No normalized identity match for Universal inference split likelihood ratio test across 442 pinned AIO records and 572 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected DataDredgingBias and BayesianNetwork in the pinned AIO snapshot (2026-07-22). DataDredgingBias provides optional-stopping, peeking, and sieve model-selection context via related_match. |
+| calculation | research/discovery/universal-inference-split-likelihood-ratio-test-boundaries.py | supports | Constructed analytical and numerical checks for Theorems 1 &amp; 3 split/crossfit LRT validity, Section 3 Gaussian squared-radius scaling, Section 5 Uniform[0, theta] crossfit vs. single-split degeneracy, Section 6 Renyi powered-likelihood integral, and Section 8 running-MLE martingale dominance. |
+| wasserman2020-universal-inference | https://ar5iv.labs.arxiv.org/html/1912.11436; Sections 2-8 (lines 25-324, Theorems 1, 3, 5, 6, 9, 10, 11, Propositions 7-8) and Appendix A (lines 937-1087, Lemmas 12-14) | supports | All 1,098 lines of the full-text ar5iv HTML conversion of arXiv:1912.11436 read. Checked Theorems 1, 3, 5, 6, 9, 10, 11, Propositions 7-8, and Appendix A Lemmas 12-14. |
+| vovk-wang2021-evalues | https://ar5iv.labs.arxiv.org/html/1912.06116; Section 1 (lines 18-25) and Section 3 (Proposition 3.1) | supports | All 1,288 lines of arXiv:1912.06116 read. Checked split likelihood ratio e-value and crossfit arithmetic-mean e-merging characterization. |
+| wang-ramdas2022-ebh | https://ar5iv.labs.arxiv.org/html/2009.02824; Section 1.2 (lines 62-78) | supports | All 1,242 lines of arXiv:2009.02824 read. Checked universal inference split likelihood ratio statistics as e-value generators for multiple testing. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Universal inference split likelihood ratio test record, yielding 573 native and 442 unchanged generated records.
+- All 1,098 lines of Wasserman, Ramdas, &amp; Balakrishnan (2020, arXiv:1912.11436) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261017T113700Z-universal-inference-split-likelihood-ratio-test
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Universal inference split likelihood ratio
+  test
+started_at: '2026-10-17T11:35:00Z'
+finished_at: '2026-10-17T11:37:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from EValueCalibrationAndMerging
+    and EValueBenjaminiHochbergProcedure, factor-of-4 squared-radius conservatism
+    in regular high-dimensional Gaussian models, global null-MLE optimization requirements
+    in nonconvex models, and single-split support-mismatch degeneracy on Uniform[0,
+    theta]. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Universal inference split likelihood ratio test as a distinct DRAFT
+  mathematical_method with related DataDredgingBias mapping. All four claims and locators
+  across Wasserman, Ramdas, & Balakrishnan (2020), Vovk & Wang (2021), and Wang &
+  Ramdas (2022) are supported with explicit regular-model conservatism, global null-MLE
+  upper-bound, and single-split support-degeneracy limitations.
+source:
+  git_revision: b065d33f57b6038fed82d8995c4f8fc0816a149d
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/DataDredgingBias.yaml
+    sha256: 335067e88f1462e141ac5f35e697cd42f7d250ec4dde9250531babe0d96cc1d0
+    role: context
+  - path: data/aio/EnsembleLearning.yaml
+    sha256: cf9435e5a799d84072222190c2d681c53b22bf9e7094891405008ebe398a39ed
+    role: context
+  - path: data/aio/EvaluationBias.yaml
+    sha256: 6523f8c43f7b140c6dd593069e30b7fc1bdd60b89d01bdf5441d2bc83a12e749
+    role: context
+  - path: data/curated/EValueBenjaminiHochbergProcedure.yaml
+    sha256: a9553e05b33722aab92042bef82fe67208d2ddb565f7133125bdb2cb79b27057
+    role: context
+  - path: data/curated/EValueCalibrationAndMerging.yaml
+    sha256: f5246f4bae50e562eaa72b28da34d9ab2100831ad5a4e148447754f4debd2107
+    role: context
+  - path: data/curated/ExactHarmonicMeanPValueTest.yaml
+    sha256: e37fe73ff6637f2951762fe4cceca81cd277e7f3d8dafaad63ca150e314a9793
+    role: context
+  - path: data/curated/GeneralizedMeanPValueMerging.yaml
+    sha256: 099a7959a7d93ae42c966e7ca9e54c90581ba3c54218810baead7bd017e58396
+    role: context
+  - path: data/curated/HalfCauchyCombinationTest.yaml
+    sha256: 16580963357781445af56264dcff8c16033282879c5e99819ce15a9445d5e95e
+    role: context
+  - path: data/curated/LeftTruncatedCauchyCombinationTest.yaml
+    sha256: 6f330e91bd1f1994411c626759aee135f6dc781c2b3107e2c9db78e26c5685f6
+    role: context
+  - path: data/curated/MultipleTestingNodeConflictDiagnostic.yaml
+    sha256: 1a21330e57dec49c7dd243afce713439382955663f979a1ec9df393d79798a0c
+    role: context
+  - path: data/curated/ProjectedHotellingT2DivideAndCombineConfidenceRegion.yaml
+    sha256: e90c5c9448b52371dbe720d48eebd14211970a06202b343e255f35248e7101f0
+    role: context
+  - path: data/curated/UniversalInferenceSplitLikelihoodRatioTest.yaml
+    sha256: f5e33b1cf0e7733ebbd66e466e65044fa2b6d418a03440714eb82cc7fbff5ebb
+    role: target
+  - path: research/discovery/20261017T113500Z-universal-inference-split-likelihood-ratio-test.json
+    sha256: 3d726abc98e2a89efad1eb61e32590c71e8879a563f7d35d9e6ce94752475be0
+    role: context
+  - path: research/discovery/universal-inference-split-likelihood-ratio-test-boundaries.py
+    sha256: 79549673f23da64fe3c839c1aa39066f7cb504a442fd84a21ad33c8053381ac6
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  path: data/curated/UniversalInferenceSplitLikelihoodRatioTest.yaml
+  label: Universal inference split likelihood ratio test
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/UniversalInferenceSplitLikelihoodRatioTest.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained UniversalInferenceSplitLikelihoodRatioTest
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:UniversalInferenceSplitLikelihoodRatioTest'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: required-0
+  name: aimech validation suite
+  command: aimech validate && aimech validate-curated && aimech seed --check && aimech
+    validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All AIMech schema, curated, seed, and history validations passed.
+- check_id: required-1
+  name: just vendored-check
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW review files match canonical checksums.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Universal inference split likelihood ratio test boundaries
+  command: python3 research/discovery/universal-inference-split-likelihood-ratio-test-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"section_3_multivariate_normal\": {\n    \"alpha\": 0.05,\n    \"\
+    approx_sq_radius_full_lrt\": 2.760074,\n    \"asymptotic_leading_ratio\": 4.0,\n\
+    \    \"d\": 500,\n    \"expected_sq_radius_split\": 10.059915,\n    \"finite_d_ratio\"\
+    : 3.644799,\n    \"n_per_split\": 100\n  },\n  \"section_5_uniform_crossfit\"\
+    : {\n    \"alpha\": 0.05,\n    \"crossfit_interval\": [\n      9.85,\n      11.845114\n\
+    \    ],\n    \"crossfit_length\": 1.995114,\n    \"n_per_split\": 20,\n    \"\
+    pivotal_2n_interval\": [\n      9.85,\n      10.616026\n    ],\n    \"pivotal_2n_length\"\
+    : 0.766026,\n    \"split_interval_degenerate_infinite\": true,\n    \"theta_hat_0\"\
+    : 9.85,\n    \"theta_hat_1\": 9.6,\n    \"theta_true\": 10.0\n  },\n  \"section_6_powered_likelihood\"\
+    : {\n    \"eta\": 0.5,\n    \"mu_0\": 0.0,\n    \"mu_1\": 1.2,\n    \"powered_expectation_analytical\"\
+    : 0.83527,\n    \"powered_expectation_quadrature\": 0.83527,\n    \"renyi_divergence_d_eta\"\
+    : 0.36\n  },\n  \"section_8_running_mle_sequential\": {\n    \"anytime_p_bar_t\"\
+    : [\n      1.0,\n      1.0,\n      1.0,\n      1.0,\n      1.0,\n      1.0,\n\
+    \      1.0,\n      1.0\n    ],\n    \"l_t_oracle_martingale\": [\n      0.985112,\n\
+    \      0.932394,\n      0.843665,\n      0.843665,\n      0.834227,\n      0.834227,\n\
+    \      0.833185,\n      0.821786\n    ],\n    \"m_t_running_mle\": [\n      0.980199,\n\
+    \      0.904837,\n      0.843665,\n      0.839457,\n      0.834227,\n      0.827993,\n\
+    \      0.827846,\n      0.821786\n    ],\n    \"max_m_t_minus_l_t\": 0.0\n  },\n\
+    \  \"theorems_1_and_3_validity\": {\n    \"alpha\": 0.05,\n    \"mean_un_split\"\
+    : 0.626315,\n    \"mean_wn_crossfit\": 0.627306,\n    \"n_per_split\": 10,\n \
+    \   \"type1_error_crossfit\": 0.0,\n    \"type1_error_split\": 0.0,\n    \"un_exceeds_tn_violations\"\
+    : 0\n  }\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261017T113500Z-universal-inference-split-likelihood-ratio-test.json
+  accessed_at: '2026-10-17T11:35:00Z'
+  support: supports
+  summary: No normalized identity match for Universal inference split likelihood ratio
+    test across 442 pinned AIO records and 572 maintained IDs, names, aliases and
+    scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-17T11:35:00Z'
+  support: supports
+  summary: Inspected DataDredgingBias and BayesianNetwork in the pinned AIO snapshot
+    (2026-07-22). DataDredgingBias provides optional-stopping, peeking, and sieve
+    model-selection context via related_match.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/universal-inference-split-likelihood-ratio-test-boundaries.py
+  accessed_at: '2026-10-17T11:35:00Z'
+  snapshot_sha256: 79549673f23da64fe3c839c1aa39066f7cb504a442fd84a21ad33c8053381ac6
+  support: supports
+  summary: Constructed analytical and numerical checks for Theorems 1 & 3 split/crossfit
+    LRT validity, Section 3 Gaussian squared-radius scaling, Section 5 Uniform[0,
+    theta] crossfit vs. single-split degeneracy, Section 6 Renyi powered-likelihood
+    integral, and Section 8 running-MLE martingale dominance.
+- evidence_id: wasserman2020-universal-inference
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/1912.11436
+  locator: Sections 2-8 (lines 25-324, Theorems 1, 3, 5, 6, 9, 10, 11, Propositions
+    7-8) and Appendix A (lines 937-1087, Lemmas 12-14)
+  accessed_at: '2026-10-17T11:35:00Z'
+  snapshot_sha256: 8788c234c31afd9bdb1614119555440c6c3855125c481ee2320e671b5fa1b5ba
+  support: supports
+  summary: All 1,098 lines of the full-text ar5iv HTML conversion of arXiv:1912.11436
+    read. Checked Theorems 1, 3, 5, 6, 9, 10, 11, Propositions 7-8, and Appendix A
+    Lemmas 12-14.
+- evidence_id: vovk-wang2021-evalues
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/1912.06116
+  locator: Section 1 (lines 18-25) and Section 3 (Proposition 3.1)
+  accessed_at: '2026-10-17T11:05:00Z'
+  snapshot_sha256: 9ca237ebcb8210baf90d91a42ec337bc99f9adf64612f606376e46a241184eda
+  support: supports
+  summary: All 1,288 lines of arXiv:1912.06116 read. Checked split likelihood ratio
+    e-value and crossfit arithmetic-mean e-merging characterization.
+- evidence_id: wang-ramdas2022-ebh
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/2009.02824
+  locator: Section 1.2 (lines 62-78)
+  accessed_at: '2026-10-17T11:20:00Z'
+  snapshot_sha256: 26bd39717641ca16a7b1bbfc1d1e962853428ad3fbcbf6a82687bfa6536e901c
+  support: supports
+  summary: All 1,242 lines of arXiv:2009.02824 read. Checked universal inference split
+    likelihood ratio statistics as e-value generators for multiple testing.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Universal Inference Split Likelihood Ratio Test versus EValueCalibrationAndMerging
+    and EValueBenjaminiHochbergProcedure
+  outcome: supported
+  target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  evidence_ids:
+  - identity
+  - wasserman2020-universal-inference
+  - vovk-wang2021-evalues
+  summary: Retain Universal inference split likelihood ratio test as a distinct DRAFT
+    mathematical_method.
+  details: UniversalInferenceSplitLikelihoodRatioTest formalizes regularity-free finite-sample
+    composite-null testing and confidence set construction via sample-split, crossfit,
+    RIPR, and running-MLE likelihood ratio statistics, distinct from downstream e-value
+    calibration/merging and e-BH multiple testing.
+- assessment_id: mapping
+  area: grounding
+  topic: Mapping to AIO:DataDredgingBias
+  outcome: supported
+  target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  evidence_ids:
+  - mapping
+  - wasserman2020-universal-inference
+  summary: Related mapping to DataDredgingBias is supported.
+  details: Running-MLE sequential likelihood ratio tests, anytime-valid p-values,
+    and confidence sequences (Theorems 9-11) prevent false-positive inflation under
+    peeking, optional stopping, and sequential model selection (AIO:DataDredgingBias).
+- assessment_id: finite-sample-validity-of-universal-confidence-sets-and-split-crossfit-lrt
+  area: evidence
+  topic: finite-sample-validity-of-universal-confidence-sets-and-split-crossfit-lrt
+  outcome: supported
+  target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  evidence_ids:
+  - wasserman2020-universal-inference
+  - vovk-wang2021-evalues
+  - calculation
+  summary: Supported by Section 2 Theorems 1 & 3 and Remarks 2 & 4 of Wasserman et
+    al. (2020).
+  details: Verified pointwise dominance U_n <= T_n(theta^*) (0 violations in 4,000
+    trials), E[U_n] = 0.626315 <= 1, and E[W_n] = 0.627306 <= 1.
+- assessment_id: dqm-parametric-and-hellinger-nonparametric-diameter-rates-and-gaussian-radius-scaling
+  area: evidence
+  topic: dqm-parametric-and-hellinger-nonparametric-diameter-rates-and-gaussian-radius-scaling
+  outcome: supported
+  target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  evidence_ids:
+  - wasserman2020-universal-inference
+  - calculation
+  summary: Supported by Section 3 Theorems 5 & 6, Equations 11-15, and Appendix A
+    Lemmas 12-14.
+  details: Verified exact leading-order squared-radius ratio 4.0 (and finite d=500,
+    n=100 ratio 3.644799) between the universal confidence ball C_n and the full-sample
+    LRT ball A_{2n}.
+- assessment_id: support-mismatch-degeneracy-elimination-via-crossfitting-and-multi-split-e-averaging
+  area: evidence
+  topic: support-mismatch-degeneracy-elimination-via-crossfitting-and-multi-split-e-averaging
+  outcome: supported
+  target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  evidence_ids:
+  - wasserman2020-universal-inference
+  - calculation
+  summary: 'Supported by Section 4 (''Crossfitting can beat splitting: uniform distribution'')
+    and Section 5 (''Using many splits'').'
+  details: Verified single-split degeneracy L_0(hat_theta_1) = 0 when hat_theta_1
+    = 9.60 < hat_theta_0 = 9.85 on Uniform[0, 10] versus bounded crossfit interval
+    [9.85, 11.845114].
+- assessment_id: profile-relaxed-powered-smoothed-ripr-extensions-and-running-mle-confidence-sequences
+  area: evidence
+  topic: profile-relaxed-powered-smoothed-ripr-extensions-and-running-mle-confidence-sequences
+  outcome: supported
+  target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  evidence_ids:
+  - wasserman2020-universal-inference
+  - wang-ramdas2022-ebh
+  - calculation
+  summary: Supported by Sections 4, 6, 7 (Propositions 7-8), and 8 (Theorems 9-11)
+    of Wasserman et al. (2020).
+  details: Verified Renyi powered-likelihood integral exp(-(1-eta)D_eta) = 0.835270
+    and running-MLE pointwise martingale dominance M_t <= L_t (max(M_t - L_t) = 0.0).
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:UniversalInferenceSplitLikelihoodRatioTest
+  evidence_ids:
+  - identity
+  - mapping
+  - wasserman2020-universal-inference
+  - vovk-wang2021-evalues
+  - wang-ramdas2022-ebh
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of UniversalInferenceSplitLikelihoodRatioTest.yaml: stable
+    ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, four claims and locators, three full-text primary sources with
+    exact SHA-256 digests, pinned AIO mapping and rationale, four scoped limitations,
+    and UTC curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Universal inference split likelihood ratio test record, yielding
+  573 native and 442 unchanged generated records.
+- All 1,098 lines of Wasserman, Ramdas, & Balakrishnan (2020, arXiv:1912.11436) were
+  read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- hypothesis-testing
+- universal-inference
+- e-values
+- confidence-sequences
+- self-review
+- discovery-ongoing
+```

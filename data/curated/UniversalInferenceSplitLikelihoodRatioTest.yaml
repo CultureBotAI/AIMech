@@ -1,0 +1,202 @@
+id: AIMech:UniversalInferenceSplitLikelihoodRatioTest
+name: Universal inference split likelihood ratio test
+aliases:
+- Split Likelihood Ratio Test
+- Split LRT
+- Crossfit Likelihood Ratio Test
+- Universal Confidence Set via Split Likelihood Ratio Statistic
+- Running-MLE Sequential Likelihood Ratio Test
+concept_kind: mathematical_method
+definition: 'A regularity-free, finite-sample statistical hypothesis testing and confidence set construction
+  framework (Wasserman, Ramdas, & Balakrishnan 2020) that partitions an observed sample into disjoint
+  subsets D_0 and D_1, forms any out-of-sample alternative estimator or density hat_theta_1 on D_1 and
+  the constrained null maximum likelihood estimator hat_theta_0 = argmax_{theta in Theta_0} L_0(theta)
+  (or a proper upper-bounding relaxation F_0 >= L_0) on D_0, and rejects the composite null hypothesis
+  H_0: theta^* in Theta_0 at level alpha in (0, 1) when the split likelihood ratio e-value U_n = L_0(hat_theta_1)
+  / L_0(hat_theta_0) (or its two-fold crossfit average W_n = (U_n + U_n^swap)/2 or B-split subsampling
+  average) exceeds 1/alpha, guaranteeing non-asymptotic Type I error at most alpha (Theorem 3) and (1
+  - alpha) coverage for the universal confidence set C_n = {theta in Theta : T_n(theta) <= 1/alpha} where
+  T_n(theta) = L_0(hat_theta_1) / L_0(theta) (Theorem 1) via Markov''s inequality without differentiability
+  in quadratic mean or asymptotic chi-squared approximations.'
+identity_notes: No normalized identity match for Universal inference split likelihood ratio test across
+  all 442 pinned AIO records and 572 maintained IDs, names, aliases and scoped synonyms. Fixed-string
+  searches across data, sources, research, history, and reviews returned only lines in Round 177 discovery
+  artifacts where Wasserman, Ramdas, & Balakrishnan (2020, arXiv:1912.11436) was queued as a pending frontier
+  lead. Distinct from AIMech:EValueCalibrationAndMerging (Vovk & Wang 2021) and AIMech:EValueBenjaminiHochbergProcedure
+  (Wang & Ramdas 2022), which combine or threshold pre-existing e-values across multiple hypotheses rather
+  than constructing finite-sample composite-null e-values, confidence sets, and running-MLE confidence
+  sequences for irregular statistical models via sample splitting, crossfitting, reversed information
+  projections, and non-anticipating martingales.
+definition_evidence:
+- source_id: wasserman2020-universal-inference
+  locator: Section 2, lines 25–63, Equations 3–10, Theorem 1, Remark 2, Theorem 3, and Remark 4; Section
+    5, lines 200–221
+  relation: supports
+- source_id: vovk-wang2021-evalues
+  locator: Section 1, lines 18–25 and Section 3, Proposition 3.1 (split likelihood ratio statistics as
+    e-values and crossfit LRT as arithmetic-mean e-merging)
+  relation: supports
+claims:
+- claim_id: finite-sample-validity-of-universal-confidence-sets-and-split-crossfit-lrt
+  kind: mechanism
+  statement: 'Given an i.i.d. sample Y_1, ..., Y_{2n} ~ P_{theta^*} partitioned into disjoint subsets
+    D_0 and D_1, let hat_theta_1 in Theta be any estimator computed solely from D_1 and L_0(theta) = prod_{i
+    in D_0} p_theta(Y_i) be the out-of-sample likelihood on D_0; conditioning on D_1 fixes hat_theta_1
+    so that E_{theta^*}[T_n(theta^*) | D_1] = int_A prod_{i in D_0} p_{hat_theta_1}(y_i) d mu(y_i) <=
+    1 for T_n(theta) = L_0(hat_theta_1) / L_0(theta), which by Markov''s inequality guarantees P_{theta^*}(theta^*
+    in C_n) >= 1 - alpha for C_n = {theta in Theta : T_n(theta) <= 1/alpha} and its crossfit counterpart
+    using S_n(theta) = (T_n(theta) + T_n^swap(theta))/2 (Theorem 1, Remark 2); for composite null testing
+    H_0: theta^* in Theta_0, the null MLE hat_theta_0 = argmax_{theta in Theta_0} L_0(theta) satisfies
+    L_0(hat_theta_0) >= L_0(theta^*), so U_n = L_0(hat_theta_1) / L_0(hat_theta_0) <= T_n(theta^*) has
+    E_{theta^*}[U_n] <= 1 and E_{theta^*}[W_n] <= 1 for W_n = (U_n + U_n^swap)/2, controlling finite-sample
+    Type I error at level alpha without regularity conditions (Theorem 3, Remark 4).'
+  evidence:
+  - source_id: wasserman2020-universal-inference
+    locator: Section 2, lines 25–74, Equations 3–10, Theorem 1, Remark 2, Theorem 3, and Remark 4
+    relation: supports
+  - source_id: vovk-wang2021-evalues
+    locator: Section 1, lines 18–25 and Section 3, Proposition 3.1
+    relation: supports
+- claim_id: dqm-parametric-and-hellinger-nonparametric-diameter-rates-and-gaussian-radius-scaling
+  kind: mechanism
+  statement: In identifiable parametric models differentiable in quadratic mean (DQM) at theta^* with
+    non-degenerate Fisher information I(theta^*), compact parameter space Theta subset R^d, and Lipschitz
+    log-likelihood |log p_{theta_1}(x) - log p_{theta_2}(x)| <= ell(x) ||theta_1 - theta_2||, any sqrt(n)-consistent
+    initial estimator hat_theta_1 yields a split-LRT confidence set C_n with diameter O_p(sqrt(log(1/alpha)/n))
+    (Theorem 5, Appendix A Lemmas 12–14); in nonparametric density classes P with Hellinger bracketing
+    entropy integral bounded at rate epsilon_n (Eq. 11) and initial estimator hat_p_1 satisfying chi^2(p^*,
+    hat_p_1) = O_p(eta_n^2) (Eq. 12), C_n has Hellinger diameter O_p(eta_n + epsilon_n + sqrt(log(1/alpha)/n))
+    (Theorem 6); and in the d-dimensional Gaussian model N_d(theta^*, I_d), C_n is a ball centered at
+    Y_bar_0 with squared radius R_n^2 = ||Y_bar_0 - Y_bar_1||^2 + 2 log(1/alpha)/n ~ (2/n) chi^2_d + 2
+    log(1/alpha)/n (Eqs. 14–15), sharing the O_p(d/n) scaling of the classical LRT set A_n with asymptotic
+    squared-radius ratio 4 as d -> infinity.
+  evidence:
+  - source_id: wasserman2020-universal-inference
+    locator: Section 3, lines 75–151, Theorems 5 and 6, Equations 11–15; Appendix A, lines 937–1087, Lemmas
+      12–14
+    relation: supports
+- claim_id: support-mismatch-degeneracy-elimination-via-crossfitting-and-multi-split-e-averaging
+  kind: mechanism
+  statement: For distributions with parameter-dependent support such as Uniform[0, theta] where hat_theta_1
+    = max_{i in D_1} Y_i and hat_theta_0 = max_{i in D_0} Y_i, the single-split likelihood L_0(hat_theta_1)
+    = hat_theta_1^(-n) I(hat_theta_1 >= hat_theta_0) equals zero whenever hat_theta_1 < hat_theta_0 (which
+    occurs with probability 1/2), causing C_n to degenerate to [0, infinity); in contrast, two-fold crossfitting
+    S_n(theta) = (T_n(theta) + T_n^swap(theta))/2 ensures that exactly one of the two split statistics
+    is nonzero for theta >= max(hat_theta_0, hat_theta_1), producing the rate-optimal bounded confidence
+    interval [min(hat_theta_0, hat_theta_1), max(hat_theta_0, hat_theta_1)(2/alpha)^(1/n)] (or [max(hat_theta_0,
+    hat_theta_1), max(hat_theta_0, hat_theta_1)(2/alpha)^(1/n)] after support intersection) of expected
+    length O(theta log(1/alpha)/n) (Section 4), while averaging B split statistics T_bar_n = B^(-1) sum_{b=1}^B
+    T_{n,b} across K-fold, repeated random subsampling, or all-splits partitions preserves E_{theta^*}[T_bar_n]
+    <= 1 under arbitrary dependence between splits (Section 5).
+  evidence:
+  - source_id: wasserman2020-universal-inference
+    locator: 'Section 4, lines 196–199 (''Crossfitting can beat splitting: uniform distribution'') and
+      Section 5, lines 200–221 (''Using many splits'')'
+    relation: supports
+- claim_id: profile-relaxed-powered-smoothed-ripr-extensions-and-running-mle-confidence-sequences
+  kind: application
+  statement: Universal inference extends to nuisance parameters via profile likelihoods L^dagger(psi)
+    = sup_{theta in g^(-1)(psi)} L_0(theta), intractable nonconvex null MLEs via any proper upper bound
+    F_0(theta) >= L_0(theta) on Theta_0 yielding T'_n = L_0(hat_theta_1)/F_0(hat_theta_0^F) <= T_n, robust
+    inference via powered likelihoods L_0^eta (0 < eta < 1) via non-negativity of order-eta Renyi divergence,
+    kernel-smoothed likelihoods via Jensen's inequality (Section 6), misspecified convex model classes
+    via the reversed information projection (RIPR) p^* = argmin_{p in P_Theta} K(q, p) and the more powerful
+    RIPR split LRT R_n = prod_{i in D_0} p_{hat_theta_1}(Y_i)/p_0^*(Y_i) >= U_n (Section 7, Propositions
+    7–8), nested sieve model selection without multiplicity correction (Section 4), and sequential anytime-valid
+    p-values p_bar_t = min_{s <= t} 1/M_s and confidence sequences C_bar_t = cap_{s <= t} C_s via the
+    running-MLE process M_t = prod_{i=1}^t p_{hat_theta_{1,i-1}}(Y_i) / prod_{i=1}^t p_{hat_theta_{0,t}}(Y_i)
+    <= L_t bounded by the oracle nonnegative martingale L_t and Ville's inequality (Section 8, Theorems
+    9–11).
+  evidence:
+  - source_id: wasserman2020-universal-inference
+    locator: Section 4, lines 152–195; Section 6, lines 222–252; Section 7, lines 253–278, Propositions
+      7–8; Section 8, lines 279–324, Equations 18 and Theorems 9–11
+    relation: supports
+  - source_id: wang-ramdas2022-ebh
+    locator: Section 1.2, lines 62–78 (split likelihood ratio statistics as universal inference e-values
+      for multiple testing)
+    relation: supports
+evidence_sources:
+- source_id: wasserman2020-universal-inference
+  title: Universal inference
+  authors:
+  - Larry Wasserman
+  - Aaditya Ramdas
+  - Sivaraman Balakrishnan
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1912.11436
+  persistent_id: https://doi.org/10.1073/pnas.1922664117
+  version: arXiv:1912.11436 (published in Proceedings of the National Academy of Sciences 117(29):16880–16890,
+    2020). Complete full-text ar5iv HTML conversion read across Sections 1–9 and Appendix A (1,098 lines,
+    90,405 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T11:35:00Z'
+  sha256: 8788c234c31afd9bdb1614119555440c6c3855125c481ee2320e671b5fa1b5ba
+- source_id: vovk-wang2021-evalues
+  title: 'E-values: Calibration, combination, and applications'
+  authors:
+  - Vladimir Vovk
+  - Ruodu Wang
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1912.06116
+  persistent_id: https://doi.org/10.1214/20-AOS2020
+  version: arXiv:1912.06116 (published in The Annals of Statistics 49(3):1736–1754, 2021). Complete full-text
+    ar5iv HTML conversion read across Sections 1–8 and Appendices A–I (1,288 lines, 143,447 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T11:05:00Z'
+  sha256: 9ca237ebcb8210baf90d91a42ec337bc99f9adf64612f606376e46a241184eda
+- source_id: wang-ramdas2022-ebh
+  title: False discovery rate control with e-values
+  authors:
+  - Ruodu Wang
+  - Aaditya Ramdas
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2009.02824
+  persistent_id: https://doi.org/10.1111/rssb.12489
+  version: 'arXiv:2009.02824 (published in Journal of the Royal Statistical Society: Series B (Statistical
+    Methodology) 84(3):822–852, 2022). Complete full-text ar5iv HTML conversion read across Sections 1–9
+    and Appendices A–C (1,242 lines, 147,938 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-17T11:20:00Z'
+  sha256: 26bd39717641ca16a7b1bbfc1d1e962853428ad3fbcbf6a82687bfa6536e901c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Universal inference running-MLE sequential likelihood ratio tests, anytime-valid p-values
+    (Theorem 10), and universal confidence sequences (Theorem 11) guarantee valid finite-sample Type I
+    error and coverage under continuous peeking, optional stopping, optional continuation, and sequential
+    sieve model selection without false-positive inflation from data dredging (AIO:DataDredgingBias).
+    AIO:DataDredgingBias denotes the selective-inference bias rather than the universal inference statistical
+    methodology.
+limitations:
+- In regular parametric models where classical Wilks chi-squared asymptotics hold, universal inference
+  is conservative due to sample splitting and Markov's inequality ('poor man's Chernoff bound' with exponent
+  a = 1); in the d-dimensional Gaussian location model N_d(theta, I_d), the squared radius of the universal
+  confidence ball C_n on 2n observations is approximately 4 times larger than that of the classical full-sample
+  LRT confidence ball A_{2n} for large d (Section 2 and Section 3 Equations 13–15).
+- Finite-sample validity of the split LRT (Theorem 3) and running-MLE sequential LRT (Theorem 9) requires
+  that the denominator L_0(hat_theta_0) upper bound the true null likelihood L_0(theta^*); when the null
+  likelihood is nonconvex (e.g., multi-component mixture models under H_0) and local optimizers such as
+  EM fail to reach the global maximum, Type I error control is not guaranteed unless a certified convex
+  or semidefinite upper bound F_0(theta) >= L_0(theta) is used (Section 4 and Section 6).
+- Single-split universal inference suffers from algorithmic split randomness ('p-value lottery') and can
+  degenerate to [0, infinity) with probability 1/2 when model densities have parameter-dependent support
+  such as Uniform[0, theta], while the sequential running-MLE LRT requires recomputing hat_theta_{1,t-1}
+  and hat_theta_{0,t} at each step t with O(t) denominator evaluation cost even in exponential families
+  (Section 4, Section 5, and Section 8).
+- All 1,098 lines of Wasserman, Ramdas, & Balakrishnan (2020, arXiv:1912.11436) were read. Constructed
+  numerical checks in research/discovery/universal-inference-split-likelihood-ratio-test-boundaries.py
+  verify Theorems 1 & 3 composite-null validity, Section 3 Gaussian squared-radius ratio 4.0, Section
+  5 Uniform[0, theta] crossfit interval vs. single-split degeneracy, Section 6 powered likelihood Renyi
+  divergence identity, and Section 8 running-MLE martingale dominance M_t <= L_t.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T11:35:00Z'
+  updated_at: '2026-10-17T11:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
