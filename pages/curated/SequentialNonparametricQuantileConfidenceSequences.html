@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sequential nonparametric quantile confidence sequences · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Sequential nonparametric quantile confidence sequences</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Sequential nonparametric quantile confidence sequences</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:SequentialNonparametricQuantileConfidenceSequences</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Anytime-Valid Nonparametric Quantile Confidence Sequences, Time-Uniform Empirical Distribution Function and Quantile Bands, Double-Stitched Log-Odds Quantile-Uniform Confidence Sequences, Quantile Lower-Upper Confidence Bound (QLUCB) Best-Arm Identification, Two-Sample Sequential Nonparametric Quantile Test
+    </div>
+
+  <div class="detail-desc">
+    A distribution-free, nonasymptotic sequential estimation and hypothesis testing framework (Howard &amp; Ramdas 2022) for arbitrary fixed quantiles [Q(p), Q^+(p)] and simultaneously across all quantiles p in (0, 1) (and equivalently the empirical distribution function F_hat_t(x) uniformly over x in R and time t in N) of independent and identically distributed observations X_1, X_2, ... from any distribution F without moment, continuity, or density assumptions, constructing order-statistic confidence sequences [Q_hat_t^-(p - u_t(p)), Q_hat_t(p + u_t(p))] with P(forall t in N, forall p in I : Q_hat_t^-(p - u_t(p)) &lt;= Q(p) &lt;= Q^+(p) &lt;= Q_hat_t(p + u_t(p))) &gt;= 1 - alpha via exact Galois inversion of upper and lower empirical CDFs (F_hat_t, F_hat_t^-) and empirical quantiles (Q_hat_t, Q_hat_t^-) coupled with sub-Bernoulli/sub-gamma polynomial stitching (Theorem 1a), beta-binomial conjugate mixtures (Theorem 1b), time-uniform empirical-process finite-LIL/DKW chaining (Theorems 2 and 4), and double-stitched log-odds quantile grids (Theorem 5), with direct extensions to two-sample sequential quantile tests (Theorem 6) and quantile best-arm identification via QLUCB (Theorem 3).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      No normalized identity match for Sequential nonparametric quantile confidence sequences across all 442 pinned AIO records and 576 maintained IDs, names, aliases and scoped synonyms. Fixed-string searches across data, sources, research, history, and reviews returned only lines in Round 180 and Round 181 discovery artifacts where Howard &amp; Ramdas (2022, arXiv:1906.09712) was cited and queued as a pending frontier lead. Distinct from AIMech:SubPsiUniformBoundaryConfidenceSequences (Howard, Ramdas, McAuliffe, &amp; Sekhon 2021), which bounds scalar or matrix martingale sums S_t over intrinsic variance time V_t, whereas SequentialNonparametricQuantileConfidenceSequences maps probability-scale boundaries into state-space order statistics via exact Galois inversions for upper/lower quantiles [Q(p), Q^+(p)] with point-mass randomization martingales S_t(p), constructs time- and quantile-uniform empirical process finite-LIL bands via stratified dyadic chaining (Theorems 2 and 4) and double-stitched log-odds grids (Theorem 5, Lemma 10), and introduces the two-sample sequential quantile product supermartingale test (Theorem 6) and QLUCB quantile bandit algorithm (Theorem 3).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#galois-order-statistic-inversion-and-point-mass-quantile-martingale</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any real sample X_1, ..., X_t with order statistics X_{(1)} &lt;= ... &lt;= X_{(t)}, the empirical CDFs F_hat_t(x) = t^{-1} sum_{i=1}^t 1(X_i &lt;= x) and F_hat_t^-(x) = t^{-1} sum_{i=1}^t 1(X_i &lt; x) and empirical quantile functions Q_hat_t(p) = X_{(lfloor t p rfloor + 1)} and Q_hat_t^-(p) = X_{(lceil t p rceil)} satisfy the exact Galois equivalences F_hat_t^-(x) &lt;= p iff x &lt;= Q_hat_t(p) and F_hat_t(x) &gt;= p iff Q_hat_t^-(p) &lt;= x for all x in R and p in (0, 1) even in the presence of arbitrary ties or point masses (Section 7.1, Equation 35), and when P(X = Q(p)) &gt; 0, the linearly interpolated process S_t(p) = t[(1 - gamma_p) F_hat_t^-(Q(p)) + gamma_p F_hat_t(Q(p)) - p] with gamma_p = (p - F^-(Q(p))) / (F(Q(p)) - F^-(Q(p))) is an exact zero-mean random walk with increments in [-p, 1 - p] whose CGF is bounded by the 1-sub-Bernoulli function psi_B(lambda) &lt;= psi_{G,c_p}(lambda) with scale c_p = (1 - 2p)/3 and variance process V_t = p(1 - p)t while bounding t(F_hat_t^-(Q^+(p)) - p) &lt;= S_t(p) &lt;= t(F_hat_t(Q(p)) - p) almost surely.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-howard-ramdas2022-quantile-cs">Sequential estimation of quantiles with applications to A/B testing and best-arm identification</a></span>
+        <span>· <strong>Locator:</strong> Section 2, lines 125–160, Equations 1–5; Section 7.1, lines 621–676, Equations 35–40; Appendix C.1, lines 865–885 (Proof of Theorem 1)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fixed-quantile-stitched-and-beta-binomial-mixture-confidence-sequences</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any fixed quantile p in (0, 1), Theorem 1a&#39;s polynomial-stitched sub-gamma radius f_t(p) = S_p(t vee m)/t with S_p(t) = sqrt(k_1^2 p(1 - p)t l_t + k_2^2 c_p^2 l_t^2) + c_p k_2 l_t (Equation 41) achieves the law-of-the-iterated-logarithm rate O(sqrt(p(1 - p) t^{-1} log log t)) as t -&gt; infinity, while Theorem 1b&#39;s one-sided beta-binomial conjugate mixture radius f_tilde_t(p) = t^{-1} sup{s in [0, (r + p(1 - p)t)/p) : M_{p,r}(s, p(1 - p)t) &lt; 1/alpha} with closed-form Beta-function supermartingale M_{p,r}(s, v) (Equations 45–46) and Lambert W_{-1}-tuned prior scale r (Equation 21, Appendix D) exploits the reduced Bernoulli variance p(1 - p) near extreme quantiles p close to 0 or 1 to produce substantially tighter tail-quantile confidence sequences than variance-agnostic sub-Gaussian normal-mixture bounds (Equation 12) while maintaining guaranteed nonasymptotic anytime coverage even on heavy-tailed distributions with undefined moments such as the standard Cauchy distribution.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-howard-ramdas2022-quantile-cs">Sequential estimation of quantiles with applications to A/B testing and best-arm identification</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, lines 201–267, Theorem 1, Equations 8–12; Section 4.1, lines 386–434, Equation 21, Figure 1; Section 7.2–7.3, lines 677–745, Equations 41–46; Appendix C.1, lines 865–885; Appendix D, lines 1045–1070</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-howard-ramdas-mcauliffe-sekhon2021-subpsi">Time-uniform, nonparametric, nonasymptotic confidence sequences</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1–3.2, lines 221–277, Theorem 1, Propositions 3 and 7 (Stitched sub-gamma and beta-binomial conjugate mixture boundaries)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#time-and-quantile-uniform-empirical-process-lil-and-double-stitching</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Simultaneously across all t &gt;= m and all p in (0, 1) (and all x in R), Theorem 2&#39;s and Theorem 4&#39;s stratified dyadic chaining over quantile partitions combines sub-Bernoulli exponential supermartingales with adaptive switchover from Bennett&#39;s to Hoeffding&#39;s CGF bound to establish the finite-sample iterated-logarithm empirical process bound sup_{x in R} |F_hat_t(x) - F(x)| &lt;= A sqrt(t^{-1}(log log(e t / m) + C)) with valid crossing probability for any A &gt; 1/sqrt(2) without a naive O(sqrt(t^{-1} log t)) time-axis union bound over fixed-sample Dvoretzky-Kiefer-Wolfowitz inequalities (Corollary 2 giving 0.85 sqrt(t^{-1}(log log(e t / 32) + 8.123)) at alpha = 0.05), while Theorem 5&#39;s double-stitched sequence u_t(p) stitches across both time epochs and a log-odds-spaced quantile grid (controlled by Lemma 10&#39;s hyperbolic-tangent spacing bound q_p - p &lt;= tanh(a/2) sqrt(p(1 - p)) &lt;= (a/2) sqrt(p(1 - p))) to preserve extreme-tail scaling O(sqrt(p(1 - p) t^{-1} (log log t + log |log(p(1 - p))|))) as p -&gt; 0 or 1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-howard-ramdas2022-quantile-cs">Sequential estimation of quantiles with applications to A/B testing and best-arm identification</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, lines 268–385, Theorem 2, Corollaries 1–2, Equations 13–20; Section 4.2, lines 435–485, Figures 2–3; Section 7.4–7.5, lines 746–863, Theorems 4–5, Equations 47–59; Appendix C.2–C.3, lines 886–1014, Lemmas 4–10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#two-sample-sequential-quantile-testing-and-qlucb-best-arm-identification</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For sequential A/B testing of H_0 : Q_2(p) - Q_1(p) = delta between two independent streams, Theorem 6 and Section C.5 avoid conservative union bounds over separate arm confidence sequences when delta = 0 (or under simultaneous equality of all quantiles) by bounding the joint product supermartingale log L_{1,t} + log L_{2,t} from below via min_{x in R} (G_{1,t}(x) + G_{2,t}(x)) evaluated over observed order statistics (giving a sequential median difference confidence sequence under a location-shift model in Corollary 3), and for multi-armed quantile bandits (Section 6), replacing the loose DKW-style union bound of Szorenyi et al.&#39;s (2015) QPAC algorithm with fixed-quantile stitched bounds f_t(pi - epsilon) and f_t(1 - pi - epsilon) inside the LUCB sampling rule yields the QLUCB algorithm (Theorem 3), guaranteeing (epsilon, pi, delta)-correct best-arm identification with substantially smaller stopping times.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-howard-ramdas2022-quantile-cs">Sequential estimation of quantiles with applications to A/B testing and best-arm identification</a></span>
+        <span>· <strong>Locator:</strong> Section 5, lines 486–549, Corollary 3, Figure 4; Section 6, lines 550–619, Theorem 3, Equations 26–34, Figure 5; Appendix B, lines 864–864; Appendix C.4–C.5, lines 1015–1044, Theorem 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Unlike sub-psi mean confidence sequences (Howard et al. 2021) which hold under arbitrary martingale dependence with time-varying conditional expectations, the quantile confidence sequences of Theorems 1–2 and 4–5 require observations X_1, X_2, ... to be independent (or conditionally sharing the same marginal quantile Q(p)) so that the indicator/interpolated quantile increments have predictable Bernoulli probability p (Section 2, Section 7.1).</li>
+      <li>When the underlying distribution F has a flat plateau at level p (so the lower quantile Q(p) &lt; Q^+(p) differs strictly from the upper quantile), any valid nonparametric confidence sequence must cover the entire interval [Q(p), Q^+(p)] simultaneously, preventing the state-space interval width from shrinking below Q^+(p) - Q(p) (Section 2, Equations 1–5).</li>
+      <li>In two-sample sequential quantile testing (Section 5, Appendix C.5), the tighter single-parameter product supermartingale test (Theorem 6) applies directly to H_0 : Q_2(p) = Q_1(p) (delta = 0) or to testing simultaneous equality of all quantiles under a location-shift assumption (Corollary 3); testing H_0 : Q_2(p) - Q_1(p) = delta != 0 for a single quantile without a shift assumption requires combining two separate arm confidence sequences at level alpha_1 + alpha_2 = alpha.</li>
+      <li>All 1,139 lines of Howard &amp; Ramdas (2022, arXiv:1906.09712) were read. Constructed numerical checks in research/discovery/sequential-nonparametric-quantile-confidence-sequences-boundaries.py verify Equation 35&#39;s exact Galois order-statistic inversions on samples with ties and point-mass quantile martingale sub-Bernoulli CGF dominance, Theorem 1a/1b tail-quantile tightness and anytime coverage on heavy-tailed Cauchy(0, 1) streams vs. naive asymptotic CLT failure, Theorem 2/4 and Corollary 2 empirical-process finite-LIL bounds plus Lemma 10 log-odds spacing, and Theorem 6&#39;s two-sample product supermartingale bound and Theorem 3&#39;s QLUCB sample reduction.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DataDredgingBias.html" style="font-weight: 600;"><code>AIO:DataDredgingBias</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Data Dredging Bias</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Sequential nonparametric quantile confidence sequences guarantee nonasymptotic coverage across all sample sizes t &gt;= 1 and arbitrary data-dependent stopping times without parametric or moment assumptions, preventing false-positive inflation from continuous monitoring of quantiles and empirical CDFs in sequential A/B tests (AIO:DataDredgingBias).
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TimeSeriesAnalysis.html" style="font-weight: 600;"><code>AIO:TimeSeriesAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Time Series Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Sequential quantile confidence sequences and time-uniform empirical distribution bands track order statistics and quantile differences across sequential observation streams and multi-armed bandit pull sequences over time t (AIO:TimeSeriesAnalysis).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-howard-ramdas2022-quantile-cs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">howard-ramdas2022-quantile-cs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1906.09712" target="_blank" rel="noopener">Sequential estimation of quantiles with applications to A/B testing and best-arm identification</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Steven R. Howard, Aaditya Ramdas
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.3150/21-BEJ1388</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:09a883cff34d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-howard-ramdas-mcauliffe-sekhon2021-subpsi">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">howard-ramdas-mcauliffe-sekhon2021-subpsi</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1810.08240" target="_blank" rel="noopener">Time-uniform, nonparametric, nonasymptotic confidence sequences</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Steven R. Howard, Aaditya Ramdas, Jon McAuliffe, Jasjeet Sekhon
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/20-AOS1991</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:aef352a6e271…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-waudby-smith-ramdas2024-betting">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">waudby-smith-ramdas2024-betting</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2010.09686" target="_blank" rel="noopener">Estimating means of bounded random variables by betting</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ian Waudby-Smith, Aaditya Ramdas
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1093/jrsssb/qkad009</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c41bcb5ff7e3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini 3</div>    <div><strong>Created:</strong> 2026-10-17T12:35:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-17T12:35:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SequentialNonparametricQuantileConfidenceSequences.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SequentialNonparametricQuantileConfidenceSequences.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
