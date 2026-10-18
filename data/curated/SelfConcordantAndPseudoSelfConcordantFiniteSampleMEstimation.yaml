@@ -1,0 +1,209 @@
+id: AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+name: Self-Concordant and Pseudo-Self-Concordant Finite-Sample M-Estimation
+aliases:
+- Finite-Sample Analysis of M-Estimators Using Self-Concordance
+- Canonically Self-Concordant and Pseudo-Self-Concordant Empirical Risk Minimization
+- Dikin-Ellipsoid Calibrated-Design Finite-Sample M-Estimator Excess Risk Theory
+- Fenchel-Conjugate Canonically Self-Concordant Pseudo-Huber and Classification Losses
+concept_kind: mathematical_method
+definition: 'Self-Concordant and Pseudo-Self-Concordant Finite-Sample M-Estimation is a non-asymptotic
+  statistical estimation and excess-risk analysis methodology for empirical risk minimizers (ERM) theta_hat_n
+  in Argmin_{theta in Theta} L_n(theta) and l_1-penalized M-estimators theta_hat_{lambda,n} in Argmin_{theta
+  in R^d} {L_n(theta) + lambda ||theta||_1} in random-design linear prediction models ell_Z(theta) = ell(Y,
+  X^T theta) that characterizes the critical sample size n needed to achieve the Wilks-Fisher chi-square-type
+  excess risk bound L(theta_hat_n) - L(theta_*) <= C K_1^2 d_eff log(e/delta) / n where d_eff = Tr(H^{-1/2}
+  G H^{-1/2}) is the effective dimension, H = nabla^2 L(theta_*) = E[ell''''(Y, X^T theta_*) X X^T], and
+  G = E[nabla ell_Z(theta_*) nabla ell_Z(theta_*)^T]. By exploiting either pseudo-self-concordance (|ell''''''(y,
+  eta)| <= ell''''(y, eta), Assumption SCa) or canonical self-concordance (|ell''''''(y, eta)| <= 2 [ell''''(y,
+  eta)]^{3/2}, Assumption SCb, including novel Fenchel-conjugate canonically self-concordant pseudo-Huber
+  and classification surrogate losses) together with local sub-Gaussian calibrated-design assumptions
+  at theta_* or over the population Dikin ellipsoid Theta_r(theta_*) = {theta in R^d : ||theta - theta_*||_{H(theta_*)}
+  <= r}, the methodology localizes theta_hat_n without global empirical-process chaining and establishes
+  critical sample sizes O(rho d d_eff) or O(d d_eff) under pointwise local assumptions at theta_* and
+  near-linear critical sample sizes O(max{rho d_eff, d log d}) or O(max{d_eff, d log d}) via an epsilon-net
+  covering argument over the Dikin ellipsoid.'
+identity_notes: Grounded in Ostrovskii and Bach (2021, Electronic Journal of Statistics 15(1):326-391;
+  arXiv:1810.06838v2, DOI:10.1214/20-EJS1780). Distinct from AIMech:DeterministicBanachContractionAndNewtonKantorovichInequalitiesForSmoothMEstimators
+  (Kuchibhotla 2018, arXiv:1809.05172v1, which derives deterministic Banach contraction and Newton-Kantorovich
+  fixed-point representation inequalities under third-derivative Holder continuity without self-concordance,
+  Dikin-ellipsoid calibrated-design covering, or Fenchel-conjugate self-concordant loss constructions),
+  AIMech:HigherOrderSmoothRegularizedEmpiricalRiskMinimizationAndSampleSplitNewton (Spokoiny 2012 / Marteau-Ferey
+  et al. 2019), AIMech:BregmanDivergence, and AIMech:LassoRegression.
+definition_evidence:
+- source_id: ostrovskii2020-self-concordant-pdf
+  locator: Section 1, pp. 1-8, Equations (1)-(16), Theorems 1.1-1.2; Section 2, pp. 8-13, Assumptions
+    SCa-SCb, D0-D2, C
+  relation: supports
+- source_id: ostrovskii2020-self-concordant-abs
+  locator: arXiv:1810.06838v2 abstract
+  relation: supports
+- source_id: ostrovskii2021-self-concordant-cr
+  locator: DOI:10.1214/20-EJS1780 Crossref abstract and metadata
+  relation: supports
+claims:
+- claim_id: pseudo-and-canonical-self-concordance-and-fenchel-conjugate-losses
+  kind: mechanism
+  statement: 'For linear prediction losses ell_Z(theta) = ell(Y, X^T theta) that are convex and C^3 in
+    eta = X^T theta, Ostrovskii and Bach (2021) distinguish two third-derivative control regimes: pseudo-self-concordance
+    (Assumption SCa: |ell''''''(y, eta)| <= ell''''(y, eta), satisfied by logistic regression with c =
+    1, Poisson regression with c = 1, and smooth pseudo-Huber contrasts log(cosh(t)) and sqrt(1+t^2)-1
+    with c = 3) and canonical self-concordance (Assumption SCb: |ell''''''(y, eta)| <= 2[ell''''(y, eta)]^{3/2},
+    satisfied by exponential-response GLMs). Moreover, using Fenchel conjugation of the normalized log-barrier
+    phi(u) = -(1/2) log(1 - u^2) on (-1, 1) and the duality identity phi''''(varphi''(t)) * varphi''''(t)
+    = 1 (Eq. 71), they construct the canonically self-concordant pseudo-Huber loss varphi(t) = (1/2)[sqrt(1
+    + 4 t^2) - 1 + log((sqrt(1 + 4 t^2) - 1)/(2 t^2))] (Eq. 21), which satisfies varphi(0) = 0, varphi''''(0)
+    = 1, |varphi''(t)| < 1, and |varphi''''''(t)| <= 2 sqrt(2) [varphi''''(t)]^{3/2}, together with a
+    canonically self-concordant classification surrogate loss (Eq. 22).'
+  evidence:
+  - source_id: ostrovskii2020-self-concordant-pdf
+    locator: Section 2.1, pp. 8-11, Assumptions SCa-SCb, Equations (17)-(22), and Appendix B.1, p. 34,
+      Equation (71)
+    relation: supports
+- claim_id: self-concordant-taylor-bracketing-and-pointwise-critical-sample-size
+  kind: mechanism
+  statement: 'Along any line segment theta_t = theta_0 + t(theta_1 - theta_0) of a C^3 convex objective
+    F: Theta -> R with H_0 = nabla^2 F(theta_0) > 0 and directional scale S = |<W, theta_1 - theta_0>|,
+    Proposition B.3 (Lemmas B.1-B.3) establishes exact Taylor remainder bracketing under Case (a) |phi_F''''''(t)|
+    <= S phi_F''''(t) (Eqs. 60-61) and Case (b) |phi_F''''''(t)| <= (S/(1 - S t)) phi_F''''(t) (Eqs. 62-63),
+    and Proposition B.4 proves that whenever ||W||_{H_0^{-1}} ||nabla F(theta_0)||_{H_0^{-1}} <= 1/4,
+    F has a unique minimizer theta_tilde satisfying ||theta_tilde - theta_0||_{H_0} <= 4 ||nabla F(theta_0)||_{H_0^{-1}}.
+    Applying this under pointwise sub-Gaussian assumptions at theta_* (Assumptions D0-D2 and compatibility
+    Sigma <= rho H, Assumption C) yields ||theta_hat_n - theta_*||_H^2 <= C ||nabla L_n(theta_*)||_{H^{-1}}^2
+    <= C'' K_1^2 d_eff log(e/delta) / n and the same restricted-risk bound once n >= C max{K_2^4(d + log(1/delta)),
+    rho K_0^2 K_1^2 d_eff d log(e d/delta)} for pseudo-self-concordant losses (Theorem 3.1) or n >= C
+    max{K_2^4(d + log(1/delta)), K_1^2 K_2^2 d_eff d log(e d/delta)} for canonically self-concordant losses
+    (Theorem 3.2, eliminating rho and Assumption D0).'
+  evidence:
+  - source_id: ostrovskii2020-self-concordant-pdf
+    locator: Section 3, pp. 13-15, Theorems 3.1-3.2, Equations (26)-(32); Appendix B, pp. 30-34, Propositions
+      B.1-B.4; Appendix C.1-C.2, pp. 34-38
+    relation: supports
+- claim_id: dikin-ellipsoid-covering-near-linear-critical-sample-size-and-gaussian-logistic-scaling
+  kind: mechanism
+  statement: Under Assumption D2* requiring the calibrated design X_tilde(theta) = [ell''(Y, X^T theta)]^{1/2}
+    X to satisfy ||H(theta)^{-1/2} X_tilde(theta)||_{psi_2} <= K_bar_2(r) over the r-radius Dikin ellipsoid
+    Theta_r(theta_*), Theorems 4.1 and 4.2 combine population-risk Hessian stability on Theta_{1/(2 c_bar)}(theta_*)
+    ((4/9) H(theta_*) <= H(theta) <= 4 H(theta_*), Eq. 84) with individual-loss self-concordance on fine
+    balls of radius varepsilon = O(1/(d^2 log(e n/delta))) (Eq. 88) and a union bound of sub-Gaussian
+    covariance concentration over an varepsilon-net N_varepsilon of size |N_varepsilon| <= (3/(2 c_bar
+    varepsilon))^d (Eq. 86) to establish uniform empirical Hessian bracketing 0.09 H(theta_*) <= H_n(theta)
+    <= 32 H(theta_*) (Eq. 92) and unrestricted excess-risk bound L(theta_hat_n) - L(theta_*) <= C K_1^2
+    d_eff log(e/delta) / n for near-linear critical sample size n >= C max{K_bar_2^4(r) d log(e d/delta),
+    K_1^2 K_bar_2^6(r) d_eff log(e/delta)} (with r >= 1 under SCb, Theorem 4.1) or n >= C max{K_bar_2^4(r)
+    d log(e d/delta), rho K_0^2 K_1^2 K_bar_2^4(r) d_eff log(e/delta)} (with r >= 1/sqrt(rho) under SCa,
+    Theorem 4.2). For logistic regression with Gaussian design X ~ N(0, Sigma), Proposition D.1 proves
+    tight polynomial scaling rho <= C(1 + ||theta_*||_Sigma^3) and K_2 ~ K_bar_2(1/sqrt(rho)) <= C(1 +
+    log(1 + ||theta_*||_Sigma)) sqrt(1 + ||theta_*||_Sigma).
+  evidence:
+  - source_id: ostrovskii2020-self-concordant-pdf
+    locator: Section 4, pp. 15-18, Assumption D2*, Theorems 4.1-4.2, Equations (34)-(36); Appendix C.3-C.4,
+      pp. 38-43, Equations (84)-(100); Appendix D, pp. 47-51, Proposition D.1
+    relation: supports
+- claim_id: high-dimensional-l1-penalized-self-concordant-m-estimation
+  kind: scope
+  statement: In high dimensions (d >> n) where |theta_*|_0 <= s << d and Assumption C* holds (Sigma =
+    I, G <= kappa_1 I, H <= kappa_2 I with condition number Q = rho max(kappa_1, kappa_2)), Theorems 5.1
+    and 5.2 prove that for regularization parameter K_1 sqrt(kappa_1 log(e d/delta) / n) <= C lambda <=
+    c / (rho K_0 s sqrt(log(e d n/delta))) (or with K_2 sqrt(kappa_2) in place of K_0 under SCb), the
+    l_1-penalized M-estimator theta_hat_{lambda,n} satisfies the restricted cone property ||Delta_{S_c}||_1
+    <= 3 ||Delta_S||_1 (Eq. 105), ||theta_hat_{lambda,n} - theta_*||_1 <= C rho s lambda, ||theta_hat_{lambda,n}
+    - theta_*||_H^2 <= C rho s lambda^2, and restricted excess risk L_E(theta_hat_{lambda,n}) - L_E(theta_*)
+    <= C rho s lambda^2 = O(Q s log(e d/delta) / n) whenever n >= C max{Q s, rho Q s^2} log(e d n/delta)
+    (under SCa, Theorem 5.1) or n >= C max{Q s, Q^2 s^2} log(e d n/delta) (under SCb, Theorem 5.2), showing
+    that lack of affine invariance of the l_1 penalty prevents canonical self-concordance from eliminating
+    the curvature factor rho in high dimensions.
+  evidence:
+  - source_id: ostrovskii2020-self-concordant-pdf
+    locator: Section 5, pp. 18-21, Assumption C*, Theorems 5.1-5.2, Equations (38)-(46); Appendix C.5-C.6,
+      pp. 44-47, Equations (101)-(121)
+    relation: supports
+evidence_sources:
+- source_id: ostrovskii2020-self-concordant-pdf
+  title: Finite-sample analysis of M-estimators using self-concordance
+  authors:
+  - Dmitrii M. Ostrovskii
+  - Francis Bach
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1810.06838
+  persistent_id: https://doi.org/10.1214/20-EJS1780
+  version: arXiv:1810.06838v2 (30 Nov 2020, 55 pages, 2123949 bytes); Electronic Journal of Statistics
+    15(1):326-391 (2021).
+  access_level: full_text
+  accessed_at: '2026-10-18T12:42:00Z'
+  sha256: 4cd6b917ea4081156f3b9b504b4e0eeaab6687e4ef208c011a58774d365e85fd
+- source_id: ostrovskii2020-self-concordant-abs
+  title: Finite-sample analysis of M-estimators using self-concordance (arXiv Abstract)
+  authors:
+  - Dmitrii M. Ostrovskii
+  - Francis Bach
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1810.06838
+  persistent_id: https://doi.org/10.48550/arXiv.1810.06838
+  version: arXiv:1810.06838v2 abstract and metadata record (7223 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T12:42:00Z'
+  sha256: bfce471f8b0111c7770bbc4cfc3a74b42a179cb802de878c9b16c9d1b64e2882
+- source_id: ostrovskii2021-self-concordant-cr
+  title: Finite-sample analysis of M-estimators using self-concordance (Crossref Metadata)
+  authors:
+  - Dmitrii M. Ostrovskii
+  - Francis Bach
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/20-EJS1780
+  persistent_id: https://doi.org/10.1214/20-EJS1780
+  version: Electronic Journal of Statistics 15(1):326-391 (2021) Crossref bibliographic record (6997 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T12:42:00Z'
+  sha256: fdb2c75847490720d9a1cdffe799735a74f23d799ac786646c809cdc139809c8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: AIO:LogisticRegression represents logistic regression broadly, whereas AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+    characterizes the non-asymptotic critical sample size and excess risk of logistic regression and general
+    self-concordant/pseudo-self-concordant M-estimators via Dikin-ellipsoid calibrated-design covering
+    and constructs a canonically self-concordant classification surrogate loss.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: AIO:LassoRegression represents L1-penalized linear regression broadly, whereas Section 5
+    (Theorems 5.1-5.2) extends self-concordant and pseudo-self-concordant finite-sample localization and
+    excess-risk bounds to high-dimensional L1-penalized M-estimators.
+limitations:
+- 'Sub-Gaussian Calibrated-Design Assumptions and Exponential Adversarial Design Scaling: Assumptions
+  D1-D2 and D2* can fail when the second-derivative scaling [ell''''(Y, X^T theta)]^{1/2} grows super-polynomially
+  (such as in Poisson regression where a''''(eta) = e^eta, Remark 2.2), and for adversarial discrete design
+  distributions (Hazan, Koren, & Levy 2014) the local curvature parameter rho and critical sample size
+  can grow as exp(R D) in the predictor-parameter product (Section 6, Figure 4).'
+- 'Loss of Affine Invariance Under L1 Regularization in High Dimensions: In Theorems 5.1-5.2, the l_1
+  norm and coordinate sparsity depend on the choice of basis and are not affine-invariant, so canonical
+  self-concordance (Assumption SCb) does not eliminate the local curvature factor rho from the estimation
+  error or the O(Q^2 s^2 log(e d/delta)) critical sample size.'
+- 'Primary-Source Typographical Notes in Ostrovskii & Bach (2020/2021, arXiv:1810.06838v2): Verified five
+  self-correcting typographical slips in the primary manuscript: (1) Theorem 1.2 (p. 8) writes ''In addition
+  to the premise of Theorem 1.2'' instead of ''In addition to the premise of Theorem 1.1''; (2) Section
+  2.1.3 (p. 11, after Eq. 21) writes ''|varphi_tau''''''(t)| <= (2/tau)[varphi_tau''''(t)]^{3/2}'', omitting
+  the sqrt(2) factor from |varphi''''''(t)| <= 2 sqrt(2) [varphi''''(t)]^{3/2} (the exact rescaled constant
+  is 2 sqrt(2)/tau); (3) Section 5 (p. 19, sentence preceding Theorem 5.1) states that Theorem 5.1 characterizes
+  an l_1-penalized M-estimator with a ''canonically self-concordant loss'', whereas Theorem 5.1 assumes
+  SCa (pseudo-self-concordance) and Theorem 5.2 assumes SCb (canonical self-concordance); (4) Section
+  6 (p. 22, paragraph 1) states ''Thus, the logistic model for Y|X is well-specified in the second case''
+  after defining the second case as probit regression (where the logistic model is misspecified, as noted
+  in the second bullet on p. 22); and (5) Appendix B.1 (p. 34, final line) writes ''|varphi''''''(u)|
+  <= c[varphi''''(u)]^{3/2}'' instead of ''|varphi''''''(t)| <= c[varphi''''(t)]^{3/2}''.'
+- All 55 pages of the full-text PDF of Ostrovskii & Bach (2020/2021, Electronic Journal of Statistics
+  15(1):326-391, arXiv:1810.06838v2) were read. Constructed numerical checks in research/discovery/self-concordant-m-estimators-finite-sample-boundaries.py
+  verify (1) Section 2.1 pseudo-self-concordance for logistic and smooth pseudo-Huber losses and canonical
+  self-concordance (<= 2 sqrt(2)) and Fenchel duality phi''(varphi'(t)) varphi''(t) = 1 for the novel
+  loss (Eq. 21), (2) Propositions B.3-B.4 Taylor remainder bracketing and localization radius <= 4 ||nabla
+  F(theta_0)||_{H_0^{-1}}, and (3) Theorem 4.1 Eq. (84) Dikin-ellipsoid Hessian stability factors [4/9,
+  4] and Proposition D.1 cubic curvature scaling rho ~ 1 + ||theta_*||_Sigma^3.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-18T19:45:00Z'
+  updated_at: '2026-10-18T19:45:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity
