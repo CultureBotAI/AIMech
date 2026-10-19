@@ -1,0 +1,103 @@
+id: AIMech:AnchorWordsAndRecoverL2TopicWordMatrixFactorization
+name: Anchor Words and RecoverL2 Topic-Word Matrix Factorization
+concept_kind: algorithm
+review_status: DRAFT
+definition: Anchor Words and RecoverL2 Topic-Word Matrix Factorization is a practical polynomial-time provable topic modeling pipeline introduced by Arora, Ge, Halpern, Mimno, Moitra, Sontag, Wu, and Zhu (2013) for learning the V x K word-topic matrix A and K x K topic-topic moment matrix R = E[W W^T] from the empirical word-word co-occurrence matrix Q = A R A^T estimated via the unbiased single-document second-order statistic Q = (1/M) sum_d (tilde{H}_d tilde{H}_d^T - hat{H}_d). Under the p-separability assumption that each topic k in {1,...,K} has an anchor word s_k with A_{s_k,k} >= p and A_{s_k,k'} = 0 for all k' != k, the row-normalized co-occurrence rows Q_bar_i satisfy Q_bar_i = sum_{k=1}^K C_{i,k} Q_bar_{s_k} where C_{i,k} = P(z = k | w = i) lies in the K-simplex Delta^K. The pipeline replaces O(V) linear programs with (1) FastAnchorWords (Algorithm 4), a combinatorial furthest-point orthogonal-subspace projection / simplex-volume maximization routine that greedily selects K anchor rows of Q_bar in O(V^2 + V K / epsilon^2) operations (Theorem 4.2), and (2) RecoverL2 (Algorithms 3 and 5), which solves the K x K quadratic program min_{C_i in Delta^K} ||Q_bar_i - sum_k C_{i,k} Q_bar_{s_k}||_2^2 via Exponentiated Gradient for each word i and applies Bayes' rule A_{i,k} propto C_{i,k} (Q 1)_i to recover A without matrix inversion.
+identity_notes: Distinct from variational Bayes or Gibbs sampling for Latent Dirichlet Allocation (`AIO:LatentDirichletAllocation`) and from general linear-programming Separable NMF (AIMech:SeparableNonnegativeMatrixFactorizationAndRobustLonerRecovery). Specifically captures the Arora et al. (2013) word-word co-occurrence formulation Q = A R A^T with unbiased diagonal correction tilde{H}_d tilde{H}_d^T - hat{H}_d (Section 2.1 and Appendix D.1), the Bayesian posterior simplex reformulation C_{i,k} = P(z_1 = k | w_1 = i) (Section 3.1), the RecoverKL/RecoverL2 Exponentiated Gradient solver (Algorithms 3 and 5, Theorem 3.1), and the FastAnchorWords greedy subspace-distance anchor selection algorithm and its simplex-volume perturbation proof (Algorithm 4, Theorem 4.2, and Lemma A.3 / Claim A.4).
+aliases:
+- FastAnchorWords and RecoverL2 Topic Modeling
+- Anchor-Word Provable Topic Modeling Algorithm
+- Arora-Ge-Halpern-Mimno-Moitra-Sontag-Wu-Zhu Topic Modeling
+definition_evidence:
+- source_id: r322-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r322-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r322-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: For any pure-topic/admixture document model with word-topic matrix A and topic prior moment matrix R = E[W W^T], Appendix D.1 proves that the single-document empirical estimator (tilde{H}_d tilde{H}_d^T - hat{H}_d) with scaling n_d(n_d - 1) is an exact unbiased estimator of A R A^T, and under p-separability every row Q_bar_i of the row-normalized co-occurrence matrix Q_bar is a convex combination sum_{k=1}^K C_{i,k} Q_bar_{s_k} of the K anchor rows with weights equal to the posterior topic probabilities C_{i,k} = P(z_1 = k | w_1 = i), allowing A_{i,k} to be recovered directly via Bayes' rule A_{i,k} propto C_{i,k} P(w = i) without inverting Q_bar_S.
+  evidence:
+  - source_id: r322-primary-pdf
+    locator: Section 2.1, p. 2; Section 3.1, Algorithms 2-3, pp. 3-5; Appendix D.1, Claim D.1, p. 18
+    relation: supports
+  - source_id: r322-metadata-cr
+    locator: Bibliographic metadata for ICML 2013 PMLR 28(2):280-288
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: FastAnchorWords (Algorithm 4) greedily selects the furthest row from the affine span of already selected anchors followed by a cleanup pass, and Theorem 4.2 (proved via simplex-volume determinant ratios in Lemma A.3 and Claim A.4) guarantees that whenever the perturbation error satisfies epsilon < gamma^2 p / (20^2 K^2) (where gamma is the minimum L1 topic-row distance of R_bar), FastAnchorWords identifies K near-anchor words within distance O(epsilon / gamma), while RecoverL2 (Theorem 3.1 and Appendix C) achieves polynomial sample complexity M = O(K^6 / (epsilon^2 p^6 gamma^4)).
+  evidence:
+  - source_id: r322-primary-pdf
+    locator: Section 3.1, Theorem 3.1, p. 5; Section 4.1, Algorithm 4 and Theorem 4.2, pp. 5-6; Appendix A, Lemma A.3 and Claim A.4, pp. 11-15
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: The method requires each topic k to possess at least one anchor word with exclusivity A_{s_k,k} >= p > 0 and A_{s_k,k'} = 0 for k' != k; moreover, very rare anchor words (small p) have noisy row-normalized co-occurrence profiles Q_bar_i because dividing by a small marginal count (Q 1)_i amplifies multinomial sampling variance.
+  evidence:
+  - source_id: r322-primary-pdf
+    locator: Section 2, Definition of p-separability, p. 2; Section 3.1, Discussion of rare words and row normalization, pp. 3-4
+    relation: supports
+evidence_sources:
+- source_id: r322-primary-pdf
+  title: A Practical Algorithm for Topic Modeling with Provable Guarantees
+  authors: &id001
+  - Sanjeev Arora
+  - Rong Ge
+  - Yoni Halpern
+  - David Mimno
+  - Ankur Moitra
+  - David Sontag
+  - Yichen Wu
+  - Michael Zhu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1212.4777v1
+  persistent_id: https://proceedings.mlr.press/v28/arora13.html
+  version: Proceedings of the 30th International Conference on Machine Learning (ICML 2013), PMLR 28(2):280-288 (2013) (738156 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:36:00Z'
+  sha256: 788c9df8bc1554d6d2b59484dbe422575daade82fdb2baeb56189dc8338d2955
+- source_id: r322-arxiv-abs
+  title: A Practical Algorithm for Topic Modeling with Provable Guarantees (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1212.4777v1
+  persistent_id: https://arxiv.org/abs/1212.4777v1
+  version: arXiv abstract page (6758 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:36:00Z'
+  sha256: ff807aa643bfe580ee72fb08fc9342b68e989811d044d84fc3a67443c180a327
+- source_id: r322-metadata-cr
+  title: A Practical Algorithm for Topic Modeling with Provable Guarantees (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v28/arora13.html
+  persistent_id: https://proceedings.mlr.press/v28/arora13.html
+  version: Crossref API work record (4174 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:36:00Z'
+  sha256: 318fa289471a1bbdd96e53756e77e6d7954800e722e363cd2b22dde63b1adcf7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: broad_match
+  rationale: Specializes separable nonnegative matrix factorization to symmetric word-word co-occurrence matrices Q = A R A^T for low-rank topic dimensionality reduction.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Provides a provable polynomial-time moment-factorization method for unsupervised topic discovery and word clustering.
+limitations:
+- Relies on the anchor-word (p-separability) assumption and sufficient marginal frequency of anchor words so that row normalization of empirical word co-occurrences does not amplify sampling noise.
+curation:
+  created_at: '2026-10-19T06:36:00Z'
+  updated_at: '2026-10-19T06:36:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

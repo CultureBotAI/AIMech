@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anchor Words and RecoverL2 Topic-Word Matrix Factorization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Anchor Words and RecoverL2 Topic-Word Matrix Factorization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Anchor Words and RecoverL2 Topic-Word Matrix Factorization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AnchorWordsAndRecoverL2TopicWordMatrixFactorization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FastAnchorWords and RecoverL2 Topic Modeling, Anchor-Word Provable Topic Modeling Algorithm, Arora-Ge-Halpern-Mimno-Moitra-Sontag-Wu-Zhu Topic Modeling
+    </div>
+
+  <div class="detail-desc">
+    Anchor Words and RecoverL2 Topic-Word Matrix Factorization is a practical polynomial-time provable topic modeling pipeline introduced by Arora, Ge, Halpern, Mimno, Moitra, Sontag, Wu, and Zhu (2013) for learning the V x K word-topic matrix A and K x K topic-topic moment matrix R = E[W W^T] from the empirical word-word co-occurrence matrix Q = A R A^T estimated via the unbiased single-document second-order statistic Q = (1/M) sum_d (tilde{H}_d tilde{H}_d^T - hat{H}_d). Under the p-separability assumption that each topic k in {1,...,K} has an anchor word s_k with A_{s_k,k} &gt;= p and A_{s_k,k&#39;} = 0 for all k&#39; != k, the row-normalized co-occurrence rows Q_bar_i satisfy Q_bar_i = sum_{k=1}^K C_{i,k} Q_bar_{s_k} where C_{i,k} = P(z = k | w = i) lies in the K-simplex Delta^K. The pipeline replaces O(V) linear programs with (1) FastAnchorWords (Algorithm 4), a combinatorial furthest-point orthogonal-subspace projection / simplex-volume maximization routine that greedily selects K anchor rows of Q_bar in O(V^2 + V K / epsilon^2) operations (Theorem 4.2), and (2) RecoverL2 (Algorithms 3 and 5), which solves the K x K quadratic program min_{C_i in Delta^K} ||Q_bar_i - sum_k C_{i,k} Q_bar_{s_k}||_2^2 via Exponentiated Gradient for each word i and applies Bayes&#39; rule A_{i,k} propto C_{i,k} (Q 1)_i to recover A without matrix inversion.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from variational Bayes or Gibbs sampling for Latent Dirichlet Allocation (`AIO:LatentDirichletAllocation`) and from general linear-programming Separable NMF (AIMech:SeparableNonnegativeMatrixFactorizationAndRobustLonerRecovery). Specifically captures the Arora et al. (2013) word-word co-occurrence formulation Q = A R A^T with unbiased diagonal correction tilde{H}_d tilde{H}_d^T - hat{H}_d (Section 2.1 and Appendix D.1), the Bayesian posterior simplex reformulation C_{i,k} = P(z_1 = k | w_1 = i) (Section 3.1), the RecoverKL/RecoverL2 Exponentiated Gradient solver (Algorithms 3 and 5, Theorem 3.1), and the FastAnchorWords greedy subspace-distance anchor selection algorithm and its simplex-volume perturbation proof (Algorithm 4, Theorem 4.2, and Lemma A.3 / Claim A.4).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any pure-topic/admixture document model with word-topic matrix A and topic prior moment matrix R = E[W W^T], Appendix D.1 proves that the single-document empirical estimator (tilde{H}_d tilde{H}_d^T - hat{H}_d) with scaling n_d(n_d - 1) is an exact unbiased estimator of A R A^T, and under p-separability every row Q_bar_i of the row-normalized co-occurrence matrix Q_bar is a convex combination sum_{k=1}^K C_{i,k} Q_bar_{s_k} of the K anchor rows with weights equal to the posterior topic probabilities C_{i,k} = P(z_1 = k | w_1 = i), allowing A_{i,k} to be recovered directly via Bayes&#39; rule A_{i,k} propto C_{i,k} P(w = i) without inverting Q_bar_S.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r322-primary-pdf">A Practical Algorithm for Topic Modeling with Provable Guarantees</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, p. 2; Section 3.1, Algorithms 2-3, pp. 3-5; Appendix D.1, Claim D.1, p. 18</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r322-metadata-cr">A Practical Algorithm for Topic Modeling with Provable Guarantees (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata for ICML 2013 PMLR 28(2):280-288</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FastAnchorWords (Algorithm 4) greedily selects the furthest row from the affine span of already selected anchors followed by a cleanup pass, and Theorem 4.2 (proved via simplex-volume determinant ratios in Lemma A.3 and Claim A.4) guarantees that whenever the perturbation error satisfies epsilon &lt; gamma^2 p / (20^2 K^2) (where gamma is the minimum L1 topic-row distance of R_bar), FastAnchorWords identifies K near-anchor words within distance O(epsilon / gamma), while RecoverL2 (Theorem 3.1 and Appendix C) achieves polynomial sample complexity M = O(K^6 / (epsilon^2 p^6 gamma^4)).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r322-primary-pdf">A Practical Algorithm for Topic Modeling with Provable Guarantees</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Theorem 3.1, p. 5; Section 4.1, Algorithm 4 and Theorem 4.2, pp. 5-6; Appendix A, Lemma A.3 and Claim A.4, pp. 11-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The method requires each topic k to possess at least one anchor word with exclusivity A_{s_k,k} &gt;= p &gt; 0 and A_{s_k,k&#39;} = 0 for k&#39; != k; moreover, very rare anchor words (small p) have noisy row-normalized co-occurrence profiles Q_bar_i because dividing by a small marginal count (Q 1)_i amplifies multinomial sampling variance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r322-primary-pdf">A Practical Algorithm for Topic Modeling with Provable Guarantees</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Definition of p-separability, p. 2; Section 3.1, Discussion of rare words and row normalization, pp. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Relies on the anchor-word (p-separability) assumption and sufficient marginal frequency of anchor words so that row normalization of empirical word co-occurrences does not amplify sampling noise.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Specializes separable nonnegative matrix factorization to symmetric word-word co-occurrence matrices Q = A R A^T for low-rank topic dimensionality reduction.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Provides a provable polynomial-time moment-factorization method for unsupervised topic discovery and word clustering.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r322-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r322-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1212.4777v1" target="_blank" rel="noopener">A Practical Algorithm for Topic Modeling with Provable Guarantees</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sanjeev Arora, Rong Ge, Yoni Halpern, David Mimno, Ankur Moitra, David Sontag, Yichen Wu, Michael Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v28/arora13.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:788c9df8bc15…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r322-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r322-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1212.4777v1" target="_blank" rel="noopener">A Practical Algorithm for Topic Modeling with Provable Guarantees (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sanjeev Arora, Rong Ge, Yoni Halpern, David Mimno, Ankur Moitra, David Sontag, Yichen Wu, Michael Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1212.4777v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ff807aa643bf…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r322-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r322-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v28/arora13.html" target="_blank" rel="noopener">A Practical Algorithm for Topic Modeling with Provable Guarantees (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sanjeev Arora, Rong Ge, Yoni Halpern, David Mimno, Ankur Moitra, David Sontag, Yichen Wu, Michael Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v28/arora13.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:318fa289471a…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:36:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:36:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AnchorWordsAndRecoverL2TopicWordMatrixFactorization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AnchorWordsAndRecoverL2TopicWordMatrixFactorization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
