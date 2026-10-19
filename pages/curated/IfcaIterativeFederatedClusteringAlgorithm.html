@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iterative Federated Clustering Algorithm (IFCA) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Iterative Federated Clustering Algorithm (IFCA)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Iterative Federated Clustering Algorithm (IFCA)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:IfcaIterativeFederatedClusteringAlgorithm</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> IFCA, Iterative Federated Clustering Algorithm, Clustered Federated Learning via Alternating Minimization
+    </div>
+
+  <div class="detail-desc">
+    An alternating minimization framework for clustered federated learning (IFCA, Algorithm 2) over m clients partitioned into k unknown latent data distributions D_1,...,D_k with cluster-specific minimizers theta_1^*,...,theta_k^*, where in each round t the server broadcasts all k candidate cluster models {theta_j^{(t)}}_{j=1}^k to participating clients M_t, each client i in M_t estimates its cluster identity via empirical loss minimization j_hat_i = argmin_{j in [k]} F_i(theta_j^{(t)}) (encoded as one-hot r_{i,j}), and the server updates each cluster model theta_j^{(t+1)} by aggregating local gradients or local SGD iterates exclusively over clients assigned to cluster j (optionally sharing weights across early representation layers).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from single-global-model federated optimization (FedAvg, FedProx, SCAFFOLD) and from per-client personalized federated learning such as pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes), Per-FedAvg (AIMech:PerFedAvgModelAgnosticMetaLearningForPersonalizedFederatedLearning), Ditto (AIMech:DittoFairAndRobustPersonalizedFederatedMultiTaskLearning), and FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning), which maintain n distinct client models or heads rather than inferring discrete latent cluster memberships S_1,...,S_k and learning k shared cluster-level models.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r405-linear-model-exponential-clustering-accuracy-and-geometric-contraction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For k-cluster Gaussian linear models y_i = X_i theta_{j^*}^* + epsilon_i with minimum cluster separation Delta = min_{j != j&#39;} ||theta_j^* - theta_{j&#39;}^*||_2 and initialization ||theta_j^{(0)} - theta_j^*||_2 &lt;= alpha * Delta (alpha &lt; 1/2), Lemma 1 bounds the per-client cluster misclassification probability by c_1 exp(-c_2 n&#39; (alpha * rho / (rho + 1))^2) where rho = Delta^2 / sigma^2, and Theorem 1 (with Corollary 1) proves geometric contraction ||theta_j^{(t+1)} - theta_j^*||_2 &lt;= (1/2) ||theta_j^{(t)} - theta_j^*||_2 + c_2 (sigma / p) sqrt(d / (m n&#39;)) + c_3 Delta exp(-c_4 (alpha * rho / (rho + 1))^2 n&#39;), reaching near-minimax statistical error O(sigma sqrt(d / N) + exp(-Omega(n&#39;))) in logarithmic rounds.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r405-primary-pdf">An Efficient Framework for Clustered Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Linear Models (Lemma 1, Theorem 1, Corollary 1) &amp; Appendix B, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r405-strongly-convex-smooth-contraction-guarantee</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For lambda-strongly convex and L-smooth population objectives F^j(theta) with bounded stochastic variance eta^2 and initialization ||theta_j^{(0)} - theta_j^*||_2 &lt;= alpha * sqrt(lambda / L) * Delta, Lemma 3 and Theorem 2 (with Corollary 2) prove that IFCA contracts at rate ||theta_j^{(t+1)} - theta_j^*||_2 &lt;= (1 - p * lambda / (8 L)) ||theta_j^{(t)} - theta_j^*||_2 + varepsilon_0 and converges to small error varepsilon in T = (8 L / (p * lambda)) log(2 dist_0 / varepsilon) rounds.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r405-primary-pdf">An Efficient Framework for Clustered Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 Strongly Convex and Smooth Functions (Assumptions 1-3, Lemma 3, Theorem 2, Corollary 2) &amp; Appendix C, pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r405-k-fold-downlink-broadcast-and-initialization-separation-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Broadcasting all k cluster models to participating clients increases per-round server-to-client downlink communication by a factor of k (partially mitigated by weight sharing in early neural layers), and theoretical convergence requires knowledge of k, minimum cluster separation Delta = tilde{Omega}(max{sigma / sqrt(n&#39;), sqrt(d / (m n&#39;))}), and good initialization within basin radius alpha * Delta.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r405-primary-pdf">An Efficient Framework for Clustered Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Algorithm 2, Section 3.3 Practical Implementation with Weight Sharing, and Section 4.2-4.3 (Theorems 1-2), pp. 4-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r405-rotated-mnist-cifar10-and-femnist-clustered-fl-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated on clustered Mixture-of-Linear-Regressions, Rotated MNIST and Rotated CIFAR-10 (with k = 2 and k = 4 rotation clusters), and Federated EMNIST with weight sharing, significantly outperforming global FedAvg, local-only training, and one-shot clustering baselines.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r405-primary-pdf">An Efficient Framework for Clustered Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments (Figures 2-3, Tables 1-2), pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires broadcasting k candidate models on the downlink in each round unless early layers are shared.</li>
+      <li>Theoretical guarantees require cluster separation Delta above a threshold and initialization near the true cluster centers.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            IFCA is a clustered FederatedLearning algorithm that alternates between local cluster membership estimation and server-side cluster model aggregation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            IFCA partitions heterogeneous federated clients into k latent clusters based on local empirical risk.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r405-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r405-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html" target="_blank" rel="noopener">An Efficient Framework for Clustered Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Avishek Ghosh, Jichan Chung, Dong Yin, Kannan Ramchandran
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0fc5e8d72f8a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r405-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r405-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2006.04088" target="_blank" rel="noopener">An Efficient Framework for Clustered Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Avishek Ghosh, Jichan Chung, Dong Yin, Kannan Ramchandran
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2006.04088</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1a0bef7ef485…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r405-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r405-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html" target="_blank" rel="noopener">An Efficient Framework for Clustered Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Avishek Ghosh, Jichan Chung, Dong Yin, Kannan Ramchandran
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8af34b3f3c03…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:08:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:08:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/IfcaIterativeFederatedClusteringAlgorithm.yaml" target="_blank" rel="noopener">
+      <code>data/curated/IfcaIterativeFederatedClusteringAlgorithm.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

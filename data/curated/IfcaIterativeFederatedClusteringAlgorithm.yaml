@@ -1,0 +1,104 @@
+id: AIMech:IfcaIterativeFederatedClusteringAlgorithm
+name: Iterative Federated Clustering Algorithm (IFCA)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An alternating minimization framework for clustered federated learning (IFCA, Algorithm 2) over m clients partitioned into k unknown latent data distributions D_1,...,D_k with cluster-specific minimizers theta_1^*,...,theta_k^*, where in each round t the server broadcasts all k candidate cluster models {theta_j^{(t)}}_{j=1}^k to participating clients M_t, each client i in M_t estimates its cluster identity via empirical loss minimization j_hat_i = argmin_{j in [k]} F_i(theta_j^{(t)}) (encoded as one-hot r_{i,j}), and the server updates each cluster model theta_j^{(t+1)} by aggregating local gradients or local SGD iterates exclusively over clients assigned to cluster j (optionally sharing weights across early representation layers).
+identity_notes: Distinct from single-global-model federated optimization (FedAvg, FedProx, SCAFFOLD) and from per-client personalized federated learning such as pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes), Per-FedAvg (AIMech:PerFedAvgModelAgnosticMetaLearningForPersonalizedFederatedLearning), Ditto (AIMech:DittoFairAndRobustPersonalizedFederatedMultiTaskLearning), and FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning), which maintain n distinct client models or heads rather than inferring discrete latent cluster memberships S_1,...,S_k and learning k shared cluster-level models.
+aliases:
+- IFCA
+- Iterative Federated Clustering Algorithm
+- Clustered Federated Learning via Alternating Minimization
+definition_evidence:
+- source_id: r405-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r405-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r405-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r405-linear-model-exponential-clustering-accuracy-and-geometric-contraction
+  kind: mechanism
+  statement: For k-cluster Gaussian linear models y_i = X_i theta_{j^*}^* + epsilon_i with minimum cluster separation Delta = min_{j != j'} ||theta_j^* - theta_{j'}^*||_2 and initialization ||theta_j^{(0)} - theta_j^*||_2 <= alpha * Delta (alpha < 1/2), Lemma 1 bounds the per-client cluster misclassification probability by c_1 exp(-c_2 n' (alpha * rho / (rho + 1))^2) where rho = Delta^2 / sigma^2, and Theorem 1 (with Corollary 1) proves geometric contraction ||theta_j^{(t+1)} - theta_j^*||_2 <= (1/2) ||theta_j^{(t)} - theta_j^*||_2 + c_2 (sigma / p) sqrt(d / (m n')) + c_3 Delta exp(-c_4 (alpha * rho / (rho + 1))^2 n'), reaching near-minimax statistical error O(sigma sqrt(d / N) + exp(-Omega(n'))) in logarithmic rounds.
+  evidence:
+  - source_id: r405-primary-pdf
+    locator: Section 4.2 Linear Models (Lemma 1, Theorem 1, Corollary 1) & Appendix B, pp. 5-6
+    relation: supports
+- claim_id: r405-strongly-convex-smooth-contraction-guarantee
+  kind: mechanism
+  statement: For lambda-strongly convex and L-smooth population objectives F^j(theta) with bounded stochastic variance eta^2 and initialization ||theta_j^{(0)} - theta_j^*||_2 <= alpha * sqrt(lambda / L) * Delta, Lemma 3 and Theorem 2 (with Corollary 2) prove that IFCA contracts at rate ||theta_j^{(t+1)} - theta_j^*||_2 <= (1 - p * lambda / (8 L)) ||theta_j^{(t)} - theta_j^*||_2 + varepsilon_0 and converges to small error varepsilon in T = (8 L / (p * lambda)) log(2 dist_0 / varepsilon) rounds.
+  evidence:
+  - source_id: r405-primary-pdf
+    locator: Section 4.3 Strongly Convex and Smooth Functions (Assumptions 1-3, Lemma 3, Theorem 2, Corollary 2) & Appendix C, pp. 6-7
+    relation: supports
+- claim_id: r405-k-fold-downlink-broadcast-and-initialization-separation-limitation
+  kind: limitation
+  statement: Broadcasting all k cluster models to participating clients increases per-round server-to-client downlink communication by a factor of k (partially mitigated by weight sharing in early neural layers), and theoretical convergence requires knowledge of k, minimum cluster separation Delta = tilde{Omega}(max{sigma / sqrt(n'), sqrt(d / (m n'))}), and good initialization within basin radius alpha * Delta.
+  evidence:
+  - source_id: r405-primary-pdf
+    locator: Section 3.2 Algorithm 2, Section 3.3 Practical Implementation with Weight Sharing, and Section 4.2-4.3 (Theorems 1-2), pp. 4-7
+    relation: supports
+- claim_id: r405-rotated-mnist-cifar10-and-femnist-clustered-fl-application
+  kind: application
+  statement: Evaluated on clustered Mixture-of-Linear-Regressions, Rotated MNIST and Rotated CIFAR-10 (with k = 2 and k = 4 rotation clusters), and Federated EMNIST with weight sharing, significantly outperforming global FedAvg, local-only training, and one-shot clustering baselines.
+  evidence:
+  - source_id: r405-primary-pdf
+    locator: Section 5 Experiments (Figures 2-3, Tables 1-2), pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r405-primary-pdf
+  title: An Efficient Framework for Clustered Federated Learning
+  authors: &id001
+  - Avishek Ghosh
+  - Jichan Chung
+  - Dong Yin
+  - Kannan Ramchandran
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020), pp. 19586-19597 (2020) (97068 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:08:00Z'
+  sha256: 0fc5e8d72f8a1e77a68ab819dba8524c533e0277941365a96ebfba9c2c05b09b
+- source_id: r405-arxiv-abs
+  title: An Efficient Framework for Clustered Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2006.04088
+  persistent_id: https://arxiv.org/abs/2006.04088
+  version: arXiv abstract page (6887 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:08:00Z'
+  sha256: 1a0bef7ef4852219ca2833085e7bd5128c83b1563d6ea04dc8f38aaae4f8c86e
+- source_id: r405-metadata-cr
+  title: An Efficient Framework for Clustered Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html
+  version: Crossref API work record (420 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:08:00Z'
+  sha256: 8af34b3f3c03dcfd73bc05af3b640d7adae8856de853dc0c81013b5f5a36bfa9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: IFCA is a clustered FederatedLearning algorithm that alternates between local cluster membership estimation and server-side cluster model aggregation.
+- target: AIO:Clustering
+  relation: related_match
+  rationale: IFCA partitions heterogeneous federated clients into k latent clusters based on local empirical risk.
+limitations:
+- Requires broadcasting k candidate models on the downlink in each round unless early layers are shared.
+- Theoretical guarantees require cluster separation Delta above a threshold and initialization near the true cluster centers.
+curation:
+  created_at: '2026-10-19T08:08:00Z'
+  updated_at: '2026-10-19T08:08:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
