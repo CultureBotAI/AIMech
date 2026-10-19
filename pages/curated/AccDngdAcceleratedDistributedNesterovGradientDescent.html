@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acc-DNGD (Accelerated Distributed Nesterov Gradient Descent) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Acc-DNGD (Accelerated Distributed Nesterov Gradient Descent)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Acc-DNGD (Accelerated Distributed Nesterov Gradient Descent)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AccDngdAcceleratedDistributedNesterovGradientDescent</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Acc-DNGD, Accelerated Distributed Nesterov Gradient Descent, Acc-DNGD-SC and Acc-DNGD-NSC
+    </div>
+
+  <div class="detail-desc">
+    An accelerated decentralized first-order optimization method (Qu &amp; Li 2020, Section II, Algorithms 1-2, Equations 3a-3d and 4a-4d) that couples three consensus primal sequences x_i(t), v_i(t), y_i(t) with a dynamic average-gradient tracker s_i(t) over a doubly stochastic mixing matrix W = [w_{ij}], updating x_i(t+1) = sum_j w_{ij} y_j(t) - eta s_i(t), v_i(t+1) = (1 - alpha_t) sum_j w_{ij} v_j(t) + alpha_t sum_j w_{ij} y_j(t) - (eta / alpha_t) s_i(t), y_i(t+1) = (x_i(t+1) + alpha_{t+1} v_i(t+1)) / (1 + alpha_{t+1}), and s_i(t+1) = sum_j w_{ij} s_j(t) + nabla f_i(y_i(t+1)) - nabla f_i(y_i(t)) with s_i(0) = nabla f_i(y_i(0)).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from unaccelerated Distributed Gradient Tracking / DIGing (AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs, Nedic, Olshevsky, &amp; Shi 2017; Qu &amp; Li 2018), whose iteration complexity scales linearly with the condition number O(kappa) on strongly convex problems and O(1/t) on general convex problems, and from Dual Optimal Decentralized Acceleration (Uribe et al. 2020), which requires Fenchel conjugate oracle evaluations rather than purely primal gradient-tracking Nesterov extrapolation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r441-inexact-centralized-nesterov-reduction-and-accelerated-rates</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the tracker s_i(t) preserves the exact global gradient average (1/n) sum_{i=1}^n s_i(t) = (1/n) sum_{i=1}^n nabla f_i(y_i(t)) by induction (Lemma 1), the network-averaged iterates bar_x(t), bar_v(t), bar_y(t) evolve as centralized Nesterov accelerated gradient descent perturbed by consensus errors ||y(t) - 1 bar_y(t)|| (Section III-A, Equations 5a-5c), achieving O(1 / t^{1.4 - xi}) objective decay via vanishing step sizes eta_t = eta / (t + t_0)^{0.6 + xi} in Acc-DNGD-NSC (Theorem 1) and O((1 - c sqrt(mu / L))^t) linear convergence with alpha = sqrt(mu eta) in Acc-DNGD-SC when condition number L / mu dominates the spectral gap (Theorem 2, Remark 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r441-primary-pdf">Accelerated Distributed Nesterov Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section II-C Main Results (Theorems 1-2, Remarks 1-4) &amp; Section III Convergence Analysis (Lemma 1, Equations 5a-5c), pp. 2569-2576</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r441-coupled-four-inequality-small-gain-consensus-stability</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Bounding the coupled consensus errors ||v(t) - 1 bar_v(t)||, ||y(t) - 1 bar_y(t)||, and tracker error ||s(t) - 1 bar_s(t)|| despite the 1 / alpha_t amplification in v_i(t+1) establishes that choosing step size eta &lt;= O((1 - sigma)^2 / L) keeps the spectral radius of the 4x4 consensus-optimality system strictly below the Nesterov contraction factor 1 - sqrt(mu eta / 2) (Section III-C, Lemmas 7-10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r441-primary-pdf">Accelerated Distributed Nesterov Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section III-B Consensus Error Bounds (Lemmas 2-6) &amp; Section III-C Proof of Theorem 2 (Lemmas 7-10), pp. 2571-2578</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r441-three-vector-communication-per-round-and-step-size-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires communicating three d-dimensional vectors (y_j(t), v_j(t), and s_j(t)) per neighbor at each iteration, and for non-strongly convex smooth objectives Acc-DNGD-NSC achieves O(1 / t^{1.4 - xi}) rather than the centralized O(1 / t^2) bound due to consensus-error accumulation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r441-primary-pdf">Accelerated Distributed Nesterov Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section II-B Algorithm Description &amp; Section II-C Remark 2, pp. 2568-2570</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r441-ill-conditioned-decentralized-logistic-and-huber-regression-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to ill-conditioned decentralized l_2-regularized logistic regression and smoothed Huber loss minimization over multi-agent sensor networks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r441-primary-pdf">Accelerated Distributed Nesterov Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section IV Numerical Simulations (Figures 1-3), pp. 2578-2580</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires exchanging three d-dimensional vectors (y_i, v_i, s_i) per neighbor per round.</li>
+      <li>Requires knowledge of strong convexity constant mu and smoothness L to tune Acc-DNGD-SC.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Evaluated on ill-conditioned decentralized l_2-regularized logistic classification.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Provides Nesterov-accelerated gradient tracking for decentralized peer-to-peer multi-agent optimization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r441-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r441-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1705.07176" target="_blank" rel="noopener">Accelerated Distributed Nesterov Gradient Descent</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Guannan Qu, Na Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TAC.2019.2937496</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2976c2ca7948…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r441-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r441-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1705.07176" target="_blank" rel="noopener">Accelerated Distributed Nesterov Gradient Descent (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Guannan Qu, Na Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1705.07176</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0739ef418ed0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r441-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r441-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1109/TAC.2019.2937496" target="_blank" rel="noopener">Accelerated Distributed Nesterov Gradient Descent (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Guannan Qu, Na Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TAC.2019.2937496</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:99229cb19b7e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:44:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:44:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AccDngdAcceleratedDistributedNesterovGradientDescent.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AccDngdAcceleratedDistributedNesterovGradientDescent.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

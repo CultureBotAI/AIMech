@@ -1,0 +1,102 @@
+id: AIMech:AccDngdAcceleratedDistributedNesterovGradientDescent
+name: Acc-DNGD (Accelerated Distributed Nesterov Gradient Descent)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An accelerated decentralized first-order optimization method (Qu & Li 2020, Section II, Algorithms 1-2, Equations 3a-3d and 4a-4d) that couples three consensus primal sequences x_i(t), v_i(t), y_i(t) with a dynamic average-gradient tracker s_i(t) over a doubly stochastic mixing matrix W = [w_{ij}], updating x_i(t+1) = sum_j w_{ij} y_j(t) - eta s_i(t), v_i(t+1) = (1 - alpha_t) sum_j w_{ij} v_j(t) + alpha_t sum_j w_{ij} y_j(t) - (eta / alpha_t) s_i(t), y_i(t+1) = (x_i(t+1) + alpha_{t+1} v_i(t+1)) / (1 + alpha_{t+1}), and s_i(t+1) = sum_j w_{ij} s_j(t) + nabla f_i(y_i(t+1)) - nabla f_i(y_i(t)) with s_i(0) = nabla f_i(y_i(0)).
+identity_notes: Distinct from unaccelerated Distributed Gradient Tracking / DIGing (AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs, Nedic, Olshevsky, & Shi 2017; Qu & Li 2018), whose iteration complexity scales linearly with the condition number O(kappa) on strongly convex problems and O(1/t) on general convex problems, and from Dual Optimal Decentralized Acceleration (Uribe et al. 2020), which requires Fenchel conjugate oracle evaluations rather than purely primal gradient-tracking Nesterov extrapolation.
+aliases:
+- Acc-DNGD
+- Accelerated Distributed Nesterov Gradient Descent
+- Acc-DNGD-SC and Acc-DNGD-NSC
+definition_evidence:
+- source_id: r441-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r441-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r441-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r441-inexact-centralized-nesterov-reduction-and-accelerated-rates
+  kind: mechanism
+  statement: Because the tracker s_i(t) preserves the exact global gradient average (1/n) sum_{i=1}^n s_i(t) = (1/n) sum_{i=1}^n nabla f_i(y_i(t)) by induction (Lemma 1), the network-averaged iterates bar_x(t), bar_v(t), bar_y(t) evolve as centralized Nesterov accelerated gradient descent perturbed by consensus errors ||y(t) - 1 bar_y(t)|| (Section III-A, Equations 5a-5c), achieving O(1 / t^{1.4 - xi}) objective decay via vanishing step sizes eta_t = eta / (t + t_0)^{0.6 + xi} in Acc-DNGD-NSC (Theorem 1) and O((1 - c sqrt(mu / L))^t) linear convergence with alpha = sqrt(mu eta) in Acc-DNGD-SC when condition number L / mu dominates the spectral gap (Theorem 2, Remark 4).
+  evidence:
+  - source_id: r441-primary-pdf
+    locator: Section II-C Main Results (Theorems 1-2, Remarks 1-4) & Section III Convergence Analysis (Lemma 1, Equations 5a-5c), pp. 2569-2576
+    relation: supports
+- claim_id: r441-coupled-four-inequality-small-gain-consensus-stability
+  kind: mechanism
+  statement: Bounding the coupled consensus errors ||v(t) - 1 bar_v(t)||, ||y(t) - 1 bar_y(t)||, and tracker error ||s(t) - 1 bar_s(t)|| despite the 1 / alpha_t amplification in v_i(t+1) establishes that choosing step size eta <= O((1 - sigma)^2 / L) keeps the spectral radius of the 4x4 consensus-optimality system strictly below the Nesterov contraction factor 1 - sqrt(mu eta / 2) (Section III-C, Lemmas 7-10).
+  evidence:
+  - source_id: r441-primary-pdf
+    locator: Section III-B Consensus Error Bounds (Lemmas 2-6) & Section III-C Proof of Theorem 2 (Lemmas 7-10), pp. 2571-2578
+    relation: supports
+- claim_id: r441-three-vector-communication-per-round-and-step-size-limitation
+  kind: limitation
+  statement: Requires communicating three d-dimensional vectors (y_j(t), v_j(t), and s_j(t)) per neighbor at each iteration, and for non-strongly convex smooth objectives Acc-DNGD-NSC achieves O(1 / t^{1.4 - xi}) rather than the centralized O(1 / t^2) bound due to consensus-error accumulation.
+  evidence:
+  - source_id: r441-primary-pdf
+    locator: Section II-B Algorithm Description & Section II-C Remark 2, pp. 2568-2570
+    relation: supports
+- claim_id: r441-ill-conditioned-decentralized-logistic-and-huber-regression-application
+  kind: application
+  statement: Applied to ill-conditioned decentralized l_2-regularized logistic regression and smoothed Huber loss minimization over multi-agent sensor networks.
+  evidence:
+  - source_id: r441-primary-pdf
+    locator: Section IV Numerical Simulations (Figures 1-3), pp. 2578-2580
+    relation: supports
+evidence_sources:
+- source_id: r441-primary-pdf
+  title: Accelerated Distributed Nesterov Gradient Descent
+  authors: &id001
+  - Guannan Qu
+  - Na Li
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1705.07176
+  persistent_id: https://doi.org/10.1109/TAC.2019.2937496
+  version: IEEE Transactions on Automatic Control 65(6):2566-2581 (2020) (164046 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:44:00Z'
+  sha256: 2976c2ca794861398c9aac7b4e2b6daf449a9b8ea51414eb27b74d96cabde597
+- source_id: r441-arxiv-abs
+  title: Accelerated Distributed Nesterov Gradient Descent (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1705.07176
+  persistent_id: https://arxiv.org/abs/1705.07176
+  version: arXiv abstract page (12363 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:44:00Z'
+  sha256: 0739ef418ed0fb40a8d16b5576e518af15c6f8e0d942401f613f027f42d7be97
+- source_id: r441-metadata-cr
+  title: Accelerated Distributed Nesterov Gradient Descent (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/TAC.2019.2937496
+  persistent_id: https://doi.org/10.1109/TAC.2019.2937496
+  version: Crossref API work record (358 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:44:00Z'
+  sha256: 99229cb19b7ee9ac736b75e40d540e6f53eb4cf0224843d1f1ae7d1cb8025534
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Evaluated on ill-conditioned decentralized l_2-regularized logistic classification.
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Provides Nesterov-accelerated gradient tracking for decentralized peer-to-peer multi-agent optimization.
+limitations:
+- Requires exchanging three d-dimensional vectors (y_i, v_i, s_i) per neighbor per round.
+- Requires knowledge of strong convexity constant mu and smoothness L to tune Acc-DNGD-SC.
+curation:
+  created_at: '2026-10-19T08:44:00Z'
+  updated_at: '2026-10-19T08:44:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
