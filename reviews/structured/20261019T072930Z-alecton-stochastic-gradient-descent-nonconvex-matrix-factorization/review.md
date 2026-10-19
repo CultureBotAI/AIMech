@@ -1,0 +1,362 @@
+# Scientific author self-review of Alecton Riemannian-Rescaled Stochastic Gradient Descent for Non-Convex Low-Rank Matrix Problems
+
+- Review: 20261019T072930Z-alecton-stochastic-gradient-descent-nonconvex-matrix-factorization
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T07:29:00Z
+- Finished UTC: 2026-10-19T07:29:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Alecton Riemannian-Rescaled Stochastic Gradient Descent for Non-Convex Low-Rank Matrix Problems as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 5fabf439f6e2498efae7f63b01ae758fb9ae5f55.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems | data/curated/AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems.yaml | maintained | Alecton Riemannian-Rescaled Stochastic Gradient Descent for Non-Convex Low-Rank Matrix Problems |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems | Validated history sidecar files. |
+| python3 alecton-stochastic-gradient-descent-nonconvex-matrix-factorization-boundaries.py | passed | True | AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems | [PASS] Round 366 Alecton SGD (De Sa, Olukotun, &amp; Re 2015): colspace_diff=4.78e-16, lemma15_err=0.00e+00, z1_exact=0.4304&lt;=0.5013, drift_margin=5.43e-04&gt;=0, align_final=0.9907 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems.
+
+Alecton Riemannian-Rescaled Stochastic Gradient Descent for Non-Convex Low-Rank Matrix Problems is a distinct concept.
+
+Distinct from AIMech:BurerMonteiroLowRankSemidefiniteProgrammingAndRiemannianStaircase (Round 336), which classifies deterministic second-order critical points of smooth semidefinite programs with linear constraints &lt;A_i, Y Y^T&gt; = b_i, and from AIMech:StreamingPCANearOptimalFiniteSampleOjaAlgorithm (Round 357), which analyzes rank-1 streaming covariance PCA with bounded-norm rank-1 samples x_t x_t^T via matrix product moments rather than proving global convergence for rank-p entrywise matrix completion, trace sensing, and subspace tracking under second-moment variance bounds (AVC) via Doob's optional stopping theorem on a determinant-ratio submartingale tau_k.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in alecton-stochastic-gradient-descent-nonconvex-matrix-factorization-boundaries.py passed with exit code 0: [PASS] Round 366 Alecton SGD (De Sa, Olukotun, &amp; Re 2015): colspace_diff=4.78e-16, lemma15_err=0.00e+00, z1_exact=0.4304&lt;=0.5013, drift_margin=5.43e-04&gt;=0, align_final=0.9907
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T072900Z-alecton-stochastic-gradient-descent-nonconvex-matrix-factorization.json | supports | No normalized identity match for AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/alecton-stochastic-gradient-descent-nonconvex-matrix-factorization-boundaries.py | supports | All constructed boundary assertions in alecton-stochastic-gradient-descent-nonconvex-matrix-factorization-boundaries.py passed with exit code 0: [PASS] Round 366 Alecton SGD (De Sa, Olukotun, &amp; Re 2015): colspace_diff=4.78e-16, lemma15_err=0.00e+00, z1_exact=0.4304&lt;=0.5013, drift_margin=5.43e-04&gt;=0, align_final=0.9907 |
+| r366-primary-pdf | https://arxiv.org/pdf/1411.1134.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the 32nd International Conference on Machine Learning (ICML 2015), PMLR 37:2332-2341 (arXiv:1411.1134) (2015)) read and verified. |
+| r366-arxiv-abs | https://arxiv.org/abs/1411.1134; arXiv abstract | supports | arXiv abstract read and verified. |
+| r366-metadata-cr | https://proceedings.mlr.press/v37/sa15.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems in Round 366.
+- All pages of Proceedings of the 32nd International Conference on Machine Learning (ICML 2015), PMLR 37:2332-2341 (arXiv:1411.1134) (2015) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T072930Z-alecton-stochastic-gradient-descent-nonconvex-matrix-factorization
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Alecton Riemannian-Rescaled Stochastic Gradient
+  Descent for Non-Convex Low-Rank Matrix Problems
+started_at: '2026-10-19T07:29:00Z'
+finished_at: '2026-10-19T07:29:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 32nd International Conference on Machine Learning (ICML 2015), PMLR 37:2332-2341
+    (arXiv:1411.1134) (2015) and pure-Python boundary checks. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Alecton Riemannian-Rescaled Stochastic Gradient Descent for Non-Convex
+  Low-Rank Matrix Problems as a distinct DRAFT algorithm. All three claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 5fabf439f6e2498efae7f63b01ae758fb9ae5f55
+  state: working_tree
+  inputs:
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems.yaml
+    sha256: 2d7c955374f1e99ad24d7ed09082689849b44527b653e3aa3eebfcde56beac11
+    role: target
+  - path: research/discovery/20261019T072900Z-alecton-stochastic-gradient-descent-nonconvex-matrix-factorization.json
+    sha256: a65b32d430bfa48f9f9f262c3170c40fdbd51583be795a41c6b2cf90a36127dc
+    role: context
+  - path: research/discovery/alecton-stochastic-gradient-descent-nonconvex-matrix-factorization-boundaries.py
+    sha256: 43ff0da8787a5d84d90bac27f62f74888ce546991c8593ea17fd10957ea05666
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+  path: data/curated/AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems.yaml
+  label: Alecton Riemannian-Rescaled Stochastic Gradient Descent for Non-Convex Low-Rank
+    Matrix Problems
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 alecton-stochastic-gradient-descent-nonconvex-matrix-factorization-boundaries.py
+  command: python3 research/discovery/alecton-stochastic-gradient-descent-nonconvex-matrix-factorization-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 366 Alecton SGD (De Sa, Olukotun, & Re 2015): colspace_diff=4.78e-16,
+    lemma15_err=0.00e+00, z1_exact=0.4304<=0.5013, drift_margin=5.43e-04>=0, align_final=0.9907'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T072900Z-alecton-stochastic-gradient-descent-nonconvex-matrix-factorization.json
+  accessed_at: '2026-10-19T07:29:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T07:29:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/alecton-stochastic-gradient-descent-nonconvex-matrix-factorization-boundaries.py
+  accessed_at: '2026-10-19T07:29:00Z'
+  snapshot_sha256: 43ff0da8787a5d84d90bac27f62f74888ce546991c8593ea17fd10957ea05666
+  support: supports
+  summary: 'All constructed boundary assertions in alecton-stochastic-gradient-descent-nonconvex-matrix-factorization-boundaries.py
+    passed with exit code 0: [PASS] Round 366 Alecton SGD (De Sa, Olukotun, & Re 2015):
+    colspace_diff=4.78e-16, lemma15_err=0.00e+00, z1_exact=0.4304<=0.5013, drift_margin=5.43e-04>=0,
+    align_final=0.9907'
+- evidence_id: r366-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1411.1134.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T07:29:00Z'
+  snapshot_sha256: 7365928a4cb69f2353bada6cf8ff07cfd369aec32b873f4978c9b9ab66e423c1
+  support: supports
+  summary: Full-text PDF (Proceedings of the 32nd International Conference on Machine
+    Learning (ICML 2015), PMLR 37:2332-2341 (arXiv:1411.1134) (2015)) read and verified.
+- evidence_id: r366-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1411.1134
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T07:29:00Z'
+  snapshot_sha256: 7d2e6a17dec1d83b46f9f9a0e38b77b1a8adffc5a5ed888e3057b9246d3efe63
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r366-metadata-cr
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v37/sa15.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T07:29:00Z'
+  snapshot_sha256: dd6f8deefd87b55e402f2ecb41283da22b1e969e4c33172d467faa86d17a0b61
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+  evidence_ids:
+  - identity
+  - r366-primary-pdf
+  - r366-arxiv-abs
+  - r366-metadata-cr
+  summary: Alecton Riemannian-Rescaled Stochastic Gradient Descent for Non-Convex
+    Low-Rank Matrix Problems is a distinct concept.
+  details: Distinct from AIMech:BurerMonteiroLowRankSemidefiniteProgrammingAndRiemannianStaircase
+    (Round 336), which classifies deterministic second-order critical points of smooth
+    semidefinite programs with linear constraints <A_i, Y Y^T> = b_i, and from AIMech:StreamingPCANearOptimalFiniteSampleOjaAlgorithm
+    (Round 357), which analyzes rank-1 streaming covariance PCA with bounded-norm
+    rank-1 samples x_t x_t^T via matrix product moments rather than proving global
+    convergence for rank-p entrywise matrix completion, trace sensing, and subspace
+    tracking under second-moment variance bounds (AVC) via Doob's optional stopping
+    theorem on a determinant-ratio submartingale tau_k.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+  evidence_ids:
+  - mapping
+  - r366-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+  evidence_ids:
+  - r366-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in alecton-stochastic-gradient-descent-nonconvex-matrix-factorization-boundaries.py
+    passed with exit code 0: [PASS] Round 366 Alecton SGD (De Sa, Olukotun, & Re 2015):
+    colspace_diff=4.78e-16, lemma15_err=0.00e+00, z1_exact=0.4304<=0.5013, drift_margin=5.43e-04>=0,
+    align_final=0.9907'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+  evidence_ids:
+  - identity
+  - mapping
+  - r366-primary-pdf
+  - r366-arxiv-abs
+  - r366-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+  in Round 366.
+- All pages of Proceedings of the 32nd International Conference on Machine Learning
+  (ICML 2015), PMLR 37:2332-2341 (arXiv:1411.1134) (2015) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

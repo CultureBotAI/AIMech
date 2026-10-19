@@ -1,0 +1,95 @@
+id: AIMech:AlectonStochasticGradientDescentForNonconvexLowRankMatrixProblems
+name: Alecton Riemannian-Rescaled Stochastic Gradient Descent for Non-Convex Low-Rank Matrix Problems
+concept_kind: algorithm
+review_status: DRAFT
+definition: Alecton is a two-phase stochastic gradient descent algorithm introduced by De Sa, Olukotun, and Re (2015) for solving non-convex low-rank factorized matrix optimization problems min_{Y in R^{n x p}} E[||A_tilde - Y Y^T||_F^2] from a uniform random orthonormal initialization Y_0^T Y_0 = I_p without spectral warm-starts. Endowing the quotient manifold M = R^{n x p} / O_p with the rescaled Riemannian metric <U, V>_Y = tr(U (I + eta Y^T Y) V^T) and step size alpha_k = eta/4 transforms the factorized SGD update into Y_{k+1} = (I + eta A_tilde_k) Y_k (I + eta Y_k^T Y_k)^{-1}, whose column space C(Y_k) is identical at every step k to the unnormalized stochastic power iteration Y_bar_{k+1} = (I + eta A_tilde_k) Y_bar_k (Angular Phase), followed by orthonormalization Y_hat = Y_K (Y_K^T Y_K)^{-1/2} and empirical eigenvalue averaging R_bar = (1/L)*sum_{l=0}^{L-1} Y_hat^T A_tilde_l Y_hat to return Y_hat R_bar^{1/2} (Radial Phase).
+identity_notes: Distinct from AIMech:BurerMonteiroLowRankSemidefiniteProgrammingAndRiemannianStaircase (Round 336), which classifies deterministic second-order critical points of smooth semidefinite programs with linear constraints <A_i, Y Y^T> = b_i, and from AIMech:StreamingPCANearOptimalFiniteSampleOjaAlgorithm (Round 357), which analyzes rank-1 streaming covariance PCA with bounded-norm rank-1 samples x_t x_t^T via matrix product moments rather than proving global convergence for rank-p entrywise matrix completion, trace sensing, and subspace tracking under second-moment variance bounds (AVC) via Doob's optional stopping theorem on a determinant-ratio submartingale tau_k.
+aliases:
+- Alecton Algorithm
+- Alecton Non-Convex Low-Rank Factorized SGD
+- Riemannian-Metric-Rescaled Stochastic Gradient Descent for Y Y^T Matrix Recovery
+definition_evidence:
+- source_id: r366-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r366-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r366-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r366-claim-riemannian-metric-rescaling-and-divergence-of-unrescaled-quartic-sgd
+  kind: mechanism
+  statement: For the quartic factorized objective f_tilde(Y) = tr(Y Y^T Y Y^T) - 2*tr(Y A_tilde Y^T) + ||A_tilde||_F^2, standard SGD with any iterate-independent step size alpha_k >= alpha * C^{-2k} (C > 1) diverges super-exponentially as x_k^2 > alpha^{-1} C^{2k} (C + 1) whenever initialized with x_0^2 >= alpha^{-1}(C + 1) (Proposition 1, Appendix A); in contrast, equipping the quotient manifold M = R^{n x p}/O_p with the Riemannian metric <U, V>_Y = tr(U (I + eta Y^T Y) V^T) yields the rescaled update Y_{k+1} = (I + eta A_tilde_k) Y_k (I + eta Y_k^T Y_k)^{-1}, which has the exact same column space C(Y_k) = C(Y_bar_k) at every step k as the unnormalized iteration Y_bar_{k+1} = (I + eta A_tilde_k) Y_bar_k (Section 2, Eq. 3-4, Algorithm 1).
+  evidence:
+  - source_id: r366-primary-pdf
+    locator: Section 2, Eq. (3)-(4) and Algorithm 1, pp. 3-5; Appendix A, Proposition 1, pp. 15-16
+    relation: supports
+- claim_id: r366-claim-determinant-ratio-submartingale-and-optional-stopping-global-rate
+  kind: mechanism
+  statement: 'Under the Alecton Variance Condition (Condition 1: E[y^T A_tilde^T W A_tilde y] <= sigma_a^2 tr(W) ||y||^2 and E[(y^T A_tilde y)^2] <= sigma_r^2 ||y||^4), Rank Condition (Condition 2: p = 1 or rank(A_tilde) = 1), and Step Size Condition (Condition 3: gamma = 2*n*sigma_a^2*p^2*(p + epsilon)*eta / (Delta*epsilon) <= 1 where Delta = lambda_q - lambda_{q+1}), the determinant ratio tau_k = |Y_k^T U Y_k| / |Y_k^T W Y_k| (with W = gamma*n^{-1}*p^{-2}*q*I + (1 - gamma*n^{-1}*p^{-2}*q)*U) satisfies the dominant mass submartingale drift E[tau_{k+1} | F_k] >= tau_k * (1 + eta*Delta*(1 - tau_k)) before stopping time T (Lemmas 6-12 and 15-16); applying Doob''s optional stopping theorem (Theorem 2) to tau_k and the supermartingale psi_k = log(1 - tau_k) + (1/2)*eta*Delta*k proves that angular failure up to step t is bounded by P(F_t) <= Z_p(gamma) + (4*n*sigma_a^2*p^2*(p + epsilon) / (Delta^2*gamma*epsilon*t)) * log(n*p^2 / (gamma*q*epsilon)) with Z_1(gamma) = sqrt(2*pi*gamma)*exp(gamma/2)*erfc(sqrt(gamma/2)) <= sqrt(2*pi*gamma) and radial error P(||R_bar - Y_hat^T A Y_hat||_F^2 >= psi) <= p^2*sigma_r^2 / (L*psi), yielding global convergence in O(epsilon^{-1}*n*p^3*log n) steps (Theorem 1, Lemma 1, Lemmas 13-14) with a matching Omega(1/(K + 1)) rate lower bound (Theorem 3, Appendix E).'
+  evidence:
+  - source_id: r366-primary-pdf
+    locator: Section 3-3.1, Conditions 1-3, Definitions 1-3, Theorem 1, Lemma 1, and Theorem 2, pp. 5-8; Appendix C-E, Lemmas 6-17, Lemma 23, and Theorem 3, pp. 18-32, 38-39
+    relation: supports
+- claim_id: r366-claim-matrix-completion-trace-sensing-subspace-tracking-and-local-strong-convexity
+  kind: application
+  statement: The Alecton Variance Condition holds for uniform entrywise matrix completion on mu-incoherent symmetric matrices with sigma_a^2 = mu^4*||A||_F^2 and sigma_r^2 = mu^4*tr(A)^2 (Lemma 2), rectangular entrywise sampling with M_{ij}^2 <= xi*m^{-1}*n^{-1}*||M||_F^2 giving sigma_a^2 = sigma_r^2 = 2*xi*||M||_F^2 (Lemma 3), isotropic unit-sphere trace sensing A_tilde = n^2 v v^T A w w^T for n > 50 giving sigma_a^2 = 16*||A||_F^2 and sigma_r^2 = 16*tr(A)^2 (Lemma 4, Lemmas 20-21), and m-entry subspace tracking on mu-incoherent rank-r projectors giving sigma_a^2 = sigma_r^2 = r^2*(1 + mu*r*m^{-1})^2 (Lemma 5, Lemma 22); moreover, when a linear measurement operator Omega satisfies 3p-RIP with constant delta, the factorized objective f(Y) = ||Omega(Y Y^T - A)||^2 has directional Hessian nabla_V^2 f(Y) >= 2*((1 - delta)*lambda_p - (3 + delta)*||Y Y^T - A||_F)*I (Theorem 4, Appendix G), establishing strong convexity in an O(1)-radius ball reached by Alecton.
+  evidence:
+  - source_id: r366-primary-pdf
+    locator: Section 4.1-4.6, Definitions 4-5, Lemmas 2, 3, 4, and 5, and Algorithm 2, pp. 8-11; Appendix D.1, Lemmas 18-22, pp. 32-38; Appendix G, Definition 8, Lemma 24, and Theorem 4, pp. 40-42
+    relation: supports
+evidence_sources:
+- source_id: r366-primary-pdf
+  title: Global Convergence of Stochastic Gradient Descent for Some Non-convex Matrix Problems
+  authors: &id001
+  - Christopher De Sa
+  - Kunle Olukotun
+  - Christopher Re
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1411.1134.pdf
+  persistent_id: https://proceedings.mlr.press/v37/sa15.html
+  version: Proceedings of the 32nd International Conference on Machine Learning (ICML 2015), PMLR 37:2332-2341 (arXiv:1411.1134) (2015) (318810 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:29:00Z'
+  sha256: 7365928a4cb69f2353bada6cf8ff07cfd369aec32b873f4978c9b9ab66e423c1
+- source_id: r366-arxiv-abs
+  title: Global Convergence of Stochastic Gradient Descent for Some Non-convex Matrix Problems (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1411.1134
+  persistent_id: https://arxiv.org/abs/1411.1134
+  version: arXiv abstract page (6624 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:29:00Z'
+  sha256: 7d2e6a17dec1d83b46f9f9a0e38b77b1a8adffc5a5ed888e3057b9246d3efe63
+- source_id: r366-metadata-cr
+  title: Global Convergence of Stochastic Gradient Descent for Some Non-convex Matrix Problems (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v37/sa15.html
+  persistent_id: https://proceedings.mlr.press/v37/sa15.html
+  version: Crossref API work record (3981 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:29:00Z'
+  sha256: dd6f8deefd87b55e402f2ecb41283da22b1e969e4c33172d467faa86d17a0b61
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Solves stochastic eigenvalue and subspace tracking problems via Riemannian-rescaled stochastic gradient descent.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Recovers low-rank matrix factorizations X = Y Y^T for matrix completion, matrix sensing, and subspace tracking.
+limitations:
+- Achieves a sublinear O(1/epsilon) convergence rate (which is optimal for general bounded-variance stochastic sampling, Theorem 3 in Appendix E) rather than a geometric log(1/epsilon) rate unless switched to a heavier convex/coordinate descent method inside the local strong-convexity basin, and cannot guarantee polynomial-time global convergence under arbitrary convex constraints such as elliptope-constrained MAXCUT (Appendix A, pp. 16-17; Appendix G, p. 42).
+curation:
+  created_at: '2026-10-19T07:29:00Z'
+  updated_at: '2026-10-19T07:29:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
