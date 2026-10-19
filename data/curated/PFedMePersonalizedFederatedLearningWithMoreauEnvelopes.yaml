@@ -1,0 +1,100 @@
+id: AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes
+name: pFedMe Personalized Federated Learning with Moreau Envelopes
+concept_kind: algorithm
+review_status: DRAFT
+definition: A bi-level personalized federated learning algorithm (pFedMe) that formulates global coordination as minimizing the average Moreau envelope F(w) = (1/N) sum_{i=1}^N F_i(w) where each client's outer objective is F_i(w) = min_{theta_i in R^d} { f_i(theta_i) + (lambda / 2) ||theta_i - w||^2 } and its optimal personalized model is the proximal operator theta_hat_i(w) = prox_{f_i / lambda}(w). Using the exact envelope gradient identity nabla F_i(w) = lambda * (w - theta_hat_i(w)), each client i alternates across R local steps between computing a delta-approximate personalized solution theta_tilde_i(w_{i,r}^t) via K inner first-order steps and updating its local reference model w_{i,r+1}^t = w_{i,r}^t - eta * lambda * (w_{i,r}^t - theta_tilde_i(w_{i,r}^t)), followed by server interpolation w_{t+1} = (1 - beta) w_t + (beta / S) sum_{i in S^t} w_{i,R}^t.
+identity_notes: Distinct from FedProx (AIMech:FedProxProximalFederatedOptimization, which solves the same proximal subproblem to update a single shared global model w without decoupling a persistent personalized model theta_i from the global reference parameter w), from Per-FedAvg (AIMech:PerFedAvgModelAgnosticMetaLearningForPersonalizedFederatedLearning, which minimizes one-step MAML adaptation loss f_i(w - alpha nabla f_i(w)) requiring Hessian-vector products rather than first-order Moreau envelopes), and from Ditto (AIMech:DittoFairAndRobustPersonalizedFederatedMultiTaskLearning, where global optimization of w^* is completely independent of the personalized models v_k, whereas in pFedMe the outer global update depends directly on lambda * (w_{i,r}^t - theta_tilde_i)).
+aliases:
+- pFedMe
+- Personalized Federated Learning with Moreau Envelopes
+- Moreau Envelope Personalized Federated Learning
+definition_evidence:
+- source_id: r395-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r395-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r395-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r395-moreau-envelope-smoothness-and-strong-convexity-transfer
+  kind: mechanism
+  statement: Proposition 1 proves that if f_i is L-smooth (and optionally mu-strongly convex, or nonconvex with lambda > 2L), then the Moreau envelope F_i(w) is L_F-smooth with L_F = lambda (and L_F = lambda * L / (lambda - L) < lambda for lambda > 2L) and mu_F-strongly convex with mu_F = lambda * mu / (lambda + mu), with exact gradient nabla F_i(w) = lambda * (w - theta_hat_i(w)), while Lemma 1 shows that K = O(kappa_h log(d / delta)) inner gradient steps suffice to compute a delta-accurate proximal iterate without second-order derivatives.
+  evidence:
+  - source_id: r395-primary-pdf
+    locator: Section 3.1 Problem Formulation & Section 3.2 Algorithm (Proposition 1, Lemma 1, Eqs. 3-5), pp. 3-5
+    relation: supports
+- claim_id: r395-strongly-convex-and-nonconvex-convergence-rates
+  kind: mechanism
+  statement: Using the Moreau-envelope bounded diversity bound (Lemma 2), Theorem 1 and Corollary 1 establish O(1 / (T R N)^2) quadratic convergence speedup in total rounds T, local steps R, and clients N for mu-strongly convex objectives, while Theorem 2 and Corollary 2 establish O(1 / (T R S)^{2/3}) stationarity convergence for L-smooth nonconvex objectives when lambda >= sqrt(8 L^2 + 1).
+  evidence:
+  - source_id: r395-primary-pdf
+    locator: Section 4 Convergence Analysis (Lemma 2, Theorems 1-2, Corollaries 1-2, Table 1), pp. 5-7
+    relation: supports
+- claim_id: r395-inner-loop-computational-overhead-and-lambda-threshold-limitation
+  kind: limitation
+  statement: Each outer local step r = 1,...,R requires solving an inner K-step proximal minimization subproblem (multiplying local gradient evaluations by K), and theoretical nonconvex smoothness of the Moreau envelope requires choosing the regularization parameter lambda > 2L (or lambda >= sqrt(8 L^2 + 1) in Theorem 2).
+  evidence:
+  - source_id: r395-primary-pdf
+    locator: Section 3.1 Proposition 1, Section 3.2 Lemma 1, and Section 4.2 Theorem 2, pp. 3-7
+    relation: supports
+- claim_id: r395-heterogeneous-mnist-and-synthetic-personalization-application
+  kind: application
+  statement: Applied to non-i.i.d. MNIST and synthetic federated tasks with both strongly convex L2-regularized multinomial logistic regression and nonconvex 2-layer DNN models, outperforming FedAvg and Per-FedAvg in personalized test accuracy.
+  evidence:
+  - source_id: r395-primary-pdf
+    locator: Section 5 Experimental Results and Discussion (Figures 1-2, Table 2), pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r395-primary-pdf
+  title: Personalized Federated Learning with Moreau Envelopes
+  authors: &id001
+  - Canh T. Dinh
+  - Nguyen H. Tran
+  - Tuan Dung Nguyen
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2020/hash/f4f1f13c8289ac1b1ee0ff176b56fc60-Abstract.html
+  persistent_id: https://doi.org/10.48550/arXiv.2006.08848
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020), pp. 21394-21405 (2020) (82528 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:58:00Z'
+  sha256: 07a9e178a874903d2d1da95b7ae0ca13cf329107b7b576ddbc1b7ca9b2031a9a
+- source_id: r395-arxiv-abs
+  title: Personalized Federated Learning with Moreau Envelopes (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2006.08848
+  persistent_id: https://arxiv.org/abs/2006.08848
+  version: arXiv abstract page (6623 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:58:00Z'
+  sha256: 55c1eddcd1ba47707092e23d6db0ba5b16661003c824355177065a2c0683abb1
+- source_id: r395-metadata-cr
+  title: Personalized Federated Learning with Moreau Envelopes (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.48550/arXiv.2006.08848
+  persistent_id: https://doi.org/10.48550/arXiv.2006.08848
+  version: Crossref API work record (404 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:58:00Z'
+  sha256: c7dba23f645159dd7c2c150401dfbe4774c1d8756a7c36ae1745cd269eb437ab
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: pFedMe is a Moreau-envelope personalized federated optimization algorithm within FederatedLearning.
+limitations:
+- Multiplies local computational cost by K inner gradient steps per outer local step r in 1..R.
+- Nonconvex Moreau envelope smoothness guarantees require choosing the proximal penalty parameter lambda > 2L.
+curation:
+  created_at: '2026-10-19T07:58:00Z'
+  updated_at: '2026-10-19T07:58:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
