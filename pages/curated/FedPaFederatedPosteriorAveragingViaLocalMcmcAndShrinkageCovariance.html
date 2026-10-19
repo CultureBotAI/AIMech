@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedPA (Federated Posterior Averaging via Local MCMC and Shrinkage Covariance) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedPA (Federated Posterior Averaging via Local MCMC and Shrinkage Covariance)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedPA (Federated Posterior Averaging via Local MCMC and Shrinkage Covariance)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedPA, Federated Posterior Averaging, Federated Learning via Posterior Averaging
+    </div>
+
+  <div class="detail-desc">
+    A Bayesian posterior-inference federated learning algorithm (Al-Shedivat et al. 2021, Algorithms 1-2) that decomposes the global posterior under a uniform prior into a product of local client posteriors P(theta | D) propto prod_{i=1}^N P(theta | D_i), approximates each client posterior with a Gaussian N(mu_hat_i, Sigma_hat_i) whose mean and Ledoit-Wolf shrinkage covariance Sigma_hat_ell = rho_ell I + (1 - rho_ell) S_hat_ell (rho_ell = 1 / (1 + (ell - 1) rho)) are estimated from ell local stochastic-gradient MCMC (Iterate-Averaged SGD) samples, and transmits only the preconditioned vector update Delta_hat_i = Sigma_hat_i^{-1} (theta^{t-1} - mu_hat_i) computed online in O(ell^2 d) time and O(ell d) memory via rank-1 Sherman-Morrison dynamic programming.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedAvg and FedOpt (AIMech:FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam), which correspond to the biased identity-covariance special case Sigma_hat_i = I (rho = 0) and converge to the arithmetic mean of local modes rather than the global posterior mode (sum_i q_i Sigma_i^{-1})^{-1} (sum_i q_i Sigma_i^{-1} mu_i) when client posteriors have heterogeneous anisotropic curvatures, and from FedMA (AIMech:FedMaFederatedMatchedAveragingViaLayerWiseBayesianNonparametricMatching, which uses a Beta-Bernoulli Process for layer-wise neuron permutation matching rather than local MCMC sampling and shrinkage covariance preconditioning).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r412-gaussian-posterior-product-quadratic-objective-and-fedavg-identity-covariance-bias</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Propositions 1 and 2 show that under local Laplace/Gaussian posterior approximations N(mu_i, Sigma_i), the global posterior mode mu = (sum_{i=1}^N q_i Sigma_i^{-1})^{-1} (sum_{i=1}^N q_i Sigma_i^{-1} mu_i) minimizes the global quadratic objective Q(theta) = (1/2) theta^T (sum_i q_i Sigma_i^{-1}) theta - (sum_i q_i Sigma_i^{-1} mu_i)^T theta whose stochastic client gradient is Delta_i = Sigma_i^{-1}(theta - mu_i), revealing that FedAvg implicitly sets Sigma_i = I and therefore converges to a biased fixed point whenever client precision matrices Sigma_i^{-1} are heterogeneous and anisotropic.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r412-primary-pdf">Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3 (Propositions 1 and 2, Eqs. 3-6, Figure 1)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r412-sherman-morrison-dynamic-programming-for-matrix-free-shrinkage-covariance-inversion</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 3 and Appendix C (Algorithm 2) prove that using the Ledoit-Wolf shrinkage covariance estimator Sigma_hat_ell = rho_ell I + (1 - rho_ell) S_hat_ell with rho_ell = 1 / (1 + (ell - 1) rho) over ell local MCMC epoch means x_1,...,x_ell, the unnormalized matrix tilde_Sigma_t = I + rho (t - 1) S_hat_t satisfies the rank-1 recurrence tilde_Sigma_t = tilde_Sigma_{t-1} + gamma_t u_t u_t^T with u_t = x_t - bar_x_{t-1} and gamma_t = rho (t - 1) / t, enabling exact computation of Delta_hat_ell = Sigma_hat_ell^{-1}(x_0 - bar_x_ell) in O(ell^2 d) time and O(ell d) memory without ever instantiating or communicating a d x d matrix.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r412-primary-pdf">Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Efficient Local Posterior Covariance Estimation (Theorem 3, Eq. 8) &amp; Appendix C (Algorithm 2)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r412-burn-in-epochs-and-local-sample-storage-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FedPA requires an initial burn-in phase of communication rounds before activating posterior covariance preconditioning so that local SG-MCMC chains mix near a local mode, and each client must store ell &gt;= 2 d-dimensional epoch-mean vectors during local training to form rank-1 covariance updates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r412-primary-pdf">Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.3 (Table 1, Algorithm 1) &amp; Section 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r412-federated-emnist-cifar100-stackoverflow-and-reddit-benchmarks-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated on federated EMNIST-62, CIFAR-100, StackOverflow tag prediction and next-word prediction, and Reddit language modeling, improving convergence speed and final test accuracy over FedAvg and adaptive FedOpt baselines.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r412-primary-pdf">Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments (Tables 2-3, Figures 2-4)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires burn-in communication rounds before activating covariance preconditioning.</li>
+      <li>Clients must store ell &gt;= 2 epoch-mean sample vectors during each local round.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedPA is a Bayesian posterior-averaging algorithm for Federated Learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r412-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r412-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2010.05273" target="_blank" rel="noopener">Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Maruan Al-Shedivat, Jennifer Gillenwater, Eric P. Xing, Afshin Rostamizadeh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=GFsU8a0sGB</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:aa28ea4d73cf…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r412-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r412-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2010.05273" target="_blank" rel="noopener">Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Maruan Al-Shedivat, Jennifer Gillenwater, Eric P. Xing, Afshin Rostamizadeh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2010.05273</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:aee73b9afd8e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r412-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r412-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=GFsU8a0sGB" target="_blank" rel="noopener">Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Maruan Al-Shedivat, Jennifer Gillenwater, Eric P. Xing, Afshin Rostamizadeh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=GFsU8a0sGB</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8f7c4f3ba9dd…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:15:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:15:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

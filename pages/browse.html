@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1248</strong> artificial intelligence concepts, comprising <strong>806</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1249</strong> artificial intelligence concepts, comprising <strong>807</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1248)</option>
-        <option value="curated">Curated AIMech (806)</option>
+        <option value="all">All Origins (1249)</option>
+        <option value="curated">Curated AIMech (807)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (504)</option>
+          <option value="algorithm">Algorithms (505)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1248</span> of <span id="totalCount">1248</span>
+      Showing <span id="matchCount">1249</span> of <span id="totalCount">1249</span>
     </div>
   </div>
 </div>
@@ -9829,6 +9829,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fedpa (federated posterior averaging via local mcmc and shrinkage covariance) fedpafederatedposterioraveragingvialocalmcmcandshrinkagecovariance aimech:fedpafederatedposterioraveragingvialocalmcmcandshrinkagecovariance algorithms algorithm a bayesian posterior-inference federated learning algorithm (al-shedivat et al. 2021, algorithms 1-2) that decomposes the global posterior under a uniform prior into a product of local client posteriors p(theta | d) propto prod_{i=1}^n p(theta | d_i), approximates each client posterior with a gaussian n(mu_hat_i, sigma_hat_i) whose mean and ledoit-wolf shrinkage covariance sigma_hat_ell = rho_ell i + (1 - rho_ell) s_hat_ell (rho_ell = 1 / (1 + (ell - 1) rho)) are estimated from ell local stochastic-gradient mcmc (iterate-averaged sgd) samples, and transmits only the preconditioned vector update delta_hat_i = sigma_hat_i^{-1} (theta^{t-1} - mu_hat_i) computed online in o(ell^2 d) time and o(ell d) memory via rank-1 sherman-morrison dynamic programming. distinct from fedavg and fedopt (aimech:fedoptadaptiveserveroptimizationfedadagradfedyogifedadam), which correspond to the biased identity-covariance special case sigma_hat_i = i (rho = 0) and converge to the arithmetic mean of local modes rather than the global posterior mode (sum_i q_i sigma_i^{-1})^{-1} (sum_i q_i sigma_i^{-1} mu_i) when client posteriors have heterogeneous anisotropic curvatures, and from fedma (aimech:fedmafederatedmatchedaveragingvialayerwisebayesiannonparametricmatching, which uses a beta-bernoulli process for layer-wise neuron permutation matching rather than local mcmc sampling and shrinkage covariance preconditioning). fedpa federated posterior averaging federated learning via posterior averaging propositions 1 and 2 show that under local laplace/gaussian posterior approximations n(mu_i, sigma_i), the global posterior mode mu = (sum_{i=1}^n q_i sigma_i^{-1})^{-1} (sum_{i=1}^n q_i sigma_i^{-1} mu_i) minimizes the global quadratic objective q(theta) = (1/2) theta^t (sum_i q_i sigma_i^{-1}) theta - (sum_i q_i sigma_i^{-1} mu_i)^t theta whose stochastic client gradient is delta_i = sigma_i^{-1}(theta - mu_i), revealing that fedavg implicitly sets sigma_i = i and therefore converges to a biased fixed point whenever client precision matrices sigma_i^{-1} are heterogeneous and anisotropic. theorem 3 and appendix c (algorithm 2) prove that using the ledoit-wolf shrinkage covariance estimator sigma_hat_ell = rho_ell i + (1 - rho_ell) s_hat_ell with rho_ell = 1 / (1 + (ell - 1) rho) over ell local mcmc epoch means x_1,...,x_ell, the unnormalized matrix tilde_sigma_t = i + rho (t - 1) s_hat_t satisfies the rank-1 recurrence tilde_sigma_t = tilde_sigma_{t-1} + gamma_t u_t u_t^t with u_t = x_t - bar_x_{t-1} and gamma_t = rho (t - 1) / t, enabling exact computation of delta_hat_ell = sigma_hat_ell^{-1}(x_0 - bar_x_ell) in o(ell^2 d) time and o(ell d) memory without ever instantiating or communicating a d x d matrix. fedpa requires an initial burn-in phase of communication rounds before activating posterior covariance preconditioning so that local sg-mcmc chains mix near a local mode, and each client must store ell &gt;= 2 d-dimensional epoch-mean vectors during local training to form rank-1 covariance updates. evaluated on federated emnist-62, cifar-100, stackoverflow tag prediction and next-word prediction, and reddit language modeling, improving convergence speed and final test accuracy over fedavg and adaptive fedopt baselines. federated learning via posterior averaging: a new perspective and practical algorithms federated learning via posterior averaging: a new perspective and practical algorithms (arxiv abstract) federated learning via posterior averaging: a new perspective and practical algorithms (crossref metadata) maruan al-shedivat jennifer gillenwater eric p. xing afshin rostamizadeh maruan al-shedivat jennifer gillenwater eric p. xing afshin rostamizadeh maruan al-shedivat jennifer gillenwater eric p. xing afshin rostamizadeh">
+        <td>
+          <a href="curated/FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance.html" style="font-weight: 600; font-size: 1rem;">FedPA (Federated Posterior Averaging via Local MCMC and Shrinkage Covariance)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedPA, Federated Posterior Averaging…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A Bayesian posterior-inference federated learning algorithm (Al-Shedivat et al. 2021, Algorithms 1-2) that decomposes the global posterior u…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
