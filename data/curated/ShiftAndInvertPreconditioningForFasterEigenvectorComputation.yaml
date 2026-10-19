@@ -1,0 +1,99 @@
+id: AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation
+name: Shift-and-Invert Preconditioning for Faster Leading Eigenvector Computation
+concept_kind: algorithm
+review_status: DRAFT
+definition: Shift-and-Invert Preconditioning for Faster Leading Eigenvector Computation is a matrix-free spectral estimation framework introduced by Garber, Hazan, Jin, Kakade, Musco, Netrapalli, and Sidford (2016) that computes an epsilon-approximate top eigenvector x (x^T Sigma x >= (1 - epsilon) lambda_1(Sigma)) of an explicit matrix Sigma = A^T A (A in R^{n x d}) or a streaming covariance matrix Sigma = E_{a ~ D}[a a^T] by reducing leading eigenvector computation to a logarithmic sequence of inexact linear system solves in the shifted matrix B_lambda = lambda I - Sigma with shift parameter lambda in [(1 + gap / 150) lambda_1, (1 + gap / 100) lambda_1] where gap = (lambda_1 - lambda_2) / lambda_1. Because B_lambda^{-1} shares the top eigenvector v_1 of Sigma while amplifying the relative eigenvalue ratio to lambda_1(B_lambda^{-1}) / lambda_2(B_lambda^{-1}) = (lambda - lambda_2) / (lambda - lambda_1) >= 100 (Section 3.1, Theorem 4), tracking progress via the B-norm tangent potential function G(x) = ||P_{v_1^perp} x||_B / ||P_{v_1} x||_B (Section 3.2, Lemma 3) proves that each shifted-and-inverted power step only requires an inexact linear solver achieving constant relative error in the B norm (Theorem 5, Corollary 6, Theorem 8). Decomposing f(w) = (1/2) w^T B w - b^T w into possibly non-convex row components psi_i(w) = (1/2) w^T ((lambda ||a_i||_2^2 / ||A||_F^2) I - a_i a_i^T) w - (1/n) b^T w with importance sampling probabilities p_i = ||a_i||_2^2 / ||A||_F^2 and applying sum-of-non-convex SVRG (Theorem 9, Lemma 11, Theorem 12) decouples the input sparsity nnz(A) from the spectral gap, achieving offline runtime O~((nnz(A) + d sr(A) / gap^2) log(1/epsilon)) (Theorem 16), accelerated offline runtime O~((nnz(A)^{3/4} (d sr(A))^{1/4} / sqrt(gap)) log(1/epsilon)) (Theorem 17), and minimax-optimal online sample complexity O(v(D) / (gap * epsilon)) (Theorem 25, Theorem 32).
+identity_notes: Distinct from Randomized Block Krylov Methods for Stronger and Faster Approximate SVD (`AIMech:RandomizedBlockKrylovMethodsForStrongerAndFasterApproximateSVD`), which applies polynomial Krylov subspace iteration with full matrix-matrix multiplications in O(nnz(A) k log(d) / sqrt(epsilon)) time where nnz(A) and 1/sqrt(gap) are multiplied together, whereas Shift-and-Invert Preconditioning with SVRG additively separates nnz(A) from d sr(A) / gap^2 and achieves true log(1/epsilon) linear convergence in both offline and O(d)-memory streaming PCA.
+aliases:
+- Garber-Hazan-Jin-Kakade-Musco-Netrapalli-Sidford Shift-and-Invert PCA
+- Shifted-and-Inverted Power Method with Sum-of-Non-Convex SVRG
+- Robust Shift-and-Invert Preconditioned Eigenvector Estimation
+definition_evidence:
+- source_id: r354-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r354-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r354-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r354-claim-b-norm-tangent-potential-and-inexact-shift-invert-contraction
+  kind: mechanism
+  statement: For B = lambda I - Sigma with (1 + gap/150) lambda_1 <= lambda <= (1 + gap/100) lambda_1, the B-norm tangent potential G(x) = ||P_{v_1^perp} x||_B / ||P_{v_1} x||_B tightly brackets the Rayleigh quotient error epsilon = lambda_1 - x^T Sigma x via epsilon / (lambda - lambda_1) <= G(x)^2 <= (1 + (lambda - lambda_1)/(lambda_1 gap))(1 + 2 epsilon / (lambda_1 gap)) epsilon / (lambda - lambda_1) (Lemma 3), contracts by a factor of at least 100 under exact application of B^{-1} (Theorem 4), and contracts in expectation E[G(tilde{x})] <= (4/25) G(x) whenever an inexact linear solver approximates B^{-1} x within relative B-norm error 1/1000 of the scaled identity guess x / (lambda - x^T Sigma x) (Theorem 5 and Corollary 6).
+  evidence:
+  - source_id: r354-primary-pdf
+    locator: Section 3.1-3.4, Lemmas 1-3, Theorems 4-5, and Corollary 6, pp. 7-13
+    relation: supports
+- claim_id: r354-claim-sum-of-nonconvex-svrg-improved-stable-rank-variance-bound
+  kind: mechanism
+  statement: "Splitting the strongly convex quadratic f(x) = (1/2) x^T B x - b^T x into possibly non-convex row components psi_i(x) = (1/2) x^T ((lambda ||a_i||_2^2 / ||A||_F^2) I - a_i a_i^T) x - (1/n) b^T x and sampling row i with probability p_i = ||a_i||_2^2 / ||A||_F^2 satisfies the collective variance bound sum_{i=1}^n (1/p_i) ||grad psi_i(x) - grad psi_i(x^{opt})||_2^2 <= (4 lambda_1 ||A||_F^2 / (lambda - lambda_1))(f(x) - f(x^{opt})) (Lemma 11), enabling sum-of-non-convex SVRG (Theorem 9) to halve the B-norm solver error in time O(nnz(A) + d sr(A) / gap^2) (Theorem 12)\u2014improving stable-rank dependence from sr(A)^2 to sr(A)\u2014and in O((nnz(A)^{3/4} (d sr(A))^{1/4} / sqrt(gap)) log(d/gap)) via proximal acceleration (Theorem 15)."
+  evidence:
+  - source_id: r354-primary-pdf
+    locator: Section 4.1-4.3, Theorem 9, Lemma 11, and Theorems 12, 15, 16, 17, pp. 16-23
+    relation: supports
+- claim_id: r354-claim-minimax-optimal-streaming-pca-sample-complexity
+  kind: mechanism
+  statement: In the online statistical setting Sigma = E_{a ~ D}[a a^T] with variance parameter v(D) = ||E[(a a^T)^2]||_2 / lambda_1^2, combining online median-of-means Rayleigh quotient estimation (Theorem 18) with streaming SVRG linear system solves (Corollary 24) refines an O(gap)-approximate initial vector x_0 to an epsilon-approximate top eigenvector (x^T Sigma x >= (1 - epsilon)lambda_1) using O(v(D) / (gap * epsilon)) samples (or |v_1^T x| >= 1 - epsilon using O(v(D) / (gap^2 * epsilon)) samples) in O(d) space and O(d) amortized time per sample (Theorem 25), matching the Gaussian spike model minimax lower bound of Theorem 32.
+  evidence:
+  - source_id: r354-primary-pdf
+    locator: Section 5.1-5.3, Theorem 18, Lemmas 19-20, Corollary 24, and Theorem 25, pp. 24-28; Section 7, Lemma 31 and Theorem 32, pp. 32-33
+    relation: supports
+evidence_sources:
+- source_id: r354-primary-pdf
+  title: Faster Eigenvector Computation via Shift-and-Invert Preconditioning
+  authors: &id001
+  - Dan Garber
+  - Elad Hazan
+  - Chi Jin
+  - Sham M. Kakade
+  - Cameron Musco
+  - Praneeth Netrapalli
+  - Aaron Sidford
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1605.08754.pdf
+  persistent_id: https://proceedings.mlr.press/v48/garber16.html
+  version: Proceedings of the 33rd International Conference on Machine Learning (ICML 2016), PMLR 48:2626-2634 (arXiv:1605.08754) (2016) (658863 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:17:00Z'
+  sha256: 884a3c64988d30e76f06d30d7f7226d1a5e815d970eceb900c0d2ddd36be5836
+- source_id: r354-arxiv-abs
+  title: Faster Eigenvector Computation via Shift-and-Invert Preconditioning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1605.08754
+  persistent_id: https://arxiv.org/abs/1605.08754
+  version: arXiv abstract page (8168 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:17:00Z'
+  sha256: e160db1aef11ba2caf8635d72ac73bd5fa25dba113a6836985d7a31cbb68ee67
+- source_id: r354-metadata-cr
+  title: Faster Eigenvector Computation via Shift-and-Invert Preconditioning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v48/garber16.html
+  persistent_id: https://proceedings.mlr.press/v48/garber16.html
+  version: Crossref API work record (7444 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:17:00Z'
+  sha256: 3df5773bd18444c9d24238a4945331d78a81a99802167c385e6450104f32ef5c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Computes the leading principal component eigenvector of explicit data matrices and streaming covariance distributions.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Accelerates spectral dimensionality reduction, spectral clustering, and low-rank projection.
+limitations:
+- Requires a polylogarithmic-overhead shift-and-eigengap estimation phase (Section 6, Algorithm 1) in the offline setting to bracket lambda_1 and gap within constant factors, and in the online streaming setting requires a warm-start vector x_0 within O(gap) of the top eigenvector (Section 5.3, Theorem 25).
+curation:
+  created_at: '2026-10-19T07:17:00Z'
+  updated_at: '2026-10-19T07:17:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
