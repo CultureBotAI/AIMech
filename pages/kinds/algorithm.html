@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">462 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">463 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">462</span> of <span id="totalCount">462</span>
+      Showing <span id="matchCount">463</span> of <span id="totalCount">463</span>
     </div>
   </div>
 </div>
@@ -461,6 +461,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="adaptive non-monotone threshold sampling for low-adaptivity submodular maximization adaptivenonmonotonethresholdsamplingsubmodularmaximization aimech:adaptivenonmonotonethresholdsamplingsubmodularmaximization algorithms algorithm adaptive non-monotone threshold sampling (adaptive-nonmonotone-max and its core subroutine non-monotone-threshold-sampling) is a parallel low-adaptivity algorithm for maximizing a non-negative (possibly non-monotone) submodular set function f: 2^n -&gt; r_&gt;=0 subject to a cardinality constraint |s| &lt;= k, introduced by fahrbach, mirrokni, and zadimoghaddam (2019). for each parallel threshold guess tau = c_1 * (1 + eps_hat)^i * delta^* / k, non-monotone-threshold-sampling (algorithm 1) iteratively filters candidates a &lt;- {x in a : delta(x, s) &gt;= tau}, terminates early if |a| &lt; c_3 * k (ensuring every element x in n is selected with probability at most 1 / c_3), finds the largest batch size t = min{floor((1 + eps_hat)^i), |a|} via reduced-mean (algorithm 2) on the bernoulli indicator i_t = 1[delta(x, s cup t) &gt;= tau], samples t ~ u(a, min{t, k - |s|}), and applies a random-permutation post-filtering step s&#39; &lt;- s&#39; cup {x_i in t : delta(x_i, s cup {x_1, ..., x_{i-1}}) &gt;= tau} (lines 14-15) before updating s &lt;- s cup t; if the loop breaks early because |a| &lt; c_3 * k, adaptive-nonmonotone-max (algorithm 4) runs unconstrained submodular maximization on a, uniformly downsamples to cardinality k if |u| &gt; k, takes the highest-valued prefix u&#39;&#39; of a random permutation, and returns argmax_{x in {r, s&#39;, u&#39;&#39;}} f(x). distinct from aimech:amortizedfilteringforlogarithmicadaptivitysubmodularmaximization (round 360, balkanski, rubinstein, &amp; singer 2019) and aimech:parallelgreedysubmodularmaximizationinlogarithmicadaptivityandnearlylineartime (round 362, ene &amp; nguyen 2019), which require monotone submodular objectives where adding an eps-fraction of below-threshold elements cannot reduce objective value, whereas non-monotone-threshold-sampling enforces early candidate-pool termination |a| &lt; c_3 * k (to bound element inclusion probability &lt;= 1/c_3 for lemma 2.1), adds prefix post-filtering (to prevent negative-marginal elements from degrading s&#39;), and couples threshold sampling with unconstrained maximization and uniform downsampling when |a| &lt; c_3 * k. adaptive-nonmonotone-max non-monotone-threshold-sampling fahrbach-mirrokni-zadimoghaddam non-monotone low-adaptivity submodular maximization for any non-negative submodular function f, threshold tau, and candidate scale factor c &gt;= 1, non-monotone-threshold-sampling (algorithm 1) runs in o(log(n/delta)/varepsilon) adaptive rounds and o(n/varepsilon) expected oracle queries, and conditioned on the high-probability event z that all reduced-mean calls (algorithm 2, lemma 2.4) succeed (with pr[z] &gt;= 1 - delta/2), guarantees that (1) if |s| &lt; k upon termination then |a| &lt; c*k with probability at least 1 - delta/2, and (2) the post-filtered set s&#39; satisfies e[|s&#39;| | z] &gt;= (1 - varepsilon_hat)*e[|s| | z]; furthermore, unconditionally (for every realization), the prefix post-filtering step (lines 14-15) guarantees f(s&#39;) &gt;= tau * |s&#39;| (property 4) and the early stopping rule |a| &lt; c*k (line 7) guarantees pr[x in s&#39;] &lt;= pr[x in s] &lt;= 1/c for every x in n (property 5, lemma 2.3). for threshold tau approx c_1 * opt / k, if event a_{&gt;= c_3 k} occurs (so |s| = k conditioned on z), then e[alg] &gt;= (1 - varepsilon)*(1 - delta)*c_1*opt*pr[a_{&gt;= c_3 k} | z] (lemma 3.5); if the complementary event a_{&lt; c_3 k} occurs (so |a| &lt; c_3*k), then running an alpha-approximate unconstrained submodular maximization subroutine on a followed by uniform downsampling d ~ u(u, k) (which preserves e[f(d)] &gt;= (k/|u|)*f(u) &gt;= (1/c_3)*f(u) by lemma 3.3) and applying lemma 2.1 to g(s) = f(s^* cup s) with pr[x in s&#39; | z] &lt;= 1/c_3 yields e[alg] &gt;= ((1 - varepsilon)*(1 - delta)*alpha / c_3) * [(1 - c_1)*opt*pr[a_{&lt; c_3 k} | z] - opt/c_3 - 2*e[f(s&#39;) | z]] (lemma 3.6). balancing the two complementary bounds of lemmas 3.5 and 3.6 via max_{c_1,c_3,c_4,beta} min{c_4, (alpha/((1+beta)*c_3))*(1 - c_1 - 1/c_3 - 2*c_4)} subject to beta*c_1*c_3/alpha = 1 - c_1 yields e[alg]/opt &gt;= (1 - varepsilon)*(1 - delta)*alpha*(1 - (1 + beta*c_3/alpha)^{-1} - c_3^{-1}) / ((1 + beta)*c_3 + 2*alpha) (eq. 6); instantiating with 1-round random-subset unconstrained-max (alpha = 1/4, c_3 = 3, beta = 1/2, c_1 = 1/7) achieves an expected (11/420)*(1 - varepsilon)*(1 - delta) &gt;= 0.026*(1 - varepsilon)*(1 - delta) approximation in o(log(n/delta)/varepsilon) adaptive rounds and o(n*log(k)/varepsilon^2 + delta*n^2) expected oracle queries (theorem 3.1), while instantiating with (1/2 - varepsilon)-approximate low-adaptivity unconstrained maximization (alpha = 1/2, c_3 = 3.556, beta = 0.5664, c_1 = 0.198989) achieves a 0.039*(1 - varepsilon)*(1 - delta) approximation in o(log(n/delta)/varepsilon) adaptive rounds and o(n*log(k)*log^3(1/varepsilon)/varepsilon^5 + delta*n^2) expected queries (theorem 3.2). non-monotone submodular maximization with nearly optimal adaptivity and query complexity non-monotone submodular maximization with nearly optimal adaptivity and query complexity (arxiv abstract) non-monotone submodular maximization with nearly optimal adaptivity and query complexity (crossref metadata) matthew fahrbach vahab mirrokni morteza zadimoghaddam matthew fahrbach vahab mirrokni morteza zadimoghaddam matthew fahrbach vahab mirrokni morteza zadimoghaddam">
+        <td>
+          <a href="../curated/AdaptiveNonMonotoneThresholdSamplingSubmodularMaximization.html" style="font-weight: 600; font-size: 1rem;">Adaptive Non-Monotone Threshold Sampling for Low-Adaptivity Submodular Maximization</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> ADAPTIVE-NONMONOTONE-MAX, NON-MONOTONE-THRESHOLD-SAMPLING…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            Adaptive Non-Monotone Threshold Sampling (ADAPTIVE-NONMONOTONE-MAX and its core subroutine NON-MONOTONE-THRESHOLD-SAMPLING) is a parallel lo…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:AdaptiveNonMonotoneThresholdSamplingSubmodularMaximization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptive Non-Monotone Threshold Sampling for Low-Adaptivity Submodular Maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Adaptive Non-Monotone Threshold Sampling for Low-Adaptivity Submodular Maximization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Adaptive Non-Monotone Threshold Sampling for Low-Adaptivity Submodular Maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AdaptiveNonMonotoneThresholdSamplingSubmodularMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ADAPTIVE-NONMONOTONE-MAX, NON-MONOTONE-THRESHOLD-SAMPLING, Fahrbach-Mirrokni-Zadimoghaddam Non-Monotone Low-Adaptivity Submodular Maximization
+    </div>
+
+  <div class="detail-desc">
+    Adaptive Non-Monotone Threshold Sampling (ADAPTIVE-NONMONOTONE-MAX and its core subroutine NON-MONOTONE-THRESHOLD-SAMPLING) is a parallel low-adaptivity algorithm for maximizing a non-negative (possibly non-monotone) submodular set function f: 2^N -&gt; R_&gt;=0 subject to a cardinality constraint |S| &lt;= k, introduced by Fahrbach, Mirrokni, and Zadimoghaddam (2019). For each parallel threshold guess tau = c_1 * (1 + eps_hat)^i * Delta^* / k, NON-MONOTONE-THRESHOLD-SAMPLING (Algorithm 1) iteratively filters candidates A &lt;- {x in A : Delta(x, S) &gt;= tau}, terminates early if |A| &lt; c_3 * k (ensuring every element x in N is selected with probability at most 1 / c_3), finds the largest batch size t = min{floor((1 + eps_hat)^i), |A|} via REDUCED-MEAN (Algorithm 2) on the Bernoulli indicator I_t = 1[Delta(x, S cup T) &gt;= tau], samples T ~ U(A, min{t, k - |S|}), and applies a random-permutation post-filtering step S&#39; &lt;- S&#39; cup {x_i in T : Delta(x_i, S cup {x_1, ..., x_{i-1}}) &gt;= tau} (Lines 14-15) before updating S &lt;- S cup T; if the loop breaks early because |A| &lt; c_3 * k, ADAPTIVE-NONMONOTONE-MAX (Algorithm 4) runs unconstrained submodular maximization on A, uniformly downsamples to cardinality k if |U| &gt; k, takes the highest-valued prefix U&#39;&#39; of a random permutation, and returns argmax_{X in {R, S&#39;, U&#39;&#39;}} f(X).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:AmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization (Round 360, Balkanski, Rubinstein, &amp; Singer 2019) and AIMech:ParallelGreedySubmodularMaximizationInLogarithmicAdaptivityAndNearlyLinearTime (Round 362, Ene &amp; Nguyen 2019), which require monotone submodular objectives where adding an eps-fraction of below-threshold elements cannot reduce objective value, whereas NON-MONOTONE-THRESHOLD-SAMPLING enforces early candidate-pool termination |A| &lt; c_3 * k (to bound element inclusion probability &lt;= 1/c_3 for Lemma 2.1), adds prefix post-filtering (to prevent negative-marginal elements from degrading S&#39;), and couples threshold sampling with unconstrained maximization and uniform downsampling when |A| &lt; c_3 * k.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r370-claim-post-filtered-nonmonotone-threshold-sampling-invariants</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any non-negative submodular function f, threshold tau, and candidate scale factor c &gt;= 1, NON-MONOTONE-THRESHOLD-SAMPLING (Algorithm 1) runs in O(log(n/delta)/varepsilon) adaptive rounds and O(n/varepsilon) expected oracle queries, and conditioned on the high-probability event Z that all REDUCED-MEAN calls (Algorithm 2, Lemma 2.4) succeed (with Pr[Z] &gt;= 1 - delta/2), guarantees that (1) if |S| &lt; k upon termination then |A| &lt; c*k with probability at least 1 - delta/2, and (2) the post-filtered set S&#39; satisfies E[|S&#39;| | Z] &gt;= (1 - varepsilon_hat)*E[|S| | Z]; furthermore, unconditionally (for every realization), the prefix post-filtering step (Lines 14-15) guarantees f(S&#39;) &gt;= tau * |S&#39;| (Property 4) and the early stopping rule |A| &lt; c*k (Line 7) guarantees Pr[x in S&#39;] &lt;= Pr[x in S] &lt;= 1/c for every x in N (Property 5, Lemma 2.3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r370-primary-pdf">Non-monotone Submodular Maximization with Nearly Optimal Adaptivity and Query Complexity</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Definition 2.2, Algorithms 1-2, and Lemmas 2.3-2.4, pp. 4-5; Appendix A, Proof of Lemma 2.3 (Properties 1-5), pp. 16-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r370-claim-complementary-event-tradeoff-and-downsampling-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For threshold tau approx c_1 * OPT / k, if event A_{&gt;= c_3 k} occurs (so |S| = k conditioned on Z), then E[ALG] &gt;= (1 - varepsilon)*(1 - delta)*c_1*OPT*Pr[A_{&gt;= c_3 k} | Z] (Lemma 3.5); if the complementary event A_{&lt; c_3 k} occurs (so |A| &lt; c_3*k), then running an alpha-approximate unconstrained submodular maximization subroutine on A followed by uniform downsampling D ~ U(U, k) (which preserves E[f(D)] &gt;= (k/|U|)*f(U) &gt;= (1/c_3)*f(U) by Lemma 3.3) and applying Lemma 2.1 to g(S) = f(S^* cup S) with Pr[x in S&#39; | Z] &lt;= 1/c_3 yields E[ALG] &gt;= ((1 - varepsilon)*(1 - delta)*alpha / c_3) * [(1 - c_1)*OPT*Pr[A_{&lt; c_3 k} | Z] - OPT/c_3 - 2*E[f(S&#39;) | Z]] (Lemma 3.6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r370-primary-pdf">Non-monotone Submodular Maximization with Nearly Optimal Adaptivity and Query Complexity</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Lemma 2.1, p. 4; Section 2.2, Algorithm 3 and Lemmas 2.5-2.6, p. 6; Section 3.1-3.2, Algorithm 4, Definition 3.4, and Lemmas 3.3, 3.5, 3.6, pp. 7-9; Appendix B, Proofs of Lemma 3.3 and Lemma B.1, pp. 18-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r370-claim-logarithmic-adaptivity-and-nearly-linear-query-complexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Balancing the two complementary bounds of Lemmas 3.5 and 3.6 via max_{c_1,c_3,c_4,beta} min{c_4, (alpha/((1+beta)*c_3))*(1 - c_1 - 1/c_3 - 2*c_4)} subject to beta*c_1*c_3/alpha = 1 - c_1 yields E[ALG]/OPT &gt;= (1 - varepsilon)*(1 - delta)*alpha*(1 - (1 + beta*c_3/alpha)^{-1} - c_3^{-1}) / ((1 + beta)*c_3 + 2*alpha) (Eq. 6); instantiating with 1-round random-subset UNCONSTRAINED-MAX (alpha = 1/4, c_3 = 3, beta = 1/2, c_1 = 1/7) achieves an expected (11/420)*(1 - varepsilon)*(1 - delta) &gt;= 0.026*(1 - varepsilon)*(1 - delta) approximation in O(log(n/delta)/varepsilon) adaptive rounds and O(n*log(k)/varepsilon^2 + delta*n^2) expected oracle queries (Theorem 3.1), while instantiating with (1/2 - varepsilon)-approximate low-adaptivity unconstrained maximization (alpha = 1/2, c_3 = 3.556, beta = 0.5664, c_1 = 0.198989) achieves a 0.039*(1 - varepsilon)*(1 - delta) approximation in O(log(n/delta)/varepsilon) adaptive rounds and O(n*log(k)*log^3(1/varepsilon)/varepsilon^5 + delta*n^2) expected queries (Theorem 3.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r370-primary-pdf">Non-monotone Submodular Maximization with Nearly Optimal Adaptivity and Query Complexity</a></span>
+        <span>· <strong>Locator:</strong> Section 3-3.2, Theorems 3.1 and 3.2, and Equations (5)-(6), pp. 6-7, 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Achieves a small constant approximation ratio of 0.026 (with 1-round random unconstrained maximization) or 0.039 (with multi-round unconstrained maximization), well below the centralized 1/e - varepsilon approximation ratio, and applies only to cardinality constraints |S| &lt;= k rather than general matroid or knapsack constraints (Table 1 and Section 5, pp. 2, 12).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Applied to exemplar-based clustering, image summarization, movie recommendation, and viral marketing under cardinality constraints.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r370-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r370-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1808.06932.pdf" target="_blank" rel="noopener">Non-monotone Submodular Maximization with Nearly Optimal Adaptivity and Query Complexity</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Matthew Fahrbach, Vahab Mirrokni, Morteza Zadimoghaddam
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v97/fahrbach19a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ea74f5414b3b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r370-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r370-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1808.06932" target="_blank" rel="noopener">Non-monotone Submodular Maximization with Nearly Optimal Adaptivity and Query Complexity (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Matthew Fahrbach, Vahab Mirrokni, Morteza Zadimoghaddam
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1808.06932</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e63852a2c06b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r370-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r370-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v97/fahrbach19a.html" target="_blank" rel="noopener">Non-monotone Submodular Maximization with Nearly Optimal Adaptivity and Query Complexity (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Matthew Fahrbach, Vahab Mirrokni, Morteza Zadimoghaddam
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v97/fahrbach19a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f13c1a6db18c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:33:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:33:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdaptiveNonMonotoneThresholdSamplingSubmodularMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdaptiveNonMonotoneThresholdSamplingSubmodularMaximization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
