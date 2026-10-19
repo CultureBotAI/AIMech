@@ -1,0 +1,97 @@
+id: AIMech:GrothendieckInequalityAndSemidefiniteProgrammingForSparseSBM
+name: Grothendieck Inequality and Semidefinite Programming for Sparse SBM
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: 'Grothendieck Inequality and Semidefinite Programming for Sparse SBM is an analytical framework introduced by Guedon and Vershynin (2016) for proving polynomial-time partial community recovery in constant-average-degree sparse stochastic block models via semidefinite programming (SDP). Rather than analyzing spectral concentration in the operator norm ||A - E[A]||_{2 -> 2} (which fails when average degree d = O(1) due to vertices of degree Omega(log n / log log n)), the framework pairs three modular ingredients: (1) elementary Bernstein concentration of the cut norm / l_infty -> l_1 operator norm ||A - E[A]||_{infty -> 1} = max_{x, y in {-1,1}^n} |x^T (A - E[A]) y| <= C sqrt(n^3 g_R) at constant average degree (Lemma 7.1), (2) Grothendieck''s inequality (Theorem 3.1), which lifts cut-norm concentration to uniform control over all positive semidefinite matrices X in M_G = {X >= 0 : diag(X) <= I_n} via max_{X in M_G} |<A - E[A], X>| <= K_G ||A - E[A]||_{infty -> 1} with Grothendieck constant K_G <= pi/(2 log(1 + sqrt(2))) < 1.783, and (3) strong convexity / curvature of the population objective <E[A], X_0 - X> >= (g_min / 2) ||X - X_0||_F^2 (Lemma 6.2), yielding the deterministic perturbation bound ||X_hat - X_0||_F / n <= 2 sqrt(2 K_G) sqrt(||A - E[A]||_{infty -> 1} / (n^2 g_min)).'
+identity_notes: Distinct from exact recovery at logarithmic average degree p = a log(n)/n via dual certificate construction (AIMech:StochasticBlockModelExactRecoveryPhaseTransitionAndSemidefiniteProgramming) and Hashimoto non-backtracking spectral clustering (AIMech:NonBacktrackingWalkMatrixAndKestenStigumSpectralRedemption). Specifically captures the Guedon-Vershynin (2016) Grothendieck inequality SDP perturbation principle (Theorem 3.1, Lemma 6.1, Lemma 6.2, and Lemma 7.1) that achieves arbitrary fraction 1 - epsilon community recovery in constant-average-degree sparse networks without degree trimming whenever the signal-to-noise ratio (a - b)^2 / (a + b) >= C epsilon^{-2} (Theorems 1.1-1.4).
+aliases:
+- Grothendieck Inequality SDP Analysis for Sparse Stochastic Block Model
+- Guedon-Vershynin Grothendieck Community Detection Bound
+- l_infty-to-l_1 Cut-Norm Grothendieck SDP Perturbation Method
+definition_evidence:
+- source_id: r320-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r320-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r320-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: 'Grothendieck''s inequality (Theorem 3.1) guarantees that for any real matrix B in R^{n x n}, the supremum of |<B, X>| over the positive semidefinite polytope M_G = {X >= 0 : |X_{ii}| <= 1} is bounded by K_G ||B||_{infty -> 1} = K_G max_{s, t in {-1,1}^n} |s^T B t| with K_G <= pi/(2 log(1 + sqrt(2))) < 1.783, allowing SDP optimality <A, X_hat> >= <A, X_0> to be converted directly into <E[A], X_0 - X_hat> <= 2 K_G ||A - E[A]||_{infty -> 1} (Lemma 6.1).'
+  evidence:
+  - source_id: r320-primary-pdf
+    locator: Section 3, Theorem 3.1 and Corollary 3.3, pp. 8-9; Section 6.1, Lemma 6.1, p. 15
+    relation: supports
+  - source_id: r320-metadata-cr
+    locator: Bibliographic metadata for Probability Theory and Related Fields 165(3-4):1025-1049
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: For general stochastic block models where within-community edge probabilities exceed p_in and between-community probabilities are at most p_out with gap g_min = p_in - p_out > 0, Lemma 6.2 establishes the population curvature <E[A], X_0 - X> >= (g_min / 2) ||X - X_0||_F^2 on the feasible SDP set, which combined with Bernstein cut-norm concentration E||A - E[A]||_{infty -> 1} <= 6 sqrt(n^3 g_R) (Lemma 7.1) proves ||X_hat - X_0||_F / n <= epsilon whenever the effective SNR satisfies (a - b)^2 / (a + b) >= C epsilon^{-4} (or C epsilon^{-2} for community sign classification in Theorem 1.1) even when average degrees are O(1) and high-degree hubs destroy spectral concentration.
+  evidence:
+  - source_id: r320-primary-pdf
+    locator: Section 1, Theorems 1.1-1.3, pp. 2-5; Section 6.2, Lemma 6.2, pp. 15-16; Section 7, Lemma 7.1, pp. 16-18
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Because Grothendieck's inequality controls the l_infty -> l_1 norm across all sign vectors up to universal constant factors K_G, the resulting sufficient SNR condition (a - b)^2 / (a + b) >= C epsilon^{-2} carries non-sharp constant factors C and guarantees correlated partial recovery (1 - epsilon fraction of vertices) rather than the sharp Kesten-Stigum detection threshold (a - b)^2 / (2(a + b)) = 1.
+  evidence:
+  - source_id: r320-primary-pdf
+    locator: Section 1.2, Discussion of Theorem 1.1 and Kesten-Stigum threshold, pp. 3-4
+    relation: supports
+evidence_sources:
+- source_id: r320-primary-pdf
+  title: Community detection in sparse networks via Grothendieck's inequality
+  authors: &id001
+  - Olivier Guedon
+  - Roman Vershynin
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1411.4686v4
+  persistent_id: https://doi.org/10.1007/s00440-015-0659-z
+  version: Probability Theory and Related Fields, 165(3-4):1025-1049 (2016) (337165 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:32:00Z'
+  sha256: 525cb0f8da2bd9b9dc9227fbde43a101554dc3c9b6d2762ba57f309830665745
+- source_id: r320-arxiv-abs
+  title: Community detection in sparse networks via Grothendieck's inequality (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1411.4686v4
+  persistent_id: https://arxiv.org/abs/1411.4686v4
+  version: arXiv abstract page (6027 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:32:00Z'
+  sha256: 409ef7067a921b97896af65d11d17d970ac375ddefa8b2c37a0b434a869b1358
+- source_id: r320-metadata-cr
+  title: Community detection in sparse networks via Grothendieck's inequality (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1007/s00440-015-0659-z
+  persistent_id: https://doi.org/10.1007/s00440-015-0659-z
+  version: Crossref API work record (7069 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:32:00Z'
+  sha256: 60cd18f465bc4e64f2f12917687cef7dc9bab77e726a044cf78549fd9def1db6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Provides semidefinite programming recovery guarantees for community clustering in sparse graphs.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Analyzes convex SDP relaxations for unsupervised community detection.
+limitations:
+- Yields constant-factor sub-optimal SNR constants relative to the exact Kesten-Stigum threshold (a - b)^2 > 2(a + b), and requires solving an n x n semidefinite program.
+curation:
+  created_at: '2026-10-19T06:32:00Z'
+  updated_at: '2026-10-19T06:32:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
