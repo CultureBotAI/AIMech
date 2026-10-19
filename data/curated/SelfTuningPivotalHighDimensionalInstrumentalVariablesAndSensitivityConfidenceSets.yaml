@@ -1,0 +1,101 @@
+id: AIMech:SelfTuningPivotalHighDimensionalInstrumentalVariablesAndSensitivityConfidenceSets
+name: Self-Tuning Pivotal High-Dimensional Instrumental Variables (STIV) and Sensitivity-Based Confidence Sets
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A self-normalized, scale-invariant convex conic methodology for high-dimensional linear instrumental variables regression $Y = X^\\top \\beta + U$ with $\\mathbb{E}[ZU(\\beta)] = 0$, $U(b) = Y - X^\\top b$, where both the number of covariates $d_X$ and instruments $d_Z$ can exceed the sample size $n$ (introduced by Eric Gautier and Alexandre B. Tsybakov in 2011 and published by Eric Gautier and Christiern Rose in 2021). Using the sample standardization matrices $\\mathbf{D}_{\\mathbf{W}} = \\operatorname{diag}(\\mathbb{E}_n[W_k^2]^{-1/2})$ and empirical noise scale $\\widehat{\\sigma}(b) = \\mathbb{E}_n[U(b)^2]^{1/2}$, the self-tuning pivotal moment statistic $\\widehat{t}(b) = \\frac{|\\mathbf{D}_{\\mathbf{Z}}\\mathbb{E}_n[ZU(b)]|_\\infty}{\\widehat{\\sigma}(b)}$ is controlled at level $1 - \\alpha$ by a universal moderate-deviation or multiplier-bootstrap threshold $\\widehat{r}$ free of unknown error scale. The STIV estimator $(\\widehat{\\beta}, \\widehat{\\sigma})$ (Definition 3.1, Eqs. 6\u20138) solves the convex conic program $\\min_{b \\in \\widehat{\\mathcal{I}}(\\widehat{r}, \\sigma),\\, \\sigma \\ge 0}\\left(|\\mathbf{D}_{\\mathbf{X}}^{-1} b_{S_Q}|_1 + c\\sigma\\right)$ over $\\widehat{\\mathcal{I}}(r, \\sigma) = \\{b \\in \\mathcal{B} : |\\mathbf{D}_{\\mathbf{Z}}\\mathbb{E}_n[ZU(b)]|_\\infty \\le r\\sigma,\\, \\widehat{\\sigma}(b) \\le \\sigma\\}$ with $c > 1$, or equivalently $\\widehat{\\beta} \\in \\arg\\min_{b \\in \\mathcal{B}}\\left(\\frac{1}{c}|\\mathbf{D}_{\\mathbf{X}}^{-1} b_{S_Q}|_1 + \\mathcal{O}(b)\\right)$ where $\\mathcal{O}(b) = \\max\\left(\\widehat{\\sigma}(b),\\, \\frac{1}{\\widehat{r}}|\\mathbf{D}_{\\mathbf{Z}}\\mathbb{E}_n[ZU(b)]|_\\infty\\right)$. By evaluating the empirical cone $\\widehat{K}_S$ (Eq. 9), sensitivity characteristics $\\widehat{\\kappa}_{\\ell, S} = \\min_{\\Delta \\in \\widehat{K}_S : \\ell(\\Delta) = 1}|\\widehat{\\Psi}\\Delta|_\\infty$ for $\\widehat{\\Psi} = \\mathbf{D}_{\\mathbf{Z}}\\mathbb{E}_n[ZX^\\top]\\mathbf{D}_{\\mathbf{X}}$ (Eq. 10, Proposition 3.1), and linear-programming lower bounds $\\widehat{\\kappa}_{\\ell_k}(s)$ under an upper bound $s$ on $|S(\\beta) \\cap S_Q|$ (Table 1, Proposition 3.2), the framework constructs non-asymptotic confidence sets that remain valid even when some or all covariates are weakly identified or unidentified, achieves thresholded sign consistency $\\operatorname{sign}(\\widehat{\\beta}^{\\widehat{\\omega}}) = \\operatorname{sign}(\\beta)$ (Theorem 3.2), and enables root-$n$ asymptotically normal inference via bias-corrected STIV (BC-STIV, Eqs. 30\u201332, Theorem 4.1) and invalid-instrument detection via NV-STIV (Eq. 39, Theorem 5.1)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 664 maintained AIMech concepts. Distinct from `AIMech:SquareRootLassoPivotalHighDimensionalSparseRegression` (Belloni, Chernozhukov, & Wang 2011, which minimizes $\widehat{Q}(\beta)^{1/2} + \frac{\lambda}{n}\|\beta\|_1$ for exogenous covariates $\mathbb{E}[XU] = 0$ where the empirical Gram matrix $\mathbb{E}_n[XX^\top]$ is symmetric positive semidefinite, rather than solving a conic program under asymmetric instrument-covariate cross-moments $\widehat{\Psi} = \mathbf{D}_{\mathbf{Z}}\mathbb{E}_n[ZX^\top]\mathbf{D}_{\mathbf{X}}$ with $\ell_\infty$ moment constraint $|\mathbf{D}_{\mathbf{Z}}\mathbb{E}_n[ZU(b)]|_\infty \le \widehat{r}\sigma$ and LP sensitivity lower bounds), distinct from `AIMech:SelfNormalizedLassoOptimalInstrumentEstimationAndSupNormWeakIdentificationTesting` (Belloni, Chen, Chernozhukov, & Hansen 2012, which estimates first-stage optimal instruments $D_i = f(Z_i) + V_i$ via Lasso/Post-Lasso under homoscedastic or self-normalized penalty loadings and plugs $\widehat{f}(Z_i)$ into structural 2SLS for a low-dimensional endogenous vector $d$, rather than jointly penalizing high-dimensional endogenous structural parameters $\beta \in \mathbb{R}^{d_X}$ and scale $\sigma$ in a single conic program), and distinct from `AIMech:DantzigSelectorStatisticalEstimationWhenPIsMuchLargerThanN` (Candes & Tao 2007, which requires prior knowledge of the noise standard deviation $\sigma$ to set the constraint threshold $\|X^\top(y - X\beta)\|_\infty \le \lambda\sigma$ for exogenous Gaussian regression).
+aliases:
+- Self-Tuning Instrumental Variables Estimator (STIV)
+- Gautier-Tsybakov-Rose High-Dimensional Instrumental Variables Estimator
+- Sensitivity-Based High-Dimensional IV Confidence Sets
+- Bias-Corrected STIV (BC-STIV) and Invalid-Instrument NV-STIV
+definition_evidence:
+- source_id: gr2021-stiv-pdf
+  locator: Section 2, pp. 4-5, Equations (1)-(5); Section 3, Definition 3.1, pp. 5-16, Equations (6)-(29), Propositions 3.1-3.2, Theorems 3.1-3.2, Table 1; Section 4, pp. 16-18, Equations (30)-(37), Theorem 4.1; Section 5, pp. 18-19, Equations (38)-(43), Theorem 5.1
+  relation: supports
+- source_id: gr2021-stiv-abs
+  locator: arXiv:1105.2454 abstract
+  relation: supports
+- source_id: gr2021-stiv-crossref
+  locator: DOI:10.1093/restud/rdab002 bibliographic record
+  relation: supports
+claims:
+- claim_id: self-tuning-conic-stiv-program-and-nonasymptotic-sensitivity-oracle-bounds
+  kind: mechanism
+  statement: 'On the event $\mathcal{G} = \{\widehat{t}(\beta) \le \widehat{r}\}$ where $\widehat{t}(b) = |\mathbf{D}_{\mathbf{Z}}\mathbb{E}_n[ZU(b)]|_\infty / \widehat{\sigma}(b)$, the true parameter pair $(\beta, \widehat{\sigma}(\beta))$ is feasible for the STIV conic program (Definition 3.1, Eqs. 6-8), ensuring that $\widehat{\Delta} = \mathbf{D}_{\mathbf{X}}^{-1}(\widehat{\beta} - \beta)$ lies in the empirical cone $\widehat{K}_{S(\beta)} = \{\Delta \in \mathbb{R}^{d_X} : \Delta_{S^c \cap S(\widehat{\beta})^c} = 0,\, |\Delta_{S^c \cap S_Q}|_1 \le |\Delta_{S \cap S_Q}|_1 + c\widehat{g}(\Delta)\}$ where $\widehat{g}(\Delta) = \min(\widehat{r}, 1)|\Delta_{S_I}|_1 + |\Delta_{S_I^c}|_1$ (Eq. 9) and satisfies $|\widehat{\Psi}\widehat{\Delta}|_\infty \le 2\widehat{r}\overline{\sigma} + \widehat{r}(\widehat{\sigma}(\beta) - \widehat{\sigma})$ with $\overline{\sigma} = (\widehat{\sigma} + \widehat{\sigma}(\widehat{\beta})) / 2$ (Proof of Proposition 3.1, Eq. A.14, p. 29). Consequently, for any 1-homogeneous loss $\ell \in \mathcal{L}$ with empirical sensitivity $\widehat{\kappa}_{\ell, S} = \min_{\Delta \in \widehat{K}_S : \ell(\Delta) = 1}|\widehat{\Psi}\Delta|_\infty$ (Eq. 10), Proposition 3.1 (p. 7) establishes the non-asymptotic bound $\ell(\mathbf{D}_{\mathbf{X}}^{-1}(\widehat{\beta} - \beta)) \le \frac{2\widehat{r}}{\widehat{\kappa}_{\ell, S(\beta)}}\min\left(\overline{\sigma}\gamma\left(\frac{\widehat{r}}{\widehat{\kappa}_{\widehat{g}, S(\beta)}}\right),\, \widehat{\sigma}(\beta)\gamma\left(\frac{\widehat{r}}{c\widehat{\kappa}_{\ell_{S(\beta) \cap S_Q}^1, S(\beta)}}\right)\right)$ where $\gamma(x) = 1 / \max(1 - x, 0)$, together with the scale bound $|\frac{\overline{\sigma}}{\widehat{\sigma}(\beta)} - 1| \le \frac{\widehat{r}}{c\widehat{\kappa}_{\ell_{S(\beta) \cap S_Q}^1, S(\beta)}}\gamma\left(\frac{\widehat{r}}{c\widehat{\kappa}_{\ell_{S(\beta) \cap S_Q}^1, S(\beta)}}\right)$.'
+  evidence:
+  - source_id: gr2021-stiv-pdf
+    locator: Section 3, Definition 3.1, pp. 5-7, Equations (6)-(10), Proposition 3.1; Appendix A.3, pp. 29-30, Equation (A.14)
+    relation: supports
+- claim_id: lp-sensitivity-lower-bounds-identification-robust-confidence-sets-and-thresholded-sign-consistency
+  kind: mechanism
+  statement: Given only an upper bound $s$ on $|S(\beta) \cap S_Q|$, Table 1 and Proposition 3.2 (pp. 8-9, Eqs. 11-14) construct linear-programming lower bounds $\widehat{\kappa}_{\ell_k}(s) \le \widehat{\kappa}_{\ell_k, S(\beta)}$ and $\widehat{\kappa}_{\widehat{g}}(s) \le \widehat{\kappa}_{\widehat{g}, S(\beta)}$ by maximizing $t \ge 0$ subject to $|\widehat{\Psi}\Delta|_\infty \le 1$ and $|\Delta_j| \le t$ over relaxed cones, yielding componentwise confidence intervals $[\widehat{\underline{C}}_k(s), \widehat{\overline{C}}_k(s)]$ with $\widehat{\underline{C}}_k(s) = \widehat{\beta}_k - \widehat{\omega}_k(s)$, $\widehat{\overline{C}}_k(s) = \widehat{\beta}_k + \widehat{\omega}_k(s)$, and half-width $\widehat{\omega}_k(s) = \mathbb{E}_n[X_k^2]^{-1/2}\frac{2\widehat{r}\overline{\sigma}}{\widehat{\kappa}_{\ell_k}(s)}\gamma\left(\frac{\widehat{r}}{\widehat{\kappa}_{\widehat{g}}(s)}\right)$ (Eq. 13) that remain valid on $\mathcal{G}$ even when other coordinates have zero sensitivity ($\widehat{\kappa}_{\ell_j}(s) = 0$). Moreover, Theorem 3.2 (p. 14, Eq. 27) proves that the hard-thresholded STIV estimator $\widehat{\beta}_k^{\widehat{\omega}} = \widehat{\beta}_k \mathbf{1}\{\mathbb{E}_n[X_k^2]^{1/2}|\widehat{\beta}_k| > \widehat{\omega}_k(s)\}$ achieves exact sign recovery $\operatorname{sign}(\widehat{\beta}^{\widehat{\omega}}) = \operatorname{sign}(\beta)$ whenever $\min_{k \in S(\beta)}\mathbb{E}_n[X_k^2]^{1/2}|\beta_k| > 2\max_{k \in S(\beta)}\widehat{\omega}_k(s)$.
+  evidence:
+  - source_id: gr2021-stiv-pdf
+    locator: Section 3.2, pp. 8-9, Table 1, Equations (11)-(14), Proposition 3.2; Section 3.5, pp. 13-15, Equation (27), Theorem 3.2
+    relation: supports
+- claim_id: bias-corrected-stiv-asymptotic-normality-and-invalid-instrument-nv-stiv-recovery
+  kind: mechanism
+  statement: 'For low-dimensional linear functionals $\Phi\beta \in \mathbb{R}^{d_\Phi}$, the bias-corrected estimator (BC-STIV, Section 4, Eqs. 30-32) $\widehat{\Phi\beta} = \Phi\widehat{\beta} + \frac{1}{n}\widehat{\Lambda}\mathbf{Z}^\top \mathbf{U}(\widehat{\beta})$ solves $\min_{L, \nu}\left(|L\mathbf{D}_{\mathbf{Z}}^{-1}|_1 + \frac{\lambda\nu}{\widehat{\rho}^{ZX}}\right)$ subject to $|(\Phi - L\frac{1}{n}\mathbf{Z}^\top\mathbf{X})\mathbf{D}_{\mathbf{X}}|_\infty \le \nu$ and $|L\mathbf{D}_{\mathbf{Z}}^{-1}|_1 \widehat{\rho}^{ZX} \le \lambda\nu$, and Theorem 4.1 (p. 17, Eqs. 33-37) proves $\sqrt{n}\widehat{\mathbf{V}}^{-1/2}(\widehat{\Phi\beta} - \Phi\beta) = \mathbf{N}_n + R_n$ where $\mathbf{N}_n \xrightarrow{d} \mathcal{N}(0, \mathbf{I}_{d_\Phi})$ and $|R_n|_\infty = o_p(1)$. Furthermore, when up to $s_\theta$ instruments violate exogeneity ($\theta = \mathbb{E}[ZU(\beta)] \ne 0$), NV-STIV (Section 5, Eq. 39, Theorem 5.1, p. 19) augments the covariate matrix as $\widetilde{\mathbf{X}} = (\mathbf{X}, \widehat{\mathbf{W}})$ with $\widehat{\mathbf{W}} = \mathbf{Z}(\frac{1}{n}\mathbf{Z}^\top\mathbf{Z})^{-1}$ (or C-STIV in Section O.1.4) to jointly estimate $(\beta^\top, \theta^\top)^\top$ and select valid instruments via $\{l \in \{1, \dots, d_Z\} : \widehat{\theta}_l^{\widehat{\omega}} = 0\}$.'
+  evidence:
+  - source_id: gr2021-stiv-pdf
+    locator: Section 4, pp. 16-18, Equations (30)-(37), Theorem 4.1; Section 5, pp. 18-19, Equations (38)-(43), Theorem 5.1; Online Appendix O.1.4, pp. 45-46
+    relation: supports
+evidence_sources:
+- source_id: gr2021-stiv-pdf
+  title: High-Dimensional Instrumental Variables Regression and Confidence Sets
+  authors:
+  - Eric Gautier
+  - Christiern Rose
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1105.2454.pdf
+  persistent_id: https://doi.org/10.1093/restud/rdab002
+  version: arXiv:1105.2454v7 full-text PDF (54 pages, 1064354 bytes); published in The Review of Economic Studies 88(6):2888-2929 (2021).
+  access_level: full_text
+  accessed_at: '2026-10-19T04:54:00Z'
+  sha256: beb4c89b9c0bfedb072e2621d0dd15804fee95a19b1b173fad27daaa16580ec6
+- source_id: gr2021-stiv-abs
+  title: High-Dimensional Instrumental Variables Regression and Confidence Sets
+  authors:
+  - Eric Gautier
+  - Christiern Rose
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1105.2454
+  persistent_id: https://arxiv.org/abs/1105.2454
+  version: arXiv:1105.2454 abstract page (5830 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T04:54:00Z'
+  sha256: 4b6a475db60083503ebf8d0c5e1bbc0892ed0bb1adcb56fe7845f0c1ca5478ad
+- source_id: gr2021-stiv-crossref
+  title: High-Dimensional Instrumental Variables Regression and Confidence Sets
+  authors:
+  - Eric Gautier
+  - Christiern Rose
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1093/restud/rdab002
+  persistent_id: https://doi.org/10.1093/restud/rdab002
+  version: Crossref API metadata (8168 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T04:54:00Z'
+  sha256: f77add18ea696b2969fb4e41c69316f07811faf77952a8354229808a09c54417
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Penalizes the weighted l1 norm of high-dimensional structural parameters jointly with the empirical error scale in a self-tuning conic program.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Estimates sparse linear structural models Y = X^T beta + U under endogenous covariates using high-dimensional instrumental variables Z.
+limitations:
+- Non-trivial finite-sample confidence intervals in Proposition 3.2 require either a user-specified upper bound $s$ on the number of active penalized covariates $|S(\beta) \cap S_Q|$ such that $\widehat{\kappa}_{\widehat{g}}(s) > \widehat{r}$ and $\widehat{\kappa}_{\ell_k}(s) > 0$, or an unpenalized set $S_I$ covering the endogenous covariates of interest.
+- Root-$n$ asymptotic normality of the bias-corrected estimator BC-STIV (Theorem 4.1) requires both the STIVcone sensitivity and the dual approximate-inverse sensitivity $\kappa_{S(\Lambda)}^{\Psi^\top}$ to stay bounded away from zero while $\widehat{\rho}^{ZX}(s_\beta \vee s_\Lambda) = o(1/\sqrt{n})$.
+- 'Primary-source typographical audit of `arXiv:1105.2454v7`: (1) Appendix A.1 line 11 (p. 25, above Assumption A.1) writes ''. for all $n \in \mathbb{N}$, $\mathbb{P}(\mathcal{G}_{A1}) \ge 1 - \alpha_n^{A1}$.'' with a lowercase ''for'' after the period; (2) Appendix A.2 line 23 (p. 28, above Theorem A.1) writes ''$\kappa^\Psi(s)$ is defined similarly from $\widehat{\kappa}^\psi(s)$'' with a lowercase superscript ''$\psi$'' instead of uppercase ''$\Psi$''; (3) Appendix A.3 Case 1 and Case 2 lines (p. 31, lines 17 and 20) write ''$\widehat{\mathbf{D}}_{\mathbf{X}}^{-1}$'' with a hat over ''$\mathbf{D}$'' instead of ''$\mathbf{D}_{\mathbf{X}}^{-1}$''; (4) Appendix A.4 Proof of Theorem 3.2 line 1 (p. 32) contains an unresolved LaTeX cross-reference ''Using lemmas A.2, ??, and O.2 (i)''; (5) Online Appendix Section O.1.4 paragraph 2 line 1 (p. 46) has a double period ''Monte-Carlo for C-STIV..''; and (6) Online Appendix Section O.1.6 line 4 (p. 48) spells ''avoid loosing $|\mathbf{D}_{\mathbf{Z}}\mathbf{Z}^\top|_\infty$'' (''loosing'' instead of ''losing'').'
+curation:
+  created_at: '2026-10-19T04:54:00Z'
+  updated_at: '2026-10-19T04:54:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
