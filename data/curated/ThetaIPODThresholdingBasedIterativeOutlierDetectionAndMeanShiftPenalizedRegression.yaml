@@ -1,0 +1,101 @@
+id: AIMech:ThetaIPODThresholdingBasedIterativeOutlierDetectionAndMeanShiftPenalizedRegression
+name: Theta-IPOD Thresholding-Based Iterative Outlier Detection and Mean-Shift Penalized Regression
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A thresholding-based iterative outlier detection and robust regression algorithm family ($\\Theta$-IPOD, introduced by Yiyuan She and Art B. Owen in 2011) that augments the linear model $y = X\\beta + \\varepsilon$ with a sparse observation-level mean-shift outlier vector $\\gamma \\in \\mathbb{R}^n$ ($y = X\\beta + \\gamma + \\varepsilon$, $\\varepsilon \\sim \\mathcal{N}(0, \\sigma^2 I_n)$) and jointly estimates $(\\hat{\\beta}, \\hat{\\gamma})$ via the penalized criterion $\\min_{\\beta, \\gamma} \\left[\\frac{1}{2}\\|y - X\\beta - \\gamma\\|_2^2 + \\sum_{i=1}^n P_{\\Theta}(\\gamma_i; \\lambda_i)\\right]$ or its $H$-compressed fixed-point iteration $\\gamma^{(j+1)} = \\Theta(H\\gamma^{(j)} + (I_n - H)y; \\lambda^{(j)})$ ($H = X(X^\\top X)^{-1}X^\\top$, $\\lambda_i^{(j)} = \\lambda\\sqrt{1 - h_i}\\,\\hat{\\sigma}$). By Theorem 1, every thresholding rule $\\Theta(\\cdot; \\lambda)$ (including soft, hard, SCAD, and hybrid hard-ridge thresholding) generates a nondecreasing penalty $P_{\\Theta}(t; \\lambda) = \\int_0^{|t|} (\\sup\\{s : \\Theta(s; \\lambda) \\le u\\} - u)\\,du + q(t; \\lambda)$ and corresponds by Proposition 2 to a two-stage $M$-estimator with score function $\\psi_{\\Theta}(t; \\lambda) = t - \\Theta(t; \\lambda)$. While convex $\\ell_1$ soft-thresholding ($P_{\\Theta_S} = \\lambda|\\gamma_1|$) reproduces Huber's $M$-estimator ($\\psi_H(t; \\lambda) = t - \\Theta_S(t; \\lambda)$) and suffers from masking and leverage vulnerability\u2014provably failing to achieve zero false positives when $|\\mathcal{O}| \\ge 2$ unless an irrepresentable condition $\\|(I_n - H)_{(\\mathcal{O}^c)}(I_n - H)_{(\\mathcal{O})}^+ \\operatorname{sign}(\\gamma_{\\mathcal{O}})\\|_\\infty \\le 1$ holds (Proposition 1)\u2014nonconvex redescending thresholding rules ($\\psi_{\\Theta}(t; \\lambda) = 0$ for $|t| \\ge \\lambda$, such as hard thresholding $\\Theta_H$) eliminate shrinkage bias on detected outliers, achieve outlier recovery without irrepresentable conditions, and extend to high-dimensional $p > n$ settings via joint sparse $(\\beta, \\gamma)$ Thresholding-based Iterative Selection Procedures (TISP)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 658 maintained AIMech concepts. Distinct from `AIMech:ScaledLassoAndHuberConcomitantPenalizedJointSparseRegression` (Sun & Zhang 2012, which establishes the convex joint $(\beta, \sigma)$ concomitant-scale objective for uncorrupted high-dimensional sparse regression and builds on She & Owen's Proposition 3 equivalence between Huber's concomitant estimator and soft-thresholded mean-shift $\ell_1$ penalty, without nonconvex $\Theta$-IPOD redescending outlier detection, leverage rescaling $\lambda_i = \lambda\sqrt{1-h_i}\hat{\sigma}$, Proposition 1 irrepresentable failure analysis for soft-IPOD, or joint $(\beta, \gamma)$ high-dimensional TISP), distinct from `AIMech:CorruptedSensingConvexSignalCorruptionDemixingAndSubdifferentialDistanceBounds` (Foygel & Mackey 2014, which analyzes convex signal-corruption demixing under subgaussian sensing matrices via subdifferential Gaussian-width distance bounds), distinct from `AIMech:JusticePursuitL1MinimizationUnderSparseArbitraryCorruptions` (Laska et al. 2009, noiseless $\ell_1$ pursuit for sparse signal plus sparse corruption), and distinct from `AIMech:MinimaxConcavePenaltyAndPLUSAlgorithm` (Zhang 2010, path-following MCP variable selection on $\beta$ rather than observation-level mean-shift $\gamma$ outlier detection and $M$-estimation duality).
+aliases:
+- Theta-IPOD
+- Thresholding-Based Iterative Procedure for Outlier Detection
+- IPOD Nonconvex Mean-Shift Outlier Detection
+- Hard-IPOD and Soft-IPOD Mean-Shift Penalized Regression
+definition_evidence:
+- source_id: so2011-ipod-pdf
+  locator: Section 2, pp. 4-10, Equations (2.1)-(2.9), Proposition 1; Section 3, pp. 11-17, Algorithms 1-2, Equations (3.1)-(3.7), Theorem 1; Section 4, pp. 17-20, Propositions 2-4; Section 5, pp. 21-22, Equation (5.1); Section 6, p. 24, Equation (6.1); Appendices A.1-A.4, pp. 26-31
+  relation: supports
+- source_id: so2011-ipod-abs
+  locator: arXiv:1006.2592 abstract
+  relation: supports
+- source_id: so2011-ipod-crossref
+  locator: DOI:10.1198/jasa.2011.tm10390 Crossref metadata
+  relation: supports
+claims:
+- claim_id: mean-shift-soft-ipod-huber-concomitant-equivalence-and-irrepresentable-barrier
+  kind: mechanism
+  statement: In the mean-shift outlier model $y = X\beta + \gamma + \varepsilon$, convex $\ell_1$-penalized estimation $\min_{\beta, \gamma} \left[\frac{1}{2}\|y - X\beta - \gamma\|_2^2 + \sum_{i=1}^n \lambda_i|\gamma_i|\right]$ (Soft-IPOD, using $\Theta_S(t; \lambda) = \operatorname{sign}(t)(|t| - \lambda)_+$) yields a stationary point $(\hat{\beta}, \hat{\gamma})$ only if $\hat{\beta}$ solves Huber's $M$-estimation score equation $X^\top \psi_H(y - X\hat{\beta}; \lambda) = 0$ with $\psi_H(t; \lambda) = t - \Theta_S(t; \lambda)$ and $\hat{\gamma} = \Theta_S(y - X\hat{\beta}; \lambda)$, while adding concomitant scale estimation $\min_{\beta, \gamma, \sigma > 0} \left[\frac{\|y - X\beta - \gamma\|_2^2}{2\sigma} + \frac{n - p}{2}\sigma + \sum_{i=1}^n \lambda_i|\gamma_i|\right]$ is algebraically identical to Huber's (1981) joint $(\beta, \sigma)$ concomitant $M$-estimator (Proposition 3, pp. 18-19; Appendix A.3, p. 30). However, whenever $|\mathcal{O}| \ge 2$ and $X \ne 0$, Soft-IPOD with any positive threshold vector $\lambda = [\lambda_1, \dots, \lambda_n]^\top$ fails to achieve zero false positives ($\operatorname{supp}(\hat{\gamma}) \subseteq \mathcal{O}$) in the noiseless limit $\sigma \to 0$ unless the design-and-sign-dependent irrepresentable condition $\|(I_n - H)_{(\mathcal{O}^c)}[(I_n - H)_{(\mathcal{O})}]^+ \operatorname{sign}(\gamma_{\mathcal{O}})\|_\infty \le 1$ is satisfied (Proposition 1, p. 9; Appendix A.1, pp. 26-29).
+  evidence:
+  - source_id: so2011-ipod-pdf
+    locator: Section 2, pp. 4-10, Equations (2.1)-(2.9), Proposition 1; Section 4, pp. 17-20, Equations (4.1)-(4.6), Propositions 2-3; Appendices A.1 and A.3, pp. 26-30
+    relation: supports
+- claim_id: theta-ipod-penalty-construction-universal-convergence-and-redescending-m-duality
+  kind: mechanism
+  statement: 'Given any odd, nondecreasing, unbounded thresholding rule $\Theta(\cdot; \lambda)$ with threshold $\lambda > 0$, the threecouple construction $P_{\Theta}(t; \lambda) = \int_0^{|t|} (\sup\{s : \Theta(s; \lambda) \le u\} - u)\,du + q(t; \lambda)$ (with $q(t; \lambda) \ge 0$ vanishing on $\Theta(\mathbb{R}; \lambda)$) ensures that both Algorithm 1 ($\gamma^{(j)} \leftarrow \Theta(y - X\beta^{(j-1)}; \lambda^{(j)})$, $\beta^{(j)} \leftarrow (X^\top X)^{-1}X^\top(y - \gamma^{(j)})$) and the QR-accelerated Algorithm 2 ($\gamma^{(j)} \leftarrow \Theta(H\gamma^{(j-1)} + r_0; \lambda^{(j)})$ with $r_0 = (I_n - H)y$ and leverage-adjusted thresholds $\lambda_i^{(j)} = \lambda\sqrt{1 - h_i}\,\hat{\sigma}$) monotonically decrease the objective $F(\beta, \gamma) = \frac{1}{2}\|y - X\beta - \gamma\|_2^2 + \sum_{i=1}^n P_{\Theta}(\gamma_i; \lambda_i)$ ($F(\beta^{(j)}, \gamma^{(j)}) \ge F(\beta^{(j)}, \gamma^{(j+1)}) \ge F(\beta^{(j+1)}, \gamma^{(j+1)})$) and converge from any starting point $\gamma^{(0)} \in \mathbb{R}^n$ without stepsize line searches (Theorem 1, pp. 13-15; Appendix A.2, pp. 29-30). Furthermore, any limit point $(\hat{\beta}, \hat{\gamma})$ satisfies the two-stage $M$-estimation equation $X^\top \psi_{\Theta}(H\hat{\gamma} + (I_n - H)y; \lambda) = 0$ with effective score $\psi_{\Theta}(t; \lambda) = t - \Theta(t; \lambda)$ (Proposition 2, p. 18), so thresholding rules obeying $\Theta(t; \lambda) = t$ for $|t| \ge c\lambda$ ($c \ge 1$, such as hard thresholding $\Theta_H(t; \lambda) = t\mathbf{1}_{|t| > \lambda}$ with $P_{\Theta_H}(t; \lambda) = \frac{1}{2}(\lambda^2 - (\lambda - |t|)_+^2)$ or the discrete penalty $\frac{1}{2}\lambda^2 \mathbf{1}_{t \ne 0}$) correspond to redescending $\psi_{\Theta}$ functions that assign zero influence to gross outliers and recover exact clean-subset OLS on $y_{\mathcal{O}^c}$.'
+  evidence:
+  - source_id: so2011-ipod-pdf
+    locator: Section 3, pp. 11-17, Algorithms 1-2, Equations (3.1)-(3.7), Theorem 1; Section 4, pp. 17-20, Proposition 2; Appendix A.2, pp. 29-30
+    relation: supports
+- claim_id: regression-scale-equivariance-and-high-dimensional-joint-sparse-tisp
+  kind: mechanism
+  statement: 'When combined with a regression- and scale-equivariant initial scale estimator $\hat{\sigma}(X, y)$ satisfying $\hat{\sigma}(XA, c(y + X\eta)) = |c|\hat{\sigma}(X, y)$ for nonsingular $A \in \mathbb{R}^{p \times p}$ (such as least trimmed squares), $\Theta$-IPOD initialized at $\gamma^{(0)} = 0$ is both regression- and scale-equivariant at every iteration $j \ge 1$: $\gamma^{(j)}(XA, c(y + X\eta)) = c\gamma^{(j)}(X, y)$ and $\beta^{(j)}(XA, c(y + X\eta)) = cA^{-1}(\beta^{(j)}(X, y) + \eta)$ (Proposition 4, p. 20; Appendix A.4, pp. 30-31). For high-dimensional $p > n$ regression with sparse coefficients $\beta$ and sparse outliers $\gamma$, augmenting the design matrix to $\tilde{X} = [X / \|\tilde{X}_2\|_2,\, I_n]$ and applying hybrid hard-ridge thresholding $\Theta_{HR}(t; \lambda, \eta) = \frac{t}{1 + \eta}\mathbf{1}_{|t| > \lambda}$ to $\beta$ alongside hard thresholding $\Theta_H(t; \lambda_\gamma)$ to $\gamma$ jointly recovers both sparse predictors and outlier locations (Section 6, Eq. 6.1, p. 24).'
+  evidence:
+  - source_id: so2011-ipod-pdf
+    locator: Section 4, p. 20, Proposition 4; Section 6, p. 24, Equation (6.1); Appendix A.4, pp. 30-31
+    relation: supports
+evidence_sources:
+- source_id: so2011-ipod-pdf
+  title: Outlier Detection Using Nonconvex Penalized Regression
+  authors:
+  - Yiyuan She
+  - Art B. Owen
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1006.2592.pdf
+  persistent_id: https://doi.org/10.1198/jasa.2011.tm10390
+  version: arXiv:1006.2592v3 full-text PDF (38 pages, 404189 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T03:30:00Z'
+  sha256: e33d8a0bfa52092ddeacf204f8f7b2ba650cde0f39a864878983478cf03d2dc0
+- source_id: so2011-ipod-abs
+  title: Outlier Detection Using Nonconvex Penalized Regression
+  authors:
+  - Yiyuan She
+  - Art B. Owen
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1006.2592
+  persistent_id: https://arxiv.org/abs/1006.2592
+  version: arXiv:1006.2592 abstract page (6474 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T03:30:00Z'
+  sha256: 6b2a02b1272deb2af2cc6e2c46285f2d629dbdd940f7002b2394349b40982119
+- source_id: so2011-ipod-crossref
+  title: Outlier Detection Using Nonconvex Penalized Regression
+  authors:
+  - Yiyuan She
+  - Art B. Owen
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1198/jasa.2011.tm10390
+  persistent_id: https://doi.org/10.1198/jasa.2011.tm10390
+  version: Journal of the American Statistical Association 106(494):626-639 (2011) Crossref metadata (1663 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T03:30:00Z'
+  sha256: bfe715c5406efaf78d42cf8ab8f50d49375de896b8c91042a0ec7233991a297d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: broad_match
+  rationale: Robustly estimates linear regression coefficients beta while jointly identifying sparse observation-level mean-shift outliers gamma.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Generalizes l_1-penalized mean-shift regression (Soft-IPOD) to nonconvex thresholding-based penalties P_Theta(gamma_i; lambda_i) that avoid shrinkage bias and irrepresentable conditions.
+limitations:
+- Because $P_{\Theta}(\gamma_i; \lambda_i)$ is nonconvex for redescending thresholding rules (such as hard thresholding $\Theta_H$ or SCAD thresholding), the objective $F(\beta, \gamma)$ possesses multiple local minima, so $\Theta$-IPOD's converged fixed point $(\hat{\beta}, \hat{\gamma})$ depends on the initialization $\gamma^{(0)}$ and requires a robust high-breakdown initial scale estimate $\hat{\sigma}$ (such as least trimmed squares) when leverage points are severely contaminated.
+- Using Soft-IPOD ($\ell_1$ penalty on $\gamma$) as a warm start for Hard-IPOD inherits the masking and swamping failures of Huber's $M$-estimator at high leverage points unless the irrepresentable condition of Proposition 1 holds; She & Owen (Section 3.3, pp. 16-17) therefore recommend initializing Hard-IPOD from $\gamma^{(0)} = 0$ along a decreasing threshold sequence $\lambda$ rather than from the Soft-IPOD solution.
+- 'Primary-source typographical audit of `arXiv:1006.2592v3`: (1) Section 3.1 Algorithm 1 (p. 12, line 2) writes ''$j \leftarrow 0,\, \gamma^{(j)} \leftarrow y - X\hat{\beta}$'' instead of ''$y - X\beta^{(0)}$'', and line 12 writes ''deliver $\hat{\beta} = \beta^{(j-1)},\, \hat{\gamma} = \gamma^{(j)}$''; (2) Section 3.3 Algorithm 2 (p. 16, line 1) writes ''$\gamma^{(0)} \in \mathbb{R}^p$'' instead of ''$\gamma^{(0)} \in \mathbb{R}^n$'' (since $\gamma$ is the $n$-dimensional observation mean-shift vector); and (3) Section 3.3 paragraph 2 (p. 16, line 3) writes ''Given a QR decomposition of $H$ we can compute that matrix product in $O(np)$ work as $Q(Q^\top \gamma^{(j)})$'' instead of ''Given a QR decomposition of $X$'' (where $H = Q Q^\top$).'
+curation:
+  created_at: '2026-10-19T03:30:00Z'
+  updated_at: '2026-10-19T03:30:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

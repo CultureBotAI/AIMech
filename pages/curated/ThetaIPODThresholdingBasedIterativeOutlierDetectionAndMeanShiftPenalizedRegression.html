@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theta-IPOD Thresholding-Based Iterative Outlier Detection and Mean-Shift Penalized Regression · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Theta-IPOD Thresholding-Based Iterative Outlier Detection and Mean-Shift Penalized Regression</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Theta-IPOD Thresholding-Based Iterative Outlier Detection and Mean-Shift Penalized Regression</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ThetaIPODThresholdingBasedIterativeOutlierDetectionAndMeanShiftPenalizedRegression</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Theta-IPOD, Thresholding-Based Iterative Procedure for Outlier Detection, IPOD Nonconvex Mean-Shift Outlier Detection, Hard-IPOD and Soft-IPOD Mean-Shift Penalized Regression
+    </div>
+
+  <div class="detail-desc">
+    A thresholding-based iterative outlier detection and robust regression algorithm family ($\Theta$-IPOD, introduced by Yiyuan She and Art B. Owen in 2011) that augments the linear model $y = X\beta + \varepsilon$ with a sparse observation-level mean-shift outlier vector $\gamma \in \mathbb{R}^n$ ($y = X\beta + \gamma + \varepsilon$, $\varepsilon \sim \mathcal{N}(0, \sigma^2 I_n)$) and jointly estimates $(\hat{\beta}, \hat{\gamma})$ via the penalized criterion $\min_{\beta, \gamma} \left[\frac{1}{2}\|y - X\beta - \gamma\|_2^2 + \sum_{i=1}^n P_{\Theta}(\gamma_i; \lambda_i)\right]$ or its $H$-compressed fixed-point iteration $\gamma^{(j+1)} = \Theta(H\gamma^{(j)} + (I_n - H)y; \lambda^{(j)})$ ($H = X(X^\top X)^{-1}X^\top$, $\lambda_i^{(j)} = \lambda\sqrt{1 - h_i}\,\hat{\sigma}$). By Theorem 1, every thresholding rule $\Theta(\cdot; \lambda)$ (including soft, hard, SCAD, and hybrid hard-ridge thresholding) generates a nondecreasing penalty $P_{\Theta}(t; \lambda) = \int_0^{|t|} (\sup\{s : \Theta(s; \lambda) \le u\} - u)\,du + q(t; \lambda)$ and corresponds by Proposition 2 to a two-stage $M$-estimator with score function $\psi_{\Theta}(t; \lambda) = t - \Theta(t; \lambda)$. While convex $\ell_1$ soft-thresholding ($P_{\Theta_S} = \lambda|\gamma_1|$) reproduces Huber&#39;s $M$-estimator ($\psi_H(t; \lambda) = t - \Theta_S(t; \lambda)$) and suffers from masking and leverage vulnerability—provably failing to achieve zero false positives when $|\mathcal{O}| \ge 2$ unless an irrepresentable condition $\|(I_n - H)_{(\mathcal{O}^c)}(I_n - H)_{(\mathcal{O})}^+ \operatorname{sign}(\gamma_{\mathcal{O}})\|_\infty \le 1$ holds (Proposition 1)—nonconvex redescending thresholding rules ($\psi_{\Theta}(t; \lambda) = 0$ for $|t| \ge \lambda$, such as hard thresholding $\Theta_H$) eliminate shrinkage bias on detected outliers, achieve outlier recovery without irrepresentable conditions, and extend to high-dimensional $p &gt; n$ settings via joint sparse $(\beta, \gamma)$ Thresholding-based Iterative Selection Procedures (TISP).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved against all 442 pinned AIO concepts and 658 maintained AIMech concepts. Distinct from `AIMech:ScaledLassoAndHuberConcomitantPenalizedJointSparseRegression` (Sun &amp; Zhang 2012, which establishes the convex joint $(\beta, \sigma)$ concomitant-scale objective for uncorrupted high-dimensional sparse regression and builds on She &amp; Owen&#39;s Proposition 3 equivalence between Huber&#39;s concomitant estimator and soft-thresholded mean-shift $\ell_1$ penalty, without nonconvex $\Theta$-IPOD redescending outlier detection, leverage rescaling $\lambda_i = \lambda\sqrt{1-h_i}\hat{\sigma}$, Proposition 1 irrepresentable failure analysis for soft-IPOD, or joint $(\beta, \gamma)$ high-dimensional TISP), distinct from `AIMech:CorruptedSensingConvexSignalCorruptionDemixingAndSubdifferentialDistanceBounds` (Foygel &amp; Mackey 2014, which analyzes convex signal-corruption demixing under subgaussian sensing matrices via subdifferential Gaussian-width distance bounds), distinct from `AIMech:JusticePursuitL1MinimizationUnderSparseArbitraryCorruptions` (Laska et al. 2009, noiseless $\ell_1$ pursuit for sparse signal plus sparse corruption), and distinct from `AIMech:MinimaxConcavePenaltyAndPLUSAlgorithm` (Zhang 2010, path-following MCP variable selection on $\beta$ rather than observation-level mean-shift $\gamma$ outlier detection and $M$-estimation duality).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#mean-shift-soft-ipod-huber-concomitant-equivalence-and-irrepresentable-barrier</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the mean-shift outlier model $y = X\beta + \gamma + \varepsilon$, convex $\ell_1$-penalized estimation $\min_{\beta, \gamma} \left[\frac{1}{2}\|y - X\beta - \gamma\|_2^2 + \sum_{i=1}^n \lambda_i|\gamma_i|\right]$ (Soft-IPOD, using $\Theta_S(t; \lambda) = \operatorname{sign}(t)(|t| - \lambda)_+$) yields a stationary point $(\hat{\beta}, \hat{\gamma})$ only if $\hat{\beta}$ solves Huber&#39;s $M$-estimation score equation $X^\top \psi_H(y - X\hat{\beta}; \lambda) = 0$ with $\psi_H(t; \lambda) = t - \Theta_S(t; \lambda)$ and $\hat{\gamma} = \Theta_S(y - X\hat{\beta}; \lambda)$, while adding concomitant scale estimation $\min_{\beta, \gamma, \sigma &gt; 0} \left[\frac{\|y - X\beta - \gamma\|_2^2}{2\sigma} + \frac{n - p}{2}\sigma + \sum_{i=1}^n \lambda_i|\gamma_i|\right]$ is algebraically identical to Huber&#39;s (1981) joint $(\beta, \sigma)$ concomitant $M$-estimator (Proposition 3, pp. 18-19; Appendix A.3, p. 30). However, whenever $|\mathcal{O}| \ge 2$ and $X \ne 0$, Soft-IPOD with any positive threshold vector $\lambda = [\lambda_1, \dots, \lambda_n]^\top$ fails to achieve zero false positives ($\operatorname{supp}(\hat{\gamma}) \subseteq \mathcal{O}$) in the noiseless limit $\sigma \to 0$ unless the design-and-sign-dependent irrepresentable condition $\|(I_n - H)_{(\mathcal{O}^c)}[(I_n - H)_{(\mathcal{O})}]^+ \operatorname{sign}(\gamma_{\mathcal{O}})\|_\infty \le 1$ is satisfied (Proposition 1, p. 9; Appendix A.1, pp. 26-29).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-so2011-ipod-pdf">Outlier Detection Using Nonconvex Penalized Regression</a></span>
+        <span>· <strong>Locator:</strong> Section 2, pp. 4-10, Equations (2.1)-(2.9), Proposition 1; Section 4, pp. 17-20, Equations (4.1)-(4.6), Propositions 2-3; Appendices A.1 and A.3, pp. 26-30</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#theta-ipod-penalty-construction-universal-convergence-and-redescending-m-duality</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given any odd, nondecreasing, unbounded thresholding rule $\Theta(\cdot; \lambda)$ with threshold $\lambda &gt; 0$, the threecouple construction $P_{\Theta}(t; \lambda) = \int_0^{|t|} (\sup\{s : \Theta(s; \lambda) \le u\} - u)\,du + q(t; \lambda)$ (with $q(t; \lambda) \ge 0$ vanishing on $\Theta(\mathbb{R}; \lambda)$) ensures that both Algorithm 1 ($\gamma^{(j)} \leftarrow \Theta(y - X\beta^{(j-1)}; \lambda^{(j)})$, $\beta^{(j)} \leftarrow (X^\top X)^{-1}X^\top(y - \gamma^{(j)})$) and the QR-accelerated Algorithm 2 ($\gamma^{(j)} \leftarrow \Theta(H\gamma^{(j-1)} + r_0; \lambda^{(j)})$ with $r_0 = (I_n - H)y$ and leverage-adjusted thresholds $\lambda_i^{(j)} = \lambda\sqrt{1 - h_i}\,\hat{\sigma}$) monotonically decrease the objective $F(\beta, \gamma) = \frac{1}{2}\|y - X\beta - \gamma\|_2^2 + \sum_{i=1}^n P_{\Theta}(\gamma_i; \lambda_i)$ ($F(\beta^{(j)}, \gamma^{(j)}) \ge F(\beta^{(j)}, \gamma^{(j+1)}) \ge F(\beta^{(j+1)}, \gamma^{(j+1)})$) and converge from any starting point $\gamma^{(0)} \in \mathbb{R}^n$ without stepsize line searches (Theorem 1, pp. 13-15; Appendix A.2, pp. 29-30). Furthermore, any limit point $(\hat{\beta}, \hat{\gamma})$ satisfies the two-stage $M$-estimation equation $X^\top \psi_{\Theta}(H\hat{\gamma} + (I_n - H)y; \lambda) = 0$ with effective score $\psi_{\Theta}(t; \lambda) = t - \Theta(t; \lambda)$ (Proposition 2, p. 18), so thresholding rules obeying $\Theta(t; \lambda) = t$ for $|t| \ge c\lambda$ ($c \ge 1$, such as hard thresholding $\Theta_H(t; \lambda) = t\mathbf{1}_{|t| &gt; \lambda}$ with $P_{\Theta_H}(t; \lambda) = \frac{1}{2}(\lambda^2 - (\lambda - |t|)_+^2)$ or the discrete penalty $\frac{1}{2}\lambda^2 \mathbf{1}_{t \ne 0}$) correspond to redescending $\psi_{\Theta}$ functions that assign zero influence to gross outliers and recover exact clean-subset OLS on $y_{\mathcal{O}^c}$.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-so2011-ipod-pdf">Outlier Detection Using Nonconvex Penalized Regression</a></span>
+        <span>· <strong>Locator:</strong> Section 3, pp. 11-17, Algorithms 1-2, Equations (3.1)-(3.7), Theorem 1; Section 4, pp. 17-20, Proposition 2; Appendix A.2, pp. 29-30</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#regression-scale-equivariance-and-high-dimensional-joint-sparse-tisp</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When combined with a regression- and scale-equivariant initial scale estimator $\hat{\sigma}(X, y)$ satisfying $\hat{\sigma}(XA, c(y + X\eta)) = |c|\hat{\sigma}(X, y)$ for nonsingular $A \in \mathbb{R}^{p \times p}$ (such as least trimmed squares), $\Theta$-IPOD initialized at $\gamma^{(0)} = 0$ is both regression- and scale-equivariant at every iteration $j \ge 1$: $\gamma^{(j)}(XA, c(y + X\eta)) = c\gamma^{(j)}(X, y)$ and $\beta^{(j)}(XA, c(y + X\eta)) = cA^{-1}(\beta^{(j)}(X, y) + \eta)$ (Proposition 4, p. 20; Appendix A.4, pp. 30-31). For high-dimensional $p &gt; n$ regression with sparse coefficients $\beta$ and sparse outliers $\gamma$, augmenting the design matrix to $\tilde{X} = [X / \|\tilde{X}_2\|_2,\, I_n]$ and applying hybrid hard-ridge thresholding $\Theta_{HR}(t; \lambda, \eta) = \frac{t}{1 + \eta}\mathbf{1}_{|t| &gt; \lambda}$ to $\beta$ alongside hard thresholding $\Theta_H(t; \lambda_\gamma)$ to $\gamma$ jointly recovers both sparse predictors and outlier locations (Section 6, Eq. 6.1, p. 24).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-so2011-ipod-pdf">Outlier Detection Using Nonconvex Penalized Regression</a></span>
+        <span>· <strong>Locator:</strong> Section 4, p. 20, Proposition 4; Section 6, p. 24, Equation (6.1); Appendix A.4, pp. 30-31</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Because $P_{\Theta}(\gamma_i; \lambda_i)$ is nonconvex for redescending thresholding rules (such as hard thresholding $\Theta_H$ or SCAD thresholding), the objective $F(\beta, \gamma)$ possesses multiple local minima, so $\Theta$-IPOD&#39;s converged fixed point $(\hat{\beta}, \hat{\gamma})$ depends on the initialization $\gamma^{(0)}$ and requires a robust high-breakdown initial scale estimate $\hat{\sigma}$ (such as least trimmed squares) when leverage points are severely contaminated.</li>
+      <li>Using Soft-IPOD ($\ell_1$ penalty on $\gamma$) as a warm start for Hard-IPOD inherits the masking and swamping failures of Huber&#39;s $M$-estimator at high leverage points unless the irrepresentable condition of Proposition 1 holds; She &amp; Owen (Section 3.3, pp. 16-17) therefore recommend initializing Hard-IPOD from $\gamma^{(0)} = 0$ along a decreasing threshold sequence $\lambda$ rather than from the Soft-IPOD solution.</li>
+      <li>Primary-source typographical audit of `arXiv:1006.2592v3`: (1) Section 3.1 Algorithm 1 (p. 12, line 2) writes &#39;$j \leftarrow 0,\, \gamma^{(j)} \leftarrow y - X\hat{\beta}$&#39; instead of &#39;$y - X\beta^{(0)}$&#39;, and line 12 writes &#39;deliver $\hat{\beta} = \beta^{(j-1)},\, \hat{\gamma} = \gamma^{(j)}$&#39;; (2) Section 3.3 Algorithm 2 (p. 16, line 1) writes &#39;$\gamma^{(0)} \in \mathbb{R}^p$&#39; instead of &#39;$\gamma^{(0)} \in \mathbb{R}^n$&#39; (since $\gamma$ is the $n$-dimensional observation mean-shift vector); and (3) Section 3.3 paragraph 2 (p. 16, line 3) writes &#39;Given a QR decomposition of $H$ we can compute that matrix product in $O(np)$ work as $Q(Q^\top \gamma^{(j)})$&#39; instead of &#39;Given a QR decomposition of $X$&#39; (where $H = Q Q^\top$).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Robustly estimates linear regression coefficients beta while jointly identifying sparse observation-level mean-shift outliers gamma.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LassoRegression.html" style="font-weight: 600;"><code>AIO:LassoRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Lasso Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Generalizes l_1-penalized mean-shift regression (Soft-IPOD) to nonconvex thresholding-based penalties P_Theta(gamma_i; lambda_i) that avoid shrinkage bias and irrepresentable conditions.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-so2011-ipod-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">so2011-ipod-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/pdf/1006.2592.pdf" target="_blank" rel="noopener">Outlier Detection Using Nonconvex Penalized Regression</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yiyuan She, Art B. Owen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1198/jasa.2011.tm10390</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e33d8a0bfa52…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-so2011-ipod-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">so2011-ipod-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1006.2592" target="_blank" rel="noopener">Outlier Detection Using Nonconvex Penalized Regression</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yiyuan She, Art B. Owen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1006.2592</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6b2a02b1272d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-so2011-ipod-crossref">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">so2011-ipod-crossref</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1198/jasa.2011.tm10390" target="_blank" rel="noopener">Outlier Detection Using Nonconvex Penalized Regression</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yiyuan She, Art B. Owen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1198/jasa.2011.tm10390</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bfe715c5406e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T03:30:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T03:30:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ThetaIPODThresholdingBasedIterativeOutlierDetectionAndMeanShiftPenalizedRegression.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ThetaIPODThresholdingBasedIterativeOutlierDetectionAndMeanShiftPenalizedRegression.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
