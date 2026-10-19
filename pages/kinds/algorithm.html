@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">470 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">471 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">470</span> of <span id="totalCount">470</span>
+      Showing <span id="matchCount">471</span> of <span id="totalCount">471</span>
     </div>
   </div>
 </div>
@@ -8523,6 +8523,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="qsgd (quantized stochastic gradient descent) with elias coding qsgdquantizedstochasticgradientdescentwitheliascoding aimech:qsgdquantizedstochasticgradientdescentwitheliascoding algorithms algorithm a communication-efficient family of unbiased stochastic gradient quantization and lossless prefix-coding schemes (alistarh, grubic, li, tomioka, &amp; vojnovic 2017) for distributed data-parallel optimization on r^n that, given a number of quantization levels s &gt;= 1 and a vector v != 0, maps each coordinate v_i to q_s(v)_i = ||v||_2 * sgn(v_i) * xi_i(v, s) where xi_i(v, s) is independently rounded to (l_i + 1)/s with probability p_i = s * |v_i| / ||v||_2 - l_i and to l_i/s with probability 1 - p_i (for l_i = floor(s * |v_i| / ||v||_2)), and encodes the resulting sparse integer tuple (||v||_2, signs, non-zero run-length gaps, and quantization levels k_i = s * xi_i) via elias recursive gamma/omega integer coding, guaranteeing unbiasedness e[q_s(v)] = v, variance e[||q_s(v) - v||_2^2] &lt;= min(n / s^2, n^{1/2} / s) * ||v||_2^2, and expected communication &lt;= (3/2 + 1/2 * log_2(2(s^2 + n)/s)) * s(s + n^{1/2}) + f bits per step (&lt;= 2.818 * n + 32 bits when s = n^{1/2} with only 2x variance blowup). distinct from biased 1-bit sign compression signsgd (bernstein et al. 2018, aimech:signsgdandmajorityvotecompressednonconvexoptimization), which discards the l_2 norm ||v||_2 and uses deterministic sign(v_i) without unbiased stochastic rounding or elias run-length coding; from 1-bit sgd with error feedback (seide et al. 2014; karimireddy et al. 2019), which maintains a local residual memory e_t; and from post-training neural weight quantization (such as gptq or awq), which quantizes trained model weights for inference rather than stochastically quantizing and elias-coding gradients during distributed sgd/svrg training. qsgd quantized sgd quantized stochastic gradient descent qsvrg (quantized svrg) for any v in r^n and quantization level count s &gt;= 1, the stochastic rounding operator q_s(v) satisfies e[q_s(v)] = v (unbiasedness), e[||q_s(v) - v||_2^2] = (||v||_2^2 / s^2) * sum_{i=1}^n p_i * (1 - p_i) &lt;= min(n / s^2, n^{1/2} / s) * ||v||_2^2 (since sum_i p_i(1 - p_i) &lt;= min(n, sum_i p_i) and sum_i p_i &lt;= s * ||v||_1 / ||v||_2 &lt;= s * n^{1/2}), and expected support size (induced sparsity) e[||q_s(v)||_0] &lt;= s^2 + s * n^{1/2} (lemma 3.1, lemma a.5). by encoding the index gaps between non-zero coordinates of q_s(v) and their non-zero integer quantization levels k_i in {1, ..., s} with elias recursive prefix codes (which use log_2(k) + o(log log k) bits for integer k &gt;= 1 and satisfy jensen&#39;s inequality on concave code-length upper bounds), qsgd transmits at most (3/2 + 1/2 * log_2(2(s^2 + n) / s)) * s * (s + n^{1/2}) + f bits in expectation (where f = 32 is float precision for ||v||_2); in particular, at s = n^{1/2}, qsgd increases gradient second-moment variance by at most 1 + min(n/s^2, n^{1/2}/s) = 2 while transmitting &lt;= 2.818 * n + 32 bits per step instead of 32*n bits (~11.3x compression) (theorem 3.4, corollary 3.3, theorem a.6). extending q_{n^{1/2}} to variance-reduced finite-sum optimization in quantized svrg (qsvrg, theorem b.2 / g.2) achieves linear convergence e[f(y^{(p+1)}) - f(x^*)] &lt;= (1/2)^p * (f(x_0) - f(x^*)) using &lt;= p * (f + 2.8*n) * (t + 1) bits per processor, matching optimal communication lower bounds up to constants; in smooth non-convex and asynchronous optimization (theorems c.1 and d.1) and bucketed d-block quantization (section 3.3, variance min(d/s^2, d^{1/2}/s)) on 16-gpu imagenet alexnet, cifar-10 resnet-110, and an4 speech lstm, 4-bit and 2-bit qsgd achieve 2.5x-3x end-to-end training speedups without accuracy loss. qsgd: communication-efficient sgd via gradient quantization and encoding qsgd: communication-efficient sgd via gradient quantization and encoding (arxiv abstract) qsgd: communication-efficient sgd via gradient quantization and encoding (crossref metadata) dan alistarh demjan grubic jerry li ryota tomioka milan vojnovic dan alistarh demjan grubic jerry li ryota tomioka milan vojnovic dan alistarh demjan grubic jerry li ryota tomioka milan vojnovic">
+        <td>
+          <a href="../curated/QsgdQuantizedStochasticGradientDescentWithEliasCoding.html" style="font-weight: 600; font-size: 1rem;">QSGD (Quantized Stochastic Gradient Descent) with Elias Coding</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> QSGD, Quantized SGD…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A communication-efficient family of unbiased stochastic gradient quantization and lossless prefix-coding schemes (Alistarh, Grubic, Li, Tomi…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:QsgdQuantizedStochasticGradientDescentWithEliasCoding</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
