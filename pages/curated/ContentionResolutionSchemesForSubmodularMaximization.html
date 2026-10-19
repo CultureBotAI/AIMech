@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contention Resolution Schemes and Multilinear Relaxation Rounding for Constrained Submodular Maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Contention Resolution Schemes and Multilinear Relaxation Rounding for Constrained Submodular Maximization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Contention Resolution Schemes and Multilinear Relaxation Rounding for Constrained Submodular Maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ContentionResolutionSchemesForSubmodularMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Contention Resolution Scheme, Monotone (b, c)-Balanced Contention Resolution Scheme, Chekuri-Vondrak-Zenklusen Contention Resolution Framework
+    </div>
+
+  <div class="detail-desc">
+    A (b, c)-balanced Contention Resolution (CR) scheme pi for a polyhedral relaxation P_I subseteq [0, 1]^N of a downward-closed independence family I subseteq 2^N, introduced and analyzed by Chekuri, Vondrak, and Zenklusen (2011/2014), is a (possibly randomized) rounding procedure that for every fractional vector x in b * P_I and subset A subseteq N returns a feasible random subset pi_x(A) subseteq A cap support(x) such that (i) pi_x(A) in I with probability 1, and (ii) for every element i in support(x), Pr[i in pi_x(R(x)) | i in R(x)] &gt;= c when R(x) includes each element j in N independently with probability x_j (Definition 1.2). The CR scheme is monotone if Pr[i in pi_x(A_1)] &gt;= Pr[i in pi_x(A_2)] whenever i in A_1 subseteq A_2. Coupled with a linear-time sequential pruning operation eta_f(I) that retains i in I only if f(J + i) - f(J) &gt; 0, any monotone (b, c)-balanced CR scheme rounds x in b * P_I to a feasible integral solution satisfying E[f(eta_f(pi_x(R(x))))] &gt;= c * F(x) for any non-negative (monotone or non-monotone) submodular function f with multilinear extension F (Theorem 1.3).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:ContinuousGreedyAndMultilinearExtensionForMatroidSubmodularMaximization (Round 349) and AIMech:MeasuredContinuousGreedySubmodularMaximization (Round 368), which are continuous optimization algorithms that find a fractional point x in P_I maximizing F(x) (and rely on matroid-specific pipage rounding), whereas Contention Resolution Schemes provide a general, modular dependent-rounding framework across intersections of matroids, matchoids, knapsacks, sparse packing systems, and tree unsplittable flows via LP duality and the correlation gap, alongside Fractional Local Search for maximizing F(x) over arbitrary solvable down-monotone polytopes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r369-claim-fkg-pruning-expectation-bound-and-intersection-composition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any non-negative submodular function f with multilinear extension F, point x in b * P_I, and monotone (b, c)-balanced CR scheme pi producing I = pi_x(R(x)), defining the pruned set J = eta_f(I) by sequentially including i in I iff f_{J cap [i-1]}(i) &gt; 0 guarantees via submodularity and the FKG inequality on the product space conditioned on i in R(x) that E[f(J cap [i]) - f(J cap [i-1])] &gt;= c * E[f(R cap [i]) - f(R cap [i-1])] for each i, summing to E[f(eta_f(I))] &gt;= c * F(x) (Theorem 1.3, Section 4.1 Eqs. 8-10); furthermore, given h independence systems I_i with monotone (b, c_i)-balanced CR schemes pi^i on P_{I_i}, their intersection scheme pi_x(A) = cap_{i=1}^h pi_x^i(A) on P_I = cap_i P_{I_i} is a monotone (b, prod_{i=1}^h c_i)-balanced CR scheme by the FKG inequality (Lemma 1.6, Section 4.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r369-primary-pdf">Submodular Function Maximization via the Multilinear Relaxation and Contention Resolution Schemes</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2-1.3, Definition 1.2, Theorems 1.3 and 1.5, and Lemma 1.6, pp. 5-7; Section 4.1, Equations (8)-(10), Theorem 4.1, and Proof of Lemma 1.6, pp. 16-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r369-claim-correlation-gap-lp-duality-and-optimal-matroid-crs</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By formulating the search for a randomized (b, c)-balanced CR scheme at x in b * P_I as a linear program over distributions of valid deterministic mappings (LP1) and taking its dual (DP1), a (b, c)-balanced CR scheme exists if and only if inf_{x in b*P_I, y &gt;= 0} E_{R(x)}[max_{S subseteq R, S in I} sum_{i in S} y_i] / sum_{i in N} x_i * y_i &gt;= c, which equals the correlation gap kappa(I) = inf_{y &gt;= 0} kappa(r_y) of the weighted rank functions r_y of I and can be constructed in polynomial time via the ellipsoid algorithm whenever I admits a monotone maximum-weight independent set oracle (Theorem 4.3, Theorem 4.6, Lemma 4.7, Appendix C); for any matroid M on n elements, F(b * p) &gt;= (1 - (1 - b/n)^n) * f^+(p) (Lemmas 4.9-4.10) yields a monotone, efficiently implementable (b, (1 - (1 - b/n)^n) / b)-balanced (and (b, (1 - e^{-b}) / b)-balanced) CR scheme (Theorem 1.4, Theorem 4.8, Corollary 4.11) that is provably optimal even on rank-1 uniform matroids (Theorem 4.12), alongside a simpler deterministic (b, 1 - b)-balanced span-ordering scheme (Lemma 4.13, Theorem 4.14).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r369-primary-pdf">Submodular Function Maximization via the Multilinear Relaxation and Contention Resolution Schemes</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, Theorem 1.4, p. 6; Section 4.2-4.4, Proposition 4.2, Theorems 4.3, 4.6, 4.8, 4.12, 4.14, Lemmas 4.7, 4.9, 4.10, 4.13, and Corollary 4.11, pp. 18-26; Appendix B-C, pp. 37-41</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r369-claim-fractional-local-search-over-down-monotone-polytopes</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For maximizing the multilinear extension F(x) of any non-negative submodular function over any solvable down-monotone polytope P subseteq [0, 1]^N, direction-wise concavity implies (y - x) . nabla F(x) &gt;= F(x vee y) + F(x wedge y) - 2*F(x) (Lemma 3.2); Discretized Fractional Local Search (Algorithm 3.6) maintains a convex combination of q = n^a vertices of P and terminates in O(n^{2a-1}) steps at an approximate local optimum x satisfying 2*F(x) &gt;= F(x vee y) + F(x wedge y) - 5*delta*n for all y in P (Lemmas 3.7-3.8), so running it on P and on the complement-restricted polytope Q = {y in P : y &lt;= 1 - x} (Algorithm 3.9) gives 2*F(x) + 2*F(z) &gt;= OPT - 10*delta*n and a (0.25 - o(1))-approximation to max_{x in P} F(x) (Lemma 3.12, Corollary 3.13), while a single Restricted Local Search on P cap [0, t]^N with t = (3 - sqrt(5))/2 (Algorithm 3.15) achieves F(x) &gt;= ((2*t - t^2)/2)*f(C) - o(1) = ((-1 + sqrt(5))/4 - o(1))*OPT_int approx 0.309*OPT_int (Theorem 1.1, Lemma 3.19, Corollary 3.21).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r369-primary-pdf">Submodular Function Maximization via the Multilinear Relaxation and Contention Resolution Schemes</a></span>
+        <span>· <strong>Locator:</strong> Section 1.1, Theorem 1.1, p. 4; Section 3.1-3.4, Algorithms 3.1, 3.6, 3.9, 3.15, Lemmas 3.2, 3.7, 3.8, 3.11, 3.12, 3.16, 3.19, and Corollaries 3.13, 3.21, pp. 9-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Achieving constant-factor approximations for maximizing F(x) requires the solvable polytope P to be down-monotone (no constant-factor approximation exists in the value-oracle model over general non-down-monotone polytopes such as the matroid base polytope when fractional base packing number nu -&gt; 1, Section 3, p. 9; Appendix A), and the optimal matroid CR scheme requires solving linear programs via the ellipsoid method and Monte Carlo sampling whereas the faster deterministic span-ordering scheme achieves a weaker (b, 1 - b) balance (Section 4.4, p. 25).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Provides polyhedral relaxation and contention-resolution rounding algorithms for constrained submodular maximization, facility location, and Max-k-Cover.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r369-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r369-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1105.4593.pdf" target="_blank" rel="noopener">Submodular Function Maximization via the Multilinear Relaxation and Contention Resolution Schemes</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chandra Chekuri, Jan Vondrak, Rico Zenklusen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/110839655</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c8c972e4e4f9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r369-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r369-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1105.4593" target="_blank" rel="noopener">Submodular Function Maximization via the Multilinear Relaxation and Contention Resolution Schemes (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chandra Chekuri, Jan Vondrak, Rico Zenklusen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1105.4593</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a51a7955188c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r369-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r369-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1137/110839655" target="_blank" rel="noopener">Submodular Function Maximization via the Multilinear Relaxation and Contention Resolution Schemes (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chandra Chekuri, Jan Vondrak, Rico Zenklusen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/110839655</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:94f75f2015cf…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:32:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:32:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ContentionResolutionSchemesForSubmodularMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ContentionResolutionSchemesForSubmodularMaximization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
