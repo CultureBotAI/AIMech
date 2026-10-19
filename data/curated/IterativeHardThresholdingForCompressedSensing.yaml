@@ -1,0 +1,98 @@
+id: AIMech:IterativeHardThresholdingForCompressedSensing
+name: Iterative Hard Thresholding for Compressed Sensing
+concept_kind: algorithm
+review_status: DRAFT
+definition: Iterative Hard Thresholding for Compressed Sensing (IHT) is a first-order non-convex projected gradient algorithm analyzed by Blumensath and Davies (2009) for recovering s-sparse and compressible signals x in R^M from noisy linear measurements y = Phi x + e in R^N (N < M). Starting from x^{[0]} = 0, each iteration n >= 0 updates x^{[n+1]} = H_s(x^{[n]} + Phi^T(y - Phi x^{[n]})), where the non-linear hard-thresholding operator H_s(a) retains the s largest-magnitude entries of a and sets all remaining M - s entries to zero. Under the Restricted Isometry Property beta_{3s} < 1/sqrt(32) (where ||Phi_B^T Phi_B - I||_2 <= beta_{|B|}), IHT requires only a single matrix-vector application of Phi and Phi^T per iteration (avoiding the inner least-squares inversions of CoSaMP and Subspace Pursuit) while guaranteeing geometric contraction ||x - x^{[n]}||_2 <= 2^{-n} ||x^s||_2 + 6 ||x - x^s||_2 + (6/sqrt(s)) ||x - x^s||_1 + 5 ||e||_2.
+identity_notes: Distinct from convex l1 Basis Pursuit / Lasso (AIO:LassoRegression), greedy Orthogonal Matching Pursuit (AIMech:OrthogonalMatchingPursuitTroppGilbertSignalRecovery), and two-stage least-squares pursuit methods (CoSaMP and Subspace Pursuit). Specifically captures the Blumensath-Davies (2009) Iterative Hard Thresholding update x^{[n+1]} = H_s(x^{[n]} + Phi^T(y - Phi x^{[n]})) (Equation 1.5), its RIP contraction analysis on evolving 3s-sparse unions B^n = Gamma^{x,s} union Gamma^n union Gamma^{n+1} (Theorem 4 and Corollary 1), and its residual-based finite-termination criterion (Lemma 5 and Theorem 5).
+aliases:
+- Iterative Hard Thresholding
+- IHT for Compressed Sensing
+- Blumensath-Davies Iterative Hard Thresholding
+- Projected Gradient Hard Thresholding
+definition_evidence:
+- source_id: r314-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r314-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r314-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: By restricting the gradient step a^{[n]} = x^{[n]} + Phi^T(y - Phi x^{[n]}) to the union support B^{n+1} = Gamma^{x,s} union Gamma^n union Gamma^{n+1} of cardinality |B^{n+1}| <= 3s, the best-s-term property ||x^{[n+1]}_{B^{n+1}} - a^{[n]}_{B^{n+1}}||_2 <= ||x_{B^{n+1}} - a^{[n]}_{B^{n+1}}||_2 combines with the triangle inequality and RIP bounds ||(I - Phi_B^T Phi_B) v||_2 <= beta_{3s} ||v||_2 to yield the per-step linear error recursion ||r^{n+1}||_2 <= 2*sqrt(2)*beta_{3s} ||r^n||_2 + 2*(1+sqrt(2))*sqrt(1+beta_{2s}) ||tilde{e}||_2 = (1/sqrt(2)) ||r^n||_2 + 4.38 ||tilde{e}||_2 whenever beta_{3s} < 1/sqrt(32).
+  evidence:
+  - source_id: r314-primary-pdf
+    locator: Section 3.2, Lemmas 1-4 and Proof of Theorem 4, Equations 3.9-3.17, pp. 6-8
+    relation: supports
+  - source_id: r314-metadata-cr
+    locator: Bibliographic metadata for Applied and Computational Harmonic Analysis 27(3):265-274
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: For exactly s-sparse signals x = x^s in the presence of observation noise e, Corollary 1 establishes ||x - x^{[n]}||_2 <= 2^{-n/2} ||x||_2 + 5 ||e||_2 after n iterations, and Lemma 5 proves that once ||x^s - x^{[n]}||_2 <= 1.25 ||tilde{e}||_2, consecutive iterates satisfy the observable stopping bound ||x^{[n]} - x^{[n-1]}||_2 <= 2.5 ||tilde{e}||_2 and residual bound ||y - Phi x^{[n]}||_2 <= 2.34 ||tilde{e}||_2 within k* <= ceil(2 log_2(||x^s||_2 / ||tilde{e}||_2)) steps (Theorem 5).
+  evidence:
+  - source_id: r314-primary-pdf
+    locator: Section 2.1, Theorem 4 and Corollary 1, pp. 4-5; Section 3.3, Lemma 5 and Theorem 5, pp. 8-9
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Unit-step Iterative Hard Thresholding requires the sensing matrix Phi to be properly scaled so that its 3s-restricted isometry constant satisfies beta_{3s} < 1/sqrt(32) approx 0.1768 (or spectral norm < 1 for convergence to a local minimum); if the signal sparsity s exceeds the RIP threshold of the undersampled measurement operator or if Phi is unscaled, the linear gradient step amplifies off-support interference and fails to recover the signal.
+  evidence:
+  - source_id: r314-primary-pdf
+    locator: Section 1.2, Convergence discussion, p. 3; Section 2.1, Theorem 4 condition beta_{3s} < 1/sqrt(32) and Section 4 Discussion, pp. 4, 9-10
+    relation: supports
+evidence_sources:
+- source_id: r314-primary-pdf
+  title: Iterative hard thresholding for compressed sensing
+  authors: &id001
+  - Thomas Blumensath
+  - Mike E. Davies
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0805.0510v1
+  persistent_id: https://doi.org/10.1016/j.acha.2009.04.002
+  version: Applied and Computational Harmonic Analysis, 27(3):265-274 (2009) (149297 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:20:00Z'
+  sha256: 8f79a0c787513503fea275d4aa6a2a9f5a4c8fd39f7cec8d75e7f3fa1dec6d3c
+- source_id: r314-arxiv-abs
+  title: Iterative hard thresholding for compressed sensing (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0805.0510v1
+  persistent_id: https://arxiv.org/abs/0805.0510v1
+  version: arXiv abstract page (6214 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:20:00Z'
+  sha256: 746f7b74e1a4562e2ba62d9a1f466dd3735bb5542141de6a5101cc79901a29a7
+- source_id: r314-metadata-cr
+  title: Iterative hard thresholding for compressed sensing (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1016/j.acha.2009.04.002
+  persistent_id: https://doi.org/10.1016/j.acha.2009.04.002
+  version: Crossref API work record (2641 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:20:00Z'
+  sha256: 1e679d2f8c632da98b9154dd6dd5776d23de006050fd25391df4f89cda0fa451
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: IHT solves cardinality-constrained linear inverse problems y = Phi x + e via hard-thresholded gradient descent.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: IHT is the direct non-convex l0 hard-thresholding counterpart to l1-penalized Lasso / Basis Pursuit.
+limitations:
+- Requires the sensing operator Phi to satisfy the 3s-Restricted Isometry Property beta_{3s} < 1/sqrt(32) with unit step size (or adaptive step-size scaling); when the signal is dense or s exceeds the undersampling RIP capacity, IHT cannot recover the underlying vector.
+curation:
+  created_at: '2026-10-19T06:20:00Z'
+  updated_at: '2026-10-19T06:20:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
