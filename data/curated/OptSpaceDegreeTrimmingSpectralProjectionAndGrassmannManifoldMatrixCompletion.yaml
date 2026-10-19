@@ -1,0 +1,108 @@
+id: AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+name: OptSpace (Degree Trimming, Rank-r Spectral Projection, and Grassmann Manifold Matrix Completion)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A three-stage spectral and Riemannian manifold algorithm (*OptSpace*, introduced by Raghunandan H. Keshavan, Andrea Montanari, and Sewoong Oh in 2010) for reconstructing a rank-$r$ matrix $M = U\Sigma V^\top \in \mathbb{R}^{m\times n}$ from a small uniformly sampled subset of entries $E\subseteq [m]\times [n]$: (1) *Degree Trimming*, which sets to zero all rows in $M^E$ with degree exceeding $2|E|/m$ and all columns with degree exceeding $2|E|/n$ to form $\widetilde{M}^E$, suppressing heavy-tailed vertex-degree singular vectors of order $\sqrt{\log n/\log\log n}$ in the sparse $|E| = \Theta(n)$ regime; (2) *Rank-$r$ Spectral Projection* $\mathrm{T}_r(\widetilde{M}^E) = \frac{mn}{|E|}\sum_{i=1}^r \sigma_i x_i y_i^\top$, which achieves relative RMSE $\le C\kappa^2 \sqrt{r\alpha n/|E|}$ (Theorem 1.1); and (3) *Grassmann Manifold Cleaning*, which minimizes the variable-projected discrepancy $F(X,Y) = \min_{S\in\mathbb{R}^{r\times r}} \frac{1}{2}\|\mathcal{P}_E(M - X S Y^\top)\|_F^2$ over $(X,Y)\in\mathrm{G}(m,r)\times\mathrm{G}(n,r)$ ($X^\top X = m I_r$, $Y^\top Y = n I_r$), where $F(X,Y)$ is locally strongly convex via lower curvature bound $\mathrm{d}^2 F(t)/\mathrm{d}t^2|_{t=0} \ge C\epsilon^2 \sigma_{\min}^4 (d(X,U)^2 + d(Y,V)^2)$ (Lemma 6.5) and converges to exact recovery $X_k S_k Y_k^\top \to M$ once $|E| \ge C\kappa^6 n r \max(\mu_0 \log n, \mu_0^2 r \kappa^4)$ (Theorem 1.2).'
+identity_notes: Resolved against all 442 pinned AIO concepts and 703 maintained AIMech concepts. Distinct from `AIMech:NonconvexMatrixCompletionLandscapeWithoutSpuriousLocalMinima` (which uses Euclidean Burer-Monteiro $U U^\top$ regularization without degree trimming or Grassmann manifold variable projection $F(X,Y) = \min_S \frac{1}{2}\|\mathcal{P}_E(M - X S Y^\top)\|_F^2$) and `AIMech:AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion`.
+aliases:
+- OptSpace Matrix Completion Algorithm
+- Keshavan-Montanari-Oh Trimmed Spectral and Grassmann Manifold Matrix Completion
+- Degree-Trimmed Spectral Projection and Grassmann Cleaning
+definition_evidence:
+- source_id: kmo2010-optspace-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: kmo2010-optspace-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: kmo2010-optspace-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-degree-trimming-and-rank-r-spectral-projection-rmse-bound
+  kind: mechanism
+  statement: In the sparse regime $|E| = \Theta(n)$, the untrimmed observed matrix $M^E$ possesses maximum vertex degree $\Theta(\log n / \log\log n)$ whose localized singular values $\Omega(\sqrt{\log n/\log\log n}\,M_{\min})$ overwhelm the true signal singular values $\Theta((|E|/n)M_{\min})$; zeroing rows with degree $> 2|E|/m$ and columns with degree $> 2|E|/n$ produces $\widetilde{M}^E$ whose rank-$r$ projection $\mathrm{T}_r(\widetilde{M}^E)$ satisfies $\|M - \mathrm{T}_r(\widetilde{M}^E)\|_F / \|M\|_F \le C \kappa^2 (\frac{\alpha r n}{|E|})^{1/2}$ with high probability (Theorem 1.1 & Lemma 5.1).
+  evidence:
+  - source_id: kmo2010-optspace-pdf
+    locator: Section 1.1-1.2, Theorem 1.1, pp. 2981-2982; Section 3 & 5, Lemma 3.2 & Lemma 5.1, pp. 2984-2988
+    relation: supports
+  - source_id: kmo2010-optspace-abs
+    locator: Abstract
+    relation: supports
+- claim_id: claim-grassmann-manifold-local-parabolic-curvature-and-exact-completion-theorem
+  kind: mechanism
+  statement: Minimizing the variable-projected cost $F(X,Y) = \min_{S\in\mathbb{R}^{r\times r}} \mathcal{F}(X,Y,S)$ on the Grassmann product manifold $\mathrm{G}(m,r)\times\mathrm{G}(n,r)$ initialized at $(X_0,Y_0)$ from $\mathrm{T}_r(\widetilde{M}^E)$ satisfies quadratic upper and lower bounds $C_1 \epsilon \sigma_{\min}^2 d((X,Y),(U,V))^2 \le F(X,Y) \le C_2 \epsilon \sigma_{\max}^2 d((X,Y),(U,V))^2$ (Lemma 6.4) and positive geodesic second derivative $\frac{\mathrm{d}^2}{\mathrm{d}t^2}F(X(t),Y(t))|_{t=0} \ge C_1\epsilon^2 \sigma_{\min}^4 d((X,Y),(U,V))^2 - C_2\epsilon \sigma_{\max}^2 d((X,Y),(U,V))^3$ along the geodesic connecting $(X,Y)$ to $(U,V)$ (Lemma 6.5), guaranteeing exact matrix completion $\lim_{k\to\infty} X_k S_k Y_k^\top = M$ once $|E| \ge C\kappa^6 n r \max(\mu_0 \log n, \mu_0^2 r \kappa^4)$ (Theorem 1.2).
+  evidence:
+  - source_id: kmo2010-optspace-pdf
+    locator: Section 1.3-1.4, Theorem 1.2, pp. 2982-2983; Section 6, Remark 6.1, Equations (24)-(31), & Lemmas 6.4-6.5, pp. 2988-2995
+    relation: supports
+  - source_id: kmo2010-optspace-cr
+    locator: IEEE Transactions on Information Theory 56(6):2980-2998 (2010) metadata
+    relation: supports
+- claim_id: claim-scope-equivalence-of-geodesic-chordal-and-projection-metrics-on-grassmann-manifolds
+  kind: scope
+  statement: Remark 6.1 (Equation 24) establishes global bi-Lipschitz equivalence on $\mathrm{G}(m,r)$ between the geodesic distance $d_g(X_1,X_2) = \sqrt{\sum_{i=1}^r \theta_i^2}$, chordal distance $d_c(X_1,X_2) = \sqrt{\sum_{i=1}^r (2\sin(\theta_i/2))^2}$, and projection distance $d_p(X_1,X_2) = \frac{1}{\sqrt{2}m}\|X_1 X_1^\top - X_2 X_2^\top\|_F = \sqrt{\sum_{i=1}^r \sin^2\theta_i}$ via $\frac{1}{\pi}d_g \le \frac{1}{\sqrt{2}}d_c \le d_p \le d_c \le d_g$.
+  evidence:
+  - source_id: kmo2010-optspace-pdf
+    locator: Section 6.1, Remark 6.1 & Equations (24)-(27), pp. 2989-2990
+    relation: supports
+- claim_id: claim-limitation-incoherence-conditions-and-sixth-power-condition-number-scaling
+  kind: limitation
+  statement: OptSpace's exact recovery guarantee (Theorem 1.2) requires incoherence conditions A0 ($\|u_i\|^2 \le \mu_0 r/m$, $\|v_j\|^2 \le \mu_0 r/n$) and A1 ($|M_{ij}| \le \mu_1 \sqrt{r/(mn)}\sigma_1$), and its sample complexity scales with the sixth to tenth power of the condition number $\kappa = \sigma_{\max}/\sigma_{\min}$.
+  evidence:
+  - source_id: kmo2010-optspace-pdf
+    locator: Section 1.4, Equations (5)-(7) & Theorem 1.2, p. 2983
+    relation: supports
+evidence_sources:
+- source_id: kmo2010-optspace-pdf
+  title: Matrix Completion From a Few Entries
+  authors: &id001
+  - Raghunandan H. Keshavan
+  - Andrea Montanari
+  - Sewoong Oh
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0901.3150.pdf
+  persistent_id: https://doi.org/10.1109/TIT.2010.2046205
+  version: arXiv:0901.3150v4 full-text PDF (30 pages), published in IEEE Transactions on Information Theory 56(6):2980-2998 (2010). (427814 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:10:00Z'
+  sha256: 510ccc8e443526f383255899559f24ea99cf493ab874e135a3b74b2fbe480e2b
+- source_id: kmo2010-optspace-abs
+  title: Matrix Completion From a Few Entries (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0901.3150
+  persistent_id: https://arxiv.org/abs/0901.3150
+  version: arXiv abstract page (6767 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:10:00Z'
+  sha256: 7cefe11e02327fac4178ccbefc33e003748e437c7be01110db28fb6857949931
+- source_id: kmo2010-optspace-cr
+  title: Matrix Completion From a Few Entries (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1109/TIT.2010.2046205
+  persistent_id: https://doi.org/10.1109/TIT.2010.2046205
+  version: Crossref API work record (2349 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:10:00Z'
+  sha256: 7c5ef2e990a21682375d5b0b0a25fd9fde3e1a94175b87bb3f606af14e03535f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Computes a degree-trimmed rank-r SVD projection before Riemannian optimization on Grassmannians.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Recovers low-rank matrix subspaces (X, Y) in G(m, r) x G(n, r) from sparse entry observations.
+limitations:
+- "Requires uniform entry sampling, incoherence conditions A0\u2013A1, and sample complexity scaling as $\\kappa^6 n r \\max(\\mu_0\\log n, \\mu_0^2 r \\kappa^4)$."
+curation:
+  created_at: '2026-10-19T06:10:00Z'
+  updated_at: '2026-10-19T06:10:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
