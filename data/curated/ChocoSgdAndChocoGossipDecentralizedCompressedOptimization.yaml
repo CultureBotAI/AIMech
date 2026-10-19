@@ -1,0 +1,103 @@
+id: AIMech:ChocoSgdAndChocoGossipDecentralizedCompressedOptimization
+name: Choco-SGD and Choco-Gossip Decentralized Optimization with Compressed Communication
+concept_kind: algorithm
+review_status: DRAFT
+definition: A family of decentralized gossip and stochastic optimization algorithms (Choco-Gossip and Choco-SGD) over a connected network with symmetric doubly stochastic mixing matrix W = [w_{ij}] and spectral gap delta > 0, in which each node i maintains local parameters x_i^{(t)} and public replica states x_hat_j^{(t)} for its neighbors j in N_i, transmits only omega-contractive compressed state differences q_i^{(t)} = Q(x_i^{(t)} - x_hat_i^{(t)}) to update x_hat_i^{(t+1)} = x_hat_i^{(t)} + q_i^{(t)}, and applies consensus mixing x_i^{(t+1)} = x_i^{(t)} + gamma * sum_{j=1}^n w_{ij} (x_hat_j^{(t+1)} - x_hat_i^{(t+1)}) (preceded in Choco-SGD by a local stochastic gradient step x_i^{(t+1/2)} = x_i^{(t)} - eta_t * g_i(x_i^{(t)})), preserving the exact global average (1/n) sum_{i=1}^n x_i^{(t)} under arbitrary biased or randomized contractive compression and achieving linear consensus convergence O((1 - delta^2 * omega / 82)^t) and optimal O(sigma_bar^2 / (mu * n * T)) decentralized stochastic optimization speedup.
+identity_notes: Distinct from centralized/parameter-server error-compensated compression (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression and AIMech:Ef21MarkovCompressorErrorFeedbackForHeterogeneousNonconvexOptimization, which assume a central coordinator or all-to-all aggregation rather than decentralized graph gossip with spectral gap delta), and from uncompressed periodic local SGD (AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent). No pinned AIO class covers decentralized compressed gossip or Choco-SGD.
+aliases:
+- Choco-SGD
+- Choco-Gossip
+- Compressed Decentralized Gossip and Stochastic Gradient Descent
+definition_evidence:
+- source_id: r382-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r382-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r382-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r382-exact-average-preservation-and-linear-gossip-convergence
+  kind: mechanism
+  statement: Because W is symmetric doubly stochastic (sum_i w_{ij} = 1 = sum_j w_{ij}), the gossip update x_i^{(t+1)} = x_i^{(t)} + gamma * sum_j w_{ij} (x_hat_j^{(t+1)} - x_hat_i^{(t+1)}) preserves the exact global mean x_bar^{(t+1)} = x_bar^{(t)} at every step regardless of compressor bias (Remark 14), and Theorem 2 proves that for gamma = delta * omega / (16 * delta + delta^2 + 4 * beta^2 + 2 * delta * beta^2 - 8 * delta * omega) the joint Lyapunov function e_t = E_Q sum_{i=1}^n (||x_i^{(t)} - x_bar||^2 + ||x_i^{(t)} - x_hat_i^{(t+1)}||^2) contracts geometrically as e_t <= (1 - delta^2 * omega / 82) * e_{t-1}.
+  evidence:
+  - source_id: r382-primary-pdf
+    locator: Section 3 Algorithm 1, Theorem 2, and Appendix B Remarks 14-15 & Proof of Theorem 2, pp. 3-4, 13-15
+    relation: supports
+- claim_id: r382-decentralized-linear-speedup-rate
+  kind: mechanism
+  statement: For L-smooth mu-strongly convex objectives with local variance sigma_i^2 and second-moment bound G^2, Theorem 4 proves that Choco-SGD (Algorithm 2) with stepsize eta_t = 4 / (mu * (a + t)) and weights w_t = (a + t)^2 achieves E[f(x_avg^{(T)}) - f*] = O(sigma_bar^2 / (mu * n * T)) + O(kappa * G^2 / (mu * omega * delta^2 * T^2)) + O(G^2 / (mu * omega^3 * delta^6 * T^3)), where the leading O(1/(n*T)) term matches centralized uncompressed mini-batch SGD independent of graph spectral gap delta and compression ratio omega.
+  evidence:
+  - source_id: r382-primary-pdf
+    locator: Section 4 Algorithm 2 and Theorem 4, pp. 5-6
+    relation: supports
+- claim_id: r382-neighbor-replica-memory-and-spectral-gap-limitation
+  kind: limitation
+  statement: Each node i must maintain replica vectors x_hat_j^{(t)} in R^d for itself and its graph neighbors j in N_i (requiring O(deg(i) * d) memory unless nodes share a common random seed for sparsification), and higher-order transient terms scale inversely with delta^2 * omega.
+  evidence:
+  - source_id: r382-primary-pdf
+    locator: Section 3 Algorithm 1, Theorem 4, and Appendix D Memory Efficient Variant, pp. 4-6, 19
+    relation: supports
+- claim_id: r382-decentralized-ring-and-torus-optimization-application
+  kind: application
+  statement: Applied to decentralized optimization and consensus averaging over ring and 2D torus network topologies with 1% Top-k sparsification and 1-bit/low-bit quantization.
+  evidence:
+  - source_id: r382-primary-pdf
+    locator: Section 5 Experiments, Figures 1-3, pp. 6-8
+    relation: supports
+evidence_sources:
+- source_id: r382-primary-pdf
+  title: Decentralized Stochastic Optimization and Gossip Algorithms with Compressed Communication
+  authors: &id001
+  - Anastasia Koloskova
+  - Sebastian U. Stich
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1902.00340.pdf
+  persistent_id: https://proceedings.mlr.press/v97/koloskova19a.html
+  version: Proceedings of the 36th International Conference on Machine Learning (ICML 2019), PMLR 97:3478-3487 (2019) (94958 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:45:00Z'
+  sha256: 38a4b7820c0c4fbdd25c6679c9c9ed3d6b2334050d5a9b0b1c229b4b9bf23c9c
+- source_id: r382-arxiv-abs
+  title: Decentralized Stochastic Optimization and Gossip Algorithms with Compressed Communication (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1902.00340
+  persistent_id: https://arxiv.org/abs/1902.00340
+  version: arXiv abstract page (7273 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:45:00Z'
+  sha256: 2dcc881d5ef7a928e60178d152fc9bc0fb9732b005e7a8b2c8c5259eec346b34
+- source_id: r382-metadata-cr
+  title: Decentralized Stochastic Optimization and Gossip Algorithms with Compressed Communication (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/koloskova19a.html
+  persistent_id: https://proceedings.mlr.press/v97/koloskova19a.html
+  version: Crossref API work record (367 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:45:00Z'
+  sha256: ab928e62ff57cf1a5ab59336438673e4f646c1d0a0666108a9e91d223ac9f71d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Choco-SGD performs decentralized peer-to-peer collaborative training across networked workers without a central server.
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: Choco-Gossip mixes compressed node states over a doubly stochastic Markov transition matrix W with spectral gap delta > 0.
+limitations:
+- Requires each node i to store state replicas x_hat_j for its graph neighbors unless an unweighted shared-seed random sparsifier is used.
+- Requires a connected network topology with a symmetric doubly stochastic mixing matrix W (delta > 0) and bounded second moments E ||g_i(x)||^2 <= G^2.
+curation:
+  created_at: '2026-10-19T07:45:00Z'
+  updated_at: '2026-10-19T07:45:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

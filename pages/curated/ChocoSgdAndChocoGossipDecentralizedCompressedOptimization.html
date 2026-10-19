@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Choco-SGD and Choco-Gossip Decentralized Optimization with Compressed Communication · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Choco-SGD and Choco-Gossip Decentralized Optimization with Compressed Communication</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Choco-SGD and Choco-Gossip Decentralized Optimization with Compressed Communication</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ChocoSgdAndChocoGossipDecentralizedCompressedOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Choco-SGD, Choco-Gossip, Compressed Decentralized Gossip and Stochastic Gradient Descent
+    </div>
+
+  <div class="detail-desc">
+    A family of decentralized gossip and stochastic optimization algorithms (Choco-Gossip and Choco-SGD) over a connected network with symmetric doubly stochastic mixing matrix W = [w_{ij}] and spectral gap delta &gt; 0, in which each node i maintains local parameters x_i^{(t)} and public replica states x_hat_j^{(t)} for its neighbors j in N_i, transmits only omega-contractive compressed state differences q_i^{(t)} = Q(x_i^{(t)} - x_hat_i^{(t)}) to update x_hat_i^{(t+1)} = x_hat_i^{(t)} + q_i^{(t)}, and applies consensus mixing x_i^{(t+1)} = x_i^{(t)} + gamma * sum_{j=1}^n w_{ij} (x_hat_j^{(t+1)} - x_hat_i^{(t+1)}) (preceded in Choco-SGD by a local stochastic gradient step x_i^{(t+1/2)} = x_i^{(t)} - eta_t * g_i(x_i^{(t)})), preserving the exact global average (1/n) sum_{i=1}^n x_i^{(t)} under arbitrary biased or randomized contractive compression and achieving linear consensus convergence O((1 - delta^2 * omega / 82)^t) and optimal O(sigma_bar^2 / (mu * n * T)) decentralized stochastic optimization speedup.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from centralized/parameter-server error-compensated compression (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression and AIMech:Ef21MarkovCompressorErrorFeedbackForHeterogeneousNonconvexOptimization, which assume a central coordinator or all-to-all aggregation rather than decentralized graph gossip with spectral gap delta), and from uncompressed periodic local SGD (AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent). No pinned AIO class covers decentralized compressed gossip or Choco-SGD.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r382-exact-average-preservation-and-linear-gossip-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because W is symmetric doubly stochastic (sum_i w_{ij} = 1 = sum_j w_{ij}), the gossip update x_i^{(t+1)} = x_i^{(t)} + gamma * sum_j w_{ij} (x_hat_j^{(t+1)} - x_hat_i^{(t+1)}) preserves the exact global mean x_bar^{(t+1)} = x_bar^{(t)} at every step regardless of compressor bias (Remark 14), and Theorem 2 proves that for gamma = delta * omega / (16 * delta + delta^2 + 4 * beta^2 + 2 * delta * beta^2 - 8 * delta * omega) the joint Lyapunov function e_t = E_Q sum_{i=1}^n (||x_i^{(t)} - x_bar||^2 + ||x_i^{(t)} - x_hat_i^{(t+1)}||^2) contracts geometrically as e_t &lt;= (1 - delta^2 * omega / 82) * e_{t-1}.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r382-primary-pdf">Decentralized Stochastic Optimization and Gossip Algorithms with Compressed Communication</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Algorithm 1, Theorem 2, and Appendix B Remarks 14-15 &amp; Proof of Theorem 2, pp. 3-4, 13-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r382-decentralized-linear-speedup-rate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For L-smooth mu-strongly convex objectives with local variance sigma_i^2 and second-moment bound G^2, Theorem 4 proves that Choco-SGD (Algorithm 2) with stepsize eta_t = 4 / (mu * (a + t)) and weights w_t = (a + t)^2 achieves E[f(x_avg^{(T)}) - f*] = O(sigma_bar^2 / (mu * n * T)) + O(kappa * G^2 / (mu * omega * delta^2 * T^2)) + O(G^2 / (mu * omega^3 * delta^6 * T^3)), where the leading O(1/(n*T)) term matches centralized uncompressed mini-batch SGD independent of graph spectral gap delta and compression ratio omega.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r382-primary-pdf">Decentralized Stochastic Optimization and Gossip Algorithms with Compressed Communication</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Algorithm 2 and Theorem 4, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r382-neighbor-replica-memory-and-spectral-gap-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each node i must maintain replica vectors x_hat_j^{(t)} in R^d for itself and its graph neighbors j in N_i (requiring O(deg(i) * d) memory unless nodes share a common random seed for sparsification), and higher-order transient terms scale inversely with delta^2 * omega.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r382-primary-pdf">Decentralized Stochastic Optimization and Gossip Algorithms with Compressed Communication</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Algorithm 1, Theorem 4, and Appendix D Memory Efficient Variant, pp. 4-6, 19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r382-decentralized-ring-and-torus-optimization-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to decentralized optimization and consensus averaging over ring and 2D torus network topologies with 1% Top-k sparsification and 1-bit/low-bit quantization.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r382-primary-pdf">Decentralized Stochastic Optimization and Gossip Algorithms with Compressed Communication</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments, Figures 1-3, pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires each node i to store state replicas x_hat_j for its graph neighbors unless an unweighted shared-seed random sparsifier is used.</li>
+      <li>Requires a connected network topology with a symmetric doubly stochastic mixing matrix W (delta &gt; 0) and bounded second moments E ||g_i(x)||^2 &lt;= G^2.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Choco-SGD performs decentralized peer-to-peer collaborative training across networked workers without a central server.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Choco-Gossip mixes compressed node states over a doubly stochastic Markov transition matrix W with spectral gap delta &gt; 0.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r382-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r382-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1902.00340.pdf" target="_blank" rel="noopener">Decentralized Stochastic Optimization and Gossip Algorithms with Compressed Communication</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Anastasia Koloskova, Sebastian U. Stich, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v97/koloskova19a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:38a4b7820c0c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r382-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r382-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1902.00340" target="_blank" rel="noopener">Decentralized Stochastic Optimization and Gossip Algorithms with Compressed Communication (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Anastasia Koloskova, Sebastian U. Stich, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1902.00340</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2dcc881d5ef7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r382-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r382-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v97/koloskova19a.html" target="_blank" rel="noopener">Decentralized Stochastic Optimization and Gossip Algorithms with Compressed Communication (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Anastasia Koloskova, Sebastian U. Stich, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v97/koloskova19a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ab928e62ff57…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:45:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:45:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ChocoSgdAndChocoGossipDecentralizedCompressedOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ChocoSgdAndChocoGossipDecentralizedCompressedOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
