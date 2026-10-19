@@ -1,0 +1,102 @@
+id: AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+name: Krum and Multi-Krum Byzantine-Tolerant Gradient Descent
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Euclidean-distance neighborhood gradient aggregation rule (Krum and Multi-Krum) for distributed stochastic gradient descent with n workers of which up to f are Byzantine (2f + 2 < n). Given worker vectors V_1,...,V_n in R^d, Krum assigns each worker i the score s(i) = sum_{i -> j} ||V_i - V_j||^2 summed over the n - f - 2 closest neighbors V_j of V_i in squared Euclidean norm, and outputs the single vector Kr(V_1,...,V_n) = V_{i_*} with minimum score s(i_*); Multi-Krum (Kr_m) averages the m vectors with the smallest scores s(i_*^1),...,s(i_*^m) for 1 <= m <= n - 2f - 2.
+identity_notes: Distinct from Coordinate-wise Median and Coordinate-wise Trimmed Mean (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning, which aggregate each coordinate independently in O(n d) time rather than selecting whole gradient vectors via joint d-dimensional Euclidean neighborhood distances in O(n^2 (d + log n)) time) and from RFA Smoothed Weiszfeld Geometric Median (AIMech:RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian, which computes an iterative smoothed l_2 geometric median across all vectors up to f < n/2 rather than selecting among submitted worker vectors for 2f + 2 < n).
+aliases:
+- Krum
+- Multi-Krum
+- Krum Byzantine-Tolerant SGD
+- (alpha, f)-Byzantine Resilient Krum Aggregation
+definition_evidence:
+- source_id: r399-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r399-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r399-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r399-linear-aggregation-impossibility-and-alpha-f-byzantine-resilience
+  kind: mechanism
+  statement: Lemma 1 proves that no non-zero linear combination of worker gradients can tolerate even a single Byzantine worker (f = 1), whereas Proposition 1 proves that for 2f + 2 < n and bounded isotropic variance sqrt(d) * sigma < ||g|| / eta(n, f) with eta(n, f) = sqrt(2 * (n - f + (f*(n - f - 2) + f^2*(n - f - 1)) / (n - 2f - 2))), Krum satisfies (alpha, f)-Byzantine resilience (<E[Kr], g> >= (1 - sin alpha) ||g||^2 > 0 and bounded 2nd-4th moments) in O(n^2 (d + log n)) time (Lemma 2).
+  evidence:
+  - source_id: r399-primary-pdf
+    locator: Section 3 (Lemma 1, Definition 1) and Section 4 (Lemma 2, Proposition 1), pp. 3-6
+    relation: supports
+- claim_id: r399-almost-sure-nonconvex-quasi-martingale-convergence-and-multi-krum
+  kind: mechanism
+  statement: Proposition 2 establishes almost-sure convergence of Krum-SGD gradients to zero on smooth nonconvex objectives via Fisk quasi-martingale convergence whenever the cone angle satisfies eta(n, f) * sqrt(d) * sigma < ||g||, and Proposition 3 extends (alpha, f)-Byzantine resilience to Multi-Krum Kr_m = (1/m) sum_{s=1}^m V_{i_*^s} when 2f + 2 < n - m, interpolating between 1-Krum selection and mini-batch averaging.
+  evidence:
+  - source_id: r399-primary-pdf
+    locator: Section 5 Convergence Analysis (Proposition 2) and Section 6 Discussion / Multi-Krum (Proposition 3), pp. 6-8
+    relation: supports
+- claim_id: r399-quadratic-worker-complexity-and-dimension-noise-cone-limitation
+  kind: limitation
+  statement: Computing all pairwise distances for Krum costs O(n^2 (d + log n)) per step, requires strictly more than 2f + 2 workers (n >= 2f + 3, or n > 2f + 2 + m for Multi-Krum), and its theoretical cone condition eta(n, f) * sqrt(d) * sigma < ||g|| degrades with sqrt(d) in high dimensions or under non-i.i.d. worker heterogeneity.
+  evidence:
+  - source_id: r399-primary-pdf
+    locator: Section 4 Lemma 2, Proposition 1, Section 5 Proposition 2, and Section 6, pp. 4-8
+    relation: supports
+- claim_id: r399-omniscient-gaussian-and-bit-flip-byzantine-defense-application
+  kind: application
+  statement: Evaluated on distributed training of multi-layer perceptrons (spambase) and convolutional neural networks (MNIST) under omniscient adversary, Gaussian noise, and bit-flipping attacks up to 45% Byzantine workers, where Multi-Krum maintains clean accuracy while naive averaging fails.
+  evidence:
+  - source_id: r399-primary-pdf
+    locator: Section 6 Discussion and Experiments (Figures 2-4), pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r399-primary-pdf
+  title: 'Machine Learning with Adversaries: Byzantine Tolerant Gradient Descent'
+  authors: &id001
+  - Peva Blanchard
+  - El Mahdi El Mhamdi
+  - Rachid Guerraoui
+  - Julien Stainer
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2017/hash/f4b9ec30ad9f68f89b29639786cb62ef-Abstract.html
+  persistent_id: https://doi.org/10.48550/arXiv.1703.02757
+  version: Advances in Neural Information Processing Systems 30 (NeurIPS 2017), pp. 119-129 (2017) (44703 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:02:00Z'
+  sha256: 80f2f4aa9cfc691f1084680e1e6868db2009c40efdea47e3100d4f6b9bc44fc5
+- source_id: r399-arxiv-abs
+  title: 'Machine Learning with Adversaries: Byzantine Tolerant Gradient Descent (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1703.02757
+  persistent_id: https://arxiv.org/abs/1703.02757
+  version: arXiv abstract page (7013 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:02:00Z'
+  sha256: 4e5f47badf42c82f5788c3c53486a311892ddc894d3775a27bfde582fdd74262
+- source_id: r399-metadata-cr
+  title: 'Machine Learning with Adversaries: Byzantine Tolerant Gradient Descent (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.48550/arXiv.1703.02757
+  persistent_id: https://doi.org/10.48550/arXiv.1703.02757
+  version: Crossref API work record (445 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:02:00Z'
+  sha256: aae2304f650f553e74b523027ae4a1f913b971b1cd4c5ff3d5a48c21828faf54
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Krum and Multi-Krum are foundational Byzantine-resilient gradient aggregation rules used in distributed and federated optimization.
+limitations:
+- Pairwise Euclidean distance computation scales quadratically with the number of workers as O(n^2 (d + log n)).
+- Requires knowing an upper bound f on the number of Byzantine workers with 2f + 2 < n (and 2f + 2 + m < n for Multi-Krum) and degrades when intra-honest variance sigma * sqrt(d) exceeds ||g|| / eta(n, f).
+curation:
+  created_at: '2026-10-19T08:02:00Z'
+  updated_at: '2026-10-19T08:02:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
