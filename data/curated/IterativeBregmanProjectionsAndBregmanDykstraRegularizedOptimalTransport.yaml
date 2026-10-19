@@ -1,0 +1,97 @@
+id: AIMech:IterativeBregmanProjectionsAndBregmanDykstraRegularizedOptimalTransport
+name: Iterative Bregman Projections and Bregman-Dykstra Regularized Optimal Transport
+concept_kind: algorithm
+review_status: DRAFT
+definition: "Iterative Bregman Projections and Bregman-Dykstra Regularized Optimal Transport is a convex-analytic optimization framework introduced by Benamou, Carlier, Cuturi, Nenna, and Peyr\xE9 (2015) that reformulates entropically regularized linear optimal transport, multi-marginal transport, Wasserstein barycenters, tomographic marginal constraints, partial optimal transport, capacity-constrained transport, and martingale transport as Kullback-Leibler Bregman projections min_{gamma in cap_{l=1}^L C_l} KL(gamma | xi) of the Gibbs kernel xi = exp(-C / epsilon) onto intersections of closed convex sets C_1, ..., C_L. When every C_l is an affine subspace (including two-marginal transport C_1 = {gamma 1 = p}, C_2 = {gamma^T 1 = q} in Proposition 1 and multi-coupling Wasserstein barycenters C_1 = {gamma_k 1 = p_k}, C_2 = {exists p : gamma_k^T 1 = p} with geometric-mean update p^{(n)} = prod_{k=1}^K (gamma_k^{(n)T} 1)^{lambda_k} in Proposition 2), cyclic Iterative Bregman Projections gamma^{(n)} = P_{C_{[n]}}^{KL}(gamma^{(n-1)}) converge globally to the exact KL projection onto cap_{l=1}^L C_l (Equation 3). When any constraint C_l is a non-affine convex inequality or cone constraint (such as partial transport total mass gamma^T 1 <= q and 1^T gamma 1 = m in Proposition 5 or pointwise capacity bounds gamma <= bar{gamma} in Section 5.2), naive cyclic projections fail to converge to the KL optimum and the framework employs Dykstra's algorithm with multiplicative dual memory variables q^{(n)} = q^{(n-L)} odot (gamma^{(n-1)} / gamma^{(n)}) and updates gamma^{(n)} = P_{C_{[n]}}^{KL}(gamma^{(n-1)} odot q^{(n-L)}) (Equation 4)."
+identity_notes: Distinct from standard pairwise Sinkhorn matrix scaling (`AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport`) and dual subgradient Wasserstein barycenters (`AIMech:FastWassersteinBarycentersAndSmoothedDualSubgradientDescent`). Specifically captures the Benamou et al. (2015) unified KL Bregman projection formulation over intersections of affine and non-affine convex sets (Section 2, Equations 2-4), the Proposition 2 geometric-mean IBP Wasserstein barycenter algorithm (which eliminates inner Sinkhorn loops and line-search step sizes), and the Bregman-Dykstra algorithm with multiplicative memory variables for partial, capacity-constrained, and martingale transport (Sections 5.1-5.3, Propositions 4-5, Equations 20-26).
+aliases:
+- Iterative Bregman Projections (IBP) for Optimal Transport
+- Bregman-Dykstra Algorithm for Constrained Regularized Transport
+- "Benamou-Carlier-Cuturi-Nenna-Peyr\xE9 Iterative Bregman Projections"
+definition_evidence:
+- source_id: r327-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r327-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r327-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: 'Proposition 1 proves that cyclic Iterative Bregman Projections (Equation 3) onto the two affine marginal subspaces C_1 = {gamma 1 = p} and C_2 = {gamma^T 1 = q} coincide identically with Sinkhorn-Knopp diagonal scaling, while Proposition 2 and Remark 3 prove that for the K-measure Wasserstein barycenter problem on C_1 = {gamma_k 1 = p_k} and C_2 = {exists p : gamma_k^T 1 = p}, the weighted KL projection onto C_2 has the exact closed-form geometric-mean marginal p = prod_{r=1}^K (bar{gamma}_r^T 1)^{lambda_r}, reducing each barycenter iteration to K matrix-vector multiplications by xi and xi^T.'
+  evidence:
+  - source_id: r327-primary-pdf
+    locator: Section 3.1, Proposition 1 and Remark 1, p. 8; Section 3.2, Proposition 2 and Remark 3, pp. 10-11
+    relation: supports
+  - source_id: r327-metadata-cr
+    locator: Crossref metadata for SIAM J. Sci. Comput. 37(2):A1111-A1138
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: When constraints include non-affine convex sets such as upper-bounded marginals C_1 = {gamma 1 <= p}, C_2 = {gamma^T 1 <= q} with fixed total mass C_3 = {1^T gamma 1 = m} (partial optimal transport, Proposition 5) or pointwise capacity upper bounds C_3 = {gamma <= bar{gamma}} (Section 5.2, Equations 22-23), the individual KL projections are given in closed form by elementwise min(gamma 1, p), min(gamma^T 1, q), and min(gamma, bar{gamma}), and Dykstra's algorithm (Equation 4) with memory variables q^{(n)} = q^{(n-L)} odot (gamma^{(n-1)} / gamma^{(n)}) (with q^{(n)} = 1 on affine subspaces) converges to the unique exact KL projection onto cap_{l=1}^L C_l.
+  evidence:
+  - source_id: r327-primary-pdf
+    locator: Section 2.2, Equation 4 and affine-subspace remark, p. 7; Section 5.1, Proposition 5 and Equation 20, pp. 19-20; Section 5.2, Equations 22-23, p. 22
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Without Dykstra's dual memory variables q^{(n)}, cyclic Bregman projections onto non-affine convex sets fail to converge to the KL projection onto the intersection (Section 2.2, Figure 1); moreover, when the regularization parameter epsilon is very small, entries of xi = exp(-C / epsilon) underflow in standard floating-point arithmetic and multi-marginal tensors gamma in R^{N^K} suffer O(N^K) memory growth unless the ground cost has tree or grid separability.
+  evidence:
+  - source_id: r327-primary-pdf
+    locator: Section 1, Small-epsilon and grid/separable kernel discussion, pp. 4-5; Section 2.2, Figure 1, p. 7; Section 4, Multi-marginal transport complexity, pp. 15-17
+    relation: supports
+evidence_sources:
+- source_id: r327-primary-pdf
+  title: Iterative Bregman Projections for Regularized Transportation Problems
+  authors: &id001
+  - Jean-David Benamou
+  - Guillaume Carlier
+  - Marco Cuturi
+  - Luca Nenna
+  - "Gabriel Peyr\xE9"
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1412.5154v1
+  persistent_id: https://api.crossref.org/works/10.1137/141000439
+  version: SIAM Journal on Scientific Computing 37(2):A1111-A1138 (2015) (1010072 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:46:00Z'
+  sha256: fd5f2b5137e2775ff7e3597dcbda20bd77c3009126b89e8cb915536817e61eae
+- source_id: r327-arxiv-abs
+  title: Iterative Bregman Projections for Regularized Transportation Problems (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1412.5154v1
+  persistent_id: https://arxiv.org/abs/1412.5154v1
+  version: arXiv abstract page (6394 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:46:00Z'
+  sha256: 28938b44634c3f46092a755ca2dd9f63de0bc7398e11fb933eeca1d726742c2c
+- source_id: r327-metadata-cr
+  title: Iterative Bregman Projections for Regularized Transportation Problems (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1137/141000439
+  persistent_id: https://api.crossref.org/works/10.1137/141000439
+  version: Crossref API work record (3226 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:46:00Z'
+  sha256: 8f97b1bc4edf7b88cab562da62358d45e7bf467e3b1f3ce535880ccad2e18e97
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Iterative Bregman Projections compute multi-distribution Wasserstein barycenters used for prototype aggregation and histogram clustering.
+limitations:
+- Requires Dykstra memory variables of size O(N^2) per non-affine constraint set, suffers numerical underflow of exp(-C / epsilon) for very small regularization parameters epsilon unless stabilized in the log domain, and scales as O(N^K) for general unstructured K-marginal transport tensors.
+curation:
+  created_at: '2026-10-19T06:46:00Z'
+  updated_at: '2026-10-19T06:46:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
