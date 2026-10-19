@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TernGrad (Stochastic Ternary Gradient Quantization for Distributed Deep Learning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>TernGrad (Stochastic Ternary Gradient Quantization for Distributed Deep Learning)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">TernGrad (Stochastic Ternary Gradient Quantization for Distributed Deep Learning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:TernGradTernaryGradientsForDistributedDeepLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> TernGrad, Stochastic Ternary Gradient Quantization, Ternary Gradients for Distributed Deep Learning
+    </div>
+
+  <div class="detail-desc">
+    An unbiased stochastic ternary gradient quantization scheme for distributed synchronous SGD (Wen et al. 2017, Section 3, Equations 4-7) that compresses each worker&#39;s gradient vector g_t into ternary levels {-1, 0, +1} scaled by s_t = max_k |g_{tk}| = ||g_t||_infty via g_tilde_t = s_t * sign(g_t) o b_t where each coordinate Bernoulli mask b_{tk} in {0, 1} is sampled independently with probability P(b_{tk} = 1 | g_t) = |g_{tk}| / s_t, combined with layer-wise scalars and coordinate clipping |g_{tk}| &lt;= c * sigma_t to bound the maximum magnitude s_t.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from deterministic sign-based compression SignSGD (AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization, Bernstein et al. 2018), which maps coordinates deterministically to {-1, +1} without zero level or unbiased probabilistic rounding, and from multi-level L2-norm quantized SGD QSGD (AIMech:QsgdQuantizedStochasticGradientDescentWithEliasCoding, Alistarh et al. 2017), which normalizes by the Euclidean norm ||g_t||_2 rather than the infinity norm s_t = ||g_t||_infty with layer-wise sigma-clipping.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r417-unbiased-ternary-rounding-and-infinity-l1-variance-identity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Conditioned on g_t, TernGrad satisfies E[g_tilde_{tk} | g_t] = s_t sign(g_{tk}) (|g_{tk}| / s_t) = g_{tk} and coordinate second moment E[g_tilde_{tk}^2 | g_t] = s_t |g_{tk}| = ||g_t||_infty |g_{tk}|, yielding total quantization variance E[||g_tilde_t - g_t||_2^2 | g_t] = ||g_t||_infty ||g_t||_1 - ||g_t||_2^2 and almost-sure convergence under light-tailed bounded-variance assumptions (Section 4, Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r417-primary-pdf">TernGrad: Ternary Gradients to Reduce Communication in Distributed Deep Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Ternary Quantization (Eqs. 4-6) &amp; Section 4 Convergence Analysis (Assumption 3, Theorem 1, Appendix A)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r417-layer-wise-quantization-and-sigma-gradient-clipping-variance-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Replacing a single model-wide scalar s_t = ||g_t||_infty with per-layer scalars s_t^{(l)} = ||g_t^{(l)}||_infty (Section 3.2) and clipping coordinate outliers to [-c sigma_t, +c sigma_t] with c = 2.5 before quantization (Section 3.3, Eq. 7) shrinks the maximum scalar s_t and reduces the variance inflation factor kappa = max(|g_t|) / |g_t| across heterogeneous network layers.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r417-primary-pdf">TernGrad: Ternary Gradients to Reduce Communication in Distributed Deep Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Layer-wise Ternarizing &amp; Section 3.3 Gradient Clipping (Eq. 7, Figures 2-3), pp. 1512-1514</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r417-parameter-localization-for-unshared-random-seeds-and-clipping-bias-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In parameter-server topologies where parameters are evenly sharded across workers, sharing a random seed for b_t allows floating-point scalars s_t to be omitted during worker-to-server push only if each parameter tensor is localized to a single server shard (Section 3.1); additionally, pre-quantization gradient clipping introduces a small truncation bias when |g_{tk}| &gt; c sigma_t.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r417-primary-pdf">TernGrad: Ternary Gradients to Reduce Communication in Distributed Deep Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Parameter Localization &amp; Section 3.3 Gradient Clipping</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r417-alexnet-googlenet-and-vgg-imagenet-distributed-training-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed synchronous SGD training of LeNet, CifarNet, AlexNet, GoogLeNet, and VGG-A on MNIST, CIFAR-10, and ImageNet, achieving 3.04x communication speedup without accuracy loss.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r417-primary-pdf">TernGrad: Ternary Gradients to Reduce Communication in Distributed Deep Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments (Tables 1-3, Figures 4-6), pp. 1515-1518</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires layer-wise scaling and gradient clipping (c = 2.5 sigma) to prevent large coordinate outliers from inflating the infinity-norm scalar s_t = ||g_t||_infty.</li>
+      <li>Requires 2 bits per coordinate in general when encoding {-1, 0, +1} without entropy coding.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            TernGrad is a ternary gradient quantization method for distributed data-parallel and federated optimization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r417-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r417-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1705.07878" target="_blank" rel="noopener">TernGrad: Ternary Gradients to Reduce Communication in Distributed Deep Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wei Wen, Cong Xu, Feng Yan, Chunpeng Wu, Yandan Wang, Yiran Chen, Hai Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper/2017/hash/2bf283c05b601f21364d052ca0ec798d-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0c06647103d5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r417-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r417-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1705.07878" target="_blank" rel="noopener">TernGrad: Ternary Gradients to Reduce Communication in Distributed Deep Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wei Wen, Cong Xu, Feng Yan, Chunpeng Wu, Yandan Wang, Yiran Chen, Hai Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1705.07878</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:977c2ea5ce24…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r417-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r417-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper/2017/hash/2bf283c05b601f21364d052ca0ec798d-Abstract.html" target="_blank" rel="noopener">TernGrad: Ternary Gradients to Reduce Communication in Distributed Deep Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wei Wen, Cong Xu, Feng Yan, Chunpeng Wu, Yandan Wang, Yiran Chen, Hai Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper/2017/hash/2bf283c05b601f21364d052ca0ec798d-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2cd4f4b4695b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:20:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:20:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TernGradTernaryGradientsForDistributedDeepLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TernGradTernaryGradientsForDistributedDeepLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
