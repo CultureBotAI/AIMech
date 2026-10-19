@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operator-Norm Consistent Estimation of Beta-Sparse Covariance Matrices · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Operator-Norm Consistent Estimation of Beta-Sparse Covariance Matrices</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Operator-Norm Consistent Estimation of Beta-Sparse Covariance Matrices</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:OperatorNormConsistentEstimationOfBetaSparseCovarianceMatrices</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> El Karoui Beta-Sparse Covariance Hard-Thresholding Estimator, Graph-Walk Beta-Sparsity Operator-Norm Consistent Covariance Estimation, Combinatorial Closed-Walk Spectral-Norm Thresholding of Large Covariance and Correlation Matrices
+    </div>
+
+  <div class="detail-desc">
+    Operator-Norm Consistent Estimation of Beta-Sparse Covariance Matrices is a permutation-equivariant high-dimensional covariance and correlation matrix estimation methodology that characterizes matrix sparsity via the combinatorial growth of even-length closed walks phi_p(k) = Card(C_p(k)) = trace(A_p^k) on the support adjacency graph A_p(i, j) = 1_{sigma_p(i,j) != 0} — defining a sequence {Sigma_p} to be beta-sparse (0 &lt;= beta &lt;= 1) if phi_p(k) &lt;= f(k) p^{beta(k-1)+1} for all k in 2N — and estimates Sigma_p by entrywise hard thresholding T_alpha(S_p) = (S_p(i, j) 1_{|S_p(i,j)| &gt;= K n^{-alpha}}) of the sample covariance or sample correlation matrix S_p atpolynomial threshold level K n^{-alpha}. In the large-n, large-p regime (p asymp n or p = O(n^nu)) under finite 4k(eta)-th (or 8k(eta)-th for correlation) entry moments without Gaussianity assumptions, Wigner closed-walk trace moment bounds E(trace(Xi_p^{2k})) = O(p^{1+beta(2k-1)} n^{-k}) and sparse operator-norm approximation (Corollary 3 and Theorem 4) establish that for any beta = 1/2 - eta &lt; 1/2 (and beta-sparse-approximable matrices in Propositions 1-2), |||T_alpha(S_p) - Sigma_p|||_2 -&gt; 0 almost surely as n -&gt; infty, implying simultaneous consistency of all eigenvalues (by Weyl&#39;s theorem) and canonical angles of isolated eigenspaces (by the Davis-Kahan sin(theta) theorem), whereas beta = 1/2 constitutes a sharp phase transition at which 1/2-sparse arrowhead matrices cannot be estimated consistently in operator norm even by an oracle knowing the exact zero pattern.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved as a distinct AIMech-native mathematical_method concept from El Karoui (2008, The Annals of Statistics 36(6):2717-2756; arXiv:0901.3220v1, DOI:10.1214/07-AOS559). Distinct from AIMech:CovarianceRegularizationByThresholding (Bickel &amp; Levina 2008b, Ann. Statist. 36(6):2577-2604), which defines sparsity via the uniform row l_q-ball max_i sum_j |sigma_{ij}|^q &lt;= c_0(p) and establishes rates under sub-Gaussian/polynomial tails at threshold M sqrt(log p / n), whereas El Karoui (2008) independently introduces the combinatorial graph-walk notion of beta-sparsity trace(A_p^k) &lt;= f(k) p^{beta(k-1)+1}, proves almost-sure operator-norm convergence for both sample covariance and sample correlation matrices via Wigner closed-walk trace bounds under polynomial thresholding K n^{-alpha}, and proves the sharp inestimability phase transition at beta = 1/2 where even oracle support knowledge fails in operator norm, eigenvalue estimation, and eigenvector alignment (Section 3.3). Also distinct from AIMech:RegularizedCovarianceEstimationByBanding (Bickel &amp; Levina 2008a) and AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation (Levina, Rothman, &amp; Zhu 2008), which require a canonical variable ordering.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#combinatorial-closed-walk-beta-sparsity-and-algebraic-stability-properties</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To capture spectral compatibility that naive nonzero entry counting misses—illustrated by p x p matrices E_1 (arrowhead/star graph) and E_2 (tridiagonal path graph) having identical nonzero counts 3p - 2 and entry values 1/sqrt(p) yet extreme eigenvalues 1 +- sqrt((p-1)/p) versus 1 + 2 cos(k pi/(p+1))/sqrt(p) (Section 2, pp. 2720-2721 / PDF pp. 4-5)—Definition 1 (p. 2722 / PDF p. 6) associates to Sigma_p the adjacency matrix A_p(i, j) = 1_{sigma(i,j) != 0} and defines {Sigma_p} to be beta-sparse (0 &lt;= beta &lt;= 1) if the number of closed walks of even length k satisfies phi_p(k) = trace(A_p^k) &lt;= f(k) p^{beta(k-1)+1} for all k in 2N. Beta-sparsity is invariant under variable permutations P&#39; Sigma_p P (Section 2.2, p. 2723 / PDF p. 7), is closed under matrix addition via Lidskii eigenvalue majorization lambda^down(A_tilde_2) prec lambda^down(A_tilde_0) + lambda^down(A_1) (Fact 1, p. 2724 / PDF p. 8), is not closed under matrix multiplication or inversion (Fact 2, p. 2725 / PDF p. 9), and satisfies the operator-norm trace bound |||M|||_2 &lt;= |trace(M^k)|^{1/k} &lt;= m p^{beta(1-1/k)+1/k} f(k)^{1/k} (Lemma A.1, p. 2754 / PDF p. 38) and Hadamard modulus monotonicity |||A|||_2 &lt;= ||| |A|_Had |||_2 &lt;= |||B|||_2 (Lemma A.2, p. 2755 / PDF p. 39).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ek2008-betasparse-pdf">Operator norm consistent estimation of large-dimensional sparse covariance matrices</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Definitions 1-2 and Facts 1-2, pp. 2720-2725 (PDF pp. 4-9); Appendix A.3, Lemmas A.1-A.2, pp. 2754-2756 (PDF pp. 38-40)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#almost-sure-operator-norm-eigenvalue-and-eigenspace-consistency-for-beta-below-one-half</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When p asymp n as n -&gt; infty and Sigma_p is beta-sparse with beta = 1/2 - eta &lt; 1/2 (eta &gt; 0), under finite 4k(eta)-th moments of X_{i,j} (or 8k(eta)-th moments for the sample correlation matrix) with k(eta) &gt;= (1.5 + eps + eta)/(2 eta), Theorems 1, 2, 3, and 4 (pp. 2726-2742 / PDF pp. 10-26) prove via Holder&#39;s inequality on closed-walk weights |E(w_{gamma(2k)})| = O(n^{-k}), expected trace bounds E(trace(Xi_p^{2k})) = O(p^{1+beta(2k-1)} n^{-k}) = O(n^{1/2+eta-2k eta}) on the oracle error Xi_p = oracle(S_p) - Sigma_p, Borel-Cantelli control of false positive/negative thresholding events B_p, and Corollary 3 sparse operator-norm approximation |||Sigma_p - T_{beta+eps}(Sigma_p)|||_2 -&gt; 0 that entrywise hard thresholding T_alpha(S_p) at level K n^{-alpha} (with alpha = beta + eps_0/2 in Theorem 4, removing any minimum nonzero signal assumption) satisfies |||T_alpha(S_p) - Sigma_p|||_2 -&gt; 0 almost surely; by Propositions 1-2 (pp. 2735-2739 / PDF pp. 19-23) this extends to nonsparse matrices approximable by beta-sparse matrices (such as permuted Toeplitz matrices), and by Weyl&#39;s theorem (Fact 4, p. 2748 / PDF p. 32) and the Davis-Kahan sin(theta) theorem (Theorem 5 and Corollary 4, pp. 2748-2749 / PDF pp. 32-33) implies almost-sure consistency of all eigenvalues and canonical angles of isolated eigenspaces.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ek2008-betasparse-pdf">Operator norm consistent estimation of large-dimensional sparse covariance matrices</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1-3.2 and 3.5, Theorems 1-5, Propositions 1-2, Corollaries 1-4, and Fact 4, pp. 2726-2742, 2748-2749 (PDF pp. 10-26, 32-33)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#sharp-oracle-inestimability-phase-transition-at-beta-one-half</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section 3.3 and Appendix A.1 (pp. 2742-2745, 2752-2753 / PDF pp. 26-29, 36-37) prove that the sparsity threshold beta &lt; 1/2 is sharp: for the 1/2-sparse arrowhead covariance matrix Sigma_p with 1s on the diagonal and (alpha_2, ..., alpha_p) in the first row and column (where phi_p(2k) = 2(p - 1)^k), even the oracle estimator Sigma_hat_p that knows the diagonal 1s and the exact support of nonzero entries has error matrix Sigma_p - Sigma_hat_p with characteristic polynomial p(lambda) = lambda^{p-2}(lambda^2 - sum_{i=2}^p (alpha_i - alpha_hat_i)^2) and squared spectral norm |||Sigma_hat_p - Sigma_p|||_2^2 = sum_{i=2}^p (alpha_i - alpha_hat_i)^2 converging in probability to (p - 1 + sum_{i&gt;=2} alpha_i^2)/n &gt;= l &gt; 0 as p/n -&gt; l &gt; 0, while for alpha_i = 1/sqrt(p) the inner product between the population and oracle top eigenvectors converges in probability to &lt;u_+, u_hat_+&gt; -&gt; (1/2)(1 + 1/sqrt(1 + l)) &lt; 1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ek2008-betasparse-pdf">Operator norm consistent estimation of large-dimensional sparse covariance matrices</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 and Section 3.3.1, pp. 2742-2745 (PDF pp. 26-29); Appendix A.1, pp. 2752-2753 (PDF pp. 36-37)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Sharp failure of hard thresholding for beta &gt;= 1/2: When the adjacency graph of Sigma_p has closed-walk growth exponent beta &gt;= 1/2 (for example, a star/arrowhead graph where one hub variable is correlated with O(p) variables of magnitude 1/sqrt(p)), entrywise hard thresholding—and even an oracle estimator knowing the exact support—fails to be operator-norm consistent when p/n -&gt; l &gt; 0 (Section 3.3, pp. 2742-2745).</li>
+      <li>Finite-sample positive-semidefiniteness is not guaranteed without post-processing: Entrywise hard thresholding T_alpha(S_p) is positive definite only asymptotically when inf_p lambda_min(Sigma_p) &gt; 0; in finite samples it can produce negative eigenvalues, requiring diagonal shifting Sigma_hat_f = Sigma_hat_p - lambda_p(Sigma_hat_p) Id_p, eigenvalue truncation, or semidefinite projection (Section 3.6, p. 2750 / PDF p. 34).</li>
+      <li>Higher-moment requirements as beta approaches 1/2 or p grows faster than n: Under general non-Gaussian distributions, Theorems 1-4 require 4k(eta)-th (or 8k(eta)-th for correlation) finite moments with k(eta) &gt;= (1.5 + eps + eta)/(2 eta) where eta = 1/2 - beta, so the required moment order diverges as beta -&gt; 1/2 (Section 3.1, Theorem 1, p. 2726; Section 3.4.2, p. 2747).</li>
+      <li>Primary-source typographical audit of arXiv:0901.3220v1 (DOI:10.1214/07-AOS559): On p. 2737 (PDF p. 21, Proof of Proposition 1, line 6), &#39;Using the assumption of gamma-sparsity of the matrix Sigma_1, we conclude that E(trace(Upsilon_{12}^{2k})) is O(p^{gamma(2k-1)+1} n^{-k}). Therefore, if we can pick k &gt;= (2 + eps - gamma)/(1 - 2 gamma), and finite, we have a.s. convergence of |||Upsilon_{11}|||_2 to 0&#39; writes Upsilon_{12}^{2k} inside the expectation instead of Upsilon_{11}^{2k} (since Upsilon_{12} is deterministic and already bounded on the preceding display, while the sentence bounds the random walk on Upsilon_{11}).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Section 3.5 (Fact 4, Theorem 5, and Corollary 4, pp. 2748-2749) proves that operator-norm consistent estimation of beta-sparse covariance and correlation matrices guarantees consistent estimation of population eigenvalues and isolated eigenspaces used in principal component analysis.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Provides operator-norm consistent covariance and precision-matrix (when lambda_min(Sigma_p) &gt; c &gt; 0, Section 3.6, p. 2750) estimators for high-dimensional multivariate linear inference.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-ek2008-betasparse-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ek2008-betasparse-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/pdf/0901.3220.pdf" target="_blank" rel="noopener">Operator norm consistent estimation of large-dimensional sparse covariance matrices</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Noureddine El Karoui
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/07-AOS559</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c8948201a88c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-ek2008-betasparse-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ek2008-betasparse-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/abs/0901.3220" target="_blank" rel="noopener">Operator norm consistent estimation of large-dimensional sparse covariance matrices (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Noureddine El Karoui
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.0901.3220</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ac79f9d11478…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-ek2008-betasparse-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ek2008-betasparse-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1214/07-AOS559" target="_blank" rel="noopener">Operator norm consistent estimation of large-dimensional sparse covariance matrices (Annals of Statistics Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Noureddine El Karoui
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/07-AOS559</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ad8569a5d5fa…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-18T23:45:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-18T23:45:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/OperatorNormConsistentEstimationOfBetaSparseCovarianceMatrices.yaml" target="_blank" rel="noopener">
+      <code>data/curated/OperatorNormConsistentEstimationOfBetaSparseCovarianceMatrices.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
