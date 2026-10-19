@@ -1,0 +1,99 @@
+id: AIMech:SeparableNonnegativeMatrixFactorizationAndRobustLonerRecovery
+name: Separable Nonnegative Matrix Factorization and Robust-Loner Recovery
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Separable Nonnegative Matrix Factorization and Robust-Loner Recovery is a polynomial-time provable factorization framework introduced by Arora, Ge, Kannan, and Moitra (2012/2016) that circumvents the general NP-hardness of exact Nonnegative Matrix Factorization (NMF) M = A W (Theorem 3.1) by imposing the separability condition (Definition 5.1) on the first factor A in R_+^{n x r}. After normalizing the rows of M, A, and W to have unit l_1 norm, separability requires that for each latent basis index i in {1,...,r} there exists at least one canonical (''anchor'') row j_i of A equal to the standard basis vector e_i^T, so that the r rows of W appear directly among the rows of M and every other row M^j = sum_{i=1}^r A_{j,i} W^i lies in the convex hull conv(W^1,...,W^r). When W is alpha-robust simplicial (each row W^i has l_1 distance at least alpha from conv({W^{i''} : i'' != i}), Definition 5.6) and the observed matrix M'' satisfies ||M''^j - M^j||_1 <= epsilon with 20 epsilon/alpha + 13 epsilon < alpha, the Robust-Loners algorithm identifies all r canonical rows via linear programming convex-hull tests at distance threshold d = 5 epsilon/alpha + 2 epsilon and clusters them to reconstruct A'' W'' within row-wise l_1 error 10 epsilon/alpha + 7 epsilon (Theorem 5.7).'
+identity_notes: Distinct from heuristic multiplicative update rules for NMF (`AIO:NonnegativeMatrixFactorization`) and FastAnchorWords / RecoverL2 word-co-occurrence topic modeling (AIMech:AnchorWordsAndRecoverL2TopicWordMatrixFactorization). Specifically captures the Arora-Ge-Kannan-Moitra (2012/2016) formalization of Separable NMF (Definition 5.1), the exact simplicial 'Loner' LP algorithm (Theorem 5.4 and Claim 5.5), the alpha-robust simplicial condition (Definition 5.6), the noisy Robust-Loners algorithm and error bound 10 epsilon/alpha + 7 epsilon (Theorem 5.7 and Claims 5.8-5.10), and the fixed-inner-dimension exact NMF algebraic decidability algorithm in time (nm)^{O(r^2 2^r)} (Theorem 4.1).
+aliases:
+- Separable NMF
+- Arora-Ge-Kannan-Moitra Separable NMF and Robust-Loner Algorithm
+- Anchor-Row Simplicial Nonnegative Matrix Factorization
+definition_evidence:
+- source_id: r321-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r321-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r321-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: 'Under row l_1-normalization where A is separable and W is simplicial (no row W^i lies in conv({W^{i''} : i'' != i})), Claim 5.5 and Theorem 5.4 prove that a row M^j is an extreme vertex (''loner'') outside the convex hull of all distinct rows {M^{i''} : M^{i''} != M^j} if and only if M^j equals one of the r basis rows W^i, reducing exact nonnegative matrix factorization to n linear programs.'
+  evidence:
+  - source_id: r321-primary-pdf
+    locator: Section 5.1, Definitions 5.1-5.2, Theorem 5.4, and Claim 5.5, pp. 13-14
+    relation: supports
+  - source_id: r321-metadata-cr
+    locator: Bibliographic metadata for SIAM Journal on Computing 45(4):1582-1611
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: 'When W is alpha-robust simplicial (Definition 5.6) and the perturbed rows M''^j satisfy ||M''^j - M^j||_1 <= epsilon with 20 epsilon/alpha + 13 epsilon < alpha, Claims 5.8-5.10 and Theorem 5.7 prove that defining a robust-loner as any row M''^j whose l_1 distance to conv({M''^i : ||M''^i - M''^j||_1 >= 5 epsilon/alpha + 2 epsilon}) exceeds 2 epsilon selects points exclusively within l_1 distance 5 epsilon/alpha + 2 epsilon of the true basis rows W^i and yields a polynomial-time factorization A'' W'' satisfying ||M''^j - (A'' W'')^j||_1 <= 10 epsilon/alpha + 7 epsilon for every row j.'
+  evidence:
+  - source_id: r321-primary-pdf
+    locator: Section 5.2, Definition 5.6, Theorem 5.7, and Claims 5.8-5.10, pp. 15-17
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Without separability, general exact NMF is NP-hard when the inner dimension r scales with the matrix dimensions (Theorem 3.1, via reduction from 3SAT and Vavasis's Intermediate Simplex problem), and if all rows of A are strictly interior mixtures lacking canonical anchor rows, convex-hull extreme-point selection fails to recover the true basis vertices W^i.
+  evidence:
+  - source_id: r321-primary-pdf
+    locator: Section 3, Theorem 3.1, pp. 7-9; Section 5.1, Definition 5.1, p. 13
+    relation: supports
+evidence_sources:
+- source_id: r321-primary-pdf
+  title: Computing a Nonnegative Matrix Factorization -- Provably
+  authors: &id001
+  - Sanjeev Arora
+  - Rong Ge
+  - Ravindran Kannan
+  - Ankur Moitra
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1111.0952v1
+  persistent_id: https://doi.org/10.1137/130913869
+  version: STOC 2012 / SIAM Journal on Computing, 45(4):1582-1611 (2016) (618229 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:34:00Z'
+  sha256: 1e7b97256746605b1af012ff146a7d2cf434572e0d6731e2d406c99c9a11bbce
+- source_id: r321-arxiv-abs
+  title: Computing a Nonnegative Matrix Factorization -- Provably (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1111.0952v1
+  persistent_id: https://arxiv.org/abs/1111.0952v1
+  version: arXiv abstract page (7366 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:34:00Z'
+  sha256: dba2f527466fdf1d01bc58dc474292099c404376d28707ba3a8612f5e15a474d
+- source_id: r321-metadata-cr
+  title: Computing a Nonnegative Matrix Factorization -- Provably (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1137/130913869
+  persistent_id: https://doi.org/10.1137/130913869
+  version: Crossref API work record (3442 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:34:00Z'
+  sha256: 6162b0a7e1454aa9d86f792aef063320193ee982ad46d0b8c5317dab65d12857
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: broad_match
+  rationale: Separable NMF is a structural sub-regime and provable polynomial-time algorithm for nonnegative low-rank matrix factorization and dimensionality reduction.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Identifies canonical anchor rows and convex-hull extreme vertices for unsupervised topic and feature clustering.
+limitations:
+- Requires the separability assumption that each latent factor has at least one pure anchor row in A and that W is alpha-robust simplicial; solving O(n) linear programs over n variables can be computationally expensive on large vocabularies without greedy random-projection accelerations.
+curation:
+  created_at: '2026-10-19T06:34:00Z'
+  updated_at: '2026-10-19T06:34:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
