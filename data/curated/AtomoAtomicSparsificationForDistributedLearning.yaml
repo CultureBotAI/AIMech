@@ -1,0 +1,103 @@
+id: AIMech:AtomoAtomicSparsificationForDistributedLearning
+name: ATOMO (Atomic Sparsification for Communication-Efficient Distributed Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A general unbiased gradient sparsification framework (Wang et al. 2018, Section 3, Algorithm 1) that expresses a gradient tensor g in R^d in an atomic basis A = {a_i}_{i=1}^n (||a_i|| = 1) as g = sum_{i=1}^n lambda_i a_i (covering entry-wise coordinate bases, singular-value rank-1 outer-product bases, and Fourier/wavelet bases), samples each atom independently via t_i ~ Bernoulli(p_i) under a total sparsity budget sum_{i=1}^n p_i <= s to form the unbiased estimator g_hat = sum_{i=1}^n (lambda_i t_i / p_i) a_i, and computes the exact variance-minimizing inclusion probabilities p_i^* in closed form via KKT water-filling.
+identity_notes: Distinct from deterministic low-rank power-iteration compression PowerSGD (AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback, Vogels et al. 2019), which computes a biased fixed-rank approximation via orthogonalized power iteration and requires error feedback, and from coordinate-only quantization QSGD (AIMech:QsgdQuantizedStochasticGradientDescentWithEliasCoding, Alistarh et al. 2017), which is restricted to the standard Euclidean coordinate basis rather than general atomic/spectral decompositions with KKT water-filling probabilities.
+aliases:
+- ATOMO
+- Atomic Sparsification for Distributed Learning
+- Spectral-Atomo and Entry-wise Atomo
+definition_evidence:
+- source_id: r420-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r420-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r420-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r420-kkt-water-filling-variance-minimization-and-s-balanced-closed-form
+  kind: mechanism
+  statement: Minimizing E[||g - g_hat||^2] = sum_{i=1}^n lambda_i^2 (1 / p_i - 1) (Lemma 2) subject to 0 < p_i <= 1 and sum_{i=1}^n p_i <= s yields p_i = min(1, |lambda_i| s / ||lambda||_1) with minimum variance ||lambda||_1^2 / s - ||lambda||_2^2 whenever lambda is s-balanced (s <= ||lambda||_1 / ||lambda||_infty, Lemma 4), and otherwise solves the exact water-filling active set in O(n log n) time by sorting |lambda_{(1)}| >= ... >= |lambda_{(n)}| and capping leading atoms at p_i = 1 (Algorithm 1, Theorem 5).
+  evidence:
+  - source_id: r420-primary-pdf
+    locator: Section 3.1 Minimizing Variance (Lemmas 2-4, Theorem 5, Algorithm 1) & Appendix A.1-A.4
+    relation: supports
+- claim_id: r420-spectral-atomo-nuclear-norm-dominance-over-entrywise-sparsification
+  kind: mechanism
+  statement: For a matrix gradient X in R^{n x m} with singular value decomposition X = sum_{i=1}^{min(n,m)} sigma_i u_i v_i^T, Spectral-Atomo achieves variance ||X||_*^2 / s_2 - ||X||_F^2 (Theorem 7), and Lemma 8 proves ||X||_* <= ||X||_{1,1} <= sqrt(n m) ||X||_* with equality ||X||_* = ||X||_{1,1} / sqrt(n + m) on rank-1 flat matrices, establishing up to an O(n + m) communication reduction at equal estimator variance over Entry-wise Atomo.
+  evidence:
+  - source_id: r420-primary-pdf
+    locator: Section 5 Entry-wise vs. SVD Sparsification (Theorem 7, Lemma 8) & Appendix A.6
+    relation: supports
+- claim_id: r420-svd-decomposition-computational-overhead-limitation
+  kind: limitation
+  statement: Spectral-Atomo requires computing the singular value decomposition of each layer's gradient matrix on every worker at each iteration, incurring O(min(m n^2, m^2 n)) local computation overhead.
+  evidence:
+  - source_id: r420-primary-pdf
+    locator: Section 5-6 Discussion of SVD Overhead and Truncated SVD
+    relation: supports
+- claim_id: r420-distributed-resnet18-vgg11-and-svm-training-application
+  kind: application
+  statement: Applied to distributed synchronous SGD training of ResNet-18, VGG-11, and multi-class SVMs on CIFAR-10, CIFAR-100, SVHN, and ImageNet, reducing communication time and faster wall-clock convergence than QSGD and TernGrad.
+  evidence:
+  - source_id: r420-primary-pdf
+    locator: Section 6 Experiments (Figures 1-4, Table 1), pp. 9856-9859
+    relation: supports
+evidence_sources:
+- source_id: r420-primary-pdf
+  title: 'ATOMO: Communication-efficient Learning via Atomic Sparsification'
+  authors: &id001
+  - Hongyi Wang
+  - Scott Sievert
+  - Shengchao Liu
+  - Zachary Charles
+  - Dimitris Papailiopoulos
+  - Stephen Wright
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1806.04090
+  persistent_id: https://papers.nips.cc/paper/2018/hash/33b3214d792caf311e1f00fd22b392c5-Abstract.html
+  version: Advances in Neural Information Processing Systems 31 (NeurIPS 2018), pp. 9850-9861 (2018) (71124 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:23:00Z'
+  sha256: 58220aa6b204ddc16324a160a720c5006eb56ae82b7ace82c692f9a7d226d362
+- source_id: r420-arxiv-abs
+  title: 'ATOMO: Communication-efficient Learning via Atomic Sparsification (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1806.04090
+  persistent_id: https://arxiv.org/abs/1806.04090
+  version: arXiv abstract page (6457 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:23:00Z'
+  sha256: 42f631cd1c59c93e218d16a7092f8cdef2ac010a319590cb2b79bce5030e1493
+- source_id: r420-metadata-cr
+  title: 'ATOMO: Communication-efficient Learning via Atomic Sparsification (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2018/hash/33b3214d792caf311e1f00fd22b392c5-Abstract.html
+  persistent_id: https://papers.nips.cc/paper/2018/hash/33b3214d792caf311e1f00fd22b392c5-Abstract.html
+  version: Crossref API work record (478 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:23:00Z'
+  sha256: 42fbb1752d6dfa81368539ebf1ea52004bb659be42852dbea18a58e35f7aa723
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: ATOMO performs variance-optimal randomized atomic and spectral sparsification of gradient tensors for distributed learning.
+limitations:
+- Computing exact full SVD per layer in Spectral-Atomo is computationally expensive for high-dimensional weight matrices.
+- Unbiased variance grows as ||lambda||_1^2 / s when the atomic budget s is very small and no error-feedback buffer is used.
+curation:
+  created_at: '2026-10-19T08:23:00Z'
+  updated_at: '2026-10-19T08:23:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
