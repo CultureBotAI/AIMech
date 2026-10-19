@@ -1,0 +1,106 @@
+id: AIMech:RandomlyInitializedGradientDescentAndLeaveOneOutSignFlipPhaseRetrievalAnalysis
+name: Randomly Initialized Gradient Descent and Leave-One-Out Sign-Flip Phase Retrieval Analysis
+concept_kind: algorithm
+review_status: DRAFT
+definition: "The global convergence theory and two-stage trajectory analysis of vanilla Wirtinger Flow gradient descent $x^{t+1} = x^t - \\eta_t \\nabla f(x^t)$ on the nonconvex fourth-order intensity loss $f(x) = \\frac{1}{4m}\\sum_{i=1}^m ((a_i^\\top x)^2 - y_i)^2$ from a *random initialization* $x^0$ without spectral initialization, truncation, or sample splitting, established by Yuxin Chen, Yuejie Chi, Jianqing Fan, and Cong Ma (2019). Decomposing $x^t$ into signal strength $\\alpha_t = x_1^t$ (aligned with $x^\\natural = e_1$) and orthogonal component $\\beta_t = \\|x_{2:n}^t\\|_2$, the approximate state evolution $\\alpha_{t+1} \\approx [1 + 3\\eta(1 - (\\alpha_t^2+\\beta_t^2))]\\alpha_t$ and $\\beta_{t+1} \\approx [1 + \\eta(1 - 3(\\alpha_t^2+\\beta_t^2))]\\beta_t$ (Equations 9a\u20139b) satisfies $\\frac{\\alpha_{t+1}/\\alpha_t}{\\beta_{t+1}/\\beta_t} = 1 + \\frac{2\\eta}{1 + \\eta(1 - 3(\\|x^t\\|_2^2))} > 1$, driving exponential growth of the signal-to-noise ratio $\\alpha_t/\\beta_t$ from $\\Theta(1/\\sqrt{n\\log n})$ to $\\Omega(1)$ in $T_0 = O(\\log n)$ steps (Stage 1 saddle-escaping phase, Lemma 1) followed by geometric contraction $\\mathrm{dist}(x^t, x^\\natural) \\le O((1-c\\eta)^{t-T_0})$ in $O(\\log(1/\\varepsilon))$ additional steps (Stage 2, Lemma 2) whenever $m \\gtrsim n\\,\\mathrm{poly}\\log n$ (Theorems 1 and 3). To control statistical dependence between $x^t$ and $a_i$ during Stage 1 where $|x_1^t| \\asymp 1/\\sqrt{n}$ is as small as the leave-one-out perturbation, the proof introduces coupled *leave-one-out* ($x^{t,(l)}$), *random-sign* ($x^{t,\\mathrm{sgn}}$ with $a_{i,1}^{\\mathrm{sgn}} = \\xi_i^{\\mathrm{sgn}}|a_{i,1}|$), and *leave-one-out random-sign* ($x^{t,\\mathrm{sgn},(l)}$) auxiliary trajectories (Algorithms 1\u20133, Lemmas 4\u20137)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 704 maintained AIMech concepts. Distinct from `AIMech:TruncatedAmplitudeFlowAndOrthogonalityPromotingInitializationForQuadraticEquations` and `AIMech:AltMinPhaseAndSparseAltMinPhaseAlternatingMinimizationPhaseRetrieval`, which require tailored spectral initializations (`sum y_i a_i a_i^T` or orthogonality-promoting initialization), whereas Chen-Chi-Fan-Ma prove $O(\log n + \log(1/\varepsilon))$ global convergence of randomly initialized gradient descent via the coupled leave-one-out and random-sign auxiliary sequences $x^{t,(l)}$, $x^{t,\mathrm{sgn}}$, and $x^{t,\mathrm{sgn},(l)}$.
+aliases:
+- Randomly Initialized Wirtinger Flow Global Convergence Analysis
+- Chen-Chi-Fan-Ma Two-Stage Phase Retrieval Trajectory Analysis
+- Leave-One-Out and Random-Sign Auxiliary Sequences for Phase Retrieval
+definition_evidence:
+- source_id: ccfm2019-randinitpr-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: ccfm2019-randinitpr-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: ccfm2019-randinitpr-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-two-stage-signal-to-noise-ratio-growth-and-logarithmic-saddle-escape
+  kind: mechanism
+  statement: "Under Gaussian design $a_i \\stackrel{\\text{i.i.d.}}{\\sim}\\mathcal{N}(0,I_n)$ with sample size $m \\ge C n\\log^{13} n$ and random initialization $x^0 \\sim \\mathcal{N}(0, (n\\|x^\\natural\\|_2^2)^{-1} I_n)$ (Theorem 1) or data-scaled spherical initialization $x^0 = \\sqrt{\\frac{1}{m}\\sum_{i=1}^m y_i}\\,u$ with $u\\sim\\mathcal{S}^{n-1}$ (Theorem 3), Lemma 1 proves that during Stage 1 ($0 \\le t < T_0 = O(\\log n)$) the signal-to-noise ratio $\\alpha_t/\\beta_t$ grows by at least a multiplicative factor $1 + c\\eta > 1$ at every iteration via the coupled state evolution Equations (9a)\u2013(9b), entering the local contraction region ($|\\alpha_{T_0}-1| \\le \\delta, \\beta_{T_0} \\le \\delta$) in $T_0 \\le C\\log n$ iterations and thereafter contracting geometrically $\\mathrm{dist}(x^t, x^\\natural) \\le \\delta (1 - \\eta/2)^{t - T_0}\\|x^\\natural\\|_2$ (Lemma 2)."
+  evidence:
+  - source_id: ccfm2019-randinitpr-pdf
+    locator: Section 2.2-2.3, Theorems 1-3, Equations (9a)-(10), pp. 6-13; Section 3.1, Lemmas 1-2, pp. 15-17
+    relation: supports
+  - source_id: ccfm2019-randinitpr-abs
+    locator: Abstract
+    relation: supports
+- claim_id: claim-coupled-leave-one-out-and-random-sign-double-difference-decoupling
+  kind: mechanism
+  statement: "Because standard leave-one-out error $\\|x^t - x^{t,(l)}\\|_2 \\lesssim O(\\sqrt{\\log n/n})\\alpha_t$ is no smaller than the initial signal coordinate $|x_1^0| \\asymp 1/\\sqrt{n\\log n}$ during Stage 1, Section 3.2 constructs three auxiliary gradient trajectories \u2014 leave-one-out $x^{t,(l)}$ (Algorithm 1), random-sign $x^{t,\\mathrm{sgn}}$ using $a_i^{\\mathrm{sgn}} = (\\xi_i^{\\mathrm{sgn}}|a_{i,1}|, a_{i,-1})^\\top$ which preserves $(a_i^{\\mathrm{sgn}\\top} x^\\natural)^2 = (a_i^\\top x^\\natural)^2$ (Algorithm 2, Equation 37), and leave-one-out random-sign $x^{t,\\mathrm{sgn},(l)}$ (Algorithm 3) \u2014 and proves via Lemmas 4\u20137 (Equations 40a\u201340d) that the second-order difference $\\|x^t - x^{t,\\mathrm{sgn}} - x^{t,(l)} + x^{t,\\mathrm{sgn},(l)}\\|_2$ is bounded at a strictly higher order $O(\\frac{\\mathrm{poly}\\log n}{n})\\alpha_t$, decoupling $x_1^t$ from $a_{i,1}$ across all $O(\\log n)$ steps."
+  evidence:
+  - source_id: ccfm2019-randinitpr-pdf
+    locator: Section 3.2, Algorithms 1-3, Equations (29)-(40d), & Lemmas 4-7, pp. 17-22; Appendices B-E, pp. 29-70
+    relation: supports
+  - source_id: ccfm2019-randinitpr-cr
+    locator: Mathematical Programming 176(1-2):5-37 (2019) bibliographic record
+    relation: supports
+- claim_id: claim-scope-computational-efficiency-over-generic-cubic-regularization-and-noisy-gd
+  kind: scope
+  statement: Table 1 (Section 2.2) contrasts the $O(\log n + \log(1/\varepsilon))$ iteration complexity of randomly initialized vanilla gradient descent against generic strict-saddle solvers, which require $O(\mathrm{poly}(n)/\varepsilon^2)$ iterations for perturbed gradient descent or $O(\mathrm{poly}(n)\log\log(1/\varepsilon))$ iterations for trust-region / cubic regularization methods because generic worst-case analyses allow the iterate to visit many saddle points sequentially, whereas randomly initialized phase retrieval GD never approaches the unstable saddle manifold after $t=0$.
+  evidence:
+  - source_id: ccfm2019-randinitpr-pdf
+    locator: Section 1.2 & Section 2.2, Table 1 & Remark 2, pp. 3-8
+    relation: supports
+- claim_id: claim-limitation-measure-zero-orthogonal-hyperplane-saddle-trapping-and-gaussian-design
+  kind: limitation
+  statement: If initialized deterministically on the measure-zero hyperplane orthogonal to the true signal ($\langle x^0, x^\natural\rangle = 0$, i.e. $\alpha_0 = 0$), population gradient descent remains trapped on the orthogonal subspace ($\alpha_t = 0$ for all $t \ge 0$) and reaches an unstable saddle circle $\|x\|_2 = \frac{1}{\sqrt{3}}\|x^\natural\|_2$; furthermore, the random-sign decoupling symmetry relies on i.i.d. Gaussian design distributions.
+  evidence:
+  - source_id: ccfm2019-randinitpr-pdf
+    locator: Section 2.3, Equations (9a)-(9b) & Figure 2, pp. 9-12; Section 3.2, Equation (36), p. 18
+    relation: supports
+evidence_sources:
+- source_id: ccfm2019-randinitpr-pdf
+  title: 'Gradient Descent with Random Initialization: Fast Global Convergence for Nonconvex Phase Retrieval'
+  authors: &id001
+  - Yuxin Chen
+  - Yuejie Chi
+  - Jianqing Fan
+  - Cong Ma
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1803.07726.pdf
+  persistent_id: https://doi.org/10.1007/s10107-018-1327-0
+  version: arXiv:1803.07726v2 full-text PDF (82 pages), published in Mathematical Programming 176(1-2):5-37 (2019). (5169815 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:12:00Z'
+  sha256: 6df2398ddeac74c935a70d889808e1c44ab20f0f306100d08a9601882c66743a
+- source_id: ccfm2019-randinitpr-abs
+  title: 'Gradient Descent with Random Initialization: Fast Global Convergence for Nonconvex Phase Retrieval (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1803.07726
+  persistent_id: https://arxiv.org/abs/1803.07726
+  version: arXiv abstract page (7010 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:12:00Z'
+  sha256: 96c9e1853ee1db75ab76a32296f9a74db2110b1a89d4b54fcac236d0baaf936d
+- source_id: ccfm2019-randinitpr-cr
+  title: 'Gradient Descent with Random Initialization: Fast Global Convergence for Nonconvex Phase Retrieval (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/mp/ChenCFM19.xml
+  persistent_id: https://doi.org/10.1007/s10107-018-1327-0
+  version: Crossref API work record (565 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:12:00Z'
+  sha256: 5944e01d2f6055f26808628bb960d105b6ceb87dadab2ed045f14965048acab0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Solves quadratic magnitude-only regression y_i = (a_i^T x)^2 via randomly initialized nonconvex gradient descent.
+limitations:
+- Fails if initialized deterministically on the measure-zero orthogonal hyperplane $\langle x^0, x^\natural\rangle = 0$ ($\alpha_0 = 0$), and the leave-one-out random-sign proof requires i.i.d. Gaussian sensing vectors with $m \gtrsim n\log^{13} n$.
+curation:
+  created_at: '2026-10-19T06:12:00Z'
+  updated_at: '2026-10-19T06:12:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
