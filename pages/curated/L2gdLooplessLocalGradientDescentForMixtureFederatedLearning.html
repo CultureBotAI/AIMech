@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L2GD (Loopless Local Gradient Descent for Mixture Federated Learning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>L2GD (Loopless Local Gradient Descent for Mixture Federated Learning)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">L2GD (Loopless Local Gradient Descent for Mixture Federated Learning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:L2gdLooplessLocalGradientDescentForMixtureFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> L2GD, Loopless Local Gradient Descent, Mixture Federated Learning with L2GD
+    </div>
+
+  <div class="detail-desc">
+    A personalized federated optimization formulation and randomized loopless algorithm (Hanzely &amp; Richtarik 2020, Section 2, Equation 2; Section 4, Algorithm 1, Equations 14-15) that minimizes the penalized mixture objective min_{x_1, ..., x_n in R^d} F(x) = (1/n) sum_{i=1}^n f_i(x_i) + (lambda / (2 n)) sum_{i=1}^n ||x_i - bar_x||^2 (where bar_x = (1/n) sum_{i=1}^n x_i) by flipping a coin xi_k ~ Bernoulli(p) at each iteration k: with probability 1 - p (xi_k = 0), every client i performs a purely local gradient step x_i^{k+1} = x_i^k - (alpha / (1 - p)) nabla f_i(x_i^k); with probability p (xi_k = 1), the server computes bar_x^k and every client takes an averaging-contraction step x_i^{k+1} = (1 - alpha lambda / p) x_i^k + (alpha lambda / p) bar_x^k.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, T. Dinh et al. 2020), which solves nested bi-level Moreau envelope subproblems at every local step using an auxiliary global variable w, and from Local SGD / FedAvg (AIMech:FederatedAveraging, McMahan et al. 2017), which forces full consensus x_1 = ... = x_n (the lambda -&gt; infinity limit) and suffers O(alpha) bias on heterogeneous objectives, whereas L2GD is an unbiased variance-reduced stochastic solver on the two-term sum F(x) = f(x) + lambda psi(x) that converges linearly to the exact mixture optimum x^*(lambda) for any constant step size.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r445-exact-kkt-gradient-average-identity-and-spectrum-interpolation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For every penalty parameter lambda in (0, infinity), the unique minimizer x^*(lambda) = (x_1^*(lambda), ..., x_n^*(lambda)) of F(x) = f(x) + lambda psi(x) satisfies nabla f_i(x_i^*(lambda)) + lambda(x_i^*(lambda) - bar_x^*(lambda)) = 0 and therefore the exact zero-sum gradient identity (1/n) sum_{i=1}^n nabla f_i(x_i^*(lambda)) = 0 (Theorem 3.2, Eq. 5), while interpolating monotonically between purely local training at lambda = 0 (Theorem 3.1) and the classical consensus global optimum x^*(lambda) -&gt; 1 x^* with x_i^*(lambda) - bar_x^*(lambda) = -(1/lambda) nabla f_i(x^*) + o(1/lambda) as lambda -&gt; infinity (Theorem 3.5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r445-primary-pdf">Federated Learning of a Mixture of Global and Local Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Properties of the Optimal Solution (Theorems 3.1-3.5, Equations 4-9), pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r445-unbiased-two-summand-sgd-equivalence-and-optimal-communication-probability</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Interpreting F(x) = f(x) + lambda psi(x) as a two-summand finite sum and sampling G(x^k) = nabla f(x^k) / (1 - p) with probability 1 - p and lambda nabla psi(x^k) / p with probability p makes G(x^k) an unbiased estimator E[G(x^k) | x^k] = nabla F(x^k) (Section 4.1, Eq. 13); applying control variates (L2GD+) or non-uniform sampling achieves global linear convergence O(max(L / ((1 - p) mu), lambda / (p mu)) log(1/epsilon)) where the optimal communication probability p^* = lambda / (lambda + L) minimizes expected communication rounds to O((lambda L / (lambda + L)) / mu * log(1/epsilon)) (Theorems 4.4, 5.2, and Corollary 4.5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r445-primary-pdf">Federated Learning of a Mixture of Global and Local Models</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.3 Convergence of L2GD (Equations 13-17, Theorem 4.4, Corollary 4.5) &amp; Section 5 Variance Reduced L2GD+ (Theorem 5.2), pp. 6-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r445-variance-floor-without-control-variates-and-strong-convexity-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because nabla f_i(x_i^*(lambda)) = -lambda(x_i^*(lambda) - bar_x^*(lambda)) != 0 whenever client optima differ and lambda &gt; 0, vanilla L2GD with constant step size alpha converges to an O(alpha sigma_*^2) neighborhood of x^*(lambda) unless diminishing step sizes or the variance-reduced control-variate extension L2GD+ (Section 5) are used.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r445-primary-pdf">Federated Learning of a Mixture of Global and Local Models</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 Theorem 4.4 Neighborhood Analysis &amp; Section 5 L2GD+ with Control Variates, pp. 8-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r445-personalized-l2-regularized-logistic-regression-federated-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to personalized federated l_2-regularized logistic regression across heterogeneous LIBSVM client datasets (a1a, mushrooms, madelon, phishing), reducing communication rounds relative to full-consensus gradient descent as heterogeneity increases.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r445-primary-pdf">Federated Learning of a Mixture of Global and Local Models</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Experiments (Figures 1-4), pp. 13-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Linear convergence guarantees require mu-strongly convex and L-smooth local objectives f_i.</li>
+      <li>Exact convergence with constant step size requires maintaining control variates (L2GD+).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            L2GD formulates and solves personalized federated learning as a quadratically coupled mixture of local and global models with randomized loopless communication.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Evaluated on personalized federated l_2-regularized logistic classification.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r445-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r445-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2002.05516" target="_blank" rel="noopener">Federated Learning of a Mixture of Global and Local Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Filip Hanzely, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2002.05516</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:20107b7a9e9b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r445-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r445-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2002.05516" target="_blank" rel="noopener">Federated Learning of a Mixture of Global and Local Models (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Filip Hanzely, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2002.05516</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f1b9b1e06e9c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r445-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r445-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2002.05516" target="_blank" rel="noopener">Federated Learning of a Mixture of Global and Local Models (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Filip Hanzely, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2002.05516</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:985ae86e7cc1…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:48:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:48:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/L2gdLooplessLocalGradientDescentForMixtureFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/L2gdLooplessLocalGradientDescentForMixtureFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
