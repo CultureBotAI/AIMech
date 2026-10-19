@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedDC (Federated Learning via Local Drift Decoupling and Correction) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedDC (Federated Learning via Local Drift Decoupling and Correction)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedDC (Federated Learning via Local Drift Decoupling and Correction)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedDcLocalDriftDecouplingAndCorrectionForNonIidFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedDC, Federated Learning via Local Drift Decoupling and Correction, Local Drift Decoupling and Correction
+    </div>
+
+  <div class="detail-desc">
+    A primal-dual drift-decoupling and gradient-correction federated learning algorithm (Gao et al. 2022, Section 4, Equations 3-8, Appendix B Algorithm 1 and Theorem 1) that introduces an auxiliary local drift variable h_i ~ w - theta_i for each client i to bridge the parameter gap between the global model w and the local model theta_i, training each active client on the three-term objective F_i(theta_i) = L_i(theta_i) + (alpha/2)*||theta_i - (w - h_i)||^2 + (1/(eta*K))*&lt;theta_i, g_i - g&gt; (Equation 4) where g_i = theta_i^K - theta_i^0 tracks the local epoch update drift and g = sum_i (|D_i|/|D|) g_i, updating h_i^+ = h_i - g_i^+ without extra backpropagation (Equation 6), and aggregating drift-corrected client parameters on the server via w^{t+1} = sum_{i in C_t} (|D_i|/|D|) (theta_i^+ + h_i^+) (Equation 7).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from SCAFFOLD (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning, Karimireddy et al. 2020), which only applies a linear control-variate gradient correction without decoupling the parameter-level gap w - theta_i via a shifted quadratic penalty (alpha/2)*||theta_i - (w - h_i)||^2 or aggregating theta_i^+ + h_i^+; and distinct from FedDyn (AIMech:FedDynDynamicRegularizationForFederatedLearning, Acar et al. 2021), which combines a linear historic-gradient term and unshifted quadratic (alpha/2)*||theta_i - w||^2 with server dual state h^t without a separate (1/(eta*K))*&lt;theta_i, g_i - g&gt; SCAFFOLD-style gradient-drift inner product.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r456-three-term-decoupled-drift-objective-and-corrected-aggregation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Combines (1) empirical loss L_i(theta_i), (2) a drift-decoupled quadratic penalty (alpha/2)*||theta_i - (w - h_i)||^2 that constrains local parameter updates relative to the drift-compensated target w - h_i, and (3) a linear gradient-drift correction (1/(eta*K))*&lt;theta_i, g_i - g&gt; (Equation 4), followed by backpropagation-free drift tracking h_i^+ = h_i - g_i^+ (Equation 6) and drift-corrected global aggregation w^{t+1} = sum_{i in C_t} (|D_i|/|D|)*(theta_i^+ + h_i^+) (Equation 7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r456-primary-pdf">FedDC: Federated Learning with Non-IID Data via Local Drift Decoupling and Correction</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Details of FedDC (Equations 3-8) &amp; Appendix B Algorithm 1, pp. 10114-10116</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r456-strongly-convex-linear-and-nonconvex-convergence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Establishes in Theorem 1 (Appendix C) that FedDC achieves O(log(1/epsilon)) linear convergence for mu-strongly convex L-smooth objectives and O(1/epsilon) convergence for general L-smooth non-convex objectives under partial client participation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r456-primary-pdf">FedDC: Federated Learning with Non-IID Data via Local Drift Decoupling and Correction</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Convergence Analysis &amp; Appendix C Proof of Theorem 1, pp. 10116 &amp; Appendix</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r456-stateful-client-drift-variables-and-communication-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires clients to maintain persistent parameter-sized state vectors (h_i and g_i) across communication rounds, and in the naive partial-participation implementation doubles per-round parameter transmission unless the server caches each client&#39;s previous state.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r456-primary-pdf">FedDC: Federated Learning with Non-IID Data via Local Drift Decoupling and Correction</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Communication Discussion &amp; Appendix B Algorithm 1, pp. 10115-10116</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r456-non-iid-federated-classification-and-partial-participation-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to non-IID and unbalanced federated learning across MNIST, Fashion-MNIST, EMNIST-L, CIFAR-10, CIFAR-100, Tiny-ImageNet, and synthetic heterogeneous benchmarks under low client participation ratios.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r456-primary-pdf">FedDC: Federated Learning with Non-IID Data via Local Drift Decoupling and Correction</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Evaluation (Tables 1-3, Figures 3-6), pp. 10116-10120</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires stateful clients to store auxiliary parameter-sized drift variables h_i and g_i across rounds.</li>
+      <li>Under very low client participation ratios without server-side state caching, stale h_i and g_i on rarely sampled clients can slow initial drift alignment.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedDC is a federated learning algorithm that corrects non-IID client drift by decoupling local parameter drift via auxiliary variables h_i and gradient tracking g_i.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r456-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r456-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2203.11751" target="_blank" rel="noopener">FedDC: Federated Learning with Non-IID Data via Local Drift Decoupling and Correction</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liang Gao, Huazhu Fu, Li Li, Yingwen Chen, Ming Xu, Cheng-Zhong Xu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/CVPR52688.2022.00987</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8d463d0d4d5b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r456-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r456-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2203.11751" target="_blank" rel="noopener">FedDC: Federated Learning with Non-IID Data via Local Drift Decoupling and Correction (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liang Gao, Huazhu Fu, Li Li, Yingwen Chen, Ming Xu, Cheng-Zhong Xu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2203.11751</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cdc3282809a3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r456-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r456-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1109/CVPR52688.2022.00987" target="_blank" rel="noopener">FedDC: Federated Learning with Non-IID Data via Local Drift Decoupling and Correction (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liang Gao, Huazhu Fu, Li Li, Yingwen Chen, Ming Xu, Cheng-Zhong Xu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/CVPR52688.2022.00987</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3a0568e0f961…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:59:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:59:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedDcLocalDriftDecouplingAndCorrectionForNonIidFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedDcLocalDriftDecouplingAndCorrectionForNonIidFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
