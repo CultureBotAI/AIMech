@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedPara and pFedPara (Low-Rank Hadamard Product Parameterization for Federated Learning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedPara and pFedPara (Low-Rank Hadamard Product Parameterization for Federated Learning)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedPara and pFedPara (Low-Rank Hadamard Product Parameterization for Federated Learning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedParaAndPFedParaLowRankHadamardProductParameterization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedPara and pFedPara, FedPara, pFedPara, Low-Rank Hadamard Product Federated Parameterization
+    </div>
+
+  <div class="detail-desc">
+    A communication-efficient layer parameterization for federated learning and its personalized variant (Hyeon-Woo, Ye-Bin, &amp; Oh 2022, Section 2, Equations 1-4, Propositions 1-3) that expresses each weight matrix W in R^{m x n} as the Hadamard (element-wise) product of two low-rank matrices W = W_1 odot W_2 = (X_1 Y_1^T) odot (X_2 Y_2^T) with X_1 in R^{m x r_1}, Y_1 in R^{n x r_1}, X_2 in R^{m x r_2}, and Y_2 in R^{n x r_2} (and 4D convolutional kernels via Tucker mode-1/mode-2 products W_conv = (T_1 x_1 X_1 x_2 Y_1) odot (T_2 x_1 X_2 x_2 Y_2)), transmitting only the low-rank factors during federated aggregation; in pFedPara (Section 2.3, Equation 4), W = W_1 odot (W_2 + 1) = W_1 odot W_2 + W_1 transfers only the global factor W_1 to the server while keeping W_2 strictly local on each client.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from PowerSGD (AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback, Vogels et al. 2019), which compresses full-model gradients via power-iteration low-rank approximations with error feedback rather than reparameterizing the model weights via an unconstrained-rank Hadamard product of low-rank factors, and from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which splits personalization by network depth (shared body vs local head) rather than intra-layer Hadamard decomposition W_1 odot (W_2 + 1).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r439-hadamard-rank-multiplication-and-minimal-parameter-propositions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By Proposition 1, for W_1 = X_1 Y_1^T of rank &lt;= r_1 and W_2 = X_2 Y_2^T of rank &lt;= r_2, the Hadamard product W = W_1 odot W_2 satisfies rank(W) &lt;= r_1 r_2 and achieves full rank min(m, n) whenever r_1 r_2 &gt;= min(m, n); by Proposition 2, for any fixed target rank bound R^2 = r_1 r_2, choosing r_1 = r_2 = R uniquely minimizes the total parameter count to 2 R (m + n), and Proposition 3 extends the same rank bound rank(W^{(1)}) = rank(W^{(2)}) &lt;= R^2 to 4D convolutional tensors with 2 R (O + I + R K_1 K_2) parameters.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r439-primary-pdf">FedPara: Low-Rank Hadamard Product for Communication-Efficient Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1-2.2 Low-Rank Hadamard Product and Convolutional Extension (Propositions 1, 2, and 3) &amp; Appendix A Proofs</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r439-pfedpara-global-personal-additive-multiplicative-decomposition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In pFedPara (Section 2.3, Eq. 4), parameterizing each layer as W = W_1 odot (W_2 + 1) = W_1 + W_1 odot W_2 decomposes the weight matrix into an additive global low-rank component W_glo = W_1 (aggregated across clients by the server) and a client-specific residual W_per = W_1 odot W_2 modulated by the local factor W_2, halving communication cost relative to FedPara while preserving rank(W) &lt;= r_1 (r_2 + 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r439-primary-pdf">FedPara: Low-Rank Hadamard Product for Communication-Efficient Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3 Personalized FedPara (pFedPara, Equation 4) &amp; Section 3.3 Personalized FL Evaluation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r439-bilinear-factor-nonconvexity-and-small-kernel-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Introduces four-factor multilinear product landscapes during local gradient updates and requires 2 R (O + I + R K_1 K_2) &lt; O I K_1 K_2 (i.e., R &lt;= sqrt(O I / 2)) to achieve parameter savings on convolutional layers.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r439-primary-pdf">FedPara: Low-Rank Hadamard Product for Communication-Efficient Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1 Property 1 &amp; Section 2.2 Convolutional Layer Extension</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r439-communication-efficient-vgg-resnet-and-lstm-federated-training-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to communication-efficient federated training of VGG16, ResNet-18, and LSTM models on CIFAR-10, CIFAR-100, CINIC-10, and Shakespeare under IID and non-IID partitions, reducing communication costs by 3x to 10x at matching or higher accuracy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r439-primary-pdf">FedPara: Low-Rank Hadamard Product for Communication-Efficient Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Experiments (Figures 3-6, Tables 1-3)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires reconstructing W = (X_1 Y_1^T) odot (X_2 Y_2^T) during forward and backward passes.</li>
+      <li>Parameter compression requires choosing rank hyperparameter R &lt; sqrt(m n / (2(m + n))).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedPara and pFedPara are communication-efficient and personalized federated learning methods based on low-rank Hadamard weight parameterization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r439-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r439-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2108.06098" target="_blank" rel="noopener">FedPara: Low-Rank Hadamard Product for Communication-Efficient Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nam Hyeon-Woo, Moon Ye-Bin, Tae-Hyun Oh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=d71n4ftoCBy</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1ae6352c22b2…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r439-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r439-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2108.06098" target="_blank" rel="noopener">FedPara: Low-Rank Hadamard Product for Communication-Efficient Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nam Hyeon-Woo, Moon Ye-Bin, Tae-Hyun Oh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2108.06098</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2ce8fd75c192…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r439-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r439-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=d71n4ftoCBy" target="_blank" rel="noopener">FedPara: Low-Rank Hadamard Product for Communication-Efficient Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nam Hyeon-Woo, Moon Ye-Bin, Tae-Hyun Oh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=d71n4ftoCBy</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:239bffd350ab…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:42:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:42:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedParaAndPFedParaLowRankHadamardProductParameterization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedParaAndPFedParaLowRankHadamardProductParameterization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
