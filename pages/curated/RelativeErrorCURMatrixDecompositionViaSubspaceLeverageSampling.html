@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relative-Error CUR Matrix Decomposition via Subspace Leverage Sampling · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Relative-Error CUR Matrix Decomposition via Subspace Leverage Sampling</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Relative-Error CUR Matrix Decomposition via Subspace Leverage Sampling</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RelativeErrorCURMatrixDecompositionViaSubspaceLeverageSampling</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Subspace-Sampling Relative-Error CX and CUR Matrix Decomposition, Drineas-Mahoney-Muthukrishnan Leverage-Score CUR Decomposition, Relative-Error Column-Row Skeleton Factorization
+    </div>
+
+  <div class="detail-desc">
+    Relative-Error CUR Matrix Decomposition via Subspace Leverage Sampling is a randomized low-rank matrix factorization framework introduced by Drineas, Mahoney, and Muthukrishnan (2008) that approximates an arbitrary matrix A in R^{m x n} by actual columns C in R^{m x c} and actual rows R in R^{r x n} of A together with an explicit linking matrix U = W^+ in R^{c x r} so as to achieve a multiplicative (1 + epsilon) relative-error Frobenius norm guarantee ||A - C U R||_F &lt;= (1 + epsilon)||A - A_k||_F. Rather than sampling columns proportionally to raw Euclidean column norms ||A^{(j)}||_2^2 (which permits only additive error bounds), Algorithm 1 samples c = O(k log k / epsilon^2) columns according to the normalized k-right-singular-subspace leverage scores p_j = (1/k)||(V_{A,k})_{(j)}||_2^2 (forming C = A S_C D_C and the optimal CX approximation P_C A = C (C^+ A)), and Algorithm 2 subsequently samples r = O(c log c / epsilon^2) rows of A and C concurrently according to the column-subspace leverage scores q_i = (1/c)||(U_C)_{(i)}||_2^2 of C, setting W = D_R S_R^T C and U = W^+. The analysis reduces column/row projection to generalized l_2 regression via Lemma 1 (Equations 26-27), proving that when sigma_k(S^T U_{A,k}) &gt;= 1/sqrt(2), the rescaled sketch satisfies (S A_k)^+ = V_{A,k} Sigma_{A,k}^{-1} (S U_{A,k})^+ and rank(S A_k) = k.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Nyström Gram Matrix Low-Rank Approximation with Diagonal Sampling (`AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling`), which applies only to symmetric positive semidefinite Gram matrices G and achieves additive error bounds proportional to sum_i G_{ii}^2, and from Principal Component Analysis (`AIO:PrincipalComponentAnalysis`), which represents A_k in dense orthogonal eigenbases that destroy sparsity and interpretability of original rows and columns. Specifically captures the Drineas-Mahoney-Muthukrishnan (2008) subspace leverage sampling probabilities p_j = (1/k)||(V_{A,k})_{(j)}||_2^2, the Lemma 1 pseudoinverse reduction to generalized l_2 regression, and the relative-error CX (Theorem 1) and CUR (Theorem 2) algorithms.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any matrix A in R^{m x n} with rank-k SVD A_k = U_{A,k} Sigma_{A,k} V_{A,k}^T and row-sampling/rescaling matrix S = D S_0^T, Lemma 1 (Equations 26-27) proves that whenever sigma_k(S U_{A,k}) &gt;= 1/sqrt(2), the sketched rank-k factor satisfies rank(S A_k) = k and the exact Moore-Penrose pseudoinverse factorization (S A_k)^+ = V_{A,k} Sigma_{A,k}^{-1} (S U_{A,k})^+, so the generalized regression solution Z_opt = (S B)^+ S A satisfies ||A - B Z_opt||_F &lt;= (1 + epsilon)||A - A_k||_F.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r332-primary-pdf">Relative-Error CUR Matrix Decompositions</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2, Theorem 3, Lemma 1, and Equations 23-27, pp. 861-866 (pp. 16-20 of PDF)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r332-arxiv-abs">Relative-Error CUR Matrix Decompositions (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract: relative-error CX and CUR matrix decompositions via subspace sampling</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 1 and Theorem 2 prove that sampling c = O(k log k / epsilon^2) columns of A with probabilities p_j &gt;= beta ||(V_{A,k})_{(j)}||_2^2 / k (where sum_{j=1}^n ||(V_{A,k})_{(j)}||_2^2 = k) yields ||A - C (C^+ A)||_F &lt;= (1 + epsilon)||A - A_k||_F, and subsequently sampling r = O(c log c / epsilon^2) rows with probabilities q_i &gt;= beta ||(U_C)_{(i)}||_2^2 / c and setting U = W^+ = (D_R S_R^T C)^+ yields ||A - C U R||_F &lt;= (1 + epsilon)||A - A_k||_F with high probability, recovering A exactly (||A - C U R||_F = 0) whenever rank(A) &lt;= k and the sampled subspace sketches have full rank k.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r332-primary-pdf">Relative-Error CUR Matrix Decompositions</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2, Algorithm 1 (Theorem 1, Equation 4) and Algorithm 2 (Theorem 2, Equation 9), pp. 855-858 (pp. 10-13 of PDF)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r332-metadata-cr">Relative-Error CUR Matrix Decompositions (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> SIMAX 30(2):844-881 bibliographic record</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Computing the exact subspace leverage scores p_j = (1/k)||(V_{A,k})_{(j)}||_2^2 requires the top-k right singular subspace V_{A,k} of A (costing O(min(m,n) m n) via exact SVD), and replacing subspace leverage sampling by Euclidean column-norm sampling p_j = ||A^{(j)}||_2^2 / ||A||_F^2 fails to achieve relative error when a low-norm column carries an entire top-k singular direction while rank-1 high-norm columns dominate ||A||_F^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r332-primary-pdf">Relative-Error CUR Matrix Decompositions</a></span>
+        <span>· <strong>Locator:</strong> Section 1.3 and Section 3.1, Discussion of SVD cost O(min{m,n}mn) and contrast with additive-error norm sampling, pp. 847-848, 856</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires computing or approximating the top-k right singular vectors V_{A,k} to form the column leverage scores p_j = (1/k)||(V_{A,k})_{(j)}||_2^2, and requires r = O(c log c / epsilon^2) rows scaling with the number of sampled columns c.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Constructs interpretable low-rank CX and CUR matrix factorizations from actual columns and rows of A with relative-error Frobenius guarantees.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Uses the top-k singular subspace leverage scores of A_k to select actual columns and rows achieving (1+epsilon)||A - A_k||_F.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r332-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r332-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/0708.3696.pdf" target="_blank" rel="noopener">Relative-Error CUR Matrix Decompositions</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Petros Drineas, Michael W. Mahoney, S. Muthukrishnan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/07070471X</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5fd13aef3a94…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r332-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r332-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/0708.3696" target="_blank" rel="noopener">Relative-Error CUR Matrix Decompositions (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Petros Drineas, Michael W. Mahoney, S. Muthukrishnan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/0708.3696</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e33fe0139529…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r332-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r332-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1137/07070471X" target="_blank" rel="noopener">Relative-Error CUR Matrix Decompositions (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Petros Drineas, Michael W. Mahoney, S. Muthukrishnan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/07070471X</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e4325ae94385…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:55:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:55:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RelativeErrorCURMatrixDecompositionViaSubspaceLeverageSampling.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RelativeErrorCURMatrixDecompositionViaSubspaceLeverageSampling.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
