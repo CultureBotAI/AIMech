@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">468 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">469 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">468</span> of <span id="totalCount">468</span>
+      Showing <span id="matchCount">469</span> of <span id="totalCount">469</span>
     </div>
   </div>
 </div>
@@ -10391,6 +10391,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:SPIDERStochasticPathIntegratedDifferentialEstimatorForNonConvexOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="spiderboost and proximal spiderboost with momentum for non-convex optimization spiderboostandproximalspiderboostwithmomentumfornonconvexoptimization aimech:spiderboostandproximalspiderboostwithmomentumfornonconvexoptimization algorithms algorithm a family of stochastic path-integrated variance reduction algorithms (wang, ji, zhou, liang, &amp; tarokh 2019) for smooth and composite non-convex optimization min_x psi(x) = f(x) + h(x) (where f is l-smooth non-convex and h is proper closed convex) that maintains the spider recursive gradient estimator v_k = (1/|s|) sum_{i in s} (nabla f_i(x_k) - nabla f_i(x_{k-1})) + v_{k-1} with epoch period q = |s| = ceil(n^{1/2}), replaces spider&#39;s accuracy-dependent normalized update x_{k+1} = x_k - (varepsilon / (l * n_0)) * (v_k / ||v_k||_2) with an unnormalized large constant step size eta = 1 / (2l) via an epoch-grouped telescoping analysis (spiderboost), and extends directly to proximal composite mappings x_{k+1} = prox_{eta*h}(x_k - eta*v_k) (prox-spiderboost), bregman proximal mappings, and nesterov-style momentum coupling (prox-spiderboost-m), achieving optimal o(min(n + n^{1/2} * varepsilon^{-2}, varepsilon^{-3})) stochastic first-order oracle (sfo) complexity and o(varepsilon^{-2}) proximal oracle (po) complexity. distinct from original spider (fang et al. 2018, aimech:spiderstochasticpathintegrateddifferentialestimatorfornonconvexoptimization), which uses a tiny accuracy-dependent step size eta = o(varepsilon / l) and normalized gradient directions that prevent direct extension to composite proximal mappings prox_{eta*h}; from sarah (nguyen et al. 2017, aimech:sarahstochasticrecursivegradientforfinitesumoptimization), which uses b = 1 and sub-optimal o(n + n^{2/3}/varepsilon^2) non-convex complexity; and from loopless page (li et al. 2021, aimech:pageprobabilisticgradientestimatorfornonconvexoptimization), which replaces deterministic q-periodic epochs with bernoulli coin flips for unconstrained smooth problems. spiderboost prox-spiderboost prox-spiderboost-m proximal spiderboost with momentum whereas original spider bounds single-step descent by enforcing ||v_k - nabla f(x_k)||_2 &lt;= varepsilon at every step via a tiny step size eta = o(varepsilon / l), spiderboost (algorithm 1, theorem 1) telescopically sums the accumulated recursive variance e||v_k - nabla f(x_k)||_2^2 &lt;= sum_{j=(n_k-1)q}^{k-1} (l^2 / |s|) e||x_{j+1} - x_j||_2^2 across each entire epoch of length q = |s| = ceil(n^{1/2}), yielding a positive per-step descent coefficient beta_1 = 1/(2*eta) - l/2 - (eta * l^2 / 2) * (q / |s|) = l/4 &gt; 0 at the large accuracy-independent constant step size eta = 1 / (2l) and achieving e||nabla f(x_out)||_2 &lt;= varepsilon in o(n + n^{1/2} * varepsilon^{-2}) stochastic gradient evaluations. for composite non-convex problems min_x psi(x) = f(x) + h(x), prox-spiderboost (algorithm 2, theorems 2 and 6) applies the unnormalized proximal gradient mapping g_eta(x_k, v_k) = (1/eta) * (x_k - prox_{eta*h}(x_k - eta*v_k)) with constant step size eta = 1 / (2l), achieving e||g_eta(x_xi, nabla f(x_xi))||_2 &lt;= varepsilon in o(n + n^{1/2} * varepsilon^{-2}) finite-sum (or o(varepsilon^{-3}) online) sfo calls and o(varepsilon^{-2}) proximal oracle (po) calls, improving upon proxsvrg/proxsaga&#39;s o(n + n^{2/3} * varepsilon^{-2}) sfo complexity by n^{1/6}; under the composite polyak-lojasiewicz condition ||g_eta(x, nabla f(x))||_2^2 &gt;= (1/tau) * (psi(x) - psi^*), prox-spiderboost-pl (theorem 5) achieves linear convergence o((n + l^2 * tau^2) * log(1/varepsilon)) sfo and o(l * tau * log(1/varepsilon)) po calls without restarting when l*tau &lt;= n^{1/2}. prox-spiderboost-m (algorithm 3, theorems 3 and 8) couples three iterate sequences {x_k, y_k, z_k} with epoch-synchronized momentum weight alpha_k = 2 / (ceil(k / q) + 1), evaluating the spider estimator v_k at the extrapolated point z_k = (1 - alpha_{k+1}) y_k + alpha_{k+1} x_k while bounding the momentum drift ||z_{k+1} - z_k||_2^2 &lt;= 2*(1 + alpha_{k+2})^2 ||y_{k+1} - x_k||_2^2 + 2*alpha_{k+1}^2 ||x_k - y_k||_2^2 via the decreasing product sequence gamma_k = 2 / (ceil(k/q) * (ceil(k/q) + 1)) (lemma 5), preserving optimal o(n + n^{1/2} * varepsilon^{-2}) finite-sum and o(varepsilon^{-3}) online sfo complexity with faster empirical convergence on non-convex classification and robust image denoising. spiderboost and momentum: faster stochastic variance reduction algorithms spiderboost and momentum: faster stochastic variance reduction algorithms (arxiv abstract) spiderboost and momentum: faster stochastic variance reduction algorithms (crossref metadata) zhe wang kaiyi ji yi zhou yingbin liang vahid tarokh zhe wang kaiyi ji yi zhou yingbin liang vahid tarokh zhe wang kaiyi ji yi zhou yingbin liang vahid tarokh">
+        <td>
+          <a href="../curated/SpiderBoostAndProximalSpiderBoostWithMomentumForNonconvexOptimization.html" style="font-weight: 600; font-size: 1rem;">SpiderBoost and Proximal SpiderBoost with Momentum for Non-Convex Optimization</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> SpiderBoost, Prox-SpiderBoost…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A family of stochastic path-integrated variance reduction algorithms (Wang, Ji, Zhou, Liang, &amp; Tarokh 2019) for smooth and composite non-con…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:SpiderBoostAndProximalSpiderBoostWithMomentumForNonconvexOptimization</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
