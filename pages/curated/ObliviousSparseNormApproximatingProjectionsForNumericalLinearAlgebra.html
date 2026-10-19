@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oblivious Sparse Norm-Approximating Projections (OSNAP) for Fast Numerical Linear Algebra · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Oblivious Sparse Norm-Approximating Projections (OSNAP) for Fast Numerical Linear Algebra</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Oblivious Sparse Norm-Approximating Projections (OSNAP) for Fast Numerical Linear Algebra</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:ObliviousSparseNormApproximatingProjectionsForNumericalLinearAlgebra</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> OSNAP, Oblivious Sparse Norm-Approximating Projection, Nelson-Nguyen Sparse Oblivious Subspace Embedding
+    </div>
+
+  <div class="detail-desc">
+    An Oblivious Sparse Norm-Approximating Projection (OSNAP) is a distribution over sparse sketching matrices Pi in {0, +1/sqrt(s), -1/sqrt(s)}^{m x n}, introduced and analyzed by Nelson and Nguyen (2013), that forms an oblivious subspace embedding (OSE) preserving (1 - varepsilon)*||x||_2 &lt;= ||Pi x||_2 &lt;= (1 + varepsilon)*||x||_2 simultaneously for all vectors x in any fixed d-dimensional subspace W subset R^n with probability at least 1 - delta. Writing Pi_{i,j} = delta_{i,j} * sigma_{i,j} / sqrt(s) with random signs sigma_{i,j} in {-1, +1} and column-sparsity indicators delta_{i,j} in {0, 1}, an OSNAP satisfies two structural properties: (1) every column j in [n] has exactly sum_{i=1}^m delta_{i,j} = s non-zero entries with probability 1, and (2) the indicators delta_{i,j} are negatively correlated such that E[prod_{(i,j) in S} delta_{i,j}] &lt;= (s/m)^{|S|} for all S subseteq [m] x [n].
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:ProjectionCostPreservingSketchesForKMeansAndConstrainedLowRankApproximation (Round 364), which preserves rank-k left projection costs ||(I - P)A||_F^2 + c in O(k/varepsilon^2) dimensions (and uses OSNAP as an underlying sketching primitive), whereas OSNAP is a sparse oblivious subspace embedding preserving ||Pi U y||_2 in (1 +- varepsilon)*||y||_2 for all y in R^d simultaneously—equivalently bounding all singular values of Pi U in [1 - varepsilon, 1 + varepsilon] via a Bai-Yin moment method on generalized dot-product multigraphs. Also distinct from AIMech:FrequentDirectionsDeterministicMatrixSketching (Round 363), which is a deterministic SVD-shrinkage sketch requiring O(n*d*ell) time rather than O(s*nnz(A)) sparse hashing time.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r365-claim-optimal-s1-countsketch-subspace-embedding-second-moment-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any orthonormal basis U in R^{n x d} of a d-dimensional subspace W subset R^n and an OSNAP Pi with s = 1 non-zero per column (the CountSketch / Thorup-Zhang sketch) specified by a pairwise-independent hash h : [n] -&gt; [m] and 4-wise independent signs sigma in {-1, +1}^n, the Gram error matrix S - I = (Pi U)^* (Pi U) - I_d has entries (S - I)_{k,k&#39;} = sum_{r=1}^m sum_{i != j} delta_{r,i} delta_{r,j} sigma_{r,i} sigma_{r,j} u_i^k u_j^{k&#39;} (Eq. 3), diagonal variance E[(S - I)_{k,k}^2] &lt;= 2/m, and off-diagonal variance E[(S - I)_{k,k&#39;}^2] = (1/m)*sum_{i != j} ((u_i^k)^2 (u_j^{k&#39;})^2 + u_i^k u_i^{k&#39;} u_j^k u_j^{k&#39;}) &lt;= 1/m (since sum_{i != j} u_i^k u_i^{k&#39;} u_j^k u_j^{k&#39;} = -sum_i (u_i^k)^2 (u_i^{k&#39;})^2 &lt;= 0 by orthogonality &lt;u^k, u^{k&#39;}&gt; = 0), yielding E||S - I||_F^2 &lt;= (d^2 + d)/m and guaranteeing via Weyl&#39;s inequality (Theorem 2) that all singular values of Pi U lie in [1 - varepsilon, 1 + varepsilon] with probability &gt;= 1 - delta for m &gt;= delta^{-1}*(d^2 + d)/(2*varepsilon - varepsilon^2)^2 = O(d^2 / (delta * varepsilon^2)) (Theorem 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r365-primary-pdf">OSNAP: Faster numerical linear algebra algorithms via sparser subspace embeddings</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, pp. 4-5; Section 2, Theorem 2, Eq. (2)-(4), and Theorem 3, pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r365-claim-high-moment-multigraph-bai-yin-bound-for-subquadratic-osnap</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For general OSNAPs with s &gt; 1, expanding the even trace moment E[tr((S - I)^ell)] (Eq. 6-7) over 3-layered multigraphs G in G with even bond multiplicities in MR(G) and recursively reducing each induced Eulerian dot-product multigraph G_hat via minimum 2-edge cuts into 4-edge-connected components possessing two edge-disjoint spanning trees T_1, T_2 (Theorem 6, Corollary 7, Lemmas 10-11, Eq. 15-19) bounds the graph product by y! * d^{y - w + 1} and E[tr((S - I)^ell)] &lt;= e*d*ell^{4.5} * max_{2 &lt;= b &lt;= ell} (b^3 / s)^{ell - b} * ((b^4 / e)*sqrt(d/m))^b (Eq. 20); this proves that all singular values of Pi U lie in [1 - varepsilon, 1 + varepsilon] with probability &gt;= 1 - delta either for m = Omega(d * log^8(d/delta) / varepsilon^2) and s = Theta(log^3(d/delta) / varepsilon) (Theorem 9) or for m = Omega(d^{1 + gamma} / varepsilon^2) and s = Theta(1/varepsilon) for any constant gamma &gt; 0 using only Omega(log(d/delta))-wise independent hash functions (Theorem 12).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r365-primary-pdf">OSNAP: Faster numerical linear algebra algorithms via sparser subspace embeddings</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, p. 5; Section 2, Lemmas 4-5, Theorem 6, Corollary 7, Fact 8, Theorem 9, Lemmas 10-11, Eq. (6)-(20), and Theorem 12, pp. 8-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r365-claim-input-sparsity-leverage-scores-regression-and-low-rank-approximation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Plugging OSNAPs into randomized numerical linear algebra pipelines yields (1 +- varepsilon) approximation of all n leverage scores of a rank-r matrix A in O_tilde(nnz(A)/varepsilon^2 + r^omega * varepsilon^{-2*omega}) time (Theorem 14), (1 + varepsilon)-approximate least-squares regression min_x ||Ax - b||_2 in O(nnz(A) + d^3 log(d/varepsilon)/varepsilon^2) time via Theorem 3 (Theorem 15) or O(nnz(A)*((log r)^{O(1)} + log(n/varepsilon)) + r^omega*(log r)^{O(1)} + r^2 log(1/varepsilon)) time via Theorem 9 (Theorem 16), and (1 + varepsilon) Frobenius-norm rank-k approximation in O(nnz(A) + O_tilde(n*k^2 + n*k^{omega-1}*varepsilon^{-1-omega} + k^omega*varepsilon^{-2-omega})) or O(nnz(A)*log^{O(1)} k + O_tilde(n*k^{omega-1}*varepsilon^{-1-omega} + k^omega*varepsilon^{-2-omega})) time (Theorems 17-18).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r365-primary-pdf">OSNAP: Faster numerical linear algebra algorithms via sparser subspace embeddings</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Figure 1, p. 4; Section 3.1-3.3, Theorems 14, 15, 16, 17, and 18, pp. 17-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Achieving s = 1 non-zero per column necessarily requires quadratic sketch dimension m = Omega(d^2 / varepsilon^2) (Theorem 3 and [NN12] sparsity lower bound, p. 3), while reducing sketch dimension to nearly linear m = O_tilde(d / varepsilon^2) increases column sparsity to s = Theta(log^3(d/delta) / varepsilon) and requires O(log(d/delta))-wise independent hash functions (Theorem 9, p. 8).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            OSNAP constructs sparse oblivious subspace embeddings for linear dimensionality reduction.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Accelerates overdetermined least-squares linear regression to input-sparsity time O_tilde(nnz(A) + r^omega).
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Accelerates low-rank matrix approximation and leverage-score estimation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r365-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r365-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1211.1002.pdf" target="_blank" rel="noopener">OSNAP: Faster numerical linear algebra algorithms via sparser subspace embeddings</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jelani Nelson, Huy L. Nguyen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1109/focs.2013.21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cc4448e6a2be…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r365-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r365-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1211.1002" target="_blank" rel="noopener">OSNAP: Faster numerical linear algebra algorithms via sparser subspace embeddings (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jelani Nelson, Huy L. Nguyen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1211.1002</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6d3cf4f80e81…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r365-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r365-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1109/focs.2013.21" target="_blank" rel="noopener">OSNAP: Faster numerical linear algebra algorithms via sparser subspace embeddings (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jelani Nelson, Huy L. Nguyen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1109/focs.2013.21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:003bf09532f5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:28:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:28:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ObliviousSparseNormApproximatingProjectionsForNumericalLinearAlgebra.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ObliviousSparseNormApproximatingProjectionsForNumericalLinearAlgebra.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
