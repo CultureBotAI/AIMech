@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AD-PSGD (Asynchronous Decentralized Parallel Stochastic Gradient Descent) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>AD-PSGD (Asynchronous Decentralized Parallel Stochastic Gradient Descent)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AD-PSGD (Asynchronous Decentralized Parallel Stochastic Gradient Descent)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AdPsgdAsynchronousDecentralizedParallelStochasticGradientDescent</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> AD-PSGD, Asynchronous Decentralized Parallel Stochastic Gradient Descent, Asynchronous Decentralized Parallel SGD
+    </div>
+
+  <div class="detail-desc">
+    An asynchronous decentralized stochastic optimization algorithm (Lian, Zhang, Zhang, &amp; Liu 2018, Section 3, Algorithm 1, Equation 2) for non-convex objectives (1/n) sum_{i=1}^n f_i(x) in which each worker i continuously computes a stochastic gradient g(hat_x^{i_k}; xi^{i_k}) on a local parameter snapshot hat_x^{i_k} = x_{k - tau_k}^{i_k} (with bounded staleness tau_k &lt;= N) and atomically averages its model parameters with a randomly selected neighbor via a symmetric doubly stochastic gossip matrix W_k in R^{n x n}: X_{k+1} = X_k W_k - gamma G_bar(hat_X_k; xi_k), where G_bar(hat_X_k; xi_k) has g(hat_x^{i_k}; xi^{i_k}) in column i_k and zeros elsewhere.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from synchronous D-PSGD (Lian et al. 2017), which blocks all n workers at a global barrier at every iteration so step time is dictated by the slowest worker max_{i in [n]} t_i, and from centralized Asynchronous Parallel SGD (Hogwild! / Lian et al. 2015), which suffers a central parameter-server communication bottleneck and lacks peer-to-peer doubly stochastic gossip averaging W_k.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r442-nonconvex-ergodic-gradient-rate-and-linear-iteration-speedup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because every realization of the random gossip matrix W_k is doubly stochastic (W_k (1/n) 1 1^T = (1/n) 1 1^T), multiplying X_{k+1} = X_k W_k - gamma G_bar(hat_X_k; xi_k) by (1/n) 1 yields an exact centralized asynchronous recursion X_{k+1} (1/n) 1 = X_k (1/n) 1 - (gamma / n) g(hat_x^{i_k}; xi^{i_k}) for the network mean while the spectral gap rho = ||E[W_k^T (I - (1/n) 1 1^T) W_k]||_2 &lt; 1 contracts consensus error, yielding the non-convex ergodic gradient rate (1/K) sum_{k=0}^{K-1} E[||nabla f(bar_x_k)||^2] &lt;= O(1 / sqrt(K)) + O(n sigma^2 / K) (Theorem 1, Corollary 1), which achieves optimal O(1 / sqrt(K_1 n)) iteration speedup in epoch steps K_1 = K / n whenever K &gt;= O(n^3 (N^2 + 1 / (1 - rho)^2)).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r442-primary-pdf">Asynchronous Decentralized Parallel Stochastic Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Theoretical Guarantees (Assumptions 1-7, Theorem 1, Corollary 1, Remarks 1-2), pp. 3046-3048</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r442-straggler-elimination-via-lock-free-computation-communication-overlap</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By splitting each worker into a gradient-computation thread and a gossip-averaging thread that updates X_k &lt;- X_k W_k atomically with a single neighbor without global barriers, AD-PSGD completes K updates in wall-clock time proportional to the harmonic mean of worker speeds rather than the slowest straggler max_i t_i (Section 3, Figures 1-2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r442-primary-pdf">Asynchronous Decentralized Parallel Stochastic Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Algorithm 1 Implementation Details &amp; Section 5 Experiments (Figures 2-5), pp. 3045-3050</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r442-staleness-and-bipartite-deadlock-avoidance-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To avoid pairwise gossip deadlocks in practice, workers must be partitioned into active and passive communication roles (e.g., a bipartite graph), and the transient iteration horizon before linear speedup scales with the staleness bound N^2 and inverse spectral gap 1 / (1 - rho)^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r442-primary-pdf">Asynchronous Decentralized Parallel Stochastic Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Deadlock Avoidance &amp; Section 4 Remark 1, pp. 3045-3047</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r442-heterogeneous-cluster-resnet-and-vgg-training-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed training of ResNet-50 and VGG neural networks on CIFAR-10 and ImageNet across up to 128 GPUs under heterogeneous compute and network speeds.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r442-primary-pdf">Asynchronous Decentralized Parallel Stochastic Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments (Figures 2-6, Table 1), pp. 3048-3051</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires symmetric doubly stochastic pairwise gossip matrices W_k at each update.</li>
+      <li>Requires bounded gradient staleness tau_k &lt;= N and bipartite active/passive pairing to prevent deadlock.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AD-PSGD is an asynchronous decentralized peer-to-peer stochastic gradient method resilient to straggler workers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r442-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r442-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1710.06952" target="_blank" rel="noopener">Asynchronous Decentralized Parallel Stochastic Gradient Descent</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiangru Lian, Wei Zhang, Ce Zhang, Ji Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v80/lian18a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:973f8eef2935…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r442-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r442-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1710.06952" target="_blank" rel="noopener">Asynchronous Decentralized Parallel Stochastic Gradient Descent (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiangru Lian, Wei Zhang, Ce Zhang, Ji Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1710.06952</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f0fc440c1546…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r442-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r442-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v80/lian18a.html" target="_blank" rel="noopener">Asynchronous Decentralized Parallel Stochastic Gradient Descent (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiangru Lian, Wei Zhang, Ce Zhang, Ji Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v80/lian18a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ac82510c7c4b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:45:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:45:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdPsgdAsynchronousDecentralizedParallelStochasticGradientDescent.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdPsgdAsynchronousDecentralizedParallelStochasticGradientDescent.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

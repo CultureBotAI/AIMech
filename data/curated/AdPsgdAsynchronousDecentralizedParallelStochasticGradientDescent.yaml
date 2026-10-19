@@ -1,0 +1,101 @@
+id: AIMech:AdPsgdAsynchronousDecentralizedParallelStochasticGradientDescent
+name: AD-PSGD (Asynchronous Decentralized Parallel Stochastic Gradient Descent)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'An asynchronous decentralized stochastic optimization algorithm (Lian, Zhang, Zhang, & Liu 2018, Section 3, Algorithm 1, Equation 2) for non-convex objectives (1/n) sum_{i=1}^n f_i(x) in which each worker i continuously computes a stochastic gradient g(hat_x^{i_k}; xi^{i_k}) on a local parameter snapshot hat_x^{i_k} = x_{k - tau_k}^{i_k} (with bounded staleness tau_k <= N) and atomically averages its model parameters with a randomly selected neighbor via a symmetric doubly stochastic gossip matrix W_k in R^{n x n}: X_{k+1} = X_k W_k - gamma G_bar(hat_X_k; xi_k), where G_bar(hat_X_k; xi_k) has g(hat_x^{i_k}; xi^{i_k}) in column i_k and zeros elsewhere.'
+identity_notes: Distinct from synchronous D-PSGD (Lian et al. 2017), which blocks all n workers at a global barrier at every iteration so step time is dictated by the slowest worker max_{i in [n]} t_i, and from centralized Asynchronous Parallel SGD (Hogwild! / Lian et al. 2015), which suffers a central parameter-server communication bottleneck and lacks peer-to-peer doubly stochastic gossip averaging W_k.
+aliases:
+- AD-PSGD
+- Asynchronous Decentralized Parallel Stochastic Gradient Descent
+- Asynchronous Decentralized Parallel SGD
+definition_evidence:
+- source_id: r442-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r442-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r442-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r442-nonconvex-ergodic-gradient-rate-and-linear-iteration-speedup
+  kind: mechanism
+  statement: Because every realization of the random gossip matrix W_k is doubly stochastic (W_k (1/n) 1 1^T = (1/n) 1 1^T), multiplying X_{k+1} = X_k W_k - gamma G_bar(hat_X_k; xi_k) by (1/n) 1 yields an exact centralized asynchronous recursion X_{k+1} (1/n) 1 = X_k (1/n) 1 - (gamma / n) g(hat_x^{i_k}; xi^{i_k}) for the network mean while the spectral gap rho = ||E[W_k^T (I - (1/n) 1 1^T) W_k]||_2 < 1 contracts consensus error, yielding the non-convex ergodic gradient rate (1/K) sum_{k=0}^{K-1} E[||nabla f(bar_x_k)||^2] <= O(1 / sqrt(K)) + O(n sigma^2 / K) (Theorem 1, Corollary 1), which achieves optimal O(1 / sqrt(K_1 n)) iteration speedup in epoch steps K_1 = K / n whenever K >= O(n^3 (N^2 + 1 / (1 - rho)^2)).
+  evidence:
+  - source_id: r442-primary-pdf
+    locator: Section 4 Theoretical Guarantees (Assumptions 1-7, Theorem 1, Corollary 1, Remarks 1-2), pp. 3046-3048
+    relation: supports
+- claim_id: r442-straggler-elimination-via-lock-free-computation-communication-overlap
+  kind: mechanism
+  statement: By splitting each worker into a gradient-computation thread and a gossip-averaging thread that updates X_k <- X_k W_k atomically with a single neighbor without global barriers, AD-PSGD completes K updates in wall-clock time proportional to the harmonic mean of worker speeds rather than the slowest straggler max_i t_i (Section 3, Figures 1-2).
+  evidence:
+  - source_id: r442-primary-pdf
+    locator: Section 3 Algorithm 1 Implementation Details & Section 5 Experiments (Figures 2-5), pp. 3045-3050
+    relation: supports
+- claim_id: r442-staleness-and-bipartite-deadlock-avoidance-limitation
+  kind: limitation
+  statement: To avoid pairwise gossip deadlocks in practice, workers must be partitioned into active and passive communication roles (e.g., a bipartite graph), and the transient iteration horizon before linear speedup scales with the staleness bound N^2 and inverse spectral gap 1 / (1 - rho)^2.
+  evidence:
+  - source_id: r442-primary-pdf
+    locator: Section 3 Deadlock Avoidance & Section 4 Remark 1, pp. 3045-3047
+    relation: supports
+- claim_id: r442-heterogeneous-cluster-resnet-and-vgg-training-application
+  kind: application
+  statement: Applied to distributed training of ResNet-50 and VGG neural networks on CIFAR-10 and ImageNet across up to 128 GPUs under heterogeneous compute and network speeds.
+  evidence:
+  - source_id: r442-primary-pdf
+    locator: Section 5 Experiments (Figures 2-6, Table 1), pp. 3048-3051
+    relation: supports
+evidence_sources:
+- source_id: r442-primary-pdf
+  title: Asynchronous Decentralized Parallel Stochastic Gradient Descent
+  authors: &id001
+  - Xiangru Lian
+  - Wei Zhang
+  - Ce Zhang
+  - Ji Liu
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1710.06952
+  persistent_id: https://proceedings.mlr.press/v80/lian18a.html
+  version: Proceedings of the 35th International Conference on Machine Learning (ICML 2018), PMLR 80:3043-3052 (2018) (67005 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:45:00Z'
+  sha256: 973f8eef2935b51a87353905b9b98cfbecd7823d86a72e95dfdb9863aa259cd8
+- source_id: r442-arxiv-abs
+  title: Asynchronous Decentralized Parallel Stochastic Gradient Descent (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1710.06952
+  persistent_id: https://arxiv.org/abs/1710.06952
+  version: arXiv abstract page (14418 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:45:00Z'
+  sha256: f0fc440c1546ea1532f8041a13180a04891bfe7b6b859a4d86e386587ae7eaa6
+- source_id: r442-metadata-cr
+  title: Asynchronous Decentralized Parallel Stochastic Gradient Descent (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v80/lian18a.html
+  persistent_id: https://proceedings.mlr.press/v80/lian18a.html
+  version: Crossref API work record (423 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:45:00Z'
+  sha256: ac82510c7c4b1666049c1fd00a1bf1d73d82d8673a78008f73195ffa706e9be7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AD-PSGD is an asynchronous decentralized peer-to-peer stochastic gradient method resilient to straggler workers.
+limitations:
+- Requires symmetric doubly stochastic pairwise gossip matrices W_k at each update.
+- Requires bounded gradient staleness tau_k <= N and bipartite active/passive pairing to prevent deadlock.
+curation:
+  created_at: '2026-10-19T08:45:00Z'
+  updated_at: '2026-10-19T08:45:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
