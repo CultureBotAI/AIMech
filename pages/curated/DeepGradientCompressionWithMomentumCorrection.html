@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep Gradient Compression (DGC with Momentum Correction and Momentum Factor Masking) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Deep Gradient Compression (DGC with Momentum Correction and Momentum Factor Masking)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Deep Gradient Compression (DGC with Momentum Correction and Momentum Factor Masking)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DeepGradientCompressionWithMomentumCorrection</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Deep Gradient Compression, DGC, Top-k Gradient Sparsification with Momentum Correction and Factor Masking
+    </div>
+
+  <div class="detail-desc">
+    A high-sparsity distributed gradient compression algorithm (Lin et al. 2018, Section 3, Algorithm 1) that transmits only the top-k magnitude entries (down to 0.1% density) of a locally accumulated velocity buffer while preserving dense momentum-SGD convergence via four coupled mechanisms: (1) Momentum Correction (u_{k,t} = m u_{k,t-1} + g_{k,t}, v_{k,t} = v_{k,t-1} + u_{k,t}, Eq. 6), which accumulates local momentum velocities rather than raw gradients; (2) Momentum Factor Masking (v_{k,t} &lt;- v_{k,t} o (1 - Mask), u_{k,t} &lt;- u_{k,t} o (1 - Mask), Eq. 8), which clears both the accumulator and momentum factor on transmitted coordinates; (3) local gradient clipping scaled by N^{-1/2} before accumulation; and (4) warm-up sparsity scheduling.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from vanilla error-compensated Top-k SGD (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression, Stich, Cordonnier, &amp; Jaggi 2018), which analyses momentum-free local error memory e_{t+1} = e_t + eta g_t - C(e_t + eta g_t) without Momentum Correction (Eq. 6) or Momentum Factor Masking (Eq. 8).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r421-momentum-correction-equivalence-to-dense-momentum-sgd</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When coordinate (i) remains below the sparsification threshold for T consecutive steps before firing, naive local gradient accumulation v_{k,t} = v_{k,t-1} + g_{k,t} (Eq. 5) loses the geometric discounting factors sum_{tau=0}^{T-1 - t} m^tau on intermediate gradients compared to dense momentum SGD (Eq. 4), whereas Momentum Correction u_{k,t} = m u_{k,t-1} + g_{k,t}, v_{k,t} = v_{k,t-1} + u_{k,t} (Eq. 6-7, Appendix B) restores the exact cumulative step -eta sum_{t=0}^{T-1} u_t of dense momentum SGD.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r421-primary-pdf">Deep Gradient Compression: Reducing the Communication Bandwidth for Distributed Training</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Momentum Correction (Equations 3-7, Figure 2) &amp; Appendix B</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r421-momentum-factor-masking-and-local-gradient-clipping-staleness-control</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Zeroing both the velocity accumulator v_{k,t}^{(j)} and the momentum factor u_{k,t}^{(j)} on every transmitted coordinate j (Momentum Factor Masking, Eq. 8) prevents stale pre-transmission momentum from re-accumulating into v_{k,t+1}^{(j)} on subsequent steps, while scaling the local L2 gradient clipping threshold by N^{-1/2} preserves the global clipping norm across N workers (Section 3.3, Appendix C).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r421-primary-pdf">Deep Gradient Compression: Reducing the Communication Bandwidth for Distributed Training</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 Overcoming the Staleness Effect (Equation 8, Figure 3) &amp; Appendix C</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r421-sparse-index-encoding-and-allgather-irregularity-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because each worker selects a different set of top-k coordinate indices, transmitting sparse updates requires sending both values and index offsets and preventing dense in-place ring AllReduce without sparse index reconstruction or hierarchical aggregation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r421-primary-pdf">Deep Gradient Compression: Reducing the Communication Bandwidth for Distributed Training</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Gradient Sparsification &amp; Section 4 System Analysis</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r421-imagenet-resnet50-speech-recognition-and-language-modeling-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed training of ResNet-50 and AlexNet on ImageNet, Penn Treebank LSTM language modeling, and AN4 speech recognition, achieving 277x to 597x gradient compression ratios without loss of validation accuracy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r421-primary-pdf">Deep Gradient Compression: Reducing the Communication Bandwidth for Distributed Training</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Experiments (Tables 1-4, Figures 4-7), pp. 5-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires maintaining two full-dimension O(d) local buffers (u_{k,t} and v_{k,t}) per worker.</li>
+      <li>Top-k threshold selection via random 0.1%-1% coordinate subsampling introduces an approximate quantile estimate at each step.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Deep Gradient Compression is a high-sparsity top-k gradient compression method with momentum correction for distributed deep learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r421-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r421-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1712.01887" target="_blank" rel="noopener">Deep Gradient Compression: Reducing the Communication Bandwidth for Distributed Training</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yujun Lin, Song Han, Huizi Mao, Yu Wang, William J. Dally
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=SkhQHMW0W</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b0a9404af47f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r421-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r421-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1712.01887" target="_blank" rel="noopener">Deep Gradient Compression: Reducing the Communication Bandwidth for Distributed Training (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yujun Lin, Song Han, Huizi Mao, Yu Wang, William J. Dally
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1712.01887</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0cadc88b8c0e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r421-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r421-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=SkhQHMW0W" target="_blank" rel="noopener">Deep Gradient Compression: Reducing the Communication Bandwidth for Distributed Training (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yujun Lin, Song Han, Huizi Mao, Yu Wang, William J. Dally
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=SkhQHMW0W</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:43b9bad89ba0…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:24:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:24:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DeepGradientCompressionWithMomentumCorrection.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DeepGradientCompressionWithMomentumCorrection.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
