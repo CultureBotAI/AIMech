@@ -1,0 +1,105 @@
+id: AIMech:VolumeSamplingForMatrixApproximationAndProjectiveClustering
+name: Volume Sampling for Matrix Approximation and Projective Clustering
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: 'Volume Sampling for Matrix Approximation and Projective Clustering is a joint geometric row-subset sampling principle and adaptive low-rank approximation framework introduced by Deshpande, Rademacher, Vempala, and Wang (2006) that selects a subset S subseteq {1, ..., m} of k rows of a matrix A in R^{m x n} with probability p_S = Delta_S^2 / sum_{|T|=k} Delta_T^2 = det(A_S A_S^T) / sum_{|T|=k} det(A_T A_T^T) proportional to the squared k-dimensional simplex volume Delta_S = (1 / k!) sqrt(det(A_S A_S^T)) spanned by {a_i : i in S} and the origin. By combining the base-times-height simplex identity (k+1)^2 Delta_{S cup {j}}^2 = d(a_j, H_S)^2 Delta_S^2 (Lemma 3.1) with the Cauchy-Binet elementary symmetric polynomial identity sum_{|S|=k} (k!)^2 Delta_S^2 = e_k(sigma_1^2, ..., sigma_n^2) (Lemma 3.3, Equation 3.5), Theorem 1.2 proves the exact expected residual formula E_S[||A - pi_{H_S}(A)||_F^2] = (k + 1) e_{k+1}(sigma_1^2, ..., sigma_n^2) / e_k(sigma_1^2, ..., sigma_n^2) <= (k + 1)||A - A_k||_F^2, establishing the first multiplicative row-subset existence bound (matching the asymptotic lower bound of Proposition 4.1) and, when combined with adaptive residual length-squared sampling (Theorem 1.3 & Theorem 1.4), yielding PTAS (1 + epsilon) algorithms for rank-k matrix approximation and projective clustering.'
+identity_notes: Distinct from Relative-Error CUR Matrix Decomposition via Subspace Leverage Sampling (`AIMech:RelativeErrorCURMatrixDecompositionViaSubspaceLeverageSampling`), which samples O(k log k / epsilon^2) columns/rows i.i.d. using precomputed SVD leverage scores rather than joint k-subset volume sampling of exactly k rows with multiplicative factor (k + 1), and from k-Determinantal Point Processes for Fixed-Size Subset Selection (`AIMech:KDeterminantalPointProcessesForFixedSizeSubsetSelection`), which addresses exact two-phase sampling and conditional L-ensemble inference in machine learning rather than the Cauchy-Binet ratio bound E[||A - pi_{H_S}(A)||_F^2] <= (k+1)||A - A_k||_F^2, Proposition 4.1 simplex lower bound, and projective clustering PTAS of Deshpande et al. (2006).
+aliases:
+- Deshpande-Rademacher-Vempala-Wang Simplex Volume Sampling
+- k-Simplex Volume-Squared Row Subset Selection
+- Adaptive Volume Sampling for Low-Rank Matrix Approximation
+definition_evidence:
+- source_id: r335-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r335-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r335-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: For any matrix A in R^{m x n} with singular values sigma_1 >= ... >= sigma_n, Lemma 3.1 ((k+1)^2 Delta_{S cup {j}}^2 = d(a_j, H_S)^2 Delta_S^2) and Lemma 3.3 (sum_{|S|=k} (k!)^2 Delta_S^2 = e_k(sigma_1^2, ..., sigma_n^2), Equation 3.5) prove that sampling a k-row subset S with probability p_S = Delta_S^2 / sum_{|T|=k} Delta_T^2 achieves the exact expected squared Frobenius projection residual E_S[||A - pi_{H_S}(A)||_F^2] = (k + 1) e_{k+1}(sigma_1^2, ..., sigma_n^2) / e_k(sigma_1^2, ..., sigma_n^2) <= (k + 1)||A - A_k||_F^2 (Theorem 1.2, Equations 3.6-3.8).
+  evidence:
+  - source_id: r335-primary-pdf
+    locator: Section 1.2, Theorem 1.2, p. 227; Section 3, Lemmas 3.1-3.4 and Proof of Theorem 1.2 (Equations 3.4-3.8), pp. 231-233
+    relation: supports
+  - source_id: r335-arxiv-abs
+    locator: 'Abstract: volume sampling yields (k+1) multiplicative factor and PTAS for rank-k approximation and projective clustering'
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: Iterating k rounds of residual length-squared row sampling approximates k-simplex volume sampling up to a factor of k! to achieve E[||A - pi_{H_S}(A)||_F^2] <= (k + 1)! ||A - A_k||_F^2 in k passes (Theorem 1.3), and following volume sampling with O(k / epsilon) adaptive residual sampling rounds yields a subset of O(k^2 / epsilon + k log k) rows whose span contains a rank-k matrix A'_k with ||A - A'_k||_F^2 <= (1 + epsilon)||A - A_k||_F^2 (Theorem 1.4).
+  evidence:
+  - source_id: r335-primary-pdf
+    locator: Section 1.2, Theorems 1.3 and 1.4, p. 228; Section 5, Algorithms and Proofs of Theorems 1.3-1.4, pp. 234-239
+    relation: supports
+  - source_id: r335-metadata-cr
+    locator: Theory of Computing 2(12):225-247 bibliographic record
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: 'Proposition 4.1 proves that the multiplicative factor (k + 1) in Theorem 1.2 is asymptotically tight for ANY k-row subset selection method: for a (k+1) x (k+1) matrix whose rows form a regular k-simplex in R^k lifted by epsilon in the (k+1)-st coordinate, every k-row subset S incurs projection error ||A - pi_{H_S}(A)||_F^2 -> (k + 1)||A - A_k||_F^2 as epsilon -> 0, so selecting O(k / epsilon) > k rows is information-theoretically necessary to achieve (1 + epsilon) relative error.'
+  evidence:
+  - source_id: r335-primary-pdf
+    locator: Section 4, Proposition 4.1 and Proof, pp. 233-234
+    relation: supports
+evidence_sources:
+- source_id: r335-primary-pdf
+  title: Matrix Approximation and Projective Clustering via Volume Sampling
+  authors: &id001
+  - Amit Deshpande
+  - Luis Rademacher
+  - Santosh Vempala
+  - Grant Wang
+  source_type: primary_paper
+  url: https://theoryofcomputing.org/articles/v002a012/v002a012.pdf
+  persistent_id: https://doi.org/10.4086/toc.2006.v002a012
+  version: Theory of Computing 2(12):225-247 (2006) (276981 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:58:00Z'
+  sha256: 2e80597a3d8ebfbafcf7dd6a1815a51946fe2fb29dcc04aed6af3b105f83bdbf
+- source_id: r335-arxiv-abs
+  title: Matrix Approximation and Projective Clustering via Volume Sampling (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://theoryofcomputing.org/articles/v002a012/
+  persistent_id: https://theoryofcomputing.org/articles/v002a012/
+  version: arXiv abstract page (3099 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:58:00Z'
+  sha256: de56e68eaa09fdf25d9129e006257f02d0acaf8e3fa700ee01bffa03de54de95
+- source_id: r335-metadata-cr
+  title: Matrix Approximation and Projective Clustering via Volume Sampling (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.4086/toc.2006.v002a012
+  persistent_id: https://doi.org/10.4086/toc.2006.v002a012
+  version: Crossref API work record (888 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:58:00Z'
+  sha256: 859913938add437085fc36208d617647dee6a4095943c3cec48e5da081f7eefb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: narrow_match
+  rationale: Selects row subsets spanning a low-dimensional subspace with multiplicative Frobenius approximation guarantees.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Approximates the optimal rank-k SVD subspace projection A_k within a multiplicative factor using actual rows of A.
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Yields a polynomial-time approximation scheme (PTAS) for (j, k)-projective clustering of points into j subspaces of dimension k.
+limitations:
+- Any subset of exactly k rows suffers an unavoidable worst-case multiplicative factor of (k + 1) relative to ||A - A_k||_F^2 (Proposition 4.1), and adaptive residual volume sampling alone incurs a (k + 1)! factor before O(k / epsilon) extra rows are sampled.
+curation:
+  created_at: '2026-10-19T06:58:00Z'
+  updated_at: '2026-10-19T06:58:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
