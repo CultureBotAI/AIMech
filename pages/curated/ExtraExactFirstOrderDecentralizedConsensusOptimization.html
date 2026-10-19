@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EXTRA (Exact First-Order Algorithm for Decentralized Consensus Optimization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>EXTRA (Exact First-Order Algorithm for Decentralized Consensus Optimization)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">EXTRA (Exact First-Order Algorithm for Decentralized Consensus Optimization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ExtraExactFirstOrderDecentralizedConsensusOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> EXTRA Decentralized Consensus Optimization, Exact First-Order Algorithm for Decentralized Consensus Optimization, EXTRA Two-Mixing-Matrix Decentralized Gradient Method
+    </div>
+
+  <div class="detail-desc">
+    An exact first-order decentralized consensus optimization algorithm for minimizing bar_f(x) = (1/n) sum_{i=1}^n f_i(x) over an undirected connected network (Shi, Ling, Wu, &amp; Yin 2015, Section 2, Algorithm 1, Equations 6-7 and 11), which initializes x^1 = W x^0 - alpha nabla f(x^0) and updates for k &gt;= 0 via the two-step recursion x^{k+2} = (I + W) x^{k+1} - tilde_W x^k - alpha [nabla f(x^{k+1}) - nabla f(x^k)] (equivalently x^{k+1} = tilde_W x^k - alpha nabla f(x^k) + sum_{t=0}^k (W - tilde_W) x^t) using a constant step size alpha &gt; 0 and two symmetric mixing matrices W and tilde_W = (I + W)/2 satisfying (I + W)/2 &gt;= tilde_W &gt;= W and tilde_W &gt; 0.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Exact Diffusion (AIMech:ExactDiffusionForDistributedOptimizationAndLearning, Yuan et al. 2019), which applies an adapt-then-combine step psi_i^k = w_i^{k-1} - mu_i nabla J_i(w_i^{k-1}) so that both mixing and gradient differences are premultiplied by A_bar = (I + A)/2 with double the stability range, and from DIGing (AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs, Nedic, Olshevsky, &amp; Shi 2017), which communicates an auxiliary gradient tracker y^k at every iteration rather than maintaining single-vector primal consensus differences.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r434-primal-dual-optimality-and-ergodic-sublinear-convergence-theorem</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By introducing U = (tilde_W - W)^{1/2} and auxiliary dual variables q^k = sum_{t=0}^k U x^t so that x^{k+1} = tilde_W x^k - alpha nabla f(x^k) - U q^k and q^{k+1} = q^k + U x^{k+1} (Eq. 14), Lemma 3 proves that (x^*, q^*) satisfies U x^* = 0 and U q^* + alpha nabla f(x^*) = 0 if and only if x_1^* = ... = x_n^* minimizes bar_f(x); for any fixed step size 0 &lt; alpha &lt; 2 lambda_min(tilde_W) / L_f, the G-norm Lyapunov sequence ||z^{k+1} - z^*||_G^2 &lt;= ||z^k - z^*||_G^2 - zeta ||z^k - z^{k+1}||_G^2 with zeta = 1 - alpha L_f / (2 lambda_min(tilde_W)) &gt; 0 guarantees O(1/k) ergodic and o(1/k) running-best convergence of both consensus and optimality residuals for general convex smooth objectives (Theorems 5 and 7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r434-primary-pdf">EXTRA: An Exact First-Order Algorithm for Decentralized Consensus Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.4 Optimality Conditions (Lemma 3) &amp; Section 3.1 Convergence Analysis (Theorems 5 and 7)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r434-q-linear-convergence-under-restricted-strong-convexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When the average objective bar_f(x) is restricted strongly convex with respect to x^* (Assumption 3 / Proposition 8, requiring strong convexity only of the mean function bar_f rather than every individual f_i), EXTRA with step size 0 &lt; alpha &lt; 2 mu_g lambda_min(tilde_W) / L_f^2 achieves global Q-linear convergence ||z^{k+1} - z^*||_G^2 &lt;= (1 + delta)^{-1} ||z^k - z^*||_G^2 to the exact consensual optimum (Theorem 9).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r434-primary-pdf">EXTRA: An Exact First-Order Algorithm for Decentralized Consensus Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Linear Convergence (Assumption 3, Proposition 8, Theorem 9), pp. 956-958</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r434-static-symmetric-mixing-matrix-and-exact-gradient-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires static symmetric mixing matrices W and tilde_W satisfying (I + W)/2 &gt;= tilde_W &gt;= W and tilde_W &gt; 0 over an undirected graph, and its exact convergence guarantees apply to deterministic local gradients.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r434-primary-pdf">EXTRA: An Exact First-Order Algorithm for Decentralized Consensus Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3 Assumption 1 &amp; Section 5 Conclusions</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r434-decentralized-least-squares-and-huber-logistic-regression-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to decentralized least-squares estimation, decentralized Huber loss minimization, and l_2-regularized logistic regression over wireless sensor networks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r434-primary-pdf">EXTRA: An Exact First-Order Algorithm for Decentralized Consensus Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Numerical Experiments (Sections 4.1-4.3, Figures 1-4), pp. 960-964</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires symmetric mixing matrices W and tilde_W over a static undirected network.</li>
+      <li>Step-size stability bound depends on the minimum eigenvalue lambda_min(tilde_W) and global smoothness constant L_f.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            EXTRA is a foundational exact first-order decentralized consensus optimization algorithm that eliminates fixed-stepsize DGD bias via two mixing matrices.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            EXTRA is evaluated on decentralized l2-regularized logistic regression.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r434-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r434-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1404.6264" target="_blank" rel="noopener">EXTRA: An Exact First-Order Algorithm for Decentralized Consensus Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wei Shi, Qing Ling, Gang Wu, Wotao Yin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/14096668X</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f83679ab732d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r434-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r434-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1404.6264" target="_blank" rel="noopener">EXTRA: An Exact First-Order Algorithm for Decentralized Consensus Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wei Shi, Qing Ling, Gang Wu, Wotao Yin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1404.6264</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2ce8fd75c192…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r434-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r434-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1137/14096668X" target="_blank" rel="noopener">EXTRA: An Exact First-Order Algorithm for Decentralized Consensus Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wei Shi, Qing Ling, Gang Wu, Wotao Yin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/14096668X</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:88e4be1c29e2…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:37:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:37:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ExtraExactFirstOrderDecentralizedConsensusOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ExtraExactFirstOrderDecentralizedConsensusOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
