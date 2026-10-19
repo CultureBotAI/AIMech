@@ -1,0 +1,95 @@
+id: AIMech:ProjectedPowerMethodForJointAlignmentFromPairwiseModuloDifferences
+name: Projected Power Method for Joint Alignment from Pairwise Modulo Differences
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A nonconvex iterative discrete synchronization and joint alignment algorithm (introduced by Yuxin Chen and Emmanuel J. Cand\xE8s in 2018) for recovering $n$ latent discrete shifts or group elements $x_1,\\dots,x_n \\in \\{0,1,\\dots,m-1\\}$ (up to a global modular shift $\\bmod\\ m$) from corrupted pairwise difference measurements. Representing each state $x_i$ as standard basis vector $\\boldsymbol{e}_{x_i} \\in \\mathbb{R}^m$ and stacking $\\boldsymbol{z} = [\\boldsymbol{z}_1^\\top,\\dots,\\boldsymbol{z}_n^\\top]^\\top \\in \\mathbb{R}^{nm}$ along with the $nm \\times nm$ block cyclic likelihood matrix $\\boldsymbol{L}$ whose $(i,j)$ block encodes the cyclic log-likelihood scores of $x_i - x_j \\equiv s \\pmod m$, maximum likelihood joint alignment reduces to the nonconvex quadratic program $\\max_{\\boldsymbol{z}} \\boldsymbol{z}^\\top\\boldsymbol{L}\\boldsymbol{z}$ subject to $\\boldsymbol{z}_i \\in \\{\\boldsymbol{e}_0,\\dots,\\boldsymbol{e}_{m-1}\\}$ (Equations 2.2\u20132.5). The Projected Power Method (PPM, Algorithm 1) relaxes the discrete vertices to the scaled probability simplex $\\Delta_m = \\{\\boldsymbol{w}\\in\\mathbb{R}_+^m : \\mathbf{1}^\\top\\boldsymbol{w} \\le 1\\}$ and iterates $\\boldsymbol{z}^{t+1} = \\mathcal{P}_{\\Delta}(\\mu_t\\boldsymbol{L}\\boldsymbol{z}^t)$ (Equations 2.7\u20132.10), where $\\mathcal{P}_{\\Delta}$ applies blockwise Euclidean projection $\\mathcal{P}_{\\Delta_m}(\\boldsymbol{v}_i) = \\arg\\min_{\\boldsymbol{w}\\in\\Delta_m} \\|\\boldsymbol{w} - \\boldsymbol{v}_i\\|_2^2$ computable in $O(m\\log m)$ sorting time (or $O(m)$ expected randomized pivot time) and $\\mu_t$ is an amplification factor pushing iterates onto the extreme vertices $\\{\\boldsymbol{e}_s\\}$. Theorems 1\u20133 prove that under a randomized corruption model with $p_{\\mathrm{obs}} \\gtrsim \\frac{\\log^2(nm)}{n \\cdot \\mathrm{KL}^{\\min}}$ (where $\\mathrm{KL}^{\\min}$ is the minimum Kullback\u2013Leibler divergence between shifted pairwise likelihoods), spectral initialization followed by $O(\\log n)$ PPM iterations recovers all $n$ shifts exactly with high probability, matching the information-theoretic Fano/minimax threshold up to logarithmic factors (Theorem 4)."
+identity_notes: "Resolved against all 442 pinned AIO concepts and 686 maintained AIMech concepts. Distinct from `AIMech:ImplicitRegularizationInNonconvexStatisticalEstimationByLeaveOneOutTrajectoryAnalysis` (Ma, Wang, Chi, & Chen 2020, which analyzes continuous-phase $U(1)$ synchronization and unprojected quadratic forms via leave-one-out trajectories, whereas Chen & Cand\xE8s 2018 formulate the lifted $nm \\times nm$ block-circulant discrete $\\mathbb{Z}_m$ synchronization objective, the scaled simplex projection operator $\\mathcal{P}_{\\Delta}(\\mu_t \\boldsymbol{L}\\boldsymbol{z}^t)$ that snaps continuous relaxations onto discrete indicator vertices in finitely many steps, and the $\\mathrm{KL}^{\\min}$ minimax threshold)."
+aliases:
+- Projected Power Method (PPM) for Joint Alignment
+- Chen-Candes Projected Power Iteration for Cyclic Group Synchronization
+- Block-Simplex Projected Power Method from Pairwise Modulo Differences
+definition_evidence:
+- source_id: cc2018-ppm-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: cc2018-ppm-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: cc2018-ppm-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-block-circulant-lifting-and-scaled-simplex-projection-contraction
+  kind: mechanism
+  statement: "Lifting discrete states $x_i \\in \\mathbb{Z}_m$ to indicator blocks $\\boldsymbol{z}_i = \\boldsymbol{e}_{x_i} \\in \\mathbb{R}^m$ turns non-concave multi-frequency pairwise likelihoods into the bilinear block-circulant quadratic form $\\boldsymbol{z}^\\top\\boldsymbol{L}\\boldsymbol{z}$ (Equations 2.2\u20132.5), and Lemma 1 proves that the scaled simplex projection $\\mathcal{P}_{\\Delta_m}(\\mu\\boldsymbol{v}_i)$ is firmly non-expansive ($\\|\\mathcal{P}_{\\Delta_m}(\\boldsymbol{a}) - \\mathcal{P}_{\\Delta_m}(\\boldsymbol{b})\\|_2 \\le \\|\\boldsymbol{a} - \\boldsymbol{b}\\|_2$) while mapping any vector with a strict top-coordinate separation $v_{i,(1)} - v_{i,(2)} \\ge 1/\\mu$ exactly onto the discrete vertex $\\boldsymbol{e}_{\\arg\\max_s v_{i,s}}$ (Section 2.2, Equations 2.7\u20132.10, Section 6.1, Lemmas 1\u20134)."
+  evidence:
+  - source_id: cc2018-ppm-pdf
+    locator: Section 2.2 (Eqs. 2.7-2.10, Algorithm 1, pp. 7-10), Section 6.1 (Lemmas 1-4, pp. 24-27)
+    relation: supports
+- claim_id: claim-two-stage-exact-discrete-alignment-in-logarithmic-iterations
+  kind: mechanism
+  statement: "Within the contraction basin $\\{\\boldsymbol{z} \\in \\Delta : \\|\\boldsymbol{z} - \\boldsymbol{z}^*\\|_2 \\le \\delta\\sqrt{n}\\}$, Theorem 1 proves that PPM iterates $\\boldsymbol{z}^{t+1} = \\mathcal{P}_{\\Delta}(\\mu_t\\boldsymbol{L}\\boldsymbol{z}^t)$ first contract geometrically in $\\ell_2$ norm ($\\|\\boldsymbol{z}^t - \\boldsymbol{z}^*\\|_2 \\le \\rho^t\\|\\boldsymbol{z}^0 - \\boldsymbol{z}^*\\|_2$) and then, by entrywise $\\ell_\\infty$ separation of the true coordinate score $(\\boldsymbol{L}\\boldsymbol{z}^t)_{i,x_i^*}$ above all $s \\ne x_i^*$, snap to the exact ground-truth discrete configuration $\\boldsymbol{z}^t = \\boldsymbol{z}^*$ in at most $T = O(\\log n)$ iterations when $p_{\\mathrm{obs}} \\gtrsim \\frac{\\log^2(nm)}{n \\cdot \\mathrm{KL}^{\\min}}$ (Section 3, Theorems 1\u20133, Sections 6.2\u20136.4, Lemmas 5\u201310)."
+  evidence:
+  - source_id: cc2018-ppm-pdf
+    locator: Section 3 (Theorems 1-3, pp. 11-16), Sections 6.2-6.4 (Lemmas 5-10, pp. 28-38)
+    relation: supports
+- claim_id: claim-information-theoretic-minimax-kl-divergence-threshold
+  kind: application
+  statement: Theorem 4 establishes that if $p_{\mathrm{obs}} < \frac{(1-\varepsilon)\log n}{n \cdot \max_{l \ne 0}\mathrm{KL}(P_0 \| P_l)}$, then any estimator fails to recover the exact joint alignment with probability approaching 1, proving that PPM achieves the information-theoretic sample complexity threshold up to logarithmic factors while running in $O(|\mathcal{E}|m\log m)$ time per iteration via Fast Fourier Transforms on the circulant blocks (Sections 2.2 and 3.2, Theorem 4, Appendix D).
+  evidence:
+  - source_id: cc2018-ppm-pdf
+    locator: Section 2.2 (p. 9), Section 3.2 (Theorem 4, pp. 15-16), Appendix D (pp. 51-53)
+    relation: supports
+evidence_sources:
+- source_id: cc2018-ppm-pdf
+  title: 'The Projected Power Method: An Efficient Algorithm for Joint Alignment from Pairwise Differences'
+  authors: &id001
+  - Yuxin Chen
+  - Emmanuel J. Candes
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1609.05820.pdf
+  persistent_id: https://doi.org/10.1002/cpa.21760
+  version: arXiv:1609.05820v3 full-text PDF (61 pages), published in Communications on Pure and Applied Mathematics 71(8):1648-1714 (2018). (2306215 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:36:00Z'
+  sha256: e5f4cf086d204ac2497a17b6ed54142e583b69275ec50d62670420838bd2e9c9
+- source_id: cc2018-ppm-abs
+  title: 'The Projected Power Method: An Efficient Algorithm for Joint Alignment from Pairwise Differences (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1609.05820
+  persistent_id: https://arxiv.org/abs/1609.05820
+  version: arXiv abstract page (7393 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:36:00Z'
+  sha256: d518d85984337e16f5a475d03f900c7c457d31fe18cbfe2ffea50804fdd5b474
+- source_id: cc2018-ppm-cr
+  title: 'The Projected Power Method: An Efficient Algorithm for Joint Alignment from Pairwise Differences (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1002/cpa.21760
+  persistent_id: https://doi.org/10.1002/cpa.21760
+  version: Crossref API work record (6917 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:36:00Z'
+  sha256: 98af4c5a2c27a359f87ec71341acc337bb283110406ac07017b19b17f1dcea1e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Initializes via the leading block-eigenvector of the lifted pairwise likelihood matrix before simplex-projected power refinement.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Extracts low-dimensional latent discrete shift assignments from an nm x nm lifted block-circulant pairwise alignment matrix.
+limitations:
+- Because each node is lifted to an m-dimensional indicator vector z_i in R^m, the memory footprint of storing the iterate z is O(nm) and the per-edge FFT multiplication costs O(m log m), which requires moderately sized discretization grids m.
+- Theorem 2's spectral initialization requires the spectral gap of the lifted matrix L to exceed the random corruption perturbation, which can require warm-start anchor nodes or multi-frequency initialization when m is large and the clean observation fraction is very small.
+curation:
+  created_at: '2026-10-19T05:36:00Z'
+  updated_at: '2026-10-19T05:36:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
