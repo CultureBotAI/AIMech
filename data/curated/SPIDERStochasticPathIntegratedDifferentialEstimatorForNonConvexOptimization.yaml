@@ -1,0 +1,105 @@
+id: AIMech:SPIDERStochasticPathIntegratedDifferentialEstimatorForNonConvexOptimization
+name: SPIDER Stochastic Path-Integrated Differential Estimator for Non-Convex Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: SPIDER Stochastic Path-Integrated Differential Estimator for Non-Convex Optimization is a martingale variance-reduction tracking framework and family of stochastic first-order (SPIDER-SFO, SPIDER-SFO+) and zeroth-order (SPIDER-SZO) non-convex optimization algorithms introduced by Fang, Li, Lin, and Zhang (2018) for minimizing smooth possibly non-convex objectives f(x) = E[F(x; zeta)] or f(x) = (1/n) sum_{i=1}^n f_i(x) with averaged L-Lipschitz gradients E||grad f_i(x) - grad f_i(y)||^2 <= L^2 ||x - y||^2. To dynamically track a deterministic quantity Q(x^k) along an iterate sequence x^{0:K}, SPIDER integrates unbiased differential increments xi_k(x^{0:k}) as Q_tilde(x^{0:K}) = Q_tilde(x^0) + sum_{k=1}^K xi_k(x^{0:k}), achieving the exact L^2-martingale variance identity E||Q_tilde(x^{0:K}) - Q(x^K)||^2 = E||Q_tilde(x^0) - Q(x^0)||^2 + sum_{k=1}^K E||xi_k(x^{0:k}) - (Q(x^k) - Q(x^{k-1}))||^2 (Proposition 1) and error bound E||V^k - B(x^k)||^2 <= k L_B^2 epsilon_1^2 / S_* + E||V^0 - B(x^0)||^2 whenever ||x^k - x^{k-1}|| <= epsilon_1 (Lemma 1). SPIDER-SFO (Algorithm 1) hybridizes this path-integrated gradient estimator v^k = grad f_{S_2}(x^k) - grad f_{S_2}(x^{k-1}) + v^{k-1} with Normalized Gradient Descent (NGD), updating x^{k+1} = x^k - eta^k v^k with stepsize eta^k = min(epsilon/(L n_0 ||v^k||), 1/(2 L n_0)) so that the step length is strictly capped at ||x^{k+1} - x^k|| <= epsilon/(L n_0), maintaining E[||v^k - grad f(x^k)||^2] <= epsilon^2 across epochs of length q (Lemma 2) and finding an epsilon-first-order stationary point in O(min(n + n^{1/2} epsilon^{-2}, epsilon^{-3})) stochastic gradient evaluations (Theorems 1-2), matching the Omega(L Delta n^{1/2} epsilon^{-2}) algorithmic lower bound (Theorem 3).
+identity_notes: Distinct from SARAH (`AIMech:SARAHStochasticRecursiveGradientForFiniteSumOptimization`), which uses unnormalized gradient descent steps x_{t+1} = x_t - eta v_t with constant stepsize eta = Theta(1/L) for convex/strongly-convex objectives rather than Normalized Gradient Descent stepsizes proportional to epsilon / ||v^k||, and from Perturbed Gradient Descent (`AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization`), which uses full-batch gradients with isotropic ball noise in O(n epsilon^{-2}) evaluations. Specifically captures the general SPIDER martingale integration framework and Pinelis vector-martingale concentration bound (Proposition 1 and Lemma 1), the NGD-coupled SPIDER-SFO algorithm and matching finite-sum lower bound (Algorithm 1, Theorems 1-5), the NEON2-fused second-order stationary point solver SPIDER-SFO+ with mini-step negative-curvature maintenance (Algorithm 2, Theorem 6), and the two-point Gaussian zeroth-order solver SPIDER-SZO (Algorithm 3, Theorem 8).
+aliases:
+- Stochastic Path-Integrated Differential EstimatoR (SPIDER)
+- SPIDER-SFO and SPIDER-SFO+ Non-Convex Stochastic Optimization
+- SPIDER-SZO Stochastic Zeroth-Order Path-Integrated Optimization
+definition_evidence:
+- source_id: r345-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r345-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r345-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-spider-martingale-variance-and-normalized-step-bound
+  kind: mechanism
+  statement: For any sequence x^{0:K} with step displacements ||x^k - x^{k-1}|| <= epsilon_1 and mini-batch estimator B_{S_*}(x) satisfying E||B_i(x) - B_i(y)||^2 <= L_B^2 ||x - y||^2, the SPIDER recursion V^k = B_{S_*}(x^k) - B_{S_*}(x^{k-1}) + V^{k-1} forms a square-integrable martingale difference sum whose variance satisfies E||V^k - B(x^k)||^2 <= k L_B^2 epsilon_1^2 / S_* + E||V^0 - B(x^0)||^2 (Proposition 1(i) and Lemma 1) and dimension-free Pinelis high-probability concentration ||Q_tilde(x^{0:k}) - Q(x^k)|| <= 2 sqrt(sum_{s=0}^k b_s^2 log(1/gamma)) (Proposition 1(ii) and Proposition 2); coupling V^k with the Normalized Gradient Descent step x^{k+1} = x^k - eta^k v^k where eta^k = min(epsilon/(L n_0 ||v^k||), 1/(2 L n_0)) enforces ||x^{k+1} - x^k|| <= epsilon/(L n_0) and guarantees E[||v^k - grad f(x^k)||^2 | x^{0:k_0}] <= epsilon^2 across the entire epoch of length q (Lemma 2).
+  evidence:
+  - source_id: r345-primary-pdf
+    locator: Section 2, Proposition 1 and Lemma 1, pp. 7-8; Section 3.2, Equation 3.4 and Lemma 2, p. 11; Appendix A-B.1, Proposition 2 and Proofs, pp. 25-26
+    relation: supports
+  - source_id: r345-arxiv-abs
+    locator: 'Abstract: combining SPIDER with normalized gradient descent to track deterministic quantities with reduced computational cost'
+    relation: supports
+- claim_id: claim-spider-sfo-near-optimal-first-and-second-order-stationarity
+  kind: mechanism
+  statement: Under averaged L-Lipschitz gradients (Assumption 1), SPIDER-SFO finds an epsilon-approximate first-order stationary point E[||grad f(x_tilde)||] <= 5*epsilon in at most 16 L Delta sigma epsilon^{-3} + 2 sigma^2 epsilon^{-2} + 4 sigma n_0^{-1} epsilon^{-1} = O(epsilon^{-3}) stochastic gradient evaluations in the online setting (Theorem 1) and n + 8 L Delta n^{1/2} epsilon^{-2} + 2 n_0^{-1} n^{1/2} = O(n + n^{1/2} epsilon^{-2}) evaluations in the finite-sum setting (Theorem 2), matching the algorithmic lower bound Omega(L Delta n^{1/2} epsilon^{-2}) for any randomized first-order algorithm when n <= O(Delta^2 L^2 epsilon^{-4}) (Theorem 3); furthermore, under rho-Lipschitz Hessians (Assumption 3), SPIDER-SFO+ (Algorithm 2) splits each delta/rho negative-curvature escape step into K = delta L n_0 / (rho epsilon) equal-length mini-steps of size eta = epsilon/(L n_0) to maintain the SPIDER estimator without full-gradient restart, finding an (epsilon, O(epsilon^{0.5}))-approximate second-order stationary point in O_tilde(min(n^{1/2} epsilon^{-2} + epsilon^{-2.5}, epsilon^{-3})) gradient evaluations (Theorem 6 and Corollary 7).
+  evidence:
+  - source_id: r345-primary-pdf
+    locator: Section 3.2-3.3, Theorems 1, 2, 3, 4, 5, 6 and Corollary 7, pp. 11-16; Appendix B.2-B.4 and B.6, pp. 27-40, 44-52
+    relation: supports
+  - source_id: r345-metadata-cr
+    locator: 'NeurIPS 2018 abstract: O(min(n^{1/2} epsilon^{-2}, epsilon^{-3})) for first-order and O_tilde(min(n^{1/2} epsilon^{-2} + epsilon^{-2.5}, epsilon^{-3})) for second-order stationary points'
+    relation: supports
+- claim_id: claim-spider-small-n-regime-and-zeroth-order-dimension-overhead
+  kind: limitation
+  statement: Because SPIDER-SFO requires small normalized step sizes proportional to epsilon / (L n_0) to control martingale error accumulation along the path, in the finite-sum second-order regime when n <= O(epsilon^{-1}) unaccelerated SPIDER-SFO+ has complexity O_tilde(epsilon^{-2.5}), which is slower than momentum-accelerated NEON+FastCubic/CDHS methods achieving O_tilde(n^{3/4} epsilon^{-1.75}) (Footnote 1 and Section 3.3, p. 16); additionally, in stochastic zeroth-order optimization (SPIDER-SZO, Algorithm 3), two-point Gaussian smoothing incurs an O(d) variance factor E||g_hat_i(x) - g_hat_i(y)||^2 <= 2(d+4)L^2 ||x - y||^2 + 2 mu^2 (d+6)^3 L^2 (Lemma 3), scaling the Incremental Zeroth-Order Oracle complexity by d to O(d min(n^{1/2} epsilon^{-2}, epsilon^{-3})) (Theorem 8).
+  evidence:
+  - source_id: r345-primary-pdf
+    locator: Section 1, Footnote 1, p. 4; Section 3.3, Discussion on n = O(epsilon^{-1}), p. 16; Section 4, Algorithm 3, Lemma 3, and Theorem 8, pp. 18-20
+    relation: supports
+evidence_sources:
+- source_id: r345-primary-pdf
+  title: 'SPIDER: Near-Optimal Non-Convex Optimization via Stochastic Path-Integrated Differential Estimator'
+  authors: &id001
+  - Cong Fang
+  - Chris Junchi Li
+  - Zhouchen Lin
+  - Tong Zhang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1807.01695.pdf
+  persistent_id: https://papers.nips.cc/paper/2018/hash/1543843a4723ed2ab08e18053ae6dc5b-Abstract.html
+  version: Advances in Neural Information Processing Systems 31 (NeurIPS 2018), pp. 689-699 (2018) (1500433 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:07:00Z'
+  sha256: b8bb14e38ca37092d7c32c1bf871e610f98bd20fa247656308f97611de318b73
+- source_id: r345-arxiv-abs
+  title: 'SPIDER: Near-Optimal Non-Convex Optimization via Stochastic Path-Integrated Differential Estimator (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1807.01695
+  persistent_id: https://arxiv.org/abs/1807.01695
+  version: arXiv abstract page (6861 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:07:00Z'
+  sha256: 3f10227d4eba35642fd6bff308b9e500284e38e8e3c0acdd7697d0e601aeb245
+- source_id: r345-metadata-cr
+  title: 'SPIDER: Near-Optimal Non-Convex Optimization via Stochastic Path-Integrated Differential Estimator (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2018/hash/1543843a4723ed2ab08e18053ae6dc5b-Abstract.html
+  persistent_id: https://papers.nips.cc/paper/2018/hash/1543843a4723ed2ab08e18053ae6dc5b-Abstract.html
+  version: Crossref API work record (9751 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:07:00Z'
+  sha256: 2187ba53724c9ec74e9a74db9d0796e352dbc28cf84cd45f4f6b01f29cb53d36
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: SPIDER-SFO+ uses Oja/NEON2 online streaming principal component iterations to extract negative Hessian eigenvectors from stochastic gradients.
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Solves non-convex finite-sum and online statistical learning objectives.
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: Applies to non-convex empirical risk minimization and robust regression models.
+limitations:
+- Requires small normalized stepsizes ||x^{k+1} - x^k|| = O(epsilon / L) to prevent martingale variance blowup, and is outperformed by momentum-accelerated methods in the small-sample second-order regime n <= O(epsilon^{-1}).
+curation:
+  created_at: '2026-10-19T07:07:00Z'
+  updated_at: '2026-10-19T07:07:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
