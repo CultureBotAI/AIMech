@@ -1,0 +1,100 @@
+id: AIMech:FedExpExtrapolatedServerAveragingForFederatedLearning
+name: FedExP (Federated Extrapolation for Speeding Up Federated Averaging)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A hyperparameter-free adaptive server step-size method for federated optimization (Jhunjhunwala, Wang, & Joshi 2023, Section 3, Equations 4-6, Algorithm 1) that interprets client local SGD displacements Delta_i^(t) = w^(t) - w_i^(t, tau) in overparameterized federated learning as approximate projections onto client solution manifolds S_i^* and updates the global model via w^(t+1) = w^(t) - eta_g^(t) bar_Delta^(t) with the Projection Onto Convex Sets (POCS) extrapolated step size eta_g^(t) = max(1, (sum_{i=1}^M ||Delta_i^(t)||^2) / (2 M (||bar_Delta^(t)||^2 + epsilon))).
+identity_notes: Distinct from FedOpt (AIMech:FedOptAdaptiveFederatedOptimization, Reddi et al. 2021), which requires tuning both the client learning rate eta_l and server learning rate eta_g via grid search or second-moment accumulators (FedAdam, FedYogi, FedAdagrad), and from FedNova (AIMech:FedNovaNormalizedAveragingForFederatedOptimization, Wang et al. 2020), which normalizes heterogeneous local step counts tau_i rather than extrapolating the server step size via the ratio of average squared pseudo-gradient norms to the squared norm of the averaged pseudo-gradient.
+aliases:
+- FedExP
+- Federated Extrapolation
+- Extrapolated Federated Averaging
+definition_evidence:
+- source_id: r446-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r446-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r446-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r446-pocs-quasi-projection-and-adaptive-extrapolation-step-size
+  kind: mechanism
+  statement: In overparameterized convex settings where clients share a common global minimizer w* with F_i(w*) = 0, Lemma 1 (Section 3, p. 4) proves that tau steps of local gradient descent with eta_l <= 1/L satisfy the quasi-projection inequality <Delta_i^(t), w^(t) - w*> >= 0.5 ||Delta_i^(t)||^2; minimizing the resulting upper bound on ||w^(t) - eta_g^(t) bar_Delta^(t) - w*||^2 yields the extrapolated step size eta_g^(t) = (sum_{i=1}^M ||Delta_i^(t)||^2) / (2 M ||bar_Delta^(t)||^2), which is larger whenever client pseudo-gradients point in diverse directions and automatically decays toward 1 near the optimum.
+  evidence:
+  - source_id: r446-primary-pdf
+    locator: Section 3 Motivation & Lemma 1 (Equations 4-6), pp. 3-5
+    relation: supports
+- claim_id: r446-convex-and-nonconvex-convergence-rates
+  kind: mechanism
+  statement: Theorems 1 and 2 (Section 4, pp. 5-6) establish general convex and non-convex convergence bounds for FedExP where the optimality residual is inversely weighted by the harmonic or arithmetic average of the adaptive server step sizes eta_g^(t) >= 1, guaranteeing progress at least as fast as FedAvg (eta_g = 1).
+  evidence:
+  - source_id: r446-primary-pdf
+    locator: Section 4 Convergence Analysis (Theorems 1-2, Corollaries 1-2), pp. 5-6
+    relation: supports
+- claim_id: r446-stochastic-client-noise-floor-and-epsilon-stabilization-limitation
+  kind: limitation
+  statement: Under high stochastic mini-batch variance or small client participation M, the denominator ||bar_Delta^(t)||^2 can become dominated by sampling noise near stationarity, requiring a positive stabilization constant epsilon > 0 and decaying local step size eta_l to prevent over-extrapolation (Section 3.2, Section 4).
+  evidence:
+  - source_id: r446-primary-pdf
+    locator: Section 3.2 Practical Considerations & Section 4 Discussion, pp. 5-6
+    relation: supports
+- claim_id: r446-cifar-cinic-and-shakespeare-federated-benchmark-application
+  kind: application
+  statement: Applied to federated image classification and language modeling on CIFAR-10, CIFAR-100, CINIC-10, and Shakespeare, accelerating convergence over FedAvg and tuned server-momentum/adaptive baselines without server step-size tuning.
+  evidence:
+  - source_id: r446-primary-pdf
+    locator: Section 5 Experiments (Figures 2-4, Tables 1-2), pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r446-primary-pdf
+  title: 'FedExP: Speeding Up Federated Averaging via Extrapolation'
+  authors: &id001
+  - Divyansh Jhunjhunwala
+  - Shiqiang Wang
+  - Gauri Joshi
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2301.09604
+  persistent_id: https://openreview.net/forum?id=IieNl1vg64
+  version: Eleventh International Conference on Learning Representations (ICLR 2023) (2023) (95055 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:49:00Z'
+  sha256: 0d2b99cc92573ff7f18a27c8784ae64839f7ff95ccfbba8319c2e0a7c06d1288
+- source_id: r446-arxiv-abs
+  title: 'FedExP: Speeding Up Federated Averaging via Extrapolation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2301.09604
+  persistent_id: https://arxiv.org/abs/2301.09604
+  version: arXiv abstract page (14573 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:49:00Z'
+  sha256: ea9595e1d5e611b3e81ceaddfee91c9a4a2e414a3ec4df08f2b8021577a4515b
+- source_id: r446-metadata-cr
+  title: 'FedExP: Speeding Up Federated Averaging via Extrapolation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=IieNl1vg64
+  persistent_id: https://openreview.net/forum?id=IieNl1vg64
+  version: Crossref API work record (350 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:49:00Z'
+  sha256: 5f132737aafacfa738bf2b0e6640f98f9db25bcb51a2e8542b4f6c2a7a2c1a6c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedExP is a federated optimization algorithm that adaptively extrapolates the server averaging step size using POCS geometry on client pseudo-gradients.
+limitations:
+- Overparameterized POCS quasi-projection guarantee holds exactly only when client objectives share a common interpolation minimizer.
+- Requires a damping constant epsilon > 0 and local learning-rate decay to prevent noise amplification when ||bar_Delta^(t)||^2 approaches zero.
+curation:
+  created_at: '2026-10-19T08:49:00Z'
+  updated_at: '2026-10-19T08:49:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

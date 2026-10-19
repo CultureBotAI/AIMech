@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedExP (Federated Extrapolation for Speeding Up Federated Averaging) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedExP (Federated Extrapolation for Speeding Up Federated Averaging)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedExP (Federated Extrapolation for Speeding Up Federated Averaging)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedExpExtrapolatedServerAveragingForFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedExP, Federated Extrapolation, Extrapolated Federated Averaging
+    </div>
+
+  <div class="detail-desc">
+    A hyperparameter-free adaptive server step-size method for federated optimization (Jhunjhunwala, Wang, &amp; Joshi 2023, Section 3, Equations 4-6, Algorithm 1) that interprets client local SGD displacements Delta_i^(t) = w^(t) - w_i^(t, tau) in overparameterized federated learning as approximate projections onto client solution manifolds S_i^* and updates the global model via w^(t+1) = w^(t) - eta_g^(t) bar_Delta^(t) with the Projection Onto Convex Sets (POCS) extrapolated step size eta_g^(t) = max(1, (sum_{i=1}^M ||Delta_i^(t)||^2) / (2 M (||bar_Delta^(t)||^2 + epsilon))).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedOpt (AIMech:FedOptAdaptiveFederatedOptimization, Reddi et al. 2021), which requires tuning both the client learning rate eta_l and server learning rate eta_g via grid search or second-moment accumulators (FedAdam, FedYogi, FedAdagrad), and from FedNova (AIMech:FedNovaNormalizedAveragingForFederatedOptimization, Wang et al. 2020), which normalizes heterogeneous local step counts tau_i rather than extrapolating the server step size via the ratio of average squared pseudo-gradient norms to the squared norm of the averaged pseudo-gradient.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r446-pocs-quasi-projection-and-adaptive-extrapolation-step-size</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In overparameterized convex settings where clients share a common global minimizer w* with F_i(w*) = 0, Lemma 1 (Section 3, p. 4) proves that tau steps of local gradient descent with eta_l &lt;= 1/L satisfy the quasi-projection inequality &lt;Delta_i^(t), w^(t) - w*&gt; &gt;= 0.5 ||Delta_i^(t)||^2; minimizing the resulting upper bound on ||w^(t) - eta_g^(t) bar_Delta^(t) - w*||^2 yields the extrapolated step size eta_g^(t) = (sum_{i=1}^M ||Delta_i^(t)||^2) / (2 M ||bar_Delta^(t)||^2), which is larger whenever client pseudo-gradients point in diverse directions and automatically decays toward 1 near the optimum.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r446-primary-pdf">FedExP: Speeding Up Federated Averaging via Extrapolation</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Motivation &amp; Lemma 1 (Equations 4-6), pp. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r446-convex-and-nonconvex-convergence-rates</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorems 1 and 2 (Section 4, pp. 5-6) establish general convex and non-convex convergence bounds for FedExP where the optimality residual is inversely weighted by the harmonic or arithmetic average of the adaptive server step sizes eta_g^(t) &gt;= 1, guaranteeing progress at least as fast as FedAvg (eta_g = 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r446-primary-pdf">FedExP: Speeding Up Federated Averaging via Extrapolation</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Convergence Analysis (Theorems 1-2, Corollaries 1-2), pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r446-stochastic-client-noise-floor-and-epsilon-stabilization-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under high stochastic mini-batch variance or small client participation M, the denominator ||bar_Delta^(t)||^2 can become dominated by sampling noise near stationarity, requiring a positive stabilization constant epsilon &gt; 0 and decaying local step size eta_l to prevent over-extrapolation (Section 3.2, Section 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r446-primary-pdf">FedExP: Speeding Up Federated Averaging via Extrapolation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Practical Considerations &amp; Section 4 Discussion, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r446-cifar-cinic-and-shakespeare-federated-benchmark-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to federated image classification and language modeling on CIFAR-10, CIFAR-100, CINIC-10, and Shakespeare, accelerating convergence over FedAvg and tuned server-momentum/adaptive baselines without server step-size tuning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r446-primary-pdf">FedExP: Speeding Up Federated Averaging via Extrapolation</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments (Figures 2-4, Tables 1-2), pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Overparameterized POCS quasi-projection guarantee holds exactly only when client objectives share a common interpolation minimizer.</li>
+      <li>Requires a damping constant epsilon &gt; 0 and local learning-rate decay to prevent noise amplification when ||bar_Delta^(t)||^2 approaches zero.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedExP is a federated optimization algorithm that adaptively extrapolates the server averaging step size using POCS geometry on client pseudo-gradients.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r446-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r446-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2301.09604" target="_blank" rel="noopener">FedExP: Speeding Up Federated Averaging via Extrapolation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Divyansh Jhunjhunwala, Shiqiang Wang, Gauri Joshi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=IieNl1vg64</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0d2b99cc9257…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r446-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r446-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2301.09604" target="_blank" rel="noopener">FedExP: Speeding Up Federated Averaging via Extrapolation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Divyansh Jhunjhunwala, Shiqiang Wang, Gauri Joshi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2301.09604</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ea9595e1d5e6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r446-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r446-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=IieNl1vg64" target="_blank" rel="noopener">FedExP: Speeding Up Federated Averaging via Extrapolation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Divyansh Jhunjhunwala, Shiqiang Wang, Gauri Joshi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=IieNl1vg64</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5f132737aafa…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:49:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:49:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedExpExtrapolatedServerAveragingForFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedExpExtrapolatedServerAveragingForFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
