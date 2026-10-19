@@ -1,0 +1,104 @@
+id: AIMech:L1PenalizedAndPostPenalizedQuantileRegressionProcessInHighDimensionalSparseModels
+name: L1-Penalized and Post-Penalized Quantile Regression Process in High-Dimensional Sparse Models
+review_status: DRAFT
+concept_kind: algorithm
+aliases:
+- l1-Penalized Quantile Regression Process
+- Post-l1-Penalized Quantile Regression
+- Belloni-Chernozhukov Pivotal Rankscore High-Dimensional Quantile Regression
+- l1-QR and Post-l1-QR under Restricted Nonlinear Impact
+definition: 'L1-Penalized and Post-Penalized Quantile Regression Process in High-Dimensional Sparse Models is a family of distribution-free pivotal regularized and post-selection refitted conditional quantile estimators introduced by Belloni and Chernozhukov (2011, The Annals of Statistics 39(1):82-130, DOI:10.1214/10-AOS827, arXiv:0904.2931v5) for the conditional quantile function $F_{y_i \mid x_i}^{-1}(u \mid x_i) = x_i''\beta(u)$ uniformly over a compact quantile index set $u \in \mathcal{U} \subset (0, 1)$ when $p \gg n$ and $|\operatorname{supp}(\beta(u))| = s_u \le s \ll n$. The $\ell_1$-QR estimator minimizes the check-loss empirical risk $\widehat{Q}_u(\beta) = \mathbb{E}_n[\rho_u(y_i - x_i''\beta)]$ ($\rho_u(t) = (u - \mathbb{1}\{t \le 0\})t$) plus a quantile-and-covariate standardized $\ell_1$ penalty, $\widehat{\beta}(u) \in \arg\min_{\beta \in \mathbb{R}^p} \widehat{Q}_u(\beta) + \frac{\lambda\sqrt{u(1-u)}}{n}\sum_{j=1}^p \widehat{\sigma}_j |\beta_j|$ (Eq. 2.4), while the post-$\ell_1$-QR estimator refits unpenalized quantile regression over the selected support $\widehat{T}_u = \operatorname{supp}(\widehat{\beta}(u))$, $\widetilde{\beta}(u) \in \arg\min_{\beta \in \mathbb{R}^p : \beta_{\widehat{T}_u^c} = 0} \widehat{Q}_u(\beta)$ (Eq. 2.5). Because the probability integral transform $u_i = F_{y_i \mid x_i}(y_i \mid x_i) \sim \operatorname{Uniform}(0, 1)$ makes the maximal rescaled rankscore supremum $\Lambda = n\sup_{u \in \mathcal{U}} \max_{1 \le j \le p} |\mathbb{E}_n[\frac{x_{ij}(u - \mathbb{1}\{u_i \le u\})}{\widehat{\sigma}_j\sqrt{u(1-u)}}]|$ (Eq. 2.6) conditionally pivotal given $X$ across all continuous conditional response distributions, setting $\lambda = c\cdot\Lambda(1 - \alpha \mid X)$ ($c > 1$, Eq. 2.7) achieves uniform near-oracle convergence $\sup_{u \in \mathcal{U}} \|\widehat{\beta}(u) - \beta(u)\|_{J_u} \lesssim_P \sqrt{(s/n)\log(p \vee n)}$ under the Restricted Nonlinear Impact (RNI) condition (Theorem 2), uniform sparsity $\sup_{u \in \mathcal{U}} \|\widehat{\beta}(u)\|_0 \lesssim_P s$ (Theorem 3), and rate-optimal post-selection refitting even when first-stage variable selection misses small non-zero coefficients (Theorem 5).'
+identity_notes: 'Distinct from Square-Root LASSO (`AIMech:SquareRootLassoPivotalConicSparseRegression`) and Scaled LASSO (`AIMech:ScaledLassoAndHuberConcomitantPenalizedJointSparseRegression`), which estimate a single conditional mean regression vector $\beta_0$ under squared-error or root-MSE loss, whereas Belloni & Chernozhukov (2011) estimate an entire conditional quantile process $\{\beta(u) : u \in \mathcal{U}\}$ under the non-differentiable piecewise-linear check loss $\rho_u(t)$ via linear programming (LP) primal-dual rankscore duality (Eqs. C.1-C.2), distribution-free uniform rankscore pivotality (Eq. 2.6), and the Restricted Nonlinear Impact (RNI) minorization coefficient $q$ (Condition D.4, Lemma 4). Also distinct from Conformalized Quantile Regression (`AIMech:ConformalizedQuantileRegression`), which wraps arbitrary black-box quantile predictors in a split-conformal calibration step for prediction intervals rather than performing high-dimensional $\ell_1$-penalized and post-penalized parameter recovery.'
+definition_evidence:
+- source_id: bc2011-l1qr-pdf
+  locator: Section 2, pp. 4-14, Eqs. (2.1)-(2.14), Conditions D.1-D.4, Theorems 1-5; Section 3, pp. 14-21, Eqs. (3.1)-(3.23), Lemmas 1-4; Appendix A, pp. 25-28; Appendix B, pp. 29-33, Lemmas 5-8; Appendix C, pp. 33-38, Eqs. (C.1)-(C.12), Lemmas 9-13; Appendix D, pp. 39-44, Lemmas 14-18
+  relation: supports
+- source_id: bc2011-l1qr-abs
+  locator: arXiv:0904.2931 abstract
+  relation: supports
+- source_id: bc2011-l1qr-crossref
+  locator: DOI:10.1214/10-AOS827 Crossref metadata
+  relation: supports
+claims:
+- claim_id: distribution-free-conditional-pivotality-of-rankscore-supremum-process
+  kind: mechanism
+  statement: Under Condition D.1, the conditional quantile identity $F_{y_i \mid x_i}(x_i'\beta(u) \mid x_i) = u$ implies that the indicator $\mathbb{1}\{y_i \le x_i'\beta(u)\} = \mathbb{1}\{u_i \le u\}$ is a function solely of latent independent uniforms $u_1, \dots, u_n \stackrel{\text{i.i.d.}}{\sim} \operatorname{Uniform}(0, 1)$ independent of $X$. Consequently, the maximal rescaled rankscore process $\Lambda = n\sup_{u \in \mathcal{U}} \max_{1 \le j \le p} |\mathbb{E}_n[\frac{x_{ij}(u - \mathbb{1}\{u_i \le u\})}{\widehat{\sigma}_j\sqrt{u(1-u)}}]|$ (Eq. 2.6) is conditionally pivotal given $X$ (its conditional distribution is identical across Gaussian, Cauchy, and heteroscedastic location-scale conditional distributions without any unknown noise scale parameter), its conditional $(1-\alpha)$-quantile $\Lambda(1 - \alpha \mid X)$ can be computed to arbitrary precision by Monte Carlo simulation of $u_1, \dots, u_n \sim \operatorname{Uniform}(0, 1)$, and Theorem 1 (Eq. 2.8, p. 10) proves $\Lambda \le K_{\mathcal{U}} W_{\mathcal{U}}\sqrt{n\log(p/\gamma_n)}$ with conditional probability at least $1 - \gamma_n - 4\gamma_n/p$ where $W_{\mathcal{U}} = \sup_{u \in \mathcal{U}} [u(1-u)]^{-1/2}$.
+  evidence:
+  - source_id: bc2011-l1qr-pdf
+    locator: Section 2.3, pp. 6-7, Equations (2.6)-(2.7); Section 2.5, p. 10, Equation (2.8), Theorem 1; Section 3.2, pp. 17-18, Lemma 2; Appendix A, pp. 25-28, Proof of Lemma 2 and Theorem 1
+    relation: supports
+  - source_id: bc2011-l1qr-abs
+    locator: Abstract
+    relation: supports
+- claim_id: restricted-nonlinear-impact-minorization-and-uniform-near-oracle-convergence
+  kind: mechanism
+  statement: 'On the pivotal rankscore domination event $\lambda \ge \frac{c_0 + 3}{c_0 - 3}\Lambda$ ($c_0 > 3$), Lemma 3 (Eq. 3.2, p. 18) forces the estimation error $\delta_u = \widehat{\beta}(u) - \beta(u)$ into the restricted cone $A_u = \{\delta \in \mathbb{R}^p : \|\delta_{T_u^c}\|_{1,n} \le c_0\|\delta_{T_u}\|_{1,n}\}$ uniformly for all $u \in \mathcal{U}$. Under Condition D.4, which defines the Restricted Eigenvalue $\kappa_u = \inf_{\delta \in A_u,\, \delta \ne 0} \frac{\|J_u^{1/2}\delta\|}{\|\delta_{T_u}\|_2} \ge \kappa > 0$ ($J_u = \mathbb{E}[f_{y_i \mid x_i}(x_i''\beta(u) \mid x_i)x_i x_i'']$) and the Restricted Nonlinear Impact (RNI) coefficient $q_u = \frac{3}{8}\frac{\underline{f}^{3/2}}{\bar{f}''}\inf_{\delta \in A_u,\, \delta \ne 0} \frac{\mathbb{E}[|x_i''\delta|^2]^{3/2}}{\mathbb{E}[|x_i''\delta|^3]} \ge q > 0$ (p. 8), Lemma 4 (Eq. 3.7, p. 19; Appendix B, Eq. B.4, p. 30) establishes the piecewise quadratic-linear population minorization $Q_u(\beta(u) + \delta) - Q_u(\beta(u)) \ge \min(\|J_u^{1/2}\delta\|^2 / 4,\, q\|J_u^{1/2}\delta\|)$ for all $\delta \in A_u$, yielding the uniform near-oracle convergence bound $\sup_{u \in \mathcal{U}} \|\widehat{\beta}(u) - \beta(u)\|_{J_u} \lesssim_P \frac{1}{\kappa}\sqrt{\frac{s\log(p \vee n)}{n}}$ whenever $\frac{\sqrt{s\log(p \vee n)}}{\sqrt{n}(\kappa \wedge q)} \to 0$ (Theorem 2, Eq. 2.10, p. 11).'
+  evidence:
+  - source_id: bc2011-l1qr-pdf
+    locator: Section 2.4, pp. 7-9, Conditions D.1-D.4, Lemma 1; Section 2.5, pp. 10-11, Equations (2.9)-(2.10), Theorem 2; Section 3.3, pp. 18-21, Equations (3.2)-(3.23), Lemmas 3-4; Appendix B, pp. 29-33, Lemmas 5-8
+    relation: supports
+- claim_id: primal-dual-lp-rankscore-interpolation-sparsity-and-post-l1-qr-debiasing
+  kind: mechanism
+  statement: The primal $\ell_1$-QR linear program (Eq. C.1) and dual rankscore linear program $\max_{a \in [u-1, u]^n} \mathbb{E}_n[y_i a_i]$ subject to $|\mathbb{E}_n[x_{ij} a_i]| \le \frac{\lambda\sqrt{u(1-u)}}{n}\widehat{\sigma}_j$ ($j=1,\dots,p$, Eq. C.2) satisfy complementary slackness $\widehat{\beta}_j(u) \ne 0 \implies |\mathbb{E}_n[x_{ij} \widehat{a}_i(u)]| = \frac{\lambda\sqrt{u(1-u)}}{n}\widehat{\sigma}_j$, and under continuous response distributions any basic optimal solution interpolates exactly $I_u = |\widehat{T}_u| = \|\widehat{\beta}(u)\|_0$ observations $y_i = x_i'\widehat{\beta}(u)$ (Lemma 9, Eqs. C.3-C.4, pp. 33-34), which together with the maximal sparse eigenvalue $\phi_{\max}(m)$ guarantees uniform sparsity $\widehat{s} = \sup_{u \in \mathcal{U}} |\widehat{T}_u| \lesssim_P s$ (Theorem 3, Eq. 2.11, p. 11; Lemmas 10-13, pp. 35-38). Consequently, the post-$\ell_1$-QR estimator $\widetilde{\beta}(u)$ (Eq. 2.5) eliminates $\ell_1$-shrinkage bias on $\widehat{T}_u$ and achieves $\sup_{u \in \mathcal{U}} \|\widetilde{\beta}(u) - \beta(u)\|_{J_u} \lesssim_P \sqrt{\frac{(\widehat{s} \vee s)\log(p \vee n)}{n\phi_{\min}(\widehat{s} + s)}} + \sup_{u \in \mathcal{U}} \sqrt{Q_u(\beta_{T_u \setminus \widehat{T}_u}(u)) - Q_u(\beta(u))}$ regardless of whether $\widehat{T}_u$ achieves exact support recovery (Theorem 5, Eq. 2.14, p. 13; Appendix D, Lemmas 14-18, pp. 39-44).
+  evidence:
+  - source_id: bc2011-l1qr-pdf
+    locator: Section 2.5, pp. 11-14, Equations (2.11)-(2.14), Theorems 3-5; Appendix C, pp. 33-38, Equations (C.1)-(C.12), Lemmas 9-13; Appendix D, pp. 39-44, Lemmas 14-18
+    relation: supports
+evidence_sources:
+- source_id: bc2011-l1qr-pdf
+  title: l1-penalized quantile regression in high-dimensional sparse models
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/0904.2931.pdf
+  persistent_id: https://doi.org/10.1214/10-AOS827
+  version: arXiv:0904.2931v5 full-text PDF (56 pages, 567674 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T02:55:00Z'
+  sha256: 32ced55b03e7e1f9d8b27e1591d8903a4e5143d9486bccc523012688bcb47e49
+- source_id: bc2011-l1qr-abs
+  title: l1-Penalized Quantile Regression in High-Dimensional Sparse Models
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0904.2931
+  persistent_id: https://arxiv.org/abs/0904.2931
+  version: arXiv:0904.2931 abstract page (7086 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T02:55:00Z'
+  sha256: 6ac0adae6f96a1febb13b2310375839f055b6d619dd80e0f243d332c8ae8f254
+- source_id: bc2011-l1qr-crossref
+  title: "\u21131-penalized quantile regression in high-dimensional sparse models"
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/10-AOS827
+  persistent_id: https://doi.org/10.1214/10-AOS827
+  version: The Annals of Statistics 39(1):82-130 (2011) Crossref metadata (4392 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T02:55:00Z'
+  sha256: 4fc851290f139b83b59d668408d2d5e4d2d7e419fe35b3e9d66edb7f70f64410
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Replaces the squared-error loss of LASSO regression with the asymmetric check loss rho_u(t) across a quantile process u in U while retaining l_1 regularization.
+- target: AIO:LinearRegression
+  relation: broad_match
+  rationale: Estimates linear conditional quantile functions F_{y|x}^{-1}(u | x) = x'beta(u) in high-dimensional sparse regression models.
+limitations:
+- Condition D.1 and Condition D.4 require the conditional density $f_{y_i \mid x_i}(y \mid x_i)$ to be bounded strictly away from zero ($f_{y_i \mid x_i}(x_i'\beta(u) \mid x_i) \ge \underline{f} > 0$) and have bounded derivative ($\le \bar{f}'$) in a neighborhood of the true conditional quantile $x_i'\beta(u)$ uniformly over $u \in \mathcal{U}$, so $\mathcal{U} \subset (0, 1)$ must be compact and bounded away from extreme tails $u \to 0$ or $u \to 1$ where $W_{\mathcal{U}} = \sup_{u \in \mathcal{U}} [u(1-u)]^{-1/2}$ diverges and conditional densities vanish.
+- Uniform sparsity $\sup_{u \in \mathcal{U}} \|\widehat{\beta}(u)\|_0 \lesssim_P s$ in Theorem 3 requires the penalty multiplier $\lambda$ to exceed a sparse-eigenvalue threshold $\lambda > 2\sqrt{2}\sup_{u \in \mathcal{U}} [\widehat{\mu}(u)/\sqrt{u(1-u)}]\sqrt{\bar{f}\phi_{\max}(n)}$ (Lemma 10, Eq. C.6), and exact support inclusion $T_u \subseteq \widehat{T}_u$ in Theorem 4 requires a beta-min signal strength condition $\inf_{u \in \mathcal{U}} \min_{j \in T_u} |\beta_j(u)| > \sup_{u \in \mathcal{U}} \|\widehat{\beta}(u) - \beta(u)\|_2$.
+- 'Primary-source typographical audit of `arXiv:0904.2931v5`: (1) Section 3.3 Proof of Theorem 2 (p. 20, line 23) writes ''By definition of $\widehat{\beta}(u)$ in (3.16)'' instead of ''(2.4)'' (since Eq. 3.16 is the Symmetrization Lemma display on p. 19); (2) Appendix B Proof of Lemma 6 (p. 29, Eq. B.2) prints ''$\le 2\|\widehat{\beta}_{T_u}(u) = \beta(u)\|_{1,n}$'' with an equals sign `$=$'' instead of a minus sign `$-$'' in $\|\widehat{\beta}_{T_u}(u) - \beta(u)\|_{1,n}$; (3) Appendix B Proof of Lemma 7 (p. 31, line 18) writes ''$w_i(\delta, u)$'' in place of ''$w_i(x_i''\delta, u)$''; (4) Appendix C Lemma 9(1) (p. 33, Eq. C.3) states the complementary slackness relation as ''iff'' ($\widehat{\beta}_j(u) \ne 0 \iff \mathbb{E}_n[x_{ij} \widehat{a}_i(u)] = \widehat{\sigma}_j \frac{\lambda\sqrt{u(1-u)}}{n}\operatorname{sign}(\widehat{\beta}_j(u))$) whereas in general LP duality necessity ($\implies$) always holds and sufficiency holds almost surely under primal non-degeneracy proved in Step 3 on p. 34; (5) Appendix C Lemma 11(2) (p. 37, line 16) prints duplicated word ''the the'' (''with the the same probability''); (6) Appendix C Proof of Lemma 13 (p. 38, line 28) prints a truncated word ''w'' (''since $s_u \le s$, w $r_u \le r$''); and (7) Appendix E Proof of Lemma 21 (p. 49, line 26) writes ''$x_i''\beta_1^o$'' instead of ''$x_i''\beta^o$''.'
+curation:
+  created_at: '2026-10-19T02:55:00Z'
+  updated_at: '2026-10-19T02:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
