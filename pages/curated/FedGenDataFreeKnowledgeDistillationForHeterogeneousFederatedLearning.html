@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedGen (Data-Free Knowledge Distillation for Heterogeneous Federated Learning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedGen (Data-Free Knowledge Distillation for Heterogeneous Federated Learning)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedGen (Data-Free Knowledge Distillation for Heterogeneous Federated Learning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedGenDataFreeKnowledgeDistillationForHeterogeneousFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedGen, Data-Free Knowledge Distillation for Heterogeneous Federated Learning, Federated Latent-Space Generative Knowledge Distillation
+    </div>
+
+  <div class="detail-desc">
+    A data-free knowledge distillation algorithm for heterogeneous federated learning (Zhu, Hong, &amp; Zhou 2021, Section 3, Algorithm 1) in which the server trains a lightweight conditional latent-space generator G_w(z | y, epsilon ~ N(0, I)) solely from uploaded client predictor heads {theta_k^p}_{k=1}^K and empirical label counts p_hat(y) by minimizing the label-count-weighted ensemble cross-entropy min_w E_{y ~ p_hat(y), z ~ G_w(.|y)}[l(sigma(sum_{k=1}^K lambda_k^y g(z; theta_k^p)), y)] plus a diversity loss (Eq. 4, Section 9), and broadcasts G_w to clients to regularize local training on synthetic latent representations z ~ G_w(.|y) without requiring any external proxy dataset.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from proxy-data ensemble distillation FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning, Lin et al. 2020), which requires an external unlabeled public dataset on the server to query client ensembles in raw input space X, whereas FedGen is strictly data-free and learns a compact conditional generator in the intermediate feature space Z.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r423-conditional-kl-divergence-minimization-and-domain-discrepancy-contraction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Training client k&#39;s predictor on latent representations z ~ G_w(.|y) minimizes the conditional KL divergence D_KL(r(z | y) || p(z | y; theta_k)) between the global ensemble induced latent distribution r(z | y) and the local model (Remark 1), and augmenting m local samples from D_k~ with m synthetic samples from D~ contracts the H Delta H domain discrepancy to d_{H Delta H}(D_k&#39;~, D~) &lt;= (1/2) d_{H Delta H}(D_k~, D~) + (1/2) epsilon while doubling effective sample size m&#39; = 2m, strictly tightening the federated generalization bound whenever epsilon &lt; d_{H Delta H}(D_k~, D~) (Section 4.3, Theorem 1, Corollary 1, Section 8).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r423-primary-pdf">Data-Free Knowledge Distillation for Heterogeneous Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Theoretical Analysis (Remark 1, Theorem 1, Corollary 1) &amp; Supplementary Section 8 (Proofs of Remark 1 and Corollary 1)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r423-modular-latent-space-distillation-when-sharing-feature-extractors-is-infeasible</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because G_w generates representations in the penultimate feature space Z rather than raw high-dimensional inputs X, FedGen remains functional even when clients only upload lightweight prediction heads theta_k^p and keep heterogeneous or privacy-sensitive feature extractors theta_k^f strictly local (Section 3.2, Table 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r423-primary-pdf">Data-Free Knowledge Distillation for Heterogeneous Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Local Model Training &amp; Section 5.2 Sharing Only Prediction Layer (Table 3)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r423-client-label-count-reporting-and-generator-broadcast-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires active clients to report empirical class counts n_k^y to construct the label-weighted ensemble logits lambda_k^y (or else fall back to uniform label priors with reduced accuracy under severe label skew) and adds the communication and local forward-pass cost of the generator G_w.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r423-primary-pdf">Data-Free Knowledge Distillation for Heterogeneous Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2 &amp; Supplementary Section 9-10 Privacy and Label Count Discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r423-mnist-emnist-cifar10-and-celeba-non-iid-federated-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to heterogeneous federated classification on MNIST, EMNIST, CelebA, and Dirichlet-partitioned CIFAR-10, outperforming FedAvg, FedProx, FedEnsemble, and FedDF without using any external proxy dataset.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r423-primary-pdf">Data-Free Knowledge Distillation for Heterogeneous Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments (Tables 1-3, Figures 3-6), pp. 12884-12887</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires server-side optimization of the conditional generator G_w in every communication round.</li>
+      <li>Broadcasts G_w to participating clients alongside the global model parameters.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedGen is a data-free latent-space knowledge distillation algorithm for heterogeneous Federated Learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r423-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r423-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2105.10056" target="_blank" rel="noopener">Data-Free Knowledge Distillation for Heterogeneous Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhuangdi Zhu, Junyuan Hong, Jiayu Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v139/zhu21b.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bd32f268383a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r423-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r423-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2105.10056" target="_blank" rel="noopener">Data-Free Knowledge Distillation for Heterogeneous Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhuangdi Zhu, Junyuan Hong, Jiayu Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2105.10056</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f3cc4428d4ca…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r423-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r423-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v139/zhu21b.html" target="_blank" rel="noopener">Data-Free Knowledge Distillation for Heterogeneous Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhuangdi Zhu, Junyuan Hong, Jiayu Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v139/zhu21b.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0b5c1396ad1d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:26:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:26:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedGenDataFreeKnowledgeDistillationForHeterogeneousFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedGenDataFreeKnowledgeDistillationForHeterogeneousFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

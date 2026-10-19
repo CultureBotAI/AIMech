@@ -1,0 +1,100 @@
+id: AIMech:FedGenDataFreeKnowledgeDistillationForHeterogeneousFederatedLearning
+name: FedGen (Data-Free Knowledge Distillation for Heterogeneous Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A data-free knowledge distillation algorithm for heterogeneous federated learning (Zhu, Hong, & Zhou 2021, Section 3, Algorithm 1) in which the server trains a lightweight conditional latent-space generator G_w(z | y, epsilon ~ N(0, I)) solely from uploaded client predictor heads {theta_k^p}_{k=1}^K and empirical label counts p_hat(y) by minimizing the label-count-weighted ensemble cross-entropy min_w E_{y ~ p_hat(y), z ~ G_w(.|y)}[l(sigma(sum_{k=1}^K lambda_k^y g(z; theta_k^p)), y)] plus a diversity loss (Eq. 4, Section 9), and broadcasts G_w to clients to regularize local training on synthetic latent representations z ~ G_w(.|y) without requiring any external proxy dataset.
+identity_notes: Distinct from proxy-data ensemble distillation FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning, Lin et al. 2020), which requires an external unlabeled public dataset on the server to query client ensembles in raw input space X, whereas FedGen is strictly data-free and learns a compact conditional generator in the intermediate feature space Z.
+aliases:
+- FedGen
+- Data-Free Knowledge Distillation for Heterogeneous Federated Learning
+- Federated Latent-Space Generative Knowledge Distillation
+definition_evidence:
+- source_id: r423-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r423-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r423-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r423-conditional-kl-divergence-minimization-and-domain-discrepancy-contraction
+  kind: mechanism
+  statement: Training client k's predictor on latent representations z ~ G_w(.|y) minimizes the conditional KL divergence D_KL(r(z | y) || p(z | y; theta_k)) between the global ensemble induced latent distribution r(z | y) and the local model (Remark 1), and augmenting m local samples from D_k~ with m synthetic samples from D~ contracts the H Delta H domain discrepancy to d_{H Delta H}(D_k'~, D~) <= (1/2) d_{H Delta H}(D_k~, D~) + (1/2) epsilon while doubling effective sample size m' = 2m, strictly tightening the federated generalization bound whenever epsilon < d_{H Delta H}(D_k~, D~) (Section 4.3, Theorem 1, Corollary 1, Section 8).
+  evidence:
+  - source_id: r423-primary-pdf
+    locator: Section 4 Theoretical Analysis (Remark 1, Theorem 1, Corollary 1) & Supplementary Section 8 (Proofs of Remark 1 and Corollary 1)
+    relation: supports
+- claim_id: r423-modular-latent-space-distillation-when-sharing-feature-extractors-is-infeasible
+  kind: mechanism
+  statement: Because G_w generates representations in the penultimate feature space Z rather than raw high-dimensional inputs X, FedGen remains functional even when clients only upload lightweight prediction heads theta_k^p and keep heterogeneous or privacy-sensitive feature extractors theta_k^f strictly local (Section 3.2, Table 3).
+  evidence:
+  - source_id: r423-primary-pdf
+    locator: Section 3.2 Local Model Training & Section 5.2 Sharing Only Prediction Layer (Table 3)
+    relation: supports
+- claim_id: r423-client-label-count-reporting-and-generator-broadcast-overhead-limitation
+  kind: limitation
+  statement: Requires active clients to report empirical class counts n_k^y to construct the label-weighted ensemble logits lambda_k^y (or else fall back to uniform label priors with reduced accuracy under severe label skew) and adds the communication and local forward-pass cost of the generator G_w.
+  evidence:
+  - source_id: r423-primary-pdf
+    locator: Section 3.1-3.2 & Supplementary Section 9-10 Privacy and Label Count Discussion
+    relation: supports
+- claim_id: r423-mnist-emnist-cifar10-and-celeba-non-iid-federated-application
+  kind: application
+  statement: Applied to heterogeneous federated classification on MNIST, EMNIST, CelebA, and Dirichlet-partitioned CIFAR-10, outperforming FedAvg, FedProx, FedEnsemble, and FedDF without using any external proxy dataset.
+  evidence:
+  - source_id: r423-primary-pdf
+    locator: Section 5 Experiments (Tables 1-3, Figures 3-6), pp. 12884-12887
+    relation: supports
+evidence_sources:
+- source_id: r423-primary-pdf
+  title: Data-Free Knowledge Distillation for Heterogeneous Federated Learning
+  authors: &id001
+  - Zhuangdi Zhu
+  - Junyuan Hong
+  - Jiayu Zhou
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2105.10056
+  persistent_id: https://proceedings.mlr.press/v139/zhu21b.html
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:12878-12889 (2021) (78818 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:26:00Z'
+  sha256: bd32f268383a028e881dc2a34337edd7beae6831ef112e180c8e8e927da2223d
+- source_id: r423-arxiv-abs
+  title: Data-Free Knowledge Distillation for Heterogeneous Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2105.10056
+  persistent_id: https://arxiv.org/abs/2105.10056
+  version: arXiv abstract page (6855 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:26:00Z'
+  sha256: f3cc4428d4ca5ea59fec507423c83281d3e4c488d2d7b213e489a33665c27724
+- source_id: r423-metadata-cr
+  title: Data-Free Knowledge Distillation for Heterogeneous Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v139/zhu21b.html
+  persistent_id: https://proceedings.mlr.press/v139/zhu21b.html
+  version: Crossref API work record (384 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:26:00Z'
+  sha256: 0b5c1396ad1df620ac72f126054e6e6884a3887cba648fd77475502e331eb46c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedGen is a data-free latent-space knowledge distillation algorithm for heterogeneous Federated Learning.
+limitations:
+- Requires server-side optimization of the conditional generator G_w in every communication round.
+- Broadcasts G_w to participating clients alongside the global model parameters.
+curation:
+  created_at: '2026-10-19T08:26:00Z'
+  updated_at: '2026-10-19T08:26:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
