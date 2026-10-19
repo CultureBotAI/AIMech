@@ -1,0 +1,102 @@
+id: AIMech:DecorrelatedScoreFunctionAndOneStepEstimatorForSparseHighDimensionalInference
+name: Decorrelated Score Function and One-Step Estimator for Sparse High-Dimensional Inference
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A general hypothesis-testing and confidence-region methodology (introduced by Yang Ning and Han Liu in 2017) for a low-dimensional or growing parameter of interest $\\boldsymbol{\\theta} \\in \\mathbb{R}^{d_0}$ in the presence of a high-dimensional sparse nuisance parameter $\\boldsymbol{\\gamma} \\in \\mathbb{R}^{d-d_0}$ ($d \\gg n$) under smooth empirical risk or negative log-likelihood $\\ell(\\boldsymbol{\\theta}, \\boldsymbol{\\gamma}) = n^{-1}\\sum_{i=1}^n \\ell_i(\\boldsymbol{\\theta}, \\boldsymbol{\\gamma})$. By projecting the target score $\\nabla_{\\boldsymbol{\\theta}}\\ell(\\boldsymbol{\\theta}, \\boldsymbol{\\gamma})$ onto the nuisance tangent space via $\\mathbf{w}^* = (\\mathbf{I}_{\\boldsymbol{\\gamma}\\boldsymbol{\\gamma}}^*)^{-1}\\mathbf{I}_{\\boldsymbol{\\gamma}\\boldsymbol{\\theta}}^*$ where $\\mathbf{I}^* = \\mathbb{E}_{\\boldsymbol{\\beta}^*}(\\nabla^2\\ell(\\boldsymbol{\\beta}^*))$, the method defines the population *decorrelated score function* $S(\\boldsymbol{\\theta}, \\boldsymbol{\\gamma}) = \\nabla_{\\boldsymbol{\\theta}}\\ell(\\boldsymbol{\\theta}, \\boldsymbol{\\gamma}) - \\mathbf{w}^{*T}\\nabla_{\\boldsymbol{\\gamma}}\\ell(\\boldsymbol{\\theta}, \\boldsymbol{\\gamma})$ satisfying $\\mathbb{E}_{\\boldsymbol{\\beta}^*}[\\nabla_{\\boldsymbol{\\theta}}\\ell(\\boldsymbol{\\theta}^*, \\boldsymbol{\\gamma}^*)S^T(\\boldsymbol{\\theta}^*, \\boldsymbol{\\gamma}^*)] = \\mathbf{0}$ (Equation 2.4). Given an initial penalized M-estimator $\\widehat{\\boldsymbol{\\beta}} = (\\widehat{\\boldsymbol{\\theta}}, \\widehat{\\boldsymbol{\\gamma}})$ (Equation 2.5) and a Dantzig-selector or penalized quadratic projection estimator $\\widehat{\\mathbf{w}}$ (Equations 2.6\u20132.7), the plug-in decorrelated score $\\widehat{S}(\\boldsymbol{\\theta}, \\widehat{\\boldsymbol{\\gamma}}) = \\nabla_{\\boldsymbol{\\theta}}\\ell(\\boldsymbol{\\theta}, \\widehat{\\boldsymbol{\\gamma}}) - \\widehat{\\mathbf{w}}^T\\nabla_{\\boldsymbol{\\gamma}}\\ell(\\boldsymbol{\\theta}, \\widehat{\\boldsymbol{\\gamma}})$ converts first-order nuisance estimation bias into the second-order Taylor product $(\\widehat{\\mathbf{w}} - \\mathbf{w}^*)^T\\nabla^2_{\\boldsymbol{\\gamma}\\boldsymbol{\\gamma}}\\ell(\\boldsymbol{\\theta}, \\widetilde{\\boldsymbol{\\gamma}})(\\widehat{\\boldsymbol{\\gamma}} - \\boldsymbol{\\gamma}^*)$ without inverting the full $d \\times d$ Hessian. This yields the asymptotically normal score statistic $\\widehat{U}_n = \\sqrt{n}\\widehat{S}(\\mathbf{0}, \\widehat{\\boldsymbol{\\gamma}})\\widehat{I}_{\\theta|\\boldsymbol{\\gamma}}^{-1/2} \\rightsquigarrow N(0, 1)$ where $\\widehat{I}_{\\theta|\\boldsymbol{\\gamma}} = \\nabla^2_{\\theta\\theta}\\ell(\\widehat{\\boldsymbol{\\beta}}) - \\widehat{\\mathbf{w}}^T\\nabla^2_{\\boldsymbol{\\gamma}\\theta}\\ell(\\widehat{\\boldsymbol{\\beta}})$ (Algorithm 1, Theorem 3.7), the semiparametrically efficient *one-step estimator* $\\widetilde{\\theta} = \\widehat{\\theta} - \\widehat{S}(\\widehat{\\boldsymbol{\\beta}})/\\widehat{I}_{\\theta|\\boldsymbol{\\gamma}}$ (Equation 2.9, Corollary 3.10), the Gaussian multiplier bootstrap supremum test $\\widehat{T}_n = \\|\\sqrt{n}\\widehat{S}(\\mathbf{0}, \\widehat{\\boldsymbol{\\gamma}})\\|_\\infty$ for high-dimensional nulls $H_0: \\boldsymbol{\\theta}^* = \\mathbf{0} \\in \\mathbb{R}^{d_0}$ (Section 6.1, Theorem 6.1), and sandwich-variance-adjusted tests under model misspecification and general non-likelihood losses (Sections 6.2\u20136.3, Theorems 6.4 and 6.8)."
+identity_notes: "Resolved against all 442 pinned AIO concepts and 671 maintained AIMech concepts. Distinct from `AIMech:LowDimensionalProjectionAndDebiasedLassoConfidenceIntervalsForHighDimensionalLinearAndGeneralizedLinearModels` (Zhang & Zhang 2014 / van de Geer et al. 2014, which invert or row-project the empirical predictor Gram matrix to de-bias point estimates directly), from `AIMech:GaussianGraphicalModelPrecisionMatrixEstimationWithNodewiseLassoAndL1PenalizedLikelihood` (Meinshausen & B\xFChlmann 2006 / Yuan & Lin 2007, which estimate Gaussian graphical model edges and precision matrices rather than performing hypothesis tests via score Hilbert-space projections), from `AIMech:OrthogonalScoreAndWeightedDoubleSelectionPostSelectionInferenceInHighDimensionalQuantileRegression` (Belloni, Chernozhukov, & Kato 2019, which construct density-weighted check-loss instruments specifically for non-smooth quantile regression), and from `AIMech:DoubleDebiasedMachineLearningWithNeymanOrthogonalScoresAndCrossFitting` (Chernozhukov et al. 2018, which rely on sample-splitting cross-fitting with generic black-box ML nuisance learners rather than full-sample Dantzig/Lasso score projection with product sparsity $(s^* \\vee s^{\\prime *})\\log d = o(\\sqrt{n})$, semiparametric one-step updates, and multiplier bootstrap tests for growing $d_0$)."
+aliases:
+- Decorrelated Score Test
+- High-Dimensional Decorrelated Score Function
+- Ning-Liu Decorrelated Score and One-Step Estimator
+- Generalized Decorrelated Score Test
+- High-Dimensional One-Step Estimator via Decorrelated Score
+definition_evidence:
+- source_id: nl2017-decorr-pdf
+  locator: Section 2, pages 5-8, Equations (2.1)-(2.10), Algorithm 1
+  relation: supports
+- source_id: nl2017-decorr-abs
+  locator: arXiv:1412.8765v2 abstract
+  relation: supports
+- source_id: nl2017-decorr-crossref
+  locator: Title, authors, DOI, and journal bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-decorrelated-score-asymptotic-normality-and-local-power
+  kind: mechanism
+  statement: "Under Assumptions 3.1\u20133.4 and product sparsity rate $\\eta_1(n) + \\eta_2(n) + s^*\\eta_1(n)\\eta_2(n) + (s^* \\vee s^{\\prime *})\\eta_1(n)\\sqrt{\\log d / n} = o(n^{-1/2})$ (yielding $(s^* \\vee s^{\\prime *})\\log d = o(\\sqrt{n})$ when $\\eta_1(n) \\asymp \\sqrt{s^*\\log d / n}$ and $\\eta_2(n) \\asymp \\sqrt{s^{\\prime *}\\log d / n}$), the decorrelated score statistic $\\widehat{U}_n = \\sqrt{n}\\widehat{S}(0, \\widehat{\\boldsymbol{\\gamma}})\\widehat{I}_{\\theta|\\boldsymbol{\\gamma}}^{-1/2}$ converges in distribution to $N(0, 1)$ under $H_0: \\theta^* = 0$ (Theorem 3.7) and to $N(-c(I^*_{\\theta|\\boldsymbol{\\gamma}})^{1/2}, 1)$ under local alternatives $H_{1n}: \\theta^* = c n^{-1/2}$ (Theorem 3.15), while the one-step estimator $\\widetilde{\\theta} = \\widehat{\\theta} - \\widehat{S}(\\widehat{\\boldsymbol{\\beta}})/\\widehat{I}_{\\theta|\\boldsymbol{\\gamma}}$ satisfies $\\sqrt{n}(\\widetilde{\\theta} - \\theta^*)(\\widehat{I}_{\\theta|\\boldsymbol{\\gamma}})^{1/2} \\rightsquigarrow N(0, 1)$ attaining the semiparametric efficiency bound $(I^*_{\\theta|\\boldsymbol{\\gamma}})^{-1}$ (Corollary 3.10) and uniform validity over parameter classes $\\Omega_0, \\Omega_1$ (Theorems 3.18 and 3.22)."
+  evidence:
+  - source_id: nl2017-decorr-pdf
+    locator: Section 3, pages 9-16, Theorems 3.7, 3.15, 3.18, 3.22, Corollary 3.10; Appendix B, pages 36-46
+    relation: supports
+- claim_id: claim-linear-and-glm-decorrelated-score-instantiation
+  kind: mechanism
+  statement: "In high-dimensional linear models $Y_i = \\theta Z_i + \\boldsymbol{\\gamma}^T\\mathbf{X}_i + \\varepsilon_i$, the one-step estimator $\\widetilde{\\theta}$ equals the exact closed-form root of $\\widehat{S}(\\theta, \\widehat{\\boldsymbol{\\gamma}}) = 0$ and coincides algebraically with the Zhang\u2013Zhang low-dimensional projection estimator when $\\widehat{\\mathbf{w}}$ is estimated via Lasso $n^{-1}\\sum_{i=1}^n (Z_i - \\mathbf{w}^T\\mathbf{X}_i)^2 + \\lambda'\\|\\mathbf{w}\\|_1$ (Section 4.1, Equations 4.5\u20134.6), whereas in sparse generalized linear models with log-partition $b(\\eta_i)$, $\\widetilde{\\mathbf{w}}$ is estimated directly by the single weighted Lasso regression $\\arg\\min_{\\mathbf{w}} (2n)^{-1}\\sum_{i=1}^n b''(\\mathbf{Q}_i^T\\widehat{\\boldsymbol{\\beta}})(Z_i - \\mathbf{w}^T\\mathbf{X}_i)^2 + \\lambda'\\|\\mathbf{w}\\|_1$ without computing the full $d \\times d$ inverse weighted Gram matrix required by van de Geer et al. (Section 5, Equation 5.2, Theorem 5.3)."
+  evidence:
+  - source_id: nl2017-decorr-pdf
+    locator: Sections 4-5, pages 16-24, Equations (4.1)-(4.7), (5.1)-(5.3), Theorems 4.3 and 5.3
+    relation: supports
+- claim_id: claim-multiplier-bootstrap-and-misspecified-generalized-score
+  kind: mechanism
+  statement: "For high-dimensional null hypotheses $H_0: \\boldsymbol{\\theta}^* = \\mathbf{0} \\in \\mathbb{R}^{d_0}$ with $\\log d_0 = o(n^{1/7})$, the supremum statistic $\\widehat{T}_n = \\|\\sqrt{n}\\widehat{S}(\\mathbf{0}, \\widehat{\\boldsymbol{\\gamma}})\\|_\\infty$ is consistently calibrated by the Gaussian multiplier bootstrap $\\widehat{\\mathbf{N}}_e = n^{-1/2}\\sum_{i=1}^n e_i(\\nabla_{\\boldsymbol{\\theta}}\\ell_i(\\mathbf{0}, \\widehat{\\boldsymbol{\\gamma}}) - \\widehat{\\mathbf{W}}^T\\nabla_{\\boldsymbol{\\gamma}}\\ell_i(\\mathbf{0}, \\widehat{\\boldsymbol{\\gamma}}))$ with $e_i \\sim N(0,1)$ satisfying $\\sup_{\\alpha \\in (0,1)}|\\mathbb{P}_{H_0}(\\widehat{T}_n > c_N(\\alpha)) - \\alpha| = o(1)$ (Section 6.1, Theorem 6.1); under model misspecification or general non-likelihood loss functions $L(\\boldsymbol{\\theta}, \\boldsymbol{\\gamma})$, the generalized score statistic $\\widehat{U}_n^{\\prime} = \\sqrt{n}\\widehat{S}(0, \\widehat{\\boldsymbol{\\gamma}})(\\widehat{\\Sigma}_{\\theta|\\boldsymbol{\\gamma}})^{-1/2}$ replaces the information identity with the sandwich variance estimator $\\widehat{\\Sigma}_{\\theta|\\boldsymbol{\\gamma}} = \\widehat{J}_{\\theta\\theta} - 2\\widehat{\\mathbf{w}}^T\\widehat{\\mathbf{J}}_{\\boldsymbol{\\gamma}\\theta} + \\widehat{\\mathbf{w}}^T\\widehat{\\mathbf{J}}_{\\boldsymbol{\\gamma}\\boldsymbol{\\gamma}}\\widehat{\\mathbf{w}}$ where $\\widehat{\\mathbf{J}} = n^{-1}\\sum_{i=1}^n \\nabla L_i(\\widehat{\\boldsymbol{\\beta}})\\nabla L_i(\\widehat{\\boldsymbol{\\beta}})^T$ (Sections 6.2\u20136.3, Theorems 6.4 and 6.8)."
+  evidence:
+  - source_id: nl2017-decorr-pdf
+    locator: Section 6, pages 24-31, Equations (6.1)-(6.11), Theorems 6.1, 6.4, and 6.8; Appendix D, pages 49-59
+    relation: supports
+evidence_sources:
+- source_id: nl2017-decorr-pdf
+  title: A General Theory of Hypothesis Tests and Confidence Regions for Sparse High Dimensional Models
+  authors:
+  - Yang Ning
+  - Han Liu
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1412.8765.pdf
+  persistent_id: https://doi.org/10.1214/16-AOS1448
+  version: arXiv:1412.8765v2 full-text PDF (80 pages, 830565 bytes), published in The Annals of Statistics 45(1):158-195 (2017).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:06:00Z'
+  sha256: 40f1ac097da354e144aa52f5e707c810eac790db66ca6fd8a358540f1f213a7c
+- source_id: nl2017-decorr-abs
+  title: A General Theory of Hypothesis Tests and Confidence Regions for Sparse High Dimensional Models (arXiv abstract)
+  authors:
+  - Yang Ning
+  - Han Liu
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1412.8765
+  persistent_id: https://arxiv.org/abs/1412.8765
+  version: arXiv:1412.8765 abstract page (6474 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:06:00Z'
+  sha256: 2f6cd2ed340bf98311f59424f0a0f8848e6b870b0b12c414f95c8836e3cb6d86
+- source_id: nl2017-decorr-crossref
+  title: A General Theory of Hypothesis Tests and Confidence Regions for Sparse High Dimensional Models
+  authors:
+  - Yang Ning
+  - Han Liu
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/16-AOS1448
+  persistent_id: https://doi.org/10.1214/16-AOS1448
+  version: Crossref API metadata (4887 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:06:00Z'
+  sha256: 4fe698990dd9fef52c623c7bcbd888c718e3ba2267d43160807d187303dec1f8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: The decorrelated score framework uses Lasso or Dantzig selector projections to estimate both the high-dimensional nuisance parameter gamma* and the score projection direction w*.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Section 4 instantiates the decorrelated score test and one-step estimator for high-dimensional sparse linear regression and Gaussian graphical models.
+limitations:
+- Asymptotic normality of the decorrelated score statistic and one-step estimator requires both the initial parameter sparsity s* = ||gamma*||_0 and the score-projection sparsity s'^* = ||w*||_0 to satisfy the ultra-sparse product rate (s* v s'^*) log d = o(sqrt(n)) (Theorems 3.7, 4.3, and 5.3); if the inverse Fisher information direction w* = (I*_{gamma,gamma})^{-1} I*_{gamma,theta} is dense, the remainder term sqrt(n)(w_hat - w*)^T nabla^2_{gamma,gamma} ell (gamma_hat - gamma*) need not vanish.
+- 'The Gaussian multiplier bootstrap for high-dimensional null hypotheses H_0: theta* = 0 in R^{d_0} requires log d_0 = o(n^{1/7}) together with sub-exponential score and Hessian moment bounds (Assumptions 6.1-6.3, Theorem 6.1).'
+- 'Primary-source typographical audit of Ning & Liu (2017, arXiv:1412.8765v2) uncovered five minor notation and typographical issues that are corrected in this record: (1) Section 3.1 Assumption 3.4 (p. 10) writes ''sqrt(n) v^{*T} nabla ell(0, gamma*) / sqrt(v^T I* v) -> N(0,1)'' omitting the superscript ''*'' on ''v*'' inside the denominator (corrected in Assumption 3.12 on p. 12); (2) Section 3.3 Remark 3.24 Eq. (3.14) (p. 15) writes ''|P_{beta*}(T_n = 1) - psi_alpha)| = 0'' with an unmatched closing parenthesis after ''psi_alpha''; (3) Section 5.3 p. 24 line 11 writes ''Bases on these assumptions'' instead of ''Based on these assumptions''; (4) Section 6.1 display for N_hat_e (p. 26) and Appendix D.1 Proof of Theorem 6.1 (p. 49) write ''N_hat_e = n^{-1/2} sum_{i=1}^n e_i(nabla_theta ell_i(0, gamma_hat) - W_hat^T nabla_gamma ell(0, gamma_hat))'' omitting the sample subscript ''i'' on the second ''ell_i(0, gamma_hat)''; and (5) Appendix C.3 Lemma C.5 Eq. (C.3) (p. 48) defines the constrained estimator w_bar in the first bound but writes ''(w_tilde - w*)^T X_i'' instead of ''(w_bar - w*)^T X_i'' in the second display.'
+curation:
+  created_at: '2026-10-19T05:06:00Z'
+  updated_at: '2026-10-19T05:06:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
