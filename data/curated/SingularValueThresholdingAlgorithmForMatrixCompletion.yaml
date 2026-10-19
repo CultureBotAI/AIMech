@@ -1,0 +1,99 @@
+id: AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+name: Singular Value Thresholding Algorithm for Matrix Completion
+concept_kind: algorithm
+review_status: DRAFT
+definition: Singular Value Thresholding Algorithm for Matrix Completion (SVT) is a first-order primal-dual Uzawa/linearized-Bregman optimization method introduced by Cai, Candes, and Shen (2010) for large-scale low-rank matrix completion from a sampled entry subset Omega subset {1,...,n_1} x {1,...,n_2}. Rather than solving the unregularized nuclear-norm program directly via interior-point semidefinite programming, SVT solves the Moreau-Yosida regularized problem min_X tau ||X||_* + (1/2) ||X||_F^2 subject to P_Omega(X) = P_Omega(M) by alternating a singular value shrinkage step X^k = D_tau(Y^{k-1}) and a sparse dual ascent step Y^k = Y^{k-1} + delta_k P_Omega(M - X^k), where D_tau(Y) = U diag(max(sigma_i - tau, 0)) V^* is the closed-form proximal operator of tau ||.||_* (Theorem 2.1). Because Y^k is supported exclusively on Omega and only singular values exceeding tau are needed, SVT maintains both sparse dual matrices and low-rank primal iterates throughout execution.
+identity_notes: Distinct from exact nuclear-norm theoretical duality certificates (AIMech:ExactMatrixCompletionViaConvexOptimizationNuclearNorm), Grassmannian manifold alternating minimization OptSpace (AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion), and Hard-Thresholded AltMinComplete (AIMech:AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion). Specifically captures the Cai-Candes-Shen (2010) SVT algorithm (Equations 1.4-1.5 and Algorithm 1), the nuclear-norm proximal shrinkage theorem D_tau(Y) = argmin_X {(1/2)||X - Y||_F^2 + tau ||X||_*} (Theorem 2.1), the equivalence between the regularized objective min tau ||X||_* + (1/2)||X||_F^2 and the nuclear-norm solution as tau -> infinity (Theorem 3.1), and global convergence under 0 < inf delta_k <= sup delta_k < 2 (Theorem 4.1).
+aliases:
+- Singular Value Thresholding
+- SVT Algorithm for Matrix Completion
+- Uzawa Singular Value Soft-Thresholding
+- Cai-Candes-Shen SVT Algorithm
+definition_evidence:
+- source_id: r317-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r317-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r317-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: For any matrix Y = U Sigma V^* and threshold tau >= 0, Theorem 2.1 proves that the singular value soft-thresholding operator D_tau(Y) = U D_tau(Sigma) V^* with D_tau(Sigma) = diag(max(sigma_i - tau, 0)) is the unique global minimizer of the proximal nuclear-norm functional (1/2)||X - Y||_F^2 + tau ||X||_* because Y - D_tau(Y) = tau(U_0 V_0^* + W) with U_0^* W = 0, W V_0 = 0, and ||W||_2 <= 1 lies in the subdifferential tau * partial ||D_tau(Y)||_*.
+  evidence:
+  - source_id: r317-primary-pdf
+    locator: Section 2.1, Definitions and Theorem 2.1, Equations 2.1-2.6, pp. 4-5
+    relation: supports
+  - source_id: r317-metadata-cr
+    locator: Bibliographic metadata for SIAM Journal on Optimization 20(4):1956-1982
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: 'Theorem 3.1 proves that the unique solution Z_tau of the strongly convex surrogate min_X {tau ||X||_* + (1/2)||X||_F^2 : P_Omega(X) = P_Omega(M)} converges as tau -> infinity to the minimum-Frobenius-norm solution X_hat of the pure nuclear-norm problem min_X {||X||_* : P_Omega(X) = P_Omega(M)} (and coincides with X_hat for finite tau > tau_0 when Omega is finite), while Theorem 4.1 establishes that the Uzawa iterates X^k = D_tau(Y^{k-1}), Y^k = Y^{k-1} + delta_k P_Omega(M - X^k) converge globally to Z_tau whenever the step sizes satisfy 0 < inf_k delta_k <= sup_k delta_k < 2.'
+  evidence:
+  - source_id: r317-primary-pdf
+    locator: Section 3, Theorem 3.1 and Lemma 3.2, pp. 7-9; Section 4.1, Lemma 4.2 and Theorem 4.1, pp. 9-12
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Selecting a large threshold tau is required so that the regularized optimum Z_tau closely approximates the pure nuclear-norm minimizer and keeps intermediate iterates low rank, but large tau slows down asymptotic convergence; conversely, step sizes delta_k violating the theoretical stability condition delta_k < 2 (outside the empirical undersampled scaling delta = 1.2 * n_1 n_2 / |Omega|) can cause the dual updates to diverge.
+  evidence:
+  - source_id: r317-primary-pdf
+    locator: Section 1.2, Parameter selection discussion, p. 3; Section 5.1, Step size and threshold trade-offs, pp. 15-17
+    relation: supports
+evidence_sources:
+- source_id: r317-primary-pdf
+  title: A Singular Value Thresholding Algorithm for Matrix Completion
+  authors: &id001
+  - Jian-Feng Cai
+  - Emmanuel J. Candes
+  - Zuowei Shen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0810.3286v1
+  persistent_id: https://doi.org/10.1137/080738970
+  version: SIAM Journal on Optimization, 20(4):1956-1982 (2010) (390835 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:26:00Z'
+  sha256: 5f7f969ec4caf973e49a76524ea9baca3b61ec9ee6334db478968e06c3ac8a76
+- source_id: r317-arxiv-abs
+  title: A Singular Value Thresholding Algorithm for Matrix Completion (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0810.3286v1
+  persistent_id: https://arxiv.org/abs/0810.3286v1
+  version: arXiv abstract page (6813 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:26:00Z'
+  sha256: 8261ef4b72cb3781b177f87a296dd3a900a9b5904b4d55d3fb401214855d1b11
+- source_id: r317-metadata-cr
+  title: A Singular Value Thresholding Algorithm for Matrix Completion (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1137/080738970
+  persistent_id: https://doi.org/10.1137/080738970
+  version: Crossref API work record (4564 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:26:00Z'
+  sha256: 8923fa446e33cf47bd6ffd362944d954927749df375f67d1d08a4abf5c2913d3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: SVT recovers low-rank matrix structure via iterative singular value soft-thresholding.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Each SVT iteration computes truncated singular vectors exceeding threshold tau.
+limitations:
+- 'Faces a trade-off in choosing the regularization threshold tau: large tau guarantees low-rank intermediate iterates and small bias relative to pure nuclear-norm minimization but increases the number of first-order iterations required for high-precision convergence.'
+curation:
+  created_at: '2026-10-19T06:26:00Z'
+  updated_at: '2026-10-19T06:26:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
