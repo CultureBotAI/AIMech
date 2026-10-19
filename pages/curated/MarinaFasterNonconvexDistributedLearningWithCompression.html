@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MARINA Faster Non-Convex Distributed Learning with Compression · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>MARINA Faster Non-Convex Distributed Learning with Compression</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MARINA Faster Non-Convex Distributed Learning with Compression</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MarinaFasterNonconvexDistributedLearningWithCompression</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MARINA, VR-MARINA, PP-MARINA, Faster Non-Convex Distributed Learning with Compression
+    </div>
+
+  <div class="detail-desc">
+    A communication-efficient nonconvex distributed optimization method (MARINA, together with its variance-reduced finite-sum/online variant VR-MARINA and partial-participation variant PP-MARINA) for minimizing f(x) = (1/n) sum_{i=1}^n f_i(x) that constructs a biased SARAH/PAGE-style recursive gradient estimator g^{k+1} using an independent unbiased omega-quantizer Q at each worker: after updating x^{k+1} = x^k - gamma * g^k and drawing c_k ~ Bernoulli(p) (typically p = 1/(1 + omega)), each worker i transmits the exact gradient g_i^{k+1} = nabla f_i(x^{k+1}) if c_k = 1 or the compressed consecutive gradient difference g_i^{k+1} = g^k + Q(nabla f_i(x^{k+1}) - nabla f_i(x^k)) if c_k = 0, so the server average g^{k+1} = (1/n) sum_{i=1}^n g_i^{k+1} satisfies E[||g^{k+1} - nabla f(x^{k+1})||^2] &lt;= (1 - p)||g^k - nabla f(x^k)||^2 + ((1 - p)*omega*L^2/n) E[||x^{k+1} - x^k||^2] and achieves O((Delta_0 * L / eps^2) * (1 + sqrt((1 - p)*omega / (p*n)))) iteration complexity (O((Delta_0 * L / eps^2) * (1 + omega / sqrt(n))) under p = 1/(1 + omega)), improving over DIANA by a factor of O(sqrt(omega)) without any bounded gradient dissimilarity assumption.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from DIANA (AIMech:DianaDistributedLearningWithCompressedGradientDifferences, which forms an unbiased gradient estimator by compressing g_i^k - h_i^k against stored per-worker shift vectors h_i^k and achieves worse O(omega/n + omega^{2/3}/n^{2/3}) scaling in nonconvex optimization), from EF21 (AIMech:Ef21MarkovCompressorErrorFeedbackForHeterogeneousNonconvexOptimization, which supports biased contractive compressors without uncompressed synchronization rounds c_k = 1, whereas MARINA uses independent unbiased quantizers across workers to obtain a 1/sqrt(n) multi-node variance reduction factor), and from centralized PAGE/SARAH/SPIDER (AIMech:SARAHStochasticRecursiveGradientForFiniteSumOptimization and AIMech:SPIDERStochasticPathIntegratedDifferentialEstimatorForNonConvexOptimization, which do not compress worker-to-server communication). No pinned AIO class covers MARINA.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r391-biased-recursive-difference-compression-and-lyapunov-descent</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By compressing the consecutive gradient difference nabla f_i(x^{k+1}) - nabla f_i(x^k) with probability 1 - p and resetting g^{k+1} = nabla f(x^{k+1}) with probability p, MARINA&#39;s estimator error contracts as E||g^{k+1} - nabla f(x^{k+1})||^2 &lt;= (1 - p)||g^k - nabla f(x^k)||^2 + ((1 - p)*omega*L^2/n) E||x^{k+1} - x^k||^2 (Eq. 8), and Theorem 2.1 / Corollary 2.1 prove that the Lyapunov potential Phi_k = f(x^k) - f_* + (gamma / (2*p)) ||g^k - nabla f(x^k)||^2 decreases monotonically for gamma &lt;= 1 / (L*(1 + sqrt((1 - p)*omega/(p*n)))), achieving E||nabla f(x_hat^K)||^2 &lt;= eps^2 in O((Delta_0 * L / eps^2) * (1 + omega / sqrt(n))) iterations and matching uncompressed gradient descent communication complexity whenever omega &lt;= sqrt(n).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r391-primary-pdf">MARINA: Faster Non-Convex Distributed Learning with Compression</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Algorithm 1, Equation 8, Theorem 2.1, Corollary 2.1, and Table 1, pp. 2-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r391-pl-linear-convergence-and-vr-pp-marina-extensions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the Polyak-Lojasiewicz condition ||nabla f(x)||^2 &gt;= 2*mu*(f(x) - f_*), Theorem 2.2 proves linear convergence O(max{1/p, (L/mu)*(1 + sqrt((1 - p)*omega/(p*n)))} log(Delta_0 / eps^2)), while VR-MARINA (Algorithms 2-3, Theorems 3.1-3.2) replaces full local gradients with minibatch difference estimators of size b&#39; (recovering PAGE when n = 1, omega = 0) and PP-MARINA (Algorithm 4, Theorem 4.1) extends MARINA to r-out-of-n partial client participation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r391-primary-pdf">MARINA: Faster Non-Convex Distributed Learning with Compression</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 Theorem 2.2, Section 3 Theorems 3.1-3.2, and Section 4 Theorem 4.1, pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r391-periodic-uncompressed-sync-and-unbiased-quantizer-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires an unbiased compression operator Q (so independent worker errors average down by 1/n) and periodic uncompressed gradient broadcasts with probability p = 1/(1 + omega) (or synchronous minibatch resets in VR-MARINA), unlike EF21 which transmits only compressed vectors at every round.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r391-primary-pdf">MARINA: Faster Non-Convex Distributed Learning with Compression</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2 Definition 1.1 and Section 2.1 Algorithm 1 &amp; Remark on communication cost, pp. 2-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r391-nonconvex-binary-classification-and-autoencoder-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed nonconvex sigmoid binary classification on LIBSVM datasets (mushrooms, w8a, a9a, phishing) and neural network autoencoder training on MNIST with RandK sparsification and natural compression, outperforming DIANA, EF21, and uncompressed GD in total communicated bits.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r391-primary-pdf">MARINA: Faster Non-Convex Distributed Learning with Compression</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Numerical Experiments, Figures 1-2 &amp; Appendix B, pp. 8-9, 14-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an unbiased quantizer Q so that independent worker quantization errors average down by 1/n.</li>
+      <li>Requires periodic uncompressed gradient transmissions with probability p (or large minibatch resets in VR-MARINA).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MARINA and PP-MARINA perform communication-compressed distributed and federated nonconvex optimization using biased recursive gradient-difference estimators.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r391-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r391-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2102.07845.pdf" target="_blank" rel="noopener">MARINA: Faster Non-Convex Distributed Learning with Compression</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Eduard Gorbunov, Konstantin P. Burlachenko, Zhize Li, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v139/gorbunov21a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1e92c6cefd8f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r391-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r391-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2102.07845" target="_blank" rel="noopener">MARINA: Faster Non-Convex Distributed Learning with Compression (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Eduard Gorbunov, Konstantin P. Burlachenko, Zhize Li, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2102.07845</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ad8137bfe611…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r391-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r391-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v139/gorbunov21a.html" target="_blank" rel="noopener">MARINA: Faster Non-Convex Distributed Learning with Compression (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Eduard Gorbunov, Konstantin P. Burlachenko, Zhize Li, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v139/gorbunov21a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:52e02497515c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:54:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:54:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MarinaFasterNonconvexDistributedLearningWithCompression.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MarinaFasterNonconvexDistributedLearningWithCompression.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
