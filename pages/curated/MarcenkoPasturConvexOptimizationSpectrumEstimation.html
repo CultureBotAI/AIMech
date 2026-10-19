@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marcenko-Pastur Convex Optimization Spectrum Estimation for Large Covariance Matrices · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Marcenko-Pastur Convex Optimization Spectrum Estimation for Large Covariance Matrices</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Marcenko-Pastur Convex Optimization Spectrum Estimation for Large Covariance Matrices</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:MarcenkoPasturConvexOptimizationSpectrumEstimation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> El Karoui Marcenko-Pastur Stieltjes-Transform Convex Spectrum Estimator, Random Matrix Theory Linear-Programming Population Spectral Distribution Estimator, Nonparametric Marcenko-Pastur Inverse Problem Covariance Eigenvalue Estimator
+    </div>
+
+  <div class="detail-desc">
+    Marcenko-Pastur Convex Optimization Spectrum Estimation for Large Covariance Matrices is a nonparametric high-dimensional spectral distribution estimation methodology that recovers the population spectral distribution H_p(x) = (1/p) sum_{j=1}^p 1_{l_j &lt;= x} of a p x p covariance matrix Sigma_p from the empirical spectral distribution F_p of the sample covariance matrix S_p = (1/n) X&#39;X in the proportional asymptotic regime p/n -&gt; c in (0, infty) by inverting the Silverstein-Marcenko-Pastur equation -(1 - c)/z + c m_F(z) = -1/v_F(z) = (-z + c integral t/(1 + t v_F(z)) dH(t))^{-1} via a convex optimization program. Approximating H on a dictionary of non-negative basis functions {f_k}_{k=1}^K (such as Dirac masses dH_hat(t) = sum_{k=1}^K w_k delta_{t_k} with w_k &gt;= 0, sum_k w_k = 1, or piecewise-linear roof/tent functions) and evaluating empirical Stieltjes transforms v_hat_j = (1 - p/n)/z_j + (p/n) m_{F_n}(z_j) on a complex grid {z_j}_{j=1}^J in C^+ subset R x i R_+, the estimator minimizes the maximum real and imaginary residual norm max_j |1/v_hat_j - z_j + (p/n) sum_k w_k integral t f_k(t)/(1 + t v_hat_j) dt| (or weighted L_p/L_2 criteria) as a linear or convex program, achieving weak almost-sure convergence H_hat_n =&gt; H (Theorem 1, Theorem 2, and Corollary 1) through vital theorem analytic continuation and Weierstrass polynomial moment identification.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved as a distinct AIMech-native mathematical_method concept from El Karoui (2008, The Annals of Statistics 36(6):2757-2790; arXiv:math/0609418v1, DOI:10.1214/07-AOS581). Distinct from AIMech:OperatorNormConsistentEstimationOfBetaSparseCovarianceMatrices (El Karoui 2008, Ann. Statist. 36(6):2717-2756), which estimates the full covariance matrix Sigma_p in operator norm under closed-walk beta-sparsity via entrywise hard thresholding, whereas the present method requires no sparsity or structure on Sigma_p and estimates the 1D population eigenvalue distribution H_p by solving a convex/linear program that inverts the Marcenko-Pastur Stieltjes-transform equation on C^+. Also distinct from AIMech:LedoitWolfOptimalLinearCovarianceShrinkage (Ledoit &amp; Wolf 2004), which shrinks S_p linearly toward the identity matrix under Frobenius loss rather than nonparametrically reconstructing the population spectral distribution H_p.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#marcenko-pastur-stieltjes-transform-linearity-and-convex-lp-dictionary-formulation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the random matrix model X = T^{1/2} Z where Sigma_p = T has spectral distribution H_p and p/n -&gt; c in (0, infty), the empirical spectral distribution F_p of S_p = (1/n) X&#39;X converges weakly almost surely to F whose companion Stieltjes transform v_F(z) = (1 - c) m_{tilde F}(z) = -(1 - c)/z + c m_F(z) satisfies the Silverstein-Marcenko-Pastur functional equation -1/v_F(z) = -z + c integral t/(1 + t v_F(z)) dH(t) for z in C^+ (Section 1.1, eq. 1, p. 2). Observing that for fixed z and v_F(z) the functional H -&gt; integral t/(1 + t v_F(z)) dH(t) is linear in the probability measure H while the domain of probability measures on [0, M] is convex (Section 2.1, p. 5), Section 2.2 (pp. 5-8) discretizes dH_hat(t) = sum_{k=1}^K w_k f_k(t) dt over a dictionary {f_k}_{k=1}^K (with Dirac masses or closed-form roof/tent basis integrals given by Lemma 1, p. 7) on a complex grid {z_j}_{j=1}^J subset C^+ and solves a linear program minimizing max_j max(|Re e_j(w)|, |Im e_j(w)|) subject to w_k &gt;= 0 and sum_k w_k integral f_k(t) dt = 1, where e_j(w) = 1/v_hat_j - z_j + (p/n) sum_{k=1}^K w_k integral t f_k(t)/(1 + t v_hat_j) dt.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ek2008-spectrum-pdf">Spectrum estimation for large dimensional covariance matrices using random matrix theory</a></span>
+        <span>· <strong>Locator:</strong> Section 1.1, eq. (1), pp. 2-3; Section 2.1-2.2, Lemma 1, pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#weak-almost-sure-consistency-via-vitali-analytic-continuation-and-moment-recovery</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When Sigma_p has spectrum supported in a compact interval [0, M], entries of Z are i.i.d. with mean 0 and variance 1 (or X_i = Sigma_p^{1/2} Z_i are independent isotropic convex-concentration vectors as in Lemma 2, p. 12), and the evaluation mesh {z_j}_{j=1}^{J_n} accumulates on a vertical segment {x_0 + i y : y in [y_min, y_max]} satisfying |z_j| &gt; 2 max(2, c) M and Re(1 + t v_F(z_j)) &gt; 1/2 (Assumptions A2-A4, p. 9), Theorem 1 (p. 9), Theorem 2 (p. 10), and Corollary 1 (p. 11) prove that any sequence of probability measures H_hat_n achieving asymptotic objective value L_{P_n}(H_hat_n) -&gt; 0 converges weakly almost surely to H_infty (when H_p =&gt; H_infty) and satisfies Levy-distance convergence d_L(H_hat_p, H_p) -&gt; 0 even when H_p has no limit: the proof shows via Vitali&#39;s convergence theorem on bounded analytic functions (Section 4.1, pp. 16-20) that integral t/(1 + t v) d(H_infty - H_hat_infty)(t) = 0 on an open ball around v = 0, which by power-series differentiation forces all moments integral t^m dH_hat_infty(t) = integral t^m dH_infty(t) (m &gt;= 1) to match on [0, M], uniquely identifying H_infty by the Weierstrass approximation theorem.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ek2008-spectrum-pdf">Spectrum estimation for large dimensional covariance matrices using random matrix theory</a></span>
+        <span>· <strong>Locator:</strong> Section 2.4, Assumptions A1-A5, Theorems 1-2, and Corollary 1, pp. 8-11; Section 2.5, Lemma 2, p. 12; Section 4, Proof of Theorem 1, Theorem 2, and Corollary 1, pp. 16-21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#eigenvalue-clustering-multiplicity-and-support-recovery-across-continuous-and-atomic-spectra</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across five challenging simulation regimes in Section 3.1 (Figures 1-5, pp. 12-16)—including merged sample bulk components for closely spaced two-atom spectra 0.5 delta_1 + 0.5 delta_2 at n = 500, p = 100 (Figure 1), three-atom spectra with heterogeneous weights (0.2, 0.3, 0.5) at n = 500, p = 300 (Figure 2), mixture of a continuous Uniform(1, 2) bulk and a point mass at 0.5 (Figure 3), Toeplitz AR(1) correlation matrices Sigma_{i,j} = rho^{|i-j|} with rho = 0.6 at n = 500, p = 200 (Figure 4), and standard Wishart identity covariance at n = 1000, p = 500 (Figure 5)—the convex optimization estimator accurately recovers population spectral CDFs, number of spectral clusters, cluster weights, and eigenvalue ranges where the raw sample eigenvalue distribution F_p suffers severe Marcenko-Pastur spreading and support merging.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ek2008-spectrum-pdf">Spectrum estimation for large dimensional covariance matrices using random matrix theory</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Sections 3.1-3.2 and Figures 1-5, pp. 12-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Estimates the 1D eigenvalue distribution H_p rather than population eigenvectors: Because the Marcenko-Pastur equation depends only on the eigenvalues of Sigma_p, the convex optimization program recovers the population spectral distribution H_p(x) and eigenvalue multiplicities/support but does not by itself estimate population eigenvectors or the full covariance matrix Sigma_p.</li>
+      <li>Ill-posed inverse problem and slow convergence of support endpoints without prior regularization: Recovering a measure from its Stieltjes transform on C^+ is an inverse problem akin to deconvolution; while cumulative distribution functions H_hat_p(x) converge rapidly in Levy distance, precise localization of extreme eigenvalues or atomic versus continuous local shapes can exhibit small peripheral bumps unless structural priors (such as atomic penalties or smoothness constraints) are incorporated (Section 3.1, p. 13; Section 5, p. 24).</li>
+      <li>Structural dependence requirements across observations and coordinates: Consistency in Theorems 1-2 relies on the Marcenko-Pastur law holding for S_p = (1/n) X&#39;X, requiring independent identically distributed rows with either X_i = Sigma_p^{1/2} Z_i (i.i.d. entries in Z_i) or isotropic convexly concentrated vectors (Section 2.5, Lemma 2, p. 12).</li>
+      <li>Primary-source typographical audit of arXiv:math/0609418v1 (DOI:10.1214/07-AOS581): (1) On p. 15 (PDF p. 15, Figure 3b), the plot annotation inside panel (b) prints &#39;n=500, p=500&#39; whereas panels (a), (c), and the Figure 3 caption specify &#39;n=500, p=100&#39; (500 x 100 data matrix); (2) on p. 21 (PDF p. 21, Proof of Corollary 1, line 5), &#39;with H_{M_n}(x) = H_infty(x) is x = l/M_n&#39; prints &#39;is&#39; instead of &#39;if&#39;.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Section 1 (p. 2) and Section 3.1 (pp. 12-16) motivate population spectrum estimation for principal component analysis in high dimensions where sample eigenvalues fail to consistently estimate population PCA variances.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Provides consistent nonparametric estimation of the eigenvalue distribution and condition number of high-dimensional design/predictor covariance matrices.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-ek2008-spectrum-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ek2008-spectrum-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/pdf/math/0609418.pdf" target="_blank" rel="noopener">Spectrum estimation for large dimensional covariance matrices using random matrix theory</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Noureddine El Karoui
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/07-AOS581</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7f1d03deb521…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-ek2008-spectrum-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ek2008-spectrum-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/abs/math/0609418" target="_blank" rel="noopener">Spectrum estimation for large dimensional covariance matrices using random matrix theory (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Noureddine El Karoui
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.math/0609418</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3373e1f30922…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-ek2008-spectrum-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ek2008-spectrum-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1214/07-AOS581" target="_blank" rel="noopener">Spectrum estimation for large dimensional covariance matrices using random matrix theory (Annals of Statistics Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Noureddine El Karoui
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/07-AOS581</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9522a6ae66a9…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-18T23:52:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-18T23:52:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MarcenkoPasturConvexOptimizationSpectrumEstimation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MarcenkoPasturConvexOptimizationSpectrumEstimation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
