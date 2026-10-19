@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local SGD Periodic Model Averaging Parallel Stochastic Gradient Descent · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Local SGD Periodic Model Averaging Parallel Stochastic Gradient Descent</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Local SGD Periodic Model Averaging Parallel Stochastic Gradient Descent</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Local SGD, Parallel Restarted SGD, Periodic Model Averaging SGD, K-Step Averaging Stochastic Gradient Descent
+    </div>
+
+  <div class="detail-desc">
+    A communication-efficient parallel stochastic optimization algorithm (Local SGD) in which K workers independently advance local parameter vectors via x_{t+1}^k = x_t^k - eta_t * grad f_{i_t^k}(x_t^k) and synchronize by global averaging x_{t+1}^k = (1/K) sum_{j=1}^K (x_t^j - eta_t * grad f_{i_t^j}(x_t^j)) only at communication steps t + 1 in I_T with maximum synchronization gap gap(I_T) &lt;= H, bounding the mean squared worker drift from the virtual average x_bar_t = (1/K) sum_{k=1}^K x_t^k by 4 * eta_t^2 * G^2 * H^2 and achieving the optimal O(sigma^2 / (mu * K * T)) linear K-worker speedup with up to H = O(sqrt(T / K)) fewer communication rounds.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from control-variate client-drift correction in heterogeneous federated learning (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning), from proximal heterogeneous federated optimization with variable inexact local solvers (AIMech:FedProxProximalHeterogeneousFederatedOptimization), and from compressed every-step SGD with error memory (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression). No pinned AIO class covers Local SGD periodic averaging or its virtual-average drift analysis.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r383-virtual-average-variance-reduction-and-drift-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the virtual average sequence x_bar_t = (1/K) sum_{k=1}^K x_t^k, Lemma 3.2 establishes that the variance of the averaged stochastic gradient is reduced by a factor of K (E ||g_t - g_bar_t||^2 &lt;= sigma^2 / K), and Lemma 3.3 proves that for stepsizes satisfying eta_t &lt;= 2 * eta_{t+H} and synchronization gap at most H, the expected squared worker deviation from x_bar_t is uniformly bounded by (1/K) sum_{k=1}^K E ||x_bar_t - x_t^k||^2 &lt;= 4 * eta_t^2 * G^2 * H^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r383-primary-pdf">Local SGD Converges Fast and Communicates Little</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Proof of Theorem 2.2, Lemma 3.1, Lemma 3.2, and Lemma 3.3, pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r383-linear-parallel-speedup-and-communication-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L-smoothness and mu-strong convexity with stepsizes eta_t = 4 / (mu * (a + t)), shift a &gt; max(16 * kappa, H), and quadratic iterate weights w_t = (a + t)^2, Theorem 2.2 proves E[f(x_hat_T)] - f(x*) &lt;= O(sigma^2 / (mu * K * T)) + O(kappa * H^2 * G^2 / (mu * T^2)) + O(G^2 * (kappa + H)^3 / (mu * T^3)), achieving linear K-fold parallel speedup whenever H = O(sqrt(T / (K * b))).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r383-primary-pdf">Local SGD Converges Fast and Communicates Little</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Theorem 2.2, Corollary 2.3, and Remark 2.4, pp. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r383-bounded-second-moment-and-heterogeneous-drift-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The drift bound in Lemma 3.3 assumes a uniform second-moment bound E ||grad f_i(x)||^2 &lt;= G^2 and shared objective f across workers; when workers optimize heterogeneous local objectives f_k != f with large H, local iterates drift toward distinct local optima unless corrected.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r383-primary-pdf">Local SGD Converges Fast and Communicates Little</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Equations (3)-(4), Lemma 3.3, and Section 6 Conclusion, pp. 2, 5, 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r383-communication-reduced-parallel-training-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to parallel mini-batch and asynchronous stochastic optimization of regularized logistic regression and convex empirical risk minimization with periodic worker averaging.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r383-primary-pdf">Local SGD Converges Fast and Communicates Little</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Empirical Observations and Section 5 Asynchronous Local SGD, Figures 1-2, pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires synchronization period H &lt;= O(sqrt(T / (K * b))) to prevent the O(kappa * H^2 * G^2 / (mu * T^2)) drift term from dominating the leading O(sigma^2 / (mu * K * T)) statistical term.</li>
+      <li>Suffers from client drift when local worker data distributions are non-IID unless augmented with control variates or proximal regularization.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Local SGD provides the foundational periodic local-update and model-averaging mechanism underlying Federated Averaging (FedAvg) and parallel data-center training.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Local SGD is benchmarked on parallel regularized logistic regression objectives.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r383-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r383-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1805.09767.pdf" target="_blank" rel="noopener">Local SGD Converges Fast and Communicates Little</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sebastian U. Stich
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=SJSuGs0KoFX</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:91dab280c55e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r383-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r383-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1805.09767" target="_blank" rel="noopener">Local SGD Converges Fast and Communicates Little (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sebastian U. Stich
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1805.09767</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0a9300c4815d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r383-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r383-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=SJSuGs0KoFX" target="_blank" rel="noopener">Local SGD Converges Fast and Communicates Little (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sebastian U. Stich
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=SJSuGs0KoFX</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e064dd4c0653…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:46:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:46:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LocalSgdPeriodicAveragingParallelStochasticGradientDescent.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LocalSgdPeriodicAveragingParallelStochasticGradientDescent.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
