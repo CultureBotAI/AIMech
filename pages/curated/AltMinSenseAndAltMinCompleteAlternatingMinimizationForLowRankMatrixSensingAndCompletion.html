@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AltMinSense and AltMinComplete (Alternating Minimization for Low-Rank Matrix Sensing and Completion) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>AltMinSense and AltMinComplete (Alternating Minimization for Low-Rank Matrix Sensing and Completion)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AltMinSense and AltMinComplete (Alternating Minimization for Low-Rank Matrix Sensing and Completion)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> AltMinSense and AltMinComplete, Jain-Netrapalli-Sanghavi Alternating Minimization for Matrix Sensing and Completion, Perturbed Power Method Analysis of Alternating Least Squares
+    </div>
+
+  <div class="detail-desc">
+    The first globally provable alternating least-squares algorithms — *AltMinSense* for rank-$k$ matrix sensing $\mathcal{A}(M) = b$ and *AltMinComplete* for rank-$k$ matrix completion $P_\Omega(M)$ — introduced by Prateek Jain, Praneeth Netrapalli, and Sujay Sanghavi (2013). Parameterizing the rank-$k$ estimate in factored form $X = U V^\top$ ($U\in\mathbb{R}^{m\times k}, V\in\mathbb{R}^{n\times k}$), the algorithms initialize $U^0$ from the top-$k$ left singular vectors of the back-projected measurements ($\sum_{i=1}^d A_i b_i$ for sensing; rescaled $P_\Omega(M)/p$ followed by entrywise magnitude clipping at $2\mu\sqrt{k/m}$ for completion) and alternate between exact convex least-squares updates $\widehat{V}^{t+1} = \arg\min_V \|\mathcal{A}(U^t V^\top) - b\|_2^2$ (or $\|P_{\Omega_{2t+1}}(U^t V^\top - M)\|_F^2$) and QR orthonormalization $V^{t+1} = \mathrm{QR}(\widehat{V}^{t+1})$, followed symmetrically by $\widehat{U}^{t+1}$ and $U^{t+1} = \mathrm{QR}(\widehat{U}^{t+1})$. By expressing each least-squares step as a perturbed power iteration $\widehat{V}^{t+1} = V^*\Sigma^*(U^*)^\top U^t - F$ where $F = B^{-1}((U^t)^\top U^* B - C)V^*\Sigma^*$ (Equation 4), Theorems 2.2 and 2.5 prove geometric decay $\mathrm{dist}(U^t,U^*) \le (1/2)^t$ and $\|M - \widehat{U}^T(V^T)^\top\|_F \le \epsilon$ in $T = O(\log(\|M\|_F/\epsilon))$ iterations.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved against all 442 pinned AIO concepts and 702 maintained AIMech concepts. Distinct from `AIMech:AltMinPhaseAndSparseAltMinPhaseAlternatingMinimizationPhaseRetrieval` (which alternates phase $c = \mathrm{Ph}(A x)$ and least-squares for vector phase retrieval) and `AIMech:NonconvexMatrixCompletionLandscapeWithoutSpuriousLocalMinima` / `AIMech:ProcrustesFlowForLowRankMatrixRecovery` (which analyze smooth gradient descent rather than exact alternating least-squares with QR orthonormalization and perturbed power-method operators $B^{-1}((U^t)^\top U^* B - C)$).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-perturbed-power-method-identity-and-rip-geometric-contraction-for-altminsense</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For rank-$k$ matrix sensing $\mathcal{A}(M) = b$, the exact least-squares update $\widehat{V}^{t+1} = \arg\min_V \|\mathcal{A}(U^t V^\top) - b\|_2^2$ obeys the perturbed power identity $\widehat{V}^{t+1} = V^*\Sigma^*(U^*)^\top U^t - B^{-1}((U^t)^\top U^* B - C)V^*\Sigma^*$ (Equations 4 and 6), where $B$ and $C$ are $n k \times n k$ block operators formed from $A_i^\top U^t$ and $A_i^\top U^*$; under $(2k,\delta_{2k})$-RIP with $\delta_{2k} &lt; \sigma_k^*/(100 k \sigma_1^*)$, Lemmas 4.3–4.4 and Theorem 4.2 prove $\|B^{-1}((U^t)^\top U^* B - C)V^*\Sigma^*\|_2 \le \frac{\delta_{2k}\sqrt{k}\sigma_1^*}{1-\delta_{2k}} \mathrm{dist}(U^t,U^*)$, yielding geometric subspace contraction $\mathrm{dist}(V^{t+1}, V^*) \le \frac{1}{2}\mathrm{dist}(U^t, U^*)$ and $\epsilon$-recovery in $O(\log(1/\epsilon))$ steps (Theorem 2.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jns2013-altmin-pdf">Low-rank Matrix Completion using Alternating Minimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Algorithm 1 &amp; Theorem 2.2, pp. 4-5; Section 3-4.2, Equation (4), Equation (6), Theorem 4.2, &amp; Lemmas 4.3-4.4, pp. 7-11</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jns2013-altmin-abs">Low-rank Matrix Completion using Alternating Minimization (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-incoherence-preserving-clipping-and-altmincomplete-sample-complexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For rank-$k$ $\mu$-incoherent matrix completion (Definition 2.3), Algorithm 3 (*AltMinComplete*) initializes $U^0$ by zeroing entries of the top-$k$ singular vectors of $\frac{1}{p}P_{\Omega_0}(M)$ exceeding $\frac{2\mu\sqrt{k}}{\sqrt{m}}$ in magnitude and re-orthonormalizing; Lemma C.2 proves this clipping produces a $4\mu\sqrt{k}$-incoherent subspace within distance $1/2$ of $U^*$, and Theorem 2.5 (via Lemma 5.3) proves that alternating least squares across $2T+1$ independent sample partitions with total sample complexity $|\Omega| = O((\sigma_1^*/\sigma_k^*)^4 \mu^2 k^{4.5} n \log n \log(k\|M\|_F/\epsilon))$ preserves iterate incoherence and contracts $\mathrm{dist}(U^t,U^*) \le (1/2)^t$.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jns2013-altmin-pdf">Low-rank Matrix Completion using Alternating Minimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Definition 2.3, Algorithm 3, &amp; Theorem 2.5, pp. 5-7; Section 5.1, Lemmas 5.1-5.4, pp. 11-12; Appendix C, pp. 23-35</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jns2013-altmin-cr">Low-rank Matrix Completion using Alternating Minimization (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> STOC 2013 proceedings metadata pp. 665-674</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-scope-inductive-stagewise-altmin-reduces-condition-number-dependence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Algorithms 2 and 4 (*Stage-AltMinSense* and *Stage-AltMinComplete*) apply alternating minimization inductively in $r \le k$ stages with threshold singular-value gaps $\sigma_{i_s}^* &gt; 4 k \sigma_{i_s+1}^*$, eliminating the $(\sigma_1^*/\sigma_k^*)^2$ factor from the RIP constant of matrix sensing (Theorem 2.3) and reducing the condition-number dependence of matrix completion from $(\sigma_1^*/\sigma_k^*)^4$ to $(\sigma_1^*/\sigma_k^*)^2$ (Theorem 2.6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jns2013-altmin-pdf">Low-rank Matrix Completion using Alternating Minimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1-2.2, Algorithms 2 &amp; 4, Theorems 2.3 &amp; 2.6, pp. 5-7; Section 4.3 &amp; 5.2, pp. 11-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-limitation-sample-splitting-across-iterations-and-spectral-basin-requirement</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The theoretical convergence analysis of AltMinComplete partitions $\Omega$ into $2T+1$ independent subsets of size $\Omega(n\log n \log(1/\epsilon))$ to decouple $U^t$ from $\Omega_{2t+1}$, and requires an initial subspace $U^0$ with non-singular projection $(U^*)^\top U^0$ inside the contraction basin $\mathrm{dist}(U^0, U^*) &lt; 1/2$.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jns2013-altmin-pdf">Low-rank Matrix Completion using Alternating Minimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Algorithm 3 &amp; Theorem 2.5, pp. 6-7; Section 3, Equation (4), p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires $(2k,\delta_{2k})$-RIP for matrix sensing or $\mu$-incoherence and sample splitting across $2T+1$ rounds for matrix completion, as well as spectral initialization inside $\mathrm{dist}(U^0,U^*) &lt; 1/2$.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Initializes low-rank factor subspaces via top-k singular vectors and analyses alternating least squares as a perturbed power method.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Recovers low-rank matrix factorizations X = U V^T from compressed linear measurements or partially observed entries.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-jns2013-altmin-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">jns2013-altmin-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1212.0467.pdf" target="_blank" rel="noopener">Low-rank Matrix Completion using Alternating Minimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Prateek Jain, Praneeth Netrapalli, Sujay Sanghavi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1145/2488608.2488693</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:39a581dfb745…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-jns2013-altmin-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">jns2013-altmin-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1212.0467" target="_blank" rel="noopener">Low-rank Matrix Completion using Alternating Minimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Prateek Jain, Praneeth Netrapalli, Sujay Sanghavi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1212.0467</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ec610f95702e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-jns2013-altmin-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">jns2013-altmin-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1145/2488608.2488693" target="_blank" rel="noopener">Low-rank Matrix Completion using Alternating Minimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Prateek Jain, Praneeth Netrapalli, Sujay Sanghavi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1145/2488608.2488693</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:25d3cb0769f0…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:08:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:08:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
