@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scaled LASSO and Huber Concomitant Penalized Joint Sparse Regression · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Scaled LASSO and Huber Concomitant Penalized Joint Sparse Regression</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Scaled LASSO and Huber Concomitant Penalized Joint Sparse Regression</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ScaledLassoAndHuberConcomitantPenalizedJointSparseRegression</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Scaled Lasso, Scaled Sparse Linear Regression, Huber Concomitant Scale-Regression Joint L1 Penalized Estimator, Alternating Residual-Scale Equilibrium LASSO
+    </div>
+
+  <div class="detail-desc">
+    Scaled LASSO and Huber Concomitant Penalized Joint Sparse Regression is a high-dimensional sparse linear regression and noise-level estimation framework introduced by Sun and Zhang (2012, Biometrika 99(4):879-898, DOI:10.1093/biomet/ass043, arXiv:1104.4595v2) that simultaneously estimates the regression vector $\beta \in \mathbb{R}^p$ and noise standard deviation $\sigma &gt; 0$ via the alternating equilibrium mapping $\widehat{\sigma} = \{|y - X\widehat{\beta}|_2^2 / n(1-a)\}^{1/2}$, $\lambda = \widehat{\sigma}\lambda_0$, and $\widehat{\beta} = \arg\min_\beta \{\frac{1}{2n}|y - X\beta|_2^2 + \lambda\rho(\beta)\}$ ($a \ge 0$, Eqs. 3-4). For $\rho(\beta) = |\beta|_1$, this equilibrium is the global minimizer of the jointly convex Huber (1981) concomitant penalized loss $L_{\lambda_0}(\beta, \sigma) = \frac{|y - X\beta|_2^2}{2n\sigma} + \frac{(1-a)\sigma}{2} + \lambda_0|\beta|_1$ (Proposition 1, Eqs. 5-8), whose profile objective satisfies $\frac{\partial}{\partial\sigma} L_{\lambda_0}(\widehat{\beta}(\sigma), \sigma) = \frac{1-a}{2} - \frac{|y - X\widehat{\beta}(\sigma)|_2^2}{2n\sigma^2}$. With the scale-free universal penalty $\lambda_0 = A\{(2/n)\log(p/\epsilon)\}^{1/2}$ ($A &gt; \{(1-a)/(1-\tau_*)\}^{1/2}$), Scaled LASSO achieves near-oracle prediction, $\ell_q$ parameter estimation (Theorem 1, Corollary 1), quadratic relative noise-level error $\max(1 - \widehat{\sigma}/\sigma^*, 1 - \sigma^*/\widehat{\sigma}) \le \tau_*^2 \lesssim |\beta^*|_0(\log p)/n$, and asymptotic normality $n^{1/2}(\widehat{\sigma}/\sigma - 1) \xrightarrow{d} N(0, 1/2)$ when $|\beta^*|_0(\log p)/n^{1/2} \to 0$ (Theorem 2, Corollary 2), while extending to concave penalties (MCP/SCAD) and Least-Squares after Model Selection (LSE, Theorem 3).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Square-Root LASSO (`AIMech:SquareRootLassoPivotalConicSparseRegression`), which minimizes the non-separable root-MSE criterion $\{\widehat{Q}(\beta)\}^{1/2} + (\lambda/n)\|\beta\|_1$ via second-order cone programming without an explicit concomitant scale variable $\sigma$ or degrees-of-freedom adjustment $1-a$ (note that profiling $\sigma = |y - X\beta|_2 / \{n(1-a)\}^{1/2}$ out of $L_{\lambda_0}(\beta, \sigma)$ yields $(1-a)^{1/2}\{|y - X\beta|_2 / n^{1/2}\} + \lambda_0|\beta|_1$). Also distinct from standard LASSO (`AIO:LassoRegression`), whose penalty $\lambda$ depends on unknown $\sigma$, and from Städler-Bühlmann-van de Geer (2010) penalized Gaussian negative log-likelihood $\min_{\beta,\sigma} \{\log\sigma + |y - X\beta|_2^2/(2n\sigma^2) + \lambda_0|\beta|_1/\sigma\}$, whose KKT identity $n^{-1}|y - X\widehat{\beta}_{\text{pmle}}|_2^2 + \lambda_0\widehat{\sigma}_{\text{pmle}}|\widehat{\beta}_{\text{pmle}}|_1 = \widehat{\sigma}_{\text{pmle}}^2$ (Eq. 9) introduces a linear first-order shrinkage bias in $\widehat{\sigma}_{\text{pmle}}$ when $\lambda_0|\beta|_1 = \Omega(n^{-1/2})$ (Section 2.2, p. 4), whereas Scaled LASSO&#39;s KKT residual-square sandwich $|y - X\beta^*|_2^2 - n\lambda_0\widehat{\sigma}|\beta^*|_1 \le n(1-a)\widehat{\sigma}^2 \le |y - X\beta^*|_2^2 + n\lambda_0\widehat{\sigma}|\beta^*|_1$ (Eq. A6) cancels the first-order bias via the inner product $2\langle y - X\beta^*, X(\widehat{\beta} - \beta^*)\rangle$ and achieves quadratic concentration $\tau_*^2 = O_P(|\beta^*|_0(\log p)/n)$.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#huber-concomitant-joint-convexity-and-alternating-profile-equilibrium</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the $\ell_1$ penalty $\rho(\beta) = |\beta|_1$ and any $a \in [0, 1)$, the concomitant objective $L_{\lambda_0}(\beta, \sigma) = \frac{|y - X\beta|_2^2}{2n\sigma} + \frac{(1-a)\sigma}{2} + \lambda_0|\beta|_1$ is jointly convex in $(\beta, \sigma)$ on $\mathbb{R}^p \times (0, \infty)$, the profile objective $L_{\lambda_0}(\widehat{\beta}(\sigma), \sigma)$ along the standard LASSO solution path $\widehat{\beta}(\sigma) = \arg\min_\beta L_{\lambda_0}(\beta, \sigma)$ is strictly convex in $\sigma &gt; 0$ with envelope derivative $\frac{\partial}{\partial\sigma} L_{\lambda_0}(\widehat{\beta}(\sigma), \sigma) = \frac{1-a}{2} - \frac{|y - X\widehat{\beta}(\sigma)|_2^2}{2n\sigma^2}$ (Eq. 6; Proof of Proposition 1, Eqs. A1-A5, pp. 14-15), and the alternating fixed-point equilibrium $(\widehat{\beta}, \widehat{\sigma})$ of Eqs. (3)-(4) satisfies the joint KKT conditions $\widehat{\sigma}^2 = |y - X\widehat{\beta}|_2^2 / \{n(1-a)\}$, $x_j&#39;(y - X\widehat{\beta}) / (n\widehat{\sigma}) = \lambda_0 \operatorname{sign}(\widehat{\beta}_j)$ for $\widehat{\beta}_j \ne 0$, and $|x_j&#39;(y - X\widehat{\beta})| / (n\widehat{\sigma}) \le \lambda_0$ for $\widehat{\beta}_j = 0$ (Proposition 1, Eqs. 7-8, p. 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sz2012-scaled-lasso-pdf">Scaled sparse linear regression</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, pp. 3-4, Equations (3)-(4); Section 2.2, pp. 4-5, Equations (5)-(9), Proposition 1; Appendix, pp. 14-15, Proof of Proposition 1, Equations (A1)-(A5)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sz2012-scaled-lasso-abs">Scaled sparse linear regression</a></span>
+        <span>· <strong>Locator:</strong> Abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#kkt-residual-sandwich-student-t-tail-bound-and-asymptotic-normality-of-noise-scale</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Let $\sigma^* = |y - X\beta^*|_2 / n^{1/2}$ be the oracle noise level for a target vector $\beta^*$ with support $T$. The joint KKT conditions yield the two-sided residual-square sandwich $|y - X\beta^*|_2^2 - n\lambda_0\widehat{\sigma}|\beta^*|_1 \le n(1-a)\widehat{\sigma}^2 \le |y - X\beta^*|_2^2 + n\lambda_0\widehat{\sigma}|\beta^*|_1$ (Appendix, Eq. A6, p. 15). On the scale-free score event $|X&#39;(y - X\beta^*)|_\infty / (n\sigma^*) \le (1-a)^{1/2}\lambda_0 (\xi-1)/(\xi+1)$ ($\xi &gt; 1$), which holds with probability at least $1 - \epsilon$ under $y - X\beta^* \sim N(0, \sigma^2 I_n)$ when $\lambda_0 \ge \frac{\xi+1}{\xi-1}\{(1-a)(1 + 2a_0/n)\}^{-1/2}\{(2/n)\log(p/\epsilon)\}^{1/2}$ via the exact Student-$t$ projection identity $z_j / (|y - X\beta^*|_2/n^{1/2}) = t_j / \{(n - 1 + t_j^2)/n\}^{1/2}$ with $t_j \sim t_{n-1}$ (Lemma 1, Eq. 19, p. 7), Theorem 1 (Eqs. 16-18) and Theorem 2 (Eqs. 22-23, p. 8) prove that with $a = 0$, $\max(1 - \widehat{\sigma}/\sigma^*, 1 - \sigma^*/\widehat{\sigma}) \le \tau_*^2$ where $\tau_*^2 \asymp |T|\lambda_0^2 / \gamma_T = O(|T|(\log p)/n)$, and therefore $n^{1/2}(\widehat{\sigma}/\sigma - 1) = n^{1/2}(\sigma^*/\sigma - 1) + o_P(1) \xrightarrow{d} N(0, 1/2)$ whenever $|\beta|_0(\log p)/n^{1/2} \to 0$ (Theorem 2, Eq. 23; Corollary 2, p. 8).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sz2012-scaled-lasso-pdf">Scaled sparse linear regression</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, pp. 5-7, Equations (10)-(18), Theorem 1; Section 3.2, pp. 7-8, Equations (19)-(23), Lemma 1, Theorem 2, Corollaries 1-2; Appendix, pp. 15-18, Proofs of Theorem 1 and Lemma 1, Equations (A6)-(A15)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#cone-invertibility-factor-oracle-bounds-and-post-selection-lse-recovery</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the sign-restricted cone invertibility factor $F_q(\xi, S) = \inf\{|S|^{1/q}|X&#39;u|_\infty / (n|u|_q) : u \in \mathscr{C}_-(\xi, S)\}$ on $\mathscr{C}_-(\xi, S) = \{u : |u_{S^c}|_1 \le \xi|u_S|_1 \ne 0,\, u_j x_j&#39;X u \le 0\; \forall j \notin S\}$ (Eqs. 10-12, p. 5), Scaled LASSO achieves simultaneous scale-free $\ell_q$ parameter estimation $|\widehat{\beta} - \beta|_q \le (1 + \tau_+)\sigma\{2(\xi+1)|S|^{1/q}\lambda_0 / (\xi F_q(\xi, S))\} = O_P(\sigma|S|^{1/q}\{(\log p)/n\}^{1/2})$ for all $q \in [1, \infty]$ (Theorem 1, Eq. 18; Corollary 1, Eqs. 20-21, pp. 6-7). Furthermore, under the sparse upper eigenvalue $\kappa_+(m, T) = \max_{B \cap T = \emptyset,\, |B| \le m} \lambda_{\max}(X_B&#39;X_B/n)$ with $m &gt; \{2(\xi+1)/(\xi- 1)\}^2 \kappa_+(m, T)|T|/\gamma(\xi, T)$, Scaled LASSO bounds the number of false positives by $|\widehat{S} \setminus S| &lt; m$ (Lemma 2, p. 9), and the refitted Least-Squares Estimator after Model Selection (LSE, $\widetilde{\beta}$, $\widetilde{\sigma}$ on $\widehat{S}$, Eq. 24) satisfies $\max(1 - \widetilde{\sigma}/\sigma^*, 1 - \sigma^*/\widetilde{\sigma}) \le \widetilde{\tau}_* = O_P(|S|(\log p)/n)$ and $|X(\widetilde{\beta} - \beta^*)|_2^2 / n \le 2(\sigma^*)^2 \widetilde{\tau}_* = O_P(\sigma^2 |S|(\log p)/n)$ (Theorem 3, Eqs. 26-27, pp. 9-10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sz2012-scaled-lasso-pdf">Scaled sparse linear regression</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, pp. 5-7, Equations (10)-(18), Theorem 1; Section 3.2, p. 7, Equations (20)-(21), Corollary 1; Section 3.3, pp. 8-10, Equations (24)-(27), Lemma 2, Theorem 3; Appendix, pp. 18-19, Proofs of Lemma 2 and Theorem 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Asymptotic normality $n^{1/2}(\widehat{\sigma}/\sigma - 1) \xrightarrow{d} N(0, 1/2)$ in Theorem 2 and Corollary 2 requires the stronger ultra-sparsity growth condition $|\beta^*|_0(\log p)/n^{1/2} \to 0$ (so that $\tau_*^2 = O(|\beta^*|_0(\log p)/n) = o(n^{-1/2})$) as well as Gaussian errors $y - X\beta^* \sim N(0, \sigma^2 I_n)$; when $|\beta^*|_0(\log p)/n \to 0$ but $|\beta^*|_0(\log p)/n^{1/2} \not\to 0$, $\widehat{\sigma}/\sigma \xrightarrow{P} 1$ Remains consistent at rate $O_P(|\beta^*|_0(\log p)/n)$ but is no longer $n^{1/2}$-negligible relative to $\sigma^*/\sigma - 1$.</li>
+      <li>When the alternating equilibrium algorithm (Eqs. 3-4) is used with nonconvex concave penalties $\rho(\beta)$ such as MCP or SCAD instead of $\ell_1$, the joint objective is no longer globally convex and uniqueness of the equilibrium path requires local concavity curvature bounds.</li>
+      <li>Primary-source typographical audit of `arXiv:1104.4595v2`: (1) Section 3.3 (p. 8, line 353) defines the sparse upper eigenvalue $\kappa_+(m, T)$ as $\min_{B \cap T \emptyset, |B| \le m} \lambda_{\min}(X_B&#39;X_B/n)$ instead of $\max_{B \cap T = \emptyset, |B| \le m} \lambda_{\max}(X_B&#39;X_B/n)$ (as confirmed by the prose &#39;Let $\kappa_+(m, T)$ be the sparse upper eigenvalue&#39; on line 351 and its use as an upper bound on $\sum_{j \in B} (x_j&#39;X u / |X u|_2)^2 \le \kappa_+(m, T)$ in the proof of Lemma 2 on p. 18, line 811); (2) Section 4.1 (p. 10, line 446) writes $\widehat{\sigma}^{(\text{bc})} = |y - \widehat{\beta}(\widehat{\lambda}_{\text{cv}})|_2 / (n - |\widehat{S}_{\text{cv}}| - 1)^{1/2}$, omitting the design matrix $X$ before $\widehat{\beta}$; (3) Section 4.2 (p. 12, line 622) prints duplicated word &#39;at at&#39; (&#39;computed at at a grid&#39;); (4) Appendix Proof of Proposition 1 (p. 14, line 663) writes $L_{\lambda_0}(b, s) = |y - X b|_2^2/(2ns) + (1-a)s/2 + \lambda_0 \sum_{j=1}^p |\beta_j|$ mixing dummy argument $b$ with summand $|\beta_j|$; (5) Appendix Proof of Theorem 1 (p. 16, line 762) defines $c = (|z_T|_\infty / \sigma^*) |w_T|_1 + 2\lambda |w_{T^c}|_1 - (|z_{T^c}|_\infty / \sigma^*) |w_{T^c}|_1$ with $2\lambda$ instead of $\lambda$, while the next display on line 765 correctly uses $(\lambda - |z_{T^c}|_\infty / \sigma^*) |w_{T^c}|_1$; and (6) Appendix Proof of Theorem 3 (p. 18, line 836) omits a closing parenthesis in &#39;$\phi_+ \le \phi(\sigma^*)/(1 - \phi(\sigma^*)$&#39;.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LassoRegression.html" style="font-weight: 600;"><code>AIO:LassoRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Lasso Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Scaled LASSO generalizes LASSO regression by jointly minimizing the Huber concomitant penalized objective over both the sparse regression vector beta and the concomitant noise scale sigma.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Estimates both the regression coefficients beta and error standard deviation sigma in high-dimensional linear regression models y = X*beta + epsilon.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-sz2012-scaled-lasso-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sz2012-scaled-lasso-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/pdf/1104.4595.pdf" target="_blank" rel="noopener">Scaled sparse linear regression</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tingni Sun, Cun-Hui Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1093/biomet/ass043</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e3be5f1f237f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-sz2012-scaled-lasso-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sz2012-scaled-lasso-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1104.4595" target="_blank" rel="noopener">Scaled sparse linear regression</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tingni Sun, Cun-Hui Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1104.4595</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:62de2b085b3d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-sz2012-scaled-lasso-crossref">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sz2012-scaled-lasso-crossref</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1093/biomet/ass043" target="_blank" rel="noopener">Scaled sparse linear regression</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            T. Sun, C.-H. Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1093/biomet/ass043</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:30bb16a6f727…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T02:45:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T02:45:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ScaledLassoAndHuberConcomitantPenalizedJointSparseRegression.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ScaledLassoAndHuberConcomitantPenalizedJointSparseRegression.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
