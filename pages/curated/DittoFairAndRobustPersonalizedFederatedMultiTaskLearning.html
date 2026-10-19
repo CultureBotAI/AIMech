@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ditto Fair and Robust Personalized Federated Multi-Task Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Ditto Fair and Robust Personalized Federated Multi-Task Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Ditto Fair and Robust Personalized Federated Multi-Task Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DittoFairAndRobustPersonalizedFederatedMultiTaskLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Ditto, Ditto Personalized Federated Learning, Global-Regularized Personalized Federated Multi-Task Learning
+    </div>
+
+  <div class="detail-desc">
+    A decoupled bi-level personalized federated multi-task learning framework (Ditto) that resolves the tension between cross-device performance fairness (uniformity/low variance of benign device test errors) and Byzantine robustness (resistance to data/model poisoning) under statistical heterogeneity: min_{v_k in R^d} h_k(v_k; w^*) := F_k(v_k) + (lambda / 2) ||v_k - w^*||^2 subject to w^* in argmin_w G(F_1(w), ..., F_K(w)). Unlike coupled personalization schemes, the global objective G(.) is optimized for w^t completely independently of the local personalized models {v_k^t} while each device k interleaves local stochastic gradient steps on h_k(v_k; w^t) = F_k(v_k) + (lambda / 2)||v_k - w^t||^2, interpolating between pure local training (lambda = 0) and the global model (lambda -&gt; infinity).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, where the global model w minimizes the sum of Moreau envelopes F_i(w) and therefore depends directly on the local personalized iterates theta_i, making w vulnerable to local personalization state changes and requiring extra inner-loop steps before updating w) and from q-FFL (AIMech:QFairFederatedLearningAlphaFairResourceAllocation, which learns a single global model w whose fairness-oriented reweighting of high-loss devices degrades robustness under Byzantine corruption).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r397-bayes-optimal-fair-and-robust-lambda-characterization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the hierarchical Bayesian linear/point estimation setting where benign parameters follow v_k ~ N(theta, tau^2), K_a corrupted devices follow v_k ~ N(theta, tau_a^2) with tau_a^2 &gt; tau^2, and n local samples have noise variance sigma^2, Theorem 8 (and Lemmas 4, 6, 7) proves that the exact Bayes-optimal and maximally fair (zero cross-device test-error variance) regularization parameter is lambda^* = (sigma^2 K) / (tau^2 K + (tau_a^2 - tau^2) K_a + sigma^2 / n), showing that lambda^* decreases monotonically with stronger heterogeneity tau^2 or stronger corruption (K_a, tau_a^2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r397-primary-pdf">Ditto: Fair and Robust Federated Learning Through Personalization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 Theoretical Analysis of Ditto (Lemmas 4, 6, 7 and Theorem 8) and Appendix A, pp. 5-6, 13-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r397-modularity-and-linear-speedup-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the global subproblem w^* in argmin_w G(F_1(w),...,F_K(w)) is completely decoupled from {v_k}, Ditto preserves the exact communication footprint and privacy/robust-aggregation compatibility of the base global solver G, and Theorem 1 (Appendix B) proves that when w^t converges at rate O(1/t) on strongly convex F_k, the personalized iterates v_k^t converge to v_k^* at rate E||v_k^t - v_k^*||^2 = O(1/t) with linear speedup in local steps.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r397-primary-pdf">Ditto: Fair and Robust Federated Learning Through Personalization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Solver: Modularity and Efficiency (Algorithm 1, Theorem 1) and Appendix B, pp. 4-5, 19-21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r397-local-state-persistence-and-lambda-tuning-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires each participating device k to maintain a persistent local personalized model state v_k across rounds (or warm-start from w^*) and to tune the regularization hyperparameter lambda &gt;= 0 based on the unknown degree of statistical heterogeneity and adversarial corruption.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r397-primary-pdf">Ditto: Fair and Robust Federated Learning Through Personalization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Algorithm 1, Section 3.3 Theorem 8, and Appendix C.2 Tuning lambda, pp. 4-6, 22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r397-fairness-and-byzantine-defense-benchmarks-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated on FEMNIST, CelebA, StackOverflow, and Fashion-MNIST under benign heterogeneity and three Byzantine attacks (A1 label poisoning, A2 random Gaussian updates, A3 model replacement), simultaneously reducing benign device test-accuracy variance (improving fairness) and boosting robust test accuracy by up to 40% when paired with Krum, Multi-Krum, or median aggregation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r397-primary-pdf">Ditto: Fair and Robust Federated Learning Through Personalization</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Experiments (Figures 3-8, Tables 1-2), pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires stateful devices capable of storing personalized parameters v_k across communication rounds.</li>
+      <li>Optimal trade-off between local and global information requires tuning or estimating the regularization parameter lambda.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Ditto is a personalized federated multi-task learning framework within FederatedLearning that jointly improves cross-device fairness and Byzantine robustness.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r397-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r397-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v139/li21h.html" target="_blank" rel="noopener">Ditto: Fair and Robust Federated Learning Through Personalization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tian Li, Shengyuan Hu, Ahmad Beirami, Virginia Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.2012.04221</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4ac3af9d19d0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r397-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r397-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2012.04221" target="_blank" rel="noopener">Ditto: Fair and Robust Federated Learning Through Personalization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tian Li, Shengyuan Hu, Ahmad Beirami, Virginia Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2012.04221</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3e2114f18ec4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r397-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r397-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.48550/arXiv.2012.04221" target="_blank" rel="noopener">Ditto: Fair and Robust Federated Learning Through Personalization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tian Li, Shengyuan Hu, Ahmad Beirami, Virginia Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.2012.04221</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3444732ff70f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:00:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:00:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DittoFairAndRobustPersonalizedFederatedMultiTaskLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DittoFairAndRobustPersonalizedFederatedMultiTaskLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
