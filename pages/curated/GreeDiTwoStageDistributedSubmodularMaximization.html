@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GreeDi Two-Stage Distributed Greedy Submodular Maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>GreeDi Two-Stage Distributed Greedy Submodular Maximization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">GreeDi Two-Stage Distributed Greedy Submodular Maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GreeDiTwoStageDistributedSubmodularMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GreeDi Protocol for Distributed Submodular Maximization, Two-Round MapReduce Greedy Submodular Maximization, Mirzasoleiman-Karbasi-Sarkar-Krause GreeDi Algorithm
+    </div>
+
+  <div class="detail-desc">
+    GreeDi Two-Stage Distributed Greedy Submodular Maximization is a communication-efficient two-round parallel/MapReduce protocol introduced by Mirzasoleiman, Karbasi, Sarkar, and Krause (2013, 2016) for maximizing a submodular function f : 2^V -&gt; R_+ subject to cardinality or general hereditary constraints zeta across m machines. In Stage 1, the ground set V is partitioned into V_1, ..., V_m and each machine i independently runs the standard greedy algorithm (or a tau-approximate black-box solver X) on V_i to select a candidate subset A_i^{gc}[kappa]; in Stage 2, a single reducer merges B = union_{i=1}^m A_i^{gc}[kappa], runs the greedy/black-box solver on B to obtain A_B^{gc}[kappa], and outputs A^{gd}[m, kappa] = argmax{f(A_{max}^{gc}[kappa]), f(A_B^{gc}[kappa])}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:StochasticGreedyLinearTimeMonotoneSubmodularMaximization (Round 348), which accelerates centralized sequential greedy selection by random subsampling on a single machine, and from AIMech:SieveStreamingAndSieveStreamingPlusPlusForSubmodularMaximization (Round 350), which processes elements in a single streaming pass using Geometric marginal-gain thresholds. Also distinct from AIMech:ContinuousGreedyAndMultilinearExtensionForMatroidSubmodularMaximization (Round 349), which solves continuous multilinear relaxations over matroid polytopes centrally rather than two-round distributed MapReduce partitioning.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r359-claim-tight-worst-case-and-random-partition-bounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any monotone submodular function f under an arbitrary partition of V into m sets, the intractable local-optimum merge protocol (Algorithm 1) satisfies  the tight bound f(A^d[m, k]) &gt;= (1 / min(m, k))*f(A^c[k]) with a matching entropy upper bound f(A^c[k]) = min(m, k)*f(A^d[m, k]) (Theorem 3, Appendix A.1), while two-stage GreeDi (Algorithm 2) with local budget kappa &gt;= k guarantees f(A^{gd}[m, kappa]) &gt;= ((1 - e^{-kappa/k}) / min(m, k))*f(A^c[k]) (Theorem 4), generalizes to f(A^{Xd}[m, zeta]) &gt;= (tau / min(m, rho([zeta])))*f(A^c[zeta]) for any tau-approximate solver X over hereditary constraints zeta of maximum independent size rho([zeta]) (Algorithm 3, Theorem 12), and achieves average-case E[f(A^{gd}[m, k])] &gt;= ((1 - 1/e)/2)*f(A^c[k]) under uniform random partitioning without geometric assumptions (Theorem 11).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r359-primary-pdf">Distributed Submodular Maximization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2, Algorithms 1-2 and Theorems 3-4, pp. 10-11; Section 4.6, Theorem 11, p. 16; Section 5.3, Algorithm 3 and Theorem 12, pp. 19-20; Appendix A.1-A.2 and A.8, pp. 29-30, 37-38</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r359-claim-metric-lipschitz-and-dense-neighborhood-guarantees</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For set functions that are lambda-Lipschitz with respect to a metric d on V under equal-size element matchings, |f(S) - f(S&#39;)| &lt;= lambda * sum_{i=1}^k d(e_i, e_i&#39;) (Definition 5)—including Gaussian process mutual information with lambda = L*k^3 for L-Lipschitz kernels (Proposition 6) and d^alpha-dissimilarity clustering utility with lambda = alpha*R^{alpha-1} (Proposition 7)—if elements are randomly partitioned onto m machines and each optimal element e_i in A^c[k] has an alpha-neighborhood N_alpha(e_i) of size at least k*m*log(k / delta^{1/m}), then with probability at least 1 - delta, GreeDi achieves f(A^{gd}[m, kappa]) &gt;= (1 - e^{-kappa/k})*(f(A^c[k]) - lambda*alpha*k) (Theorem 8, and Theorem 13 for locally replaceable constraints zeta).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r359-primary-pdf">Distributed Submodular Maximization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3, Definition 5, Propositions 6-7, and Theorem 8, pp. 12-13; Section 5.3, Theorem 13, pp. 20-21; Appendix A.3-A.5 and A.9, pp. 30-35, 38</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r359-claim-large-sample-growth-function-and-decomposable-objective-bounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When V consists of n &gt;= 8*k*m*log(k/delta^{1/m}) / (beta * g(varepsilon / (lambda*k))) i.i.d. samples from a metric space with probability density &gt;= beta and ball-volume growth function g(alpha), GreeDi achieves f(A^{gd}[m, kappa]) &gt;= (1 - e^{-kappa/k})*(f(A^c[k]) - varepsilon) with probability at least 1 - delta (Theorem 9); furthermore, for decomposable submodular functions f(S) = (1/|V|)*sum_{i in V} f_i(S) evaluated purely locally on each machine&#39;s partition V_i, when n &gt;= max(n_0, m*log(delta/(4m))/varepsilon^2) with ln(n)/n &lt;= varepsilon^2/(m*k), GreeDi achieves f(A^{gd}[m, kappa]) &gt;= (1 - e^{-kappa/k})*(f(A^c[k]) - 2*varepsilon) (Theorem 10, and Theorem 15 for general hereditary constraints).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r359-primary-pdf">Distributed Submodular Maximization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.4-4.5, Theorems 9 and 10, pp. 13-15; Section 5.3, Theorems 14 and 15, p. 21; Appendix A.6-A.7 and A.10-A.11, pp. 35-36, 38-39</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>OnEach machine i still executes a sequential greedy algorithm of k adaptive steps (resulting in Omega(k) parallel adaptivity depth), and the central reducer must store and greedily process a merged candidate pool of size up to m*kappa (Section 6.2, p. 25).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Directly scales exemplar-based k-medoid clustering and active set selection to tens of millions of data points via distributed submodular maximization.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Selects compact representative data subsets and Gaussian process active sets.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r359-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r359-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://jmlr.org/papers/volume17/mirzasoleiman16a/mirzasoleiman16a.pdf" target="_blank" rel="noopener">Distributed Submodular Maximization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Baharan Mirzasoleiman, Amin Karbasi, Rik Sarkar, Andreas Krause
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://jmlr.org/papers/v17/mirzasoleiman16a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ef44f9028667…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r359-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r359-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1411.0541" target="_blank" rel="noopener">Distributed Submodular Maximization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Baharan Mirzasoleiman, Amin Karbasi, Rik Sarkar, Andreas Krause
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1411.0541</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:502d7dcef615…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r359-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r359-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://jmlr.org/papers/v17/mirzasoleiman16a.html" target="_blank" rel="noopener">Distributed Submodular Maximization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Baharan Mirzasoleiman, Amin Karbasi, Rik Sarkar, Andreas Krause
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://jmlr.org/papers/v17/mirzasoleiman16a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b27aa3d39111…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:22:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:22:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GreeDiTwoStageDistributedSubmodularMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GreeDiTwoStageDistributedSubmodularMaximization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
