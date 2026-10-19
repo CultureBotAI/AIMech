@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bucketing Resampling for Heterogeneous Byzantine-Robust Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Bucketing Resampling for Heterogeneous Byzantine-Robust Optimization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Bucketing Resampling for Heterogeneous Byzantine-Robust Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BucketingResamplingForHeterogeneousByzantineRobustOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> s-Bucketing for Byzantine-Robust Learning, Bucketing Agnostic Robust Aggregator, ARAgg via s-Bucketing, Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing
+    </div>
+
+  <div class="detail-desc">
+    A randomized pre-aggregation resampling reduction (s-Bucketing, Algorithm 1) for Byzantine-robust distributed optimization on heterogeneous (non-i.i.d.) datasets that uniformly permutes the n worker vectors {x_1,...,x_n}, partitions them into ceil(n/s) buckets {B_1,...,B_{ceil(n/s)}} of size at most s, averages the vectors within each bucket y_i = (1/|B_i|) sum_{k in B_i} x_k to produce more homogeneous virtual workers, and feeds {y_1,...,y_{ceil(n/s)}} into a base robust aggregator Aggr (such as Krum, RFA geometric median, or Coordinate-wise Median), combined with worker momentum (Algorithm 2) to convert non-agnostic aggregators into (delta_max, c)-Agnostic Robust Aggregators (ARAgg).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standalone Krum (AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent), Coordinate-wise Median (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning), and RFA (AIMech:RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian), all of which fail under inter-client data heterogeneity and the Mimic attack with Omega(rho^2) bias when applied directly to unbucketed worker vectors, and from Centered Clipping (AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization, which is an iterative clipping rule requiring a clipping radius tau rather than a black-box resampling meta-wrapper).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r401-mimic-attack-vulnerability-and-lemma1-bucket-variance-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section 3 shows that standard robust aggregators (Krum, CM, RFA) fail on heterogeneous datasets under the Mimic attack (where Byzantine workers copy a single good worker selected along the top variance direction via streaming Oja&#39;s method), whereas Lemma 1 and Theorem I prove that s-bucketing reduces expected pairwise variance between good bucket averages to E||y_i - y_j||^2 &lt;= rho^2 / s while keeping at least ceil(n/s) * (1 - delta * s) buckets purely good, enabling Krum o Bucketing (delta_max &lt; 1/4), RFA o Bucketing (delta_max &lt; 1/2), and CM o Bucketing (delta_max &lt; 1/2) with s = floor(delta_max / delta) to achieve O(delta * rho^2) MSE without knowing rho^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r401-primary-pdf">Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Failure of Existing Methods &amp; Mimic Attack, Section 4 (Algorithm 1, Lemma 1, Definition A, Theorem I), &amp; Appendix B, pp. 2-5, 14-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r401-heterogeneous-nonconvex-convergence-lower-bound-and-strong-growth</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Combining an (delta_max, c)-ARAgg with worker momentum (Algorithm 2), Theorem II proves convergence on heterogeneous non-convex objectives to E||nabla f(x)||^2 &lt;= O(c * delta * zeta^2 + sigma * sqrt(L F^0 (c * delta + 1/n) / T)), matching the information-theoretic heterogeneity lower bound Omega(delta * zeta^2) of Theorem III, while Theorems IV and V establish exact convergence to 0 gradient under overparameterized strong growth E||nabla f_j(x) - nabla f(x)||^2 &lt;= B^2 ||nabla f(x)||^2 whenever 60 c * delta * B^2 &lt; 1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r401-primary-pdf">Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Byzantine-Robust Optimization with Heterogeneity (Algorithm 2, Theorems II, III, IV, V), pp. 5-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r401-breakdown-point-shrinkage-and-fundamental-heterogeneity-floor-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Bucketing with bucket size s multiplies the effective fraction of corrupted buckets by up to s (requiring delta * s &lt;= delta_max, so s = floor(delta_max / delta) must be tuned using an upper bound on delta), and Theorem III proves an unavoidable Omega(delta * zeta^2) optimality gap under arbitrary bounded gradient dissimilarity zeta^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r401-primary-pdf">Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Lemma 1 &amp; Theorem I, and Section 5.1 Theorem III (Lower Bounds under Heterogeneity), pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r401-non-iid-mnist-and-cifar10-byzantine-defense-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated on Dirichlet non-i.i.d. partitions of MNIST and CIFAR-10 against bit-flipping, little-is-enough (LIE), inner-product manipulation (IPM), and Mimic attacks, restoring high test accuracy for Krum, RFA, and Coordinate-wise Median where unbucketed versions degrade to random guessing.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r401-primary-pdf">Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Experiments (Figures 2-3), pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Each Byzantine worker can corrupt an entire bucket of size s, requiring s &lt;= floor(delta_max / delta).</li>
+      <li>Cannot eliminate the fundamental information-theoretic Omega(delta * zeta^2) optimization error floor under worst-case non-i.i.d. heterogeneity without overparameterized strong growth.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Bucketing resampling is a Byzantine-robust aggregation meta-algorithm designed for heterogeneous distributed and federated learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r401-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r401-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=jXKKDEi5vJt" target="_blank" rel="noopener">Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sai Praneeth Karimireddy, Lie He, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.2006.09365</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2a80ee2d6398…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r401-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r401-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2006.09365" target="_blank" rel="noopener">Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sai Praneeth Karimireddy, Lie He, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2006.09365</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6b25d8a9e01d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r401-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r401-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.48550/arXiv.2006.09365" target="_blank" rel="noopener">Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sai Praneeth Karimireddy, Lie He, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.2006.09365</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d4026086f134…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:04:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:04:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BucketingResamplingForHeterogeneousByzantineRobustOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BucketingResamplingForHeterogeneousByzantineRobustOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,101 @@
+id: AIMech:BucketingResamplingForHeterogeneousByzantineRobustOptimization
+name: Bucketing Resampling for Heterogeneous Byzantine-Robust Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A randomized pre-aggregation resampling reduction (s-Bucketing, Algorithm 1) for Byzantine-robust distributed optimization on heterogeneous (non-i.i.d.) datasets that uniformly permutes the n worker vectors {x_1,...,x_n}, partitions them into ceil(n/s) buckets {B_1,...,B_{ceil(n/s)}} of size at most s, averages the vectors within each bucket y_i = (1/|B_i|) sum_{k in B_i} x_k to produce more homogeneous virtual workers, and feeds {y_1,...,y_{ceil(n/s)}} into a base robust aggregator Aggr (such as Krum, RFA geometric median, or Coordinate-wise Median), combined with worker momentum (Algorithm 2) to convert non-agnostic aggregators into (delta_max, c)-Agnostic Robust Aggregators (ARAgg).
+identity_notes: Distinct from standalone Krum (AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent), Coordinate-wise Median (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning), and RFA (AIMech:RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian), all of which fail under inter-client data heterogeneity and the Mimic attack with Omega(rho^2) bias when applied directly to unbucketed worker vectors, and from Centered Clipping (AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization, which is an iterative clipping rule requiring a clipping radius tau rather than a black-box resampling meta-wrapper).
+aliases:
+- s-Bucketing for Byzantine-Robust Learning
+- Bucketing Agnostic Robust Aggregator
+- ARAgg via s-Bucketing
+- Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing
+definition_evidence:
+- source_id: r401-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r401-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r401-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r401-mimic-attack-vulnerability-and-lemma1-bucket-variance-reduction
+  kind: mechanism
+  statement: Section 3 shows that standard robust aggregators (Krum, CM, RFA) fail on heterogeneous datasets under the Mimic attack (where Byzantine workers copy a single good worker selected along the top variance direction via streaming Oja's method), whereas Lemma 1 and Theorem I prove that s-bucketing reduces expected pairwise variance between good bucket averages to E||y_i - y_j||^2 <= rho^2 / s while keeping at least ceil(n/s) * (1 - delta * s) buckets purely good, enabling Krum o Bucketing (delta_max < 1/4), RFA o Bucketing (delta_max < 1/2), and CM o Bucketing (delta_max < 1/2) with s = floor(delta_max / delta) to achieve O(delta * rho^2) MSE without knowing rho^2.
+  evidence:
+  - source_id: r401-primary-pdf
+    locator: Section 3 Failure of Existing Methods & Mimic Attack, Section 4 (Algorithm 1, Lemma 1, Definition A, Theorem I), & Appendix B, pp. 2-5, 14-15
+    relation: supports
+- claim_id: r401-heterogeneous-nonconvex-convergence-lower-bound-and-strong-growth
+  kind: mechanism
+  statement: Combining an (delta_max, c)-ARAgg with worker momentum (Algorithm 2), Theorem II proves convergence on heterogeneous non-convex objectives to E||nabla f(x)||^2 <= O(c * delta * zeta^2 + sigma * sqrt(L F^0 (c * delta + 1/n) / T)), matching the information-theoretic heterogeneity lower bound Omega(delta * zeta^2) of Theorem III, while Theorems IV and V establish exact convergence to 0 gradient under overparameterized strong growth E||nabla f_j(x) - nabla f(x)||^2 <= B^2 ||nabla f(x)||^2 whenever 60 c * delta * B^2 < 1.
+  evidence:
+  - source_id: r401-primary-pdf
+    locator: Section 5 Byzantine-Robust Optimization with Heterogeneity (Algorithm 2, Theorems II, III, IV, V), pp. 5-7
+    relation: supports
+- claim_id: r401-breakdown-point-shrinkage-and-fundamental-heterogeneity-floor-limitation
+  kind: limitation
+  statement: Bucketing with bucket size s multiplies the effective fraction of corrupted buckets by up to s (requiring delta * s <= delta_max, so s = floor(delta_max / delta) must be tuned using an upper bound on delta), and Theorem III proves an unavoidable Omega(delta * zeta^2) optimality gap under arbitrary bounded gradient dissimilarity zeta^2.
+  evidence:
+  - source_id: r401-primary-pdf
+    locator: Section 4 Lemma 1 & Theorem I, and Section 5.1 Theorem III (Lower Bounds under Heterogeneity), pp. 4-6
+    relation: supports
+- claim_id: r401-non-iid-mnist-and-cifar10-byzantine-defense-application
+  kind: application
+  statement: Evaluated on Dirichlet non-i.i.d. partitions of MNIST and CIFAR-10 against bit-flipping, little-is-enough (LIE), inner-product manipulation (IPM), and Mimic attacks, restoring high test accuracy for Krum, RFA, and Coordinate-wise Median where unbucketed versions degrade to random guessing.
+  evidence:
+  - source_id: r401-primary-pdf
+    locator: Section 6 Experiments (Figures 2-3), pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r401-primary-pdf
+  title: Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing
+  authors: &id001
+  - Sai Praneeth Karimireddy
+  - Lie He
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=jXKKDEi5vJt
+  persistent_id: https://doi.org/10.48550/arXiv.2006.09365
+  version: International Conference on Learning Representations (ICLR 2022) (2022) (121904 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:04:00Z'
+  sha256: 2a80ee2d639801f83980c6e6f2acc16e5dd463cd99a61fe05ebb574caf97ddb7
+- source_id: r401-arxiv-abs
+  title: Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2006.09365
+  persistent_id: https://arxiv.org/abs/2006.09365
+  version: arXiv abstract page (6912 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:04:00Z'
+  sha256: 6b25d8a9e01df1b55584a8fee6046ec9f8194bca6dce3bd4823aed9fd46ecbe6
+- source_id: r401-metadata-cr
+  title: Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.48550/arXiv.2006.09365
+  persistent_id: https://doi.org/10.48550/arXiv.2006.09365
+  version: Crossref API work record (346 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:04:00Z'
+  sha256: d4026086f134e00848d68daba068eb30e5a1891c07403f6e0c05ce66b3162f5e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: Bucketing resampling is a Byzantine-robust aggregation meta-algorithm designed for heterogeneous distributed and federated learning.
+limitations:
+- Each Byzantine worker can corrupt an entire bucket of size s, requiring s <= floor(delta_max / delta).
+- Cannot eliminate the fundamental information-theoretic Omega(delta * zeta^2) optimization error floor under worst-case non-i.i.d. heterogeneity without overparameterized strong growth.
+curation:
+  created_at: '2026-10-19T08:04:00Z'
+  updated_at: '2026-10-19T08:04:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
