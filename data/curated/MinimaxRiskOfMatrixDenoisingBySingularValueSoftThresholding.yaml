@@ -1,0 +1,105 @@
+id: AIMech:MinimaxRiskOfMatrixDenoisingBySingularValueSoftThresholding
+name: Minimax Risk and Least-Favorable Subspace Characterization of Matrix Denoising by Singular Value Soft Thresholding
+review_status: DRAFT
+concept_kind: mathematical_method
+aliases:
+- Minimax Risk of Singular Value Soft Thresholding (SVST)
+- Donoho-Gavish Proportional-Rank SVST Minimax AMSE M(rho, beta)
+- Least-Favorable Rank-r Matrix at Infinity for SVST
+- Trigonometric Quarter-Circle Parameterization of SVST Minimax Risk
+definition: A high-dimensional statistical decision-theoretic methodology introduced by Donoho and Gavish (2014, The Annals of Statistics 42(6):2413-2440, arXiv:1304.2085v4) for characterizing the finite-sample and proportional-rank asymptotic minimax risk of Singular Value Soft Thresholding (SVST) hat_X_lambda(Y) = arg min_X {(1/2)||Y - X||_F^2 + lambda ||X||_*} = sum_{i=1}^m (y_i - lambda)_+ u_i v_i' under white Gaussian matrix noise Y = X_0 + n^{-1/2} Z. Representing the MSE risk R(hat_X_lambda, X_0) = (1/m) E||hat_X_lambda(Y) - X_0||_F^2 = (1/m) E[SURE_lambda(Y)] as the expectation of a sum of bounded orthogonally invariant quasi-convex functions and applying Anderson's unimodal integral theorem, the method proves that R(hat_X_lambda, X_0) is singular-value-monotone nondecreasing (Lemmas 1-4), so the worst-case risk over rank(X_0) <= r is achieved in the limit as the r nonzero singular values tend to infinity, decoupling the signal subspace from an (m-r) x (n-r) pure-noise subspace (Theorems 1-2). In the proportional-rank asymptotic regime r_n / m_n -> rho in (0, 1) and m_n / n -> beta in (0, 1], minimizing the Marcenko-Pastur incomplete-moment risk functional M(Lambda; rho, tilde_rho, alpha) yields the unique optimal rescaled threshold Lambda_*(rho, beta, alpha) solving P_gamma(Lambda^2; 1/2) - Lambda P_gamma(Lambda^2; 0) = Lambda rho / (alpha(1 - rho)), a closed-form trigonometric parameterization Lambda_* = 2 sin(theta_alpha(rho)) in the square case beta = 1, the low-rank slope 2(1 + sqrt(beta) + beta) rho, and a universal factor-of-3 worst-case suboptimality bound relative to the global minimax risk over all measurable matrix denoisers (Theorems 3-9).
+identity_notes: Checked against all 442 pinned AIO concepts and 648 maintained AIMech concepts. Distinct from AIMech:LossSpecificOptimalSingularValueShrinkageForMatrixDenoising (Gavish & Donoho 2017) and AIMech:OptimalSingularValueHardThresholdingAtFourOverSqrtThree (Gavish & Donoho 2014), which analyze fixed low-rank r << m_n, n spiked matrix asymptotics via Benaych-Georges-Nadakuditi singular vector rotation cosines c(x), tilde_c(x), whereas Donoho & Gavish (2014) analyze the proportional-rank regime r_n / m_n -> rho in (0, 1) where the signal subspace has macroscopic dimension and the residual (m-r) x (n-r) noise block follows a compressed Marcenko-Pastur law with effective aspect ratio gamma = (tilde_rho - rho tilde_rho)/(rho - rho tilde_rho); and distinct from AIMech:SingularValueThresholdingForMatrixCompletion (Cai, Candes, & Shen 2010), which introduces iterative Uzawa singular value soft thresholding for incomplete matrix completion without SURE singular-value monotonicity or minimax risk curves.
+definition_evidence:
+- source_id: dg2014-svst-minimax-pdf
+  locator: Section 1, Equations (1.1)-(1.5), pages 1-4; Section 2, Theorems 1-9 and Equations (2.1)-(2.27), pages 6-16; Sections 4-8, Lemmas 1-10, pages 18-27
+  relation: supports
+- source_id: dg2014-svst-minimax-abs
+  locator: Abstract
+  relation: supports
+- source_id: dg2014-svst-minimax-cr
+  locator: DOI:10.1214/14-AOS1257 article metadata
+  relation: supports
+claims:
+- claim_id: sure-quasiconvex-decomposition-anderson-sv-monotonicity-and-least-favorable-matrix-at-infinity
+  kind: mechanism
+  statement: 'For Y = X_0 + n^{-1/2} Z with Z_{i,j} i.i.d. N(0, 1), the SVST risk R(hat_X_lambda, X_0) = (1/m) E||hat_X_lambda(Y) - X_0||_F^2 = (1/m) E[SURE_lambda(Y)] decomposes via Stein''s Unbiased Risk Estimate (Lemma 3, p. 20) into the expectation of a finite sum of bounded, orthogonally invariant, quasi-convex functions on M_{m x n}. By Anderson''s (1955) theorem on integrals of symmetric unimodal densities over symmetric convex level sets (Definitions 1-3, Lemmas 1-2, pp. 18-19), X_0 |-> R(hat_X_lambda, X_0) is singular-value-monotone nondecreasing (A <=_{SV} B => R(hat_X_lambda, A) <= R(hat_X_lambda, B), Lemma 4, Eq. 4.2, p. 20), so the worst-case risk over rank(X_0) <= r is achieved as the r nonzero singular values tend to +infty: sup_{rank(X_0) <= r} R(hat_X_lambda, X_0) = lim_{mu -> infty} R(hat_X_lambda, mu C) = M_n(lambda / sqrt(1 - r/n); r, m, alpha) = r/m + r/n - r^2/(mn) + (1 - r/n)[(r/m) Lambda^2 + alpha E_{W_{m-r,n-r}}(1/m) sum_{i=1}^{m-r} (sigma_i - Lambda)_+^2] with alpha = 1 for Mat_{m,n} and alpha = 1/2 for Sym_n (Theorems 1-2, Eqs. 2.1-2.4, pp. 7-8; Lemmas 5-6, p. 22).'
+  evidence:
+  - source_id: dg2014-svst-minimax-pdf
+    locator: Section 2.1-2.2, Theorems 1-2 and Equations (2.1)-(2.4), pages 7-8; Section 4, Definitions 1-3, Lemmas 1-4, and Equations (4.1)-(4.3), pages 18-21; Section 5, Lemmas 5-6, page 22
+    relation: supports
+- claim_id: proportional-rank-marcenko-pastur-minimax-optimality-and-trigonometric-quarter-circle-curve
+  kind: mechanism
+  statement: In the proportional-rank asymptotic limit r_n / m_n -> rho in (0, 1) and m_n / n -> beta in (0, 1] (with tilde_rho = beta rho for Mat and tilde_rho = rho for Sym, and compressed noise aspect ratio gamma = (tilde_rho - rho tilde_rho)/(rho - rho tilde_rho)), M_n(Lambda; r_{m_n}, m_n, alpha) converges uniformly on compact intervals to M(Lambda; rho, tilde_rho, alpha) = rho + tilde_rho - rho tilde_rho + (1 - tilde_rho)[rho Lambda^2 + alpha(1 - rho)(P_gamma(Lambda^2; 1) - 2 Lambda P_gamma(Lambda^2; 1/2) + Lambda^2 P_gamma(Lambda^2; 0))], where P_gamma(x; k) = int_x^{gamma_+} t^k p_gamma(t) dt are the complementary incomplete moments of the Marcenko-Pastur density (Eqs. 2.7-2.9, Lemmas 7-8, pp. 9-10, 22-24). Minimizing over Lambda in [0, sqrt(gamma_+)] yields the unique root Lambda_*(rho, beta, alpha) of the optimality equation P_gamma(Lambda^2; 1/2) - Lambda P_gamma(Lambda^2; 0) = Lambda rho / (alpha(1 - rho)) with lim_{rho->0} Lambda_* = 1 + sqrt(beta) and lim_{rho->1} Lambda_* = 0, and minimax threshold n^{-1/2} lambda_*(m, n, r | Mat) -> sqrt(1 - beta rho) Lambda_*(rho, beta, 1) (Theorems 3, 4, 6, Eqs. 2.10-2.15, pp. 10-13; Lemma 9, pp. 24-25). In the square case beta = 1, the quarter-circle moments Q_0, Q_1, Q_2 (Eqs. 2.17-2.19) yield Lambda_*(rho, rho, alpha) = 2 sin(theta_alpha(rho)) where theta_alpha(rho) in [0, pi/2] solves theta + cot(theta)(1 - (1/3) cos^2(theta)) = pi(1 + alpha^{-1} rho - rho) / (2(1 - rho)), giving an exact trigonometric parameterization (rho(theta), M(theta)) of the asymptotic minimax MSE curve (Theorems 5 and 7, Eqs. 2.16-2.21, pp. 11-14).
+  evidence:
+  - source_id: dg2014-svst-minimax-pdf
+    locator: Section 2.3-2.6, Theorems 3-7 and Equations (2.5)-(2.21), pages 9-14; Sections 6-7, Lemmas 7-9 and Equation (7.1), pages 22-25
+    relation: supports
+  - source_id: dg2014-svst-minimax-abs
+    locator: Abstract
+    relation: supports
+- claim_id: low-rank-slope-and-factor-of-three-global-minimax-suboptimality-bound
+  kind: scope
+  statement: 'As rho -> 0, the proportional-rank SVST minimax risk satisfies M(rho, beta | Mat) = 2(1 + sqrt(beta) + beta) rho + o(rho), so M(rho, 1 | Mat) = 6 rho + o(rho) and M(rho | Sym) = 6 rho + o(rho) (Theorem 8, Eq. 2.22, p. 14). Over all measurable matrix denoisers hat_X: M_{m x n} -> M_{m x n}, restricting to permutation- and sign-invariant singular-value denoisers D (Definition 5, Lemma 10, pp. 25-26) establishes the finite-sample global minimax lower bound M^*_{m,n}(r | X) >= r/m + r/n - (r^2 + r)/(mn) and asymptotic lower bound M^*(rho, beta | X) >= M^-(rho, beta) := rho + beta rho - beta rho^2, proving that SVST is never worse than a factor 2(1 + sqrt(beta)/(1 + beta)) <= 3 times the global minimax risk across all (rho, beta) in (0, 1) x (0, 1], with equality as rho -> 0 and beta = 1 (Theorem 9, Eqs. 2.23-2.27, pp. 15-16, 26-27).'
+  evidence:
+  - source_id: dg2014-svst-minimax-pdf
+    locator: Section 1.2.2, Equations (1.3)-(1.5), pages 3-4; Section 2.7-2.8, Theorems 8-9 and Equations (2.22)-(2.27), pages 14-16; Section 8, Definition 5 and Lemma 10, pages 25-27
+    relation: supports
+evidence_sources:
+- source_id: dg2014-svst-minimax-pdf
+  title: Minimax Risk of Matrix Denoising by Singular Value Thresholding
+  authors:
+  - David L. Donoho
+  - Matan Gavish
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1304.2085.pdf
+  persistent_id: https://arxiv.org/abs/1304.2085v4
+  version: arXiv:1304.2085v4 full-text PDF (29 pages, 412147 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T01:15:00Z'
+  sha256: 9d83e861098ce36a4bf54743efb9ea9d54f99a298ea03ca822037b14bd78e536
+- source_id: dg2014-svst-minimax-abs
+  title: Minimax Risk of Matrix Denoising by Singular Value Thresholding
+  authors:
+  - David L. Donoho
+  - Matan Gavish
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1304.2085
+  persistent_id: https://arxiv.org/abs/1304.2085
+  version: arXiv:1304.2085 abstract page (7094 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T01:15:00Z'
+  sha256: 48fcc8cee6eda624c5d275b440c4d6c9379f2fc7e2562cf69dcd26e79b84cf4d
+- source_id: dg2014-svst-minimax-cr
+  title: Minimax risk of matrix denoising by singular value thresholding
+  authors:
+  - David L. Donoho
+  - Matan Gavish
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/14-AOS1257
+  persistent_id: https://doi.org/10.1214/14-AOS1257
+  version: The Annals of Statistics 42(6):2413-2440 (2014) Crossref metadata (4432 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T01:15:00Z'
+  sha256: 96807dc0f82697c1de3770d912e98df346591bb4da02c627915bfb7a85a09df2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Characterizes the exact finite-sample and proportional-rank minimax risk and threshold selection of singular value soft thresholding for low-rank SVD/PCA matrix denoising.
+- target: AIO:DimensionalityReduction
+  relation: broad_match
+  rationale: Provides a convex nuclear-norm spectral shrinkage estimator for low-rank matrix recovery and dimensionality reduction.
+limitations:
+- 'Factor-of-3 suboptimality in the very-low-rank limit rho -> 0: Because SVST shrinks large singular values by a constant bias lambda_* -> (1 + sqrt(beta)) sigma sqrt(n), its low-rank minimax risk slope is 2(1 + sqrt(beta) + beta) rho (6 rho at beta = 1), which is up to 3 times larger than the optimal continuous singular-value shrinker slope 2 r / m and 2 times larger than optimal hard thresholding at 4/sqrt(3) (3 r / m) (Theorem 8-9, pp. 14-16).'
+- "Requires known rank bound r (or rank fraction rho = r/m) and known Gaussian noise scale sigma = n^{-1/2} to compute the minimax threshold lambda_*(m, n, r); when r is unknown, one must either optimize SURE_lambda(Y) empirically over lambda (Cand\xE8s et al. 2013) or adopt the rank-independent bulk-edge threshold (1 + sqrt(beta)) sigma sqrt(n) at the cost of suboptimal risk for moderate rho (Section 1.2.1, p. 3)."
+- Exact finite-sample singular-value monotonicity (Theorem 1, Lemma 4) relies on orthogonal invariance and log-concavity (unimodality) of the i.i.d. Gaussian noise density via Anderson's theorem; under heavy-tailed or non-orthogonal structured noise, finite-sample monotonicity in the singular values need not hold.
+- 'Primary-source typographical audit of arXiv:1304.2085v4 (DOI:10.1214/14-AOS1257): (1) on p. 10 (Theorem 3, Eqs. 2.10-2.11 and line below) and p. 24 (Lemma 9), the upper bound on Lambda is printed ''0 <= Lambda <= gamma_+'' (and ''Lambda in [0, gamma_+]'') instead of ''0 <= Lambda <= sqrt(gamma_+)'' (cf. Lemma 7 on p. 23), and line 7 below Theorem 3 repeats ''rho |-> M(rho, beta | Mat)'' twice instead of ''M(rho, 1 | Mat)'' and ''M(rho | Sym)''; (2) on p. 12 (Theorem 5, Eq. 2.16), ''Q_2(Lambda) - 2 lambda Q_1(Lambda) + Lambda^2 Q_0(Lambda)'' prints lowercase ''lambda'' instead of uppercase ''Lambda''; (3) on p. 14 (Theorem 7), line 3 below Figure 4 prints ''M(rho, rho | Mat)'' instead of ''M(rho, 1 | Mat)'', and the symmetric parametric formula prints ''rho(theta) = 1 - (g(theta) - pi/2)/(g(theta) + pi/2)'' (which equals 1 - rho(theta)) instead of ''rho(theta) = (g(theta) - pi/2)/(g(theta) + pi/2) = 1 - pi/(g(theta) + pi/2)'' when inverting Eq. (2.21) g(theta) = (pi/2)(1 + rho)/(1 - rho); (4) on p. 20 (Lemma 3, SURE formula), the interaction sum prints ''(min{y_j, lambda} y_j - min{y_i, lambda} y_j)/(y_j^2 - y_i^2)'' with ''y_j'' instead of ''y_i'' in the second numerator term ''min{y_i, lambda} y_i''; and (5) on p. 22 (Proof of Theorem 2, last line), ''M_n(Lambda; r, 1/2)'' omits the third argument ''n'', while on p. 27 (Proof of Theorem 9, last display), ''rho + beta rho + beta rho^2'' prints ''+ beta rho^2'' instead of ''- beta rho^2'' in the denominator.'
+curation:
+  created_at: '2026-10-19T01:22:00Z'
+  updated_at: '2026-10-19T01:22:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
