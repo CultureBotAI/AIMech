@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nested Lasso Adaptive Banding for Covariance Estimation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Nested Lasso Adaptive Banding for Covariance Estimation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Nested Lasso Adaptive Banding for Covariance Estimation</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Adaptive Cholesky Banding via Nested Lasso Penalty, Levina-Rothman-Zhu Nested Lasso Modified Cholesky Covariance Estimator, Row-Adaptive Banded Cholesky Precision Matrix Estimation
+    </div>
+
+  <div class="detail-desc">
+    Nested Lasso Adaptive Banding for Covariance Estimation is a high-dimensional covariance and precision matrix regularization method for naturally ordered variables that parameterizes the precision matrix via the modified Cholesky decomposition Sigma^{-1} = T^T D^{-1} T (with unit lower-triangular T = I - Phi of autoregressive coefficients X_j = sum_{l=1}^{j-1} phi_{jl} X_l + eps_j and diagonal prediction variance matrix D = diag(sigma_1^2, ..., sigma_p^2)) and minimizes row-decomposed penalized Gaussian negative log-likelihood objectives (sigma_hat_j, phi_hat_j) = argmin_{sigma_j, phi_j} {n log sigma_j^2 + sum_{i=1}^n (x_{ij} - sum_{l=1}^{j-1} phi_{jl} x_{il})^2 / sigma_j^2 + J(phi_j)} using a hierarchical nested Lasso penalty J_0(phi_j) = lambda (|phi_{j,j-1}| + sum_{t=1}^{j-2} |phi_{j,t}| / |phi_{j,t+1}|), its scale-normalized single-parameter variant J_1(phi_j) = lambda (|phi_{j,j-1}| / |phi_hat^*_{j,j-1}| + sum_{t=1}^{j-2} |phi_{j,t}| / |phi_{j,t+1}|), or its two-parameter variant J_2(phi_j) = lambda_1 sum_{t=1}^{j-1} |phi_{j,t}| + lambda_2 sum_{t=1}^{j-2} |phi_{j,t}| / |phi_{j,t+1}| (with 0/0 = 0). Because setting phi_{j,l} = 0 forces all earlier predecessors phi_{j,1} = ... = phi_{j,l-1} = 0 to avoid an infinite ratio penalty, each row j of T adaptively selects its own contiguous lag bandwidth k_j &lt;= j - 1, preserving exact structural zeros in the resulting precision matrix Sigma_hat^{-1} = T_hat^T D_hat^{-1} T_hat while providing row-specific flexibility via alternating residual-variance updates and local quadratic approximation (LQA) ridge or coordinate shooting optimization.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved as a distinct AIMech-native mathematical_method concept from Levina, Rothman, and Zhu (2008, The Annals of Applied Statistics 2(1):245-263; arXiv:0803.3872v1, DOI:10.1214/07-AOAS139). Distinct from AIMech:RegularizedCovarianceEstimationByBanding (Bickel &amp; Levina 2008a), which imposes a single uniform bandwidth k across all rows of the covariance or Cholesky factor selected via random split cross-validation rather than row-specific bandwidths k_j induced by a hierarchical ratio penalty J(phi_j) on the Gaussian log-likelihood; distinct from AIMech:NonconcavePenalizedQuasiLikelihoodForSparseCovarianceAndPrecisionMatrixEstimation (Lam &amp; Fan 2009), which penalizes individual entries t_{ij} of T with separable folded-concave penalties p_lambda(|t_{ij}|) (Eqs. 4.2-4.4) that allow arbitrary non-contiguous zero locations in T and therefore do not enforce contiguous row-specific bands or prevent fill-in under T^T D^{-1} T; and distinct from AIMech:SparsePermutationInvariantCovarianceEstimation (Rothman, Bickel, Levina, &amp; Zhu 2008), which applies a permutation-invariant L1 penalty directly to the entries of Omega = Sigma^{-1}.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#modified-cholesky-row-decomposable-gaussian-likelihood-and-hierarchical-zero-propagation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the modified Cholesky decomposition Sigma^{-1} = T^T D^{-1} T with unit lower-triangular T = I - Phi and diagonal residual variance matrix D = diag(sigma_1^2, ..., sigma_p^2) from regressing X_j on X_1, ..., X_{j-1} (Section 2, Equations 1-3, pp. 248-249 / PDF pp. 4-5), the Gaussian negative log-likelihood decomposes into p separable row objectives ell(Sigma, x_1, ..., x_n) = sum_{j=1}^p ell_j(sigma_j, phi_j, x_1, ..., x_n) where ell_j = n log sigma_j^2 + sum_{i=1}^n (x_{ij} - sum_{l=1}^{j-1} phi_{jl} x_{il})^2 / sigma_j^2 (Equations 4-5, pp. 249-250 / PDF pp. 5-6). Replacing the unstructured L1 penalty lambda sum_{l=1}^{j-1} |phi_{jl}| (Equations 6-8) with the nested Lasso penalty J_0(phi_j) = lambda(|phi_{j,j-1}| + |phi_{j,j-2}|/|phi_{j,j-1}| + ... + |phi_{j,1}|/|phi_{j,2}|) or its scale-adjusted variants J_1(phi_j) and J_2(phi_j) (Equations 9-11, pp. 250-251 / PDF pp. 6-7, with 0/0 = 0) enforces hierarchical predecessor exclusion: whenever phi_{j,l} = 0, any nonzero coefficient among phi_{j,1}, ..., phi_{j,l-1} incurs an infinite penalty, so row j retains only a contiguous band of k_j &lt;= j - 1 closest predecessors.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lrz2008-nested-lasso-pdf">Sparse estimation of large covariance matrices via a nested Lasso penalty</a></span>
+        <span>· <strong>Locator:</strong> Section 2 and Section 2.1, Equations (1)-(12) and Figure 1, pp. 248-251 (PDF pp. 4-7)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#precision-matrix-sparsity-preservation-versus-unstructured-cholesky-lasso-fill-in</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Whereas applying an unstructured L1 (Lasso) penalty directly to the entries of the Cholesky factor T (Huang et al. 2006, Equations 6-8) places zeros at irregular locations in T (Figure 1b) so that the product Sigma_hat^{-1} = T_hat^T D_hat^{-1} T_hat loses sparsity through outer-product fill-in, adaptive banding via the nested Lasso penalty (Figure 1c) guarantees that T_hat remains banded with overall bandwidth k = max_j k_j and preserves exact structural zeros in the estimated precision matrix Sigma_hat^{-1} (Section 1, pp. 247-248 / PDF pp. 3-4; Section 3.1, Table 3 and Figures 2-3, pp. 256-258 / PDF pp. 12-14).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lrz2008-nested-lasso-pdf">Sparse estimation of large covariance matrices via a nested Lasso penalty</a></span>
+        <span>· <strong>Locator:</strong> Section 1, pp. 247-248 (PDF pp. 3-4); Section 3.1, Table 3 and Figures 2-3, pp. 256-258 (PDF pp. 12-14)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#alternating-local-quadratic-approximation-and-coordinate-shooting-algorithm</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To minimize the nonconvex row objective ell_j(sigma_j, phi_j) + J(phi_j) (Equation 12), Section 2.2 (pp. 252-253 / PDF pp. 8-9) initializes phi_hat^{(0)}_{jt} = phi_hat^*_{jt} via univariate marginal regressions of X_j on X_t alone (well defined even when p &gt; n) and alternates between Step 1, updating the residual variance in closed form (sigma_hat^{(k)}_j)^2 = (1/n) sum_{i=1}^n (x_{ij} - sum_{t=1}^{j-1} phi_hat^{(k)}_{jt} x_{it})^2, and Step 2, updating phi_hat^{(k+1)}_j via the local quadratic approximation |phi^{(k+1)}_{jt}| approx (phi^{(k+1)}_{jt})^2 / (2|phi_hat^{(k)}_{jt}|) + |phi_hat^{(k)}_{jt}| / 2 (Equation 13) with |phi_hat^{(k)}_{j,t+1}| substituted in the ratio denominators, which converts each iteration into a closed-form generalized ridge regression problem with thresholding at 10^{-10} (or equivalently solves Step 2 by coordinate-wise shooting over piecewise-convex univariate subproblems).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lrz2008-nested-lasso-pdf">Sparse estimation of large covariance matrices via a nested Lasso penalty</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Equation (13) and Steps 1-2, pp. 252-253 (PDF pp. 8-9)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Dependence on a natural variable ordering and lack of permutation invariance: Like standard Cholesky banding, adaptive banding via the nested Lasso relies on the modified Cholesky decomposition Sigma^{-1} = T^T D^{-1} T and is not invariant to permutations of the variables, requiring longitudinal, temporal, spatial, or spectral ordering (Section 1, p. 247; Section 4, p. 263).</li>
+      <li>Non-convexity of the ratio penalty and lack of formal high-dimensional asymptotic consistency proofs in the 2008 paper: Because the ratio terms |phi_{j,t}|/|phi_{j,t+1}| make J_0, J_1, and J_2 nonconvex, global optimality is not guaranteed for the joint LQA iteration, and formal asymptotic consistency proofs as p, n -&gt; infty are deferred to future work (Section 2.2, p. 252; Section 4, pp. 262-263).</li>
+      <li>Coefficient scaling sensitivity in J_0 and J_1: The unnormalized penalty J_0 penalizes the leading lag coefficient |phi_{j,j-1}| and the dimensionless ratios |phi_{j,t}|/|phi_{j,t+1}| with a single tuning parameter lambda, requiring either an ad hoc marginal regression rescaling |phi_hat^*_{j,j-1}| in J_1 or two separate tuning parameters (lambda_1, lambda_2) in J_2 (Section 2.1, pp. 250-251).</li>
+      <li>Primary-source typographical audit of arXiv:0803.3872v1 (DOI:10.1214/07-AOAS139): (1) On p. 257 (PDF p. 13), the caption of Figure 2 states &#39;Heatmap plots of percentage of zeros at each location in the inverse (out of 50 replications) for Sigma_3, p = 30&#39;, duplicating the caption of Figure 3 on p. 258 (PDF p. 14), whereas the text on p. 256 (PDF p. 12) and the lower-triangular plots themselves show that Figure 2 plots the Cholesky factor T while Figure 3 plots the inverse Sigma^{-1}; and (2) the captions of Figures 2 and 3 state &#39;Black represents 100%, white 0%&#39; for the percentage of zeros, whereas the main diagonal and banded nonzeros are rendered in black and the off-band zeros in white (matching the convention stated in Figures 5 and 6 on pp. 261-262 / PDF pp. 17-18: &#39;White corresponds to zero, black to nonzero&#39;).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LassoRegression.html" style="font-weight: 600;"><code>AIO:LassoRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Lasso Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The nested Lasso penalties J_0, J_1, and J_2 extend the L1 Lasso penalty on autoregressive Cholesky coefficients by adding successive ratio terms |phi_{j,t}|/|phi_{j,t+1}| that enforce hierarchical lag selection (Section 2.1, Equations 9-11).
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Each row j of the modified Cholesky factor T = I - Phi is estimated by penalized linear regression of X_j on its ordered predecessors X_1, ..., X_{j-1} (Section 2, Equations 1-5).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-lrz2008-nested-lasso-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">lrz2008-nested-lasso-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/pdf/0803.3872.pdf" target="_blank" rel="noopener">Sparse estimation of large covariance matrices via a nested Lasso penalty</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Elizaveta Levina, Adam Rothman, Ji Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/07-AOAS139</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:91f75cf387d4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-lrz2008-nested-lasso-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">lrz2008-nested-lasso-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/abs/0803.3872" target="_blank" rel="noopener">Sparse estimation of large covariance matrices via a nested Lasso penalty (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Elizaveta Levina, Adam Rothman, Ji Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.0803.3872</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ad16fbce344d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-lrz2008-nested-lasso-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">lrz2008-nested-lasso-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1214/07-AOAS139" target="_blank" rel="noopener">Sparse estimation of large covariance matrices via a nested Lasso penalty (Annals of Applied Statistics Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Elizaveta Levina, Adam Rothman, Ji Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/07-AOAS139</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c66060e857a6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-18T23:35:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-18T23:35:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NestedLassoAdaptiveBandingForCovarianceEstimation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NestedLassoAdaptiveBandingForCovarianceEstimation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

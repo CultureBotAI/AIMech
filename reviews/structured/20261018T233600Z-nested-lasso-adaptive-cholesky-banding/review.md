@@ -1,0 +1,497 @@
+# Scientific author self-review of Nested Lasso Adaptive Banding for Covariance Estimation
+
+- Review: 20261018T233600Z-nested-lasso-adaptive-cholesky-banding
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-18T23:35:00Z
+- Finished UTC: 2026-10-18T23:36:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Nested Lasso Adaptive Banding for Covariance Estimation as a distinct DRAFT mathematical_method with related_match LassoRegression and LinearRegression mappings. All three claims and locators across Levina, Rothman, &amp; Zhu (2008, Ann. Appl. Stat. 2(1):245-263, arXiv:0803.3872v1) are supported with explicit variable-ordering dependence, non-convexity and deferred asymptotic proof scope, J_0/J_1 scaling sensitivity, and primary-source figure-caption typographical limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained NestedLassoAdaptiveBandingForCovarianceEstimation record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base f13679b0fa42227c3ef947d9cc688bd05d668e33.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation | data/curated/NestedLassoAdaptiveBandingForCovarianceEstimation.yaml | maintained | Nested Lasso Adaptive Banding for Covariance Estimation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation | Validated 639 curated concept record(s). |
+| aimech seed --check | passed | True | AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation | Checked 442 record(s); 0 drift. |
+| aimech validate-history | passed | True | AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation | Validated 292 history file(s). |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation | Vendored record_review files match. |
+| aimech check-source | passed | True | AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation | Exited 0 without output. |
+| Constructed Levina, Rothman, &amp; Zhu 2008 modified Cholesky decomposition, hierarchical zero propagation, precision sparsity vs fill-in boundary, and LQA J_2 checks | passed | True | AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation | Nested Lasso adaptive banding verified: KL_nested=0.2664 &lt; KL_band1=0.4977 and KL_sample=0.5541; exact Cholesky decomposition err=2.22e-16. |
+
+## Scientific And Domain Assessments
+
+### Distinctness of Nested Lasso Adaptive Banding for Covariance Estimation
+
+identity: supported. Targets: AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation.
+
+Distinct mathematical_method for row-adaptive Cholesky banding via nested Lasso penalties J_0, J_1, and J_2.
+
+Resolved as a distinct AIMech-native mathematical_method concept from Levina, Rothman, and Zhu (2008, The Annals of Applied Statistics 2(1):245-263; arXiv:0803.3872v1, DOI:10.1214/07-AOAS139). Distinct from AIMech:RegularizedCovarianceEstimationByBanding (Bickel &amp; Levina 2008a), which imposes a single uniform bandwidth k across all rows of the covariance or Cholesky factor selected via random split cross-validation rather than row-specific bandwidths k_j induced by a hierarchical ratio penalty J(phi_j) on the Gaussian log-likelihood; distinct from AIMech:NonconcavePenalizedQuasiLikelihoodForSparseCovarianceAndPrecisionMatrixEstimation (Lam &amp; Fan 2009), which penalizes individual entries t_{ij} of T with separable folded-concave penalties p_lambda(&#124;t_{ij}&#124;) (Eqs. 4.2-4.4) that allow arbitrary non-contiguous zero locations in T and therefore do not enforce contiguous row-specific bands or prevent fill-in under T^T D^{-1} T; and distinct from AIMech:SparsePermutationInvariantCovarianceEstimation (Rothman, Bickel, Levina, &amp; Zhu 2008), which applies a permutation-invariant L1 penalty directly to the entries of Omega = Sigma^{-1}.
+
+### AIO mappings for AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+
+grounding: supported. Targets: AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation.
+
+related_match to AIO:LassoRegression and AIO:LinearRegression is accurate.
+
+Verified exact target existence in data/aio/ and documented why AIO:BayesianNetwork is rejected.
+
+### Definition and scope
+
+evidence: supported. Targets: AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation.
+
+Definition accurately captures Equations (1)-(13) and the row-adaptive Cholesky banding mechanism.
+
+All equations and claims verified against arXiv:0803.3872v1 (pp. 245-263).
+
+### Equations (1)-(12) modified Cholesky log-likelihood decomposition and nested Lasso hierarchical zero propagation
+
+evidence: supported. Targets: AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation.
+
+Claim 1 (Equations 1-12 modified Cholesky decomposition and nested Lasso zero propagation) is verified.
+
+Checked exact matrix vs row-sum log-likelihood equality and contiguous predecessor band retention.
+
+### Figure 1 and Table 3 precision sparsity preservation vs unstructured Cholesky Lasso fill-in
+
+evidence: supported. Targets: AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation.
+
+Claim 2 (precision matrix sparsity preservation vs unstructured Cholesky Lasso fill-in) is verified.
+
+Checked outer-product fill-in for irregular zeros in T vs exact zeros in Sigma^{-1} under adaptive row banding.
+
+### Section 2.2 Equation (13) alternating residual-variance and LQA ridge / shooting optimization
+
+evidence: supported. Targets: AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation.
+
+Claim 3 (Section 2.2 LQA ridge and shooting optimization) is verified.
+
+Checked LQA J_2 convergence and superior KL loss (0.2664) over fixed k=1 banding (0.4977) and sample precision (0.5541).
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of NestedLassoAdaptiveBandingForCovarianceEstimation.yaml and verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261018T233500Z-nested-lasso-adaptive-cholesky-banding.json | supports | No normalized identity match for Nested Lasso Adaptive Banding for Covariance Estimation across 442 pinned AIO records and 638 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected LassoRegression and LinearRegression in the pinned AIO snapshot (2026-07-22). Provide accurate related_match context. |
+| calculation | research/discovery/nested-lasso-adaptive-cholesky-banding-boundaries.py | supports | Executed pure-Python verification in research/discovery/nested-lasso-adaptive-cholesky-banding-boundaries.py (SHA-256 b593f041305dd466652a8dcf8f21573ceb6a140a3ef16d94868a20bd5f0f4164): verified (1) the exact modified Cholesky factorization Sigma^{-1} = T^T D^{-1} T and Sigma = T^{-1} D (T^{-1})^T (Eq. 3, max error 2.22e-16) and exact equality between the full matrix Gaussian negative log-likelihood (Eq. 4) and the sum of separable row regression objectives (Eq. 5); (2) the structural fill-in boundary showing that irregular non-contiguous zeros in T (unstructured Cholesky Lasso, Figure 1b) produce fill-in in Sigma^{-1} = T^T D^{-1} T whereas nested Lasso adaptive banding (Figure 1c) preserves exact structural zeros outside the adaptive band envelope; and (3) the alternating residual-variance and local quadratic approximation (LQA) ridge solver for the J_2 nested Lasso penalty (Section 2.2, Eq. 13) on a variable-bandwidth autoregression (Model Sigma_3), confirming that every row satisfies the nested zero-propagation invariant and achieves lower Kullback-Leibler concentration loss (KL = 0.2664) than fixed k=1 banding (KL = 0.4977) and sample precision inversion (KL = 0.5541). |
+| lrz2008-nested-lasso-pdf | https://export.arxiv.org/pdf/0803.3872.pdf; Pages 245-263 (PDF pp. 1-21), Sections 1-4 (Equations 1-14, Tables 1-4, Figures 1-6) | supports | All 21 pages of Levina, Rothman, &amp; Zhu (2008, Ann. Appl. Stat. 2(1):245-263, arXiv:0803.3872v1) read and verified. |
+| lrz2008-nested-lasso-abs | https://export.arxiv.org/abs/0803.3872; arXiv:0803.3872 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| lrz2008-nested-lasso-cr | https://api.crossref.org/works/10.1214/07-AOAS139; DOI:10.1214/07-AOAS139 Crossref metadata | supports | The Annals of Applied Statistics 2008 Crossref metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Nested Lasso Adaptive Banding for Covariance Estimation record, yielding 639 native and 442 unchanged generated records.
+- All 21 PDF pages of arXiv:0803.3872v1 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261018T233600Z-nested-lasso-adaptive-cholesky-banding
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Nested Lasso Adaptive Banding for Covariance
+  Estimation
+started_at: '2026-10-18T23:35:00Z'
+finished_at: '2026-10-18T23:36:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from RegularizedCovarianceEstimationByBanding,
+    NonconcavePenalizedQuasiLikelihoodForSparseCovarianceAndPrecisionMatrixEstimation,
+    and SparsePermutationInvariantCovarianceEstimation, verified Equations (1)-(14)
+    and Tables 1-4, and documented primary-source figure-caption typographical notes
+    in Levina, Rothman, & Zhu (2008, arXiv:0803.3872v1). This is adversarial author
+    self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Nested Lasso Adaptive Banding for Covariance Estimation as a distinct
+  DRAFT mathematical_method with related_match LassoRegression and LinearRegression
+  mappings. All three claims and locators across Levina, Rothman, & Zhu (2008, Ann.
+  Appl. Stat. 2(1):245-263, arXiv:0803.3872v1) are supported with explicit variable-ordering
+  dependence, non-convexity and deferred asymptotic proof scope, J_0/J_1 scaling sensitivity,
+  and primary-source figure-caption typographical limitations.
+source:
+  git_revision: f13679b0fa42227c3ef947d9cc688bd05d668e33
+  state: working_tree
+  inputs:
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/curated/NestedLassoAdaptiveBandingForCovarianceEstimation.yaml
+    sha256: 19d66628b9cbc35b09a2f0f125a6c7afbd4edc8b6368e2330f74ee3810995f4c
+    role: target
+  - path: data/curated/NonconcavePenalizedQuasiLikelihoodForSparseCovarianceAndPrecisionMatrixEstimation.yaml
+    sha256: 73acdfda0fd406c94181744b356b3bc532cf3d1a8bdb182a679403c069ef1959
+    role: context
+  - path: data/curated/RegularizedCovarianceEstimationByBanding.yaml
+    sha256: 7f8da1a283988b3eaf377198957c8f8492fa3fa15f9edc51c71a11acfa3b3b4e
+    role: context
+  - path: data/curated/SparsePermutationInvariantCovarianceEstimation.yaml
+    sha256: 4f4677a1a45fc47752842dd18ea9e1994735ba3ef7869aecd1e5fd43293d7e05
+    role: context
+  - path: research/discovery/20261018T233500Z-nested-lasso-adaptive-cholesky-banding.json
+    sha256: a9ce277645cd71a3ae43450cc3bc00c0da08b9980266004ee1ae0c2410d3e1f4
+    role: context
+  - path: research/discovery/nested-lasso-adaptive-cholesky-banding-boundaries.py
+    sha256: b593f041305dd466652a8dcf8f21573ceb6a140a3ef16d94868a20bd5f0f4164
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  path: data/curated/NestedLassoAdaptiveBandingForCovarianceEstimation.yaml
+  label: Nested Lasso Adaptive Banding for Covariance Estimation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NestedLassoAdaptiveBandingForCovarianceEstimation.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained NestedLassoAdaptiveBandingForCovarianceEstimation
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 639 curated concept record(s).
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 record(s); 0 drift.
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 292 history file(s).
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored record_review files match.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Levina, Rothman, & Zhu 2008 modified Cholesky decomposition, hierarchical
+    zero propagation, precision sparsity vs fill-in boundary, and LQA J_2 checks
+  command: python3 research/discovery/nested-lasso-adaptive-cholesky-banding-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Nested Lasso adaptive banding verified: KL_nested=0.2664 < KL_band1=0.4977
+    and KL_sample=0.5541; exact Cholesky decomposition err=2.22e-16.'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261018T233500Z-nested-lasso-adaptive-cholesky-banding.json
+  accessed_at: '2026-10-18T23:35:00Z'
+  support: supports
+  summary: No normalized identity match for Nested Lasso Adaptive Banding for Covariance
+    Estimation across 442 pinned AIO records and 638 maintained IDs, names, aliases
+    and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-18T23:35:00Z'
+  support: supports
+  summary: Inspected LassoRegression and LinearRegression in the pinned AIO snapshot
+    (2026-07-22). Provide accurate related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/nested-lasso-adaptive-cholesky-banding-boundaries.py
+  accessed_at: '2026-10-18T23:35:00Z'
+  snapshot_sha256: b593f041305dd466652a8dcf8f21573ceb6a140a3ef16d94868a20bd5f0f4164
+  support: supports
+  summary: 'Executed pure-Python verification in research/discovery/nested-lasso-adaptive-cholesky-banding-boundaries.py
+    (SHA-256 b593f041305dd466652a8dcf8f21573ceb6a140a3ef16d94868a20bd5f0f4164): verified
+    (1) the exact modified Cholesky factorization Sigma^{-1} = T^T D^{-1} T and Sigma
+    = T^{-1} D (T^{-1})^T (Eq. 3, max error 2.22e-16) and exact equality between the
+    full matrix Gaussian negative log-likelihood (Eq. 4) and the sum of separable
+    row regression objectives (Eq. 5); (2) the structural fill-in boundary showing
+    that irregular non-contiguous zeros in T (unstructured Cholesky Lasso, Figure
+    1b) produce fill-in in Sigma^{-1} = T^T D^{-1} T whereas nested Lasso adaptive
+    banding (Figure 1c) preserves exact structural zeros outside the adaptive band
+    envelope; and (3) the alternating residual-variance and local quadratic approximation
+    (LQA) ridge solver for the J_2 nested Lasso penalty (Section 2.2, Eq. 13) on a
+    variable-bandwidth autoregression (Model Sigma_3), confirming that every row satisfies
+    the nested zero-propagation invariant and achieves lower Kullback-Leibler concentration
+    loss (KL = 0.2664) than fixed k=1 banding (KL = 0.4977) and sample precision inversion
+    (KL = 0.5541).'
+- evidence_id: lrz2008-nested-lasso-pdf
+  kind: primary_source
+  reference: https://export.arxiv.org/pdf/0803.3872.pdf
+  locator: Pages 245-263 (PDF pp. 1-21), Sections 1-4 (Equations 1-14, Tables 1-4,
+    Figures 1-6)
+  accessed_at: '2026-10-18T16:50:19Z'
+  snapshot_sha256: 91f75cf387d48b0ab26891848fc68a84b6a3a69f3a448b991b33bae13ba30c83
+  support: supports
+  summary: All 21 pages of Levina, Rothman, & Zhu (2008, Ann. Appl. Stat. 2(1):245-263,
+    arXiv:0803.3872v1) read and verified.
+- evidence_id: lrz2008-nested-lasso-abs
+  kind: primary_source
+  reference: https://export.arxiv.org/abs/0803.3872
+  locator: arXiv:0803.3872 abstract
+  accessed_at: '2026-10-18T16:50:20Z'
+  snapshot_sha256: ad16fbce344df6fd5e9a7bd442ab8ffd11b4f468988c2313463503f3317fea68
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: lrz2008-nested-lasso-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/07-AOAS139
+  locator: DOI:10.1214/07-AOAS139 Crossref metadata
+  accessed_at: '2026-10-18T16:50:20Z'
+  snapshot_sha256: c66060e857a679ae17d54102a292e050630c9743ee623652933277cba7032fc2
+  support: supports
+  summary: The Annals of Applied Statistics 2008 Crossref metadata read and verified.
+assessments:
+- assessment_id: identity-boundary
+  area: identity
+  topic: Distinctness of Nested Lasso Adaptive Banding for Covariance Estimation
+  outcome: supported
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  evidence_ids:
+  - identity
+  - lrz2008-nested-lasso-pdf
+  - lrz2008-nested-lasso-abs
+  - lrz2008-nested-lasso-cr
+  summary: Distinct mathematical_method for row-adaptive Cholesky banding via nested
+    Lasso penalties J_0, J_1, and J_2.
+  details: Resolved as a distinct AIMech-native mathematical_method concept from Levina,
+    Rothman, and Zhu (2008, The Annals of Applied Statistics 2(1):245-263; arXiv:0803.3872v1,
+    DOI:10.1214/07-AOAS139). Distinct from AIMech:RegularizedCovarianceEstimationByBanding
+    (Bickel & Levina 2008a), which imposes a single uniform bandwidth k across all
+    rows of the covariance or Cholesky factor selected via random split cross-validation
+    rather than row-specific bandwidths k_j induced by a hierarchical ratio penalty
+    J(phi_j) on the Gaussian log-likelihood; distinct from AIMech:NonconcavePenalizedQuasiLikelihoodForSparseCovarianceAndPrecisionMatrixEstimation
+    (Lam & Fan 2009), which penalizes individual entries t_{ij} of T with separable
+    folded-concave penalties p_lambda(|t_{ij}|) (Eqs. 4.2-4.4) that allow arbitrary
+    non-contiguous zero locations in T and therefore do not enforce contiguous row-specific
+    bands or prevent fill-in under T^T D^{-1} T; and distinct from AIMech:SparsePermutationInvariantCovarianceEstimation
+    (Rothman, Bickel, Levina, & Zhu 2008), which applies a permutation-invariant L1
+    penalty directly to the entries of Omega = Sigma^{-1}.
+- assessment_id: aio-mappings
+  area: grounding
+  topic: AIO mappings for AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  outcome: supported
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  evidence_ids:
+  - mapping
+  - lrz2008-nested-lasso-pdf
+  summary: related_match to AIO:LassoRegression and AIO:LinearRegression is accurate.
+  details: Verified exact target existence in data/aio/ and documented why AIO:BayesianNetwork
+    is rejected.
+- assessment_id: definition
+  area: evidence
+  topic: Definition and scope
+  outcome: supported
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  evidence_ids:
+  - lrz2008-nested-lasso-pdf
+  - lrz2008-nested-lasso-abs
+  - lrz2008-nested-lasso-cr
+  summary: Definition accurately captures Equations (1)-(13) and the row-adaptive
+    Cholesky banding mechanism.
+  details: All equations and claims verified against arXiv:0803.3872v1 (pp. 245-263).
+- assessment_id: claim-1-modified-cholesky-and-nested-lasso
+  area: evidence
+  topic: Equations (1)-(12) modified Cholesky log-likelihood decomposition and nested
+    Lasso hierarchical zero propagation
+  outcome: supported
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  evidence_ids:
+  - lrz2008-nested-lasso-pdf
+  - calculation
+  summary: Claim 1 (Equations 1-12 modified Cholesky decomposition and nested Lasso
+    zero propagation) is verified.
+  details: Checked exact matrix vs row-sum log-likelihood equality and contiguous
+    predecessor band retention.
+- assessment_id: claim-2-precision-sparsity-vs-fill-in
+  area: evidence
+  topic: Figure 1 and Table 3 precision sparsity preservation vs unstructured Cholesky
+    Lasso fill-in
+  outcome: supported
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  evidence_ids:
+  - lrz2008-nested-lasso-pdf
+  - calculation
+  summary: Claim 2 (precision matrix sparsity preservation vs unstructured Cholesky
+    Lasso fill-in) is verified.
+  details: Checked outer-product fill-in for irregular zeros in T vs exact zeros in
+    Sigma^{-1} under adaptive row banding.
+- assessment_id: claim-3-lqa-and-shooting-algorithm
+  area: evidence
+  topic: Section 2.2 Equation (13) alternating residual-variance and LQA ridge / shooting
+    optimization
+  outcome: supported
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  evidence_ids:
+  - lrz2008-nested-lasso-pdf
+  - calculation
+  summary: Claim 3 (Section 2.2 LQA ridge and shooting optimization) is verified.
+  details: Checked LQA J_2 convergence and superior KL loss (0.2664) over fixed k=1
+    banding (0.4977) and sample precision (0.5541).
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation
+  evidence_ids:
+  - identity
+  - mapping
+  - lrz2008-nested-lasso-pdf
+  - lrz2008-nested-lasso-abs
+  - lrz2008-nested-lasso-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Read every field of NestedLassoAdaptiveBandingForCovarianceEstimation.yaml
+    and verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Nested Lasso Adaptive Banding for Covariance Estimation record,
+  yielding 639 native and 442 unchanged generated records.
+- All 21 PDF pages of arXiv:0803.3872v1 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- covariance-estimation
+- precision-matrix-estimation
+- cholesky-decomposition
+- nested-lasso
+- self-review
+- discovery-ongoing
+```
