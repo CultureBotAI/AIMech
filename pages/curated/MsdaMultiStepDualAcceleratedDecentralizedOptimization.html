@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MSDA and SSDA (Multi-Step and Single-Step Dual Accelerated Decentralized Optimization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>MSDA and SSDA (Multi-Step and Single-Step Dual Accelerated Decentralized Optimization)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MSDA and SSDA (Multi-Step and Single-Step Dual Accelerated Decentralized Optimization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MsdaMultiStepDualAcceleratedDecentralizedOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MSDA and SSDA, Multi-Step Dual Accelerated Decentralized Optimization, Single-Step Dual Accelerated Decentralized Optimization
+    </div>
+
+  <div class="detail-desc">
+    Rate-optimal decentralized optimization algorithms for alpha-strongly convex and beta-smooth objectives min_{theta_1=...=theta_n} sum_{i=1}^n f_i(theta_i) over a network with gossip Laplacian W (Scaman, Bach, Bubeck, Lee, &amp; Massoulie 2017, Section 3, Algorithms 1-2): Single-Step Dual Accelerated (SSDA, Algorithm 1) reformulates the consensus problem into the unconstrained dual max_{lambda} -F^*(lambda sqrt(W)) and applies Nesterov&#39;s accelerated gradient descent using local dual conjugate gradients nabla f_i^*(y_{i,t}) gossiped by W; Multi-Step Dual Accelerated (MSDA, Algorithm 2) replaces W with the K-step Chebyshev polynomial gossip operator P_K(W) = I - T_K(c_2(I - c_1 W)) / T_K(c_2) where K = floor(1 / sqrt(gamma(W))) and gamma(W) = lambda_{n-1}(W) / lambda_1(W).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from primal-dual consensus algorithms such as EXTRA (AIMech:ExtraExactFirstOrderDecentralizedConsensusOptimization, Shi et al. 2015) and DIGing (AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs, Nedic et al. 2017), which evaluate primal gradients nabla f_i(x_i) without Nesterov dual acceleration or Chebyshev polynomial gossip and have non-accelerated O(kappa_l / gamma) dependence on the condition number kappa_l = beta / alpha and spectral gap gamma(W).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r435-decentralized-and-centralized-lower-bounds-theorems-1-and-2</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For black-box distributed optimization with local computation time 1 and per-link communication delay tau, Theorem 1 and Corollary 1 establish a centralized lower bound Omega(sqrt(kappa_g)(1 + Delta tau) ln(1 / varepsilon)) in terms of the global condition number kappa_g = beta_g / alpha_g and network diameter Delta, while Theorem 2 and Corollary 2 construct adversarially split chain/grid graphs to prove a decentralized gossip lower bound Omega(sqrt(kappa_l)(1 + tau / sqrt(gamma)) ln(1 / varepsilon)) in terms of the local condition number kappa_l = beta / alpha and normalized Laplacian eigengap gamma = lambda_{n-1}(W) / lambda_1(W).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r435-primary-pdf">Optimal Algorithms for Smooth and Strongly Convex Distributed Optimization in Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Optimal Convergence Rates (Theorems 1-2, Corollaries 1-2)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r435-chebyshev-gossip-eigengap-boost-and-msda-optimal-time-theorem</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Whereas SSDA (Theorem 3) requires O(sqrt(kappa_l / gamma)(1 + tau) ln(1 / varepsilon)) time, MSDA&#39;s Chebyshev polynomial operator P_K(W) with c_1 = 2 / (lambda_1(W) + lambda_{n-1}(W)), c_2 = (1 + gamma) / (1 - gamma), and K = floor(1 / sqrt(gamma)) satisfies 1 / sqrt(gamma(P_K(W))) &lt;= 2 (Proposition 1), decoupling computation and communication so MSDA reaches varepsilon-precision in O(sqrt(kappa_l) ln(1 / varepsilon)) local conjugate-gradient steps and O(sqrt(kappa_l / gamma) ln(1 / varepsilon)) gossip steps, matching the optimal decentralized time bound O(sqrt(kappa_l)(1 + tau / sqrt(gamma)) ln(1 / varepsilon)) (Theorem 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r435-primary-pdf">Optimal Algorithms for Smooth and Strongly Convex Distributed Optimization in Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 SSDA (Theorem 3) &amp; Section 3.3 MSDA (Proposition 1, Algorithm 2, Theorem 4)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r435-fenchel-conjugate-oracle-and-spectral-parameter-knowledge-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires each node i to evaluate the Fenchel conjugate gradient nabla f_i^*(y) = argmax_theta (&lt;y, theta&gt; - f_i(theta)) (an exact local inner minimization at every outer step) and requires prior knowledge of the spectral bounds lambda_1(W) and lambda_{n-1}(W) as well as alpha and beta.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r435-primary-pdf">Optimal Algorithms for Smooth and Strongly Convex Distributed Optimization in Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Dual Formulation &amp; Section 3.2-3.3 Algorithms 1-2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r435-decentralized-regression-and-regularized-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to decentralized l_2-regularized linear regression and logistic classification across grid, cycle, and Erdos-Renyi communication networks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r435-primary-pdf">Optimal Algorithms for Smooth and Strongly Convex Distributed Optimization in Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 Practical Remarks &amp; Appendix Proof of Theorem 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Each outer step requires evaluating the exact Fenchel conjugate gradient nabla f_i^*(y_{i,t}) on every node.</li>
+      <li>Requires a static symmetric gossip Laplacian W with known eigengap gamma(W).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MSDA and SSDA establish the minimax-optimal communication and computation complexity for smooth strongly convex decentralized optimization in networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r435-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r435-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1702.08704" target="_blank" rel="noopener">Optimal Algorithms for Smooth and Strongly Convex Distributed Optimization in Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kevin Scaman, Francis Bach, Sebastien Bubeck, Yin Tat Lee, Laurent Massoulie
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v70/scaman17a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:42be8a47b215…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r435-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r435-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1702.08704" target="_blank" rel="noopener">Optimal Algorithms for Smooth and Strongly Convex Distributed Optimization in Networks (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kevin Scaman, Francis Bach, Sebastien Bubeck, Yin Tat Lee, Laurent Massoulie
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1702.08704</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2ce8fd75c192…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r435-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r435-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v70/scaman17a.html" target="_blank" rel="noopener">Optimal Algorithms for Smooth and Strongly Convex Distributed Optimization in Networks (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kevin Scaman, Francis Bach, Sebastien Bubeck, Yin Tat Lee, Laurent Massoulie
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v70/scaman17a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0969cdc5476f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:38:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:38:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MsdaMultiStepDualAcceleratedDecentralizedOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MsdaMultiStepDualAcceleratedDecentralizedOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
