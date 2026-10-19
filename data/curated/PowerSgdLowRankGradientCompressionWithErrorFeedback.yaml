@@ -1,0 +1,103 @@
+id: AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+name: PowerSGD Low-Rank Subspace Iteration Gradient Compression with Error Feedback
+concept_kind: algorithm
+review_status: DRAFT
+definition: A distributed low-rank gradient compression algorithm (PowerSGD) that reshapes each parameter tensor's error-compensated gradient matrix Delta_w = g_{t,w} + e_{t,w} in R^{n x m} on worker w in [W], computes a single warm-started rank-r block power iteration step via P_w = Delta_w Q, all-reduces P = (1/W) sum_{w=1}^W P_w, orthonormalizes the columns of P via Gram-Schmidt, computes Q_w = Delta_w^T P, all-reduces Q = (1/W) sum_{w=1}^W Q_w, reconstructs the rank-r update Delta_hat = P Q^T, and stores the local post-compression residual e_{t+1,w} = Delta_w - P Q_w^T, exploiting the linearity of matrix-subspace projections to aggregate compressed updates via all_reduce in O((n + m)*r) communication with exact single-worker equivalence.
+identity_notes: Distinct from coordinate-wise sparse or quantized gradient compressors (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression, AIMech:QsgdQuantizedStochasticGradientDescentWithEliasCoding, and AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization, which require all_gather or hierarchical re-compression because non-linear sparse/quantized codes are not closed under addition), and from randomized SVD batch matrix sketching (AIMech:RandomizedSingularValueDecompositionViaSubspaceIteration). No pinned AIO class covers PowerSGD or linear all-reduce low-rank gradient compression with error feedback.
+aliases:
+- PowerSGD
+- Low-Rank Gradient Compression via Subspace Iteration
+- Warm-Start Power Iteration SGD with Error Feedback
+definition_evidence:
+- source_id: r381-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r381-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r381-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r381-single-multi-worker-allreduce-linearity-equivalence
+  kind: mechanism
+  statement: Lemma 3 proves that because both projection steps P_w = Delta_w Q and Q_w = Delta_w^T P are linear in Delta_w for shared right and left factors Q and P, averaging P_w and Q_w via two all_reduce operations yields P Q^T = (1/W) sum_{w=1}^W P Q_w^T = C((1/W) sum_{w=1}^W Delta_w) and average error (1/W) sum_{w=1}^W e_{t+1,w} = (1/W) sum_{w=1}^W Delta_w - C((1/W) sum_{w=1}^W Delta_w), making W-worker distributed PowerSGD mathematically identical to single-worker PowerSGD on the exact averaged gradient while avoiding O(W) all_gather communication.
+  evidence:
+  - source_id: r381-primary-pdf
+    locator: Section 2.1, Algorithm 1, and Lemma 3 (Single/Multi-worker Equivalence), pp. 2-4
+    relation: supports
+- claim_id: r381-warm-start-subspace-iteration-and-post-compression-momentum
+  kind: mechanism
+  statement: Theorem I shows that subspace iteration on M in R^{n x m} with singular values sigma_1 >= ... >= sigma_r > sigma_{r+1} converges to the top-r eigenspace at geometric rate O((sigma_{r+1}/sigma_r)^t), motivating warm-starting Q from the previous step's factor; furthermore, Algorithm 2 applies momentum after compression so that the update satisfies (1/W) sum_w Delta(x_t) = (1 + lambda/(1 - lambda)) * (x_0 - x_{T+1}), preserving exact telescoping cancellation in error-feedback convergence analysis.
+  evidence:
+  - source_id: r381-primary-pdf
+    locator: Section 2.2, Section 2.3 Algorithm 2, and Appendix A Theorem I, pp. 3-4, 11-12
+    relation: supports
+- claim_id: r381-uncompressed-rank1-bias-vector-limitation
+  kind: limitation
+  statement: One-dimensional parameter tensors (such as bias vectors and batch-normalization scale/shift parameters) cannot be reshaped into higher-dimensional matrices for rank-r factor compression and must be communicated uncompressed via standard all_reduce.
+  evidence:
+  - source_id: r381-primary-pdf
+    locator: Section 2.1 Table 1 and Matrix Shapes paragraph, p. 3
+    relation: supports
+- claim_id: r381-distributed-cnn-and-transformer-training-application
+  kind: application
+  statement: Applied to multi-GPU distributed training of ResNet-50 on ImageNet and Transformer language models on WikiText-2, achieving up to 65x-129x gradient compression and 55% communication-time reduction without test accuracy degradation.
+  evidence:
+  - source_id: r381-primary-pdf
+    locator: Section 3 Experiments, Tables 2-4 and Figures 2-4, pp. 4-7
+    relation: supports
+evidence_sources:
+- source_id: r381-primary-pdf
+  title: 'PowerSGD: Practical Low-Rank Gradient Compression for Distributed Optimization'
+  authors: &id001
+  - Thijs Vogels
+  - Sai Praneeth Karimireddy
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1905.13727.pdf
+  persistent_id: https://papers.nips.cc/paper/2019/hash/d9fbed9da256e344c1fa46bb46c34c5f-Abstract.html
+  version: Advances in Neural Information Processing Systems 32 (NeurIPS 2019), pp. 14259-14268 (2019) (59726 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:44:00Z'
+  sha256: 2b1e6d475c7b25f95b7b98800f20fc398f954b274e7747d4a31bb7bf7edf2cd2
+- source_id: r381-arxiv-abs
+  title: 'PowerSGD: Practical Low-Rank Gradient Compression for Distributed Optimization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1905.13727
+  persistent_id: https://arxiv.org/abs/1905.13727
+  version: arXiv abstract page (6867 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:44:00Z'
+  sha256: e12cf42ac62b755e16bc0442b73f1e4339e144b257bd38b2f1b2c0376cca4822
+- source_id: r381-metadata-cr
+  title: 'PowerSGD: Practical Low-Rank Gradient Compression for Distributed Optimization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2019/hash/d9fbed9da256e344c1fa46bb46c34c5f-Abstract.html
+  persistent_id: https://papers.nips.cc/paper/2019/hash/d9fbed9da256e344c1fa46bb46c34c5f-Abstract.html
+  version: Crossref API work record (335 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:44:00Z'
+  sha256: 3f09798d21c8acfafec29f9bf577429471305579cf89e6d3a7a1379c5c12badc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: PowerSGD compresses high-dimensional gradient tensors into low-rank matrix factors P in R^{n x r} and Q in R^{m x r} via warm-started subspace iteration.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: PowerSGD's compression operator approximates the top-r singular subspace of the error-compensated gradient matrix using block power iteration and Gram-Schmidt orthogonalization.
+limitations:
+- Requires local Gram-Schmidt orthonormalization of an n x r matrix and two all_reduce operations per layer at each training step.
+- 1D bias and normalization vectors cannot be low-rank factored and must be transmitted uncompressed.
+curation:
+  created_at: '2026-10-19T07:44:00Z'
+  updated_at: '2026-10-19T07:44:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
