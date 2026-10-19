@@ -1,0 +1,99 @@
+id: AIMech:SearchingAndSamplingUniformConfidenceIntervalsForInvalidInstruments
+name: Searching and Sampling Uniform Confidence Intervals for Invalid Instruments
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A post-selection-robust causal-inference methodology (introduced by Zijian Guo in 2023) for constructing uniformly valid confidence intervals for a treatment effect $\\beta^*$ in linear instrumental-variable models with possibly invalid instruments when locally invalid instruments satisfy $0 < |\\pi_j^*/\\gamma_j^*| < s_j(n) \\asymp \\sqrt{\\log n / n}$ (Definition 1, Equation 12) and cannot be consistently separated from valid instruments. Given an initial candidate set $\\widehat{\\mathcal{V}}$ (such as the symmetric-voting plurality set $\\widehat{\\mathcal{V}}^{\\rm TSHT} = \\{l \\in \\widehat{\\mathcal{S}} : \\max_{k \\in \\widehat{\\mathcal{S}}, j \\in \\widehat{\\mathcal{W}}} \\widehat{\\Pi}_{j,k}\\widehat{\\Pi}_{k,l} = 1\\}$ satisfying $\\mathcal{V} \\subset \\widehat{\\mathcal{V}} \\subset \\mathcal{V} \\cup \\mathcal{I}(0, s(n))$ and $|\\mathcal{V}| > |\\widehat{\\mathcal{V}}|/2$ under finite-sample plurality, Equations 30\u201334), the *Searching Confidence Interval* (Algorithms 1 and 3, Equations 15\u201320) evaluates for each grid point $\\beta \\in [L, U]$ the residual $\\widehat{\\pi}_j(\\beta) = \\widehat{\\Gamma}_j - \\beta\\widehat{\\gamma}_j$ and noise threshold $\\widehat{\\rho}_j(\\beta, \\alpha) = \\Phi^{-1}(1 - \\alpha/(2|\\widehat{\\mathcal{V}}|))\\sqrt{(\\widehat{V}_{\\Gamma,jj} + \\beta^2\\widehat{V}_{\\gamma,jj} - 2\\beta\\widehat{C}_{jj})/n}$, counts the implied valid instruments $M(\\beta) = \\sum_{j \\in \\widehat{\\mathcal{V}}} \\mathbf{1}(|\\widehat{\\pi}_j(\\beta)| \\le \\widehat{\\rho}_j(\\beta, \\alpha))$, and retains $\\mathrm{CI}^{\\rm search} = [\\min_{\\beta \\in \\mathcal{B}: M(\\beta) > |\\widehat{\\mathcal{V}}|/2} \\beta,\\; \\max_{\\beta \\in \\mathcal{B}: M(\\beta) > |\\widehat{\\mathcal{V}}|/2} \\beta]$. The *Sampling Confidence Interval* (Algorithms 2 and 3, Equations 21\u201326) draws $M$ conditionally centered Gaussian resamples $(\\widehat{\\boldsymbol{\\Gamma}}^{[m]}, \\widehat{\\boldsymbol{\\gamma}}^{[m]})_{m=1}^M$ matching the asymptotic covariance $\\widehat{\\mathbf{Cov}}$, uses a shrinkage threshold $\\lambda \\asymp (\\log n / M)^{1/(2|\\widehat{\\mathcal{V}}|)}$ (Proposition 1) so the resampled searches $[\\beta_{\\min}^{[m]}(\\lambda), \\beta_{\\max}^{[m]}(\\lambda)]$ using $\\lambda\\widehat{\\rho}_j(\\beta, \\alpha)$ contain a realization with $\\max_{j \\in \\mathcal{V}}|e_j^{[m]}| \\le \\lambda\\widehat{\\rho}_j$, and takes the union $\\mathrm{CI}^{\\rm sample} = [\\min_{m \\in \\mathcal{M}} \\beta_{\\min}^{[m]}(\\lambda),\\; \\max_{m \\in \\mathcal{M}} \\beta_{\\max}^{[m]}(\\lambda)]$, achieving uniform asymptotic coverage $\\ge 1 - \\alpha$ and parametric $O_p(n^{-1/2})$ length without any separation condition on locally invalid instruments (Theorems 1\u20133)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 672 maintained AIMech concepts. Distinct from `AIMech:TwoStageHardThresholdingWithVotingAndPluralityRuleForInvalidInstruments` (Guo, Kang, Cai, & Small 2018, which assumes well-separated invalidity levels so $\widehat{\mathcal{V}} = \mathcal{V}$ consistently and suffers post-selection undercoverage when locally invalid instruments satisfy $0 < |\pi_j^*/\gamma_j^*| < s_j(n)$), from `AIMech:SomeInvalidSomeValidInstrumentalVariablesEstimatorAndMajorityRuleIdentifiability` (Kang, Zhang, Cai, & Small 2016, which provides $\ell_1$ penalized point estimation under the 50% majority rule without uniform confidence intervals), and from `AIMech:SelfTuningPivotalHighDimensionalInstrumentalVariablesAndSensitivityConfidenceSets` (Gautier & Tsybakov 2018, which requires a user-specified bound $\Upsilon$ on invalid-instrument violations rather than searching and sampling over majority/plurality voting counts).
+aliases:
+- Searching and Sampling Confidence Intervals for Invalid Instruments
+- RobustIV Searching and Sampling
+- TSHT Searching and Sampling Uniform Confidence Intervals
+- Searching Confidence Interval for Invalid Instruments
+- Sampling Confidence Interval for Invalid Instruments
+definition_evidence:
+- source_id: guo2023-search-pdf
+  locator: Sections 3-5, pages 6-20, Definition 1, Equations (11)-(34), Algorithms 1-3
+  relation: supports
+- source_id: guo2023-search-abs
+  locator: arXiv:2104.06911v5 abstract
+  relation: supports
+- source_id: guo2023-search-crossref
+  locator: Title, authors, DOI, and journal bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-locally-invalid-iv-post-selection-bias-and-searching-coverage
+  kind: mechanism
+  statement: When locally invalid instruments satisfy $0 < |\pi_j^*/\gamma_j^*| < s_j(n) = 2\sqrt{\log n}\max_{k \in \mathcal{V}}|\mathrm{T}_{j,k}^0|$ (Definition 1, Equation 12), two-stage hard thresholding cannot separate them from valid instruments, biasing post-selection point estimators by $\sum_{j \in \widehat{\mathcal{V}} \setminus \mathcal{V}} \gamma_j^*\pi_j^* / \sum_{j \in \widehat{\mathcal{V}}}(\gamma_j^*)^2$; by contrast, whenever the initial set $\widehat{\mathcal{V}}$ satisfies the sandwich event $\mathcal{V} \subset \widehat{\mathcal{V}} \subset \mathcal{V} \cup \mathcal{I}(0, s(n))$ with $|\mathcal{V}| > |\widehat{\mathcal{V}}|/2$ (Equation 30, Lemma 1), every $\beta$ with $M(\beta) > |\widehat{\mathcal{V}}|/2$ must satisfy $|\widehat{\pi}_j(\beta)| \le \widehat{\rho}_j(\beta, \alpha)$ for at least one truly valid instrument $j \in \mathcal{V}$ by the pigeonhole principle, guaranteeing uniform asymptotic coverage $\liminf_{n \to \infty} \mathbb{P}(\beta^* \in \mathrm{CI}^{\rm search}) \ge 1 - \alpha$ and $O_p(n^{-1/2})$ length (Theorem 1 and Theorem 3).
+  evidence:
+  - source_id: guo2023-search-pdf
+    locator: Section 3.2 (pp. 7-9), Section 4.1 (pp. 10-13), Section 5.1 (pp. 17-19), Section 6 (pp. 20-21), Lemma 1, Theorems 1 and 3
+    relation: supports
+- claim_id: claim-sampling-shrinkage-concentration-and-uniform-coverage
+  kind: mechanism
+  statement: Given $M$ conditional Gaussian draws $(\widehat{\boldsymbol{\Gamma}}^{[m]}, \widehat{\boldsymbol{\gamma}}^{[m]}) \sim N((\widehat{\boldsymbol{\Gamma}}, \widehat{\boldsymbol{\gamma}}), \widehat{\mathbf{Cov}})$ (Equation 21), Proposition 1 proves that $\mathbb{P}(\min_{1 \le m \le M}\max_{j \in \mathcal{V}}|U_j^{[m]}(\beta^*)| \le \mathrm{err}_n(M, \alpha_0) \mid \mathcal{D}) \ge 1 - \alpha_0$ where $\mathrm{err}_n(M, \alpha_0) = [\{-2\log(1 - \alpha_0^{1/M})\}^{1/|\mathcal{V}|} / c(\mathcal{D})]\sqrt{\max_{j \in \mathcal{V}}\widehat{\mathrm{Var}}(\widehat{\Gamma}_j - \beta^*\widehat{\gamma}_j)} \asymp (\{\log(1/\alpha_0)/M\}^{1/|\mathcal{V}|} / \sqrt{n})$, allowing the Sampling Confidence Interval $\mathrm{CI}^{\rm sample}$ with shrinkage factor $\lambda \asymp (\log n / M)^{1/(2|\widehat{\mathcal{V}}|)}$ to shrink the noise threshold to $\lambda\widehat{\rho}_j(\beta, \alpha)$ while maintaining uniform asymptotic coverage $\liminf_{n \to \infty}\mathbb{P}(\beta^* \in \mathrm{CI}^{\rm sample}) \ge 1 - \alpha$ and strictly tighter finite-sample intervals than pure searching (Proposition 1, Theorem 2, and Theorem 3).
+  evidence:
+  - source_id: guo2023-search-pdf
+    locator: Section 4.2 (pp. 13-17), Section 6 (pp. 20-21), Proposition 1, Theorems 2 and 3; Supplement Sections B and D (pp. 35-38, 42-63)
+    relation: supports
+- claim_id: claim-data-dependent-lambda-selection-and-heteroscedastic-high-dimensional-extension
+  kind: scope
+  statement: "Remark 2 (Section 4.2, p. 16) provides a data-dependent rule that selects the smallest shrinkage factor $\\lambda$ on a grid such that at least a pre-specified proportion $\\mathrm{prop} = 10\\%$ of the $M = 1000$ resampled intervals $[\\beta_{\\min}^{[m]}(\\lambda), \\beta_{\\max}^{[m]}(\\lambda)]$ are non-empty, and Section 5.2 (pp. 19\u201320) extends both Searching and Sampling CIs to heteroscedastic errors and high-dimensional covariates/IVs ($p \\gg n$) by plugging in debiased Lasso reduced-form estimators $(\\widehat{\\boldsymbol{\\Gamma}}, \\widehat{\\boldsymbol{\\gamma}})$ and heteroscedasticity-robust covariance matrices $(\\widehat{\\mathbf{V}}^{\\Gamma}, \\widehat{\\mathbf{V}}^{\\gamma}, \\widehat{\\mathbf{C}})$."
+  evidence:
+  - source_id: guo2023-search-pdf
+    locator: Section 4.2 Remark 2 (p. 16), Section 5.2 (pp. 19-20), Supplement Section A (pp. 30-34)
+    relation: supports
+evidence_sources:
+- source_id: guo2023-search-pdf
+  title: 'Causal Inference with Invalid Instruments: Post-selection Problems and a Solution Using Searching and Sampling'
+  authors:
+  - Zijian Guo
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/2104.06911.pdf
+  persistent_id: https://doi.org/10.1093/jrsssb/qkad049
+  version: arXiv:2104.06911v5 full-text PDF with supplement (74 pages, 1118678 bytes), published in JRSS Series B 85(3):959-985 (2023).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:08:00Z'
+  sha256: d0b3e6deb30e82e85abdd657ad522587a2e4e994105f47f4452c800b589fb2c3
+- source_id: guo2023-search-abs
+  title: 'Causal Inference with Invalid Instruments: Post-selection Problems and A Solution Using Searching and Sampling (arXiv abstract)'
+  authors:
+  - Zijian Guo
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2104.06911
+  persistent_id: https://arxiv.org/abs/2104.06911
+  version: arXiv:2104.06911 abstract page (6493 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:08:00Z'
+  sha256: 949b73ff61e1a799158a957264faa8b36db3003d171acedd9991eb3ebd224e85
+- source_id: guo2023-search-crossref
+  title: 'Causal inference with invalid instruments: post-selection problems and a solution using searching and sampling'
+  authors:
+  - Zijian Guo
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1093/jrsssb/qkad049
+  persistent_id: https://doi.org/10.1093/jrsssb/qkad049
+  version: Crossref API metadata (4670 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:08:00Z'
+  sha256: ecb595445b2d1120b88c32eae25b5c837796dd332aa8312fa1056198bf63e5bc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Searching and Sampling constructs uniformly valid confidence intervals for treatment effects in linear structural and reduced-form instrumental variable regression models.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Section 5.2 extends Searching and Sampling to high dimensions using debiased Lasso reduced-form estimators and compares against L1-penalized sisVIVE and post-Lasso TSHT.
+limitations:
+- 'When the initial set V_hat is constructed via plurality voting (Algorithm 3), Lemma 1 requires the finite-sample plurality condition |V| > max_{c != 0} |{j in S_str(n) : |pi_j* / gamma_j* - c| <= s_j(n)}| (Assumption 2'', p. 18); if a cluster of locally invalid instruments within separation s_j(n) of zero or of a nonzero constant c outnumbers the truly valid instruments, |V| > |V_hat^TSHT|/2 fails and neither Searching nor Sampling guarantees coverage.'
+- In Proposition 1, the resampling error bound err_n(M, alpha_0) scales as (log(1/alpha_0)/M)^{1/|V|} / sqrt(n), whose exponent 1/|V| suffers a curse of dimensionality when the number of valid instruments |V| is large (requiring larger M or yielding a shrinkage factor lambda closer to 1).
+- 'Primary-source typographical audit of Guo (2023, arXiv:2104.06911v5) uncovered five minor notation and typographical issues that are corrected in this record: (1) Section 2 p. 4 line 3 writes ''instead of a casual model'' (''casual'' instead of ''causal'') and line 5 spells ''endogeneous''; (2) Section 3 Fig. 2 (p. 8), Section 7 Fig. 5 (p. 23), and Supplement Fig. E.1 (p. 67) label the horizontal axes ''Violation Stength'' (''Stength'' instead of ''Strength''); (3) Section 5 p. 17 line 18 writes ''we compare the number of votes to |V_hat|/2,.'' with a stray comma-period '',.''; (4) Section 7 p. 21 line 16 writes ''phi* = (0.6, ..., 1.5)^T in (2) and psi* = (1.1, ..., 2)^T in (1)'', swapping the equation numbers (phi* is the outcome covariate vector in Eq. 1 and psi* is the treatment covariate vector in Eq. 2); and (5) Supplement Sections A.4, A.6, E.1, E.2 (pp. 32-34, 64, 67-68) spell ''Homoscadastic''/''homoscadastic'', Section C.1 p. 39 spells ''agumented covariance matrix'', and Lemma 4 p. 53 spells ''satsifies''.'
+curation:
+  created_at: '2026-10-19T05:08:00Z'
+  updated_at: '2026-10-19T05:08:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
