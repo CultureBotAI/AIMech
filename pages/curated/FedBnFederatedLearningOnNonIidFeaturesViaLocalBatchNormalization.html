@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedBN (Federated Learning on Non-IID Features via Local Batch Normalization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedBN (Federated Learning on Non-IID Features via Local Batch Normalization)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedBN (Federated Learning on Non-IID Features via Local Batch Normalization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedBnFederatedLearningOnNonIidFeaturesViaLocalBatchNormalization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedBN, Federated Learning with Local Batch Normalization, Federated Learning on Non-IID Features via Local Batch Normalization
+    </div>
+
+  <div class="detail-desc">
+    A federated learning aggregation modality (FedBN, Algorithm 1) designed for feature-shift non-IID data (covariate shift where marginal input distributions P_i(x) vary across clients with shared conditional P(y|x), or concept shift in P_i(x|y) with shared P(y)), in which every client updates all neural network parameters locally for E steps, but during server-side synchronization at t mod E == 0 all Batch Normalization (BN) layer parameters (affine scale and shift parameters gamma, beta and running mean/variance statistics) are strictly excluded from global averaging and retained locally on each client while all non-BN (convolutional and fully connected) layer weights w_{k,l} are averaged.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedProx (AIMech:FedProxProximalHeterogeneousFederatedOptimization) and SCAFFOLD (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning), which synchronize all model layers including Batch Normalization parameters and add proximal or control-variate corrections, and from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, which keeps the top classification head h_i local to address heterogeneous label conditional distributions P_i(y|x) rather than keeping internal Batch Normalization layers local to mitigate feature shift P_i(x)).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r406-ntk-block-diagonal-gram-matrix-and-strictly-faster-convergence-rate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the over-parameterized two-layer ReLU network regime with Batch Normalization under heterogeneous client input covariances S_i = E[x^i (x^i)^T] (Assumption 4.1), Lemma 4.3 and Definition 4.2 show that FedBN induces a block-diagonal auxiliary NTK magnitude Gram matrix G^{*infty} = diag(G_1^infty,...,G_N^infty) compared to the full N*M x N*M Gram matrix G^infty of FedAvg, and Theorem 4.4 with Corollaries 4.5-4.6 proves that mu_0^* = lambda_{min}(G^{*infty}) = min_i lambda_{min}(G_i^infty) &gt;= lambda_{min}(G^infty) = mu_0 &gt; 0, yielding a strictly faster exponential convergence factor (1 - eta * mu_0^* / 2)^t &lt;= (1 - eta * mu_0 / 2)^t.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r406-primary-pdf">FedBN: Federated Learning on Non-IID Features via Local Batch Normalization</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Convergence Analysis (Assumption 4.1, Definition 4.2, Lemma 4.3, Theorem 4.4, Corollaries 4.5-4.6) &amp; Appendix B, pp. 4-6, 13-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r406-zero-overhead-compatibility-with-fedprox-and-domain-adaptation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FedBN requires zero additional communication or hyperparameter tuning beyond standard FedAvg (slightly reducing communicated payload by omitting BN parameters), composes orthogonally with optimization regularizers such as FedProx, and enables adaptation to unseen target client domains by recomputing local BN statistics on unlabeled target batches.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r406-primary-pdf">FedBN: Federated Learning on Non-IID Features via Local Batch Normalization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Algorithm 1 &amp; Section 5.3-5.4 Experiments and Analysis (Figures 3-4, Table 1), pp. 3-4, 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r406-batch-normalization-architecture-and-feature-shift-scope-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FedBN applies only to neural architectures equipped with Batch Normalization layers (which require local mini-batches large enough to estimate stable batch statistics) and specifically targets feature-shift non-IID regimes (P_i(x) variation) rather than severe concept-shift where clients have conflicting label assignments P_i(y|x) for identical features.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r406-primary-pdf">FedBN: Federated Learning on Non-IID Features via Local Batch Normalization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Problem Statement &amp; Section 4.1 Setup and Key Lemmas, pp. 2-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r406-multi-domain-digits-office-caltech-domainnet-and-abide-neuroimaging-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated on benchmark multi-domain vision datasets ( five-source Digits: MNIST, SVHN, USPS, SynthDigits, MNIST-M; four-source Office-Caltech10; six-source DomainNet) and multi-site fMRI neuroimaging classification (ABIDE I across 4 clinical institutions), consistently outperforming Single-set, FedAvg, and FedProx.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r406-primary-pdf">FedBN: Federated Learning on Non-IID Features via Local Batch Normalization</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments (Figures 2-4, Tables 1-2), pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Applicable only to neural networks with Batch Normalization layers and sufficient local batch size to estimate batch statistics.</li>
+      <li>Addresses feature-shift non-IID distributions rather than conflicting label-conditional distributions P_i(y|x).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedBN is a FederatedLearning aggregation scheme that keeps Batch Normalization parameters local to handle feature shift across clients.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r406-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r406-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=6YEQUn0QICG" target="_blank" rel="noopener">FedBN: Federated Learning on Non-IID Features via Local Batch Normalization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiaoxiao Li, Meirui Jiang, Xiaofei Zhang, Michael Kamp, Qi Dou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=6YEQUn0QICG</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:47b20c25d772…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r406-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r406-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2102.07623" target="_blank" rel="noopener">FedBN: Federated Learning on Non-IID Features via Local Batch Normalization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiaoxiao Li, Meirui Jiang, Xiaofei Zhang, Michael Kamp, Qi Dou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2102.07623</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:17d7f818cc9d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r406-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r406-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=6YEQUn0QICG" target="_blank" rel="noopener">FedBN: Federated Learning on Non-IID Features via Local Batch Normalization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiaoxiao Li, Meirui Jiang, Xiaofei Zhang, Michael Kamp, Qi Dou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=6YEQUn0QICG</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9cc870f1447c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:09:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:09:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedBnFederatedLearningOnNonIidFeaturesViaLocalBatchNormalization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedBnFederatedLearningOnNonIidFeaturesViaLocalBatchNormalization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,102 @@
+id: AIMech:FedBnFederatedLearningOnNonIidFeaturesViaLocalBatchNormalization
+name: FedBN (Federated Learning on Non-IID Features via Local Batch Normalization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A federated learning aggregation modality (FedBN, Algorithm 1) designed for feature-shift non-IID data (covariate shift where marginal input distributions P_i(x) vary across clients with shared conditional P(y|x), or concept shift in P_i(x|y) with shared P(y)), in which every client updates all neural network parameters locally for E steps, but during server-side synchronization at t mod E == 0 all Batch Normalization (BN) layer parameters (affine scale and shift parameters gamma, beta and running mean/variance statistics) are strictly excluded from global averaging and retained locally on each client while all non-BN (convolutional and fully connected) layer weights w_{k,l} are averaged.
+identity_notes: Distinct from FedProx (AIMech:FedProxProximalHeterogeneousFederatedOptimization) and SCAFFOLD (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning), which synchronize all model layers including Batch Normalization parameters and add proximal or control-variate corrections, and from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, which keeps the top classification head h_i local to address heterogeneous label conditional distributions P_i(y|x) rather than keeping internal Batch Normalization layers local to mitigate feature shift P_i(x)).
+aliases:
+- FedBN
+- Federated Learning with Local Batch Normalization
+- Federated Learning on Non-IID Features via Local Batch Normalization
+definition_evidence:
+- source_id: r406-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r406-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r406-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r406-ntk-block-diagonal-gram-matrix-and-strictly-faster-convergence-rate
+  kind: mechanism
+  statement: In the over-parameterized two-layer ReLU network regime with Batch Normalization under heterogeneous client input covariances S_i = E[x^i (x^i)^T] (Assumption 4.1), Lemma 4.3 and Definition 4.2 show that FedBN induces a block-diagonal auxiliary NTK magnitude Gram matrix G^{*infty} = diag(G_1^infty,...,G_N^infty) compared to the full N*M x N*M Gram matrix G^infty of FedAvg, and Theorem 4.4 with Corollaries 4.5-4.6 proves that mu_0^* = lambda_{min}(G^{*infty}) = min_i lambda_{min}(G_i^infty) >= lambda_{min}(G^infty) = mu_0 > 0, yielding a strictly faster exponential convergence factor (1 - eta * mu_0^* / 2)^t <= (1 - eta * mu_0 / 2)^t.
+  evidence:
+  - source_id: r406-primary-pdf
+    locator: Section 4 Convergence Analysis (Assumption 4.1, Definition 4.2, Lemma 4.3, Theorem 4.4, Corollaries 4.5-4.6) & Appendix B, pp. 4-6, 13-15
+    relation: supports
+- claim_id: r406-zero-overhead-compatibility-with-fedprox-and-domain-adaptation
+  kind: scope
+  statement: FedBN requires zero additional communication or hyperparameter tuning beyond standard FedAvg (slightly reducing communicated payload by omitting BN parameters), composes orthogonally with optimization regularizers such as FedProx, and enables adaptation to unseen target client domains by recomputing local BN statistics on unlabeled target batches.
+  evidence:
+  - source_id: r406-primary-pdf
+    locator: Section 3.2 Algorithm 1 & Section 5.3-5.4 Experiments and Analysis (Figures 3-4, Table 1), pp. 3-4, 7-8
+    relation: supports
+- claim_id: r406-batch-normalization-architecture-and-feature-shift-scope-limitation
+  kind: limitation
+  statement: FedBN applies only to neural architectures equipped with Batch Normalization layers (which require local mini-batches large enough to estimate stable batch statistics) and specifically targets feature-shift non-IID regimes (P_i(x) variation) rather than severe concept-shift where clients have conflicting label assignments P_i(y|x) for identical features.
+  evidence:
+  - source_id: r406-primary-pdf
+    locator: Section 3.1 Problem Statement & Section 4.1 Setup and Key Lemmas, pp. 2-5
+    relation: supports
+- claim_id: r406-multi-domain-digits-office-caltech-domainnet-and-abide-neuroimaging-application
+  kind: application
+  statement: 'Evaluated on benchmark multi-domain vision datasets ( five-source Digits: MNIST, SVHN, USPS, SynthDigits, MNIST-M; four-source Office-Caltech10; six-source DomainNet) and multi-site fMRI neuroimaging classification (ABIDE I across 4 clinical institutions), consistently outperforming Single-set, FedAvg, and FedProx.'
+  evidence:
+  - source_id: r406-primary-pdf
+    locator: Section 5 Experiments (Figures 2-4, Tables 1-2), pp. 6-8
+    relation: supports
+evidence_sources:
+- source_id: r406-primary-pdf
+  title: 'FedBN: Federated Learning on Non-IID Features via Local Batch Normalization'
+  authors: &id001
+  - Xiaoxiao Li
+  - Meirui Jiang
+  - Xiaofei Zhang
+  - Michael Kamp
+  - Qi Dou
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=6YEQUn0QICG
+  persistent_id: https://openreview.net/forum?id=6YEQUn0QICG
+  version: International Conference on Learning Representations (ICLR 2021) (2021) (73854 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:09:00Z'
+  sha256: 47b20c25d7729a04b4a7245e3134e561948897df2e57fcf5a07d7bbeb4c8e6c4
+- source_id: r406-arxiv-abs
+  title: 'FedBN: Federated Learning on Non-IID Features via Local Batch Normalization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.07623
+  persistent_id: https://arxiv.org/abs/2102.07623
+  version: arXiv abstract page (7284 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:09:00Z'
+  sha256: 17d7f818cc9d69ccefdde08b7b889b7d346c096308ba9d0cc11b94b3cd469507
+- source_id: r406-metadata-cr
+  title: 'FedBN: Federated Learning on Non-IID Features via Local Batch Normalization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=6YEQUn0QICG
+  persistent_id: https://openreview.net/forum?id=6YEQUn0QICG
+  version: Crossref API work record (381 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:09:00Z'
+  sha256: 9cc870f1447c3ea813498d84cb409cb55b2bc15535262765f03d6e05ec166e77
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedBN is a FederatedLearning aggregation scheme that keeps Batch Normalization parameters local to handle feature shift across clients.
+limitations:
+- Applicable only to neural networks with Batch Normalization layers and sufficient local batch size to estimate batch statistics.
+- Addresses feature-shift non-IID distributions rather than conflicting label-conditional distributions P_i(y|x).
+curation:
+  created_at: '2026-10-19T08:09:00Z'
+  updated_at: '2026-10-19T08:09:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
