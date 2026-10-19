@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Natasha 2 Non-Convex Stochastic Optimization via Swing-by Saddle Points · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Natasha 2 Non-Convex Stochastic Optimization via Swing-by Saddle Points</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Natasha 2 Non-Convex Stochastic Optimization via Swing-by Saddle Points</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Natasha 2, Natasha 2 Algorithm, Natasha 1.5, Swing-by Saddle Points Stochastic Non-Convex Optimization
+    </div>
+
+  <div class="detail-desc">
+    A stochastic non-convex optimization method (Allen-Zhu 2018) for online or large-scale objectives f(x) = E_i[f_i(x)] with L-Lipschitz gradients and L_2-Lipschitz Hessians that alternates between (1) an online negative-curvature detection phase using Oja&#39;s stochastic power/eigenvector method on Hessian-vector differences for T_oja = Theta((L / delta)^2) steps to test whether lambda_min(nabla^2 f(y_k)) &lt;= -delta/2 and if so take a cubic-regularized negative-curvature step y_{k+1} = y_k +- (delta / L_2) v, and (2) a single epoch of proximal variance-reduced stochastic gradient descent (Natasha 1.5, with proximal center penalty sigma * ||x - xhat||_2^2 where sigma = 3 * delta / 2 &gt;= delta) that &#39;swings by&#39; strict saddle points without getting trapped, achieving an varepsilon-first-order stationary point (E||nabla f(x)||_2 &lt;= varepsilon) in O_tilde(varepsilon^{-3.25}) stochastic gradient evaluations (setting delta = varepsilon^{0.5}) and an (varepsilon, delta)-second-order stationary point in O_tilde(varepsilon^{-3.25} + varepsilon^{-1.5} delta^{-3.5}) stochastic gradient evaluations.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from deterministic accelerated gradient + negative-curvature exploitation (Carmon et al. 2018, AIMech:AcceleratedGradientAndNegativeCurvatureExploitationForNonConvexOptimization, which requires exact gradients and exact Hessian-vector products in O_tilde(varepsilon^{-7/4})), from perturbed SGD/GD (Ge et al. 2015; Jin et al. 2017/2018, which add isotropic balls of noise and require O_tilde(varepsilon^{-4}) in the online stochastic setting), and from pure first-order variance reduction methods (SVRG, SCSG, SPIDER, SNVRG, STORM, which assume first-order L-smoothness or multi-batch variance reduction without alternating Oja negative-curvature steps with proximal retraction sigma = 1.5*delta to convert online second-order smoothness into a faster O_tilde(varepsilon^{-3.25}) first-order stochastic complexity without Hessian-vector oracle calls).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r373-claim-natasha15-proximal-retraction-bounded-second-order-regularized-subproblem</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When the objective f(x) satisfies lambda_min(nabla^2 f(x)) &gt;= -sigma for a target curvature threshold sigma in (0, L), adding the proximal retraction term sigma * ||x - xhat||_2^2 makes the regularized subproblem g(x) = f(x) + sigma * ||x - xhat||_2^2 (sigma)-strongly convex and (L + 2*sigma)-smooth locally; Natasha 1.5 (Algorithm 1) divides each epoch of length m = B = Theta(1 / (sigma * varepsilon^2)) into p = Theta((L / sigma)^{2/3}) sub-epochs with proximal centers xhat updated every m/p steps and step size alpha = Theta(1 / (L^{1/3} sigma^{2/3} B)), achieving E[f(y_0) - f(y_1)] &gt;= Omega(sigma / L) * E||nabla f(x_out)||_2^2 - O(varepsilon^2 * sigma / L) (Lemma 3.1, Lemma 4.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r373-primary-pdf">Natasha 2: Faster Non-Convex Optimization Than SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2-3.1, Algorithm 1, Lemma 3.1, pp. 4-7; Appendix B, Lemma 4.2, pp. 14-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r373-claim-oja-negative-curvature-swing-by-and-first-second-order-complexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In Natasha 2 (Algorithms 2-3), each outer iteration first runs Oja&#39;s online eigenvector algorithm for T_oja = Theta((L / delta)^2 * log(d / p)) stochastic gradient difference evaluations (approximating Hessian-vector products via finite differences nabla f_i(y + r*w) - nabla f_i(y) without requiring a Hessian oracle): if a direction v with v^T nabla^2 f(y_k) v &lt;= -delta/2 is found, moving by +-(delta / L_2) v decreases f by Omega(delta^3 / L_2^2); otherwise, one epoch of Natasha 1.5 with sigma = 3*delta/2 swings by any nearby saddle point in B = Theta(1 / (delta * varepsilon^2)) steps, yielding total stochastic gradient complexity O_tilde((L * Delta_f / varepsilon^{3.25}) + (L^2 * Delta_f / varepsilon^3)) = O_tilde(varepsilon^{-3.25}) for E||nabla f(x)||_2 &lt;= varepsilon when delta = varepsilon^{0.5} (Theorem 1), and O_tilde(varepsilon^{-3.25} + varepsilon^{-1.5} delta^{-3.5}) for an (varepsilon, delta)-second-order stationary point (Theorem 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r373-primary-pdf">Natasha 2: Faster Non-Convex Optimization Than SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3, Algorithms 2-3, Theorems 1-2, pp. 7-9; Appendix C-D, pp. 19-27</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r373-claim-scope-hessian-free-finite-difference-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By replacing exact stochastic Hessian-vector products nabla^2 f_i(y) * w with first-order directional finite differences (nabla f_i(y + r*w) - nabla f_i(y))/r for infinitesimally small r &gt; 0 during Oja&#39;s method, Natasha 2 operates purely with a stochastic first-order gradient oracle while exploiting second-order Lipschitz continuity ||nabla^2 f(x) - nabla^2 f(y)||_2 &lt;= L_2 ||x - y||_2 to beat SGD&#39;s O(varepsilon^{-4}) rate and SCSG&#39;s O(varepsilon^{-10/3}) rate.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r373-primary-pdf">Natasha 2: Faster Non-Convex Optimization Than SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 1.1-1.2, Table 1, pp. 2-3; Remark 3.3, p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires both L-Lipschitz gradients and L_2-Lipschitz Hessians (second-order smoothness) as well as individual component smoothness to achieve the O_tilde(varepsilon^{-3.25}) first-order rate, and introduces polylogarithmic factors log(d) from Oja&#39;s eigenvector routine plus nested hyperparameters (p, B, sigma, delta, alpha) (Section 2-3, pp. 4-9).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Employs Oja&#39;s online stochastic PCA/eigenvector algorithm as a subroutine to detect the most negative eigenvector of the Hessian.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r373-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r373-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1708.08694.pdf" target="_blank" rel="noopener">Natasha 2: Faster Non-Convex Optimization Than SGD</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zeyuan Allen-Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper/2018/hash/2b64c2f19d868305aa8bbc2d72902cc5-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fa414daea98d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r373-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r373-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1708.08694" target="_blank" rel="noopener">Natasha 2: Faster Non-Convex Optimization Than SGD (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zeyuan Allen-Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1708.08694</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e7d2e851d3d8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r373-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r373-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper/2018/hash/2b64c2f19d868305aa8bbc2d72902cc5-Abstract.html" target="_blank" rel="noopener">Natasha 2: Faster Non-Convex Optimization Than SGD (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zeyuan Allen-Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper/2018/hash/2b64c2f19d868305aa8bbc2d72902cc5-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7169cc3dbd9f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:36:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:36:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints.yaml" target="_blank" rel="noopener">
+      <code>data/curated/Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

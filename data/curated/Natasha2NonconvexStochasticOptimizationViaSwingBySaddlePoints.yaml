@@ -1,0 +1,91 @@
+id: AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+name: Natasha 2 Non-Convex Stochastic Optimization via Swing-by Saddle Points
+concept_kind: algorithm
+review_status: DRAFT
+definition: A stochastic non-convex optimization method (Allen-Zhu 2018) for online or large-scale objectives f(x) = E_i[f_i(x)] with L-Lipschitz gradients and L_2-Lipschitz Hessians that alternates between (1) an online negative-curvature detection phase using Oja's stochastic power/eigenvector method on Hessian-vector differences for T_oja = Theta((L / delta)^2) steps to test whether lambda_min(nabla^2 f(y_k)) <= -delta/2 and if so take a cubic-regularized negative-curvature step y_{k+1} = y_k +- (delta / L_2) v, and (2) a single epoch of proximal variance-reduced stochastic gradient descent (Natasha 1.5, with proximal center penalty sigma * ||x - xhat||_2^2 where sigma = 3 * delta / 2 >= delta) that 'swings by' strict saddle points without getting trapped, achieving an varepsilon-first-order stationary point (E||nabla f(x)||_2 <= varepsilon) in O_tilde(varepsilon^{-3.25}) stochastic gradient evaluations (setting delta = varepsilon^{0.5}) and an (varepsilon, delta)-second-order stationary point in O_tilde(varepsilon^{-3.25} + varepsilon^{-1.5} delta^{-3.5}) stochastic gradient evaluations.
+identity_notes: Distinct from deterministic accelerated gradient + negative-curvature exploitation (Carmon et al. 2018, AIMech:AcceleratedGradientAndNegativeCurvatureExploitationForNonConvexOptimization, which requires exact gradients and exact Hessian-vector products in O_tilde(varepsilon^{-7/4})), from perturbed SGD/GD (Ge et al. 2015; Jin et al. 2017/2018, which add isotropic balls of noise and require O_tilde(varepsilon^{-4}) in the online stochastic setting), and from pure first-order variance reduction methods (SVRG, SCSG, SPIDER, SNVRG, STORM, which assume first-order L-smoothness or multi-batch variance reduction without alternating Oja negative-curvature steps with proximal retraction sigma = 1.5*delta to convert online second-order smoothness into a faster O_tilde(varepsilon^{-3.25}) first-order stochastic complexity without Hessian-vector oracle calls).
+aliases:
+- Natasha 2
+- Natasha 2 Algorithm
+- Natasha 1.5
+- Swing-by Saddle Points Stochastic Non-Convex Optimization
+definition_evidence:
+- source_id: r373-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r373-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r373-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r373-claim-natasha15-proximal-retraction-bounded-second-order-regularized-subproblem
+  kind: mechanism
+  statement: When the objective f(x) satisfies lambda_min(nabla^2 f(x)) >= -sigma for a target curvature threshold sigma in (0, L), adding the proximal retraction term sigma * ||x - xhat||_2^2 makes the regularized subproblem g(x) = f(x) + sigma * ||x - xhat||_2^2 (sigma)-strongly convex and (L + 2*sigma)-smooth locally; Natasha 1.5 (Algorithm 1) divides each epoch of length m = B = Theta(1 / (sigma * varepsilon^2)) into p = Theta((L / sigma)^{2/3}) sub-epochs with proximal centers xhat updated every m/p steps and step size alpha = Theta(1 / (L^{1/3} sigma^{2/3} B)), achieving E[f(y_0) - f(y_1)] >= Omega(sigma / L) * E||nabla f(x_out)||_2^2 - O(varepsilon^2 * sigma / L) (Lemma 3.1, Lemma 4.2).
+  evidence:
+  - source_id: r373-primary-pdf
+    locator: Section 2.2-3.1, Algorithm 1, Lemma 3.1, pp. 4-7; Appendix B, Lemma 4.2, pp. 14-18
+    relation: supports
+- claim_id: r373-claim-oja-negative-curvature-swing-by-and-first-second-order-complexity
+  kind: mechanism
+  statement: 'In Natasha 2 (Algorithms 2-3), each outer iteration first runs Oja''s online eigenvector algorithm for T_oja = Theta((L / delta)^2 * log(d / p)) stochastic gradient difference evaluations (approximating Hessian-vector products via finite differences nabla f_i(y + r*w) - nabla f_i(y) without requiring a Hessian oracle): if a direction v with v^T nabla^2 f(y_k) v <= -delta/2 is found, moving by +-(delta / L_2) v decreases f by Omega(delta^3 / L_2^2); otherwise, one epoch of Natasha 1.5 with sigma = 3*delta/2 swings by any nearby saddle point in B = Theta(1 / (delta * varepsilon^2)) steps, yielding total stochastic gradient complexity O_tilde((L * Delta_f / varepsilon^{3.25}) + (L^2 * Delta_f / varepsilon^3)) = O_tilde(varepsilon^{-3.25}) for E||nabla f(x)||_2 <= varepsilon when delta = varepsilon^{0.5} (Theorem 1), and O_tilde(varepsilon^{-3.25} + varepsilon^{-1.5} delta^{-3.5}) for an (varepsilon, delta)-second-order stationary point (Theorem 2).'
+  evidence:
+  - source_id: r373-primary-pdf
+    locator: Section 3.2-3.3, Algorithms 2-3, Theorems 1-2, pp. 7-9; Appendix C-D, pp. 19-27
+    relation: supports
+- claim_id: r373-claim-scope-hessian-free-finite-difference-reduction
+  kind: scope
+  statement: By replacing exact stochastic Hessian-vector products nabla^2 f_i(y) * w with first-order directional finite differences (nabla f_i(y + r*w) - nabla f_i(y))/r for infinitesimally small r > 0 during Oja's method, Natasha 2 operates purely with a stochastic first-order gradient oracle while exploiting second-order Lipschitz continuity ||nabla^2 f(x) - nabla^2 f(y)||_2 <= L_2 ||x - y||_2 to beat SGD's O(varepsilon^{-4}) rate and SCSG's O(varepsilon^{-10/3}) rate.
+  evidence:
+  - source_id: r373-primary-pdf
+    locator: Section 1.1-1.2, Table 1, pp. 2-3; Remark 3.3, p. 8
+    relation: supports
+evidence_sources:
+- source_id: r373-primary-pdf
+  title: 'Natasha 2: Faster Non-Convex Optimization Than SGD'
+  authors: &id001
+  - Zeyuan Allen-Zhu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1708.08694.pdf
+  persistent_id: https://papers.nips.cc/paper/2018/hash/2b64c2f19d868305aa8bbc2d72902cc5-Abstract.html
+  version: Advances in Neural Information Processing Systems (NeurIPS 2018), Vol. 31, pp. 2675-2686 (arXiv:1708.08694v3) (2018) (1583043 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:36:00Z'
+  sha256: fa414daea98d35d77b761387472f06f1681cd2e6f1360dc79c0d8af3d4125962
+- source_id: r373-arxiv-abs
+  title: 'Natasha 2: Faster Non-Convex Optimization Than SGD (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1708.08694
+  persistent_id: https://arxiv.org/abs/1708.08694
+  version: arXiv abstract page (39460 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:36:00Z'
+  sha256: e7d2e851d3d8b67957f3166c7cdbb393a2b48a3552d18e36b453fa5a549d0da4
+- source_id: r373-metadata-cr
+  title: 'Natasha 2: Faster Non-Convex Optimization Than SGD (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2018/hash/2b64c2f19d868305aa8bbc2d72902cc5-Abstract.html
+  persistent_id: https://papers.nips.cc/paper/2018/hash/2b64c2f19d868305aa8bbc2d72902cc5-Abstract.html
+  version: Crossref API work record (3301 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:36:00Z'
+  sha256: 7169cc3dbd9f5ff10c999270ab15ee218cb5f133e13c9125911def9c74c7e040
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Employs Oja's online stochastic PCA/eigenvector algorithm as a subroutine to detect the most negative eigenvector of the Hessian.
+limitations:
+- Requires both L-Lipschitz gradients and L_2-Lipschitz Hessians (second-order smoothness) as well as individual component smoothness to achieve the O_tilde(varepsilon^{-3.25}) first-order rate, and introduces polylogarithmic factors log(d) from Oja's eigenvector routine plus nested hyperparameters (p, B, sigma, delta, alpha) (Section 2-3, pp. 4-9).
+curation:
+  created_at: '2026-10-19T07:36:00Z'
+  updated_at: '2026-10-19T07:36:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

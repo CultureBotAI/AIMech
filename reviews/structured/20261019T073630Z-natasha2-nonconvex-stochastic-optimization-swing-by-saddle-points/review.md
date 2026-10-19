@@ -1,0 +1,361 @@
+# Scientific author self-review of Natasha 2 Non-Convex Stochastic Optimization via Swing-by Saddle Points
+
+- Review: 20261019T073630Z-natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T07:36:00Z
+- Finished UTC: 2026-10-19T07:36:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Natasha 2 Non-Convex Stochastic Optimization via Swing-by Saddle Points as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base fe3ecca61f0aa641632d95aba527e9677ab7fb30.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints | data/curated/Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints.yaml | maintained | Natasha 2 Non-Convex Stochastic Optimization via Swing-by Saddle Points |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints | Validated history sidecar files. |
+| python3 natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points-boundaries.py | passed | True | AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints | [PASS] Natasha 1.5 &amp; Natasha 2 boundaries verified: 2nd-order step decrease=0.002370 == delta^3/(12*L2^2)=0.002370, Lemma 5.5 &#124;grad F(x*)&#124;=0.4000 == 2*sigma*&#124;x*-x_hat&#124;, eps^-3.25=3162277.7 &lt; eps^-10/3=4641588.8 &lt; eps^-4=100000000.0 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints.
+
+Natasha 2 Non-Convex Stochastic Optimization via Swing-by Saddle Points is a distinct concept.
+
+Distinct from deterministic accelerated gradient + negative-curvature exploitation (Carmon et al. 2018, AIMech:AcceleratedGradientAndNegativeCurvatureExploitationForNonConvexOptimization, which requires exact gradients and exact Hessian-vector products in O_tilde(varepsilon^{-7/4})), from perturbed SGD/GD (Ge et al. 2015; Jin et al. 2017/2018, which add isotropic balls of noise and require O_tilde(varepsilon^{-4}) in the online stochastic setting), and from pure first-order variance reduction methods (SVRG, SCSG, SPIDER, SNVRG, STORM, which assume first-order L-smoothness or multi-batch variance reduction without alternating Oja negative-curvature steps with proximal retraction sigma = 1.5*delta to convert online second-order smoothness into a faster O_tilde(varepsilon^{-3.25}) first-order stochastic complexity without Hessian-vector oracle calls).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points-boundaries.py passed with exit code 0: [PASS] Natasha 1.5 &amp; Natasha 2 boundaries verified: 2nd-order step decrease=0.002370 == delta^3/(12*L2^2)=0.002370, Lemma 5.5 &#124;grad F(x*)&#124;=0.4000 == 2*sigma*&#124;x*-x_hat&#124;, eps^-3.25=3162277.7 &lt; eps^-10/3=4641588.8 &lt; eps^-4=100000000.0
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T073600Z-natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points.json | supports | No normalized identity match for AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points-boundaries.py | supports | All constructed boundary assertions in natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points-boundaries.py passed with exit code 0: [PASS] Natasha 1.5 &amp; Natasha 2 boundaries verified: 2nd-order step decrease=0.002370 == delta^3/(12*L2^2)=0.002370, Lemma 5.5 &#124;grad F(x*)&#124;=0.4000 == 2*sigma*&#124;x*-x_hat&#124;, eps^-3.25=3162277.7 &lt; eps^-10/3=4641588.8 &lt; eps^-4=100000000.0 |
+| r373-primary-pdf | https://arxiv.org/pdf/1708.08694.pdf; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems (NeurIPS 2018), Vol. 31, pp. 2675-2686 (arXiv:1708.08694v3) (2018)) read and verified. |
+| r373-arxiv-abs | https://arxiv.org/abs/1708.08694; arXiv abstract | supports | arXiv abstract read and verified. |
+| r373-metadata-cr | https://papers.nips.cc/paper/2018/hash/2b64c2f19d868305aa8bbc2d72902cc5-Abstract.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints in Round 373.
+- All pages of Advances in Neural Information Processing Systems (NeurIPS 2018), Vol. 31, pp. 2675-2686 (arXiv:1708.08694v3) (2018) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T073630Z-natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Natasha 2 Non-Convex Stochastic Optimization
+  via Swing-by Saddle Points
+started_at: '2026-10-19T07:36:00Z'
+finished_at: '2026-10-19T07:36:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems (NeurIPS 2018), Vol. 31, pp. 2675-2686
+    (arXiv:1708.08694v3) (2018) and pure-Python boundary checks. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Natasha 2 Non-Convex Stochastic Optimization via Swing-by Saddle Points
+  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
+source:
+  git_revision: fe3ecca61f0aa641632d95aba527e9677ab7fb30
+  state: working_tree
+  inputs:
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints.yaml
+    sha256: e3f7a330a113bb5403832a0c74146e8821473eb40c0ff56379fb4a2839c4ba72
+    role: target
+  - path: research/discovery/20261019T073600Z-natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points.json
+    sha256: 366e22424e0882bb224121c29f0234ebafd0eaf881ce967bf5abe4e06efdaf73
+    role: context
+  - path: research/discovery/natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points-boundaries.py
+    sha256: 7ef8a1ee6d8c36a371f8a8eb56502599b6710499c9895b588622c6b76cbc33e9
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+  path: data/curated/Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints.yaml
+  label: Natasha 2 Non-Convex Stochastic Optimization via Swing-by Saddle Points
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points-boundaries.py
+  command: python3 research/discovery/natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Natasha 1.5 & Natasha 2 boundaries verified: 2nd-order step decrease=0.002370
+    == delta^3/(12*L2^2)=0.002370, Lemma 5.5 |grad F(x*)|=0.4000 == 2*sigma*|x*-x_hat|,
+    eps^-3.25=3162277.7 < eps^-10/3=4641588.8 < eps^-4=100000000.0'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T073600Z-natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points.json
+  accessed_at: '2026-10-19T07:36:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T07:36:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points-boundaries.py
+  accessed_at: '2026-10-19T07:36:00Z'
+  snapshot_sha256: 7ef8a1ee6d8c36a371f8a8eb56502599b6710499c9895b588622c6b76cbc33e9
+  support: supports
+  summary: 'All constructed boundary assertions in natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points-boundaries.py
+    passed with exit code 0: [PASS] Natasha 1.5 & Natasha 2 boundaries verified: 2nd-order
+    step decrease=0.002370 == delta^3/(12*L2^2)=0.002370, Lemma 5.5 |grad F(x*)|=0.4000
+    == 2*sigma*|x*-x_hat|, eps^-3.25=3162277.7 < eps^-10/3=4641588.8 < eps^-4=100000000.0'
+- evidence_id: r373-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1708.08694.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T07:36:00Z'
+  snapshot_sha256: fa414daea98d35d77b761387472f06f1681cd2e6f1360dc79c0d8af3d4125962
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems (NeurIPS
+    2018), Vol. 31, pp. 2675-2686 (arXiv:1708.08694v3) (2018)) read and verified.
+- evidence_id: r373-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1708.08694
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T07:36:00Z'
+  snapshot_sha256: e7d2e851d3d8b67957f3166c7cdbb393a2b48a3552d18e36b453fa5a549d0da4
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r373-metadata-cr
+  kind: primary_source
+  reference: https://papers.nips.cc/paper/2018/hash/2b64c2f19d868305aa8bbc2d72902cc5-Abstract.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T07:36:00Z'
+  snapshot_sha256: 7169cc3dbd9f5ff10c999270ab15ee218cb5f133e13c9125911def9c74c7e040
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+  evidence_ids:
+  - identity
+  - r373-primary-pdf
+  - r373-arxiv-abs
+  - r373-metadata-cr
+  summary: Natasha 2 Non-Convex Stochastic Optimization via Swing-by Saddle Points
+    is a distinct concept.
+  details: Distinct from deterministic accelerated gradient + negative-curvature exploitation
+    (Carmon et al. 2018, AIMech:AcceleratedGradientAndNegativeCurvatureExploitationForNonConvexOptimization,
+    which requires exact gradients and exact Hessian-vector products in O_tilde(varepsilon^{-7/4})),
+    from perturbed SGD/GD (Ge et al. 2015; Jin et al. 2017/2018, which add isotropic
+    balls of noise and require O_tilde(varepsilon^{-4}) in the online stochastic setting),
+    and from pure first-order variance reduction methods (SVRG, SCSG, SPIDER, SNVRG,
+    STORM, which assume first-order L-smoothness or multi-batch variance reduction
+    without alternating Oja negative-curvature steps with proximal retraction sigma
+    = 1.5*delta to convert online second-order smoothness into a faster O_tilde(varepsilon^{-3.25})
+    first-order stochastic complexity without Hessian-vector oracle calls).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+  evidence_ids:
+  - mapping
+  - r373-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+  evidence_ids:
+  - r373-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in natasha2-nonconvex-stochastic-optimization-swing-by-saddle-points-boundaries.py
+    passed with exit code 0: [PASS] Natasha 1.5 & Natasha 2 boundaries verified: 2nd-order
+    step decrease=0.002370 == delta^3/(12*L2^2)=0.002370, Lemma 5.5 |grad F(x*)|=0.4000
+    == 2*sigma*|x*-x_hat|, eps^-3.25=3162277.7 < eps^-10/3=4641588.8 < eps^-4=100000000.0'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+  evidence_ids:
+  - identity
+  - mapping
+  - r373-primary-pdf
+  - r373-arxiv-abs
+  - r373-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:Natasha2NonconvexStochasticOptimizationViaSwingBySaddlePoints
+  in Round 373.
+- All pages of Advances in Neural Information Processing Systems (NeurIPS 2018), Vol.
+  31, pp. 2675-2686 (arXiv:1708.08694v3) (2018) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
