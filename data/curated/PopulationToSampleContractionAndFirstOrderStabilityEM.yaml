@@ -1,0 +1,108 @@
+id: AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+name: Population-to-Sample Contraction, First-Order Stability (FOS), and Gradient Stability (GS) Framework for the EM Algorithm
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: 'A two-stage population-to-sample non-asymptotic analytical framework (introduced by Sivaraman Balakrishnan, Martin J. Wainwright, and Bin Yu in 2017) for establishing local geometric convergence and minimax-rate statistical guarantees for the Expectation-Maximization (EM) operator $M_n(\theta) = \arg\max_{\theta''\in\Omega} Q_n(\theta''\mid\theta)$ and first-order gradient EM operator $G_n(\theta) = \theta + \alpha\nabla Q_n(\theta\mid\theta)$ around a population likelihood maximizer $\theta^*$. Exploiting the self-consistency identity $\theta^* = \arg\max_{\theta\in\Omega} Q(\theta\mid\theta^*)$ (Equation 24), Theorem 1 proves that if the oracle surrogate $q(\theta) = Q(\theta\mid\theta^*)$ is $\lambda$-strongly concave (Equation 25) and the family $\{Q(\cdot\mid\theta)\}$ satisfies *First-Order Stability* $\mathrm{FOS}(\gamma)$: $\|\nabla Q(M(\theta)\mid\theta^*) - \nabla Q(M(\theta)\mid\theta)\|_2 \le \gamma\|\theta - \theta^*\|_2$ on $\mathbb{B}_2(r;\theta^*)$ with $0 \le \gamma < \lambda$ (Definition 1, Equation 29), then the population EM operator is $\kappa$-contractive with $\kappa = \gamma/\lambda < 1$ ($\|M(\theta) - \theta^*\|_2 \le \frac{\gamma}{\lambda}\|\theta - \theta^*\|_2$). Analogously, under $\mu$-smoothness of $q$ and *Gradient Stability* $\mathrm{GS}(\gamma)$: $\|\nabla Q(\theta\mid\theta^*) - \nabla Q(\theta\mid\theta)\|_2 \le \gamma\|\theta - \theta^*\|_2$ (Definition 2, Equation 46), Theorem 3 proves that population gradient EM with step size $\alpha = \frac{2}{\mu+\lambda}$ contracts with factor $1 - \frac{2\lambda - 2\gamma}{\mu+\lambda} < 1$. Coupling population contraction with uniform empirical-process deviation bounds $\sup_{\theta\in\mathbb{B}_2(r;\theta^*)}\|M_n(\theta) - M(\theta)\|_2 \le \varepsilon_M^{\mathrm{unif}}(n,\delta)$ (or pointwise sample-splitting bounds $\varepsilon_M(n/T,\delta/T)$), Theorems 2 and 4 guarantee $\|\theta^t - \theta^*\|_2 \le \kappa^t\|\theta^0 - \theta^*\|_2 + \frac{1}{1-\kappa}\varepsilon_M^{\mathrm{unif}}(n,\delta)$ (Equations 35b, 51b), yielding $O(\sqrt{(d/n)\log(1/\delta)})$ statistical accuracy across Gaussian mixtures, mixtures of regressions, and missing-covariate linear regression.'
+identity_notes: Resolved against all 442 pinned AIO concepts and 695 maintained AIMech concepts. Distinct from `AIO:Clustering` and `AIO:LinearRegression`, which define general task/model classes without the population-to-sample EM operator decomposition, First-Order Stability $\mathrm{FOS}(\gamma)$, Gradient Stability $\mathrm{GS}(\gamma)$, or non-asymptotic sample-based contraction bounds.
+aliases:
+- Balakrishnan-Wainwright-Yu Population-to-Sample EM Framework
+- First-Order Stability (FOS) and Gradient Stability (GS) EM Contraction Analysis
+- Population and Sample-Based EM and Gradient EM Non-Asymptotic Guarantees
+definition_evidence:
+- source_id: bwy2017-emguarantees-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: bwy2017-emguarantees-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: bwy2017-emguarantees-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-self-consistency-and-first-order-gradient-stability-population-contraction
+  kind: mechanism
+  statement: By combining the self-consistency optimality condition $\langle\nabla Q(\theta^*\mid\theta^*),\theta' - \theta^*\rangle \le 0$ (Equation 26) with $\lambda$-strong concavity of $q(\cdot) = Q(\cdot\mid\theta^*)$ (Equation 25) and the First-Order Stability condition $\|\nabla Q(M(\theta)\mid\theta^*) - \nabla Q(M(\theta)\mid\theta)\|_2 \le \gamma\|\theta - \theta^*\|_2$ on $\mathbb{B}_2(r;\theta^*)$ (Definition 1, Equation 29), Theorem 1 proves that the population EM map $M$ is strictly contractive with factor $\kappa = \gamma/\lambda < 1$, while Theorem 3 proves that under $\mu$-smoothness and Gradient Stability $\|\nabla Q(\theta\mid\theta^*) - \nabla Q(\theta\mid\theta)\|_2 \le \gamma\|\theta - \theta^*\|_2$ (Definition 2, Equation 46), population gradient EM $G(\theta) = \theta + \frac{2}{\mu+\lambda}\nabla Q(\theta\mid\theta)$ contracts with factor $1 - \frac{2(\lambda-\gamma)}{\mu+\lambda}$.
+  evidence:
+  - source_id: bwy2017-emguarantees-pdf
+    locator: Section 3.1.1, Definition 1 & Theorem 1, pp. 9-10; Section 3.2.1, Definition 2 & Theorem 3, pp. 13-15
+    relation: supports
+  - source_id: bwy2017-emguarantees-abs
+    locator: Abstract
+    relation: supports
+- claim_id: claim-sample-based-sample-splitting-and-stochastic-gradient-em-error-recursion
+  kind: mechanism
+  statement: When the population EM or gradient EM operator is $\kappa$-contractive on $\mathbb{B}_2(r;\theta^*)$ and the uniform empirical perturbation satisfies $\varepsilon^{\mathrm{unif}}(n,\delta) \le (1-\kappa)r$, Theorems 2 and 4 establish that all sample iterates remain inside $\mathbb{B}_2(r;\theta^*)$ and satisfy $\|\theta^t - \theta^*\|_2 \le \kappa^t\|\theta^0 - \theta^*\|_2 + \frac{1}{1-\kappa}\varepsilon^{\mathrm{unif}}(n,\delta)$ (Equations 35b, 51b), while projected single-sample stochastic gradient EM with decaying step size $\alpha^t = \frac{3}{2\xi(t+2)}$ ($\xi = \frac{2\mu\lambda}{\lambda+\mu} - \gamma > 0$) achieves $\mathbb{E}[\|\theta^t - \theta^*\|_2^2] \le \frac{9\sigma_G^2}{\xi^2(t+2)} + (\frac{2}{t+2})^{3/2}\|\theta^0 - \theta^*\|_2^2$ (Theorem 5, Equation 54).
+  evidence:
+  - source_id: bwy2017-emguarantees-pdf
+    locator: Section 3.1.2, Theorem 2, pp. 11-13; Section 3.2.2-3.2.3, Theorems 4 & 5, pp. 15-18
+    relation: supports
+  - source_id: bwy2017-emguarantees-cr
+    locator: Crossref metadata and published abstract for Ann. Statist. 45(1):77-120
+    relation: supports
+- claim_id: claim-canonical-latent-variable-models-and-missing-covariate-upper-snr-regime
+  kind: scope
+  statement: "For two-component symmetric Gaussian mixtures and mixtures of linear regressions with signal-to-noise ratio $\\|\\theta^*\\|_2/\\sigma > \\eta$ sufficiently large, Corollaries 1\u20135 prove local contraction over $\\mathbb{B}_2(c\\|\\theta^*\\|_2;\\theta^*)$ with contraction rate $\\kappa(\\eta) \\le e^{-c\\eta^2}$ (for mixtures of Gaussians) and minimax $O(\\sqrt{d/n})$ sample error; in contrast, for linear regression with covariates missing completely at random with probability $\\rho$, Corollary 6 proves that contractivity requires an *upper* bound on SNR $\\|\\theta^*\\|_2/\\sigma \\le \\xi_1$ such that $\\rho < \\frac{1}{1 + 2\\xi(1+\\xi)}$ ($\\xi = (\\xi_1+\\xi_2)^2$, Equation 67), because missing-covariate imputation variance scales with $\\|\\theta_{\\mathrm{mis}}\\|_2^2$."
+  evidence:
+  - source_id: bwy2017-emguarantees-pdf
+    locator: Section 4.1-4.3, Corollaries 1-8 & Figure 7, pp. 18-26; Appendices B-D, pp. 28-51
+    relation: supports
+- claim_id: claim-limitation-local-initialization-and-well-specified-strong-concavity
+  kind: limitation
+  statement: "The guarantees of Theorems 1\u20135 are local to the basin $\\mathbb{B}_2(r;\\theta^*)$ (requiring a pilot initializer such as spectral/method-of-moments estimation) and rely on $\\lambda$-strong concavity of the population oracle function $Q(\\cdot\\mid\\theta^*)$ and well-specified model structure, which break down in singular over-specified mixture models where the Fisher information matrix vanishes at $\\theta^*$."
+  evidence:
+  - source_id: bwy2017-emguarantees-pdf
+    locator: Section 3.1.1, Equation 25, p. 9; Section 5 Discussion, p. 26
+    relation: supports
+evidence_sources:
+- source_id: bwy2017-emguarantees-pdf
+  title: 'Statistical guarantees for the EM algorithm: From population to sample-based analysis'
+  authors: &id001
+  - Sivaraman Balakrishnan
+  - Martin J. Wainwright
+  - Bin Yu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1408.2156.pdf
+  persistent_id: https://doi.org/10.1214/16-AOS1435
+  version: arXiv:1408.2156v1 full-text PDF (54 pages), published in The Annals of Statistics 45(1):77-120 (2017). (1665913 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:54:00Z'
+  sha256: bb862ee791f942e45531b0ffd34857da964adde73ec9617d2bc03ea75b4dc37b
+- source_id: bwy2017-emguarantees-abs
+  title: 'Statistical guarantees for the EM algorithm: From population to sample-based analysis (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1408.2156
+  persistent_id: https://arxiv.org/abs/1408.2156
+  version: arXiv abstract page (6468 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:54:00Z'
+  sha256: 4fd7583b07aaca16342a42245f41634fd20cf7177bb2b04e1091a5fc42ab13a4
+- source_id: bwy2017-emguarantees-cr
+  title: 'Statistical guarantees for the EM algorithm: From population to sample-based analysis (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/16-AOS1435
+  persistent_id: https://doi.org/10.1214/16-AOS1435
+  version: Crossref API work record (6267 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:54:00Z'
+  sha256: c330e97d787fc9ffbdcc8ccc3dd5b5aab086a4b6218edac777e6a1190658ccbc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Provides non-asymptotic population-to-sample EM and gradient EM convergence guarantees for Gaussian mixture clustering.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Establishes local contraction and minimax error bounds for EM in mixtures of linear regressions and linear regression with missing covariates.
+limitations:
+- Requires initialization within the local contraction ball $\mathbb{B}_2(r;\theta^*)$, a minimum separation SNR $\|\theta^*\|_2/\sigma > \eta$ for mixture models (or an upper SNR bound for missing-covariate regression), and $\lambda$-strong concavity of $Q(\cdot\mid\theta^*)$.
+curation:
+  created_at: '2026-10-19T05:54:00Z'
+  updated_at: '2026-10-19T05:54:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
