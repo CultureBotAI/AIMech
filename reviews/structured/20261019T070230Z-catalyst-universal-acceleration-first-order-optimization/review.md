@@ -1,0 +1,366 @@
+# Scientific author self-review of Catalyst Universal Acceleration for First-Order Optimization
+
+- Review: 20261019T070230Z-catalyst-universal-acceleration-first-order-optimization
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T07:02:00Z
+- Finished UTC: 2026-10-19T07:02:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Catalyst Universal Acceleration for First-Order Optimization as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/CatalystUniversalAccelerationForFirstOrderOptimization.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base a8e2c8ededca8841b269c8e7f660d9055e598582.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:CatalystUniversalAccelerationForFirstOrderOptimization | data/curated/CatalystUniversalAccelerationForFirstOrderOptimization.yaml | maintained | Catalyst Universal Acceleration for First-Order Optimization |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:CatalystUniversalAccelerationForFirstOrderOptimization | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:CatalystUniversalAccelerationForFirstOrderOptimization | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:CatalystUniversalAccelerationForFirstOrderOptimization | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:CatalystUniversalAccelerationForFirstOrderOptimization | Validated history sidecar files. |
+| python3 catalyst-universal-acceleration-first-order-optimization-boundaries.py | passed | True | AIMech:CatalystUniversalAccelerationForFirstOrderOptimization | [PASS] Round 340 Catalyst Acceleration (Lin, Mairal, &amp; Harchaoui 2015): max_eq27_err=6.66e-16, max_eq28_err=8.08e-16, max_eq26_err=1.67e-16, F_cat=3.9897e-06 &lt;&lt; F_unacc=2.5834e-03, F_stall=4.6619e-01 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:CatalystUniversalAccelerationForFirstOrderOptimization.
+
+Catalyst Universal Acceleration for First-Order Optimization is a distinct concept.
+
+Distinct from Regularized Nonlinear Acceleration of Fixed-Point Iterations (&#96;AIMech:RegularizedNonlinearAccelerationOfFixedPointIterations&#96;), which extrapolates a post-hoc trajectory of fixed-point iterates via Tikhonov-regularized residual Gram inversion without modifying the inner objective, and from specific inner variance-reduced solvers that require custom algorithm-specific momentum couplings. Specifically captures the Catalyst black-box proximal wrapper G_k(x) = F(x) + (kappa/2)&#124;&#124;x - y_{k-1}&#124;&#124;^2, the canonical estimate-sequence recurrences (Equations 20-28), warm-start inner-loop complexity bounds (Proposition 3.2), and optimal smoothing parameter selection kappa = O(L / n) for finite-sum optimization.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:CatalystUniversalAccelerationForFirstOrderOptimization.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:CatalystUniversalAccelerationForFirstOrderOptimization.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in catalyst-universal-acceleration-first-order-optimization-boundaries.py passed with exit code 0: [PASS] Round 340 Catalyst Acceleration (Lin, Mairal, &amp; Harchaoui 2015): max_eq27_err=6.66e-16, max_eq28_err=8.08e-16, max_eq26_err=1.67e-16, F_cat=3.9897e-06 &lt;&lt; F_unacc=2.5834e-03, F_stall=4.6619e-01
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:CatalystUniversalAccelerationForFirstOrderOptimization.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T070200Z-catalyst-universal-acceleration-first-order-optimization.json | supports | No normalized identity match for AIMech:CatalystUniversalAccelerationForFirstOrderOptimization across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/catalyst-universal-acceleration-first-order-optimization-boundaries.py | supports | All constructed boundary assertions in catalyst-universal-acceleration-first-order-optimization-boundaries.py passed with exit code 0: [PASS] Round 340 Catalyst Acceleration (Lin, Mairal, &amp; Harchaoui 2015): max_eq27_err=6.66e-16, max_eq28_err=8.08e-16, max_eq26_err=1.67e-16, F_cat=3.9897e-06 &lt;&lt; F_unacc=2.5834e-03, F_stall=4.6619e-01 |
+| r340-primary-pdf | https://arxiv.org/pdf/1506.02186.pdf; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems 28 (NeurIPS 2015), pp. 3384-3392 / JMLR 18(209):1-54 (2018) (2015)) read and verified. |
+| r340-arxiv-abs | https://arxiv.org/abs/1506.02186; arXiv abstract | supports | arXiv abstract read and verified. |
+| r340-metadata-cr | https://www.jmlr.org/papers/v18/17-748.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:CatalystUniversalAccelerationForFirstOrderOptimization in Round 340.
+- All pages of Advances in Neural Information Processing Systems 28 (NeurIPS 2015), pp. 3384-3392 / JMLR 18(209):1-54 (2018) (2015) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T070230Z-catalyst-universal-acceleration-first-order-optimization
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Catalyst Universal Acceleration for First-Order
+  Optimization
+started_at: '2026-10-19T07:02:00Z'
+finished_at: '2026-10-19T07:02:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems 28 (NeurIPS 2015), pp. 3384-3392 / JMLR
+    18(209):1-54 (2018) (2015) and pure-Python boundary checks. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Catalyst Universal Acceleration for First-Order Optimization as a
+  distinct DRAFT algorithm. All three claims are supported by full-text primary evidence
+  and pure-Python boundary verification.
+source:
+  git_revision: a8e2c8ededca8841b269c8e7f660d9055e598582
+  state: working_tree
+  inputs:
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/aio/RidgeRegression.yaml
+    sha256: 7ee3be4552041e1ee2194a78eb0cbefe25283907027a6680395973dbf98636bb
+    role: context
+  - path: data/curated/CatalystUniversalAccelerationForFirstOrderOptimization.yaml
+    sha256: 0fd5e7c34a2eb79804ab3e3bb55f0fa214043ff875bb0e544d0d48339bc1de9f
+    role: target
+  - path: research/discovery/20261019T070200Z-catalyst-universal-acceleration-first-order-optimization.json
+    sha256: 7090249985ba81f0268e6b2301eb4c0cac4e00ff8abbc6a407a9916b44dde591
+    role: context
+  - path: research/discovery/catalyst-universal-acceleration-first-order-optimization-boundaries.py
+    sha256: cb26fdf153690fbcb5b284e00d641ffeb9c334ce02f88a3dfb71eadcbb5599c2
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+  path: data/curated/CatalystUniversalAccelerationForFirstOrderOptimization.yaml
+  label: Catalyst Universal Acceleration for First-Order Optimization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/CatalystUniversalAccelerationForFirstOrderOptimization.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/CatalystUniversalAccelerationForFirstOrderOptimization.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:CatalystUniversalAccelerationForFirstOrderOptimization'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 catalyst-universal-acceleration-first-order-optimization-boundaries.py
+  command: python3 research/discovery/catalyst-universal-acceleration-first-order-optimization-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 340 Catalyst Acceleration (Lin, Mairal, & Harchaoui 2015):
+    max_eq27_err=6.66e-16, max_eq28_err=8.08e-16, max_eq26_err=1.67e-16, F_cat=3.9897e-06
+    << F_unacc=2.5834e-03, F_stall=4.6619e-01'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T070200Z-catalyst-universal-acceleration-first-order-optimization.json
+  accessed_at: '2026-10-19T07:02:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T07:02:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/catalyst-universal-acceleration-first-order-optimization-boundaries.py
+  accessed_at: '2026-10-19T07:02:00Z'
+  snapshot_sha256: cb26fdf153690fbcb5b284e00d641ffeb9c334ce02f88a3dfb71eadcbb5599c2
+  support: supports
+  summary: 'All constructed boundary assertions in catalyst-universal-acceleration-first-order-optimization-boundaries.py
+    passed with exit code 0: [PASS] Round 340 Catalyst Acceleration (Lin, Mairal,
+    & Harchaoui 2015): max_eq27_err=6.66e-16, max_eq28_err=8.08e-16, max_eq26_err=1.67e-16,
+    F_cat=3.9897e-06 << F_unacc=2.5834e-03, F_stall=4.6619e-01'
+- evidence_id: r340-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1506.02186.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T07:02:00Z'
+  snapshot_sha256: 503077fd6d1cd3bbea7ea7886f5ac1cc61d076cd023fe1ade7bfbf5c761fff4d
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 28 (NeurIPS
+    2015), pp. 3384-3392 / JMLR 18(209):1-54 (2018) (2015)) read and verified.
+- evidence_id: r340-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1506.02186
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T07:02:00Z'
+  snapshot_sha256: 0172446f1c5cdbd1b29a1d456eb3205506a12ccfc8ae4ca57143cdecccc64058
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r340-metadata-cr
+  kind: primary_source
+  reference: https://www.jmlr.org/papers/v18/17-748.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T07:02:00Z'
+  snapshot_sha256: debec91becc79003d7fa805b0ffc51e6309a47e967a7da18e85a675ef3a01a52
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+  evidence_ids:
+  - identity
+  - r340-primary-pdf
+  - r340-arxiv-abs
+  - r340-metadata-cr
+  summary: Catalyst Universal Acceleration for First-Order Optimization is a distinct
+    concept.
+  details: Distinct from Regularized Nonlinear Acceleration of Fixed-Point Iterations
+    (`AIMech:RegularizedNonlinearAccelerationOfFixedPointIterations`), which extrapolates
+    a post-hoc trajectory of fixed-point iterates via Tikhonov-regularized residual
+    Gram inversion without modifying the inner objective, and from specific inner
+    variance-reduced solvers that require custom algorithm-specific momentum couplings.
+    Specifically captures the Catalyst black-box proximal wrapper G_k(x) = F(x) +
+    (kappa/2)||x - y_{k-1}||^2, the canonical estimate-sequence recurrences (Equations
+    20-28), warm-start inner-loop complexity bounds (Proposition 3.2), and optimal
+    smoothing parameter selection kappa = O(L / n) for finite-sum optimization.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+  evidence_ids:
+  - mapping
+  - r340-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+  evidence_ids:
+  - r340-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in catalyst-universal-acceleration-first-order-optimization-boundaries.py
+    passed with exit code 0: [PASS] Round 340 Catalyst Acceleration (Lin, Mairal,
+    & Harchaoui 2015): max_eq27_err=6.66e-16, max_eq28_err=8.08e-16, max_eq26_err=1.67e-16,
+    F_cat=3.9897e-06 << F_unacc=2.5834e-03, F_stall=4.6619e-01'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+  evidence_ids:
+  - identity
+  - mapping
+  - r340-primary-pdf
+  - r340-arxiv-abs
+  - r340-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+  in Round 340.
+- All pages of Advances in Neural Information Processing Systems 28 (NeurIPS 2015),
+  pp. 3384-3392 / JMLR 18(209):1-54 (2018) (2015) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
