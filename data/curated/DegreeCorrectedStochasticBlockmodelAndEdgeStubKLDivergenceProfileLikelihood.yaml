@@ -1,0 +1,104 @@
+id: AIMech:DegreeCorrectedStochasticBlockmodelAndEdgeStubKLDivergenceProfileLikelihood
+name: Degree-Corrected Stochastic Blockmodel and Edge-Stub Kullback-Leibler Divergence Profile Log-Likelihood
+review_status: DRAFT
+concept_kind: mathematical_method
+aliases:
+- Degree-Corrected Stochastic Blockmodel (DC-SBM)
+- Karrer-Newman Degree-Corrected Stochastic Blockmodel
+- Edge-Stub Kullback-Leibler Profile Log-Likelihood for Community Detection
+- Poisson Multigraph Degree-Corrected Blockmodel with Stub Normalization
+definition: "Degree-Corrected Stochastic Blockmodel and Edge-Stub Kullback-Leibler Divergence Profile Log-Likelihood is a generative random multigraph model and maximum-likelihood community-inference formulation introduced by Karrer and Newman (2011, Physical Review E 83(1):016107, DOI:10.1103/PhysRevE.83.016107, arXiv:1008.3926v1) that augments the $K$-block Poisson stochastic blockmodel with within-group-normalized vertex degree propensity parameters $\\theta_i$ ($\\sum_i \\theta_i \\delta_{g_i, r} = 1$ for each group $r \\in \\{1, \\dots, K\\}$, Eq. 15) so that off-diagonal edge counts satisfy $A_{ij} \\sim \\operatorname{Poisson}(\\theta_i \\theta_j \\omega_{g_i g_j})$ and self-edge counts satisfy $A_{ii}/2 \\sim \\operatorname{Poisson}(\\frac{1}{2}\\theta_i^2 \\omega_{g_i g_i})$ (Eqs. 14, 16). Maximizing the log-likelihood $\\log P(G \\mid \\theta, \\omega, g) = 2\\sum_i k_i \\log \\theta_i + \\sum_{rs}(m_{rs}\\log \\omega_{rs} - \\omega_{rs})$ (Eq. 17) over $(\\theta, \\omega)$ in closed form yields $\\hat{\\theta}_i = k_i / \\kappa_{g_i}$ and $\\hat{\\omega}_{rs} = m_{rs}$ (Eq. 18)\u2014where $k_i = \\sum_j A_{ij}$ is vertex degree, $m_{rs} = \\sum_{ij} A_{ij}\\delta_{g_i, r}\\delta_{g_j, s}$ is the inter-group edge count, and $\\kappa_r = \\sum_s m_{rs} = \\sum_i k_i \\delta_{g_i, r}$ is the total number of edge stubs in group $r$\u2014which exactly preserves both expected block edge counts $m_{rs}$ and every vertex's expected degree $\\langle k_i \\rangle = k_i$ (Eqs. 19-20) and reduces to the unnormalized profile log-likelihood $\\mathcal{L}_{\\text{DC}}(G \\mid g) = \\sum_{r,s=1}^K m_{rs} \\log \\frac{m_{rs}}{\\kappa_r \\kappa_s} \\propto D_{\\text{KL}}(p_K \\parallel p_{\\text{degree}})$ (Eqs. 23-24), measuring the Kullback-Leibler divergence between empirical block edge fractions $p_K(r,s) = m_{rs}/(2m)$ and the degree-preserving configuration-model null $p_{\\text{degree}}(r,s) = (\\kappa_r/2m)(\\kappa_s/2m)$."
+identity_notes: "Checked against all 442 pinned AIO concepts and 652 maintained AIMech concepts. Distinct from `AIMech:TensorSpectralDecompositionForDirichletMixedMembershipCommunityModels` (Anandkumar, Ge, Hsu, & Kakade 2014, JMLR 15(66):2239-2312), which models fractional simplex community memberships $\\pi_u \\sim \\operatorname{Dir}(\\alpha)$ without vertex-specific degree heterogeneity parameters $\\theta_i$ and recovers $(\\Pi, P)$ via 5-way vertex-partitioned $\\alpha_0$-centered 3-star subgraph count tensors, whereas Karrer & Newman (2011) formulate hard group assignments $g_i \\in \\{1, \\dots, K\\}$ with explicit per-vertex degree propensities $\\theta_i$, derive closed-form MLEs $\\hat{\\theta}_i = k_i / \\kappa_{g_i}$ and $\\hat{\\omega}_{rs} = m_{rs}$ that preserve the exact expected degree sequence $\\langle k_i \\rangle = k_i$, prove equivalence of the profile log-likelihood $\\sum_{rs} m_{rs}\\log(m_{rs}/(\\kappa_r \\kappa_s))$ to the edge-end Kullback-Leibler divergence $D_{\\text{KL}}(p_K \\parallel p_{\\text{degree}})$ against the configuration-model stub null rather than the Erd\u0151s-R\xE9nyi vertex-count null $p_1(r,s) = n_r n_s / n^2$, and establish an $O(K + \\langle k\\rangle)$ single-vertex shift identity $\\Delta \\mathcal{L}$ for Kernighan-Lin-style local search."
+definition_evidence:
+- source_id: kn2011-dcsbm-pdf
+  locator: Section II, pp. 2-4, Equations (1)-(13); Section III, pp. 4-6, Equations (14)-(25); Section IV, pp. 6-9, Equations (26)-(30), Figures 1-3
+  relation: supports
+- source_id: kn2011-dcsbm-abs
+  locator: arXiv:1008.3926 abstract
+  relation: supports
+- source_id: kn2011-dcsbm-crossref
+  locator: Physical Review E 83(1):016107 (2011), DOI:10.1103/PhysRevE.83.016107
+  relation: supports
+claims:
+- claim_id: poisson-multigraph-degree-corrected-likelihood-closed-form-mles-and-exact-degree-preservation
+  kind: mechanism
+  statement: In an $n$-vertex undirected multigraph $G$ with adjacency matrix $A_{ij}$ (where $A_{ii}$ is twice the number of self-edges at vertex $i$), group assignments $g_i \in \{1, \dots, K\}$, symmetric group affinity matrix $\omega_{rs}$, and vertex degree parameters $\theta_i$ normalized within each community via $\sum_i \theta_i \delta_{g_i, r} = 1$ (Eq. 15), modeling off-diagonal edge counts as independent $\operatorname{Poisson}(\theta_i \theta_j \omega_{g_i g_j})$ and self-edge counts as $\operatorname{Poisson}(\frac{1}{2}\theta_i^2 \omega_{g_i g_i})$ yields the factorized graph probability $P(G \mid \theta, \omega, g) = \frac{1}{\prod_{i<j} A_{ij}! \prod_i 2^{A_{ii}/2} (A_{ii}/2)!} \prod_i \theta_i^{k_i} \prod_{rs} \omega_{rs}^{m_{rs}/2}\exp(-\frac{1}{2}\omega_{rs})$ (Eqs. 14, 16). Maximizing $\log P(G \mid \theta, \omega, g) = 2\sum_i k_i \log \theta_i + \sum_{rs}(m_{rs}\log \omega_{rs} - \omega_{rs})$ (Eq. 17) subject to Eq. (15) gives the closed-form maximum-likelihood estimates $\hat{\theta}_i = \frac{k_i}{\kappa_{g_i}}$ and $\hat{\omega}_{rs} = m_{rs}$ where $\kappa_r = \sum_s m_{rs} = \sum_i k_i \delta_{g_i, r}$ is the total number of stubs in group $r$ (Eqs. 12, 18), under which the fitted ensemble preserves both expected inter-group edges $\sum_{ij} \langle A_{ij}\rangle \delta_{g_i, r}\delta_{g_j, s} = m_{rs}$ (Eq. 19) and every vertex's expected degree $\sum_j \langle A_{ij}\rangle = k_i$ (Eq. 20), whereas the uncorrected stochastic blockmodel $\hat{\omega}_{rs} = m_{rs}/(n_r n_s)$ (Eq. 5) assigns every vertex in group $r$ the uniform expected degree $\kappa_r / n_r$.
+  evidence:
+  - source_id: kn2011-dcsbm-pdf
+    locator: Section II, pp. 2-3, Equations (1)-(5); Section III, p. 4, Equations (14)-(20)
+    relation: supports
+- claim_id: edge-stub-kullback-leibler-divergence-profile-log-likelihood-and-local-vertex-move-identity
+  kind: mechanism
+  statement: Substituting the closed-form MLEs $(\hat{\theta}_i, \hat{\omega}_{rs})$ into Eq. (17) and dropping assignment-independent constants $2\sum_i k_i \log k_i - 2m$ (Eqs. 21-22) yields the unnormalized profile log-likelihood $\mathcal{L}_{\text{DC}}(G \mid g) = \sum_{r,s=1}^K m_{rs} \log \frac{m_{rs}}{\kappa_r \kappa_s}$ (Eq. 23), which replaces the vertex counts $n_r n_s$ of the uncorrected SBM objective $\mathcal{L}_{\text{SBM}}(G \mid g) = \sum_{r,s} m_{rs} \log \frac{m_{rs}}{n_r n_s}$ (Eq. 6) with stub counts $\kappa_r \kappa_s$ and is affine-equivalent to the Kullback-Leibler divergence $\sum_{r,s} p_K(r,s)\log \frac{p_K(r,s)}{p_{\text{degree}}(r,s)}$ (and mutual information) between empirical edge-end group probabilities $p_K(r,s) = m_{rs}/(2m)$ and the degree-preserving configuration-model null $p_{\text{degree}}(r,s) = \frac{\kappa_r}{2m}\frac{\kappa_s}{2m}$ (Eqs. 11, 24). Moving a single vertex $i$ (with self-edge count $u_i = A_{ii}/2$ and non-self edge counts $k_{it}$ to group $t$) from group $r$ to group $s$ updates only $\kappa_r, \kappa_s, m_{rt}, m_{st}$, allowing $\Delta \mathcal{L}$ to be evaluated in $O(K + \langle k\rangle)$ average time via Eq. (25) within a Kernighan-Lin-style greedy sweep algorithm (Section III, pp. 5-6).
+  evidence:
+  - source_id: kn2011-dcsbm-pdf
+    locator: Section II, p. 3, Equations (6)-(13); Section III, pp. 4-6, Equations (21)-(25)
+    relation: supports
+  - source_id: kn2011-dcsbm-abs
+    locator: Abstract
+    relation: supports
+- claim_id: degree-split-distortion-in-uncorrected-sbm-versus-degree-corrected-recovery-on-heterogeneous-networks
+  kind: scope
+  statement: In networks with broad or bimodal degree distributions, the uncorrected SBM objective $\mathcal{L}_{\text{SBM}}$ fits degree variation $P_{ij} \propto k_i k_j$ by partitioning vertices into high-degree and low-degree groups whenever the degree-split likelihood exceeds the community-split likelihood, failing on empirical heterogeneous graphs (splitting Zachary's karate club into high- and low-degree groups and achieving $\operatorname{NMI} = 0.0001$ vs. $0.72$ for DC-SBM on the 1222-vertex political blogs network, Section IV.A, Figs. 1-2, pp. 6-7) and failing on two-group bimodal-degree synthetic benchmarks $\omega_{rs} = \lambda \omega_{rs}^{\text{planted}} + (1 - \lambda) \frac{\kappa_r \kappa_s}{2m}$ (Eqs. 27-28, degrees 10 and 30) for all $\lambda \lesssim 0.6$ even when initialized at the true planted assignment (whereas DC-SBM achieves $\operatorname{NMI} > 0.7$ at $\lambda = 0.5$ from both random and planted initializations, Section IV.C, Fig. 3, pp. 8-9).
+  evidence:
+  - source_id: kn2011-dcsbm-pdf
+    locator: Section IV, pp. 6-9, Equations (26)-(30), Figures 1-3
+    relation: supports
+evidence_sources:
+- source_id: kn2011-dcsbm-pdf
+  title: Stochastic blockmodels and community structure in networks
+  authors:
+  - Brian Karrer
+  - M. E. J. Newman
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1008.3926.pdf
+  persistent_id: https://doi.org/10.1103/PhysRevE.83.016107
+  version: arXiv:1008.3926v1 full-text PDF (11 pages, 813098 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T02:08:00Z'
+  sha256: 9660c03d16b46b41abccbb5b00b725d15ac4c70053ed6100aeadbed756498c95
+- source_id: kn2011-dcsbm-abs
+  title: Stochastic blockmodels and community structure in networks
+  authors:
+  - Brian Karrer
+  - M. E. J. Newman
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1008.3926
+  persistent_id: https://arxiv.org/abs/1008.3926
+  version: arXiv:1008.3926 abstract page (6050 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T02:08:00Z'
+  sha256: 1e99de79f4584480aee5928a05e46e65d6763a31658164ac81a5874998305852
+- source_id: kn2011-dcsbm-crossref
+  title: Stochastic blockmodels and community structure in networks
+  authors:
+  - Brian Karrer
+  - M. E. J. Newman
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1103/PhysRevE.83.016107
+  persistent_id: https://doi.org/10.1103/PhysRevE.83.016107
+  version: Physical Review E 83(1):016107 (2011) Crossref metadata (2171 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T02:08:00Z'
+  sha256: 925f10b4804ea94672599b55c27ce8a5861a0aee8ceca1302887989aec66877b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: broad_match
+  rationale: Partitions heterogeneous-degree networks into K vertex communities via profile maximum log-likelihood optimization equivalent to maximizing edge-stub Kullback-Leibler divergence.
+- target: AIO:DimensionalityReduction
+  relation: broad_match
+  rationale: Compresses an n x n heterogeneous-degree network adjacency matrix into a K x K block affinity matrix omega_{rs} and degree-normalized vertex propensities theta_i.
+limitations:
+- Assumes the number of communities $K$ is known a priori; because the number of degree propensity parameters $\theta_i$ scales linearly with the network size $n$, maximum profile likelihood alone cannot select $K$ without additional model-selection penalties or marginalization over conjugate Dirichlet-Gamma priors (Section V, p. 10).
+- Uses a Poisson multigraph generative model with independent edge counts (including multi-edges and self-edges), which can generate an unrealistic fraction of zero-degree vertices when expected degrees are small and does not model higher-order motifs, triangles, or overlapping/mixed memberships (Section II, p. 2; Section V, p. 10).
+- 'Primary-source typographical audit of `arXiv:1008.3926v1` (Phys. Rev. E 83:016107, 2011): in Equation (25) (p. 5), the single-vertex log-likelihood change $\Delta \mathcal{L}$ when moving vertex $i$ from community $r$ to community $s$ prints $a(m_{rt} + k_{it}) - a(m_{rt})$ instead of $a(m_{rt} - k_{it}) - a(m_{rt})$ in the sum over $t \ne r, s$ (since vertex $i$ leaves group $r$, the edge count between group $r$ and group $t$ decreases from $m_{rt}$ to $m_{rt} - k_{it}$, whereas the edge count between group $s$ and group $t$ increases from $m_{st}$ to $m_{st} + k_{it}$).'
+curation:
+  created_at: '2026-10-19T02:08:00Z'
+  updated_at: '2026-10-19T02:08:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
