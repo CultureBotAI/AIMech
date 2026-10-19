@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SlowMo (Slow Momentum for Communication-Efficient Distributed SGD) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>SlowMo (Slow Momentum for Communication-Efficient Distributed SGD)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SlowMo (Slow Momentum for Communication-Efficient Distributed SGD)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SlowMoSlowMomentumForCommunicationEfficientDistributedSgd</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SlowMo, Slow Momentum for Communication-Efficient Distributed SGD, Outer Slow-Momentum Wrapper for Local and Decentralized SGD
+    </div>
+
+  <div class="detail-desc">
+    A general two-timescale distributed optimization wrapper (Wang et al. 2020, Section 2, Algorithm 1) in which m workers independently execute tau local steps of an arbitrary base optimizer x_{t,k+1}^{(i)} = x_{t,k}^{(i)} - gamma_t d_{t,k}^{(i)} (such as Local SGD, local momentum, or decentralized SGP/OSGP) starting from x_{t,0}^{(i)} = x_{t,0}, compute the exact global average x_{t,tau} = (1/m) sum_{i=1}^m x_{t,tau}^{(i)} every tau steps via AllReduce, and update the outer model via a slow momentum buffer u_{t+1} = beta u_t + (1 / gamma_t)(x_{t,0} - x_{t,tau}), x_{t+1,0} = x_{t,0} - alpha gamma_t u_{t+1} with slow learning rate alpha &gt; 0 and slow momentum factor beta in [0, 1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard Local SGD (AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent, Stich 2019), which corresponds to the memoryless special case alpha = 1, beta = 0 without outer slow momentum u_t, and from FedOpt (AIMech:FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam, Reddi et al. 2021), which focuses on adaptive second-moment server preconditioners (FedAdagrad, FedYogi, FedAdam) under partial client participation rather than wrapping decentralized gossip/SGP and local base optimizers with outer Polyak momentum and proving BMUF/Lookahead non-convex convergence.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r426-auxiliary-extrapolated-sequence-and-nonconvex-convergence-theorem</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Defining the extrapolated auxiliary sequence y_{t,0} = x_{t,0} + (beta / (1 - beta)) (x_{t,0} - x_{t-1,0}) converts the outer momentum recurrence into the exact step y_{t+1,0} - y_{t,0} = -gamma_eff sum_{k=0}^{tau-1} (1/m) sum_{i=1}^m d_{t,k}^{(i)} with effective learning rate gamma_eff = alpha gamma / (1 - beta) (Appendix D.1, Eqs. 16-22), proving smooth non-convex convergence at rate O(1 / sqrt(m T tau)) whenever the base optimizer&#39;s local drift and bias are bounded (Section 5, Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r426-primary-pdf">SlowMo: Improving Communication-Efficient Distributed SGD with Slow Momentum</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Convergence Analysis (Theorem 1, Corollaries 1-2) &amp; Appendix D.1-D.3 (Equations 16-22, Proof of Theorem 1)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r426-unification-of-bmuf-and-lookahead-nonconvex-guarantees</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Specializing SlowMo&#39;s base optimizer and hyperparameters (Section 3, Table 1) provides the first smooth non-convex convergence proofs for Blockwise Model-Update Filtering (BMUF, beta &gt; 0 with Local SGD base, Corollary 1) and Lookahead (m = 1, beta = 0, alpha in (0, 1), Corollary 2), while wrapping Overlap-SGP (OSGP-SlowMo) reduces steady-state validation loss without increasing per-step communication latency.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r426-primary-pdf">SlowMo: Improving Communication-Efficient Distributed SGD with Slow Momentum</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Relation to Existing Methods (Table 1) &amp; Section 5 Corollaries 1-2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r426-periodic-exact-allreduce-and-outer-hyperparameter-tuning-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires an exact AllReduce synchronization across all m workers every tau steps to compute x_{t,tau} and introduces two additional outer hyperparameters (slow learning rate alpha and slow momentum beta).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r426-primary-pdf">SlowMo: Improving Communication-Efficient Distributed SGD with Slow Momentum</a></span>
+        <span>· <strong>Locator:</strong> Section 2-4 Algorithm 1 &amp; Hyperparameter Sensitivity Analysis</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r426-imagenet-resnet50-and-wmt16-transformer-distributed-training-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed training of ResNet-50 on ImageNet and Transformer neural machine translation models on WMT&#39;16 En-De across up to 64 GPUs, consistently improving validation accuracy and training speed over Local SGD, BMUF, and SGP.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r426-primary-pdf">SlowMo: Improving Communication-Efficient Distributed SGD with Slow Momentum</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Empirical Results (Tables 2-3, Figures 1-4), pp. 4-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Maintains an additional O(d) slow-momentum state buffer u_t across outer synchronization epochs.</li>
+      <li>Requires blocking AllReduce synchronization every tau local iterations.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SlowMo wraps multi-step local SGD and decentralized optimization with outer server/all-reduce momentum, directly generalizing federated momentum.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r426-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r426-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1910.00643" target="_blank" rel="noopener">SlowMo: Improving Communication-Efficient Distributed SGD with Slow Momentum</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianyu Wang, Vinayak Tantia, Nicolas Ballas, Michael Rabbat
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=SkxJ8REYPH</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dd1de8b49424…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r426-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r426-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1910.00643" target="_blank" rel="noopener">SlowMo: Improving Communication-Efficient Distributed SGD with Slow Momentum (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianyu Wang, Vinayak Tantia, Nicolas Ballas, Michael Rabbat
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1910.00643</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1495c563fc72…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r426-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r426-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=SkxJ8REYPH" target="_blank" rel="noopener">SlowMo: Improving Communication-Efficient Distributed SGD with Slow Momentum (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianyu Wang, Vinayak Tantia, Nicolas Ballas, Michael Rabbat
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=SkxJ8REYPH</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ed85253e33dc…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:29:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:29:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SlowMoSlowMomentumForCommunicationEfficientDistributedSgd.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SlowMoSlowMomentumForCommunicationEfficientDistributedSgd.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
