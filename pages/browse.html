@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1180</strong> artificial intelligence concepts, comprising <strong>738</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1181</strong> artificial intelligence concepts, comprising <strong>739</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1180)</option>
-        <option value="curated">Curated AIMech (738)</option>
+        <option value="all">All Origins (1181)</option>
+        <option value="curated">Curated AIMech (739)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (438)</option>
+          <option value="algorithm">Algorithms (439)</option>
           <option value="mathematical_method">Mathematical Methods (151)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1180</span> of <span id="totalCount">1180</span>
+      Showing <span id="matchCount">1181</span> of <span id="totalCount">1181</span>
     </div>
   </div>
 </div>
@@ -23431,6 +23431,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="sarah stochastic recursive gradient for finite-sum optimization sarahstochasticrecursivegradientforfinitesumoptimization aimech:sarahstochasticrecursivegradientforfinitesumoptimization algorithms algorithm sarah stochastic recursive gradient for finite-sum optimization is a variance-reduced first-order stochastic optimization algorithm and practical adaptive variant (sarah+) introduced by nguyen, liu, scheinberg, and takac (2017) for finite-sum minimization min_{w in r^d} p(w) = (1/n) sum_{i=1}^n f_i(w) with l-smooth component functions. at the start of each outer loop s, sarah (algorithm 1) computes the exact full gradient v_0 = grad p(w_0) and takes one gradient step w_1 = w_0 - eta v_0; in each inner iteration t = 1, ..., m-1, it samples i_t uniformly from [n] and updates the stochastic gradient estimate recursively via v_t = grad f_{i_t}(w_t) - grad f_{i_t}(w_{t-1}) + v_{t-1} followed by w_{t+1} = w_t - eta v_t. unlike svrg (which anchors its control variate to the static outer snapshot w_0 and is conditionally unbiased), sarah&#39;s recursive estimator v_t is conditionally biased given f_t — e[v_t | f_t] = grad p(w_t) - grad p(w_{t-1}) + v_{t-1} != grad p(w_t) — while remaining unbiased in total expectation e[v_t] = e[grad p(w_t)] and requiring o(d) memory (no o(n d) gradient table as in sag/saga). lemma 2 proves the exact variance decomposition e[||grad p(w_t) - v_t||^2] = sum_{j=1}^t e[||v_j - v_{j-1}||^2] - sum_{j=1}^t e[||grad p(w_j) - grad p(w_{j-1})||^2], which guarantees that the step norm e[||v_t||^2] converges linearly to zero within a single inner loop under strong convexity (theorems 1a-1b) and enables the self-tuning practical variant sarah+ (algorithm 2) that terminates the inner loop as soon as ||v_{t-1}||^2 &lt;= gamma ||v_0||^2. distinct from svrg, which uses the conditionally unbiased snapshot difference grad f_{i_t}(w_t) - grad f_{i_t}(w_0) + v_0 whose inner-loop step variance does not vanish as t -&gt; infinity within a single outer loop, from sag/saga, which require o(n d) storage of n past component gradients, and from spider (`aimech:spiderstochasticpathintegrateddifferentialestimatorfornonconvexoptimization`), which couples recursive path-integrated differential estimation with normalized gradient descent (stepsize proportional to epsilon / ||v^k||) and negative-curvature search for non-convex first- and second-order stationarity. specifically captures the sarah recursive estimator (equation 2), the exact martingale variance identity (lemma 2) and convex error bound (lemma 3), the inner-loop linear contraction of e[||v_t||^2] (theorems 1a-1b), the outer-loop linear rate sigma_m &lt; alpha_m (theorem 4 and remark 1), and the adaptive sarah+ inner stopping rule ||v_{t-1}||^2 &gt; gamma ||v_0||^2 (algorithm 2). stochastic recursive gradient algorithm (sarah) sarah and sarah+ recursive variance-reduced gradient method nguyen-liu-scheinberg-takac stochastic recursive gradient for the recursive stochastic gradient update v_t = grad f_{i_t}(w_t) - grad f_{i_t}(w_{t-1}) + v_{t-1} with v_0 = grad p(w_0), the estimator is conditionally biased (e[v_t | f_t] = grad p(w_t) - grad p(w_{t-1}) + v_{t-1}) yet satisfies the exact variance identity e[||grad p(w_t) - v_t||^2] = sum_{j=1}^t e[||v_j - v_{j-1}||^2] - sum_{j=1}^t e[||grad p(w_j) - grad p(w_{j-1})||^2] for any l-smooth functions without convexity (lemma 2), and when each f_i is convex and l-smooth with learning rate eta &lt; 2/l, e[||grad p(w_t) - v_t||^2] &lt;= (eta*l / (2 - eta*l)) (e[||v_0||^2] - e[||v_t||^2]) &lt;= (eta*l / (2 - eta*l)) e[||v_0||^2] (lemma 3). unlike svrg, sarah&#39;s stochastic step norm e[||v_t||^2] converges linearly to zero within a single inner loop under mu-strong convexity of p with convex f_i at rate (1 - (2/(eta*l) - 1)*mu^2*eta^2)^t for eta &lt; 2/l (theorem 1a) and at rate (1 - 2*mu*l*eta/(mu + l))^t when each f_i is mu-strongly convex for eta &lt;= 2/(mu + l) (theorem 1b); across outer loops, theorem 4 and corollary 3 prove e[||grad p(w_tilde_s)||^2] &lt;= (sigma_m)^s ||grad p(w_tilde_0)||^2 with contraction factor sigma_m = 1/(mu*eta*(m+1)) + eta*l/(2 - eta*l) &lt; 1 for any eta &lt; 1/l, which is strictly smaller than svrg&#39;s contraction factor alpha_m = 1/(mu*eta*(1 - 2*l*eta)*m) + 2*eta*l/(1 - 2*eta*l) for identical eta &lt; 1/(4l) and m (remark 1), achieving o((n + kappa) log(1/epsilon)) total complexity. for general non-strongly convex functions with multiple outer loops and fixed inner loop size m, sarah converges only to a neighborhood delta = delta*(1 + eta*l/(2*(1 - eta*l))) where delta = max_{0&lt;=k&lt;s} 2*e[p(w_tilde_k) - p(w^*)] / (eta*(m+1)), requiring m = o(1/epsilon) to reach e[||grad p(w_tilde_s)||^2] &lt;= epsilon in o((n + 1/epsilon) log(1/epsilon)) complexity (theorem 3 and corollary 2); in the practical variant sarah+ (algorithm 2), choosing the inner stopping threshold gamma too large (e.g., gamma -&gt; 1) terminates the inner loop prematurely and degenerates to full gradient descent, whereas choosing gamma too small (gamma &lt;&lt; 1/8) performs excessive inner steps once the inner convergence slows down. sarah: a novel method for machine learning problems using stochastic recursive gradient sarah: a novel method for machine learning problems using stochastic recursive gradient (arxiv abstract) sarah: a novel method for machine learning problems using stochastic recursive gradient (crossref metadata) lam m. nguyen jie liu katya scheinberg martin takac lam m. nguyen jie liu katya scheinberg martin takac lam m. nguyen jie liu katya scheinberg martin takac">
+        <td>
+          <a href="curated/SARAHStochasticRecursiveGradientForFiniteSumOptimization.html" style="font-weight: 600; font-size: 1rem;">SARAH Stochastic Recursive Gradient for Finite-Sum Optimization</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> StochAstic Recursive grAdient algoritHm (SARAH), SARAH and SARAH+ Recursive Variance-Reduced Gradient Method…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            SARAH Stochastic Recursive Gradient for Finite-Sum Optimization is a variance-reduced first-order stochastic optimization algorithm and prac…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:SARAHStochasticRecursiveGradientForFiniteSumOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
