@@ -1,0 +1,446 @@
+# Scientific author self-review of Group Restricted Eigenvalue Oracle Inequalities and Multi-Task Group Lasso Minimax Optimality
+
+- Review: 20261019T043100Z-group-restricted-eigenvalue-multi-task-group-lasso
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T04:30:00Z
+- Finished UTC: 2026-10-19T04:31:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Group Restricted Eigenvalue Oracle Inequalities and Multi-Task Group Lasso Minimax Optimality as a distinct DRAFT mathematical_method with LassoRegression and MultiTaskLearning mappings. All three claims across Lounici, Pontil, van de Geer, &amp; Tsybakov (2011, Ann. Statist. 39(4):2164-2204, arXiv:1007.1771v3) are supported with explicit intermediate-T logarithmic gap, block-coherence, and primary-source typographical limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base c79180b11beaf5bb1ba94114e48df6b5fe46bc51.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality | data/curated/GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality.yaml | maintained | Group Restricted Eigenvalue Oracle Inequalities and Multi-Task Group Lasso Minimax Optimality |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality | Validated 662 curated concept record(s). |
+| aimech seed --check | passed | True | AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality | Validated history sidecar files. |
+| python3 group-restricted-eigenvalue-multi-task-group-lasso-boundaries.py | passed | True | AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality | {<br>  "concept": "AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality",<br>  "source": "Lounici, Pontil, van de Geer, &amp; Tsybakov (2011), Ann. Statist. 39(4):2164-2204",<br>  "multitask_and_kkt": {<br>    "tasks_grid": [<br>      1,<br>      4,<br>      16<br>    ],<br>    "kkt_max_violation": 3e-12,<br>    "lemma31_max_ratio": 0.788078,<br>    "gl_per_task_l2_errors": [<br>      0.170883,<br>      0.075674,<br>      0.024521<br>    ],<br>    "lasso_per_task_l2_errors": [<br>      0.160181,<br>      0.332146,<br>      0.260801<br>    ],<br>    "theoretical_gl_rates": [<br>      0.045942,<br>      0.013829,<br>      0.005801<br>    ],<br>    "theoretical_lasso_rates": [<br>      0.042817,<br>      0.053648,<br>      0.064478<br>    ]<br>  },<br>  "block_coherence_and_support_recovery": {<br>    "block_coherence_theta": 0.0,<br>    "coherence_threshold_1_over_7s": 0.071429,<br>    "a0_constant": 1.5,<br>    "max_group_l2_error": 0.099363,<br>    "theorem51_bound": 0.135,<br>    "recovered_support": [<br>      0,<br>      1<br>    ]<br>  },<br>  "lemma91_maximal_moment_inequality": {<br>    "m=1": {<br>      "lhs": 10.3011,<br>      "rhs": 32.914,<br>      "ratio_lhs_over_rhs": 0.312969<br>    },<br>    "m=2": {<br>      "lhs": 111.7663,<br>      "rhs": 1402.335,<br>      "ratio_lhs_over_rhs": 0.0797<br>    },<br>    "m=4": {<br>      "lhs": 15236.478,<br>      "rhs": 4200729.3352,<br>      "ratio_lhs_over_rhs": 0.003627<br>    }<br>  },<br>  "all_assertions_passed": true<br>} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality.
+
+Group Restricted Eigenvalue Oracle Inequalities and Multi-Task Group Lasso Minimax Optimality is a distinct mathematical method establishing non-asymptotic group sparsity oracle bounds and multi-task minimax rates.
+
+Resolved against all 442 pinned AIO concepts and 661 maintained AIMech concepts. Distinct from &#96;AIMech:GroupLassoBlockCoordinateDescent&#96; (Yuan &amp; Lin 2006 / Meier, van de Geer, &amp; Buhlmann 2008, which formulates the Group Lasso objective and block coordinate descent optimization without the Group Restricted Eigenvalue $RE(s, \mathbf{c})$ condition, multi-task $O(\frac{s}{N}(1 + \frac{\log M}{T}))$ minimax lower bounds, block-coherence $\ell_{2,\infty}$ group support recovery, or random-design $\kappa_{\mathrm{MT}}(s)$ transfer), distinct from &#96;AIMech:BickelRitovTsybakovRestrictedEigenvalueConditionAndLassoDantzigOracleBounds&#96; (Bickel, Ritov, &amp; Tsybakov 2009, which defines the coordinate-wise $\ell_1$ Restricted Eigenvalue condition for standard Lasso and Dantzig selector rather than the block-$\ell_{2,1}$ cone $\sum_{j \in J_0^c} c_j\&#124;\Delta^j\&#124;_2 \le 3\sum_{j \in J_0} c_j\&#124;\Delta^j\&#124;_2$ and multi-task chi-square concentration $\sqrt{1 + \frac{A}{\sqrt{T}}\log M}$), distinct from &#96;AIMech:SparseAdditiveModelsAndRavikumarLiuLaffertyWassermanSpAMBackfitting&#96; (Ravikumar et al. 2009, nonparametric additive component backfitting), and distinct from &#96;AIMech:DirtyModelMultiTaskLearningWithSharedAndTaskSpecificSparsity&#96; (Jalali et al. 2010, $\ell_{1,\infty} + \ell_{1,1}$ superposition decomposition under mutual incoherence).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality.
+
+Mappings to AIO:LassoRegression (broad_match) and AIO:MultiTaskLearning (related_match) accurately situate the framework within the pinned AIO hierarchy.
+
+Verified exact target existence in data/aio/.
+
+### Claim 1: Group RE cone oracle inequalities and multi-task chi-square gain
+
+evidence: supported. Targets: AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality.
+
+Claim 1 is directly supported by Sections 2-4 (Proposition 2.1, Assumption 3.1, Lemma 3.1, Theorem 3.1, Corollary 4.1) of arXiv:1007.1771v3.
+
+Verified KKT residuals to 3e-12, cone ratio 0.788078 &lt;= 3.0, and 10.6x multi-task improvement over separate LASSO at T=16.
+
+### Claim 2: Block-coherence l_{2,inf} bound and exact group support recovery
+
+evidence: supported. Targets: AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality.
+
+Claim 2 is directly supported by Section 5 (Assumption 5.1, Theorem 5.1, Corollary 5.1) of arXiv:1007.1771v3.
+
+Verified max group l_2 error 0.099363 &lt;= 0.135 and exact support recovery [0, 1].
+
+### Claim 3: Minimax lower bound, random-design RE transfer, and maximal moment bound
+
+evidence: supported. Targets: AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality.
+
+Claim 3 is directly supported by Sections 6, 8, and 9 (Theorems 6.1, 8.1, 9.1, Lemma 9.1) of arXiv:1007.1771v3.
+
+Verified Lemma 9.1 maximal moment inequality across m in {1, 2, 4}.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality.yaml and verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T043000Z-group-restricted-eigenvalue-multi-task-group-lasso.json | supports | No normalized identity match for Group Restricted Eigenvalue Oracle Inequalities and Multi-Task Group Lasso Minimax Optimality across 442 pinned AIO records and 661 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected LassoRegression and MultiTaskLearning in the pinned AIO snapshot (2026-07-22). Provides accurate broad_match and related_match context. |
+| calculation | research/discovery/group-restricted-eigenvalue-multi-task-group-lasso-boundaries.py | supports | Verified in pure Python across three regimes: (1) across multi-task dimensions T in {1, 4, 16} (N=24, M=12, s=2), the Group Lasso satisfies Proposition 2.1 KKT conditions to 3e-12, obeys Lemma 3.1's block-l_{2,1} cone bound &#124;&#124;Delta_{S^c}&#124;&#124;_{2,1} &lt;= 3 &#124;&#124;Delta_S&#124;&#124;_{2,1} (max ratio 0.788078 &lt;= 3.0), and reduces per-task l_2 error monotonically from 0.170883 (T=1) to 0.075674 (T=4) and 0.024521 (T=16), outperforming separate-task LASSO by 10.6x at T=16 (0.024521 vs 0.260801); (2) under Assumption 5.1 block coherence theta = 0.0 &lt;= 1/(7s) = 0.071429 (a_0 = 1.5), the uniform group-l_{2,inf} error 0.099363 is strictly below Theorem 5.1's bound a_0*lambda*sqrt(T) = 0.135, and hard thresholding at a_0*lambda*sqrt(T) recovers the exact group support [0, 1]; and (3) Lemma 9.1's subgaussian maximal moment bound holds across m in {1, 2, 4} (ratios 0.312969, 0.0797, 0.003627 &lt;= 1.0). |
+| lpvgt2011-gl-pdf | https://export.arxiv.org/pdf/1007.1771.pdf; Pages 1-37 (Ann. Statist. 39(4):2164-2204), Sections 1-9 | supports | All 37 pages of Lounici, Pontil, van de Geer, &amp; Tsybakov (2011, Ann. Statist. 39(4):2164-2204, arXiv:1007.1771v3) read and verified. |
+| lpvgt2011-gl-abs | https://arxiv.org/abs/1007.1771; arXiv:1007.1771 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| lpvgt2011-gl-crossref | https://api.crossref.org/works/10.1214/11-AOS896; Ann. Statist. 39(4):2164-2204 Crossref metadata | supports | The Annals of Statistics (2011) Crossref metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Group Restricted Eigenvalue Oracle Inequalities and Multi-Task Group Lasso Minimax Optimality record, yielding 662 native and 442 unchanged generated records.
+- All 37 PDF pages of arXiv:1007.1771v3 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T043100Z-group-restricted-eigenvalue-multi-task-group-lasso
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Group Restricted Eigenvalue Oracle Inequalities
+  and Multi-Task Group Lasso Minimax Optimality
+started_at: '2026-10-19T04:30:00Z'
+finished_at: '2026-10-19T04:31:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from GroupLassoBlockCoordinateDescent,
+    BickelRitovTsybakovRestrictedEigenvalueConditionAndLassoDantzigOracleBounds, and
+    AIO:LassoRegression, verified Proposition 2.1 KKT conditions, Lemma 3.1 block-l_{2,1}
+    cone bounds, Corollary 4.1 multi-task scaling, Theorem 5.1 block-coherence support
+    recovery, and Lemma 9.1 maximal moment inequalities in pure Python, and identified
+    eight primary-source typographical issues in Lounici et al. (2011, arXiv:1007.1771v3).
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Group Restricted Eigenvalue Oracle Inequalities and Multi-Task Group
+  Lasso Minimax Optimality as a distinct DRAFT mathematical_method with LassoRegression
+  and MultiTaskLearning mappings. All three claims across Lounici, Pontil, van de
+  Geer, & Tsybakov (2011, Ann. Statist. 39(4):2164-2204, arXiv:1007.1771v3) are supported
+  with explicit intermediate-T logarithmic gap, block-coherence, and primary-source
+  typographical limitations.
+source:
+  git_revision: c79180b11beaf5bb1ba94114e48df6b5fe46bc51
+  state: working_tree
+  inputs:
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/curated/GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality.yaml
+    sha256: 0f27a22f2677f6a411998552e9e10746885ebe400d8f0bda566143c6cd1af836
+    role: target
+  - path: research/discovery/20261019T043000Z-group-restricted-eigenvalue-multi-task-group-lasso.json
+    sha256: 0a9b5df60f0b111bdf4da9a8828680aa9342e7eefc52f20120df9c61bb962b0b
+    role: context
+  - path: research/discovery/group-restricted-eigenvalue-multi-task-group-lasso-boundaries.py
+    sha256: 4866ba0023c3a2e6b26d40ba50b80350f11856bf6ccda1c66a0b5c1e1d036d9c
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  path: data/curated/GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality.yaml
+  label: Group Restricted Eigenvalue Oracle Inequalities and Multi-Task Group Lasso
+    Minimax Optimality
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 662 curated concept record(s).
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 group-restricted-eigenvalue-multi-task-group-lasso-boundaries.py
+  command: python3 research/discovery/group-restricted-eigenvalue-multi-task-group-lasso-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept\": \"AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality\"\
+    ,\n  \"source\": \"Lounici, Pontil, van de Geer, & Tsybakov (2011), Ann. Statist.\
+    \ 39(4):2164-2204\",\n  \"multitask_and_kkt\": {\n    \"tasks_grid\": [\n    \
+    \  1,\n      4,\n      16\n    ],\n    \"kkt_max_violation\": 3e-12,\n    \"lemma31_max_ratio\"\
+    : 0.788078,\n    \"gl_per_task_l2_errors\": [\n      0.170883,\n      0.075674,\n\
+    \      0.024521\n    ],\n    \"lasso_per_task_l2_errors\": [\n      0.160181,\n\
+    \      0.332146,\n      0.260801\n    ],\n    \"theoretical_gl_rates\": [\n  \
+    \    0.045942,\n      0.013829,\n      0.005801\n    ],\n    \"theoretical_lasso_rates\"\
+    : [\n      0.042817,\n      0.053648,\n      0.064478\n    ]\n  },\n  \"block_coherence_and_support_recovery\"\
+    : {\n    \"block_coherence_theta\": 0.0,\n    \"coherence_threshold_1_over_7s\"\
+    : 0.071429,\n    \"a0_constant\": 1.5,\n    \"max_group_l2_error\": 0.099363,\n\
+    \    \"theorem51_bound\": 0.135,\n    \"recovered_support\": [\n      0,\n   \
+    \   1\n    ]\n  },\n  \"lemma91_maximal_moment_inequality\": {\n    \"m=1\": {\n\
+    \      \"lhs\": 10.3011,\n      \"rhs\": 32.914,\n      \"ratio_lhs_over_rhs\"\
+    : 0.312969\n    },\n    \"m=2\": {\n      \"lhs\": 111.7663,\n      \"rhs\": 1402.335,\n\
+    \      \"ratio_lhs_over_rhs\": 0.0797\n    },\n    \"m=4\": {\n      \"lhs\":\
+    \ 15236.478,\n      \"rhs\": 4200729.3352,\n      \"ratio_lhs_over_rhs\": 0.003627\n\
+    \    }\n  },\n  \"all_assertions_passed\": true\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T043000Z-group-restricted-eigenvalue-multi-task-group-lasso.json
+  accessed_at: '2026-10-19T04:30:00Z'
+  support: supports
+  summary: No normalized identity match for Group Restricted Eigenvalue Oracle Inequalities
+    and Multi-Task Group Lasso Minimax Optimality across 442 pinned AIO records and
+    661 maintained IDs, names, aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T04:30:00Z'
+  support: supports
+  summary: Inspected LassoRegression and MultiTaskLearning in the pinned AIO snapshot
+    (2026-07-22). Provides accurate broad_match and related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/group-restricted-eigenvalue-multi-task-group-lasso-boundaries.py
+  accessed_at: '2026-10-19T04:30:00Z'
+  snapshot_sha256: 4866ba0023c3a2e6b26d40ba50b80350f11856bf6ccda1c66a0b5c1e1d036d9c
+  support: supports
+  summary: 'Verified in pure Python across three regimes: (1) across multi-task dimensions
+    T in {1, 4, 16} (N=24, M=12, s=2), the Group Lasso satisfies Proposition 2.1 KKT
+    conditions to 3e-12, obeys Lemma 3.1''s block-l_{2,1} cone bound ||Delta_{S^c}||_{2,1}
+    <= 3 ||Delta_S||_{2,1} (max ratio 0.788078 <= 3.0), and reduces per-task l_2 error
+    monotonically from 0.170883 (T=1) to 0.075674 (T=4) and 0.024521 (T=16), outperforming
+    separate-task LASSO by 10.6x at T=16 (0.024521 vs 0.260801); (2) under Assumption
+    5.1 block coherence theta = 0.0 <= 1/(7s) = 0.071429 (a_0 = 1.5), the uniform
+    group-l_{2,inf} error 0.099363 is strictly below Theorem 5.1''s bound a_0*lambda*sqrt(T)
+    = 0.135, and hard thresholding at a_0*lambda*sqrt(T) recovers the exact group
+    support [0, 1]; and (3) Lemma 9.1''s subgaussian maximal moment bound holds across
+    m in {1, 2, 4} (ratios 0.312969, 0.0797, 0.003627 <= 1.0).'
+- evidence_id: lpvgt2011-gl-pdf
+  kind: primary_source
+  reference: https://export.arxiv.org/pdf/1007.1771.pdf
+  locator: Pages 1-37 (Ann. Statist. 39(4):2164-2204), Sections 1-9
+  accessed_at: '2026-10-19T04:30:00Z'
+  snapshot_sha256: 406b385d52c301f62d762167b09821017ada5bd0196b83726dc49f9352e3dcf7
+  support: supports
+  summary: All 37 pages of Lounici, Pontil, van de Geer, & Tsybakov (2011, Ann. Statist.
+    39(4):2164-2204, arXiv:1007.1771v3) read and verified.
+- evidence_id: lpvgt2011-gl-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1007.1771
+  locator: arXiv:1007.1771 abstract
+  accessed_at: '2026-10-19T04:30:00Z'
+  snapshot_sha256: e8639e5e64beaf5885c277cb94bef353db0b21b495d6bd8984a216953026ac65
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: lpvgt2011-gl-crossref
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/11-AOS896
+  locator: Ann. Statist. 39(4):2164-2204 Crossref metadata
+  accessed_at: '2026-10-19T04:30:00Z'
+  snapshot_sha256: bc3ba9741c4fbfc5d7c0ffc96e2929ed6960a73e6da7449e94d640b9dd4a0046
+  support: supports
+  summary: The Annals of Statistics (2011) Crossref metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  evidence_ids:
+  - identity
+  - lpvgt2011-gl-pdf
+  - lpvgt2011-gl-abs
+  - lpvgt2011-gl-crossref
+  summary: Group Restricted Eigenvalue Oracle Inequalities and Multi-Task Group Lasso
+    Minimax Optimality is a distinct mathematical method establishing non-asymptotic
+    group sparsity oracle bounds and multi-task minimax rates.
+  details: Resolved against all 442 pinned AIO concepts and 661 maintained AIMech
+    concepts. Distinct from `AIMech:GroupLassoBlockCoordinateDescent` (Yuan & Lin
+    2006 / Meier, van de Geer, & Buhlmann 2008, which formulates the Group Lasso objective
+    and block coordinate descent optimization without the Group Restricted Eigenvalue
+    $RE(s, \mathbf{c})$ condition, multi-task $O(\frac{s}{N}(1 + \frac{\log M}{T}))$
+    minimax lower bounds, block-coherence $\ell_{2,\infty}$ group support recovery,
+    or random-design $\kappa_{\mathrm{MT}}(s)$ transfer), distinct from `AIMech:BickelRitovTsybakovRestrictedEigenvalueConditionAndLassoDantzigOracleBounds`
+    (Bickel, Ritov, & Tsybakov 2009, which defines the coordinate-wise $\ell_1$ Restricted
+    Eigenvalue condition for standard Lasso and Dantzig selector rather than the block-$\ell_{2,1}$
+    cone $\sum_{j \in J_0^c} c_j\|\Delta^j\|_2 \le 3\sum_{j \in J_0} c_j\|\Delta^j\|_2$
+    and multi-task chi-square concentration $\sqrt{1 + \frac{A}{\sqrt{T}}\log M}$),
+    distinct from `AIMech:SparseAdditiveModelsAndRavikumarLiuLaffertyWassermanSpAMBackfitting`
+    (Ravikumar et al. 2009, nonparametric additive component backfitting), and distinct
+    from `AIMech:DirtyModelMultiTaskLearningWithSharedAndTaskSpecificSparsity` (Jalali
+    et al. 2010, $\ell_{1,\infty} + \ell_{1,1}$ superposition decomposition under
+    mutual incoherence).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  evidence_ids:
+  - mapping
+  - lpvgt2011-gl-pdf
+  summary: Mappings to AIO:LassoRegression (broad_match) and AIO:MultiTaskLearning
+    (related_match) accurately situate the framework within the pinned AIO hierarchy.
+  details: Verified exact target existence in data/aio/.
+- assessment_id: claim-1-verification
+  area: evidence
+  topic: 'Claim 1: Group RE cone oracle inequalities and multi-task chi-square gain'
+  outcome: supported
+  target_ids:
+  - AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  evidence_ids:
+  - lpvgt2011-gl-pdf
+  - calculation
+  summary: Claim 1 is directly supported by Sections 2-4 (Proposition 2.1, Assumption
+    3.1, Lemma 3.1, Theorem 3.1, Corollary 4.1) of arXiv:1007.1771v3.
+  details: Verified KKT residuals to 3e-12, cone ratio 0.788078 <= 3.0, and 10.6x
+    multi-task improvement over separate LASSO at T=16.
+- assessment_id: claim-2-verification
+  area: evidence
+  topic: 'Claim 2: Block-coherence l_{2,inf} bound and exact group support recovery'
+  outcome: supported
+  target_ids:
+  - AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  evidence_ids:
+  - lpvgt2011-gl-pdf
+  - calculation
+  summary: Claim 2 is directly supported by Section 5 (Assumption 5.1, Theorem 5.1,
+    Corollary 5.1) of arXiv:1007.1771v3.
+  details: Verified max group l_2 error 0.099363 <= 0.135 and exact support recovery
+    [0, 1].
+- assessment_id: claim-3-verification
+  area: evidence
+  topic: 'Claim 3: Minimax lower bound, random-design RE transfer, and maximal moment
+    bound'
+  outcome: supported
+  target_ids:
+  - AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  evidence_ids:
+  - lpvgt2011-gl-pdf
+  - calculation
+  summary: Claim 3 is directly supported by Sections 6, 8, and 9 (Theorems 6.1, 8.1,
+    9.1, Lemma 9.1) of arXiv:1007.1771v3.
+  details: Verified Lemma 9.1 maximal moment inequality across m in {1, 2, 4}.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+  evidence_ids:
+  - identity
+  - mapping
+  - lpvgt2011-gl-pdf
+  - lpvgt2011-gl-abs
+  - lpvgt2011-gl-crossref
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Read every field of GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality.yaml
+    and verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Group Restricted Eigenvalue Oracle Inequalities and Multi-Task Group
+  Lasso Minimax Optimality record, yielding 662 native and 442 unchanged generated
+  records.
+- All 37 PDF pages of arXiv:1007.1771v3 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- group-lasso
+- multi-task-learning
+- restricted-eigenvalue
+- minimax-optimality
+- self-review
+- discovery-ongoing
+```

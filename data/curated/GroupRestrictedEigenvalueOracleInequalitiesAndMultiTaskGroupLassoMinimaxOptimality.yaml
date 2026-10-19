@@ -1,0 +1,107 @@
+id: AIMech:GroupRestrictedEigenvalueOracleInequalitiesAndMultiTaskGroupLassoMinimaxOptimality
+name: Group Restricted Eigenvalue Oracle Inequalities and Multi-Task Group Lasso Minimax Optimality
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: 'A non-asymptotic oracle inequality, group support recovery, and minimax optimality framework for Group Lasso and multi-task sparse linear learning (introduced by Karim Lounici, Massimiliano Pontil, Sara van de Geer, and Alexandre B. Tsybakov in 2011) that analyzes the block-$\ell_{2,1}$-penalized estimator $\hat{\beta} = \arg\min_{\beta \in \mathbb{R}^p} \left\{\frac{1}{n}\|Y - X\beta\|_n^2 + \sum_{j=1}^M \lambda_j \|\beta^j\|_2\right\}$ across $M$ coordinate groups $G_1, \dots, G_M$ of sizes $d_1, \dots, d_M$ under a Group Restricted Eigenvalue condition $RE(s, \mathbf{c})$: $\kappa(s, \mathbf{c}) = \min_{J_0 \subseteq \{1,\dots,M\}, |J_0| \le s} \min_{\Delta \ne 0,\, \sum_{j \in J_0^c} c_j\|\Delta^j\|_2 \le 3\sum_{j \in J_0} c_j\|\Delta^j\|_2} \frac{\|X\Delta\|_n}{\|\Delta^{J_0}\|_2} > 0$. By Theorem 3.1, when the group weights $\lambda_j = 2 c_j \lambda$ dominate the empirical group score norms $\frac{2}{n}\|(X^\top \varepsilon)^j\|_2 \le c_j \lambda$, the Group Lasso satisfies simultaneous prediction and $\ell_{2,1}$ estimation bounds $\frac{1}{n}\|X(\hat{\beta} - \beta^*)\|_n^2 \le \frac{16\lambda^2}{\kappa^2(s, \mathbf{c})} \sum_{j \in S(\beta^*)} c_j^2$ and $\sum_{j=1}^M c_j\|\hat{\beta}^j - \beta^{*j}\|_2 \le \frac{16\lambda}{\kappa^2(s, \mathbf{c})} \sum_{j \in S(\beta^*)} c_j^2$, as well as $2s$-sparse group selection via hard thresholding (Theorem 3.2). In the $T$-task regression setting ($d_j = T$, $n = N T$) with equal group weights $c_j = 1$ and threshold $\lambda = \frac{2\sigma}{\sqrt{NT}}\sqrt{1 + \frac{A}{\sqrt{T}}\log M}$ ($A > \sqrt{8}$), Corollary 4.1 proves per-task prediction and $\ell_{2,1}$ rates $\frac{1}{NT}\|X(\hat{\beta} - \beta^*)\|_{\mathrm{Fr}}^2 \lesssim \frac{\sigma^2 s}{N}\left(1 + \frac{\log M}{\sqrt{T}}\right)$ that match the non-asymptotic minimax lower bound $\frac{\sigma^2 s}{N}\left(1 + \frac{\log(eM/s)}{T}\right)$ of Theorem 6.1 up to logarithmic constants and strictly dominate separate-task LASSO rates $\frac{\sigma^2 s \log(MT)}{N}$ whenever $T$ grows.'
+identity_notes: Resolved against all 442 pinned AIO concepts and 661 maintained AIMech concepts. Distinct from `AIMech:GroupLassoBlockCoordinateDescent` (Yuan & Lin 2006 / Meier, van de Geer, & Buhlmann 2008, which formulates the Group Lasso objective and block coordinate descent optimization without the Group Restricted Eigenvalue $RE(s, \mathbf{c})$ condition, multi-task $O(\frac{s}{N}(1 + \frac{\log M}{T}))$ minimax lower bounds, block-coherence $\ell_{2,\infty}$ group support recovery, or random-design $\kappa_{\mathrm{MT}}(s)$ transfer), distinct from `AIMech:BickelRitovTsybakovRestrictedEigenvalueConditionAndLassoDantzigOracleBounds` (Bickel, Ritov, & Tsybakov 2009, which defines the coordinate-wise $\ell_1$ Restricted Eigenvalue condition for standard Lasso and Dantzig selector rather than the block-$\ell_{2,1}$ cone $\sum_{j \in J_0^c} c_j\|\Delta^j\|_2 \le 3\sum_{j \in J_0} c_j\|\Delta^j\|_2$ and multi-task chi-square concentration $\sqrt{1 + \frac{A}{\sqrt{T}}\log M}$), distinct from `AIMech:SparseAdditiveModelsAndRavikumarLiuLaffertyWassermanSpAMBackfitting` (Ravikumar et al. 2009, nonparametric additive component backfitting), and distinct from `AIMech:DirtyModelMultiTaskLearningWithSharedAndTaskSpecificSparsity` (Jalali et al. 2010, $\ell_{1,\infty} + \ell_{1,1}$ superposition decomposition under mutual incoherence).
+aliases:
+- Group Restricted Eigenvalue Condition RE(s, c)
+- Multi-Task Group Lasso Oracle Inequalities and Minimax Rate
+- Lounici-Pontil-van de Geer-Tsybakov Group Lasso Theory
+- Block-Coherence Group Lasso Support Recovery
+definition_evidence:
+- source_id: lpvgt2011-gl-pdf
+  locator: Section 2, pp. 5-8, Equations (2.1)-(2.5); Section 3, pp. 8-14, Assumption 3.1, Lemma 3.1, Theorems 3.1-3.2; Section 4, pp. 14-18, Assumption 4.1, Corollary 4.1; Section 5, pp. 18-21, Assumption 5.1, Theorem 5.1, Corollary 5.1; Section 6, pp. 21-24, Theorem 6.1; Section 7, pp. 24-27, Theorem 7.1; Section 8, pp. 27-31, Theorem 8.1; Section 9, pp. 31-35, Lemma 9.1, Theorem 9.1
+  relation: supports
+- source_id: lpvgt2011-gl-abs
+  locator: arXiv:1007.1771 abstract
+  relation: supports
+- source_id: lpvgt2011-gl-crossref
+  locator: DOI:10.1214/11-AOS896 Crossref metadata
+  relation: supports
+claims:
+- claim_id: group-re-cone-oracle-inequalities-and-multi-task-chi-square-gain
+  kind: mechanism
+  statement: By Lemma 3.1 (pp. 9-10), whenever the empirical group noise scores satisfy $\frac{2}{n}\|(X^\top W)^j\|_2 \le \lambda_j = 2c_j\lambda$ for all $j = 1, \dots, M$, the Group Lasso error $\Delta = \hat{\beta} - \beta^*$ lies in the weighted block-$\ell_{2,1}$ cone $\sum_{j \in S^c} c_j\|\Delta^j\|_2 \le 3\sum_{j \in S} c_j\|\Delta^j\|_2$ ($S = S(\beta^*)$, $|S| \le s$) and satisfies the KKT optimality conditions $\frac{2}{n}(X^\top(X\hat{\beta} - Y))^j + \lambda_j \frac{\hat{\beta}^j}{\|\hat{\beta}^j\|_2} = 0$ on $\hat{\beta}^j \ne 0$ and $\frac{2}{n}\|(X^\top(X\hat{\beta} - Y))^j\|_2 \le \lambda_j$ on $\hat{\beta}^j = 0$ (Proposition 2.1, p. 6). Under Assumption 3.1 ($RE(s, \mathbf{c})$ with constant $\kappa(s, \mathbf{c}) > 0$), Theorem 3.1 (p. 11) and Corollary 4.1 (p. 15) establish that for $T$-task regression ($n = NT$) with Gaussian noise and threshold $\lambda = \frac{2\sigma}{\sqrt{NT}}\sqrt{1 + \frac{A\log M}{\sqrt{T}}}$ ($A > \sqrt{8}$), with probability at least $1 - 2M^{1 - A^2/8}$, $\frac{1}{NT}\|X(\hat{\beta} - \beta^*)\|_{\mathrm{Fr}}^2 \le \frac{64\sigma^2 s}{\kappa_{\mathrm{MT}}^2(s)\,N}\left(1 + \frac{A\log M}{\sqrt{T}}\right)$ and $\sum_{j=1}^M \frac{1}{\sqrt{T}}\|\hat{\beta}^j - \beta^{*j}\|_2 \le \frac{32\sigma s}{\kappa_{\mathrm{MT}}^2(s)\sqrt{N}}\sqrt{1 + \frac{A\log M}{\sqrt{T}}}$, eliminating the $\log M$ penalty as the number of tasks $T$ grows relative to $(\log M)^2$.
+  evidence:
+  - source_id: lpvgt2011-gl-pdf
+    locator: Section 2, p. 6, Proposition 2.1; Section 3, pp. 8-14, Assumption 3.1, Lemma 3.1, Theorems 3.1-3.2; Section 4, pp. 14-18, Assumption 4.1, Corollary 4.1
+    relation: supports
+- claim_id: block-coherence-l2-infinity-bound-and-exact-group-support-recovery
+  kind: mechanism
+  statement: 'Under the block diagonal normalization $\frac{1}{N} (X_t^j)^\top X_t^j = I_{d_j}$ and the block-coherence condition $\theta := \max_{j \ne k} \frac{1}{N} \|(X_t^j)^\top X_t^k\|_{2 \to 2} \le \frac{1}{7s}$ (Assumption 5.1, p. 18), Assumption $RE(s, 1)$ holds automatically with $\kappa_{\mathrm{MT}}(s) = \sqrt{1 - 7s\theta}$, and Theorem 5.1 (pp. 19-20) proves the uniform group-$\ell_{2,\infty}$ error bound $\max_{1 \le j \le M} \frac{1}{\sqrt{T}}\|\hat{\beta}^j - \beta^{*j}\|_2 \le a_0 \lambda \sqrt{T}$ where $a_0 = \frac{3}{2} + \frac{16 s \theta}{1 - 7s\theta}$. Consequently, if the minimum nonzero group energy satisfies $\min_{j \in S(\beta^*)} \frac{1}{\sqrt{T}}\|\beta^{*j}\|_2 > 2 a_0 \lambda \sqrt{T}$, the hard-thresholded Group Lasso estimator $\tilde{S} = \left\{j : \frac{1}{\sqrt{T}}\|\hat{\beta}^j\|_2 > a_0 \lambda \sqrt{T}\right\}$ recovers the exact sparsity pattern $\tilde{S} = S(\beta^*)$ with probability at least $1 - 2M^{1 - A^2/8}$ (Theorem 5.1 and Corollary 5.1, pp. 19-21).'
+  evidence:
+  - source_id: lpvgt2011-gl-pdf
+    locator: Section 5, pp. 18-21, Assumption 5.1, Theorem 5.1, Corollary 5.1, Equations (5.1)-(5.3)
+    relation: supports
+- claim_id: multi-task-minimax-lower-bound-random-design-re-transfer-and-subgaussian-maximal-inequality
+  kind: mechanism
+  statement: 'By Theorem 6.1 (pp. 21-24), over the $s$-group-sparse multi-task class $B_0(s) = \{\beta : |S(\beta)| \le s\}$, any estimator $\tilde{\beta}$ satisfies the non-asymptotic minimax lower bound $\inf_{\tilde{\beta}} \sup_{\beta^* \in B_0(s)} \mathbb{P}\left(\frac{1}{NT}\|X(\tilde{\beta} - \beta^*)\|_{\mathrm{Fr}}^2 \ge C\frac{\sigma^2 s}{N}\left(1 + \frac{\log(eM/s)}{T}\right)\right) \ge \frac{1}{2} - \frac{\log 2}{\log(eM/s)}$ (and analogously for $\frac{1}{T}\|\tilde{\beta} - \beta^*\|_{\mathrm{Fr}}^2$). Furthermore, Theorem 8.1 (pp. 28-31) proves that for i.i.d. isotropic subgaussian random designs whose population covariance $\Sigma$ satisfies $RE(2s, 3)$ with constant $\kappa(2s) > 0$, the empirical design $X$ satisfies $RE(s, 1)$ with $\kappa_{\mathrm{MT}}(s) \ge \kappa(2s)/\sqrt{2}$ with high probability once $N \gtrsim s^2 \log M$, and Lemma 9.1 (pp. 31-32) establishes the maximal moment inequality $\left(\mathbb{E}\max_{1 \le j \le M} \|\xi_j\|_2^{2m}\right)^{1/(2m)} \le \sigma\sqrt{T + 2\sqrt{T}\,\tilde{L}_{M,m} + 2\tilde{L}_{M,m}}$ with $\tilde{L}_{M,m} = \log M + m\log(2m) + 3$ for subgaussian noise.'
+  evidence:
+  - source_id: lpvgt2011-gl-pdf
+    locator: Section 6, pp. 21-24, Theorem 6.1; Section 8, pp. 27-31, Theorem 8.1; Section 9, pp. 31-35, Lemma 9.1, Theorem 9.1
+    relation: supports
+evidence_sources:
+- source_id: lpvgt2011-gl-pdf
+  title: Oracle inequalities and optimal inference under group sparsity
+  authors:
+  - Karim Lounici
+  - Massimiliano Pontil
+  - Sara van de Geer
+  - Alexandre B. Tsybakov
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1007.1771.pdf
+  persistent_id: https://doi.org/10.1214/11-AOS896
+  version: arXiv:1007.1771v3 full-text PDF (The Annals of Statistics 39(4):2164-2204, 2011; 37 pages, 396421 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T04:30:00Z'
+  sha256: 406b385d52c301f62d762167b09821017ada5bd0196b83726dc49f9352e3dcf7
+- source_id: lpvgt2011-gl-abs
+  title: Oracle inequalities and optimal inference under group sparsity
+  authors:
+  - Karim Lounici
+  - Massimiliano Pontil
+  - Sara van de Geer
+  - Alexandre B. Tsybakov
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1007.1771
+  persistent_id: https://arxiv.org/abs/1007.1771
+  version: arXiv:1007.1771 abstract page (6678 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T04:30:00Z'
+  sha256: e8639e5e64beaf5885c277cb94bef353db0b21b495d6bd8984a216953026ac65
+- source_id: lpvgt2011-gl-crossref
+  title: Oracle inequalities and optimal inference under group sparsity
+  authors:
+  - Karim Lounici
+  - Massimiliano Pontil
+  - Sara van de Geer
+  - Alexandre B. Tsybakov
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/11-AOS896
+  persistent_id: https://doi.org/10.1214/11-AOS896
+  version: The Annals of Statistics 39(4):2164-2204 (2011) Crossref metadata (5512 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T04:30:00Z'
+  sha256: bc3ba9741c4fbfc5d7c0ffc96e2929ed6960a73e6da7449e94d640b9dd4a0046
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: broad_match
+  rationale: Generalizes Lasso restricted-eigenvalue oracle inequalities and minimax rates to block-l_{2,1} group-sparse and multi-task linear models.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Establishes non-asymptotic oracle inequalities and minimax lower bounds for group-sparse and multi-task linear regression across T regression tasks.
+limitations:
+- "A subtle logarithmic gap remains between the Corollary 4.1 multi-task Group Lasso upper bound $O\\left(\\frac{\\sigma^2 s}{N}\\left(1 + \\frac{\\log M}{\\sqrt{T}}\\right)\\right)$ (under equal deterministic penalty weights $c_j = 1$) and the Theorem 6.1 minimax lower bound $\\Omega\\left(\\frac{\\sigma^2 s}{N}\\left(1 + \\frac{\\log(eM/s)}{T}\\right)\\right)$ in the intermediate regime $\\log(eM/s) \\le T \\le (\\log M)^2$; closing this $\\sqrt{T}$ vs. $T$ denominator gap requires the larger penalty choice $\\lambda = \\frac{2\\sigma}{\\sqrt{NT}}\\sqrt{1 + \\frac{A\\log M}{T} + \\sqrt{\\frac{2A\\log M}{T}}}$ from the Laurent\u2013Massart chi-square tail bound (Remark 4.1, p. 16)."
+- Exact group support recovery via hard thresholding in Theorem 5.1 requires the stringent block-coherence condition $\theta = \max_{j \ne k} \frac{1}{N}\|(X_t^j)^\top X_t^k\|_{2 \to 2} \le \frac{1}{7s}$ (scaling inversely with $s$) and a beta-min condition $\min_{j \in S(\beta^*)} \frac{1}{\sqrt{T}}\|\beta^{*j}\|_2 > 2a_0\lambda\sqrt{T}$, whereas prediction and $\ell_{2,1}$ estimation require only $RE(s, \mathbf{c})$.
+- 'Primary-source typographical audit of `arXiv:1007.1771v3`: (1) Section 2 display above Eq. (2.3) (p. 6) writes ''$\frac{1}{n}\|X\beta - Y\|_n^2 + \sum_{j=1}^M \lambda_j\|\hat{\beta}^j\|_2$'', mixing $\beta$ on the left with $\hat{\beta}^j$ in the penalty; (2) Section 2.1 last sentence (p. 8) duplicates ''have not been been put forward''; (3) Proof of Lemma 3.1 line 15 (p. 10) writes ''$\|\Psi\|_{\mathrm{Fr}}$'' missing the group superscript $j$; (4) Proof of Theorem 3.2 line 3 (p. 14) introduces an unused ''Let $y > 0$ be arbitrary''; (5) Proof of Corollary 5.1 line 1 (p. 20) writes ''$\Delta = \hat{\beta} - \beta$'' instead of ''$\hat{\beta} - \beta^*$''; (6) Theorem 7.1 Eq. (7.4) (p. 25) writes ''$j \in \mathbb{N}_m$'' instead of ''$j \in \mathbb{N}_K$''; (7) Theorem 8.1 last display (p. 28) writes ''$\kappa^2(2s)$'' instead of ''$\kappa_{\mathrm{MT}}^2(2s)$''; and (8) Proof of Lemma 9.1 second display (p. 32) prints ''$\max_{1\,6\,j\le M}$'' with digit ''6'' for ''$\le$''.'
+curation:
+  created_at: '2026-10-19T04:30:00Z'
+  updated_at: '2026-10-19T04:30:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
