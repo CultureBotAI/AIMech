@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FetchSGD (Count-Sketch Gradient Compression with Server Momentum and Error Accumulation) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FetchSGD (Count-Sketch Gradient Compression with Server Momentum and Error Accumulation)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FetchSGD (Count-Sketch Gradient Compression with Server Momentum and Error Accumulation)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FetchSgdCountSketchGradientCompressionWithServerMomentumAndErrorAccumulation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FetchSGD, FedSketchedSGD, Communication-Efficient Federated Learning with Count Sketching, Stateless Sketched SGD with Server-Side Momentum and Error Feedback
+    </div>
+
+  <div class="detail-desc">
+    A stateless communication-efficient federated optimization algorithm (FetchSGD, Algorithm 1) in which each participating client i in [W] computes a local stochastic gradient g_i^t in R^d and uploads a linear Count Sketch S_i^t = S(g_i^t) (Algorithm 2); by exploiting the exact linearity S(g_1 + g_2) = S(g_1) + S(g_2), the central aggregator combines client sketches S^t = (1/W) sum_{i=1}^W S(g_i^t) = S((1/W) sum_i g_i^t) and maintains both heavy-ball momentum S_u^t = rho S_u^{t-1} + S^t and biased-compression error accumulation S_e^t = eta S_u^t + S_e^{t-1} directly inside server-side Count Sketches before extracting a k-sparse model update Delta^t = Top-k(U(S_e^t)) via median unsketching U, updating S_e^{t+1} = S_e^t - S(Delta^t) and w^{t+1} = w^t - Delta^t.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from client-stateful error-feedback compression methods such as Sparsified SGD with Error Memory (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression), PowerSGD (AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback), and EF21 (AIMech:Ef21MarkovCompressorErrorFeedbackForHeterogeneousNonconvexOptimization), which apply a non-linear biased compressor on each client and therefore must store per-client error accumulation vectors that are never re-introduced when federated clients participate only once, and from multi-step local update methods such as FedAvg and MIME (AIMech:MimeMimickingCentralizedStochasticAlgorithmsInFederatedLearning, which transmit uncompressed full-dimensional parameter vectors).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r409-sketch-linearity-server-momentum-and-error-feedback-commutativity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the Count Sketch compression operator S: R^d -&gt; R^{r x c} is linear (S(g_1 + g_2) = S(g_1) + S(g_2)) and bias is introduced only at the server during Top-k(U(S_e^t)) extraction, carrying out momentum S_u^t = rho S_u^{t-1} + S^t and error accumulation S_e^{t+1} = eta S_u^t + S_e^t - S(Delta^t) inside server-side sketches is mathematically equivalent to maintaining momentum and error feedback before compression across all clients while keeping clients completely stateless and invariant to partitioning N samples across 1 client or N single-sample clients.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r409-primary-pdf">FetchSGD: Communication-Efficient Federated Learning with Sketching</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Algorithm (Algorithm 1), Section 5 Evaluation, and Appendix B.1 (Virtual Sequence Proof), pp. 4-5, 7, 21-22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r409-nonconvex-smooth-convergence-under-heavy-hitter-and-sliding-window-regimes</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For L-smooth nonconvex objectives with bounded stochastic gradient norm G on non-IID client distributions, Theorem 1 proves that under Scenario 1 (tau-heavy hitters in q^t = eta(rho u^{t-1} + g^{t-1}) + e^{t-1}, Assumption 1) FetchSGD with step size eta = (1 - rho)/(2 L sqrt(T)) and O(log(dT/delta)/tau)-byte sketches achieves min_{t in [T]} E||nabla f(w^t)||^2 &lt;= (4 L (f(w^0) - f^*) + G^2)/sqrt(T) + 2(1+tau)^2 G^2 / ((1-tau) tau^2 T), while Theorem 2 proves O(T^{-1/3}) convergence under Scenario 2 ((I, tau)-sliding heavy gradients, Definition 1 and Assumption 2) using sliding-window error accumulation sketches of size Theta(log(dT/delta)/tau^2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r409-primary-pdf">FetchSGD: Communication-Efficient Federated Learning with Sketching</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2 (Assumption 1, Theorem 1, Definition 1, Assumption 2, Theorem 2) &amp; Appendix B.1-B.2, pp. 5-7, 21-27</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r409-heavy-hitter-assumption-and-unsketch-variance-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Dimension-free O(T^{-1/2}) and O(T^{-1/3}) convergence rates in Theorems 1 and 2 rely on the existence of (tau, l_2^2)-heavy hitters along the optimization trajectory (without heavy hitters, worst-case unsketching variance scales as Theta(d), yielding O(d / sqrt(T)) in Appendix B.3), and practical deployment uses momentum factor masking and zeroing of extracted coordinates in S_e^t to stabilize ReLU networks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r409-primary-pdf">FetchSGD: Communication-Efficient Federated Learning with Sketching</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2, Section 5 Evaluation, and Appendix B.3, pp. 5-7, 27</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r409-non-iid-cifar10-cifar100-femnist-and-personachat-gpt2-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated on extreme non-IID single-class-per-client CIFAR-10 (10,000 clients, ResNet9) and CIFAR-100 (50,000 clients, 1 image/client), FEMNIST (3,500 clients, 40M-parameter ResNet101), and one-shot PersonaChat language modeling (17,568 clients, 124M-parameter GPT2-small), achieving 3.9x-7.3x overall compression and 10x-100x upload compression while outperforming FedAvg and local Top-k.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r409-primary-pdf">FetchSGD: Communication-Efficient Federated Learning with Sketching</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.3 (Figures 3-5) &amp; Appendix A (Table 1, Figures 6-9), pp. 7-9, 14-20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Dimension-independent convergence rates depend on the presence of l2-heavy hitters in gradients or sliding windows.</li>
+      <li>Requires server-side unsketching over d parameters to identify the top-k update coordinates each round.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FetchSGD is a communication-efficient stateless FederatedLearning optimization algorithm based on linear Count Sketches.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r409-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r409-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v119/rothchild20a.html" target="_blank" rel="noopener">FetchSGD: Communication-Efficient Federated Learning with Sketching</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Daniel Rothchild, Ashwinee Panda, Enayat Ullah, Nikita Ivkin, Ion Stoica, Vladimir Braverman, Joseph Gonzalez, Raman Arora
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v119/rothchild20a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:10527fb7ba1b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r409-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r409-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2007.07682" target="_blank" rel="noopener">FetchSGD: Communication-Efficient Federated Learning with Sketching (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Daniel Rothchild, Ashwinee Panda, Enayat Ullah, Nikita Ivkin, Ion Stoica, Vladimir Braverman, Joseph Gonzalez, Raman Arora
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2007.07682</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f0c942977872…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r409-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r409-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v119/rothchild20a.html" target="_blank" rel="noopener">FetchSGD: Communication-Efficient Federated Learning with Sketching (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Daniel Rothchild, Ashwinee Panda, Enayat Ullah, Nikita Ivkin, Ion Stoica, Vladimir Braverman, Joseph Gonzalez, Raman Arora
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v119/rothchild20a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:77fa1da14aba…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:12:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:12:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FetchSgdCountSketchGradientCompressionWithServerMomentumAndErrorAccumulation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FetchSgdCountSketchGradientCompressionWithServerMomentumAndErrorAccumulation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

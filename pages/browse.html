@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1245</strong> artificial intelligence concepts, comprising <strong>803</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1246</strong> artificial intelligence concepts, comprising <strong>804</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1245)</option>
-        <option value="curated">Curated AIMech (803)</option>
+        <option value="all">All Origins (1246)</option>
+        <option value="curated">Curated AIMech (804)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (501)</option>
+          <option value="algorithm">Algorithms (502)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1245</span> of <span id="totalCount">1245</span>
+      Showing <span id="matchCount">1246</span> of <span id="totalCount">1246</span>
     </div>
   </div>
 </div>
@@ -9931,6 +9931,32 @@
         </td>
         <td>
             <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fetchsgd (count-sketch gradient compression with server momentum and error accumulation) fetchsgdcountsketchgradientcompressionwithservermomentumanderroraccumulation aimech:fetchsgdcountsketchgradientcompressionwithservermomentumanderroraccumulation algorithms algorithm a stateless communication-efficient federated optimization algorithm (fetchsgd, algorithm 1) in which each participating client i in [w] computes a local stochastic gradient g_i^t in r^d and uploads a linear count sketch s_i^t = s(g_i^t) (algorithm 2); by exploiting the exact linearity s(g_1 + g_2) = s(g_1) + s(g_2), the central aggregator combines client sketches s^t = (1/w) sum_{i=1}^w s(g_i^t) = s((1/w) sum_i g_i^t) and maintains both heavy-ball momentum s_u^t = rho s_u^{t-1} + s^t and biased-compression error accumulation s_e^t = eta s_u^t + s_e^{t-1} directly inside server-side count sketches before extracting a k-sparse model update delta^t = top-k(u(s_e^t)) via median unsketching u, updating s_e^{t+1} = s_e^t - s(delta^t) and w^{t+1} = w^t - delta^t. distinct from client-stateful error-feedback compression methods such as sparsified sgd with error memory (aimech:sparsifiedsgdwitherrormemoryforkcontractivegradientcompression), powersgd (aimech:powersgdlowrankgradientcompressionwitherrorfeedback), and ef21 (aimech:ef21markovcompressorerrorfeedbackforheterogeneousnonconvexoptimization), which apply a non-linear biased compressor on each client and therefore must store per-client error accumulation vectors that are never re-introduced when federated clients participate only once, and from multi-step local update methods such as fedavg and mime (aimech:mimemimickingcentralizedstochasticalgorithmsinfederatedlearning, which transmit uncompressed full-dimensional parameter vectors). fetchsgd fedsketchedsgd communication-efficient federated learning with count sketching stateless sketched sgd with server-side momentum and error feedback because the count sketch compression operator s: r^d -&gt; r^{r x c} is linear (s(g_1 + g_2) = s(g_1) + s(g_2)) and bias is introduced only at the server during top-k(u(s_e^t)) extraction, carrying out momentum s_u^t = rho s_u^{t-1} + s^t and error accumulation s_e^{t+1} = eta s_u^t + s_e^t - s(delta^t) inside server-side sketches is mathematically equivalent to maintaining momentum and error feedback before compression across all clients while keeping clients completely stateless and invariant to partitioning n samples across 1 client or n single-sample clients. for l-smooth nonconvex objectives with bounded stochastic gradient norm g on non-iid client distributions, theorem 1 proves that under scenario 1 (tau-heavy hitters in q^t = eta(rho u^{t-1} + g^{t-1}) + e^{t-1}, assumption 1) fetchsgd with step size eta = (1 - rho)/(2 l sqrt(t)) and o(log(dt/delta)/tau)-byte sketches achieves min_{t in [t]} e||nabla f(w^t)||^2 &lt;= (4 l (f(w^0) - f^*) + g^2)/sqrt(t) + 2(1+tau)^2 g^2 / ((1-tau) tau^2 t), while theorem 2 proves o(t^{-1/3}) convergence under scenario 2 ((i, tau)-sliding heavy gradients, definition 1 and assumption 2) using sliding-window error accumulation sketches of size theta(log(dt/delta)/tau^2). dimension-free o(t^{-1/2}) and o(t^{-1/3}) convergence rates in theorems 1 and 2 rely on the existence of (tau, l_2^2)-heavy hitters along the optimization trajectory (without heavy hitters, worst-case unsketching variance scales as theta(d), yielding o(d / sqrt(t)) in appendix b.3), and practical deployment uses momentum factor masking and zeroing of extracted coordinates in s_e^t to stabilize relu networks. evaluated on extreme non-iid single-class-per-client cifar-10 (10,000 clients, resnet9) and cifar-100 (50,000 clients, 1 image/client), femnist (3,500 clients, 40m-parameter resnet101), and one-shot personachat language modeling (17,568 clients, 124m-parameter gpt2-small), achieving 3.9x-7.3x overall compression and 10x-100x upload compression while outperforming fedavg and local top-k. fetchsgd: communication-efficient federated learning with sketching fetchsgd: communication-efficient federated learning with sketching (arxiv abstract) fetchsgd: communication-efficient federated learning with sketching (crossref metadata) daniel rothchild ashwinee panda enayat ullah nikita ivkin ion stoica vladimir braverman joseph gonzalez raman arora daniel rothchild ashwinee panda enayat ullah nikita ivkin ion stoica vladimir braverman joseph gonzalez raman arora daniel rothchild ashwinee panda enayat ullah nikita ivkin ion stoica vladimir braverman joseph gonzalez raman arora">
+        <td>
+          <a href="curated/FetchSgdCountSketchGradientCompressionWithServerMomentumAndErrorAccumulation.html" style="font-weight: 600; font-size: 1rem;">FetchSGD (Count-Sketch Gradient Compression with Server Momentum and Error Accumulation)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FetchSGD, FedSketchedSGD…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A stateless communication-efficient federated optimization algorithm (FetchSGD, Algorithm 1) in which each participating client i in [W] com…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FetchSgdCountSketchGradientCompressionWithServerMomentumAndErrorAccumulation</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
