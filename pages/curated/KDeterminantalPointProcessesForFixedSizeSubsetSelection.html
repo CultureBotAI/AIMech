@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>k-Determinantal Point Processes for Fixed-Size Subset Selection · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>k-Determinantal Point Processes for Fixed-Size Subset Selection</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">k-Determinantal Point Processes for Fixed-Size Subset Selection</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:KDeterminantalPointProcessesForFixedSizeSubsetSelection</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> k-DPP (Fixed-Size Determinantal Point Process), Kulesza-Taskar Cardinality-Conditioned Determinantal Point Process, Elementary Symmetric Polynomial k-DPP Exact Sampler
+    </div>
+
+  <div class="detail-desc">
+    k-Determinantal Point Processes for Fixed-Size Subset Selection (k-DPPs) is a probabilistic diverse subset selection model and exact polynomial-time inference framework introduced by Kulesza and Taskar (2011) that conditions a standard L-ensemble Determinantal Point Process on the event that the selected subset Y subseteq {1, ..., N} has exact fixed cardinality |Y| = k. Given an N x N positive semidefinite similarity and quality kernel L = sum_{n=1}^N lambda_n v_n v_n^T, a k-DPP assigns probability P_L^k(Y) = det(L_Y) / e_k(lambda_1, ..., lambda_N) to every k-subset Y (Equation 5 &amp; Proposition 3.1, Equation 10), where the normalization constant sum_{|Y&#39;|=k} det(L_{Y&#39;}) equals the k-th elementary symmetric polynomial e_k(lambda_1, ..., lambda_N) = sum_{|J|=k} prod_{n in J} lambda_n of the eigenvalues of L. Algorithm 2 computes all intermediate polynomials e_l^n = e_l(lambda_1, ..., lambda_n) in O(N k) time via the Newton-Pascal recurrence e_l^n = e_l^{n-1} + lambda_n e_{l-1}^{n-1} (Equation 12), and Algorithm 1 decomposes P_L^k into a mixture of rank-k elementary projection DPPs (Equation 8), first sampling an eigenvector index subset J of size k in O(N k) time with sequential marginal probabilities lambda_n e_{l-1}^{n-1} / e_l^n and then sampling k items Y from the projection DPP spanned by {v_n}_{n in J} in O(N k^2) time via iterative Gram-Schmidt orthogonal projection.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Volume Sampling for Matrix Approximation and Projective Clustering (`AIMech:VolumeSamplingForMatrixApproximationAndProjectiveClustering`), which analyzes the multiplicative (k+1)! ||A - A_k||_F^2 row-span projection error of simplex-volume sampling for low-rank matrix approximation and projective clustering rather than conditional L-ensemble inference, quality-diversity decompositions L_{ij} = q_i phi_i^T phi_j q_j, and the elementary symmetric polynomial DP sampler of Kulesza and Taskar (2011). Also distinct from standard unconditioned DPPs, which cannot enforce a hard cardinality budget |Y| = k.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any N x N positive semidefinite L-ensemble kernel L = sum_{n=1}^N lambda_n v_n v_n^T, Proposition 3.1 (Equations 8-10) proves that the k-DPP distribution P_L^k(Y) = det(L_Y) / sum_{|Y&#39;|=k} det(L_{Y&#39;}) decomposes as the mixture of rank-k elementary projection DPPs P_L^k(Y) = (1 / e_k(lambda_1, ..., lambda_N)) sum_{|J|=k} (prod_{n in J} lambda_n) P^{V_J}(Y), where the partition function sum_{|Y|=k} det(L_Y) = e_k(lambda_1, ..., lambda_N) is computed exactly in O(N k) operations via the recurrence e_l^n = e_l^{n-1} + lambda_n e_{l-1}^{n-1} with base cases e_0^n = 1 and e_l^0 = 0 for l &gt; 0 (Algorithm 2, Equation 12).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r334-primary-pdf">k-DPPs: Fixed-Size Determinantal Point Processes</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Equations 5-8, p. 1195; Section 3.3, Proposition 3.1, Equations 9-12, and Algorithm 2, pp. 1196-1197</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r334-arxiv-abs">k-DPPs: Fixed-Size Determinantal Point Processes (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract and Section 5 (k-DPPs for fixed-size diverse subset selection)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given the eigendecomposition of L (or of the dual Gram matrix B^T B when L = B B^T with B in R^{D x N} and D &lt;&lt; N), Algorithm 1 draws an exact sample Y ~ P_L^k in O(N k^2) time by first backward-sampling an index subset J subseteq {1, ..., N} of size |J| = k using the conditional inclusion probabilities Pr(n in J | l remaining) = lambda_n e_{l-1}^{n-1} / e_l^n in O(N k) time, and then sequentially selecting k items from the elementary projection DPP P^{V_J} with probabilities (1/|V|) sum_{v in V} (v^T e_i)^2 followed by orthogonal projection of V onto the subspace perpendicular to e_i.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r334-primary-pdf">k-DPPs: Fixed-Size Determinantal Point Processes</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Lemma 2.1 (Equation 4), p. 1194; Section 3.3-3.4, Algorithm 1 and High-Dimensional Dual Representation, pp. 1196-1197</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r334-metadata-cr">k-DPPs: Fixed-Size Determinantal Point Processes (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Foundations and Trends in Machine Learning 5(2-3):123-286 bibliographic record</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Exact k-DPP normalization and sampling require full eigendecomposition of the N x N kernel L (costing O(N^3) time, or O(N D^2) when a rank-D feature factorization L = B B^T is available and k &lt;= D), and unlike standard unconditioned DPPs whose marginal kernels K = L(L+I)^{-1} have closed-form subset marginals det(K_A), k-DPPs are scale-invariant (P_{alpha L}^k = P_L^k) and do not admit a single PSD marginal kernel K representing all higher-order inclusion probabilities.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r334-primary-pdf">k-DPPs: Fixed-Size Determinantal Point Processes</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.4, Comparison with scaled standard DPPs (Equation 11) and eigendecomposition complexity O(N D^2), pp. 1195-1197</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires O(N^3) eigendecomposition of the kernel L (or O(N D^2) via dual Gram matrix when L = B B^T has rank D &gt;= k), and returns zero probability for all k &gt; rank(L).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Selects diverse size-k subsets via spectral projection DPPs and dual feature-space Gram representations.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Used to select k diverse exemplar centroids and image/document summaries with repulsive determinantal geometry.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Provides an exact sequential two-phase Markovian transition sampler for fixed-cardinality determinantal point processes.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r334-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r334-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://icml.cc/Conferences/2011/papers/596_icmlpaper.pdf" target="_blank" rel="noopener">k-DPPs: Fixed-Size Determinantal Point Processes</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alex Kulesza, Ben Taskar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1561/2200000044</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8b90e45f4194…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r334-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r334-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1207.6083" target="_blank" rel="noopener">k-DPPs: Fixed-Size Determinantal Point Processes (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alex Kulesza, Ben Taskar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1207.6083</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8e51743f75e6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r334-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r334-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1561/2200000044" target="_blank" rel="noopener">k-DPPs: Fixed-Size Determinantal Point Processes (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alex Kulesza, Ben Taskar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1561/2200000044</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3cf5818996c6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:57:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:57:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/KDeterminantalPointProcessesForFixedSizeSubsetSelection.yaml" target="_blank" rel="noopener">
+      <code>data/curated/KDeterminantalPointProcessesForFixedSizeSubsetSelection.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
