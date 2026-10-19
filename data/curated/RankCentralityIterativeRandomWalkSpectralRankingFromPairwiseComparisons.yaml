@@ -1,0 +1,99 @@
+id: AIMech:RankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons
+name: Rank Centrality Iterative Random-Walk Spectral Ranking from Pairwise Comparisons
+concept_kind: algorithm
+review_status: DRAFT
+definition: "An iterative spectral rank-aggregation algorithm (introduced by Sahand Negahban, Sewoong Oh, and Devavrat Shah in 2017) that estimates latent preference scores $w_1,\\dots,w_n > 0$ under the Bradley\u2013Terry\u2013Luce (BTL) / Multinomial Logit (MNL) pairwise comparison model from $k$ comparisons per edge on a comparison graph $G = ([n], E)$. Given empirical win fractions $a_{ij} = \\frac{1}{k}\\sum_{l=1}^k Y_{ij}^l$ and normalized pairwise ratios $A_{ij} = a_{ij}/(a_{ij}+a_{ji})$ (or Beta$(\\varepsilon,\\varepsilon)$-regularized ratios $(a_{ij}+\\varepsilon)/(a_{ij}+a_{ji}+2\\varepsilon)$, Equation 5), Rank Centrality constructs the random-walk transition matrix $P_{ij} = \\frac{1}{d_{\\max}}A_{ij}$ for $(i,j)\\in E$, $i\\ne j$, and $P_{ii} = 1 - \\frac{1}{d_{\\max}}\\sum_{l\\ne i}A_{il}$ (Equation 1), where $d_{\\max}$ is the maximum vertex degree, and computes its unique stationary distribution $\\pi^T = \\pi^T P$ via power iteration $p_{t+1}^T = p_t^T P$ (Equation 2). Scaling every off-diagonal transition by the uniform global maximum degree $1/d_{\\max}$ (rather than local vertex degree $1/d_i$ as in Dwork et al.'s MC3) ensures that the population transition matrix $\\tilde{P}_{ij} = \\frac{1}{d_{\\max}}\\frac{w_j}{w_i+w_j}$ satisfies detailed balance $\\tilde{\\pi}(i)\\tilde{P}_{ij} = \\tilde{\\pi}(j)\\tilde{P}_{ji}$ with exact stationary distribution $\\tilde{\\pi}(i) = w_i / \\sum_l w_l$ on any connected graph $G$. Using a self-adjoint $L^2(\\tilde{\\pi})$ perturbation inequality (Lemma 2, Equation 11), matrix Bernstein concentration $\\|P - \\tilde{P}\\|_2 \\le C\\sqrt{\\log n / (k d_{\\max})}$ (Lemma 3), and a Dirichlet-form Markov chain comparison theorem relating $1 - \\lambda_{\\max}(\\tilde{P}) \\ge \\frac{d_{\\min}}{b^2 d_{\\max}}\\xi$ to the random-walk Laplacian spectral gap $\\xi = 1 - \\lambda_{\\max}(D^{-1}B)$ (Lemmas 4 and 6, Equations 26\u201327), Theorem 1 proves $\\frac{\\|\\pi - \\tilde{\\pi}\\|_2}{\\|\\tilde{\\pi}\\|_2} \\le \\frac{C b^{5/2}\\kappa}{\\xi}\\sqrt{\\frac{\\log n}{k d_{\\max}}}$, matching the minimax Fano lower bound of Theorem 3 up to logarithmic factors on Erd\u0151s\u2013R\xE9nyi graphs (Theorem 2)."
+identity_notes: "Resolved against all 442 pinned AIO concepts and 682 maintained AIMech concepts. Distinct from `AIMech:TopKRankingSpectralAndRegularizedMLEByLeaveOneOutAnalysis` (Chen, Fan, Ma, & Wang 2019, which introduces leave-one-out entrywise $\\ell_\\infty$ perturbation analysis for top-$K$ identification on Erd\u0151s\u2013R\xE9nyi graphs, whereas Negahban, Oh, & Shah 2017 formulate the Rank Centrality random-walk algorithm, the Beta$(\\varepsilon,\\varepsilon)$-regularized transition matrix, the general-graph $L^2(\\tilde{\\pi})$ Dirichlet-form spectral gap comparison Theorem 1 / Lemma 6, the weighted pairwise ranking loss $D_w(\\sigma)$ bound Lemma 1, and the simplex packing minimax lower bound Theorem 3)."
+aliases:
+- Rank Centrality Algorithm
+- Negahban-Oh-Shah Spectral Ranking from Pairwise Comparisons
+- Reversible Random-Walk BTL Rank Aggregation
+definition_evidence:
+- source_id: nos2017-rankcent-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: nos2017-rankcent-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: nos2017-rankcent-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-uniform-dmax-scaling-reversibility-and-self-adjoint-contraction
+  kind: mechanism
+  statement: "Scaling off-diagonal comparison ratios by the global maximum degree $1/d_{\\max}$ in $P_{ij} = \\frac{1}{d_{\\max}}A_{ij}$ (Equation 1) makes the population BTL chain $\\tilde{P}$ reversible with respect to $\\tilde{\\pi}_i = w_i / \\sum_l w_l$ ($\\tilde{\\pi}_i\\tilde{P}_{ij} = \\tilde{\\pi}_j\\tilde{P}_{ji}$) and self-adjoint in $L^2(\\tilde{\\pi})$ on any connected graph $G$, whereas degree-normalized chains ($P_{ij}^{\\text{(MC3)}} = A_{ij}/d_i$) and unnormalized Borda Count remain asymptotically biased as $k \\to \\infty$ on non-regular graphs; Lemma 2 proves geometric contraction $\\frac{\\|p_t - \\tilde{\\pi}\\|_2}{\\|\\tilde{\\pi}\\|_2} \\le \\rho^t\\frac{\\|p_0 - \\tilde{\\pi}\\|_2}{\\|\\tilde{\\pi}\\|_2}\\sqrt{\\frac{\\tilde{\\pi}_{\\max}}{\\tilde{\\pi}_{\\min}}} + \\frac{1}{1-\\rho}\\|\\Delta\\|_2\\sqrt{\\frac{\\tilde{\\pi}_{\\max}}{\\tilde{\\pi}_{\\min}}}$ (Sections 2.2, 3.3, and 4.1, Equations 1\u20132 and 11, Lemma 2)."
+  evidence:
+  - source_id: nos2017-rankcent-pdf
+    locator: Section 2.2 (Eqs. 1-2, pp. 9-10), Section 3.3 (pp. 14-16), Section 4.1 (Lemma 2, pp. 24-26)
+    relation: supports
+- claim_id: claim-dirichlet-form-laplacian-spectral-gap-comparison-and-general-graph-bound
+  kind: mechanism
+  statement: "By comparing the Dirichlet forms $\\mathcal{E}^{\\tilde{P}}(\\phi,\\phi)$ and $\\mathcal{F}^{\\tilde{P}}(\\phi,\\phi)$ of $(\\tilde{P},\\tilde{\\pi})$ with those of the simple random walk $Q = D^{-1}B$ with stationary distribution $\\mu(i) = d_i/\\sum_l d_l$ and spectral gap $\\xi = 1 - \\lambda_{\\max}(D^{-1}B)$, Lemma 6 proves $\\frac{1 - \\lambda_{\\max}(\\tilde{P})}{1 - \\lambda_{\\max}(Q)} \\ge \\frac{\\alpha}{\\beta} \\ge \\frac{d_{\\min}}{b^2 d_{\\max}}$ (Equations 26\u201327), which combined with matrix Bernstein concentration $\\|P - \\tilde{P}\\|_2 \\le C\\sqrt{\\log n/(k d_{\\max})}$ (Lemma 3) yields Theorem 1: $\\frac{\\|\\pi - \\tilde{\\pi}\\|_2}{\\|\\tilde{\\pi}\\|_2} \\le \\frac{C b^{5/2}\\kappa}{\\xi}\\sqrt{\\frac{\\log n}{k d_{\\max}}}$ and Lemma 1's weighted ranking error bound $D_w(\\sigma) \\le \\frac{\\|w - \\pi\\|_2}{\\|w\\|_2}$ (Sections 3.1, 3.3, and 4.1.2\u20134.1.4, Theorem 1, Lemmas 1, 3, 4, and 6)."
+  evidence:
+  - source_id: nos2017-rankcent-pdf
+    locator: Sections 3.1 & 3.3 (Theorem 1, Lemma 1, pp. 11-13), Sections 4.1.2-4.1.4 (Lemmas 3, 4, 6, pp. 27-32)
+    relation: supports
+- claim_id: claim-erdos-renyi-minimax-optimality-and-simplex-fano-lower-bound
+  kind: application
+  statement: "When $G \\sim G(n, d/n)$ is an Erd\u0151s\u2013R\xE9nyi graph with $d \\ge 10 C^2\\log n$ and $k d \\ge 128 C^2 b^5\\log n$, Lemma 7 proves $\\xi \\ge 1/2$ and Theorem 2 establishes $\\frac{\\|\\pi - \\tilde{\\pi}\\|_2}{\\|\\tilde{\\pi}\\|_2} \\le 8 C b^{5/2}\\sqrt{\\frac{\\log n}{k d}}$, while Theorem 3 constructs an $e^{n/128}$-packing of the bounded-dynamic-range simplex $\\mathcal{S}_b$ (Lemma 8) and applies Fano's inequality to prove the minimax lower bound $\\inf_{\\mathcal{A}}\\sup_{\\tilde{\\pi}\\in\\mathcal{S}_b}\\frac{\\mathbb{E}[\\|\\pi^{\\mathcal{A}} - \\tilde{\\pi}\\|_2]}{\\|\\tilde{\\pi}\\|_2} \\ge \\frac{b-1}{240\\sqrt{10}(b+1)}\\frac{1}{\\sqrt{kd}}$ (Sections 3.2, 3.4, 4.2, and 4.3, Theorems 2\u20133, Lemmas 7\u20138)."
+  evidence:
+  - source_id: nos2017-rankcent-pdf
+    locator: Sections 3.2 & 3.4 (Theorems 2-3, pp. 12, 18-19), Sections 4.2-4.3 (Lemmas 7-8, pp. 32-36)
+    relation: supports
+evidence_sources:
+- source_id: nos2017-rankcent-pdf
+  title: 'Rank Centrality: Ranking from Pairwise Comparisons'
+  authors: &id001
+  - Sahand Negahban
+  - Sewoong Oh
+  - Devavrat Shah
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1209.1688.pdf
+  persistent_id: https://doi.org/10.1287/opre.2016.1534
+  version: arXiv:1209.1688v4 full-text PDF (45 pages), published in Operations Research 65(1):266-287 (2017). (715616 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:28:00Z'
+  sha256: 293d685db80ca6d92ea8c4386abc818913a624f4a679689dd9dc6e4ecfe6a111
+- source_id: nos2017-rankcent-abs
+  title: 'Rank Centrality: Ranking from Pairwise Comparisons (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1209.1688
+  persistent_id: https://arxiv.org/abs/1209.1688
+  version: arXiv abstract page (7385 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:28:00Z'
+  sha256: 85e87b652d865a1b16fc930738b536f9c3b8dec52a588c711912062916b7518e
+- source_id: nos2017-rankcent-cr
+  title: 'Rank Centrality: Ranking from Pairwise Comparisons (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1287/opre.2016.1534
+  persistent_id: https://doi.org/10.1287/opre.2016.1534
+  version: Crossref API work record (3486 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:28:00Z'
+  sha256: 032494b93711690fd1706c9183757e7d7e7ae7595b905a6fa29960cc3dcb52f1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: Rank Centrality defines item scores as the stationary distribution of a reversible random-walk Markov chain over the comparison graph.
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Estimates parameters of the Bradley-Terry-Luce / Multinomial Logit model and is compared directly against pairwise logistic regression MLE (Section 3.5, Theorem 4).
+- target: AIO:RankingBias
+  relation: related_match
+  rationale: Eliminates the non-vanishing degree-heterogeneity ranking bias of Borda Count and MC1-MC4 random walks on irregular comparison graphs.
+limitations:
+- Unregularized Rank Centrality (epsilon = 0) can overfit when a node participates in very few comparisons and wins all of them (producing a sink or near-sink in the Markov chain, as illustrated by drivers with 1 race in Table 1 for the NASCAR 2002 dataset), requiring Beta(epsilon, epsilon) Laplace smoothing (Equation 5) on sparse irregular graphs.
+- Theorem 1's upper bound scales as b^{5/2} where b = max_{i,j} w_i / w_j is the dynamic range of BTL weights; when b grows rapidly with n, the reversible chain's spectral gap 1 - lambda_max(P_tilde) >= (d_min / (b^2 d_max)) xi can become small.
+curation:
+  created_at: '2026-10-19T05:28:00Z'
+  updated_at: '2026-10-19T05:28:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
