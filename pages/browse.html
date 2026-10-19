@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1224</strong> artificial intelligence concepts, comprising <strong>782</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1225</strong> artificial intelligence concepts, comprising <strong>783</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1224)</option>
-        <option value="curated">Curated AIMech (782)</option>
+        <option value="all">All Origins (1225)</option>
+        <option value="curated">Curated AIMech (783)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (480)</option>
+          <option value="algorithm">Algorithms (481)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1224</span> of <span id="totalCount">1224</span>
+      Showing <span id="matchCount">1225</span> of <span id="totalCount">1225</span>
     </div>
   </div>
 </div>
@@ -17081,6 +17081,32 @@
         <td>
             <span class="badge badge-mechanism" title="2 claims curated">2 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="mime framework for mimicking centralized stochastic algorithms in federated learning mimemimickingcentralizedstochasticalgorithmsinfederatedlearning aimech:mimemimickingcentralizedstochasticalgorithmsinfederatedlearning algorithms algorithm a general federated optimization framework (mime and mimelite) that adapts arbitrary centralized stateful stochastic optimizers a = (u, v) (including heavy-ball momentum, adam, adagrad, and momentum-based variance reduction mvr) to cross-device federated learning by decomposing a into a linear parameter step u(g, s) and a statistics update v(g, s), updating the optimizer statistics s_t = v(c_t, s_{t-1}) only once per communication round at the server using the unbiased cross-client average gradient c_t = (1/|s_t|) sum_{i in s_t} nabla f_i(x_{t-1}), broadcasting (x_{t-1}, s_{t-1}, c_t) so each sampled client i in s_t executes k local parameter steps y_{i,k} = y_{i,k-1} - eta * u(g_{i,k}, s_{t-1}) with frozen server statistics s_{t-1} and either svrg variance-reduced local gradients g_{i,k} = nabla f_i(y_{i,k-1}; zeta_{i,k}) - nabla f_i(x_{t-1}; zeta_{i,k}) + c_t (mime) or raw local stochastic gradients g_{i,k} = nabla f_i(y_{i,k-1}; zeta_{i,k}) (mimelite). distinct from scaffold (aimech:scaffoldstochasticcontrolledaveragingforfederatedlearning, which requires stateful clients to store persistent control variates c_i across rounds and fails when clients are stateless or sampled once), from feddyn (aimech:feddyndynamicregularizationforfederatedlearning, which also requires stateful client gradient vectors), and from fednova (aimech:fednovanormalizedaveragingforheterogeneousfederatedoptimization, which normalizes local step lengths rather than freezing server optimizer statistics s_{t-1} and applying cross-device svrg control variates). no pinned aio class covers mime or stateless cross-device optimizer mimicking. mime mimelite mimemvr mimicking centralized stochastic algorithms in federated learning lemma 5 demonstrates that updating momentum or adaptive preconditioner statistics v(g, s) locally at every client step biases the statistics toward client-specific gradients, whereas theorem i proves that for any optimizer a = (u, v) with linear step map u(g_1 + g_2, s) = u(g_1, s) + u(g_2, s), keeping s_{t-1} fixed during k local steps yields an exact server step x_t = x_{t-1} - eta_tilde * u(c_t + e_t, s_{t-1}) with effective step size eta_tilde = k * eta and bounded local drift perturbation ||e_t||^2 &lt;= l^2 * e_k^t. under delta-bounded hessian dissimilarity ||nabla^2 f_i(x) - nabla^2 f(x)|| &lt;= delta (assumption a2*, where delta &lt;= l and delta = 0 for homogeneous-curvature objectives even under arbitrarily large gradient dissimilarity g^2), lemma 3 bounds the variance of the mime svrg correction by delta^2 ||y - x||^2, and theorem iv proves that mimemvr finds an epsilon-stationary point of nonconvex objectives in o(((1+delta) g^2 f / (s * eps^2))^{3/4} + (delta * sigma^2 / sqrt(s) + delta * g^2) / eps^{3/2} + (delta * k + l) / (eps * k)) rounds, matching the omega((g / (sqrt(s) * eps))^{3/2}) lower bound of theorem iii and beating server-only momentum when delta &lt;&lt; l. full mime requires each active client to compute its full-batch local gradient nabla f_i(x_{t-1}) and evaluate two stochastic gradients per local step (at y_{i,k-1} and x_{t-1}) while broadcasting both x_{t-1}, s_{t-1}, and c_t (2x-3x downlink/uplink overhead), whereas mimelite avoids the svrg correction at the cost of an extra o(g^2) gradient-dissimilarity drift term. applied to stateless cross-device federated learning on emnist-62 (resnet-18), cifar-100, and shakespeare character-level lstm benchmarks using mimesgd, mimemom, mimeadam, and mimemvr, outperforming fedavg, fedavgm, fedadam, and scaffold under low client sampling rates. mime: mimicking centralized stochastic algorithms in federated learning mime: mimicking centralized stochastic algorithms in federated learning (arxiv abstract) mime: mimicking centralized stochastic algorithms in federated learning (crossref metadata) sai praneeth karimireddy martin jaggi satyen kale mehryar mohri sashank j. reddi sebastian u. stich ananda theertha suresh sai praneeth karimireddy martin jaggi satyen kale mehryar mohri sashank j. reddi sebastian u. stich ananda theertha suresh sai praneeth karimireddy martin jaggi satyen kale mehryar mohri sashank j. reddi sebastian u. stich ananda theertha suresh">
+        <td>
+          <a href="curated/MimeMimickingCentralizedStochasticAlgorithmsInFederatedLearning.html" style="font-weight: 600; font-size: 1rem;">Mime Framework for Mimicking Centralized Stochastic Algorithms in Federated Learning</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Mime, MimeLite…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A general federated optimization framework (Mime and MimeLite) that adapts arbitrary centralized stateful stochastic optimizers A = (U, V) (…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:MimeMimickingCentralizedStochasticAlgorithmsInFederatedLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
