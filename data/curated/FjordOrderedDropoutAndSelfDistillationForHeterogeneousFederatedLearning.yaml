@@ -1,0 +1,103 @@
+id: AIMech:FjordOrderedDropoutAndSelfDistillationForHeterogeneousFederatedLearning
+name: FjORD (Fair and Accurate Federated Learning under Heterogeneous Targets with Ordered Dropout)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A system-heterogeneous federated learning method (Horvath, Laskaridis, Almeida, Leontiadis, Venieris, & Lane 2021, Sections 3-4, Equation 1, Theorem 1) that performs Ordered Dropout (OD) by sampling a prefix width rate p ~ D_P up to each client''s maximum device capability p_max^i and pruning the rightmost channels to retain only prefix indices {0, ..., ceil(p * K_l) - 1} in each layer l, combines OD with client-side self-distillation from the client''s maximal submodel F_{p_max^i} to smaller sampled prefix submodels F_p, and aggregates disjoint width slices w_j = w_{ceil(p_j K)} \ w_{ceil(p_{j-1} K)} on the server over eligible clients {i : p_max^i >= p_j} (Equation 1).'
+identity_notes: Distinct from HeteroFL (AIMech:HeteroFlWidthScaledSubnetworkAggregationForHeterogeneousFederatedLearning, Diao et al. 2021), which trains each client only at its single static capability width p_max^i rather than stochastically sampling all prefix widths p <= p_max^i via Ordered Dropout and self-distillation to enforce SVD-ordered representation importance across nested submodels.
+aliases:
+- FjORD
+- Federated Learning with Ordered Dropout
+- Ordered Dropout for Heterogeneous Federated Learning
+definition_evidence:
+- source_id: r448-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r448-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r448-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r448-ordered-dropout-svd-best-low-rank-equivalence
+  kind: mechanism
+  statement: Theorem 1 (Section 3.2, p. 4) proves that for a two-layer linear network trained under Ordered Dropout with positive-probability prefix rates p in {j/K}_{j=1}^K, any global optimum orders the hidden units by singular value magnitude so that every prefix submodel of width b in {1, ..., K} equals the exact Eckart-Young-Mirsky best rank-b approximation of the full mapping.
+  evidence:
+  - source_id: r448-primary-pdf
+    locator: Section 3.2 Theoretical Analysis (Theorem 1), p. 4 & Appendix A Proof of Theorem 1
+    relation: supports
+- claim_id: r448-self-distillation-and-tier-aware-slice-aggregation-mechanism
+  kind: mechanism
+  statement: During local client training, FjORD uses the soft predictions of the client's largest runnable submodel p_max^i as a self-distillation teacher for smaller sampled prefix submodels p < p_max^i (Section 3.3), and the server updates each incremental parameter slice w_{ceil(p_j K)} \ w_{ceil(p_{j-1} K)} exclusively over clients with capability p_max^i >= p_j (Section 4, Equation 1).
+  evidence:
+  - source_id: r448-primary-pdf
+    locator: Section 3.3 Knowledge Distillation & Section 4 FjORD (Equation 1, Algorithm 1), pp. 5-7
+    relation: supports
+- claim_id: r448-prefix-width-grid-and-separate-bn-statistics-limitation
+  kind: limitation
+  statement: Ordered Dropout restricts submodels to a discrete set of prefix width rates P = {p_1, ..., p_M}, requires maintaining separate Batch Normalization layers per width rate p in P, and increases local forward/backward passes when computing both the teacher pass at p_max^i and student pass at p < p_max^i.
+  evidence:
+  - source_id: r448-primary-pdf
+    locator: Section 3.1 Ordered Dropout Architecture & Section 3.3 Knowledge Distillation, pp. 3-5
+    relation: supports
+- claim_id: r448-cifar10-femnist-and-shakespeare-multi-tier-deployment-application
+  kind: application
+  statement: Applied to heterogeneous-device federated learning and dynamic test-time width scaling on CIFAR-10 (ResNet-18), FEMNIST (CNN), and Shakespeare (RNN).
+  evidence:
+  - source_id: r448-primary-pdf
+    locator: Section 5 Experimental Evaluation (Figures 3-6, Tables 1-2), pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r448-primary-pdf
+  title: 'FjORD: Fair and Accurate Federated Learning under heterogeneous targets with Ordered Dropout'
+  authors: &id001
+  - Samuel Horvath
+  - Stefanos Laskaridis
+  - Mario Almeida
+  - Ilias Leontiadis
+  - Stylianos I. Venieris
+  - Nicholas D. Lane
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2102.13451
+  persistent_id: https://proceedings.neurips.cc/paper/2021/hash/6aed000af86a084f9cb0264161e29dd3-Abstract.html
+  version: Advances in Neural Information Processing Systems 34 (NeurIPS 2021), pp. 12876-12889 (2021) (80661 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:51:00Z'
+  sha256: 439d001376bb88ddf8655411841cbfce442e53c31260d40a834c668e37f26540
+- source_id: r448-arxiv-abs
+  title: 'FjORD: Fair and Accurate Federated Learning under heterogeneous targets with Ordered Dropout (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.13451
+  persistent_id: https://arxiv.org/abs/2102.13451
+  version: arXiv abstract page (14573 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:51:00Z'
+  sha256: 7b86acd7039d049c8913b828576e110342bb01fb21e27d2a24e8a75664b2ecc2
+- source_id: r448-metadata-cr
+  title: 'FjORD: Fair and Accurate Federated Learning under heterogeneous targets with Ordered Dropout (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2021/hash/6aed000af86a084f9cb0264161e29dd3-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2021/hash/6aed000af86a084f9cb0264161e29dd3-Abstract.html
+  version: Crossref API work record (525 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:51:00Z'
+  sha256: 8684136c57ab24326fe935a45a7f8470e1e47182b10b2ab77016c752764e8642
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FjORD is a system-heterogeneous federated learning algorithm that trains nested width-pruned submodels via Ordered Dropout and self-distillation.
+limitations:
+- Self-distillation requires an extra forward pass through the maximal runnable submodel p_max^i on each mini-batch.
+- Requires separate Batch Normalization layers for each discrete width rate p in P.
+curation:
+  created_at: '2026-10-19T08:51:00Z'
+  updated_at: '2026-10-19T08:51:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
