@@ -1,0 +1,102 @@
+id: AIMech:KatyushaDirectNegativeMomentumAccelerationForStochasticVarianceReducedOptimization
+name: Katyusha Direct Negative-Momentum Acceleration for Stochastic Variance-Reduced Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: Katyusha Direct Negative-Momentum Acceleration for Stochastic Variance-Reduced Optimization is a direct, primal-only accelerated stochastic gradient method introduced by Allen-Zhu (2017, 2018) for composite convex finite-sum minimization min_{x in R^d} {F(x) = (1/n) sum_{i=1}^n f_i(x) + psi(x)}, where each f_i is convex and L-smooth and psi is sigma-strongly convex. Whereas naive Nesterov momentum on stochastic gradients accumulates variance errors, Katyusha (Algorithm 1) couples three iterate sequences (x_k, y_k, z_k) with a periodic SVRG snapshot x_tilde^s (updated every m = 2n iterations as an exponentially weighted average x_tilde^{s+1} = (sum_{j=0}^{m-1} (1 + alpha*sigma)^j)^{-1} sum_{j=0}^{m-1} (1 + alpha*sigma)^j y_{sm+j+1}) via the convex combination x_{k+1} = tau_1 z_k + tau_2 x_tilde^s + (1 - tau_1 - tau_2) y_k. Here tau_1 = min{sqrt(m*sigma/(3L)), 1/2} is the classical Nesterov linear-coupling momentum weight, alpha = 1/(3*tau_1*L) is the mirror step size, and tau_2 = 1/2 is the Katyusha 'negative momentum' weight, which acts as a retracting magnet toward the snapshot x_tilde^s so that the inner-product error <grad f(x_{k+1}), x_tilde^s - x_{k+1}> in the tight SVRG variance bound E[||grad_tilde_{k+1} - grad f(x_{k+1})||^2] <= 2L(f(x_tilde^s) - f(x_{k+1}) - <grad f(x_{k+1}), x_tilde^s - x_{k+1}>) (Lemma 2.4) is algebraically canceled in the linear-coupling step (Lemmas 2.6-2.7). Theorem 2.1 proves that Katyusha achieves an epsilon-additive minimizer in an optimal O((n + sqrt(n*L/sigma)) log((F(x_0) - F(x^*))/epsilon)) stochastic gradient iterations without outer-inner Catalyst reductions or Fenchel dual conjugates.
+identity_notes: Distinct from Catalyst Universal Acceleration (`AIMech:CatalystUniversalAccelerationForFirstOrderOptimization`), which wraps a variance-reduced solver inside an inexact proximal-point outer loop and incurs an extra O(log(L/sigma)) factor and only O(sqrt(b)) mini-batch parallel speedup, and from unaccelerated SVRG, SAGA, or SARAH (`AIMech:SARAHStochasticRecursiveGradientForFiniteSumOptimization`), which have O((n + L/sigma) log(1/epsilon)) linear dependence on the condition number kappa = L/sigma. Specifically captures the three-way iterate coupling x_{k+1} = tau_1 z_k + tau_2 x_tilde^s + (1 - tau_1 - tau_2) y_k with Katyusha negative momentum tau_2, the Lemma 2.4 tight Bregman variance bound cancellation, the direct non-strongly convex variant Katyusha^{ns} (Algorithm 2, Theorem 4.1), the mini-batch non-uniform smoothness variant Katyusha1 (Algorithm 3, Theorem 5.4), and the non-Euclidean Bregman variant Katyusha2 (Section 6, Theorems 6.1-6.2).
+aliases:
+- Katyusha Momentum Accelerated Stochastic Variance Reduced Gradient
+- Katyusha Direct Primal-Only Accelerated Stochastic Gradient Method
+- Katyushans Direct Non-Strongly Convex Accelerated SVRG
+definition_evidence:
+- source_id: r343-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r343-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r343-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-katyusha-negative-momentum-variance-cancellation
+  kind: mechanism
+  statement: For convex L-smooth component functions f_i(x), the SVRG variance-reduced gradient estimator grad_tilde_{k+1} = grad f(x_tilde) + grad f_i(x_{k+1}) - grad f_i(x_tilde) satisfies the tight Bregman-divergence variance bound E[||grad_tilde_{k+1} - grad f(x_{k+1})||^2] <= 2L(f(x_tilde) - f(x_{k+1}) - <grad f(x_{k+1}), x_tilde - x_{k+1}>) (Lemma 2.4); coupling the proximal gradient descent step on y_{k+1} (Lemma 2.3) and proximal mirror descent step on z_{k+1} (Lemma 2.5) via the Katyusha momentum combination x_{k+1} = tau_1 z_k + tau_2 x_tilde + (1 - tau_1 - tau_2) y_k with tau_2 = 1/2 and tau_1 <= 1/(3*alpha*L) exactly cancels the potentially positive inner-product term -tau_2 <grad f(x_{k+1}), x_tilde - x_{k+1}> against the convexity split alpha <grad f(x_{k+1}), x_{k+1} - z_k> (Lemmas 2.6 and 2.7).
+  evidence:
+  - source_id: r343-primary-pdf
+    locator: Section 2.1, Lemmas 2.3, 2.4, 2.5, 2.6, and 2.7, pp. 8-11
+    relation: supports
+  - source_id: r343-arxiv-abs
+    locator: 'Abstract: Katyusha momentum (''negative momentum'' on top of Nesterov''s momentum) incorporated into variance-reduction'
+    relation: supports
+- claim_id: claim-katyusha-optimal-accelerated-rates-and-minibatch-speedup
+  kind: mechanism
+  statement: Theorem 2.1 proves that with epoch length m = Theta(n) and snapshot weights theta^j = (1 + alpha*sigma)^j, Katyusha achieves E[F(x_tilde^S)] - F(x^*) <= epsilon in O((n + sqrt(n*L/sigma)) log((F(x_0) - F(x^*))/epsilon)) stochastic gradient iterations (satisfying the homogeneous objective decrease HOOD property without logarithmic condition-number loss, Corollary 3.2), while Katyusha^{ns} (Algorithm 2, Theorem 4.1) with epoch-varying tau_{1,s} = 2/(s+4) achieves O((F(x_0) - F(x^*))/S^2 + L||x_0 - x^*||^2/(m S^2)) directly for non-strongly convex objectives, and mini-batch Katyusha1 (Algorithm 3, Theorem 5.4) with importance sampling p_i = L_i/(n L_bar) and tau_2 = min{L_bar/(2 L b), 1/2} achieves O((n + b*sqrt(L/sigma) + sqrt(n*L_bar/sigma)) log((F(x_0) - F(x^*))/epsilon)) total stochastic gradient evaluations, yielding optimal linear parallel speedup across b <= b_0 = sqrt(n*L_bar/L) >= sqrt(n) processors.
+  evidence:
+  - source_id: r343-primary-pdf
+    locator: Section 2, Algorithm 1 and Theorem 2.1, pp. 7-14; Section 4, Algorithm 2 and Theorem 4.1, pp. 14-16; Section 5, Algorithm 3 and Theorem 5.4, pp. 16-20
+    relation: supports
+  - source_id: r343-metadata-cr
+    locator: 'JMLR 18(221):1-51 abstract: optimal accelerated convergence rate and optimal parallel linear speedup in the mini-batch setting'
+    relation: supports
+- claim_id: claim-katyusha-non-euclidean-norm-and-zero-negative-momentum-instability
+  kind: limitation
+  statement: Omitting the negative momentum magnet by setting tau_2 = 0 (naive Nesterov momentum on variance-reduced gradients) fails to cancel the stochastic gradient error accumulation unless the mini-batch size b is very large (Section 1.1, Section 7.1, Figure 1c, and Remark 5.7), and when generalized to arbitrary non-Euclidean norms ||.|| with Bregman divergence V_x(y) (Katyusha2, Section 6, Theorem 6.1), mini-batching b i.i.d. gradient samples does not in general reduce the dual-norm variance E[||xi_bar - mu||_*^2] by a factor of 1/b, limiting the worst-case non-Euclidean mini-batch complexity to O((n + sqrt(b n L_bar / sigma)) log(1/epsilon)) (Section 6.2).
+  evidence:
+  - source_id: r343-primary-pdf
+    locator: Section 6.1-6.2, Theorem 6.1 and Remarks on Non-Euclidean Mini-Batch Variance, pp. 20-21; Section 7.1, Figure 1, p. 22; Appendix A, Footnote 21, p. 25
+    relation: supports
+evidence_sources:
+- source_id: r343-primary-pdf
+  title: 'Katyusha: The First Direct Acceleration of Stochastic Gradient Methods'
+  authors: &id001
+  - Zeyuan Allen-Zhu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1603.05953.pdf
+  persistent_id: https://jmlr.org/papers/v18/16-410.html
+  version: Proceedings of the 49th Annual ACM SIGACT Symposium on Theory of Computing (STOC 2017), pp. 1200-1205 / Journal of Machine Learning Research 18(221):1-51 (2018) (2018) (5474281 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:05:00Z'
+  sha256: 3fc9c12948c0465acd710297edb885ba578e507581f5002288e3a4c4d464f68c
+- source_id: r343-arxiv-abs
+  title: 'Katyusha: The First Direct Acceleration of Stochastic Gradient Methods (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1603.05953
+  persistent_id: https://arxiv.org/abs/1603.05953
+  version: arXiv abstract page (6277 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:05:00Z'
+  sha256: 5048c44e53ad05f432f8b07a678a458aa63517ddf9f96c7709a4ccf187b077a7
+- source_id: r343-metadata-cr
+  title: 'Katyusha: The First Direct Acceleration of Stochastic Gradient Methods (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://jmlr.org/papers/v18/16-410.html
+  persistent_id: https://jmlr.org/papers/v18/16-410.html
+  version: Crossref API work record (5853 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:05:00Z'
+  sha256: f653fbbe662635377e334a3b78e944d5a29aefe54b3925874e78da863017142d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Solves L2- and L1-regularized empirical risk minimization including logistic regression at optimal accelerated stochastic rates.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Katyusha^{ns} and Katyusha+AdaptReg solve non-strongly convex L1-penalized Lasso regression.
+- target: AIO:RidgeRegression
+  relation: related_match
+  rationale: Achieves optimal O((n + sqrt(n L / sigma)) log(1/epsilon)) complexity on strongly convex ridge regression.
+limitations:
+- Requires convexity and smoothness of each component f_i(x) (or a separate sum-of-nonconvex formulation), and in general non-Euclidean norms its mini-batch variance does not decrease as 1/b without Hilbert/p-smoothness structure.
+curation:
+  created_at: '2026-10-19T07:05:00Z'
+  updated_at: '2026-10-19T07:05:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
