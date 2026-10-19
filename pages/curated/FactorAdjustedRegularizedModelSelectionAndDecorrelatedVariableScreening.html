@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factor-Adjusted Regularized Model Selection and Decorrelated Variable Screening · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Factor-Adjusted Regularized Model Selection and Decorrelated Variable Screening</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Factor-Adjusted Regularized Model Selection and Decorrelated Variable Screening</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FactorAdjustedRegularizedModelSelectionAndDecorrelatedVariableScreening</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FarmSelect, Factor-Adjusted Regularized Model Selection, Decorrelated Variable Screening, Fan-Ke-Wang Factor-Adjusted Lasso and GLM Selection
+    </div>
+
+  <div class="detail-desc">
+    A two-step high-dimensional model-selection and variable-screening methodology (introduced by Jianqing Fan, Yuan Ke, and Kaizheng Wang in 2020 as *FarmSelect*) for sparse generalized linear models and convex M-estimation under strong cross-sectional covariate dependence driven by latent common factors $\mathbf{x}_t = \mathbf{B}\mathbf{f}_t + \mathbf{u}_t$ ($t = 1, \dots, n$, $p \gg n$). Because pervasive common factors spike the top $K$ eigenvalues of $\operatorname{cov}(\mathbf{x}_t)$ at rate $O(p)$ and cause raw covariates $\mathbf{X}$ to violate the Lasso irrepresentable condition $\|\mathbf{X}_{S^c}^T\mathbf{X}_S(\mathbf{X}_S^T\mathbf{X}_S)^{-1}\|_\infty \le 1 - \tau$, Step 1 estimates the factor number $\widehat{K} = \arg\max_{1 \le k \le k_{\max}} \lambda_k(\mathbf{X}\mathbf{X}^T) / \lambda_{k+1}(\mathbf{X}\mathbf{X}^T)$ (Equation 3.6) and extracts the principal-component factor matrix $\widehat{\mathbf{F}} \in \mathbb{R}^{n \times \widehat{K}}$ ($\widehat{\mathbf{F}}^T\widehat{\mathbf{F}} / n = \mathbf{I}_{\widehat{K}}$), loadings $\widehat{\mathbf{B}} = n^{-1}\mathbf{X}^T\widehat{\mathbf{F}}$, and decorrelated idiosyncratic residuals $\widehat{\mathbf{U}} = (\mathbf{I}_n - \widehat{\mathbf{P}})\mathbf{X}$ where $\widehat{\mathbf{P}} = n^{-1}\widehat{\mathbf{F}}\widehat{\mathbf{F}}^T$. Exploiting the identity $\mathbf{x}_t^T\boldsymbol{\beta}^* = \mathbf{u}_t^T\boldsymbol{\beta}^* + \mathbf{f}_t^T\boldsymbol{\gamma}^*$ with $\boldsymbol{\gamma}^* = \mathbf{B}^T\boldsymbol{\beta}^*$ (Lemma 3.1, p. 8), Step 2 solves the factor-augmented profile penalized problem $\widehat{\boldsymbol{\beta}} \in \arg\min_{\boldsymbol{\beta} \in \mathbb{R}^p, \boldsymbol{\gamma} \in \mathbb{R}^{\widehat{K}}} L_n(\mathbf{y}, \widehat{\mathbf{U}}\boldsymbol{\beta} + \widehat{\mathbf{F}}\boldsymbol{\gamma}) + p_\lambda(\boldsymbol{\beta})$ penalizing only $\boldsymbol{\beta}$ (Equation 3.2), which for linear models reduces exactly to projected Lasso $\arg\min_{\boldsymbol{\beta}} \frac{1}{2n}\|(\mathbf{I}_n - \widehat{\mathbf{P}})(\mathbf{y} - \widehat{\mathbf{U}}\boldsymbol{\beta})\|_2^2 + p_\lambda(\boldsymbol{\beta})$ (Equation 3.5), while *Decorrelated Variable Screening* ranks features by their marginal coefficient $\widetilde{\beta}_j$ in the factor-augmented regression of $\mathbf{y}$ on $(\widehat{\mathbf{U}}_j, \widehat{\mathbf{F}})$ (Equation 3.7).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved against all 442 pinned AIO concepts and 670 maintained AIMech concepts. Distinct from `AIMech:PrincipalOrthogonalComplementThresholdingForApproximateFactorCovarianceEstimation` (Fan, Liao, &amp; Mincheva 2013, which thresholds the residual covariance matrix $\widehat{\mathbf{R}}_K$ for unsupervised covariance and precision matrix estimation rather than decomposing the linear predictor $\mathbf{x}_t^T\boldsymbol{\beta}^* = \mathbf{u}_t^T\boldsymbol{\beta}^* + \mathbf{f}_t^T\boldsymbol{\gamma}^*$ to restore the irrepresentable condition and model-selection sign consistency in supervised generalized linear models), distinct from `AIMech:PreconditionedLassoAndPaulilassoViaSingularValueDecomposition` (Jia &amp; Rohe 2015, which left-multiplies $(\mathbf{y}, \mathbf{X})$ by $\mathbf{U}\mathbf{D}^{-1}\mathbf{U}^T$ when $p &gt; n$ rather than projecting out the top $K$ latent common factors into an unpenalized nuisance space $\widehat{\mathbf{F}}\boldsymbol{\gamma}$), and distinct from `AIMech:SureIndependenceScreeningAndIteratedSureIndependenceScreeningForUltrahighDimensionalFeatureSpace` (Fan &amp; Lv 2008, which screens raw marginal correlations $\mathbf{X}^T\mathbf{y}$ without removing factor-induced confounding).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#factor-augmented-predictor-decomposition-and-projected-lasso-equivalence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the approximate factor model $\mathbf{x}_t = \mathbf{B}\mathbf{f}_t + \mathbf{u}_t$ and sparse generalized linear model density $f(y_t \mid \mathbf{x}_t, \boldsymbol{\beta}^*) = \exp\{\frac{y_t(\beta_0^* + \mathbf{x}_t^T\boldsymbol{\beta}^*) - b(\beta_0^* + \mathbf{x}_t^T\boldsymbol{\beta}^*)}{a(\phi)} + c(y_t, \phi)\}$ (Section 2.2, Equation 2.3), Lemma 3.1 (Section 3.1, p. 8) proves that $\mathbf{u}_t$ satisfies the augmented GLM $f(y_t \mid \mathbf{u}_t, \mathbf{f}_t, \boldsymbol{\beta}^*, \boldsymbol{\gamma}^*) = \exp\{\frac{y_t(\mathbf{u}_t^T\boldsymbol{\beta}^* + \mathbf{f}_t^T\boldsymbol{\gamma}^*) - b(\mathbf{u}_t^T\boldsymbol{\beta}^* + \mathbf{f}_t^T\boldsymbol{\gamma}^*)}{a(\phi)} + c(y_t, \phi)\}$ with $\boldsymbol{\gamma}^* = \mathbf{B}^T\boldsymbol{\beta}^*$. In the linear case $b(\theta) = \theta^2/2$ (Section 3.2, pp. 9–10, Equations 3.4–3.5), profiling out the unpenalized factor coefficient $\boldsymbol{\gamma} \in \mathbb{R}^{\widehat{K}}$ in $\min_{\boldsymbol{\beta}, \boldsymbol{\gamma}} \frac{1}{2n}\|\mathbf{y} - \widehat{\mathbf{U}}\boldsymbol{\beta} - \widehat{\mathbf{F}}\boldsymbol{\gamma}\|_2^2 + p_\lambda(\boldsymbol{\beta})$ yields the exact orthogonal-projection identity $\widehat{\boldsymbol{\beta}} \in \arg\min_{\boldsymbol{\beta} \in \mathbb{R}^p} \frac{1}{2n}\|(\mathbf{I}_n - \widehat{\mathbf{P}})(\mathbf{y} - \widehat{\mathbf{U}}\boldsymbol{\beta})\|_2^2 + p_\lambda(\boldsymbol{\beta})$ where $\widehat{\mathbf{P}} = \widehat{\mathbf{F}}(\widehat{\mathbf{F}}^T\widehat{\mathbf{F}})^{-1}\widehat{\mathbf{F}}^T$, and since $\widehat{\mathbf{F}}^T\widehat{\mathbf{U}} = \mathbf{0}$, $(\mathbf{I}_n - \widehat{\mathbf{P}})\widehat{\mathbf{U}} = \widehat{\mathbf{U}}$.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fkw2020-farmselect-pdf">Factor-Adjusted Regularized Model Selection</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, pp. 7-9, Lemma 3.1, Equations (3.1)-(3.3); Section 3.2, pp. 9-10, Equations (3.4)-(3.5)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#asymptotic-restoration-of-irrepresentable-condition-and-glm-sign-consistency</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Let $\mathbf{W} = (\mathbf{U}, \mathbf{F}) \in \mathbb{R}^{n \times (p+K)}$ and $\widehat{\mathbf{W}} = (\widehat{\mathbf{U}}, \widehat{\mathbf{F}})$ with augmented active set $\bar{S} = S \cup \{p+1, \dots, p+K\}$ of cardinality $\bar{s} = |S| + K$. Under Assumptions 4.1–4.2 (requiring the Hessian $\nabla^2 L_n(\mathbf{y}, \mathbf{W}_{\bar{S}}\boldsymbol{\theta}_{\bar{S}}^*)$ to have minimum eigenvalue $\ge \kappa_0$ and the population idiosyncratic design $\mathbf{W}$ to satisfy the irrepresentable condition $\|\nabla_{\bar{S}^c,\bar{S}}^2 L_n(\mathbf{y}, \mathbf{W}\boldsymbol{\theta}^*)(\nabla_{\bar{S},\bar{S}}^2 L_n(\mathbf{y}, \mathbf{W}\boldsymbol{\theta}^*))^{-1}\|_\infty &lt; 1 - 2\tau$) and factor estimation bound $\max_{k,t}|\widehat{F}_{tk} - F_{tk}| \lesssim \sqrt{\log n / p} + 1/\sqrt{n}$ and $\max_{j,t}|\widehat{U}_{tj} - U_{tj}| \lesssim (\sqrt{\log p / n} + 1/\sqrt{p})\sqrt{\log n}$ (Assumption 4.3, Theorem 4.2, p. 15), if $\omega_n = \bar{s}(\sqrt{\frac{\log p}{n}} + \frac{1}{\sqrt{p}})\sqrt{\log n} \lesssim \kappa_0 / \tau$, then Theorem 4.1 (Section 4.1, p. 14) proves that FarmSelect achieves exact sign consistency $\operatorname{sign}(\widehat{\boldsymbol{\beta}}) = \operatorname{sign}(\boldsymbol{\beta}^*)$ and error rates $\|\widehat{\boldsymbol{\beta}}_S - \boldsymbol{\beta}_S^*\|_\infty = O_p(\sqrt{\bar{s}}(\sqrt{\log p / n} + 1/\sqrt{p}))$ and $\|\widehat{\boldsymbol{\beta}}_S - \boldsymbol{\beta}_S^*\|_2 = O_p(\bar{s}(\sqrt{\log p / n} + 1/\sqrt{p}))$.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fkw2020-farmselect-pdf">Factor-Adjusted Regularized Model Selection</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2, pp. 12-16, Assumptions 4.1-4.3, Theorems 4.1-4.2; Appendix A-C, pp. 21-38</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#decorrelated-marginal-variable-screening-and-eigenvalue-ratio-factor-selection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section 3.3 (p. 11, Equation 3.6) determines the latent factor dimension $\widehat{K} = \arg\max_{1 \le k \le k_{\max}} \lambda_k(\mathbf{X}\mathbf{X}^T) / \lambda_{k+1}(\mathbf{X}\mathbf{X}^T)$ via the Ahn–Horenstein eigenvalue ratio estimator. For ultrahigh-dimensional regimes where $p$ is too large for direct penalized optimization, Section 3.4 (pp. 11–12, Equation 3.7) defines Decorrelated Variable Screening by fitting $p$ marginal factor-augmented regressions $(\widetilde{\beta}_j, \widetilde{\boldsymbol{\gamma}}_j) = \arg\min_{\beta_j \in \mathbb{R}, \boldsymbol{\gamma}_j \in \mathbb{R}^{\widehat{K}}} L_n(\mathbf{y}, \widehat{\mathbf{U}}_j\beta_j + \widehat{\mathbf{F}}\boldsymbol{\gamma}_j)$ for $1 \le j \le p$ and retaining variables with the largest $|\widetilde{\beta}_j|$, eliminating the spurious marginal correlations induced by common factors $\mathbf{F}$ that cause standard Sure Independence Screening on raw $\mathbf{X}_j$ to select inactive factor-loaded covariates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fkw2020-farmselect-pdf">Factor-Adjusted Regularized Model Selection</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3-3.4, pp. 11-12, Equations (3.6)-(3.7); Section 5.1, pp. 18-19, Figure 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Sign consistency requires that the idiosyncratic components u_t = x_t - B f_t satisfy the population irrepresentable condition ||nabla^2_{S^c,S} L_n (nabla^2_{S,S} L_n)^{-1}||_infty &lt; 1 - 2*tau (Assumption 4.2) and that the scaling omega_n = s_bar * (sqrt(log p / n) + 1/sqrt(p)) * sqrt(log n) is sufficiently small (Theorem 4.1); if strong correlations persist within u_t after removing the top K factors, L1 selection bias can remain.</li>
+      <li>Step 1 PCA factor recovery requires pervasiveness of the K factors across p -&gt; infty covariates (||p^{-1} B^T B - Sigma_B||_2 -&gt; 0 with lambda_min(Sigma_B) &gt; 0, Assumption 2.1); weak or local factors affecting only o(p) covariates are not separated from u_t by top-K eigen-decomposition.</li>
+      <li>Primary-source typographical audit of Fan, Ke, &amp; Wang (2020, arXiv:1612.08490v2) uncovered four minor notation and typographical issues that are corrected in this record: (1) Section 1 p. 2 line 3 spells &#39;redundent coefficients&#39;, p. 3 line 11 writes &#39;overcome the the aforementioned problems&#39; (duplicated &#39;the&#39;), and p. 4 line 15 spells &#39;facilitate the implemention our method&#39;; (2) Section 3.1 p. 8 line 9 writes &#39;The theoretical for us to ignore the constraint&#39; (missing &#39;justification&#39;), and Lemma 3.1 p. 8 has an unmatched opening parenthesis in &#39;(eta_t = y_t - b&#39;&#39;((1, x_t^T)beta*)&#39;; (3) Section 3.2 p. 9 line 13 writes &#39;Define B_hat_0 = (0_K, B_hat^T)^T in R^{p x K} and ... X_1 = F_hat B_hat_0 + U_hat_1&#39;, which is dimensionally incompatible (n x K times p x K) and inconsistent with Section 3.1 p. 7 where B_0 = (0_K, B^T)^T in R^{K x p} and X_1 = F B_0^T + U_1; and (4) Section 5.1 p. 17 step (1) writes &#39;f_tilde_t = (lambda_1^{-1/2} xi_1^T z_t, lambda_2^{-1/2} xi_2^T z_t, lambda_3^{-1/2} xi_1^T z_t)^T&#39; with &#39;xi_1^T&#39; instead of &#39;xi_3^T&#39; in the third coordinate.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LassoRegression.html" style="font-weight: 600;"><code>AIO:LassoRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Lasso Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FarmSelect restores the irrepresentable condition and sign consistency of L1-penalized Lasso and GLM estimators by profiling out principal-component common factors.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Step 1 extracts latent factors F_hat and idiosyncratic residuals U_hat via principal component analysis of the covariate design matrix X.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-fkw2020-farmselect-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">fkw2020-farmselect-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/pdf/1612.08490.pdf" target="_blank" rel="noopener">Factor-Adjusted Regularized Model Selection</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianqing Fan, Yuan Ke, Kaizheng Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1016/j.jeconom.2020.01.006</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:76af74ebf0f1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-fkw2020-farmselect-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">fkw2020-farmselect-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1612.08490" target="_blank" rel="noopener">Factor-Adjusted Regularized Model Selection</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianqing Fan, Yuan Ke, Kaizheng Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1612.08490</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3f90ff509f73…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-fkw2020-farmselect-crossref">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">fkw2020-farmselect-crossref</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1016/j.jeconom.2020.01.006" target="_blank" rel="noopener">Factor-Adjusted Regularized Model Selection</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianqing Fan, Yuan Ke, Kaizheng Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1016/j.jeconom.2020.01.006</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9daa4513400e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T05:04:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T05:04:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FactorAdjustedRegularizedModelSelectionAndDecorrelatedVariableScreening.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FactorAdjustedRegularizedModelSelectionAndDecorrelatedVariableScreening.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
