@@ -1,0 +1,104 @@
+id: AIMech:QsparseLocalSgdQuantizationSparsificationAndLocalComputation
+name: Qsparse-local-SGD (Distributed SGD with Quantization, Sparsification, and Local Computations)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A unified distributed and decentralized optimization algorithm (Basu et al. 2019, Algorithms 1-2) that combines local multi-step SGD updates over synchronization periods of length H >= 1, composite gradient compression via a composed k-sparsifier Comp_k and s-level stochastic quantizer Q_s rescaled as Q_s(Comp_k(x)) / (1 + beta_{k,s}), and local error-memory compensation m_{t+H}^{(r)} = m_t^{(r)} + Delta x_t^{(r)} - Q(m_t^{(r)} + Delta x_t^{(r)}) across both synchronous and asynchronous parameter-server and decentralized topologies.
+identity_notes: Distinct from uncompressed Local SGD (AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent, Stich 2019), which performs periodic averaging every H steps without quantization, sparsification, or error memory, and from single-step Sparsified SGD with Error Memory (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression) and QSGD (AIMech:QsgdQuantizedStochasticGradientDescentWithEliasCoding), neither of which composes contractive sparsification with unbiased quantization over multi-step local blocks H > 1.
+aliases:
+- Qsparse-local-SGD
+- Quantized Sparsified Local Stochastic Gradient Descent
+- Error-Compensated Composed Quantizer-Sparsifier Local SGD
+definition_evidence:
+- source_id: r422-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r422-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r422-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r422-composed-quantizer-sparsifier-rescaled-contraction-lemma
+  kind: mechanism
+  statement: When composing a k-contraction sparsifier Comp_k in R^d and an unbiased stochastic quantizer Q_s with relative variance E||Q_s(u) - u||_2^2 <= beta_{k,s} ||u||_2^2, the unscaled operator Q_s(Comp_k(x)) has contraction factor gamma = (1 - beta_{k,s})(k / d) which fails whenever beta_{k,s} >= 1 (Lemma 1), whereas the rescaled operator Q_s(Comp_k(x)) / (1 + beta_{k,s}) (Lemma 2, Corollary 1) is unconditionally a gamma-contraction for all beta_{k,s} > 0 with strictly larger contraction coefficient gamma = k / (d (1 + beta_{k,s})) > (1 - beta_{k,s})(k / d).
+  evidence:
+  - source_id: r422-primary-pdf
+    locator: Section 2 Contraction Operators (Lemmas 1-3, Corollary 1) & Appendix A
+    relation: supports
+- claim_id: r422-block-error-memory-bound-and-nonconvex-strongly-convex-rates
+  kind: mechanism
+  statement: Under synchronization period H and contraction parameter gamma, the local error memory satisfies E||m_t^{(r)}||_2^2 <= 4 (1 - gamma^2) / gamma^2 * eta^2 H^2 G^2 (Lemma 4), yielding smooth non-convex convergence at rate O(1 / sqrt(R T)) + O(H^2 / (gamma^2 T)) (Theorem 1, Corollary 2) and strongly convex convergence at rate O(1 / (R T)) + O(H^2 / (gamma^2 T^2)) (Theorem 2).
+  evidence:
+  - source_id: r422-primary-pdf
+    locator: Section 4 Main Results (Theorems 1-6, Corollaries 2-3) & Appendix B (Lemma 4, Proofs of Theorems 1-2)
+    relation: supports
+- claim_id: r422-second-moment-gradient-bound-and-quadratic-h-gamma-penalty-limitation
+  kind: limitation
+  statement: Relies on a uniform second-moment bound E||g(x)||_2^2 <= G^2 to bound the block error accumulator m_t^{(r)}, and the higher-order error term scales quadratically with the ratio H / gamma.
+  evidence:
+  - source_id: r422-primary-pdf
+    locator: Section 4 Assumptions & Theorem 1-2 Remarks
+    relation: supports
+- claim_id: r422-resnet50-imagenet-and-cifar10-joint-compression-application
+  kind: application
+  statement: Applied to distributed training of ResNet-50 on ImageNet and ResNet-20/VGG-11 on CIFAR-10, combining Top-k sparsification, 2-bit/4-bit QSGD quantization, and H = 4-8 local SGD steps to achieve up to 1000x communication reduction.
+  evidence:
+  - source_id: r422-primary-pdf
+    locator: Section 5 Experiments (Figures 1-4), pp. 14675-14678
+    relation: supports
+evidence_sources:
+- source_id: r422-primary-pdf
+  title: 'Qsparse-local-SGD: Distributed SGD with Quantization, Sparsification, and Local Computations'
+  authors: &id001
+  - Debopam Basu
+  - Deepesh Data
+  - Can Karakus
+  - Suhas Diggavi
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1906.02367
+  persistent_id: https://papers.nips.cc/paper/2019/hash/d202ed5b6ef82d9b842d9cf2f73b0a37-Abstract.html
+  version: Advances in Neural Information Processing Systems 32 (NeurIPS 2019), pp. 14668-14679 (2019) (168207 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:25:00Z'
+  sha256: f8502c2b5363797a4ca04cbfe60e52604ef85f71ff440ce06911189297b085e5
+- source_id: r422-arxiv-abs
+  title: 'Qsparse-local-SGD: Distributed SGD with Quantization, Sparsification, and Local Computations (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1906.02367
+  persistent_id: https://arxiv.org/abs/1906.02367
+  version: arXiv abstract page (6622 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:25:00Z'
+  sha256: 4e78e1a4f8c6b3170a01b67f7bfac9024126a3b0ec6d6e959083960d2499ae97
+- source_id: r422-metadata-cr
+  title: 'Qsparse-local-SGD: Distributed SGD with Quantization, Sparsification, and Local Computations (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2019/hash/d202ed5b6ef82d9b842d9cf2f73b0a37-Abstract.html
+  persistent_id: https://papers.nips.cc/paper/2019/hash/d202ed5b6ef82d9b842d9cf2f73b0a37-Abstract.html
+  version: Crossref API work record (450 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:25:00Z'
+  sha256: a122b093ae1b27bcb0ccfab9170df88b564f8a4c96e26719218a85400d8f8e4b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Qsparse-local-SGD unifies periodic local SGD averaging (as in Federated Learning) with composed quantization, sparsification, and error feedback.
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: Qsparse-local-SGD composes contractive top-k/rand-k gradient sparsification with stochastic quantization.
+limitations:
+- Requires bounded stochastic gradient second moments E||g(x)||_2^2 <= G^2 to bound local error memory across H local steps.
+- Aggressive joint sparsification and quantization (small gamma) combined with large H increases the transient O(H^2 / (gamma^2 T)) error term.
+curation:
+  created_at: '2026-10-19T08:25:00Z'
+  updated_at: '2026-10-19T08:25:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

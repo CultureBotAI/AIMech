@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qsparse-local-SGD (Distributed SGD with Quantization, Sparsification, and Local Computations) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Qsparse-local-SGD (Distributed SGD with Quantization, Sparsification, and Local Computations)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Qsparse-local-SGD (Distributed SGD with Quantization, Sparsification, and Local Computations)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:QsparseLocalSgdQuantizationSparsificationAndLocalComputation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Qsparse-local-SGD, Quantized Sparsified Local Stochastic Gradient Descent, Error-Compensated Composed Quantizer-Sparsifier Local SGD
+    </div>
+
+  <div class="detail-desc">
+    A unified distributed and decentralized optimization algorithm (Basu et al. 2019, Algorithms 1-2) that combines local multi-step SGD updates over synchronization periods of length H &gt;= 1, composite gradient compression via a composed k-sparsifier Comp_k and s-level stochastic quantizer Q_s rescaled as Q_s(Comp_k(x)) / (1 + beta_{k,s}), and local error-memory compensation m_{t+H}^{(r)} = m_t^{(r)} + Delta x_t^{(r)} - Q(m_t^{(r)} + Delta x_t^{(r)}) across both synchronous and asynchronous parameter-server and decentralized topologies.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from uncompressed Local SGD (AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent, Stich 2019), which performs periodic averaging every H steps without quantization, sparsification, or error memory, and from single-step Sparsified SGD with Error Memory (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression) and QSGD (AIMech:QsgdQuantizedStochasticGradientDescentWithEliasCoding), neither of which composes contractive sparsification with unbiased quantization over multi-step local blocks H &gt; 1.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r422-composed-quantizer-sparsifier-rescaled-contraction-lemma</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When composing a k-contraction sparsifier Comp_k in R^d and an unbiased stochastic quantizer Q_s with relative variance E||Q_s(u) - u||_2^2 &lt;= beta_{k,s} ||u||_2^2, the unscaled operator Q_s(Comp_k(x)) has contraction factor gamma = (1 - beta_{k,s})(k / d) which fails whenever beta_{k,s} &gt;= 1 (Lemma 1), whereas the rescaled operator Q_s(Comp_k(x)) / (1 + beta_{k,s}) (Lemma 2, Corollary 1) is unconditionally a gamma-contraction for all beta_{k,s} &gt; 0 with strictly larger contraction coefficient gamma = k / (d (1 + beta_{k,s})) &gt; (1 - beta_{k,s})(k / d).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r422-primary-pdf">Qsparse-local-SGD: Distributed SGD with Quantization, Sparsification, and Local Computations</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Contraction Operators (Lemmas 1-3, Corollary 1) &amp; Appendix A</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r422-block-error-memory-bound-and-nonconvex-strongly-convex-rates</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under synchronization period H and contraction parameter gamma, the local error memory satisfies E||m_t^{(r)}||_2^2 &lt;= 4 (1 - gamma^2) / gamma^2 * eta^2 H^2 G^2 (Lemma 4), yielding smooth non-convex convergence at rate O(1 / sqrt(R T)) + O(H^2 / (gamma^2 T)) (Theorem 1, Corollary 2) and strongly convex convergence at rate O(1 / (R T)) + O(H^2 / (gamma^2 T^2)) (Theorem 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r422-primary-pdf">Qsparse-local-SGD: Distributed SGD with Quantization, Sparsification, and Local Computations</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Main Results (Theorems 1-6, Corollaries 2-3) &amp; Appendix B (Lemma 4, Proofs of Theorems 1-2)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r422-second-moment-gradient-bound-and-quadratic-h-gamma-penalty-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Relies on a uniform second-moment bound E||g(x)||_2^2 &lt;= G^2 to bound the block error accumulator m_t^{(r)}, and the higher-order error term scales quadratically with the ratio H / gamma.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r422-primary-pdf">Qsparse-local-SGD: Distributed SGD with Quantization, Sparsification, and Local Computations</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Assumptions &amp; Theorem 1-2 Remarks</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r422-resnet50-imagenet-and-cifar10-joint-compression-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed training of ResNet-50 on ImageNet and ResNet-20/VGG-11 on CIFAR-10, combining Top-k sparsification, 2-bit/4-bit QSGD quantization, and H = 4-8 local SGD steps to achieve up to 1000x communication reduction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r422-primary-pdf">Qsparse-local-SGD: Distributed SGD with Quantization, Sparsification, and Local Computations</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments (Figures 1-4), pp. 14675-14678</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires bounded stochastic gradient second moments E||g(x)||_2^2 &lt;= G^2 to bound local error memory across H local steps.</li>
+      <li>Aggressive joint sparsification and quantization (small gamma) combined with large H increases the transient O(H^2 / (gamma^2 T)) error term.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Qsparse-local-SGD unifies periodic local SGD averaging (as in Federated Learning) with composed quantization, sparsification, and error feedback.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Qsparse-local-SGD composes contractive top-k/rand-k gradient sparsification with stochastic quantization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r422-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r422-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1906.02367" target="_blank" rel="noopener">Qsparse-local-SGD: Distributed SGD with Quantization, Sparsification, and Local Computations</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Debopam Basu, Deepesh Data, Can Karakus, Suhas Diggavi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper/2019/hash/d202ed5b6ef82d9b842d9cf2f73b0a37-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f8502c2b5363…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r422-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r422-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1906.02367" target="_blank" rel="noopener">Qsparse-local-SGD: Distributed SGD with Quantization, Sparsification, and Local Computations (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Debopam Basu, Deepesh Data, Can Karakus, Suhas Diggavi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1906.02367</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4e78e1a4f8c6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r422-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r422-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper/2019/hash/d202ed5b6ef82d9b842d9cf2f73b0a37-Abstract.html" target="_blank" rel="noopener">Qsparse-local-SGD: Distributed SGD with Quantization, Sparsification, and Local Computations (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Debopam Basu, Deepesh Data, Can Karakus, Suhas Diggavi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper/2019/hash/d202ed5b6ef82d9b842d9cf2f73b0a37-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a122b093ae1b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:25:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:25:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/QsparseLocalSgdQuantizationSparsificationAndLocalComputation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/QsparseLocalSgdQuantizationSparsificationAndLocalComputation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
