@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Perturbed Accelerated Gradient Descent with Negative-Curvature Reset for Escaping Saddle Points · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Perturbed Accelerated Gradient Descent with Negative-Curvature Reset for Escaping Saddle Points</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Perturbed Accelerated Gradient Descent with Negative-Curvature Reset for Escaping Saddle Points</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Perturbed Accelerated Gradient Descent (PAGD), Jin-Netrapalli-Jordan Accelerated Saddle-Point Escape Algorithm, Single-Loop Hamiltonian and Negative-Curvature-Exploitation AGD
+    </div>
+
+  <div class="detail-desc">
+    Perturbed Accelerated Gradient Descent with Negative-Curvature Reset for Escaping Saddle Points (PAGD) is a single-loop, Hessian-free momentum optimization algorithm introduced by Jin, Netrapalli, and Jordan (2018) for minimizing ell-smooth, rho-Hessian-Lipschitz nonconvex functions f : R^d -&gt; R that finds an epsilon-second-order stationary point (||grad f(x)|| &lt;= epsilon and lambda_min(grad^2 f(x)) &gt;= -sqrt(rho * epsilon)) in O~((ell^{1/2} rho^{1/4} (f(x_0) - f^*) / epsilon^{7/4}) log^6(d ell Delta_f / (rho epsilon delta))) gradient evaluations (Theorem 3), strictly improving upon the O~(epsilon^{-2}) complexity of Perturbed Gradient Descent without requiring nested proximal loops or Hessian-vector products. PAGD (Algorithm 2) augments Nesterov&#39;s accelerated gradient descent (y_t = x_t + (1 - theta) v_t, x_{t+1} = y_t - eta grad f(y_t), v_{t+1} = x_{t+1} - x_t with eta = 1 / (4 ell) and momentum parameter theta = 1 / (4 sqrt(kappa)) where kappa = ell / sqrt(rho * epsilon)) with two mechanisms: (1) uniform ball perturbation x_t &lt;- x_t + xi_t (xi_t ~ Unif(B_0(r))) whenever ||grad f(x_t)|| &lt;= epsilon and no perturbation occurred in the last T = O~(sqrt(kappa)) steps, and (2) Negative Curvature Exploitation (NCE, Algorithm 3) triggered whenever f(x_t) &lt;= f(y_t) + &lt;grad f(y_t), x_t - y_t&gt; - (gamma / 2)||x_t - y_t||^2 (with gamma = theta^2 / eta), which resets momentum v_{t+1} = 0 and either stays at x_t if ||v_t|| &gt;= s = gamma / (4 rho) or steps to argmin_{x in {x_t +/- s v_t / ||v_t||}} f(x) if ||v_t|| &lt; s. Progress is certified via a computable discrete Hamiltonian E_t = f(x_t) + ||v_t||^2 / (2 eta) (Equation 1) that monotonically decreases on every mild-nonconvexity AGD step (Lemma 4) and every NCE step (Lemma 5), together with an improve-or-localize bound sum_{tau=t+1}^{t+T} ||x_tau - x_{tau-1}||^2 &lt;= (2 eta / theta)(E_t - E_{t+T}) (Corollary 6).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz Optimization (`AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization`), which uses unaccelerated gradient descent (theta = 1) and requires O~(epsilon^{-2}) iterations rather than O~(epsilon^{-7/4}) via Hamiltonian momentum accumulation and NCE resets, and from Accelerated Gradient and Negative Curvature Exploitation for Non-Convex Optimization (`AIMech:AcceleratedGradientAndNegativeCurvatureExploitationForNonConvexOptimization`), which is a nested-loop algorithm combining Lanczos negative-curvature search with proximal regularized subproblems rather than a single-loop purely gradient-based perturbed AGD method.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r352-claim-hamiltonian-monotonic-decrease-and-nce-reset</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any ell-smooth, rho-Hessian-Lipschitz function f with learning rate eta &lt;= 1 / (2 ell) and momentum parameter theta in [2 eta gamma, 1/2], the discrete Hamiltonian E_t = f(x_t) + ||v_t||^2 / (2 eta) decreases on every AGD step where f(x_t) &gt;= f(y_t) + &lt;grad f(y_t), x_t - y_t&gt; - (gamma / 2)||x_t - y_t||^2 holds according to E_{t+1} &lt;= E_t - (theta / (2 eta))||v_t||^2 - (eta / 4)||grad f(y_t)||^2 (Lemma 4); conversely, when strong negative curvature violates this condition (where standard AGD can increase E_t, Appendix A.1), Negative Curvature Exploitation (Algorithm 3) guarantees E_{t+1} &lt;= E_t - min{s^2 / (2 eta), (1/2)(gamma - 2 rho s) s^2} (Lemma 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r352-primary-pdf">Accelerated Gradient Descent Escapes Saddle Points Faster than Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Equations 4-6 and Lemmas 4-5, pp. 9-10; Appendix A and A.1, pp. 16-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r352-claim-improve-or-localize-and-accelerated-eigenvalue-dynamics</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Telescoping Lemma 4 yields the improve-or-localize bound sum_{tau=t+1}^{t+T} ||x_tau - x_{tau-1}||^2 &lt;= (2 eta / theta)(E_t - E_{t+T}) (Corollary 6), confining non-improving trajectories to a local ball of radius O(sqrt(epsilon / rho)) where quadratic eigen-decomposition shows that AGD with theta = Theta(1 / sqrt(kappa)) contracts strongly convex directions at rate 1 - Theta(1 / sqrt(kappa)) (Lemma 27) and amplifies negative-curvature escape directions lambda &lt;= -sqrt(rho * epsilon) at rate mu_1(A) &gt;= 1 + Theta(1 / sqrt(kappa)) versus 1 + Theta(1 / kappa) for GD (Section 4.2, Lemma 30).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r352-primary-pdf">Accelerated Gradient Descent Escapes Saddle Points Faster than Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, Corollary 6 and Eigen-direction analysis, pp. 10-11; Appendix C.2-C.3, Lemmas 27 and 30, pp. 36, 40</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r352-claim-single-loop-seven-fourths-sosp-complexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With hyperparameters eta = 1/(4 ell), theta = 1/(4 sqrt(kappa)), gamma = theta^2 / eta, s = gamma / (4 rho), and T = sqrt(kappa) chi c where kappa = ell / sqrt(rho * epsilon), PAGD decreases the Hamiltonian by at least Omega~(sqrt(epsilon^3 / rho)) every 2T steps in both large-gradient (Lemma 7) and negative-curvature saddle regimes (Lemma 8 via twin-trajectory coupling Lemma 18), finding an epsilon-second-order stationary point with probability at least 1 - delta in O((ell^{1/2} rho^{1/4} (f(x_0) - f^*) / epsilon^{7/4}) log^6(d ell Delta_f / (rho epsilon delta))) iterations (Theorem 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r352-primary-pdf">Accelerated Gradient Descent Escapes Saddle Points Faster than Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Equation 3 and Theorem 3, p. 8; Section 4.3, Lemmas 7-11, pp. 11-12; Appendix B.2-B.4, Lemmas 16-18, pp. 21-31</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires exact full-batch gradient evaluations and knowledge of both the gradient Lipschitz constant ell and Hessian Lipschitz constant rho to set the learning rate eta, momentum damping theta, and NCE curvature threshold gamma (Section 3, Equation 3).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Escapes strict saddle points in nonconvex matrix sensing, matrix completion, and robust PCA objectives.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Accelerates smooth nonconvex empirical risk minimization and multi-layer neural network training objectives.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r352-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r352-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1711.10456.pdf" target="_blank" rel="noopener">Accelerated Gradient Descent Escapes Saddle Points Faster than Gradient Descent</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chi Jin, Praneeth Netrapalli, Michael I. Jordan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v75/jin18a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:94672f7a18ca…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r352-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r352-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1711.10456" target="_blank" rel="noopener">Accelerated Gradient Descent Escapes Saddle Points Faster than Gradient Descent (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chi Jin, Praneeth Netrapalli, Michael I. Jordan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1711.10456</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e952cca22560…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r352-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r352-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v75/jin18a.html" target="_blank" rel="noopener">Accelerated Gradient Descent Escapes Saddle Points Faster than Gradient Descent (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chi Jin, Praneeth Netrapalli, Michael I. Jordan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v75/jin18a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:111ddc4fe9ff…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:15:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:15:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
