@@ -1,0 +1,377 @@
+# Scientific author self-review of Centered Clipping and Worker Momentum for Byzantine-Robust Optimization
+
+- Review: 20261019T080630Z-centered-clipping-and-worker-momentum-byzantine
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T08:06:00Z
+- Finished UTC: 2026-10-19T08:06:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Centered Clipping and Worker Momentum for Byzantine-Robust Optimization as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/CenteredClippingAndWorkerMomentumForByzantineRobustOptimization.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 493da16915a74dce810228a676736821f8c522b9.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization | data/curated/CenteredClippingAndWorkerMomentumForByzantineRobustOptimization.yaml | maintained | Centered Clipping and Worker Momentum for Byzantine-Robust Optimization |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization | Validated history sidecar files. |
+| python3 centered-clipping-and-worker-momentum-byzantine-boundaries.py | passed | True | AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization | {<br>  "concept": "AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization",<br>  "counterexample1_true_mean": 0.0,<br>  "counterexample1_median": -1.0,<br>  "n_workers": 20,<br>  "delta_byzantine": 0.1,<br>  "alpha_momentum": 0.15,<br>  "tau_clip_radius": 0.35,<br>  "l2_error_momentum_centered_clipping": 0.077992,<br>  "l2_error_unclipped_mean": 5.555709,<br>  "status": "VERIFIED"<br>} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization.
+
+Centered Clipping and Worker Momentum for Byzantine-Robust Optimization is a distinct concept.
+
+Distinct from memoryless middle-seeking aggregators such as Krum (AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent), Coordinate-wise Median (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning), and RFA (AIMech:RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian), which Theorem I and Counterexamples 1-3 prove can fail to converge even with zero Byzantine workers (delta = 0) under asymmetric/bimodal stochastic gradient noise and suffer an Omega(delta * sigma^2 / mu^2) lower bound under time-coupled attacks (Theorem II), and from Bucketing (AIMech:BucketingResamplingForHeterogeneousByzantineRobustOptimization, which addresses inter-client data heterogeneity via random s-bucketing rather than intra-client stochastic noise via centered clipping).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in centered-clipping-and-worker-momentum-byzantine-boundaries.py passed with exit code 0: {
+  "concept": "AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization",
+  "counterexample1_true_mean": 0.0,
+  "counterexample1_median": -1.0,
+  "n_workers": 20,
+  "delta_byzantine": 0.1,
+  "alpha_momentum": 0.15,
+  "tau_clip_radius": 0.35,
+  "l2_error_momentum_centered_clipping": 0.077992,
+  "l2_error_unclipped_mean": 5.555709,
+  "status": "VERIFIED"
+}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T080600Z-centered-clipping-and-worker-momentum-byzantine.json | supports | No normalized identity match for AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/centered-clipping-and-worker-momentum-byzantine-boundaries.py | supports | All constructed boundary assertions in centered-clipping-and-worker-momentum-byzantine-boundaries.py passed with exit code 0: {<br>  "concept": "AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization",<br>  "counterexample1_true_mean": 0.0,<br>  "counterexample1_median": -1.0,<br>  "n_workers": 20,<br>  "delta_byzantine": 0.1,<br>  "alpha_momentum": 0.15,<br>  "tau_clip_radius": 0.35,<br>  "l2_error_momentum_centered_clipping": 0.077992,<br>  "l2_error_unclipped_mean": 5.555709,<br>  "status": "VERIFIED"<br>} |
+| r403-primary-pdf | https://proceedings.mlr.press/v139/karimireddy21a.html; Full-text PDF | supports | Full-text PDF (Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:5311-5319 (2021)) read and verified. |
+| r403-arxiv-abs | https://arxiv.org/abs/2012.10333; arXiv abstract | supports | arXiv abstract read and verified. |
+| r403-metadata-cr | https://doi.org/10.48550/arXiv.2012.10333; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization in Round 403.
+- All pages of Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:5311-5319 (2021) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T080630Z-centered-clipping-and-worker-momentum-byzantine
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Centered Clipping and Worker Momentum for
+  Byzantine-Robust Optimization
+started_at: '2026-10-19T08:06:00Z'
+finished_at: '2026-10-19T08:06:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:5311-5319
+    (2021) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Centered Clipping and Worker Momentum for Byzantine-Robust Optimization
+  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
+source:
+  git_revision: 493da16915a74dce810228a676736821f8c522b9
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/CenteredClippingAndWorkerMomentumForByzantineRobustOptimization.yaml
+    sha256: 38f9064fd946dd1edc66e8d089630f32fe97f2c070753278f160070b1f7e943e
+    role: target
+  - path: research/discovery/20261019T080600Z-centered-clipping-and-worker-momentum-byzantine.json
+    sha256: 15404c5782de15a004183c7dc87501761377e1cd58509a605286d64183ee8bcf
+    role: context
+  - path: research/discovery/centered-clipping-and-worker-momentum-byzantine-boundaries.py
+    sha256: 510593a596262041721348b8f837ee9add1036c252b19f49bce85873d725a6d7
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+  path: data/curated/CenteredClippingAndWorkerMomentumForByzantineRobustOptimization.yaml
+  label: Centered Clipping and Worker Momentum for Byzantine-Robust Optimization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/CenteredClippingAndWorkerMomentumForByzantineRobustOptimization.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/CenteredClippingAndWorkerMomentumForByzantineRobustOptimization.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 centered-clipping-and-worker-momentum-byzantine-boundaries.py
+  command: python3 research/discovery/centered-clipping-and-worker-momentum-byzantine-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept\": \"AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization\"\
+    ,\n  \"counterexample1_true_mean\": 0.0,\n  \"counterexample1_median\": -1.0,\n\
+    \  \"n_workers\": 20,\n  \"delta_byzantine\": 0.1,\n  \"alpha_momentum\": 0.15,\n\
+    \  \"tau_clip_radius\": 0.35,\n  \"l2_error_momentum_centered_clipping\": 0.077992,\n\
+    \  \"l2_error_unclipped_mean\": 5.555709,\n  \"status\": \"VERIFIED\"\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T080600Z-centered-clipping-and-worker-momentum-byzantine.json
+  accessed_at: '2026-10-19T08:06:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T08:06:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/centered-clipping-and-worker-momentum-byzantine-boundaries.py
+  accessed_at: '2026-10-19T08:06:00Z'
+  snapshot_sha256: 510593a596262041721348b8f837ee9add1036c252b19f49bce85873d725a6d7
+  support: supports
+  summary: "All constructed boundary assertions in centered-clipping-and-worker-momentum-byzantine-boundaries.py\
+    \ passed with exit code 0: {\n  \"concept\": \"AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization\"\
+    ,\n  \"counterexample1_true_mean\": 0.0,\n  \"counterexample1_median\": -1.0,\n\
+    \  \"n_workers\": 20,\n  \"delta_byzantine\": 0.1,\n  \"alpha_momentum\": 0.15,\n\
+    \  \"tau_clip_radius\": 0.35,\n  \"l2_error_momentum_centered_clipping\": 0.077992,\n\
+    \  \"l2_error_unclipped_mean\": 5.555709,\n  \"status\": \"VERIFIED\"\n}"
+- evidence_id: r403-primary-pdf
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v139/karimireddy21a.html
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T08:06:00Z'
+  snapshot_sha256: 8be5b65b7aadadaaadc93fbd5b8b4f17fc43400b3f328f642882bedc2ab283b8
+  support: supports
+  summary: Full-text PDF (Proceedings of the 38th International Conference on Machine
+    Learning (ICML 2021), PMLR 139:5311-5319 (2021)) read and verified.
+- evidence_id: r403-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2012.10333
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T08:06:00Z'
+  snapshot_sha256: 7ba0305f9d04b7058885e09b74aa550a8ab1be89188adb03381ac188c9ab85b5
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r403-metadata-cr
+  kind: primary_source
+  reference: https://doi.org/10.48550/arXiv.2012.10333
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T08:06:00Z'
+  snapshot_sha256: 20b12cc5eab3fad3bf1daf4d8c42d232e64cdfa8562f618aa73806c3c1d05026
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+  evidence_ids:
+  - identity
+  - r403-primary-pdf
+  - r403-arxiv-abs
+  - r403-metadata-cr
+  summary: Centered Clipping and Worker Momentum for Byzantine-Robust Optimization
+    is a distinct concept.
+  details: Distinct from memoryless middle-seeking aggregators such as Krum (AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent),
+    Coordinate-wise Median (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning),
+    and RFA (AIMech:RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian),
+    which Theorem I and Counterexamples 1-3 prove can fail to converge even with zero
+    Byzantine workers (delta = 0) under asymmetric/bimodal stochastic gradient noise
+    and suffer an Omega(delta * sigma^2 / mu^2) lower bound under time-coupled attacks
+    (Theorem II), and from Bucketing (AIMech:BucketingResamplingForHeterogeneousByzantineRobustOptimization,
+    which addresses inter-client data heterogeneity via random s-bucketing rather
+    than intra-client stochastic noise via centered clipping).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+  evidence_ids:
+  - mapping
+  - r403-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+  evidence_ids:
+  - r403-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: "All constructed boundary assertions in centered-clipping-and-worker-momentum-byzantine-boundaries.py\
+    \ passed with exit code 0: {\n  \"concept\": \"AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization\"\
+    ,\n  \"counterexample1_true_mean\": 0.0,\n  \"counterexample1_median\": -1.0,\n\
+    \  \"n_workers\": 20,\n  \"delta_byzantine\": 0.1,\n  \"alpha_momentum\": 0.15,\n\
+    \  \"tau_clip_radius\": 0.35,\n  \"l2_error_momentum_centered_clipping\": 0.077992,\n\
+    \  \"l2_error_unclipped_mean\": 5.555709,\n  \"status\": \"VERIFIED\"\n}"
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+  evidence_ids:
+  - identity
+  - mapping
+  - r403-primary-pdf
+  - r403-arxiv-abs
+  - r403-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+  in Round 403.
+- All pages of Proceedings of the 38th International Conference on Machine Learning
+  (ICML 2021), PMLR 139:5311-5319 (2021) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
