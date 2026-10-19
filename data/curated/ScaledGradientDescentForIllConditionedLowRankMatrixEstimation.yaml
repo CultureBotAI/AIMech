@@ -1,0 +1,96 @@
+id: AIMech:ScaledGradientDescentForIllConditionedLowRankMatrixEstimation
+name: Scaled Gradient Descent (ScaledGD) for Ill-Conditioned Low-Rank Matrix and Tensor Estimation
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A right-preconditioned nonconvex factored optimization methodology (introduced by Tian Tong, Cong Ma, and Yuejie Chi in 2021) that eliminates the condition-number $\\kappa = \\sigma_1(\\boldsymbol{X}_\\star)/\\sigma_r(\\boldsymbol{X}_\\star)$ iteration slowdown of Burer\u2013Monteiro gradient descent across low-rank matrix sensing, matrix completion, robust PCA, and Tucker low-multilinear-rank tensor estimation. Given a loss $f(\\boldsymbol{L}\\boldsymbol{R}^\\top)$ over factors $\\boldsymbol{L}\\in\\mathbb{R}^{n_1\\times r}$ and $\\boldsymbol{R}\\in\\mathbb{R}^{n_2\\times r}$, ScaledGD updates $\\boldsymbol{L}_{t+1} = \\boldsymbol{L}_t - \\eta\\,\\nabla_{\\boldsymbol{L}} f(\\boldsymbol{L}_t\\boldsymbol{R}_t^\\top)(\\boldsymbol{R}_t^\\top\\boldsymbol{R}_t)^{-1}$ and $\\boldsymbol{R}_{t+1} = \\boldsymbol{R}_t - \\eta\\,\\nabla_{\\boldsymbol{R}} f(\\boldsymbol{L}_t\\boldsymbol{R}_t^\\top)(\\boldsymbol{L}_t^\\top\\boldsymbol{L}_t)^{-1}$ (Equation 3), where the $r\\times r$ Gram inverses $(\\boldsymbol{R}_t^\\top\\boldsymbol{R}_t)^{-1}$ and $(\\boldsymbol{L}_t^\\top\\boldsymbol{L}_t)^{-1}$ cost only $O(r^3)$ flops and make the trajectory invariant under arbitrary invertible factor transformations $(\\boldsymbol{L}_t\\boldsymbol{Q}, \\boldsymbol{R}_t\\boldsymbol{Q}^{-\\top})$ ($\\boldsymbol{Q}\\in\\mathrm{GL}(r)$). By analyzing iterates in the $\\boldsymbol{\\Sigma}_\\star$-scaled distance $\\mathrm{dist}^2(\\boldsymbol{Z},\\boldsymbol{Z}_\\star) = \\inf_{\\boldsymbol{Q}\\in\\mathrm{GL}(r)}(\\|(\\boldsymbol{L}\\boldsymbol{Q} - \\boldsymbol{L}_\\star)\\boldsymbol{\\Sigma}_\\star^{1/2}\\|_F^2 + \\|(\\boldsymbol{R}\\boldsymbol{Q}^{-\\top} - \\boldsymbol{R}_\\star)\\boldsymbol{\\Sigma}_\\star^{1/2}\\|_F^2)$ (Equation 11), where the optimal alignment $\\boldsymbol{Q}$ satisfies the cross-symmetry identity $(\\boldsymbol{L}\\boldsymbol{Q})^\\top(\\boldsymbol{L}\\boldsymbol{Q} - \\boldsymbol{L}_\\star)\\boldsymbol{\\Sigma}_\\star = \\boldsymbol{\\Sigma}_\\star(\\boldsymbol{R}\\boldsymbol{Q}^{-\\top} - \\boldsymbol{R}_\\star)^\\top(\\boldsymbol{R}\\boldsymbol{Q}^{-\\top})$ (Lemma 10), Theorems 1\u20134 prove that ScaledGD contracts at rate $\\mathrm{dist}(\\boldsymbol{Z}_t,\\boldsymbol{Z}_\\star) \\le (1 - 0.6\\eta)^t \\epsilon_0\\sigma_r(\\boldsymbol{X}_\\star)$ in $O(\\log(1/\\epsilon))$ iterations completely independent of $\\kappa$."
+identity_notes: Resolved against all 442 pinned AIO concepts and 693 maintained AIMech concepts. Distinct from `AIMech:ImplicitRegularizationInNonconvexStatisticalEstimationByLeaveOneOutTrajectoryAnalysis` (Ma, Wang, Chi, & Chen 2020) and `AIMech:ConvexAndNonconvexBridgingForRobustPCAUnderNoiseOutliersAndMissingData` (Chen, Fan, Ma, & Yan 2021), which analyze unpreconditioned factored gradient descent whose iteration complexity scales linearly or quadratically with the matrix condition number $\kappa = \sigma_1(\boldsymbol{X}_\star)/\sigma_r(\boldsymbol{X}_\star)$ and requires explicit balancing regularizers $\|\boldsymbol{L}^\top\boldsymbol{L} - \boldsymbol{R}^\top\boldsymbol{R}\|_F^2$, whereas ScaledGD uses right Gram-inverse preconditioning $(\boldsymbol{R}_t^\top\boldsymbol{R}_t)^{-1}$ to achieve $\mathrm{GL}(r)$ equivariance and $\kappa$-free contraction without balancing penalties.
+aliases:
+- ScaledGD
+- Scaled Gradient Descent for Low-Rank Matrix and Tensor Estimation
+- Tong-Ma-Chi Preconditioned Factored Gradient Descent
+definition_evidence:
+- source_id: tmc2021-scaledgd-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: tmc2021-scaledgd-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: tmc2021-scaledgd-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-glr-reparameterization-equivariance-and-scaled-procrustes-alignment-metric
+  kind: mechanism
+  statement: Under the ScaledGD update $\boldsymbol{L}_{t+1} = \boldsymbol{L}_t - \eta\nabla_{\boldsymbol{L}}f(\boldsymbol{L}_t\boldsymbol{R}_t^\top)(\boldsymbol{R}_t^\top\boldsymbol{R}_t)^{-1}$ and $\boldsymbol{R}_{t+1} = \boldsymbol{R}_t - \eta\nabla_{\boldsymbol{R}}f(\boldsymbol{L}_t\boldsymbol{R}_t^\top)(\boldsymbol{L}_t^\top\boldsymbol{L}_t)^{-1}$ (Equation 3), replacing $(\boldsymbol{L}_t,\boldsymbol{R}_t)$ by $(\boldsymbol{L}_t\boldsymbol{Q},\boldsymbol{R}_t\boldsymbol{Q}^{-\top})$ for any invertible $\boldsymbol{Q}\in\mathrm{GL}(r)$ yields $(\boldsymbol{L}_{t+1}\boldsymbol{Q},\boldsymbol{R}_{t+1}\boldsymbol{Q}^{-\top})$ and leaves the product $\boldsymbol{X}_{t+1} = \boldsymbol{L}_{t+1}\boldsymbol{R}_{t+1}^\top$ exactly invariant (Section 2.1), while Lemma 10 proves that the minimizer $\boldsymbol{Q}$ of the $\boldsymbol{\Sigma}_\star$-weighted distance $\mathrm{dist}^2(\boldsymbol{Z},\boldsymbol{Z}_\star)$ (Equation 11) exists and satisfies the exact alignment equation $(\boldsymbol{L}\boldsymbol{Q})^\top(\boldsymbol{L}\boldsymbol{Q} - \boldsymbol{L}_\star)\boldsymbol{\Sigma}_\star = \boldsymbol{\Sigma}_\star(\boldsymbol{R}\boldsymbol{Q}^{-\top} - \boldsymbol{R}_\star)^\top(\boldsymbol{R}\boldsymbol{Q}^{-\top})$ (Section 2.1, Equation 3; Section 2.3, Equation 11; Appendix A.2, Lemma 10).
+  evidence:
+  - source_id: tmc2021-scaledgd-pdf
+    locator: Section 2.1 (Eq. 3, pp. 6-8), Section 2.3 (Eq. 11, pp. 10-12), Appendix A.2 (Lemma 10, pp. 26-28)
+    relation: supports
+- claim_id: claim-condition-number-free-linear-contraction-for-matrix-sensing-and-robust-pca
+  kind: mechanism
+  statement: Theorem 1 and Theorem 3 prove that for rank-$r$ matrix sensing under the Restricted Isometry Property $\delta_{2r} \le c_0$ ($m \gtrsim nr\log n$) and for Robust PCA with sparsity fraction $\alpha \lesssim 1/(\mu^2 r^{3/2}\kappa)$ via entrywise sparsification $\mathcal{S}_\zeta$, spectral initialization followed by ScaledGD with constant step size $\eta \in (0, 2/3]$ satisfies $\|\boldsymbol{L}_t\boldsymbol{R}_t^\top - \boldsymbol{X}_\star\|_F \le 1.5\,\mathrm{dist}(\boldsymbol{Z}_t,\boldsymbol{Z}_\star) \le 1.5(1 - 0.6\eta)^t \epsilon_0\sigma_r(\boldsymbol{X}_\star)$ for all $t\ge 0$, achieving $\epsilon$-accuracy in $O(\log(1/\epsilon))$ iterations independent of $\kappa = \sigma_1(\boldsymbol{X}_\star)/\sigma_r(\boldsymbol{X}_\star)$ (Section 2.2, Theorems 1 and 3; Section 3, Proof of Theorem 1).
+  evidence:
+  - source_id: tmc2021-scaledgd-pdf
+    locator: Section 2.2 (Theorem 1, p. 8; Theorem 3, pp. 9-10), Section 3 (pp. 12-16)
+    relation: supports
+- claim_id: claim-projected-scaled-gd-for-matrix-completion-and-tucker-tensor-estimation
+  kind: application
+  statement: "Combining ScaledGD with row-wise incoherence projection $\\mathcal{P}_B$ on $\\|\\boldsymbol{L}_{i,\\cdot}\\boldsymbol{\\Sigma}_\\star^{-1/2}\\|_2$ for matrix completion (Theorem 2, Equations 6\u20137) and extending to mode-wise Gram-inverse updates $\\boldsymbol{U}_k^{(t+1)} = \\boldsymbol{U}_k^{(t)} - \\eta\\nabla_{\\boldsymbol{U}_k}f(\\mathcal{X}_t)(\\breve{\\boldsymbol{U}}_k^{(t)\\top}\\breve{\\boldsymbol{U}}_k^{(t)})^{-1}$ and core-tensor update $\\mathcal{G}_{t+1} = \\mathcal{G}_t - \\eta\\nabla_{\\mathcal{G}}f(\\mathcal{X}_t)\\times_1(\\boldsymbol{U}_1^{(t)\\top}\\boldsymbol{U}_1^{(t)})^{-1}\\cdots\\times_3(\\boldsymbol{U}_3^{(t)\\top}\\boldsymbol{U}_3^{(t)})^{-1}$ for Tucker tensor recovery (Section 4, Equation 16, Theorems 4\u20137) yields condition-number-free linear convergence across matrix completion, tensor sensing, tensor completion, and tensor robust PCA (Section 2.2, Theorem 2; Section 4, Equations 16\u201320, Theorems 4\u20137)."
+  evidence:
+  - source_id: tmc2021-scaledgd-pdf
+    locator: Section 2.2 (Theorem 2, pp. 8-9), Section 4 (Eqs. 16-20, Theorems 4-7, pp. 16-22)
+    relation: supports
+evidence_sources:
+- source_id: tmc2021-scaledgd-pdf
+  title: Accelerating Ill-Conditioned Low-Rank Matrix Estimation via Scaled Gradient Descent
+  authors: &id001
+  - Tian Tong
+  - Cong Ma
+  - Yuejie Chi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2005.08898.pdf
+  persistent_id: https://jmlr.org/papers/v22/20-1067.html
+  version: arXiv:2005.08898v4 full-text PDF (58 pages), published in Journal of Machine Learning Research 22(150):1-63 (2021). (1918567 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:50:00Z'
+  sha256: 213640388a63084dca2c935db187bcc56eb5132a05523cea7082dd2cd4f654fd
+- source_id: tmc2021-scaledgd-abs
+  title: Accelerating Ill-Conditioned Low-Rank Matrix Estimation via Scaled Gradient Descent (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2005.08898
+  persistent_id: https://arxiv.org/abs/2005.08898
+  version: arXiv abstract page (7963 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:50:00Z'
+  sha256: 597e3d98316cdfd819550e4c7b210f1a9f204ea61588844e159d2afb8e0f1c1a
+- source_id: tmc2021-scaledgd-cr
+  title: Accelerating Ill-Conditioned Low-Rank Matrix Estimation via Scaled Gradient Descent (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://jmlr.org/papers/v22/20-1067.html
+  persistent_id: https://jmlr.org/papers/v22/20-1067.html
+  version: Crossref API work record (7963 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:50:00Z'
+  sha256: 597e3d98316cdfd819550e4c7b210f1a9f204ea61588844e159d2afb8e0f1c1a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Accelerates nonconvex factored low-rank matrix and Tucker tensor estimation via right Gram-inverse preconditioning.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Achieves condition-number-independent linear convergence for ill-conditioned Robust PCA and low-rank matrix completion.
+limitations:
+- Requires the target rank r to be specified such that sigma_r(X_star) > 0; if the factorization is over-parameterized with r > rank(X_star), the r x r factor Gram matrices R_t^T R_t and L_t^T L_t become singular or nearly singular as iterates approach X_star, requiring damping (ScaledGD(lambda)).
+- Guaranteed kappa-free linear contraction requires an initial estimate inside the local basin dist(Z_0, Z_star) <= epsilon_0 sigma_r(X_star), so the sample complexity of spectral initialization still depends polynomially on kappa.
+curation:
+  created_at: '2026-10-19T05:50:00Z'
+  updated_at: '2026-10-19T05:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
