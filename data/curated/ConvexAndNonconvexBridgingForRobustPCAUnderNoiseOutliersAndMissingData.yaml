@@ -1,0 +1,100 @@
+id: AIMech:ConvexAndNonconvexBridgingForRobustPCAUnderNoiseOutliersAndMissingData
+name: Convex and Nonconvex Optimization Bridging for Robust PCA under Noise, Outliers, and Missing Data
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: "A unified convex\u2013nonconvex optimization analysis and estimation framework (introduced by Yuxin Chen, Jianqing Fan, Cong Ma, and Yuling Yan in 2021) for noisy Robust Principal Component Analysis with missing data, where partial observations on $\\Omega \\subseteq [n]\\times[n]$ obey $Y_{i,j} = M_{i,j}^\\star + S_{i,j}^\\star + E_{i,j}$ with rank-$r$ positive semidefinite signal $\\boldsymbol{M}^\\star = \\boldsymbol{U}^\\star\\boldsymbol{U}^{\\star\\top}$, sparse arbitrary-magnitude outliers $\\boldsymbol{S}^\\star$, and dense sub-Gaussian noise $\\boldsymbol{E}$. Rather than constructing a fragile least-squares dual certificate directly for the convex Principal Component Pursuit (PCP) program $\\min_{\\boldsymbol{M}\\succeq\\boldsymbol{0},\\boldsymbol{S}} \\frac{1}{2}\\|\\mathcal{P}_\\Omega(\\boldsymbol{M}+\\boldsymbol{S}-\\boldsymbol{Y})\\|_F^2 + \\lambda\\,\\mathrm{Tr}(\\boldsymbol{M}) + \\tau\\|\\mathcal{P}_\\Omega(\\boldsymbol{S})\\|_1$ (Equation 2.3), the method analyzes an auxiliary nonconvex Burer\u2013Monteiro factored estimator $\\min_{\\boldsymbol{U}\\in\\mathbb{R}^{n\\times r},\\boldsymbol{S}} \\frac{1}{2}\\|\\mathcal{P}_\\Omega(\\boldsymbol{U}\\boldsymbol{U}^\\top+\\boldsymbol{S}-\\boldsymbol{Y})\\|_F^2 + \\frac{\\lambda}{2}\\|\\boldsymbol{U}\\|_F^2 + \\tau\\|\\mathcal{P}_\\Omega(\\boldsymbol{S})\\|_1$ (Equation 3.1) via alternating gradient descent on $\\boldsymbol{U}$ and exact soft-thresholding $\\boldsymbol{S}^{t+1} = \\mathcal{S}_\\tau(\\mathcal{P}_\\Omega(\\boldsymbol{Y} - \\boldsymbol{U}^t\\boldsymbol{U}^{t\\top}))$ (Algorithm 1). Using leave-one-out trajectory analysis to prove that the nonconvex stationary point $(\\widehat{\\boldsymbol{U}},\\widehat{\\boldsymbol{S}})$ satisfies $\\|\\widehat{\\boldsymbol{U}}\\widehat{\\boldsymbol{H}} - \\boldsymbol{U}^\\star\\|_{2,\\infty} \\lesssim \\frac{\\sigma\\sqrt{n\\log n}}{p\\sqrt{\\sigma_{\\min}}} \\sqrt{\\frac{\\mu r}{n}}$ and strict residual spectral bound $\\|\\mathcal{P}_\\Omega(\\boldsymbol{Y} - \\widehat{\\boldsymbol{U}}\\widehat{\\boldsymbol{U}}^\\top - \\widehat{\\boldsymbol{S}})\\| < \\lambda$ (Lemma 4.1), Proposition 4.1 proves that $(\\widehat{\\boldsymbol{M}}_{\\mathrm{cvx}} = \\widehat{\\boldsymbol{U}}\\widehat{\\boldsymbol{U}}^\\top, \\widehat{\\boldsymbol{S}}_{\\mathrm{cvx}} = \\widehat{\\boldsymbol{S}})$ automatically satisfies the KKT optimality conditions of the convex program (Equation 2.3). Consequently, Theorem 2.1 establishes that the convex PCP solution is automatically exact rank-$r$, achieves optimal entrywise $\\|\\widehat{\\boldsymbol{M}}_{\\mathrm{cvx}} - \\boldsymbol{M}^\\star\\|_\\infty$ and $\\|\\widehat{\\boldsymbol{M}}_{\\mathrm{cvx}} - \\boldsymbol{M}^\\star\\|_F$ error bounds without extra $\\sqrt{n}$ suboptimal factors, and recovers the outlier support $\\mathrm{supp}(\\boldsymbol{S}^\\star)$."
+identity_notes: Resolved against all 442 pinned AIO concepts and 688 maintained AIMech concepts. Distinct from `AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification` (Chen, Fan, Ma, & Yan 2019, which studies outlier-free matrix completion with $\boldsymbol{S}^\star = \boldsymbol{0}$) and from `AIMech:ImplicitRegularizationInNonconvexStatisticalEstimationByLeaveOneOutTrajectoryAnalysis` (Ma, Wang, Chi, & Chen 2020, which analyzes unregularized nonconvex algorithms in noiseless/Gaussian models without bridging to the global optimality and rank-$r$ exactness of convex nuclear-norm plus $\ell_1$-penalized Robust PCA).
+aliases:
+- Convex-Nonconvex Bridging for Noisy Robust PCA
+- Chen-Fan-Ma-Yan Primal-Dual Bridging for Principal Component Pursuit
+- Factored Nonconvex Certificate for Nuclear-Norm + L1 Robust PCA
+definition_evidence:
+- source_id: cfmy2021-rpca-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: cfmy2021-rpca-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: cfmy2021-rpca-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-nonconvex-stationary-point-as-primal-dual-certificate-for-convex-pcp
+  kind: mechanism
+  statement: Proposition 4.1 and Lemma 4.1 prove that whenever a stationary point $(\widehat{\boldsymbol{U}},\widehat{\boldsymbol{S}})$ of the nonconvex factored problem $\min_{\boldsymbol{U}\in\mathbb{R}^{n\times r},\boldsymbol{S}} \frac{1}{2}\|\mathcal{P}_\Omega(\boldsymbol{U}\boldsymbol{U}^\top + \boldsymbol{S} - \boldsymbol{Y})\|_F^2 + \frac{\lambda}{2}\|\boldsymbol{U}\|_F^2 + \tau\|\mathcal{P}_\Omega(\boldsymbol{S})\|_1$ (Equation 3.1) satisfies the spectral norm condition $\|\mathcal{P}_\Omega(\boldsymbol{Y} - \widehat{\boldsymbol{U}}\widehat{\boldsymbol{U}}^\top - \widehat{\boldsymbol{S}})\| < \lambda$, the pair $(\widehat{\boldsymbol{M}}_{\mathrm{cvx}} = \widehat{\boldsymbol{U}}\widehat{\boldsymbol{U}}^\top, \widehat{\boldsymbol{S}}_{\mathrm{cvx}} = \widehat{\boldsymbol{S}})$ is the unique global minimizer of the convex Principal Component Pursuit program (Equation 2.3) and has exact rank $r$ (Sections 3.1 and 4.1, Equation 3.1, Proposition 4.1, Lemma 4.1).
+  evidence:
+  - source_id: cfmy2021-rpca-pdf
+    locator: Section 3.1 (Eq. 3.1, pp. 2955-2956), Section 4.1 (Proposition 4.1, Lemma 4.1, pp. 2959-2960)
+    relation: supports
+- claim_id: claim-entrywise-linf-and-two-to-inf-accuracy-via-leave-one-out-soft-thresholding
+  kind: mechanism
+  statement: "Using $n$ leave-one-out auxiliary trajectories $(\\boldsymbol{U}^{t,(m)}, \\boldsymbol{S}^{t,(m)})$ that replace row/column $m$'s random observations, noise, and outlier locations with their population counterparts (Section 4.3, Equation 4.12) together with the non-expansiveness of the soft-thresholding operator $|\\mathcal{S}_\\tau(a) - \\mathcal{S}_\\tau(b)| \\le |a-b|$, Theorem 2.1 and Theorem 3.1 prove that with $\\lambda \\asymp \\sigma\\sqrt{np\\log n}$ and $\\tau \\asymp \\sigma\\sqrt{\\log n} + \\frac{\\sigma\\sqrt{n\\log n}}{p}\\frac{\\mu r}{n}$, both the convex and nonconvex estimators achieve $\\|\\widehat{\\boldsymbol{M}} - \\boldsymbol{M}^\\star\\|_\\infty \\lesssim \\frac{\\sigma\\sqrt{n\\log n}}{p}\\frac{\\mu r}{n}$ and $\\|\\widehat{\\boldsymbol{M}} - \\boldsymbol{M}^\\star\\|_F \\lesssim \\frac{\\sigma\\sqrt{nr\\log n}}{p}$ under outlier fraction $\\alpha \\lesssim 1/(\\kappa^3\\mu r)$ (Sections 2.2, 3.2, and 4.2\u20134.3, Theorems 2.1 and 3.1)."
+  evidence:
+  - source_id: cfmy2021-rpca-pdf
+    locator: Section 2.2 (Theorem 2.1, pp. 2952-2953), Section 3.2 (Theorem 3.1, p. 2957), Sections 4.2-4.3 (pp. 2960-2966)
+    relation: supports
+- claim_id: claim-exact-outlier-support-recovery-and-sign-consistency
+  kind: application
+  statement: Because $\|\widehat{\boldsymbol{M}}_{\mathrm{cvx}} - \boldsymbol{M}^\star\|_\infty + \|\mathcal{P}_\Omega(\boldsymbol{E})\|_\infty < \tau$ with high probability and $\widehat{\boldsymbol{S}}_{\mathrm{cvx}} = \mathcal{S}_\tau(\mathcal{P}_\Omega(\boldsymbol{Y} - \widehat{\boldsymbol{M}}_{\mathrm{cvx}}))$, Corollary 2.1 proves that no clean entry $(i,j)\notin\mathrm{supp}(\boldsymbol{S}^\star)$ is falsely flagged ($\mathrm{supp}(\widehat{\boldsymbol{S}}_{\mathrm{cvx}}) \subseteq \mathrm{supp}(\boldsymbol{S}^\star)$) and every observed outlier with $|S_{i,j}^\star| > 2\tau$ is recovered with its exact sign $\mathrm{sign}(\widehat{S}_{\mathrm{cvx},i,j}) = \mathrm{sign}(S_{i,j}^\star)$ (Section 2.2, Corollary 2.1).
+  evidence:
+  - source_id: cfmy2021-rpca-pdf
+    locator: Section 2.2 (Corollary 2.1, pp. 2953-2954)
+    relation: supports
+evidence_sources:
+- source_id: cfmy2021-rpca-pdf
+  title: 'Bridging Convex and Nonconvex Optimization in Robust PCA: Noise, Outliers, and Missing Data'
+  authors: &id001
+  - Yuxin Chen
+  - Jianqing Fan
+  - Cong Ma
+  - Yuling Yan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2001.05484.pdf
+  persistent_id: https://doi.org/10.1214/21-AOS2066
+  version: arXiv:2001.05484v2 full-text PDF (61 pages), published in The Annals of Statistics 49(5):2948-2971 (2021). (1290992 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:40:00Z'
+  sha256: 17aaf9bc343823d56064e8719744667628d8a2577017dbbd6842c29d87884663
+- source_id: cfmy2021-rpca-abs
+  title: 'Bridging Convex and Nonconvex Optimization in Robust PCA: Noise, Outliers, and Missing Data (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2001.05484
+  persistent_id: https://arxiv.org/abs/2001.05484
+  version: arXiv abstract page (6793 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:40:00Z'
+  sha256: 313a217618d5e4140661fdf16d04c33f6d7ba91b2e06b28a796d84ae387c658e
+- source_id: cfmy2021-rpca-cr
+  title: 'Bridging Convex and Nonconvex Optimization in Robust PCA: Noise, Outliers, and Missing Data (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/21-AOS2066
+  persistent_id: https://doi.org/10.1214/21-AOS2066
+  version: Crossref API work record (7794 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:40:00Z'
+  sha256: 319057b8a18c7f6baec3eabe944b23e8f9916bd496888cb3848683f235416095
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: narrow_match
+  rationale: Establishes minimax-optimal entrywise and Frobenius recovery guarantees for convex and nonconvex Robust PCA under noise, outliers, and missing entries.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Uses entrywise L1 soft-thresholding S_tau(.) to separate sparse gross outliers from the low-rank component.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Recovers low-rank matrix structure corrupted by both sparse gross outliers and dense noise.
+limitations:
+- The primal-dual bridging argument requires the outlier sparsity fraction alpha to satisfy alpha <= c / (kappa^3 mu r); when outliers are concentrated in a single row or column beyond this fraction, the low-rank incoherence of the iterates can be violated.
+- Exact recovery of the outlier support in Corollary 2.1 requires minimum outlier magnitude |S*_{i,j}| > 2 tau; smaller outliers below the soft-thresholding level tau are absorbed into the dense noise floor.
+curation:
+  created_at: '2026-10-19T05:40:00Z'
+  updated_at: '2026-10-19T05:40:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
