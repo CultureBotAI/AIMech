@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1-bit Adam (Two-Stage Preconditioner-Frozen Error-Compensated Adam) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>1-bit Adam (Two-Stage Preconditioner-Frozen Error-Compensated Adam)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">1-bit Adam (Two-Stage Preconditioner-Frozen Error-Compensated Adam)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:OneBitAdamPreconditionerFreezeCommunicationCompression</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> 1-bit Adam, One-Bit Adam, Preconditioner-Frozen Error-Compensated 1-Bit Adam
+    </div>
+
+  <div class="detail-desc">
+    A two-stage communication-compressed adaptive optimization algorithm (Tang et al. 2021, Section 4, Algorithm 1) that runs uncompressed Adam for a warm-up phase of T_w steps (typically 10-25% of training) until the coordinate-wise second-moment preconditioner v_t = beta_2 v_{t-1} + (1 - beta_2) g_t^2 stabilizes, then freezes V = diag(sqrt(v_{T_w}) + epsilon) and executes bidirectional error-compensated 1-bit compression on the first-order momentum m_t = beta_1 m_{t-1} + (1 - beta_1) g_t followed by the linearly preconditioned update x_t = x_{t-1} - gamma V^{-1} m_hat_t.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from linear error-compensated SGD methods such as DoubleSqueeze (AIMech:DoubleSqueezeDoublePassErrorCompensatedCompression) and Sparsified SGD with Error Memory (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression), which lack adaptive coordinate-wise preconditioning V^{-1}, and from server-adaptive FedOpt (AIMech:FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam), which updates adaptive moments on the server after uncompressed pseudo-gradient aggregation rather than freezing Adam&#39;s second moment to restore linear error-feedback cancellation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r418-nonlinear-variance-error-feedback-incompatibility-and-preconditioner-freeze-telescoping</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because Adam&#39;s update V_t^{-1} m_t depends non-linearly on past gradients through v_t = beta_2 v_{t-1} + (1 - beta_2) g_t^2 (Eq. 1), time-varying V_t^{-1} fails to commute with linear error-feedback compensation and leaves a non-telescoping distortion sum_{t} (V_{t+1}^{-1} - V_t^{-1}) delta_t; freezing V = diag(sqrt(v_{T_w}) + epsilon) after warm-up step T_w makes the preconditioned update linear in m_t, restoring exact error cancellation and proving the asymptotic non-convex convergence rate O(||V^{-1/2}||_Fro^2 sigma^2 / sqrt(n T)) matching Adam (Section 4, Theorem 1, Corollary 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r418-primary-pdf">1-bit Adam: Communication Efficient Large-Scale Training with Adam&#39;s Convergence Speed</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Eq. 1), Section 4.1-4.3 (Algorithm 1, Theorem 1, Corollary 1) &amp; Supplementary Material (Proof of Theorem 1)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r418-custom-compressed-allreduce-gather-broadcast-pipeline</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Replacing standard ring AllReduce (which cannot directly average 1-bit sign vectors without decompressing at every hop) with a two-phase compressed gather-then-broadcast collective equipped with worker error memory delta_t^{(i)} and server shard error memory epsilon_t reduces inter-node communication volume by up to 97% during the compression stage (Section 5, Figure 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r418-primary-pdf">1-bit Adam: Communication Efficient Large-Scale Training with Adam&#39;s Convergence Speed</a></span>
+        <span>· <strong>Locator:</strong> Section 5 System Implementation (Figure 4) &amp; Section 6 Experiments</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r418-uncompressed-warmup-phase-and-variance-stabilization-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires an initial uncompressed Adam warm-up phase of T_w steps (e.g., 13-25% of total steps) before compression can be enabled, and assumes that coordinate second moments v_t reach a quasi-stationary regime by step T_w.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r418-primary-pdf">1-bit Adam: Communication Efficient Large-Scale Training with Adam&#39;s Convergence Speed</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Empirical Observation (Figures 1-3) &amp; Section 6 Warm-up Schedule</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r418-bert-large-gpt2-and-sota-language-model-pretraining-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed pre-training and fine-tuning of BERT-Base, BERT-Large, SQuAD, GLUE, and GPT-2, achieving up to 5.0x fewer communication bits and 3.3x end-to-end training speedup while matching uncompressed Adam accuracy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r418-primary-pdf">1-bit Adam: Communication Efficient Large-Scale Training with Adam&#39;s Convergence Speed</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Experiments (Tables 1-3, Figures 5-9), pp. 10123-10127</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Cannot compress communication during the initial warm-up phase T_w while the second-moment preconditioner v_t is still evolving rapidly.</li>
+      <li>Requires storing both frozen preconditioner states v_{T_w} and bidirectional error-compensation buffers in GPU memory.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            1-bit Adam is a communication-compressed adaptive distributed training algorithm closely related to federated and distributed optimization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r418-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r418-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2102.02888" target="_blank" rel="noopener">1-bit Adam: Communication Efficient Large-Scale Training with Adam&#39;s Convergence Speed</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hanlin Tang, Shaoduo Gan, Ammar Ahmad Awan, Samyam Rajbhandari, Conglong Li, Xiangru Lian, Ji Liu, Ce Zhang, Yuxiong He
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v139/tang21a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a66411d7f6f7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r418-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r418-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2102.02888" target="_blank" rel="noopener">1-bit Adam: Communication Efficient Large-Scale Training with Adam&#39;s Convergence Speed (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hanlin Tang, Shaoduo Gan, Ammar Ahmad Awan, Samyam Rajbhandari, Conglong Li, Xiangru Lian, Ji Liu, Ce Zhang, Yuxiong He
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2102.02888</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:91c4df3c8aac…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r418-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r418-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v139/tang21a.html" target="_blank" rel="noopener">1-bit Adam: Communication Efficient Large-Scale Training with Adam&#39;s Convergence Speed (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hanlin Tang, Shaoduo Gan, Ammar Ahmad Awan, Samyam Rajbhandari, Conglong Li, Xiangru Lian, Ji Liu, Ce Zhang, Yuxiong He
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v139/tang21a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:00f10da29126…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:21:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:21:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/OneBitAdamPreconditionerFreezeCommunicationCompression.yaml" target="_blank" rel="noopener">
+      <code>data/curated/OneBitAdamPreconditionerFreezeCommunicationCompression.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

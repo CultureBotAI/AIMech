@@ -1,0 +1,106 @@
+id: AIMech:OneBitAdamPreconditionerFreezeCommunicationCompression
+name: 1-bit Adam (Two-Stage Preconditioner-Frozen Error-Compensated Adam)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A two-stage communication-compressed adaptive optimization algorithm (Tang et al. 2021, Section 4, Algorithm 1) that runs uncompressed Adam for a warm-up phase of T_w steps (typically 10-25% of training) until the coordinate-wise second-moment preconditioner v_t = beta_2 v_{t-1} + (1 - beta_2) g_t^2 stabilizes, then freezes V = diag(sqrt(v_{T_w}) + epsilon) and executes bidirectional error-compensated 1-bit compression on the first-order momentum m_t = beta_1 m_{t-1} + (1 - beta_1) g_t followed by the linearly preconditioned update x_t = x_{t-1} - gamma V^{-1} m_hat_t.
+identity_notes: Distinct from linear error-compensated SGD methods such as DoubleSqueeze (AIMech:DoubleSqueezeDoublePassErrorCompensatedCompression) and Sparsified SGD with Error Memory (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression), which lack adaptive coordinate-wise preconditioning V^{-1}, and from server-adaptive FedOpt (AIMech:FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam), which updates adaptive moments on the server after uncompressed pseudo-gradient aggregation rather than freezing Adam's second moment to restore linear error-feedback cancellation.
+aliases:
+- 1-bit Adam
+- One-Bit Adam
+- Preconditioner-Frozen Error-Compensated 1-Bit Adam
+definition_evidence:
+- source_id: r418-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r418-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r418-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r418-nonlinear-variance-error-feedback-incompatibility-and-preconditioner-freeze-telescoping
+  kind: mechanism
+  statement: Because Adam's update V_t^{-1} m_t depends non-linearly on past gradients through v_t = beta_2 v_{t-1} + (1 - beta_2) g_t^2 (Eq. 1), time-varying V_t^{-1} fails to commute with linear error-feedback compensation and leaves a non-telescoping distortion sum_{t} (V_{t+1}^{-1} - V_t^{-1}) delta_t; freezing V = diag(sqrt(v_{T_w}) + epsilon) after warm-up step T_w makes the preconditioned update linear in m_t, restoring exact error cancellation and proving the asymptotic non-convex convergence rate O(||V^{-1/2}||_Fro^2 sigma^2 / sqrt(n T)) matching Adam (Section 4, Theorem 1, Corollary 1).
+  evidence:
+  - source_id: r418-primary-pdf
+    locator: Section 3 (Eq. 1), Section 4.1-4.3 (Algorithm 1, Theorem 1, Corollary 1) & Supplementary Material (Proof of Theorem 1)
+    relation: supports
+- claim_id: r418-custom-compressed-allreduce-gather-broadcast-pipeline
+  kind: mechanism
+  statement: Replacing standard ring AllReduce (which cannot directly average 1-bit sign vectors without decompressing at every hop) with a two-phase compressed gather-then-broadcast collective equipped with worker error memory delta_t^{(i)} and server shard error memory epsilon_t reduces inter-node communication volume by up to 97% during the compression stage (Section 5, Figure 4).
+  evidence:
+  - source_id: r418-primary-pdf
+    locator: Section 5 System Implementation (Figure 4) & Section 6 Experiments
+    relation: supports
+- claim_id: r418-uncompressed-warmup-phase-and-variance-stabilization-limitation
+  kind: limitation
+  statement: Requires an initial uncompressed Adam warm-up phase of T_w steps (e.g., 13-25% of total steps) before compression can be enabled, and assumes that coordinate second moments v_t reach a quasi-stationary regime by step T_w.
+  evidence:
+  - source_id: r418-primary-pdf
+    locator: Section 3 Empirical Observation (Figures 1-3) & Section 6 Warm-up Schedule
+    relation: supports
+- claim_id: r418-bert-large-gpt2-and-sota-language-model-pretraining-application
+  kind: application
+  statement: Applied to distributed pre-training and fine-tuning of BERT-Base, BERT-Large, SQuAD, GLUE, and GPT-2, achieving up to 5.0x fewer communication bits and 3.3x end-to-end training speedup while matching uncompressed Adam accuracy.
+  evidence:
+  - source_id: r418-primary-pdf
+    locator: Section 6 Experiments (Tables 1-3, Figures 5-9), pp. 10123-10127
+    relation: supports
+evidence_sources:
+- source_id: r418-primary-pdf
+  title: '1-bit Adam: Communication Efficient Large-Scale Training with Adam''s Convergence Speed'
+  authors: &id001
+  - Hanlin Tang
+  - Shaoduo Gan
+  - Ammar Ahmad Awan
+  - Samyam Rajbhandari
+  - Conglong Li
+  - Xiangru Lian
+  - Ji Liu
+  - Ce Zhang
+  - Yuxiong He
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2102.02888
+  persistent_id: https://proceedings.mlr.press/v139/tang21a.html
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:10118-10129 (2021) (68846 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:21:00Z'
+  sha256: a66411d7f6f727442a0550c959678edff7888b51567cd653b300a7d3e0bf0dfd
+- source_id: r418-arxiv-abs
+  title: '1-bit Adam: Communication Efficient Large-Scale Training with Adam''s Convergence Speed (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.02888
+  persistent_id: https://arxiv.org/abs/2102.02888
+  version: arXiv abstract page (7854 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:21:00Z'
+  sha256: 91c4df3c8aac99113ace2a7bad1f5bf2fae3037c217d726d445cac4fd727a830
+- source_id: r418-metadata-cr
+  title: '1-bit Adam: Communication Efficient Large-Scale Training with Adam''s Convergence Speed (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v139/tang21a.html
+  persistent_id: https://proceedings.mlr.press/v139/tang21a.html
+  version: Crossref API work record (519 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:21:00Z'
+  sha256: 00f10da29126544da0c5733a50770e601a0f246b33b44b64dfd5f6be225b615e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: 1-bit Adam is a communication-compressed adaptive distributed training algorithm closely related to federated and distributed optimization.
+limitations:
+- Cannot compress communication during the initial warm-up phase T_w while the second-moment preconditioner v_t is still evolving rapidly.
+- Requires storing both frozen preconditioner states v_{T_w} and bidirectional error-compensation buffers in GPU memory.
+curation:
+  created_at: '2026-10-19T08:21:00Z'
+  updated_at: '2026-10-19T08:21:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
