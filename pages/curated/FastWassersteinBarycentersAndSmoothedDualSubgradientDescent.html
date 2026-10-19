@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fast Wasserstein Barycenters and Smoothed Dual Subgradient Descent · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Fast Wasserstein Barycenters and Smoothed Dual Subgradient Descent</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Fast Wasserstein Barycenters and Smoothed Dual Subgradient Descent</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FastWassersteinBarycentersAndSmoothedDualSubgradientDescent</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Entropic Smoothed Wasserstein Barycenter Optimization, Cuturi-Doucet Fast Wasserstein Barycenter Algorithm, Smoothed Dual Sinkhorn Subgradient Barycenter Descent
+    </div>
+
+  <div class="detail-desc">
+    Fast Wasserstein Barycenters and Smoothed Dual Subgradient Descent is a computational optimal transport framework introduced by Cuturi and Doucet (2014) for computing Fréchet means (Wasserstein barycenters) of empirical probability measures nu_1, ..., nu_N under p-Wasserstein distances by minimizing the weighted sum f(mu) = (1/N) sum_{i=1}^N D(mu, nu_i) over a discrete support X = [x_1, ..., x_n] and probability simplex weight vector a in Sigma_n. To overcome the non-smoothness and O(n^3 log n) linear-programming cost of the unregularized dual optimal transport polytope, the method introduces the entropically smoothed primal objective p_lambda(a, b; M) = min_{T in U(a,b)} &lt;T, M&gt; - (1/lambda) h(T) and its smoothed Legendre dual d_lambda(a, b; M) = max_{alpha, beta} alpha^T a + beta^T b - (1/lambda) sum_{i,j} exp(-lambda(m_{ij} - alpha_i - beta_j)). Proposition 2 and Algorithm 3 establish that the zero-sum centered optimal dual scaling logarithm alpha_lambda^* = (1/lambda) log(u) - (log(u)^T 1_n / (lambda n)) 1_n recovered from Sinkhorn-Knopp matrix scaling T_lambda^* = diag(u) exp(-lambda M) diag(v) is the exact gradient nabla_a p_lambda(a, b; M) on the probability simplex, enabling entropic mirror descent / exponentiated gradient updates for fixed-support weight optimization (Algorithm 1) and alternating closed-form Newton support updates X &lt;- (1/N) sum_{i=1}^N Y_i (T_i^*)^T diag(a^{-1}) for free-support barycenters (Equation 8, Algorithm 2).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from pairwise Sinkhorn distance evaluation (`AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport`) and from Iterative Bregman Projections (`AIMech:IterativeBregmanProjectionsAndBregmanDykstraRegularizedOptimalTransport`). Specifically captures the Cuturi &amp; Doucet (2014) primal-dual entropic smoothing of Wasserstein barycenters (Propositions 1 and 2, Equations 6-10), the Algorithm 3 Sinkhorn primal-dual gradient extractor, the Algorithm 1 entropic mirror descent simplex optimizer for fixed-support weights, and the Equation 8 / Algorithm 2 alternating Newton step for free-support atom locations under squared Euclidean ground cost.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the entropically regularized transport problem p_lambda(a, b; M) = min_{T in U(a,b)} &lt;T, M&gt; - (1/lambda) h(T), Proposition 2 proves that the Legendre dual d_lambda(a, b; M) is strictly concave on {alpha in R^n : alpha^T 1_n = 0} and its unique maximizer alpha_lambda^* is related to the Sinkhorn-Knopp optimal coupling T_lambda^* = diag(u) exp(-lambda M) diag(v) via alpha_lambda^* = (1/lambda)(log u - (log u^T 1_n / n) 1_n) (Algorithm 3), providing the exact zero-sum tangent gradient of p_lambda(a, b; M) with respect to the barycenter weight vector a in Sigma_n.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r325-primary-pdf">Fast Computation of Wasserstein Barycenters</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1, Proposition 2 and Equations 9-10, pp. 6-7; Section 5.2, Algorithm 3, p. 7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r325-metadata-cr">Fast Computation of Wasserstein Barycenters (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata and abstract for ICML 2014 PMLR 32(2):685-693</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For squared Euclidean ground cost M_{X Y_i} = [||x_k - y_{ij}||_2^2], Section 4.3 (Equation 8 and Algorithm 2) shows that for fixed transport couplings T_1^*, ..., T_N^* and weight vector a, the objective sum_{i=1}^N &lt;T_i^*, M_{X Y_i}&gt; is a strictly convex quadratic function of the support matrix X whose exact Newton step updates X in closed form via X &lt;- (1/N) sum_{i=1}^N Y_i (T_i^*)^T diag(a^{-1}).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r325-primary-pdf">Fast Computation of Wasserstein Barycenters</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3, Equation 8 and Algorithm 2, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the unregularized LP formulation (lambda -&gt; infinity), Proposition 1 establishes that a dual optimal vector alpha^* is a genuine gradient of p(a, b; M) only when the primal optimal coupling T^* has a connected bipartite support graph (a single spanning tree of n + m - 1 positive entries), and in the free-support problem f(X, a) is jointly non-convex in (X, a) so alternating optimization converges only to a stationary point.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r325-primary-pdf">Fast Computation of Wasserstein Barycenters</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Proposition 1, pp. 4-5; Section 3.3, Non-convexity discussion, p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Free-support Wasserstein barycenter optimization is jointly non-convex in support locations X and weights a, and entropic smoothing parameter lambda trades off blurring of the barycenter at small lambda against numerical underflow of exp(-lambda M) at very large lambda.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Wasserstein barycenters generalize k-means centroids (special case n=1) to Fréchet means of probability distributions and point clouds.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r325-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r325-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1310.4375v3" target="_blank" rel="noopener">Fast Computation of Wasserstein Barycenters</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Marco Cuturi, Arnaud Doucet
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v32/cuturi14.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:47302a424879…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r325-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r325-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1310.4375v3" target="_blank" rel="noopener">Fast Computation of Wasserstein Barycenters (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Marco Cuturi, Arnaud Doucet
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1310.4375v3</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dd4864535515…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r325-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r325-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v32/cuturi14.html" target="_blank" rel="noopener">Fast Computation of Wasserstein Barycenters (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Marco Cuturi, Arnaud Doucet
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v32/cuturi14.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:06db244d18d1…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:42:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:42:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FastWassersteinBarycentersAndSmoothedDualSubgradientDescent.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FastWassersteinBarycentersAndSmoothedDualSubgradientDescent.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
