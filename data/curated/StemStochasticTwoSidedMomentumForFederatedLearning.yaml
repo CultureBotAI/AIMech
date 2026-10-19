@@ -1,0 +1,104 @@
+id: AIMech:StemStochasticTwoSidedMomentumForFederatedLearning
+name: STEM (Stochastic Two-Sided Momentum for Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A federated non-convex stochastic optimization algorithm (Khanduri et al. 2021, Section 2, Algorithm 1, Equations 2-5) in which each client k in {1, ..., K} updates its local parameters x_{t+1}^{(k)} = x_t^{(k)} - eta_t d_t^{(k)} using a STORM-style recursive stochastic momentum estimator d_t^{(k)} = (1/b) sum_{xi in B_t^{(k)}} nabla f^{(k)}(x_t^{(k)}; xi) + (1 - a_t)(d_{t-1}^{(k)} - (1/b) sum_{xi in B_t^{(k)}} nabla f^{(k)}(x_{t-1}^{(k)}; xi)), and every I steps the server aggregates and broadcasts both the global model bar_x_t = (1/K) sum_{k=1}^K x_t^{(k)} and the global momentum direction bar_d_t = (1/K) sum_{k=1}^K d_t^{(k)}.
+identity_notes: Distinct from single-node STORM (AIMech:StormStochasticRecursiveMomentumForNonconvexOptimization, Cutkosky & Orabona 2019), which operates on a single machine without periodic multi-step local updates or inter-client heterogeneity, from SlowMo (AIMech:SlowMoSlowMomentumForCommunicationEfficientDistributedSgd, Wang et al. 2020), which applies klassical Polyak momentum only at the outer server synchronization step with O(epsilon^{-2}) sample complexity, and from MIME (AIMech:MimeMimickingCentralizedStochasticAlgorithmsInFederatedLearning, Karimireddy et al. 2021), which holds server statistics fixed during local steps.
+aliases:
+- STEM
+- Stochastic Two-Sided Momentum
+- STEM Federated Recursive Momentum
+definition_evidence:
+- source_id: r432-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r432-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r432-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r432-sample-and-communication-complexity-tradeoff-curve-theorem
+  kind: mechanism
+  statement: By setting the local update period I = O((T / K^2)^{nu / 3}) and minibatch size b = O((T / K^2)^{1/2 - nu / 2}) for any trade-off parameter nu in [0, 1], STEM achieves E||nabla f(bar_x_a)||^2 = O_tilde(1 / (K^{2 nu / 3} T^{1 - nu / 3})) (Theorem 3.1), simultaneously attaining near-optimal per-client sample complexity O_tilde(K^{-1} epsilon^{-3/2}) (total O_tilde(epsilon^{-3/2})) and communication complexity O_tilde(epsilon^{-1}) across the entire spectrum nu in [0, 1] without requiring large O(epsilon^{-1}) minibatches when nu = 1 (b = O(1), I = O((T / K^2)^{1/3}), Corollary 3.2).
+  evidence:
+  - source_id: r432-primary-pdf
+    locator: Section 3 Convergence Analysis (Theorem 3.1, Corollary 3.2, Table 1) & Appendix B (Lemmas B.1-B.5, Proof of Theorem 3.1)
+    relation: supports
+- claim_id: r432-fedavg-minibatch-local-step-tradeoff-comparison
+  kind: mechanism
+  statement: In contrast, momentum-less FedAvg along the trade-off curve I = O((T / K^3)^{nu / 6}) and b = O((T / K^3)^{1/3 - nu / 3}) achieves only E||nabla f(bar_x_a)||^2 = O(1 / (K^{nu / 2} T^{2/3 - nu / 6})), requiring O(K^{-1} epsilon^{-2}) per-client samples and O(epsilon^{-3/2}) communication rounds for every nu in [0, 1] (Theorem 3.2, Corollary 3.3).
+  evidence:
+  - source_id: r432-primary-pdf
+    locator: Section 3.1 Federated Averaging Trade-off (Theorem 3.2, Corollary 3.3, Figure 1)
+    relation: supports
+- claim_id: r432-two-gradient-evaluations-per-minibatch-and-dual-payload-limitation
+  kind: limitation
+  statement: Requires two stochastic gradient evaluations per local step on the same minibatch B_t^{(k)} (at x_t^{(k)} and x_{t-1}^{(k)}) under mean-squared smoothness, and doubles communication payload at synchronization rounds by transmitting both x_t^{(k)} and d_t^{(k)}.
+  evidence:
+  - source_id: r432-primary-pdf
+    locator: Section 2 Algorithm 1, Assumption 1 & Section 3 Remark 1
+    relation: supports
+- claim_id: r432-heterogeneous-cifar10-and-mnist-cnn-federated-training-application
+  kind: application
+  statement: Applied to federated non-IID training of convolutional neural networks on MNIST and CIFAR-10 across heterogeneous client partitions, outperforming FedAvg, SCAFFOLD, and server-only momentum baselines across varying minibatch sizes and local periods.
+  evidence:
+  - source_id: r432-primary-pdf
+    locator: Section 4 Numerical Experiments (Figures 2-3), pp. 6058-6059
+    relation: supports
+evidence_sources:
+- source_id: r432-primary-pdf
+  title: 'STEM: A Stochastic Two-Sided Momentum Algorithm Achieving Near-Optimal Sample and Communication Complexities for Federated Learning'
+  authors: &id001
+  - Prashant Khanduri
+  - Pranay Sharma
+  - Haibo Yang
+  - Mingyi Hong
+  - Jia Liu
+  - Ketan Rajawat
+  - Pramod K. Varshney
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2106.10435
+  persistent_id: https://proceedings.neurips.cc/paper/2021/hash/301ad0e3bd5cb1627a2044908a42fdc2-Abstract.html
+  version: Advances in Neural Information Processing Systems 34 (NeurIPS 2021), pp. 6050-6061 (2021) (105015 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:35:00Z'
+  sha256: c1390f141ee0cd3c67bfe1c708fba40cc2b65de258d6ab445a067d7bd891b2dd
+- source_id: r432-arxiv-abs
+  title: 'STEM: A Stochastic Two-Sided Momentum Algorithm Achieving Near-Optimal Sample and Communication Complexities for Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.10435
+  persistent_id: https://arxiv.org/abs/2106.10435
+  version: arXiv abstract page (14924 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:35:00Z'
+  sha256: 4d61bf09bd7efd31c145f4cf59f2826333ee7dc17c84b71298e1f503ff7eeb4e
+- source_id: r432-metadata-cr
+  title: 'STEM: A Stochastic Two-Sided Momentum Algorithm Achieving Near-Optimal Sample and Communication Complexities for Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2021/hash/301ad0e3bd5cb1627a2044908a42fdc2-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2021/hash/301ad0e3bd5cb1627a2044908a42fdc2-Abstract.html
+  version: Crossref API work record (560 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:35:00Z'
+  sha256: be042ce30d5eb876db293c4b9b4d44547c847b48e5af51bd0a0cda09a77c1e63
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: STEM is a specialized federated optimization algorithm that synchronizes two-sided recursive momentum across clients and server.
+limitations:
+- Requires mean-squared L-smoothness (evaluating gradients at x_t^{(k)} and x_{t-1}^{(k)} on the same stochastic minibatch).
+- Full client participation is assumed in the base two-sided momentum reset.
+curation:
+  created_at: '2026-10-19T08:35:00Z'
+  updated_at: '2026-10-19T08:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
