@@ -1,0 +1,101 @@
+id: AIMech:PFedHnPersonalizedFederatedHypernetworks
+name: pFedHN (Personalized Federated Hypernetworks)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A personalized federated learning method (Shamsian, Navon, Fetaya, & Chechik 2021, Section 3, Algorithm 1, Equations 2-4) in which a central server maintains a shared hypernetwork h(v_i; varphi) and low-dimensional client embedding vectors v_i in R^{d_e}, generates personalized target network weights theta_i = h(v_i; varphi) for sampled client i, receives the client's multi-step local displacement Delta theta_i = tilde_theta_i - theta_i, and updates both the hypernetwork parameters varphi and client embedding v_i on the server via the chain-rule surrogate gradient (nabla_varphi theta_i)^T Delta theta_i and (nabla_{v_i} theta_i)^T Delta theta_i.
+identity_notes: Distinct from Per-FedAvg (AIMech:PerFedAvgPersonalizedFederatedLearningWithTheoreticalGuarantees, Fallah et al. 2020) and pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, T. Dinh et al. 2020), which transmit and regularize a single shared d-dimensional model init across all clients rather than generating client-conditioned parameters theta_i = h(v_i; varphi) from a low-dimensional client descriptor v_i on the server.
+aliases:
+- pFedHN
+- Personalized Federated Hypernetworks
+- pFedHN-PC
+definition_evidence:
+- source_id: r443-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r443-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r443-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r443-chain-rule-delta-update-and-pfedhn-pc-decoupled-head
+  kind: mechanism
+  statement: Replacing the single-step gradient nabla_{theta_i} L_i(theta_i) in the chain-rule derivative nabla_varphi L_i = (nabla_varphi theta_i)^T nabla_{theta_i} L_i with the k-step local parameter change Delta theta_i = tilde_theta_i - theta_i (Eq. 4) avoids backpropagating through k steps of client optimization while never transmitting the hypernetwork varphi over the network; the pFedHN-PC extension (Section 3.1) generates only the feature extractor via h(v_i; varphi) while maintaining a strictly local classification head per client to handle distinct local label spaces.
+  evidence:
+  - source_id: r443-primary-pdf
+    locator: Section 3 Equations 3-4, Algorithm 1 & Section 3.1 Personal Classifier (pFedHN-PC), pp. 9491-9493
+    relation: supports
+- claim_id: r443-generalization-bound-and-unseen-client-embedding-adaptation
+  kind: mechanism
+  statement: By Theorem 1 (Section 4), for n clients with m samples each, an L_h-Lipschitz hypernetwork with parameter dimension k = dim(varphi) and L-Lipschitz target models with embedding dimension d_e = dim(v_i), uniform generalization scales with effective complexity (k + n d_e) / (n m) rather than target parameter dimension d / m, and novel unseen clients at test time can personalize by optimizing only their low-dimensional embedding vector v_new in R^{d_e} with varphi frozen (Section 5.3, Figure 2).
+  evidence:
+  - source_id: r443-primary-pdf
+    locator: Section 4 Analysis (Theorem 1) & Section 5.3 Generalization to Novel Clients (Figure 2), pp. 9493-9497
+    relation: supports
+- claim_id: r443-server-side-hypernetwork-memory-and-output-layer-scaling-limitation
+  kind: limitation
+  statement: Generating all target network weights theta_i in R^d directly from the hypernetwork requires an output projection of size O(d_hidden * d) on the server (mitigated by chunked weight generation across target layers), and the server must maintain stateful per-client embedding vectors v_1, ..., v_n.
+  evidence:
+  - source_id: r443-primary-pdf
+    locator: Section 3 Architecture Details & Appendix B Hypernetwork Parameterization
+    relation: supports
+- claim_id: r443-heterogeneous-cifar-omniglot-and-office-caltech-personalization-application
+  kind: application
+  statement: Applied to personalized federated image classification across CIFAR-10, CIFAR-100, Omniglot, and heterogeneous feature-shift domains in Office-Caltech10 under both label-distribution and input-distribution shifts.
+  evidence:
+  - source_id: r443-primary-pdf
+    locator: Section 5 Experiments (Tables 1-4, Figures 2-3), pp. 9494-9498
+    relation: supports
+evidence_sources:
+- source_id: r443-primary-pdf
+  title: Personalized Federated Learning using Hypernetworks
+  authors: &id001
+  - Aviv Shamsian
+  - Aviv Navon
+  - Ethan Fetaya
+  - Gal Chechik
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2103.04628
+  persistent_id: https://proceedings.mlr.press/v139/shamsian21a.html
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:9489-9502 (2021) (66063 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:46:00Z'
+  sha256: 984e5e054811cffe1e1958562dad77a8c0310061ba0416539548b821d71a61b4
+- source_id: r443-arxiv-abs
+  title: Personalized Federated Learning using Hypernetworks (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2103.04628
+  persistent_id: https://arxiv.org/abs/2103.04628
+  version: arXiv abstract page (14418 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:46:00Z'
+  sha256: f0fc440c1546ea1532f8041a13180a04891bfe7b6b859a4d86e386587ae7eaa6
+- source_id: r443-metadata-cr
+  title: Personalized Federated Learning using Hypernetworks (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v139/shamsian21a.html
+  persistent_id: https://proceedings.mlr.press/v139/shamsian21a.html
+  version: Crossref API work record (428 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:46:00Z'
+  sha256: 5e571637742cd2a1bc94e2972f27dbddd17c6d891769614c43c5ef87beb2525f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: pFedHN is a personalized federated learning framework that generates client-specific target models via a server-side hypernetwork conditioned on learned client embeddings.
+limitations:
+- Requires server-side backpropagation through the hypernetwork Jacobian at each communication round.
+- Requires storing a persistent embedding vector v_i on the server for each participating client.
+curation:
+  created_at: '2026-10-19T08:46:00Z'
+  updated_at: '2026-10-19T08:46:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
