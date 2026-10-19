@@ -1,0 +1,96 @@
+id: AIMech:ContinuousGreedyAndMultilinearExtensionForMatroidSubmodularMaximization
+name: Continuous Greedy and Multilinear Extension for Matroid-Constrained Monotone Submodular Maximization
+concept_kind: algorithm
+review_status: DRAFT
+definition: "Continuous Greedy and Multilinear Extension for Matroid-Constrained Monotone Submodular Maximization is a two-stage continuous relaxation and rounding paradigm introduced by Calinescu, Chekuri, Pal, and Vondrak (2007, 2008, 2011) that achieves the optimal (1 - 1/e)-approximation for maximizing any monotone submodular set function f : 2^X -> R_+ subject to an arbitrary matroid constraint M = (X, I) in the value oracle model (Theorem 1.1), overcoming the tight 1/2-approximation barrier of the classical discrete greedy algorithm on general matroids (Fisher, Nemhauser, & Wolsey 1978). First, the discrete objective f is lifted to its canonical smooth monotone submodular multilinear extension F(y) = E[f(hat{y})] = sum_{R subseteq X} f(R) prod_{i in R} y_i prod_{j notin R} (1 - y_j) on [0, 1]^X (Section 2.1), which satisfies dF/dy_j = E[f(R + j) - f(R)] >= 0 (monotonicity), d^2F/(dy_i dy_j) <= 0 (submodularity, implying concavity along any nonnegative direction v >= 0), and d^2F/dy_j^2 = 0 (multilinearity, implying convexity along every swap direction e_i - e_j). Second, the Continuous Greedy algorithm integrates the flow dy/dt = v_max(y) = argmax_{v in P(M)} <v, grad F(y)> over t in [0, 1] starting from y(0) = 0 by iteratively finding a maximum-weight base I(t) in M with respect to sampled marginal gain estimates omega_j(t) = hat{E}[f_{R(t)}(j)] and updating y(t + delta) = y(t) + delta * 1_{I(t)} (Section 3.1), guaranteeing dF(y(t))/dt >= OPT - F(y(t)) and F(y(1)) >= (1 - 1/e) OPT in the matroid base polytope B(M) (Lemma 3.1, Lemma 3.3, Appendix A). Finally, matroid Pipage Rounding (Section 3.2, Lemma 3.5)\u2014or independent per-block sampling for simple partition matroids (Section 3.3, Lemma 3.7)\u2014exploits the convexity of F(y + t(e_i - e_j)) along tight-set swap directions to round y(1) to an integral independent base S in I with E[f(S)] >= F(y(1)) >= (1 - 1/e) OPT."
+identity_notes: Distinct from Stochastic-Greedy Linear-Time Monotone Submodular Maximization (`AIMech:StochasticGreedyLinearTimeMonotoneSubmodularMaximization`), which accelerates discrete greedy under a simple cardinality constraint |S| <= k via random candidate subset sampling of size (n/k) log(1/epsilon) and still suffers a 1/2 approximation barrier on general matroids, and from Away-Step and Pairwise Frank-Wolfe Linear Convergence on Polytopes (`AIMech:AwayStepAndPairwiseFrankWolfeLinearConvergenceOnPolytopes`), which minimizes strongly convex smooth objectives over polytopes rather than maximizing the non-concave multilinear extension F(y) of a monotone submodular set function via upward-monotone direction dominance and pipage rounding.
+aliases:
+- Calinescu-Chekuri-Pal-Vondrak Continuous Greedy Algorithm
+- Multilinear Extension and Matroid Pipage Rounding
+- Continuous Greedy Process for Submodular Welfare and Matroid Maximization
+definition_evidence:
+- source_id: r349-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r349-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r349-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r349-claim-multilinear-extension-directional-concavity-and-swap-convexity
+  kind: mechanism
+  statement: 'For any monotone submodular set function f : 2^X -> R_+, its multilinear extension F(y) = E[f(hat{y})] is smooth monotone submodular (Definition 2.1) with first partial derivatives dF/dy_j = E[f(hat{y}) | hat{y}_j = 1] - E[f(hat{y}) | hat{y}_j = 0] >= 0, mixed second partial derivatives d^2F/(dy_i dy_j) <= 0 for i != j, and pure second partial derivatives d^2F/dy_j^2 = 0, which simultaneously makes F(y + xi * v^*) concave along any nonnegative direction v^* >= 0 and F_{ij}^y(t) = F(y + t(e_i - e_j)) convex along every coordinate swap direction e_i - e_j with second derivative -2 d^2F/(dy_i dy_j) >= 0.'
+  evidence:
+  - source_id: r349-primary-pdf
+    locator: Section 2.1, Definition 2.1 and Multilinear Extension derivatives, p. 6; Section 2.4, Pipage Rounding Claim, p. 10
+    relation: supports
+- claim_id: r349-claim-continuous-greedy-differential-inequality-and-approximation
+  kind: mechanism
+  statement: For any fractional point y in [0, 1]^X and random subset R ~ hat{y}, submodularity implies OPT <= F(y) + max_{I in I} sum_{j in I} E[f_R(j)] (Lemma 3.1), so moving along the maximum-weight independent base I(t) in M with step size delta = 1 / (9 d^2) (or delta = 1 / (40 d^2 n) in Appendix A) satisfies OPT - F(y(t + delta)) <= (1 - delta)(OPT - F(y(t))) up to sampling error and produces a fractional point y(1) in the matroid base polytope B(M) with F(y(1)) >= (1 - 1/e) OPT with high probability (Lemma 3.3 and Appendix A).
+  evidence:
+  - source_id: r349-primary-pdf
+    locator: Section 2.3, Equation 5, p. 9; Section 3.1, Lemmas 3.1-3.3, pp. 11-13; Appendix A, pp. 25-26
+    relation: supports
+- claim_id: r349-claim-matroid-pipage-rounding-lossless-conversion
+  kind: mechanism
+  statement: Given any fractional solution y^* in the matroid base polytope B(M), oblivious randomized PipageRound(M, y^*) iteratively updates pairs of fractional variables (i, j) inside minimal tight sets along e_i - e_j or e_j - e_i until hitting a matroid rank constraint r_M(A) = y(A) (Proposition 3.4), preserving E[y' | y] = y and guaranteeing by convexity of F_{ij}^y(t) an integral independent set S in I with E[f(S)] >= F(y^*) in at most O(n^2) rounding steps (Lemma 3.5), while for simple partition matroids independent per-block sampling achieves E[f(T)] >= F(y^*) in a single step (Lemma 3.7).
+  evidence:
+  - source_id: r349-primary-pdf
+    locator: Section 3.2, Proposition 3.4, Algorithm PipageRound, and Lemma 3.5, pp. 14-16; Section 3.3, Lemma 3.7, pp. 16-17
+    relation: supports
+evidence_sources:
+- source_id: r349-primary-pdf
+  title: Maximizing a Monotone Submodular Function Subject to a Matroid Constraint
+  authors: &id001
+  - Gruia Calinescu
+  - Chandra Chekuri
+  - Martin Pal
+  - Jan Vondrak
+  source_type: primary_paper
+  url: https://cs.stanford.edu/~jvondrak/data/submod-matroid.pdf
+  persistent_id: https://api.crossref.org/works/10.1137/080733991
+  version: SIAM Journal on Computing 40(6):1740-1766 (2011) (361857 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:12:00Z'
+  sha256: 488c3012732b17a2830c0f6274f6400c230ec3909007d53170872862484aaa56
+- source_id: r349-arxiv-abs
+  title: Maximizing a Monotone Submodular Function Subject to a Matroid Constraint (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1145/1250790.1250803
+  persistent_id: https://api.crossref.org/works/10.1145/1250790.1250803
+  version: arXiv abstract page (2150 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:12:00Z'
+  sha256: 3a11f7fef6e76851ad95c3d153ebb3a503355a04285a1bda82b893874d25ef95
+- source_id: r349-metadata-cr
+  title: Maximizing a Monotone Submodular Function Subject to a Matroid Constraint (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1137/080733991
+  persistent_id: https://api.crossref.org/works/10.1137/080733991
+  version: Crossref API work record (4250 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:12:00Z'
+  sha256: 2e7270dbdfee3392f2a54b7a7637644feba69ceeade780ca7796313d8b689d93
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Solves matroid-constrained exemplar clustering, submodular welfare allocation, and separable assignment problems.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Selects optimal matroid-constrained feature and sensor subsets under monotone submodular coverage and information objectives.
+limitations:
+- Evaluating the gradient of the multilinear extension in the general value oracle model requires Monte Carlo sampling at each discretized time step (yielding a high-degree polynomial O~(n^8) runtime in the baseline analysis), and continuous greedy requires monotonicity of f to guarantee dF/dt >= OPT - F(y(t)) (Section 5).
+curation:
+  created_at: '2026-10-19T07:12:00Z'
+  updated_at: '2026-10-19T07:12:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
