@@ -1,0 +1,103 @@
+id: AIMech:CountSketchInputSparsitySubspaceEmbeddingAndRegression
+name: CountSketch Input-Sparsity Subspace Embedding and Regression
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'CountSketch Input-Sparsity Subspace Embedding and Regression is an oblivious sparse random projection and numerical linear algebra framework introduced by Clarkson and Woodruff (2013, 2017) that constructs an O(n)-column, t-row sketching matrix S = Phi D in R^{t x n} with exactly ONE nonzero entry per column (S_{h(i), i} = sigma_i in {-1, +1}, where h: [n] -> [t] and sigma: [n] -> {-1, +1} are random hash and sign maps) so that S A can be computed in true input-sparsity time O(nnz(A)) for any matrix A in R^{n x d}, where nnz(A) is the number of nonzero entries of A. Theorem 2.3 and Lemma 2.5 prove that for t = O(d^2 / epsilon^2) (or t = O(k^2 / epsilon^2) for a k-dimensional subspace), S is a (1 +/- epsilon)-l_2 subspace embedding satisfying ||S A x||_2 = (1 +/- epsilon)||A x||_2 simultaneously for all x in R^d by decomposing the basis U of range(A) into heavy rows (||u_i||_2^2 >= tau, which are isolated into distinct hash buckets without collision and preserved isometrically) and light rows (bounded via high-moment trace inequalities), yielding O(nnz(A) + d^3 epsilon^{-2} log(d/epsilon)) algorithms for (1+epsilon)-approximate overconstrained least-squares regression (Theorem 2.6) and O(nnz(A) + n poly(k/epsilon)) low-rank matrix approximation.'
+identity_notes: Distinct from Subsampled Randomized Hadamard Transform Subspace Embedding (`AIMech:SubsampledRandomizedHadamardTransformSubspaceEmbedding`), which requires O(n d log t) dense Walsh-Hadamard butterfly operations regardless of matrix sparsity, and from Frequent Directions Deterministic Streaming Matrix Sketching (`AIMech:FrequentDirectionsDeterministicStreamingMatrixSketching`), which uses O(n d l) deterministic SVD shrinkage. Specifically captures the Clarkson-Woodruff single-nonzero-per-column CountSketch matrix S = Phi D, the heavy/light leverage row decomposition (Lemma 2.5), and the O(nnz(A)) input-sparsity time algorithms for subspace embedding, least-squares regression, and rank-k approximation.
+aliases:
+- Clarkson-Woodruff Input-Sparsity Transform (CW Sketch)
+- Sparse CountSketch Oblivious Subspace Embedding
+- Input-Sparsity Time Low-Rank Approximation and Regression
+definition_evidence:
+- source_id: r331-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r331-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r331-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: For the sparse embedding matrix S = Phi D in R^{t x n} with a single uniformly hashed bucket h(i) in [t] and random Rademacher sign sigma_i in {-1, +1} per column i, the matrix product S A is computable in O(nnz(A)) arithmetic operations, satisfies the exact unbiased second-moment identity E[(S^T S)_{ij}] = delta_{ij} (so E[||S x||_2^2] = ||x||_2^2 and E[||S A||_F^2] = ||A||_F^2), and preserves the Euclidean norm of any subset of heavy rows isolated into distinct hash buckets with exact isometry.
+  evidence:
+  - source_id: r331-primary-pdf
+    locator: Section 1.2, Construction of S = Phi D, p. 6; Section 2.1, Theorem 2.3 and Lemma 2.5 (heavy/light row decomposition), pp. 13-16
+    relation: supports
+  - source_id: r331-arxiv-abs
+    locator: 'Abstract: sparse subspace embeddings running in O(nnz(A)) input-sparsity time'
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: Theorem 2.3 and Theorem 2.6 prove that for t = O(d^2 / epsilon^2) rows, S = Phi D is a (1 +/- epsilon)-l_2 subspace embedding for any d-dimensional subspace V in R^n with constant probability, and combining CountSketch preconditioning with iterative refinement solves min_x ||A x - b||_2 to (1 + epsilon) relative residual error in O(nnz(A) log(1/epsilon) + d^3 log^2 d + d^2 log(1/epsilon)) time.
+  evidence:
+  - source_id: r331-primary-pdf
+    locator: Section 2.1, Theorem 2.3, p. 14; Section 2.2, Theorem 2.6 (Overconstrained Least Squares), pp. 16-17
+    relation: supports
+  - source_id: r331-metadata-cr
+    locator: STOC 2013 bibliographic record, pp. 81-90
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Because S = Phi D hashes each row of A to a single bucket without prior Hadamard spreading, avoiding collisions among up to d high-leverage (spiky canonical basis) rows by the birthday paradox requires target dimension t = Omega(d^2 / epsilon^2) rather than O(d / epsilon^2), and hash collisions between two heavy basis rows with opposite effective signs cause destructive cancellation that breaks the subspace embedding property.
+  evidence:
+  - source_id: r331-primary-pdf
+    locator: Section 2.1, Proof of Lemma 2.5 (perfect hashing of heavy rows W requires t = Omega(|W|^2) = Omega(d^2)), pp. 15-16
+    relation: supports
+evidence_sources:
+- source_id: r331-primary-pdf
+  title: Low Rank Approximation and Regression in Input Sparsity Time
+  authors: &id001
+  - Kenneth L. Clarkson
+  - David P. Woodruff
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1207.6365.pdf
+  persistent_id: https://doi.org/10.1145/2488608.2488620
+  version: Proceedings of the 45th Annual ACM Symposium on Theory of Computing (STOC 2013), pp. 81-90 / Journal of the ACM 63(6):54 (2017) (2013) (721659 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:54:00Z'
+  sha256: 8005ec41c2814e7a9c4fd0a4e26f673119d812b6690170ee1488312147c01d11
+- source_id: r331-arxiv-abs
+  title: Low Rank Approximation and Regression in Input Sparsity Time (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1207.6365
+  persistent_id: https://arxiv.org/abs/1207.6365
+  version: arXiv abstract page (7031 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:54:00Z'
+  sha256: 5b39d1b4f68d9219cfbda43851cdce4be492c382c18bc27c2a66d20aec61dacb
+- source_id: r331-metadata-cr
+  title: Low Rank Approximation and Regression in Input Sparsity Time (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1145/2488608.2488620
+  persistent_id: https://doi.org/10.1145/2488608.2488620
+  version: Crossref API work record (3082 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:54:00Z'
+  sha256: 2ca807efd904b4379ac008b433f357e8b9dbe9d7b92889603f65678ed4570756
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: narrow_match
+  rationale: Sparse O(nnz(A)) oblivious subspace embedding S = Phi D reducing n rows to t = O(d^2/epsilon^2) rows.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Yields input-sparsity time (1+epsilon)-approximate overconstrained least-squares regression and preconditioned iterative solvers.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Provides input-sparsity time O(nnz(A) + n poly(k/epsilon)) low-rank matrix approximation.
+limitations:
+- Single-pass sparse CountSketch subspace embedding requires O(d^2 / epsilon^2) target rows (quadratic in subspace dimension d due to birthday-paradox collision avoidance on high-leverage rows) unless composed in a two-stage sketch with SRHT.
+curation:
+  created_at: '2026-10-19T06:54:00Z'
+  updated_at: '2026-10-19T06:54:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

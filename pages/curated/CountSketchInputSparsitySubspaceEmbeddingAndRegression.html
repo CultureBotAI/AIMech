@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CountSketch Input-Sparsity Subspace Embedding and Regression · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>CountSketch Input-Sparsity Subspace Embedding and Regression</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">CountSketch Input-Sparsity Subspace Embedding and Regression</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CountSketchInputSparsitySubspaceEmbeddingAndRegression</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Clarkson-Woodruff Input-Sparsity Transform (CW Sketch), Sparse CountSketch Oblivious Subspace Embedding, Input-Sparsity Time Low-Rank Approximation and Regression
+    </div>
+
+  <div class="detail-desc">
+    CountSketch Input-Sparsity Subspace Embedding and Regression is an oblivious sparse random projection and numerical linear algebra framework introduced by Clarkson and Woodruff (2013, 2017) that constructs an O(n)-column, t-row sketching matrix S = Phi D in R^{t x n} with exactly ONE nonzero entry per column (S_{h(i), i} = sigma_i in {-1, +1}, where h: [n] -&gt; [t] and sigma: [n] -&gt; {-1, +1} are random hash and sign maps) so that S A can be computed in true input-sparsity time O(nnz(A)) for any matrix A in R^{n x d}, where nnz(A) is the number of nonzero entries of A. Theorem 2.3 and Lemma 2.5 prove that for t = O(d^2 / epsilon^2) (or t = O(k^2 / epsilon^2) for a k-dimensional subspace), S is a (1 +/- epsilon)-l_2 subspace embedding satisfying ||S A x||_2 = (1 +/- epsilon)||A x||_2 simultaneously for all x in R^d by decomposing the basis U of range(A) into heavy rows (||u_i||_2^2 &gt;= tau, which are isolated into distinct hash buckets without collision and preserved isometrically) and light rows (bounded via high-moment trace inequalities), yielding O(nnz(A) + d^3 epsilon^{-2} log(d/epsilon)) algorithms for (1+epsilon)-approximate overconstrained least-squares regression (Theorem 2.6) and O(nnz(A) + n poly(k/epsilon)) low-rank matrix approximation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Subsampled Randomized Hadamard Transform Subspace Embedding (`AIMech:SubsampledRandomizedHadamardTransformSubspaceEmbedding`), which requires O(n d log t) dense Walsh-Hadamard butterfly operations regardless of matrix sparsity, and from Frequent Directions Deterministic Streaming Matrix Sketching (`AIMech:FrequentDirectionsDeterministicStreamingMatrixSketching`), which uses O(n d l) deterministic SVD shrinkage. Specifically captures the Clarkson-Woodruff single-nonzero-per-column CountSketch matrix S = Phi D, the heavy/light leverage row decomposition (Lemma 2.5), and the O(nnz(A)) input-sparsity time algorithms for subspace embedding, least-squares regression, and rank-k approximation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the sparse embedding matrix S = Phi D in R^{t x n} with a single uniformly hashed bucket h(i) in [t] and random Rademacher sign sigma_i in {-1, +1} per column i, the matrix product S A is computable in O(nnz(A)) arithmetic operations, satisfies the exact unbiased second-moment identity E[(S^T S)_{ij}] = delta_{ij} (so E[||S x||_2^2] = ||x||_2^2 and E[||S A||_F^2] = ||A||_F^2), and preserves the Euclidean norm of any subset of heavy rows isolated into distinct hash buckets with exact isometry.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r331-primary-pdf">Low Rank Approximation and Regression in Input Sparsity Time</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, Construction of S = Phi D, p. 6; Section 2.1, Theorem 2.3 and Lemma 2.5 (heavy/light row decomposition), pp. 13-16</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r331-arxiv-abs">Low Rank Approximation and Regression in Input Sparsity Time (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract: sparse subspace embeddings running in O(nnz(A)) input-sparsity time</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 2.3 and Theorem 2.6 prove that for t = O(d^2 / epsilon^2) rows, S = Phi D is a (1 +/- epsilon)-l_2 subspace embedding for any d-dimensional subspace V in R^n with constant probability, and combining CountSketch preconditioning with iterative refinement solves min_x ||A x - b||_2 to (1 + epsilon) relative residual error in O(nnz(A) log(1/epsilon) + d^3 log^2 d + d^2 log(1/epsilon)) time.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r331-primary-pdf">Low Rank Approximation and Regression in Input Sparsity Time</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Theorem 2.3, p. 14; Section 2.2, Theorem 2.6 (Overconstrained Least Squares), pp. 16-17</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r331-metadata-cr">Low Rank Approximation and Regression in Input Sparsity Time (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> STOC 2013 bibliographic record, pp. 81-90</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because S = Phi D hashes each row of A to a single bucket without prior Hadamard spreading, avoiding collisions among up to d high-leverage (spiky canonical basis) rows by the birthday paradox requires target dimension t = Omega(d^2 / epsilon^2) rather than O(d / epsilon^2), and hash collisions between two heavy basis rows with opposite effective signs cause destructive cancellation that breaks the subspace embedding property.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r331-primary-pdf">Low Rank Approximation and Regression in Input Sparsity Time</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Proof of Lemma 2.5 (perfect hashing of heavy rows W requires t = Omega(|W|^2) = Omega(d^2)), pp. 15-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Single-pass sparse CountSketch subspace embedding requires O(d^2 / epsilon^2) target rows (quadratic in subspace dimension d due to birthday-paradox collision avoidance on high-leverage rows) unless composed in a two-stage sketch with SRHT.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Sparse O(nnz(A)) oblivious subspace embedding S = Phi D reducing n rows to t = O(d^2/epsilon^2) rows.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Yields input-sparsity time (1+epsilon)-approximate overconstrained least-squares regression and preconditioned iterative solvers.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Provides input-sparsity time O(nnz(A) + n poly(k/epsilon)) low-rank matrix approximation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r331-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r331-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1207.6365.pdf" target="_blank" rel="noopener">Low Rank Approximation and Regression in Input Sparsity Time</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kenneth L. Clarkson, David P. Woodruff
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1145/2488608.2488620</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8005ec41c281…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r331-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r331-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1207.6365" target="_blank" rel="noopener">Low Rank Approximation and Regression in Input Sparsity Time (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kenneth L. Clarkson, David P. Woodruff
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1207.6365</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5b39d1b4f68d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r331-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r331-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1145/2488608.2488620" target="_blank" rel="noopener">Low Rank Approximation and Regression in Input Sparsity Time (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kenneth L. Clarkson, David P. Woodruff
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1145/2488608.2488620</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2ca807efd904…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:54:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:54:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CountSketchInputSparsitySubspaceEmbeddingAndRegression.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CountSketchInputSparsitySubspaceEmbeddingAndRegression.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
