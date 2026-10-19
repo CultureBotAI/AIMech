@@ -1,0 +1,105 @@
+id: AIMech:FedCurvFisherInformationRegularizedFederatedLearning
+name: FedCurv (Fisher-Information-Regularized Federated Learning for Non-IID Data)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A curvature-regularized federated learning algorithm (Shoham et al. 2019, Section 3, Equations 1-5) that mitigates catastrophic forgetting across statistically heterogeneous (non-IID) clients by augmenting each client s''s local empirical loss L_s(theta) in round t with an Elastic Weight Consolidation (EWC) quadratic penalty weighted by the diagonal empirical Fisher information matrices diag(I_{t-1,j}) of all other participating clients j in S \ {s}: L~_{t,s}(theta) = L_s(theta) + lambda * sum_{j in S \ {s}} (theta - theta^hat_{t-1,j})^T diag(I_{t-1,j}) (theta - theta^hat_{t-1,j}) (Equation 4), decoupled for linear communication overhead into aggregated server statistics P_{t-1} = sum_{j in S} diag(I_{t-1,j}) and Q_{t-1} = sum_{j in S} diag(I_{t-1,j}) theta^hat_{t-1,j} via L~_{t,s}(theta) = L_s(theta) + lambda * theta^T (P_{t-1} - diag(I_{t-1,s})) theta - 2*lambda * theta^T (Q_{t-1} - diag(I_{t-1,s}) theta^hat_{t-1,s}) + const (Equation 5).'
+identity_notes: Distinct from FedProx (AIMech:FedProxProximalHeterogeneousFederatedOptimization, Li et al. 2020), which penalizes isotropic Euclidean distance (mu/2)*||theta - w^{t-1}||_2^2 around the scalar-averaged global model without parameter-wise Fisher curvature weighting or peer-model decoupling; and distinct from FFL-ERL / Fisher-weighted server model fusion, as FedCurv applies the peer-summed diagonal Fisher quadratic regularizer directly during local client SGD optimization via aggregated server vectors (P_{t-1}, Q_{t-1}).
+aliases:
+- FedCurv
+- Fisher-Information-Regularized Federated Learning
+- Federated Curvature Regularization
+- EWC-Regularized Federated Learning
+definition_evidence:
+- source_id: r452-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r452-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r452-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r452-decoupled-fisher-quadratic-penalty-mechanism
+  kind: mechanism
+  statement: Rewrites the pairwise peer Fisher penalty sum_{j in S \ {s}} (theta - theta^hat_{t-1,j})^T diag(I_{t-1,j}) (theta - theta^hat_{t-1,j}) (Equation 4) into the algebraically identical decoupled form theta^T (P_{t-1} - diag(I_{t-1,s})) theta - 2 * theta^T (Q_{t-1} - diag(I_{t-1,s}) theta^hat_{t-1,s}) + const (Equation 5), reducing per-round communication from O(|S|) vectors per client to exactly 3 parameter-sized vectors (model parameters plus two Fisher summary vectors) independent of the number of clients.
+  evidence:
+  - source_id: r452-primary-pdf
+    locator: Section 3 Equations 4-5, p. 3
+    relation: supports
+- claim_id: r452-laplace-posterior-multi-task-scope
+  kind: scope
+  statement: Interprets each communication round of non-IID federated learning as distributed multi-task continual learning under a diagonal Laplace approximation of the joint log-posterior log p(theta | D) (Equations 1-3), preventing local SGD steps with large local epoch counts E from overwriting parameters with high Fisher information on other clients' data.
+  evidence:
+  - source_id: r452-primary-pdf
+    locator: Section 3 Equations 1-4 & Section 4 Experimental Results, pp. 2-5
+    relation: supports
+- claim_id: r452-diagonal-fisher-approximation-and-communication-factor-limitation
+  kind: limitation
+  statement: Approximates each client's local Hessian by the diagonal of the empirical Fisher information matrix diag(I_{t,s}), omitting off-diagonal parameter correlations, and increases per-round communication bandwidth by a factor of up to 3 compared to vanilla FedAvg (reduced to 2 in round-initial Fisher evaluation variants).
+  evidence:
+  - source_id: r452-primary-pdf
+    locator: Section 3 Bandwidth Reduction Discussion & Section 5 Conclusions, pp. 3-5
+    relation: supports
+- claim_id: r452-non-iid-classification-communication-reduction-application
+  kind: application
+  statement: Applied to non-IID federated image classification where each client holds examples from only a strict subset of classes, reducing the communication rounds required to reach target test accuracy under large local epoch budgets.
+  evidence:
+  - source_id: r452-primary-pdf
+    locator: Section 4 Experimental Results (Figures 1-3, Table 1), pp. 4-5
+    relation: supports
+evidence_sources:
+- source_id: r452-primary-pdf
+  title: Overcoming Forgetting in Federated Learning on Non-IID Data
+  authors: &id001
+  - Neta Shoham
+  - Tomer Avidor
+  - Aviv Keren
+  - Nadav Israel
+  - Daniel Benditkis
+  - Liron Mor-Yosef
+  - Itai Zeitak
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1910.07796
+  persistent_id: https://arxiv.org/abs/1910.07796
+  version: NeurIPS 2019 Workshop on Federated Learning for Data Privacy and Confidentiality (2019) (21164 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:55:00Z'
+  sha256: 47b9944148ef5edbf204cc8954f42cae19043b06f446b19020e42c010e6accd0
+- source_id: r452-arxiv-abs
+  title: Overcoming Forgetting in Federated Learning on Non-IID Data (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1910.07796
+  persistent_id: https://arxiv.org/abs/1910.07796
+  version: arXiv abstract page (14467 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:55:00Z'
+  sha256: cdc3282809a337833ba83da96ceca58c6a6260fc5c138e464f4169aa2e76dfe7
+- source_id: r452-metadata-cr
+  title: Overcoming Forgetting in Federated Learning on Non-IID Data (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1910.07796
+  persistent_id: https://arxiv.org/abs/1910.07796
+  version: Crossref API work record (554 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:55:00Z'
+  sha256: 3d7b485bcbe9fd881a7031259325666f72121d39d2ee0209cedb9d8a1cefafc9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedCurv is a specific federated learning algorithm that regularizes local client updates using peer clients' diagonal Fisher information matrices.
+limitations:
+- Relies on a diagonal empirical Fisher approximation of the local Hessian, neglecting off-diagonal parameter interactions.
+- Transmits two additional parameter-sized Fisher summary vectors per round (3x total communication volume per round in the standard end-of-round Fisher variant).
+curation:
+  created_at: '2026-10-19T08:55:00Z'
+  updated_at: '2026-10-19T08:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
