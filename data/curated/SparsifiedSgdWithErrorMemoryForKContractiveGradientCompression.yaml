@@ -1,0 +1,104 @@
+id: AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression
+name: Sparsified Stochastic Gradient Descent with Error Memory for k-Contractive Gradient Compression
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'An error-compensated stochastic gradient descent optimization algorithm (Mem-SGD) that compresses each step''s scaled stochastic gradient plus accumulated local residual memory m_t using a possibly biased k-contraction operator comp_k: R^d -> R^d satisfying E ||x - comp_k(x)||^2 <= (1 - k/d) ||x||^2 (such as deterministic top-k magnitude selection or scaled random-k coordinate sparsification), updating the iterate via x_{t+1} = x_t - g_t with g_t = comp_k(m_t + eta_t * grad f_{i_t}(x_t)) and retaining the untransmitted residual m_{t+1} = m_t + eta_t * grad f_{i_t}(x_t) - g_t so that the perturbed virtual sequence x_tilde_t = x_t - m_t evolves via exact uncompressed stochastic gradient steps and recovers the asymptotic O(G^2 / (mu * T)) convergence rate of uncompressed SGD.'
+identity_notes: Distinct from unbiased stochastic quantization (AIMech:QsgdQuantizedStochasticGradientDescentWithEliasCoding, which requires E[Q(g)] = g and cannot analyze biased deterministic Top-k sparsification), from 1-bit sign compression without contractive residual bounds (AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization), from EF21 Markov gradient-difference compression (AIMech:Ef21MarkovCompressorErrorFeedbackForHeterogeneousNonconvexOptimization, which compresses gradient differences grad f_i(x^{t+1}) - g_i^t rather than step-scaled gradient plus error memory), and from low-rank matrix subspace compression (AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback). No pinned AIO class covers k-contractive sparsified SGD with error memory or its perturbed virtual-iterate convergence guarantee.
+aliases:
+- Mem-SGD
+- Sparsified SGD with Memory
+- k-Contractive Error-Compensated SGD
+- Top-k SGD with Error Feedback Memory
+definition_evidence:
+- source_id: r379-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r379-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r379-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r379-k-contraction-and-virtual-iterate-invariance
+  kind: mechanism
+  statement: Under Definition 2.1 and Lemma A.1, both deterministic top_k magnitude selection and random k-coordinate sampling satisfy the k-contraction property E ||x - comp_k(x)||^2 <= (1 - k/d) ||x||^2; by accumulating the compression error m_{t+1} = m_t + eta_t * grad f_{i_t}(x_t) - g_t where g_t = comp_k(m_t + eta_t * grad f_{i_t}(x_t)), Algorithm 1 ensures that the virtual sequence x_tilde_t = x_t - m_t evolves via x_tilde_{t+1} = x_tilde_t - eta_t * grad f_{i_t}(x_t) with zero cumulative information loss.
+  evidence:
+  - source_id: r379-primary-pdf
+    locator: Section 2 Definition 2.1, Section 3 Proof Sketch, and Appendix A Lemma A.1, pp. 3-5, 12
+    relation: supports
+- claim_id: r379-memory-norm-bound-and-uncompressed-leading-rate
+  kind: mechanism
+  statement: Under L-smoothness, mu-strong convexity, and bounded second moment E ||grad f_i(x_t)||^2 <= G^2, Lemma 3.2 and Lemma A.2 prove that the error memory stays bounded as E ||x_t - x_tilde_t||^2 = E ||m_t||^2 <= 4 * eta_t^2 * ((d^2 - k^2) / k^2) * G^2 (tightened to (2*d/k)*(1 - k/d)*eta_t^2*G^2), yielding Theorem 2.2's convergence rate E[f(x_bar_T)] - f(x*) <= O(G^2 / (mu * T)) + O((d/k)^2 * kappa * G^2 / (mu * T^2)) + O((d/k)^3 * G^2 / (mu * T^3)) whose leading O(1/T) term is independent of the compression ratio k/d.
+  evidence:
+  - source_id: r379-primary-pdf
+    locator: Theorem 2.2, Lemma 3.2, and Appendix A Lemma A.2, pp. 4-6, 12-13
+    relation: supports
+- claim_id: r379-bounded-gradient-and-delay-shift-limitation
+  kind: limitation
+  statement: The convergence analysis of Mem-SGD relies on the uniform second-moment gradient bound E ||grad f_i(x_t)||^2 <= G^2 and requires an initial stepsize delay parameter a = Omega((d/k) * kappa) so that eta_t = 8 / (mu * (a + t)) changes slowly enough to contract the error memory norm.
+  evidence:
+  - source_id: r379-primary-pdf
+    locator: Section 2 Theorem 2.2, Section 3 Lemma 3.2, and Section 6 Conclusion, pp. 3-6, 8
+    relation: supports
+- claim_id: r379-communication-efficient-sparse-training-application
+  kind: application
+  statement: Applied to communication-efficient stochastic optimization of multiclass logistic regression and regularized least-squares models with 10x to 1000x gradient sparsification (top-1 and top-k).
+  evidence:
+  - source_id: r379-primary-pdf
+    locator: Section 5 Numerical Experiments, Figures 1-2, pp. 7-8
+    relation: supports
+evidence_sources:
+- source_id: r379-primary-pdf
+  title: Sparsified SGD with Memory
+  authors: &id001
+  - Sebastian U. Stich
+  - Jean-Baptiste Cordonnier
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1809.07599.pdf
+  persistent_id: https://papers.nips.cc/paper/2018/hash/b440509a0106086a67bc2ea9df0a1dab-Abstract.html
+  version: Advances in Neural Information Processing Systems 31 (NeurIPS 2018), pp. 4447-4458 (2018) (60982 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:42:00Z'
+  sha256: aaa20e82adf7a0c65f693cd3ded871ee57e6f9e6a0ac2e4472758c91e12a7037
+- source_id: r379-arxiv-abs
+  title: Sparsified SGD with Memory (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1809.07599
+  persistent_id: https://arxiv.org/abs/1809.07599
+  version: arXiv abstract page (7102 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:42:00Z'
+  sha256: 30c0f4bd4a10f1c371ca39fb2fc0815e0b6eb237369a9c32df82f996635bbc8d
+- source_id: r379-metadata-cr
+  title: Sparsified SGD with Memory (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2018/hash/b440509a0106086a67bc2ea9df0a1dab-Abstract.html
+  persistent_id: https://papers.nips.cc/paper/2018/hash/b440509a0106086a67bc2ea9df0a1dab-Abstract.html
+  version: Crossref API work record (287 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:42:00Z'
+  sha256: 2358039de76cfb327fb0431b5bd493fb43058790ca183bbdb7d7aed8737e403f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: Mem-SGD uses k-contractive sparse gradient operators (Top-k and Rand-k) with local error-feedback memory to train statistical and machine learning models.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Sparsified SGD with memory is analyzed and evaluated on regularized linear and logistic empirical risk minimization objectives.
+limitations:
+- Requires a uniform second-moment bound E ||grad f_i(x_t)||^2 <= G^2 on stochastic gradients to bound the error memory norm ||m_t||^2.
+- Stepsize schedule eta_t = 8 / (mu * (a + t)) requires an initial warm-up shift a >= max(2*kappa, 4*d/k) proportional to the compression factor d/k.
+curation:
+  created_at: '2026-10-19T07:42:00Z'
+  updated_at: '2026-10-19T07:42:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

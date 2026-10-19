@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1215</strong> artificial intelligence concepts, comprising <strong>773</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1216</strong> artificial intelligence concepts, comprising <strong>774</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1215)</option>
-        <option value="curated">Curated AIMech (773)</option>
+        <option value="all">All Origins (1216)</option>
+        <option value="curated">Curated AIMech (774)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (471)</option>
+          <option value="algorithm">Algorithms (472)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1215</span> of <span id="totalCount">1215</span>
+      Showing <span id="matchCount">1216</span> of <span id="totalCount">1216</span>
     </div>
   </div>
 </div>
@@ -25955,6 +25955,32 @@
         <td>
             <span class="badge badge-mechanism" title="6 claims curated">6 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="sparsified stochastic gradient descent with error memory for k-contractive gradient compression sparsifiedsgdwitherrormemoryforkcontractivegradientcompression aimech:sparsifiedsgdwitherrormemoryforkcontractivegradientcompression algorithms algorithm an error-compensated stochastic gradient descent optimization algorithm (mem-sgd) that compresses each step&#39;s scaled stochastic gradient plus accumulated local residual memory m_t using a possibly biased k-contraction operator comp_k: r^d -&gt; r^d satisfying e ||x - comp_k(x)||^2 &lt;= (1 - k/d) ||x||^2 (such as deterministic top-k magnitude selection or scaled random-k coordinate sparsification), updating the iterate via x_{t+1} = x_t - g_t with g_t = comp_k(m_t + eta_t * grad f_{i_t}(x_t)) and retaining the untransmitted residual m_{t+1} = m_t + eta_t * grad f_{i_t}(x_t) - g_t so that the perturbed virtual sequence x_tilde_t = x_t - m_t evolves via exact uncompressed stochastic gradient steps and recovers the asymptotic o(g^2 / (mu * t)) convergence rate of uncompressed sgd. distinct from unbiased stochastic quantization (aimech:qsgdquantizedstochasticgradientdescentwitheliascoding, which requires e[q(g)] = g and cannot analyze biased deterministic top-k sparsification), from 1-bit sign compression without contractive residual bounds (aimech:signsgdandmajorityvotecompressednonconvexoptimization), from ef21 markov gradient-difference compression (aimech:ef21markovcompressorerrorfeedbackforheterogeneousnonconvexoptimization, which compresses gradient differences grad f_i(x^{t+1}) - g_i^t rather than step-scaled gradient plus error memory), and from low-rank matrix subspace compression (aimech:powersgdlowrankgradientcompressionwitherrorfeedback). no pinned aio class covers k-contractive sparsified sgd with error memory or its perturbed virtual-iterate convergence guarantee. mem-sgd sparsified sgd with memory k-contractive error-compensated sgd top-k sgd with error feedback memory under definition 2.1 and lemma a.1, both deterministic top_k magnitude selection and random k-coordinate sampling satisfy the k-contraction property e ||x - comp_k(x)||^2 &lt;= (1 - k/d) ||x||^2; by accumulating the compression error m_{t+1} = m_t + eta_t * grad f_{i_t}(x_t) - g_t where g_t = comp_k(m_t + eta_t * grad f_{i_t}(x_t)), algorithm 1 ensures that the virtual sequence x_tilde_t = x_t - m_t evolves via x_tilde_{t+1} = x_tilde_t - eta_t * grad f_{i_t}(x_t) with zero cumulative information loss. under l-smoothness, mu-strong convexity, and bounded second moment e ||grad f_i(x_t)||^2 &lt;= g^2, lemma 3.2 and lemma a.2 prove that the error memory stays bounded as e ||x_t - x_tilde_t||^2 = e ||m_t||^2 &lt;= 4 * eta_t^2 * ((d^2 - k^2) / k^2) * g^2 (tightened to (2*d/k)*(1 - k/d)*eta_t^2*g^2), yielding theorem 2.2&#39;s convergence rate e[f(x_bar_t)] - f(x*) &lt;= o(g^2 / (mu * t)) + o((d/k)^2 * kappa * g^2 / (mu * t^2)) + o((d/k)^3 * g^2 / (mu * t^3)) whose leading o(1/t) term is independent of the compression ratio k/d. the convergence analysis of mem-sgd relies on the uniform second-moment gradient bound e ||grad f_i(x_t)||^2 &lt;= g^2 and requires an initial stepsize delay parameter a = omega((d/k) * kappa) so that eta_t = 8 / (mu * (a + t)) changes slowly enough to contract the error memory norm. applied to communication-efficient stochastic optimization of multiclass logistic regression and regularized least-squares models with 10x to 1000x gradient sparsification (top-1 and top-k). sparsified sgd with memory sparsified sgd with memory (arxiv abstract) sparsified sgd with memory (crossref metadata) sebastian u. stich jean-baptiste cordonnier martin jaggi sebastian u. stich jean-baptiste cordonnier martin jaggi sebastian u. stich jean-baptiste cordonnier martin jaggi">
+        <td>
+          <a href="curated/SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression.html" style="font-weight: 600; font-size: 1rem;">Sparsified Stochastic Gradient Descent with Error Memory for k-Contractive Gradient Compression</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Mem-SGD, Sparsified SGD with Memory…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An error-compensated stochastic gradient descent optimization algorithm (Mem-SGD) that compresses each step&#39;s scaled stochastic gradient plu…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="aio"
