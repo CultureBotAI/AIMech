@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">467 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">468 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">467</span> of <span id="totalCount">467</span>
+      Showing <span id="matchCount">468</span> of <span id="totalCount">468</span>
     </div>
   </div>
 </div>
@@ -9445,6 +9445,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:ScaledLassoAndHuberConcomitantPenalizedJointSparseRegression</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="scsg (stochastically controlled stochastic gradient) for non-convex optimization scsgstochasticallycontrolledstochasticgradientfornonconvexoptimization aimech:scsgstochasticallycontrolledstochasticgradientfornonconvexoptimization algorithms algorithm a variance-reduced stochastic optimization algorithm (lei, ju, chen, &amp; jordan 2017) for smooth non-convex finite-sum and online optimization min_x f(x) = (1/n) sum_{i=1}^n f_i(x) that replaces svrg&#39;s full-dataset outer gradient pass with a subsampled without-replacement batch i_j subset {1, ..., n} of size b_j &lt;= n, sets the anchor gradient g_j = (1/b_j) sum_{i in i_j} nabla f_i(xtilde_{j-1}), draws a geometrically distributed number of inner-loop steps n_j ~ geom(b_j / (b_j + b_j)) (so e[n_j] = b_j / b_j), performs b_j-minibatch variance-reduced updates v_{k-1}^{(j)} = nabla f_{i&#39;_{k-1}}(x_{k-1}^{(j)}) - nabla f_{i&#39;_{k-1}}(xtilde_{j-1}) + g_j, and sets xtilde_j = x_{n_j}^{(j)}, achieving e||nabla f(xhat)||_2^2 &lt;= varepsilon in o(min{varepsilon^{-5/3}, n^{2/3} varepsilon^{-1}} + min{varepsilon^{-1}, n}) (equivalently o(min{varepsilon_g^{-10/3}, n^{2/3} varepsilon_g^{-2}} + min{varepsilon_g^{-2}, n}) for e||nabla f(xhat)||_2 &lt;= varepsilon_g) stochastic gradient evaluations. distinct from classical svrg (johnson &amp; zhang 2013; reddi et al. 2016; allen-zhu &amp; hazan 2016), which computes a full n-sample gradient at every outer epoch (incurring an unavoidable o(n + n^{2/3} / varepsilon_g^2) cost even when n &gt;&gt; varepsilon_g^{-2}) and uses a fixed deterministic epoch length m with uniform random iterate selection; from saga (defazio et al. 2014, aimech:sagafastincrementalgradientmethodwithsupportfornonstronglyconvexcompositeobjectives), which stores o(n*d) gradient tables; and from recursive path-integrated estimators (sarah, spider, snvrg, storm, page), which update the gradient estimate incrementally from x_{t-1} rather than from a geometrically terminated epoch anchor xtilde_{j-1}. scsg non-convex scsg stochastically controlled stochastic gradient for any sequence {d_k}_{k &gt;= 0} and geometric stopping time n_j ~ geom(gamma) on {0, 1, 2, ...} with p(n_j = k) = gamma^k (1 - gamma) and gamma = b_j / (b_j + b_j), the exact expectation identity e_{n_j}[d_{n_j} - d_{n_j + 1}] = (1 / e[n_j]) * e_{n_j}[d_0 - d_{n_j}] = (b_j / b_j) * (d_0 - e_{n_j}[d_{n_j}]) (lemma a.2) telescopes single-step descent directly into an epoch-level bound on the terminal iterate xtilde_j = x_{n_j}^{(j)} without storing intermediate inner-loop iterates: for step size eta_j * l * (b_j / b_j)^{2/3} &lt;= c_0, e||nabla f(xtilde_j)||_2^2 &lt;= (2 / (eta_j * (1 - 2 * eta_j * l))) * (b_j / b_j) * e[f(xtilde_{j-1}) - f(xtilde_j)] + (i(b_j &lt; n) / b_j) * (6 / (1 - 2 * eta_j * l)) * s^2 (theorem 3.1). setting step size eta_j = (b_j / b_j)^{2/3} / (6l) and outer batch size b_j = min{n, s^2 / varepsilon} (where varepsilon denotes target squared gradient norm e||nabla f(xhat)||_2^2 &lt;= varepsilon, i.e., varepsilon = varepsilon_g^2) gives total expected stochastic gradient complexity o(b^{-1/3} * l * delta_f / (varepsilon * b^{1/3}) + b) = o((min{s^2 / varepsilon, n})^{2/3} * (l * delta_f / (s^2 * b^{1/3})) + min{s^2 / varepsilon, n}) = o(min{varepsilon^{-5/3}, n^{2/3} * varepsilon^{-1}}) (theorem 3.2, corollary 3.3, table 1), strictly dominating both sgd o(varepsilon^{-2}) when varepsilon &lt;&lt; 1 and svrg o(n + n^{2/3} * varepsilon^{-1}) in the practical large-data regime where varepsilon^{-1} &lt; n without ever computing a full pass over all n examples. under the mu-polyak-lojasiewicz condition 1/2 * ||nabla f(x)||_2^2 &gt;= mu * (f(x) - f^*), scsg achieves e[f(xhat) - f^*] &lt;= varepsilon in o((min{l/mu * (l / (mu * b))^{1/3}, n^{2/3} * l / (mu * b^{1/3})} + min{n, s^2 / (mu * varepsilon)}) * log(1/varepsilon)) gradient evaluations (theorem 4.3, table 2); on mnist 3-layer fully connected and lenet convolutional neural networks, scsg with polynomially growing batch sizes b_j propto j^{3/2} outperforms mini-batch sgd from random initialization without needing an sgd warm-start. non-convex finite-sum optimization via scsg methods non-convex finite-sum optimization via scsg methods (arxiv abstract) non-convex finite-sum optimization via scsg methods (crossref metadata) lihua lei cheng ju jianbo chen michael i. jordan lihua lei cheng ju jianbo chen michael i. jordan lihua lei cheng ju jianbo chen michael i. jordan">
+        <td>
+          <a href="../curated/ScsgStochasticallyControlledStochasticGradientForNonconvexOptimization.html" style="font-weight: 600; font-size: 1rem;">SCSG (Stochastically Controlled Stochastic Gradient) for Non-Convex Optimization</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> SCSG, Non-Convex SCSG…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A variance-reduced stochastic optimization algorithm (Lei, Ju, Chen, &amp; Jordan 2017) for smooth non-convex finite-sum and online optimization…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:ScsgStochasticallyControlledStochasticGradientForNonconvexOptimization</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
