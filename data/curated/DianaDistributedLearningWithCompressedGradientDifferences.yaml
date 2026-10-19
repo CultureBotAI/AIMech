@@ -1,0 +1,101 @@
+id: AIMech:DianaDistributedLearningWithCompressedGradientDifferences
+name: DIANA Distributed Learning with Compressed Gradient Differences
+concept_kind: algorithm
+review_status: DRAFT
+definition: A distributed composite and nonconvex stochastic optimization algorithm (DIANA) for minimizing f(x) + R(x) = (1/n) sum_{i=1}^n f_i(x) + R(x) across n workers in which each worker i maintains a local gradient-memory shift vector h_i^k in R^d (with server mean h^k = (1/n) sum_{i=1}^n h_i^k), computes a stochastic gradient g_i^k, compresses only the gradient difference Delta_i^k = g_i^k - h_i^k via an unbiased block l_p quantizer Delta_hat_i^k = Quant_p(Delta_i^k) satisfying E[||Delta_hat_i^k - Delta_i^k||_2^2] <= (1/alpha_p - 1) ||Delta_i^k||_2^2, updates its local memory h_i^{k+1} = h_i^k + alpha * Delta_hat_i^k, and transmits Delta_hat_i^k to the server to form the unbiased global gradient estimator g_hat^k = h^k + (1/n) sum_{i=1}^n Delta_hat_i^k, update h^{k+1} = h^k + alpha * (1/n) sum_{i=1}^n Delta_hat_i^k, and take a momentum/proximal step x^{k+1} = prox_{gamma R}(x^k - gamma * v^k), enabling each h_i^k to converge to the local optimum gradient nabla f_i(x^*) so quantization variance vanishes at the optimum even under arbitrary inter-worker heterogeneity and nonsmooth regularization R != 0.
+identity_notes: Distinct from QSGD (AIMech:QsgdCommunicationEfficientStochasticGradientQuantization, which quantizes raw gradients g_i^k directly without memory shifts h_i^k and therefore suffers non-vanishing quantization variance at x^* whenever nabla f_i(x^*) != 0, recovered as the special case alpha = 0, h_i^0 = 0, p = 2 of DIANA), from EF21 (AIMech:Ef21MarkovCompressorErrorFeedbackForHeterogeneousNonconvexOptimization, which uses biased contractive compressors on deterministic gradients with error state g_i^{t+1} = g_i^t + C(nabla f_i(x^{t+1}) - g_i^t) rather than unbiased l_p quantization with damping step size alpha <= alpha_p and proximal composite support R(x)), and from Sparsified SGD with Error Memory (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression). No pinned AIO class covers DIANA or compressed gradient-difference shift learning.
+aliases:
+- DIANA
+- Distributed Learning with Compressed Gradient Differences
+- Compressed Gradient Difference Proximal Stochastic Gradient Descent
+definition_evidence:
+- source_id: r389-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r389-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r389-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r389-block-lp-quantization-contraction-and-unbiased-estimator
+  kind: mechanism
+  statement: Lemmas 4.1, 4.2, and 4.3 prove that the random l_p quantizer Quant_p on a block of size d is unbiased and satisfies E||Quant_p(x) - x||_2^2 <= (1/alpha_p(d) - 1)||x||_2^2 with exact contraction factor alpha_p(d) = inf_{x!=0} ||x||_2^2 / (||x||_1 ||x||_p) given in closed form by alpha_1(d) = 1/d, alpha_2(d) = 1/sqrt(d), and alpha_inf(d) = 2/(1 + sqrt(d)), yielding expected variance E_Q||g_hat^k - g^k||_2^2 <= ((1 - alpha_p) / (n^2 * alpha_p)) sum_{i=1}^n ||g_i^k - h_i^k||_2^2.
+  evidence:
+  - source_id: r389-primary-pdf
+    locator: Section 3 Definition 3.1-3.2 and Section 4 Lemmas 4.1, 4.2, and 4.3, pp. 4-7, 15-17
+    relation: supports
+- claim_id: r389-lyapunov-linear-convergence-and-shift-learning
+  kind: mechanism
+  statement: For L-smooth mu-strongly convex functions f_i with proper closed convex regularizer R(x), Theorem 4.4 and Corollary 4.5 prove that the Lyapunov potential V^k = ||x^k - x^*||_2^2 + (c * gamma^2 / n) sum_{i=1}^n ||h_i^k - nabla f_i(x^*)||_2^2 contracts linearly as E[V^k] <= (1 - gamma * mu)^k V^0 + (gamma / mu)(1 + n * c * alpha)(sigma^2 / n), so in the noiseless regime (sigma = 0) both x^k -> x^* and h_i^k -> nabla f_i(x^*) converge geometrically in O(max{1/alpha_p, kappa*(1 + 1/(n * alpha_p))} log(1/eps)) iterations.
+  evidence:
+  - source_id: r389-primary-pdf
+    locator: Section 4 Theorem 4.4, Corollary 4.5, and Table 2, pp. 7-9
+    relation: supports
+- claim_id: r389-unbiased-compressor-and-stochastic-noise-floor-limitation
+  kind: limitation
+  statement: Requires an unbiased compression operator (E[Quant_p(Delta)] = Delta) and each worker i to store a d-dimensional shift vector h_i^k; when local gradients have non-zero stochastic variance sigma^2 > 0, constant step size gamma leaves an O(gamma * (1 + 1/alpha_p) * sigma^2 / (mu * n)) neighborhood unless decreasing step sizes (Theorem 4.8) or local variance reduction are used.
+  evidence:
+  - source_id: r389-primary-pdf
+    locator: Section 4 Theorem 4.4 & Section 4.1 Theorem 4.8 (Decreasing stepsizes), pp. 7-9
+    relation: supports
+- claim_id: r389-composite-l1-logistic-regression-and-resnet-application
+  kind: application
+  statement: Applied to distributed L1/L2-regularized logistic regression on LIBSVM datasets (mushrooms, a5a, w8a) and distributed momentum training of ResNet-18 on CIFAR-10 and AlexNet on ImageNet with block ternary (p = infinity) and 1-bit L2 (p = 2) gradient difference quantization.
+  evidence:
+  - source_id: r389-primary-pdf
+    locator: Section 6 Experiments, Figures 1-4, pp. 10-12
+    relation: supports
+evidence_sources:
+- source_id: r389-primary-pdf
+  title: Distributed Learning with Compressed Gradient Differences
+  authors: &id001
+  - Konstantin Mishchenko
+  - Eduard Gorbunov
+  - "Martin Tak\xE1\u010D"
+  - "Peter Richt\xE1rik"
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1901.09269.pdf
+  persistent_id: https://doi.org/10.48550/arXiv.1901.09269
+  version: Optimization Methods and Software / arXiv:1901.09269 (2019) (120205 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:52:00Z'
+  sha256: 353c5b967148e62e2b5f4b179b03e9f3bcd06269b0fb4826a77f09131235a883
+- source_id: r389-arxiv-abs
+  title: Distributed Learning with Compressed Gradient Differences (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1901.09269
+  persistent_id: https://arxiv.org/abs/1901.09269
+  version: arXiv abstract page (7410 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:52:00Z'
+  sha256: 900372b8b0b8c4265b55a91c34bb563e630363b0ea9baedb6adc8b3031c220e3
+- source_id: r389-metadata-cr
+  title: Distributed Learning with Compressed Gradient Differences (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.48550/arXiv.1901.09269
+  persistent_id: https://doi.org/10.48550/arXiv.1901.09269
+  version: Crossref API work record (368 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:52:00Z'
+  sha256: 01177599ff01a7b6ab6a02d572dbce7601444c53f4567e719ee9409d07e2fd38
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: DIANA performs communication-compressed distributed optimization across heterogeneous worker nodes by quantizing differences from learned local gradient shifts.
+limitations:
+- Requires an unbiased quantization operator (E[Quant_p(Delta)] = Delta) with damping factor alpha <= alpha_p(d).
+- Each worker must store a local d-dimensional gradient shift vector h_i^k across iterations.
+curation:
+  created_at: '2026-10-19T07:52:00Z'
+  updated_at: '2026-10-19T07:52:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

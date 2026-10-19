@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">481 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">482 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">481</span> of <span id="totalCount">481</span>
+      Showing <span id="matchCount">482</span> of <span id="totalCount">482</span>
     </div>
   </div>
 </div>
@@ -3021,6 +3021,32 @@
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="diana distributed learning with compressed gradient differences dianadistributedlearningwithcompressedgradientdifferences aimech:dianadistributedlearningwithcompressedgradientdifferences algorithms algorithm a distributed composite and nonconvex stochastic optimization algorithm (diana) for minimizing f(x) + r(x) = (1/n) sum_{i=1}^n f_i(x) + r(x) across n workers in which each worker i maintains a local gradient-memory shift vector h_i^k in r^d (with server mean h^k = (1/n) sum_{i=1}^n h_i^k), computes a stochastic gradient g_i^k, compresses only the gradient difference delta_i^k = g_i^k - h_i^k via an unbiased block l_p quantizer delta_hat_i^k = quant_p(delta_i^k) satisfying e[||delta_hat_i^k - delta_i^k||_2^2] &lt;= (1/alpha_p - 1) ||delta_i^k||_2^2, updates its local memory h_i^{k+1} = h_i^k + alpha * delta_hat_i^k, and transmits delta_hat_i^k to the server to form the unbiased global gradient estimator g_hat^k = h^k + (1/n) sum_{i=1}^n delta_hat_i^k, update h^{k+1} = h^k + alpha * (1/n) sum_{i=1}^n delta_hat_i^k, and take a momentum/proximal step x^{k+1} = prox_{gamma r}(x^k - gamma * v^k), enabling each h_i^k to converge to the local optimum gradient nabla f_i(x^*) so quantization variance vanishes at the optimum even under arbitrary inter-worker heterogeneity and nonsmooth regularization r != 0. distinct from qsgd (aimech:qsgdcommunicationefficientstochasticgradientquantization, which quantizes raw gradients g_i^k directly without memory shifts h_i^k and therefore suffers non-vanishing quantization variance at x^* whenever nabla f_i(x^*) != 0, recovered as the special case alpha = 0, h_i^0 = 0, p = 2 of diana), from ef21 (aimech:ef21markovcompressorerrorfeedbackforheterogeneousnonconvexoptimization, which uses biased contractive compressors on deterministic gradients with error state g_i^{t+1} = g_i^t + c(nabla f_i(x^{t+1}) - g_i^t) rather than unbiased l_p quantization with damping step size alpha &lt;= alpha_p and proximal composite support r(x)), and from sparsified sgd with error memory (aimech:sparsifiedsgdwitherrormemoryforkcontractivegradientcompression). no pinned aio class covers diana or compressed gradient-difference shift learning. diana distributed learning with compressed gradient differences compressed gradient difference proximal stochastic gradient descent lemmas 4.1, 4.2, and 4.3 prove that the random l_p quantizer quant_p on a block of size d is unbiased and satisfies e||quant_p(x) - x||_2^2 &lt;= (1/alpha_p(d) - 1)||x||_2^2 with exact contraction factor alpha_p(d) = inf_{x!=0} ||x||_2^2 / (||x||_1 ||x||_p) given in closed form by alpha_1(d) = 1/d, alpha_2(d) = 1/sqrt(d), and alpha_inf(d) = 2/(1 + sqrt(d)), yielding expected variance e_q||g_hat^k - g^k||_2^2 &lt;= ((1 - alpha_p) / (n^2 * alpha_p)) sum_{i=1}^n ||g_i^k - h_i^k||_2^2. for l-smooth mu-strongly convex functions f_i with proper closed convex regularizer r(x), theorem 4.4 and corollary 4.5 prove that the lyapunov potential v^k = ||x^k - x^*||_2^2 + (c * gamma^2 / n) sum_{i=1}^n ||h_i^k - nabla f_i(x^*)||_2^2 contracts linearly as e[v^k] &lt;= (1 - gamma * mu)^k v^0 + (gamma / mu)(1 + n * c * alpha)(sigma^2 / n), so in the noiseless regime (sigma = 0) both x^k -&gt; x^* and h_i^k -&gt; nabla f_i(x^*) converge geometrically in o(max{1/alpha_p, kappa*(1 + 1/(n * alpha_p))} log(1/eps)) iterations. requires an unbiased compression operator (e[quant_p(delta)] = delta) and each worker i to store a d-dimensional shift vector h_i^k; when local gradients have non-zero stochastic variance sigma^2 &gt; 0, constant step size gamma leaves an o(gamma * (1 + 1/alpha_p) * sigma^2 / (mu * n)) neighborhood unless decreasing step sizes (theorem 4.8) or local variance reduction are used. applied to distributed l1/l2-regularized logistic regression on libsvm datasets (mushrooms, a5a, w8a) and distributed momentum training of resnet-18 on cifar-10 and alexnet on imagenet with block ternary (p = infinity) and 1-bit l2 (p = 2) gradient difference quantization. distributed learning with compressed gradient differences distributed learning with compressed gradient differences (arxiv abstract) distributed learning with compressed gradient differences (crossref metadata) konstantin mishchenko eduard gorbunov martin takáč peter richtárik konstantin mishchenko eduard gorbunov martin takáč peter richtárik konstantin mishchenko eduard gorbunov martin takáč peter richtárik">
+        <td>
+          <a href="../curated/DianaDistributedLearningWithCompressedGradientDifferences.html" style="font-weight: 600; font-size: 1rem;">DIANA Distributed Learning with Compressed Gradient Differences</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> DIANA, Distributed Learning with Compressed Gradient Differences…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A distributed composite and nonconvex stochastic optimization algorithm (DIANA) for minimizing f(x) + R(x) = (1/n) sum_{i=1}^n f_i(x) + R(x)…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:DianaDistributedLearningWithCompressedGradientDifferences</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
