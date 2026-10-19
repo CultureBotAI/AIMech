@@ -1,0 +1,91 @@
+id: AIMech:StormStochasticRecursiveMomentumForNonconvexOptimization
+name: STORM (Stochastic Recursive Momentum) for Single-Loop Adaptive Variance-Reduced Non-Convex SGD
+concept_kind: algorithm
+review_status: DRAFT
+definition: STOchastic Recursive Momentum (STORM) is a single-loop, checkpoint-free, adaptive variance-reduced stochastic gradient descent algorithm for non-convex optimization min_{x in R^d} F(x) = E_{xi ~ D}[f(x, xi)], introduced by Cutkosky and Orabona (2019). At each iteration t >= 1, STORM updates the iterate via x_t = x_{t-1} - eta_{t-1} * d_{t-1}, draws a single sample (or mini-batch) xi_t ~ D, and updates its gradient estimator via the convex-combination recursive momentum rule d_t = nabla f(x_t, xi_t) + (1 - a_t) * (d_{t-1} - nabla f(x_{t-1}, xi_t)) (Eq. 2), equivalently written as corrected Heavy-Ball momentum d_t = a_t * nabla f(x_t, xi_t) + (1 - a_t) * d_{t-1} + (1 - a_t) * (nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t)) (Eq. 1), with adaptive AdaGrad-style step size eta_t = k / (w + sum_{i=1}^t G_i^2)^{1/3} and momentum decay weight a_t = c * eta_{t-1}^2 where G_t = ||nabla f(x_t, xi_t)|| (Algorithm 1).
+identity_notes: Distinct from SPIDER (Round 345, Fang et al. 2018) and SARAH (Round 344, Nguyen et al. 2017), which use an unweighted recursive estimator v_t = nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t) + v_{t-1} (corresponding to a_t = 0) whose accumulated martingale variance grows linearly with t and requires periodic double-loop restarts with O(sigma^2/varepsilon^2) or O(n) checkpoint mega-batches, whereas STORM multiplies the previous error by (1 - a_t) < 1 with a_t = c * eta_{t-1}^2 to damp accumulated error in a single loop without any mega-batch checkpoints.
+aliases:
+- STORM
+- STOchastic Recursive Momentum
+- Cutkosky-Orabona Momentum-Based Variance Reduction
+definition_evidence:
+- source_id: r371-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r371-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r371-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r371-claim-one-step-error-contraction-and-lyapunov-potential
+  kind: mechanism
+  statement: Writing the estimation error as epsilon_t = d_t - nabla F(x_t) for L-smooth individuated objectives f(x, xi), the STORM update d_t = nabla f(x_t, xi_t) + (1 - a_t)*(d_{t-1} - nabla f(x_{t-1}, xi_t)) satisfies the one-step variance contraction E[||epsilon_t||^2 / eta_{t-1}] <= E[(1 - a_t)^2 * ||epsilon_{t-1}||^2 / eta_{t-1} + 2*(1 - a_t)^2 * L^2 * eta_{t-1} * ||d_{t-1}||^2 + 2 * a_t^2 * eta_{t-1}^{-1} * ||nabla f(x_t, xi_t) - nabla F(x_t)||^2] (Lemma 2, Lemma 5); combining this with the descent bound F(x_{t+1}) - F(x_t) <= (-eta_t/2 + L*eta_t^2)*||nabla F(x_t)||^2 + (-eta_t/4 + L*eta_t^2)*||d_t||^2 + eta_t * ||epsilon_t||^2 (Lemma 1) in the Lyapunov potential Phi_t = F(x_t) + (1 / (32 * L^2)) * (||epsilon_t||^2 / eta_{t-1}) with a_{t+1} = c * eta_t^2 eliminates the positive L^2 * eta_t * ||d_t||^2 error growth against the negative (-eta_t/4)*||d_t||^2 descent term without requiring checkpoints.
+  evidence:
+  - source_id: r371-primary-pdf
+    locator: Section 3-4, Equations (1)-(2), Algorithm 1, and Lemmas 1, 2, 4, and 5, pp. 3-7; Appendix, Proofs of Lemmas 2 and 5, pp. 11-12
+    relation: supports
+- claim_id: r371-claim-adaptive-smoothness-and-noise-interpolating-convergence-rate
+  kind: mechanism
+  statement: With w = max((4*L*k)^3, 2*G^2, (c*k / (4*L))^{3/2}) and c = 100*L^2 + G^2/(7*k^3) where ||nabla f(x, xi)|| <= G, STORM guarantees for x_hat chosen uniformly from x_1, ..., x_T that E[||nabla F(x_hat)||] <= sqrt(E[(1/T)*sum_{t=1}^T ||nabla F(x_t)||^2]) <= O((w^{1/6}*sqrt(M)/T^{1/2} + M^{3/4}/T^{1/2}) + sigma^{1/3} * ln(T)^{2/3} / T^{1/3}) where M = O(F(x_1) - F^* + k^2*c^2*ln(T)) (Theorem 1), automatically interpolating between the deterministic gradient descent rate O(1/sqrt(T)) when noise sigma = 0 and the optimal non-convex stochastic rate O(sigma^{1/3} * ln(T)^{2/3} / T^{1/3}) = O_tilde(1/T^{1/3}) (equivalently O_tilde(sigma/varepsilon^3 + 1/varepsilon^2) oracle queries to reach E[||nabla F(x_hat)||] <= varepsilon) without prior knowledge of sigma (Section 4, Corollary of Theorem 1).
+  evidence:
+  - source_id: r371-primary-pdf
+    locator: Section 1, Table 1, p. 3; Section 4, Theorem 1, Lemmas 3-5, and Proof of Theorem 1, pp. 5-8; Appendix, Proof of Theorem 1, pp. 12-14
+    relation: supports
+- claim_id: r371-claim-non-adaptive-unbounded-gradient-and-convex-convergence
+  kind: scope
+  statement: When the noise variance sigma^2 is known, removing the bounded-gradient assumption ||nabla f(x, xi)|| <= G by setting G_t = sigma, w = k^3*(2*L + sigma)^3, and c = 28*L^2 + sigma^2/(7*k^3) yields the non-adaptive bound E[||nabla F(x_hat)||] <= O((k*L + (F(x_1) - F^*)/(k*L))/T^{1/2} + ((F(x_1) - F^*)*sigma/(k*L) + k^2*sigma^2*ln(T + 2))^{1/2} / T^{1/3}) (Theorem 2); furthermore, when F is convex with ||x_1 - x^*|| <= D and a_{t+1} <= 1/2, the same algorithm achieves E[F(x_bar_T) - F(x^*)] = O(1/T^{1/3}) for the iterate average x_bar_T = (1/T)*sum_{t=1}^T x_t (Theorem 3, Appendix C).
+  evidence:
+  - source_id: r371-primary-pdf
+    locator: Section 4, Theorem 2, p. 8; Appendix B-C, Proof of Theorem 2 and Theorem 3, pp. 14-15
+    relation: supports
+evidence_sources:
+- source_id: r371-primary-pdf
+  title: Momentum-Based Variance Reduction in Non-Convex SGD
+  authors: &id001
+  - Ashok Cutkosky
+  - Francesco Orabona
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1905.10018.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/CutkoskyO19.xml
+  version: Advances in Neural Information Processing Systems 32 (NeurIPS 2019), pp. 15236-15245 (arXiv:1905.10018v2) (2019) (1642109 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:34:00Z'
+  sha256: 4f692a954faf55b366d04b6476d6cffc8bd9c2d366a8e5cbcc3d22bb3caf02d7
+- source_id: r371-arxiv-abs
+  title: Momentum-Based Variance Reduction in Non-Convex SGD (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1905.10018
+  persistent_id: https://arxiv.org/abs/1905.10018
+  version: arXiv abstract page (42663 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:34:00Z'
+  sha256: da332ba46190f423de89aebef36e0ce3514f410f7538ea1f4d2d7d6a82c1458b
+- source_id: r371-metadata-cr
+  title: Momentum-Based Variance Reduction in Non-Convex SGD (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/CutkoskyO19.xml
+  persistent_id: https://dblp.org/rec/conf/nips/CutkoskyO19.xml
+  version: Crossref API work record (3301 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:34:00Z'
+  sha256: c709ba898f07d669cfa7a642e65a8629982e0615e4d8f8413609467face90afb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Applicable to stochastic first-order optimization of empirical risk and neural network classification models.
+limitations:
+- Requires evaluating two stochastic gradients per iteration at the same sample xi_t (both nabla f(x_t, xi_t) and nabla f(x_{t-1}, xi_t)), which is incompatible with non-repeatable state-dependent perturbations such as standard independent dropout unless the dropout mask is shared across x_t and x_{t-1}; also requires the adaptive version (Theorem 1) to assume L-Lipschitzness of individual stochastic losses and a bound G on stochastic gradient norms (Section 2, p. 3; Section 5, p. 8).
+curation:
+  created_at: '2026-10-19T07:34:00Z'
+  updated_at: '2026-10-19T07:34:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

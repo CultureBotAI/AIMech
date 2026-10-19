@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">463 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">464 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">463</span> of <span id="totalCount">463</span>
+      Showing <span id="matchCount">464</span> of <span id="totalCount">464</span>
     </div>
   </div>
 </div>
@@ -10593,6 +10593,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:StochasticGreedyLinearTimeMonotoneSubmodularMaximization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="storm (stochastic recursive momentum) for single-loop adaptive variance-reduced non-convex sgd stormstochasticrecursivemomentumfornonconvexoptimization aimech:stormstochasticrecursivemomentumfornonconvexoptimization algorithms algorithm stochastic recursive momentum (storm) is a single-loop, checkpoint-free, adaptive variance-reduced stochastic gradient descent algorithm for non-convex optimization min_{x in r^d} f(x) = e_{xi ~ d}[f(x, xi)], introduced by cutkosky and orabona (2019). at each iteration t &gt;= 1, storm updates the iterate via x_t = x_{t-1} - eta_{t-1} * d_{t-1}, draws a single sample (or mini-batch) xi_t ~ d, and updates its gradient estimator via the convex-combination recursive momentum rule d_t = nabla f(x_t, xi_t) + (1 - a_t) * (d_{t-1} - nabla f(x_{t-1}, xi_t)) (eq. 2), equivalently written as corrected heavy-ball momentum d_t = a_t * nabla f(x_t, xi_t) + (1 - a_t) * d_{t-1} + (1 - a_t) * (nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t)) (eq. 1), with adaptive adagrad-style step size eta_t = k / (w + sum_{i=1}^t g_i^2)^{1/3} and momentum decay weight a_t = c * eta_{t-1}^2 where g_t = ||nabla f(x_t, xi_t)|| (algorithm 1). distinct from spider (round 345, fang et al. 2018) and sarah (round 344, nguyen et al. 2017), which use an unweighted recursive estimator v_t = nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t) + v_{t-1} (corresponding to a_t = 0) whose accumulated martingale variance grows linearly with t and requires periodic double-loop restarts with o(sigma^2/varepsilon^2) or o(n) checkpoint mega-batches, whereas storm multiplies the previous error by (1 - a_t) &lt; 1 with a_t = c * eta_{t-1}^2 to damp accumulated error in a single loop without any mega-batch checkpoints. storm stochastic recursive momentum cutkosky-orabona momentum-based variance reduction writing the estimation error as epsilon_t = d_t - nabla f(x_t) for l-smooth individuated objectives f(x, xi), the storm update d_t = nabla f(x_t, xi_t) + (1 - a_t)*(d_{t-1} - nabla f(x_{t-1}, xi_t)) satisfies the one-step variance contraction e[||epsilon_t||^2 / eta_{t-1}] &lt;= e[(1 - a_t)^2 * ||epsilon_{t-1}||^2 / eta_{t-1} + 2*(1 - a_t)^2 * l^2 * eta_{t-1} * ||d_{t-1}||^2 + 2 * a_t^2 * eta_{t-1}^{-1} * ||nabla f(x_t, xi_t) - nabla f(x_t)||^2] (lemma 2, lemma 5); combining this with the descent bound f(x_{t+1}) - f(x_t) &lt;= (-eta_t/2 + l*eta_t^2)*||nabla f(x_t)||^2 + (-eta_t/4 + l*eta_t^2)*||d_t||^2 + eta_t * ||epsilon_t||^2 (lemma 1) in the lyapunov potential phi_t = f(x_t) + (1 / (32 * l^2)) * (||epsilon_t||^2 / eta_{t-1}) with a_{t+1} = c * eta_t^2 eliminates the positive l^2 * eta_t * ||d_t||^2 error growth against the negative (-eta_t/4)*||d_t||^2 descent term without requiring checkpoints. with w = max((4*l*k)^3, 2*g^2, (c*k / (4*l))^{3/2}) and c = 100*l^2 + g^2/(7*k^3) where ||nabla f(x, xi)|| &lt;= g, storm guarantees for x_hat chosen uniformly from x_1, ..., x_t that e[||nabla f(x_hat)||] &lt;= sqrt(e[(1/t)*sum_{t=1}^t ||nabla f(x_t)||^2]) &lt;= o((w^{1/6}*sqrt(m)/t^{1/2} + m^{3/4}/t^{1/2}) + sigma^{1/3} * ln(t)^{2/3} / t^{1/3}) where m = o(f(x_1) - f^* + k^2*c^2*ln(t)) (theorem 1), automatically interpolating between the deterministic gradient descent rate o(1/sqrt(t)) when noise sigma = 0 and the optimal non-convex stochastic rate o(sigma^{1/3} * ln(t)^{2/3} / t^{1/3}) = o_tilde(1/t^{1/3}) (equivalently o_tilde(sigma/varepsilon^3 + 1/varepsilon^2) oracle queries to reach e[||nabla f(x_hat)||] &lt;= varepsilon) without prior knowledge of sigma (section 4, corollary of theorem 1). when the noise variance sigma^2 is known, removing the bounded-gradient assumption ||nabla f(x, xi)|| &lt;= g by setting g_t = sigma, w = k^3*(2*l + sigma)^3, and c = 28*l^2 + sigma^2/(7*k^3) yields the non-adaptive bound e[||nabla f(x_hat)||] &lt;= o((k*l + (f(x_1) - f^*)/(k*l))/t^{1/2} + ((f(x_1) - f^*)*sigma/(k*l) + k^2*sigma^2*ln(t + 2))^{1/2} / t^{1/3}) (theorem 2); furthermore, when f is convex with ||x_1 - x^*|| &lt;= d and a_{t+1} &lt;= 1/2, the same algorithm achieves e[f(x_bar_t) - f(x^*)] = o(1/t^{1/3}) for the iterate average x_bar_t = (1/t)*sum_{t=1}^t x_t (theorem 3, appendix c). momentum-based variance reduction in non-convex sgd momentum-based variance reduction in non-convex sgd (arxiv abstract) momentum-based variance reduction in non-convex sgd (crossref metadata) ashok cutkosky francesco orabona ashok cutkosky francesco orabona ashok cutkosky francesco orabona">
+        <td>
+          <a href="../curated/StormStochasticRecursiveMomentumForNonconvexOptimization.html" style="font-weight: 600; font-size: 1rem;">STORM (Stochastic Recursive Momentum) for Single-Loop Adaptive Variance-Reduced Non-Convex SGD</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> STORM, STOchastic Recursive Momentum…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            STOchastic Recursive Momentum (STORM) is a single-loop, checkpoint-free, adaptive variance-reduced stochastic gradient descent algorithm for…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:StormStochasticRecursiveMomentumForNonconvexOptimization</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>

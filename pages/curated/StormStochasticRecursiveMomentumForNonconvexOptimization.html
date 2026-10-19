@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STORM (Stochastic Recursive Momentum) for Single-Loop Adaptive Variance-Reduced Non-Convex SGD · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>STORM (Stochastic Recursive Momentum) for Single-Loop Adaptive Variance-Reduced Non-Convex SGD</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">STORM (Stochastic Recursive Momentum) for Single-Loop Adaptive Variance-Reduced Non-Convex SGD</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:StormStochasticRecursiveMomentumForNonconvexOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> STORM, STOchastic Recursive Momentum, Cutkosky-Orabona Momentum-Based Variance Reduction
+    </div>
+
+  <div class="detail-desc">
+    STOchastic Recursive Momentum (STORM) is a single-loop, checkpoint-free, adaptive variance-reduced stochastic gradient descent algorithm for non-convex optimization min_{x in R^d} F(x) = E_{xi ~ D}[f(x, xi)], introduced by Cutkosky and Orabona (2019). At each iteration t &gt;= 1, STORM updates the iterate via x_t = x_{t-1} - eta_{t-1} * d_{t-1}, draws a single sample (or mini-batch) xi_t ~ D, and updates its gradient estimator via the convex-combination recursive momentum rule d_t = nabla f(x_t, xi_t) + (1 - a_t) * (d_{t-1} - nabla f(x_{t-1}, xi_t)) (Eq. 2), equivalently written as corrected Heavy-Ball momentum d_t = a_t * nabla f(x_t, xi_t) + (1 - a_t) * d_{t-1} + (1 - a_t) * (nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t)) (Eq. 1), with adaptive AdaGrad-style step size eta_t = k / (w + sum_{i=1}^t G_i^2)^{1/3} and momentum decay weight a_t = c * eta_{t-1}^2 where G_t = ||nabla f(x_t, xi_t)|| (Algorithm 1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from SPIDER (Round 345, Fang et al. 2018) and SARAH (Round 344, Nguyen et al. 2017), which use an unweighted recursive estimator v_t = nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t) + v_{t-1} (corresponding to a_t = 0) whose accumulated martingale variance grows linearly with t and requires periodic double-loop restarts with O(sigma^2/varepsilon^2) or O(n) checkpoint mega-batches, whereas STORM multiplies the previous error by (1 - a_t) &lt; 1 with a_t = c * eta_{t-1}^2 to damp accumulated error in a single loop without any mega-batch checkpoints.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r371-claim-one-step-error-contraction-and-lyapunov-potential</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Writing the estimation error as epsilon_t = d_t - nabla F(x_t) for L-smooth individuated objectives f(x, xi), the STORM update d_t = nabla f(x_t, xi_t) + (1 - a_t)*(d_{t-1} - nabla f(x_{t-1}, xi_t)) satisfies the one-step variance contraction E[||epsilon_t||^2 / eta_{t-1}] &lt;= E[(1 - a_t)^2 * ||epsilon_{t-1}||^2 / eta_{t-1} + 2*(1 - a_t)^2 * L^2 * eta_{t-1} * ||d_{t-1}||^2 + 2 * a_t^2 * eta_{t-1}^{-1} * ||nabla f(x_t, xi_t) - nabla F(x_t)||^2] (Lemma 2, Lemma 5); combining this with the descent bound F(x_{t+1}) - F(x_t) &lt;= (-eta_t/2 + L*eta_t^2)*||nabla F(x_t)||^2 + (-eta_t/4 + L*eta_t^2)*||d_t||^2 + eta_t * ||epsilon_t||^2 (Lemma 1) in the Lyapunov potential Phi_t = F(x_t) + (1 / (32 * L^2)) * (||epsilon_t||^2 / eta_{t-1}) with a_{t+1} = c * eta_t^2 eliminates the positive L^2 * eta_t * ||d_t||^2 error growth against the negative (-eta_t/4)*||d_t||^2 descent term without requiring checkpoints.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r371-primary-pdf">Momentum-Based Variance Reduction in Non-Convex SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 3-4, Equations (1)-(2), Algorithm 1, and Lemmas 1, 2, 4, and 5, pp. 3-7; Appendix, Proofs of Lemmas 2 and 5, pp. 11-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r371-claim-adaptive-smoothness-and-noise-interpolating-convergence-rate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With w = max((4*L*k)^3, 2*G^2, (c*k / (4*L))^{3/2}) and c = 100*L^2 + G^2/(7*k^3) where ||nabla f(x, xi)|| &lt;= G, STORM guarantees for x_hat chosen uniformly from x_1, ..., x_T that E[||nabla F(x_hat)||] &lt;= sqrt(E[(1/T)*sum_{t=1}^T ||nabla F(x_t)||^2]) &lt;= O((w^{1/6}*sqrt(M)/T^{1/2} + M^{3/4}/T^{1/2}) + sigma^{1/3} * ln(T)^{2/3} / T^{1/3}) where M = O(F(x_1) - F^* + k^2*c^2*ln(T)) (Theorem 1), automatically interpolating between the deterministic gradient descent rate O(1/sqrt(T)) when noise sigma = 0 and the optimal non-convex stochastic rate O(sigma^{1/3} * ln(T)^{2/3} / T^{1/3}) = O_tilde(1/T^{1/3}) (equivalently O_tilde(sigma/varepsilon^3 + 1/varepsilon^2) oracle queries to reach E[||nabla F(x_hat)||] &lt;= varepsilon) without prior knowledge of sigma (Section 4, Corollary of Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r371-primary-pdf">Momentum-Based Variance Reduction in Non-Convex SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Table 1, p. 3; Section 4, Theorem 1, Lemmas 3-5, and Proof of Theorem 1, pp. 5-8; Appendix, Proof of Theorem 1, pp. 12-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r371-claim-non-adaptive-unbounded-gradient-and-convex-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When the noise variance sigma^2 is known, removing the bounded-gradient assumption ||nabla f(x, xi)|| &lt;= G by setting G_t = sigma, w = k^3*(2*L + sigma)^3, and c = 28*L^2 + sigma^2/(7*k^3) yields the non-adaptive bound E[||nabla F(x_hat)||] &lt;= O((k*L + (F(x_1) - F^*)/(k*L))/T^{1/2} + ((F(x_1) - F^*)*sigma/(k*L) + k^2*sigma^2*ln(T + 2))^{1/2} / T^{1/3}) (Theorem 2); furthermore, when F is convex with ||x_1 - x^*|| &lt;= D and a_{t+1} &lt;= 1/2, the same algorithm achieves E[F(x_bar_T) - F(x^*)] = O(1/T^{1/3}) for the iterate average x_bar_T = (1/T)*sum_{t=1}^T x_t (Theorem 3, Appendix C).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r371-primary-pdf">Momentum-Based Variance Reduction in Non-Convex SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Theorem 2, p. 8; Appendix B-C, Proof of Theorem 2 and Theorem 3, pp. 14-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires evaluating two stochastic gradients per iteration at the same sample xi_t (both nabla f(x_t, xi_t) and nabla f(x_{t-1}, xi_t)), which is incompatible with non-repeatable state-dependent perturbations such as standard independent dropout unless the dropout mask is shared across x_t and x_{t-1}; also requires the adaptive version (Theorem 1) to assume L-Lipschitzness of individual stochastic losses and a bound G on stochastic gradient norms (Section 2, p. 3; Section 5, p. 8).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Applicable to stochastic first-order optimization of empirical risk and neural network classification models.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r371-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r371-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1905.10018.pdf" target="_blank" rel="noopener">Momentum-Based Variance Reduction in Non-Convex SGD</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ashok Cutkosky, Francesco Orabona
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/CutkoskyO19.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4f692a954faf…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r371-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r371-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1905.10018" target="_blank" rel="noopener">Momentum-Based Variance Reduction in Non-Convex SGD (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ashok Cutkosky, Francesco Orabona
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1905.10018</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:da332ba46190…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r371-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r371-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/CutkoskyO19.xml" target="_blank" rel="noopener">Momentum-Based Variance Reduction in Non-Convex SGD (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ashok Cutkosky, Francesco Orabona
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/CutkoskyO19.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c709ba898f07…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:34:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:34:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/StormStochasticRecursiveMomentumForNonconvexOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/StormStochasticRecursiveMomentumForNonconvexOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
