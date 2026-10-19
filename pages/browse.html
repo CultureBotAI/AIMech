@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1166</strong> artificial intelligence concepts, comprising <strong>724</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1167</strong> artificial intelligence concepts, comprising <strong>725</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1166)</option>
-        <option value="curated">Curated AIMech (724)</option>
+        <option value="all">All Origins (1167)</option>
+        <option value="curated">Curated AIMech (725)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (428)</option>
+          <option value="algorithm">Algorithms (429)</option>
           <option value="mathematical_method">Mathematical Methods (147)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1166</span> of <span id="totalCount">1166</span>
+      Showing <span id="matchCount">1167</span> of <span id="totalCount">1167</span>
     </div>
   </div>
 </div>
@@ -9547,6 +9547,32 @@
         </td>
         <td>
             <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="frequent-directions deterministic streaming matrix sketching frequentdirectionsdeterministicstreamingmatrixsketching aimech:frequentdirectionsdeterministicstreamingmatrixsketching algorithms algorithm frequent-directions deterministic streaming matrix sketching is a deterministic one-pass row-streaming matrix sketching algorithm introduced by liberty (2013) that maintains an l x m sketch matrix b of an n x m input matrix a by generalizing the misra-gries / space-saving frequent-items counter decrement rule to singular values and right singular vectors. in the basic algorithm (algorithm 1), each streaming row a_i in r^m is inserted into an all-zero row of b in r^{l x m}; whenever b has no zero rows, the algorithm computes the svd b = u sigma v^t, sets delta_i = sigma_l^2, shrinks all l squared singular values uniformly via bar{sigma} = sqrt(sigma^2 - i_l delta_i), and updates b &lt;- bar{sigma} v^t so that the last row of b is guaranteed to be zero. in the amortized fast variant (algorithm 2), b is zeroed out in its bottom l/2 rows by shrinking at threshold delta_i = sigma_{l/2}^2 only once every l/2 row insertions, reducing the total runtime from o(n m l^2) to o(n m l) at space o(m l). claims 1 and 2 and theorems 4.1 and 4.2 prove that for every unit vector x in r^m (||x||_2 = 1), 0 &lt;= ||a x||_2^2 - ||b x||_2^2 &lt;= 2 (||a||_f^2 - ||b||_f^2) / l &lt;= 2 ||a||_f^2 / l (with factor 1 for algorithm 1 and factor 2 for algorithm 2), guaranteeing a^t a &gt;= b^t b and ||a^t a - b^t b||_2 &lt;= epsilon ||a||_f^2 for l = ceil(2 / epsilon). distinct from batch principal component analysis (`aio:principalcomponentanalysis`), which requires storing a or a^t a in o(n m) or o(m^2) memory, and from randomized oblivious subspace embeddings (`aimech:subsampledrandomizedhadamardtransformsubspaceembedding`) or randomized column sampling (`aimech:nystromgrammatrixlowrankapproximationwithdiagonalsampling`). specifically captures liberty&#39;s (2013) deterministic svd singular-value shrinkage rule bar{sigma} = sqrt(sigma^2 - i_l delta_i) (algorithms 1 and 2), its exact reduction to the misra-gries / space-saving heavy-hitters counter algorithm on orthogonal basis streams (section 3, theorem 3.1), and the deterministic loewner positive semidefinite covariance bound 0 &lt;= a^t a - b^t b &lt;= (2 / l)(||a||_f^2 - ||b||_f^2) i_m (claims 1-2, theorems 4.1-4.2). frequent-directions matrix sketching liberty deterministic covariance matrix sketching spectral misra-gries / space-saving matrix sketch in each step i of frequent-directions (algorithm 1), shrinking the squared singular values of the l x m sketch by delta_i = sigma_l^2 via bar{sigma} = sqrt(sigma^2 - i_l delta_i) zeroes out the l-th row and satisfies ||c_i||_f^2 - ||b_i||_f^2 = l delta_i, which telescopes over all n streaming rows to give the exact identity sum_{i=1}^n delta_i = (||a||_f^2 - ||b||_f^2) / l &lt;= ||a||_f^2 / l (claim 1), while for every unit vector x in r^m, claim 2 proves 0 &lt;= ||a x||_2^2 - ||b x||_2^2 &lt;= sum_{i=1}^n delta_i, implying both a^t a &gt;= b^t b and ||a^t a - b^t b||_2 &lt;= (||a||_f^2 - ||b||_f^2) / l (theorem 4.1). by doubling the sketch capacity and shrinking by delta_i = sigma_{l/2}^2 only when all l/2 zero rows are filled (algorithm 2), theorem 4.2 proves that the svd cost o(m l^2) is amortized over l/2 row insertions to achieve total streaming runtime o(n m l) = o(n m / epsilon) for l = ceil(2 / epsilon) while preserving the deterministic guarantee ||a^t a - b^t b||_2 &lt;= 2 (||a||_f^2 - ||b||_f^2) / l &lt;= epsilon ||a||_f^2; moreover, when input rows are indicator vectors e_{j_i}, frequent-directions reduces exactly to the misra-gries / space-saving item frequency estimation algorithm (section 3, theorem 3.1). frequent-directions does not preserve input sparsity (the sketch b = bar{sigma} v^t is dense even when the streaming rows a_i are sparse, requiring o(n m l) time rather than input-sparsity time), and its worst-case spectral error bound scales with ||a||_f^2 / l rather than the tail residual ||a - a_k||_f^2 / (l - k) in the original liberty (2013) analysis when the spectrum of a is completely flat. simple and deterministic matrix sketching simple and deterministic matrix sketching (arxiv abstract) simple and deterministic matrix sketching (crossref metadata) edo liberty edo liberty edo liberty">
+        <td>
+          <a href="curated/FrequentDirectionsDeterministicStreamingMatrixSketching.html" style="font-weight: 600; font-size: 1rem;">Frequent-Directions Deterministic Streaming Matrix Sketching</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Frequent-Directions Matrix Sketching, Liberty Deterministic Covariance Matrix Sketching…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            Frequent-Directions Deterministic Streaming Matrix Sketching is a deterministic one-pass row-streaming matrix sketching algorithm introduced…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FrequentDirectionsDeterministicStreamingMatrixSketching</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
