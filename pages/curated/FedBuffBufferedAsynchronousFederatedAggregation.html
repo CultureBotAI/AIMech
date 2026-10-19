@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedBuff (Federated Learning with Buffered Asynchronous Aggregation) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedBuff (Federated Learning with Buffered Asynchronous Aggregation)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedBuff (Federated Learning with Buffered Asynchronous Aggregation)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedBuffBufferedAsynchronousFederatedAggregation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedBuff, Buffered Asynchronous Federated Aggregation, Federated Learning with Buffered Asynchronous Aggregation
+    </div>
+
+  <div class="detail-desc">
+    A buffered asynchronous federated optimization algorithm (Nguyen et al. 2022, Section 3, Algorithm 1) in which the server schedules up to M concurrent clients asynchronously without barrier synchronization, accumulates each arriving client&#39;s local multi-step update Delta_i = w^{(t - tau_i)} - w_{i, Q}^{(t - tau_i)} inside a secure aggregation buffer u = u + s(tau_i) Delta_i of configurable capacity K &gt;= 1 (independent of concurrency M), and triggers a global server update w^{(t+1)} = w^{(t)} - eta_g (u / K) only when K updates have been buffered.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from synchronous Federated Averaging / FedProx (AIMech:FedProxProximalHeterogeneousFederatedOptimization) and FedOpt (AIMech:FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam), which block each round until the slowest scheduled straggler finishes, and from unbuffered asynchronous FL (FedAsync, K = 1), which updates the global model on every single client arrival and exposes each individual client update without cohort secure aggregation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r419-k-fold-server-step-staleness-contraction-and-nonconvex-ergodic-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Buffering K &gt;= 1 client updates before advancing the server step index t divides the effective server-step staleness tau_{i, K} by a factor of K relative to unbuffered asynchronous aggregation (tau_{max, K} &lt;= ceil(tau_{max, 1} / K), Appendix A), and under bounded gradient dissimilarity and staleness establishes the smooth non-convex convergence bound O(1 / sqrt(T Q K)) + O(Q^2 tau_max^2 / T) (Section 4, Theorem 1, Corollary 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r419-primary-pdf">Federated Learning with Buffered Asynchronous Aggregation</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Convergence Analysis (Assumptions 1-4, Theorem 1, Corollary 1) &amp; Appendix A-B (Relationship Between K and Staleness, Proof of Theorem 1)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r419-secure-aggregation-compatibility-and-batch-learning-rate-normalization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Accumulating K updates inside a Trusted Execution Environment or cryptographic Secure Aggregation buffer hides individual client updates from the server until K clients are averaged (unlike FedAsync with K = 1), while Learning Rate Normalization eta_q = eta_l (b_q / B) equalizes local SGD progress across clients with heterogeneous local batch sizes b_q (Section 3.1 &amp; Appendix C.6.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r419-primary-pdf">Federated Learning with Buffered Asynchronous Aggregation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Privacy and Security (Table 1) &amp; Appendix C.6.1 Learning Rate Normalization</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r419-buffer-size-latency-vs-staleness-tradeoff-and-over-concurrency-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Choosing K too large increases wall-clock waiting time per server update (approaching synchronous FedAvg when K = M), whereas setting concurrency M &gt;&gt; K inflates worst-case staleness tau_max and requires staleness down-weighting s(tau) = (1 + tau)^{-alpha} to prevent stale client updates from destabilizing training.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r419-primary-pdf">Federated Learning with Buffered Asynchronous Aggregation</a></span>
+        <span>· <strong>Locator:</strong> Section 4-5 Trade-offs of Buffer Size K and Concurrency M (Figures 4-6)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r419-celeba-sent140-cifar10-and-production-federated-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to asynchronous federated learning on CelebA, Sent140, CIFAR-10, and million-device production mobile benchmarks under realistic client speed and availability traces, achieving up to 3.8x speedup over synchronous FedAvg and FedAdam.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r419-primary-pdf">Federated Learning with Buffered Asynchronous Aggregation</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments (Figures 2-6, Tables 2-3), pp. 3586-3590</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Convergence guarantee depends on a bounded maximum staleness tau_max across concurrent asynchronous clients.</li>
+      <li>Requires tuning the buffer capacity K relative to system concurrency M to balance update frequency against staleness.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedBuff is a buffered asynchronous aggregation protocol for Federated Learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r419-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r419-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2106.06639" target="_blank" rel="noopener">Federated Learning with Buffered Asynchronous Aggregation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            John Nguyen, Kshitiz Malik, Hongyuan Zhan, Ashkan Yousefpour, Michael Rabbat, Mani Malek, Dzmitry Huba
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v151/nguyen22b.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a979ab1f6bc0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r419-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r419-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2106.06639" target="_blank" rel="noopener">Federated Learning with Buffered Asynchronous Aggregation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            John Nguyen, Kshitiz Malik, Hongyuan Zhan, Ashkan Yousefpour, Michael Rabbat, Mani Malek, Dzmitry Huba
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2106.06639</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:73e2e7f30df0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r419-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r419-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v151/nguyen22b.html" target="_blank" rel="noopener">Federated Learning with Buffered Asynchronous Aggregation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            John Nguyen, Kshitiz Malik, Hongyuan Zhan, Ashkan Yousefpour, Michael Rabbat, Mani Malek, Dzmitry Huba
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v151/nguyen22b.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c040b0bb8b85…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:22:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:22:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedBuffBufferedAsynchronousFederatedAggregation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedBuffBufferedAsynchronousFederatedAggregation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
