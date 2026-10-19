@@ -1,0 +1,103 @@
+id: AIMech:ChambollePockFirstOrderPrimalDualAlgorithmForConvexSaddlePointProblems
+name: Chambolle-Pock First-Order Primal-Dual Algorithm for Convex Saddle-Point Problems
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Chambolle-Pock First-Order Primal-Dual Algorithm for Convex Saddle-Point Problems is a matrix-inversion-free proximal splitting framework introduced by Chambolle and Pock (2011) for solving structured non-smooth convex optimization problems min_{x in X} F(K x) + G(x) via their primal-dual saddle-point formulation min_{x in X} max_{y in Y} <K x, y> + G(x) - F^*(y), where K: X -> Y is a continuous linear operator with operator norm L = ||K|| and F, G are proper, convex, lower-semicontinuous functions with tractable resolvent (proximal) operators (I + sigma partial F^*)^{-1} and (I + tau partial G)^{-1}. Algorithm 1 alternates a dual proximal ascent step y^{n+1} = (I + sigma partial F^*)^{-1}(y^n + sigma K x_bar^n), a primal proximal descent step x^{n+1} = (I + tau partial G)^{-1}(x^n - tau K^* y^{n+1}), and a linear over-relaxation (extrapolation) step x_bar^{n+1} = x^{n+1} + theta*(x^{n+1} - x^n) with theta in [0, 1]. For theta = 1 and tau * sigma * L^2 < 1, Algorithm 1 is algebraically equivalent to a preconditioned Alternating Direction Method of Multipliers (ADMM) with proximal metric M = (1/sigma) I - tau K K^* (Section 4.3) that eliminates linear-system inversions involving K^* K, and Theorem 1 proves that the iterates (x^n, y^n) converge to a saddle point with O(1/N) ergodic primal-dual gap G_{B_1 x B_2}(x_N, y_N) <= D(B_1, B_2) / N, while Algorithms 2 and 3 achieve optimal O(1/N^2) accelerated convergence when G or F^* is uniformly convex (Theorem 2) and O(omega^{N/2}) linear convergence when both G and F^* are uniformly convex (Theorem 3).'
+identity_notes: Distinct from Iterative Bregman Projections and Bregman-Dykstra Regularized Optimal Transport (`AIMech:IterativeBregmanProjectionsAndBregmanDykstraRegularizedOptimalTransport`), which performs alternating Kullback-Leibler Bregman projections on entropically regularized transport polytopes, and from standard ADMM / Douglas-Rachford splitting, which requires inverting (I + tau^2 K^* K) at every iteration unless K = I (Section 4.2-4.3). Specifically captures the Chambolle-Pock extrapolated primal-dual recursion (Equation 7), its equivalence to preconditioned ADMM under M = (1/sigma)I - tau K K^* (Equations 32-34), the O(1/N) restricted primal-dual gap guarantee (Theorem 1), the adaptive-stepsize O(1/N^2) acceleration theta_n = 1/sqrt(1 + 2*gamma*tau_n) (Algorithm 2, Theorem 2), and the linearly convergent O(omega^{N/2}) scheme (Algorithm 3, Theorem 3).
+aliases:
+- Chambolle-Pock Primal-Dual Hybrid Gradient (PDHG) Algorithm
+- Extrapolated Primal-Dual Proximal Splitting Algorithm
+- Preconditioned ADMM / Chambolle-Pock Saddle-Point Solver
+definition_evidence:
+- source_id: r346-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r346-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r346-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-chambolle-pock-extrapolated-primal-dual-gap-and-preconditioned-admm
+  kind: mechanism
+  statement: For the saddle-point problem min_{x in X} max_{y in Y} <K x, y> + G(x) - F^*(y) with L = ||K||, Algorithm 1 with extrapolation parameter theta = 1 (x_bar^{n+1} = 2 x^{n+1} - x^n) is algebraically identical to ADMM preconditioned by the symmetric proximal operator M = (1/sigma)I - tau K K^* (Section 4.3, Equations 32-34) and reduces to Douglas-Rachford splitting when K = I (Section 4.2); whenever tau * sigma * L^2 < 1, Theorem 1 proves that the iterates remain bounded via ||y^n - y_hat||^2/(2*sigma) + ||x^n - x_hat||^2/(2*tau) <= (1 - tau*sigma*L^2)^{-1}(||y^0 - y_hat||^2/(2*sigma) + ||x^0 - x_hat||^2/(2*tau)) and the ergodic averages x_N = (1/N) sum_{n=1}^N x^n, y_N = (1/N) sum_{n=1}^N y^n satisfy the O(1/N) restricted primal-dual gap bound G_{B_1 x B_2}(x_N, y_N) <= D(B_1, B_2) / N.
+  evidence:
+  - source_id: r346-primary-pdf
+    locator: Section 3.1, Algorithm 1, Theorem 1, and Equations 7-16, pp. 4-8; Section 4.2-4.3, Equations 24-34, pp. 11-13
+    relation: supports
+  - source_id: r346-arxiv-abs
+    locator: 'Abstract: convergence to a saddle-point with rate O(1/N) in finite dimensions'
+    relation: supports
+- claim_id: claim-chambolle-pock-accelerated-and-linearly-convergent-variants
+  kind: mechanism
+  statement: When G is gamma-uniformly convex (Equation 35), Algorithm 2 dynamically updates theta_n = 1 / sqrt(1 + 2*gamma*tau_n), tau_{n+1} = theta_n * tau_n, and sigma_{n+1} = sigma_n / theta_n from tau_0 * sigma_0 * L^2 = 1, satisfying lim_{N -> infty} N * gamma * tau_N = 1 (Corollary 1) and achieving optimal O(1/N^2) primal distance convergence ||x_hat - x^N||^2 <= ((1 + varepsilon)/N^2) * (||x_hat - x^0||^2/(gamma^2 * tau_0^2) + (L^2/gamma^2)*||y_hat - y^0||^2) (Theorem 2); when both G (gamma-uniformly convex) and F^* (delta-uniformly convex) are strongly convex, Algorithm 3 with mu = 2*sqrt(gamma*delta)/L, tau = (1/L)*sqrt(delta/gamma), sigma = (1/L)*sqrt(gamma/delta), and theta in [1/(1+mu), 1] achieves global linear convergence gamma*||x^N - x_hat||^2 + (1 - omega)*delta*||y^N - y_hat||^2 <= omega^N * (gamma*||x^0 - x_hat||^2 + delta*||y^0 - y_hat||^2) with rate omega = (1 + theta) / (2 * (1 + sqrt(gamma*delta)/L)) < 1 (Theorem 3, Equations 57-59).
+  evidence:
+  - source_id: r346-primary-pdf
+    locator: Section 5.1, Algorithm 2, Lemmas 1-2, Corollary 1, and Theorem 2, pp. 13-17; Section 5.2, Algorithm 3 and Theorem 3, pp. 18-20
+    relation: supports
+  - source_id: r346-metadata-cr
+    locator: Journal of Mathematical Imaging and Vision 40(1):120-145 bibliographic record and abstract
+    relation: supports
+- claim_id: claim-chambolle-pock-spectral-stepsize-restriction-and-arrow-hurwicz-suboptimality
+  kind: limitation
+  statement: Convergence of Algorithm 1 requires knowing or upper-bounding the operator norm L = ||K|| to enforce tau * sigma * L^2 <= 1 (at equality tau * sigma * L^2 = 1, control of the dual iterate y^N in Equation 15 is lost unless reformulated in y_bar, Remark 1, p. 8), and setting the extrapolation parameter to theta = 0 (the classical semi-implicit Arrow-Hurwicz method, Section 3.2) introduces an uncompensated residual error tau * L^2 * D^2 / (2*beta) in the primal-dual gap (Equation 20), which requires bounded domain D = diam(dom F^*) < infty and tau = 1/sqrt(N) to guarantee only a slower O(1/sqrt(N)) worst-case convergence rate.
+  evidence:
+  - source_id: r346-primary-pdf
+    locator: Section 3.1, Remark 1, p. 8; Section 3.2, The Arrow-Hurwicz method (theta = 0), Equations 17-20, pp. 8-9; Section 7, Discussion, p. 42
+    relation: supports
+evidence_sources:
+- source_id: r346-primary-pdf
+  title: A First-Order Primal-Dual Algorithm for Convex Problems with Applications to Imaging
+  authors: &id001
+  - Antonin Chambolle
+  - Thomas Pock
+  source_type: primary_paper
+  url: https://hal.science/hal-00490826v1/file/discrTV.pdf
+  persistent_id: https://doi.org/10.1007/s10851-010-0251-1
+  version: Journal of Mathematical Imaging and Vision 40(1):120-145 (2011) / HAL Preprint hal-00490826 (2011) (3888643 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:08:00Z'
+  sha256: 46599dc2242ffc10e60550b554bfd829ad7285a626e1fb62ffe8db0ddb39243e
+- source_id: r346-arxiv-abs
+  title: A First-Order Primal-Dual Algorithm for Convex Problems with Applications to Imaging (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://hal.science/hal-00490826
+  persistent_id: https://hal.science/hal-00490826
+  version: arXiv abstract page (82763 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:08:00Z'
+  sha256: 6d7168a342f5447f6781952bddff416fe1bad8519e6f1659ad8348021619bc67
+- source_id: r346-metadata-cr
+  title: A First-Order Primal-Dual Algorithm for Convex Problems with Applications to Imaging (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1007/s10851-010-0251-1
+  persistent_id: https://doi.org/10.1007/s10851-010-0251-1
+  version: Crossref API work record (5094 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:08:00Z'
+  sha256: fa84ff2b683d3e98f2c293371bbc358bc9cfd54b47d6a118343a6f1a38f54aff
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Solves L1-regularized sparse analysis/synthesis inverse problems min_u ||Phi u||_1 + (lambda/2)||u - g||_2^2 via pointwise shrinkage resolvents (Section 6.3.2).
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Applied with k-means initialization to convex relaxations of the piecewise-constant Mumford-Shah / Potts multi-region partitioning problem (Section 6.3.4).
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Preconditions linear operator least-squares subproblems without inverting K^* K.
+limitations:
+- Requires a finite, known upper bound on the linear operator spectral norm L = ||K|| to satisfy tau * sigma * L^2 < 1, and assumes that both F^* and G admit inexpensive closed-form or low-dimensional proximal resolvent operators.
+curation:
+  created_at: '2026-10-19T07:08:00Z'
+  updated_at: '2026-10-19T07:08:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

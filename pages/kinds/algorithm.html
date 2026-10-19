@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">440 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">441 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">440</span> of <span id="totalCount">440</span>
+      Showing <span id="matchCount">441</span> of <span id="totalCount">441</span>
     </div>
   </div>
 </div>
@@ -1707,6 +1707,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="chambolle-pock first-order primal-dual algorithm for convex saddle-point problems chambollepockfirstorderprimaldualalgorithmforconvexsaddlepointproblems aimech:chambollepockfirstorderprimaldualalgorithmforconvexsaddlepointproblems algorithms algorithm chambolle-pock first-order primal-dual algorithm for convex saddle-point problems is a matrix-inversion-free proximal splitting framework introduced by chambolle and pock (2011) for solving structured non-smooth convex optimization problems min_{x in x} f(k x) + g(x) via their primal-dual saddle-point formulation min_{x in x} max_{y in y} &lt;k x, y&gt; + g(x) - f^*(y), where k: x -&gt; y is a continuous linear operator with operator norm l = ||k|| and f, g are proper, convex, lower-semicontinuous functions with tractable resolvent (proximal) operators (i + sigma partial f^*)^{-1} and (i + tau partial g)^{-1}. algorithm 1 alternates a dual proximal ascent step y^{n+1} = (i + sigma partial f^*)^{-1}(y^n + sigma k x_bar^n), a primal proximal descent step x^{n+1} = (i + tau partial g)^{-1}(x^n - tau k^* y^{n+1}), and a linear over-relaxation (extrapolation) step x_bar^{n+1} = x^{n+1} + theta*(x^{n+1} - x^n) with theta in [0, 1]. for theta = 1 and tau * sigma * l^2 &lt; 1, algorithm 1 is algebraically equivalent to a preconditioned alternating direction method of multipliers (admm) with proximal metric m = (1/sigma) i - tau k k^* (section 4.3) that eliminates linear-system inversions involving k^* k, and theorem 1 proves that the iterates (x^n, y^n) converge to a saddle point with o(1/n) ergodic primal-dual gap g_{b_1 x b_2}(x_n, y_n) &lt;= d(b_1, b_2) / n, while algorithms 2 and 3 achieve optimal o(1/n^2) accelerated convergence when g or f^* is uniformly convex (theorem 2) and o(omega^{n/2}) linear convergence when both g and f^* are uniformly convex (theorem 3). distinct from iterative bregman projections and bregman-dykstra regularized optimal transport (`aimech:iterativebregmanprojectionsandbregmandykstraregularizedoptimaltransport`), which performs alternating kullback-leibler bregman projections on entropically regularized transport polytopes, and from standard admm / douglas-rachford splitting, which requires inverting (i + tau^2 k^* k) at every iteration unless k = i (section 4.2-4.3). specifically captures the chambolle-pock extrapolated primal-dual recursion (equation 7), its equivalence to preconditioned admm under m = (1/sigma)i - tau k k^* (equations 32-34), the o(1/n) restricted primal-dual gap guarantee (theorem 1), the adaptive-stepsize o(1/n^2) acceleration theta_n = 1/sqrt(1 + 2*gamma*tau_n) (algorithm 2, theorem 2), and the linearly convergent o(omega^{n/2}) scheme (algorithm 3, theorem 3). chambolle-pock primal-dual hybrid gradient (pdhg) algorithm extrapolated primal-dual proximal splitting algorithm preconditioned admm / chambolle-pock saddle-point solver for the saddle-point problem min_{x in x} max_{y in y} &lt;k x, y&gt; + g(x) - f^*(y) with l = ||k||, algorithm 1 with extrapolation parameter theta = 1 (x_bar^{n+1} = 2 x^{n+1} - x^n) is algebraically identical to admm preconditioned by the symmetric proximal operator m = (1/sigma)i - tau k k^* (section 4.3, equations 32-34) and reduces to douglas-rachford splitting when k = i (section 4.2); whenever tau * sigma * l^2 &lt; 1, theorem 1 proves that the iterates remain bounded via ||y^n - y_hat||^2/(2*sigma) + ||x^n - x_hat||^2/(2*tau) &lt;= (1 - tau*sigma*l^2)^{-1}(||y^0 - y_hat||^2/(2*sigma) + ||x^0 - x_hat||^2/(2*tau)) and the ergodic averages x_n = (1/n) sum_{n=1}^n x^n, y_n = (1/n) sum_{n=1}^n y^n satisfy the o(1/n) restricted primal-dual gap bound g_{b_1 x b_2}(x_n, y_n) &lt;= d(b_1, b_2) / n. when g is gamma-uniformly convex (equation 35), algorithm 2 dynamically updates theta_n = 1 / sqrt(1 + 2*gamma*tau_n), tau_{n+1} = theta_n * tau_n, and sigma_{n+1} = sigma_n / theta_n from tau_0 * sigma_0 * l^2 = 1, satisfying lim_{n -&gt; infty} n * gamma * tau_n = 1 (corollary 1) and achieving optimal o(1/n^2) primal distance convergence ||x_hat - x^n||^2 &lt;= ((1 + varepsilon)/n^2) * (||x_hat - x^0||^2/(gamma^2 * tau_0^2) + (l^2/gamma^2)*||y_hat - y^0||^2) (theorem 2); when both g (gamma-uniformly convex) and f^* (delta-uniformly convex) are strongly convex, algorithm 3 with mu = 2*sqrt(gamma*delta)/l, tau = (1/l)*sqrt(delta/gamma), sigma = (1/l)*sqrt(gamma/delta), and theta in [1/(1+mu), 1] achieves global linear convergence gamma*||x^n - x_hat||^2 + (1 - omega)*delta*||y^n - y_hat||^2 &lt;= omega^n * (gamma*||x^0 - x_hat||^2 + delta*||y^0 - y_hat||^2) with rate omega = (1 + theta) / (2 * (1 + sqrt(gamma*delta)/l)) &lt; 1 (theorem 3, equations 57-59). convergence of algorithm 1 requires knowing or upper-bounding the operator norm l = ||k|| to enforce tau * sigma * l^2 &lt;= 1 (at equality tau * sigma * l^2 = 1, control of the dual iterate y^n in equation 15 is lost unless reformulated in y_bar, remark 1, p. 8), and setting the extrapolation parameter to theta = 0 (the classical semi-implicit arrow-hurwicz method, section 3.2) introduces an uncompensated residual error tau * l^2 * d^2 / (2*beta) in the primal-dual gap (equation 20), which requires bounded domain d = diam(dom f^*) &lt; infty and tau = 1/sqrt(n) to guarantee only a slower o(1/sqrt(n)) worst-case convergence rate. a first-order primal-dual algorithm for convex problems with applications to imaging a first-order primal-dual algorithm for convex problems with applications to imaging (arxiv abstract) a first-order primal-dual algorithm for convex problems with applications to imaging (crossref metadata) antonin chambolle thomas pock antonin chambolle thomas pock antonin chambolle thomas pock">
+        <td>
+          <a href="../curated/ChambollePockFirstOrderPrimalDualAlgorithmForConvexSaddlePointProblems.html" style="font-weight: 600; font-size: 1rem;">Chambolle-Pock First-Order Primal-Dual Algorithm for Convex Saddle-Point Problems</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Chambolle-Pock Primal-Dual Hybrid Gradient (PDHG) Algorithm, Extrapolated Primal-Dual Proximal Splitting Algorithm…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            Chambolle-Pock First-Order Primal-Dual Algorithm for Convex Saddle-Point Problems is a matrix-inversion-free proximal splitting framework in…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:ChambollePockFirstOrderPrimalDualAlgorithmForConvexSaddlePointProblems</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
