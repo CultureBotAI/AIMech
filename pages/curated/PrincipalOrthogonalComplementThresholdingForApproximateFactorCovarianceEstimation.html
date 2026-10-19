@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Principal Orthogonal Complement Thresholding (POET) for High-Dimensional Approximate Factor Covariance Estimation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Principal Orthogonal Complement Thresholding (POET) for High-Dimensional Approximate Factor Covariance Estimation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Principal Orthogonal Complement Thresholding (POET) for High-Dimensional Approximate Factor Covariance Estimation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PrincipalOrthogonalComplementThresholdingForApproximateFactorCovarianceEstimation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> POET Covariance Estimator, Principal Orthogonal Complement Thresholding, Fan-Liao-Mincheva Approximate Factor Covariance Estimator, Regularized PCA with Thresholded Idiosyncratic Covariance
+    </div>
+
+  <div class="detail-desc">
+    A nonparametric high-dimensional covariance and precision matrix estimation methodology (introduced by Jianqing Fan, Yuan Liao, and Martina Mincheva in 2013) for approximate factor models $\mathbf{y}_t = \mathbf{B}\mathbf{f}_t + \mathbf{u}_t \in \mathbb{R}^p$ ($t = 1, \dots, T$) with covariance decomposition $\boldsymbol{\Sigma} = \mathbf{B}\operatorname{cov}(\mathbf{f}_t)\mathbf{B}&#39; + \boldsymbol{\Sigma}_u$ (Equation 1.3), where $K$ unobserved pervasive common factors drive spiked eigenvalues $\lambda_{\min}(p^{-1}\mathbf{B}&#39;\mathbf{B}) &gt; c &gt; 0$ (Equation 2.3) and the idiosyncratic error covariance $\boldsymbol{\Sigma}_u = (\sigma_{u,ij})_{p \times p}$ satisfies the conditional sparsity condition $m_p = \max_{i \le p}\sum_{j \le p}|\sigma_{u,ij}|^q$ for $q \in [0, 1)$ (Equation 2.2). Given the spectral decomposition of the sample covariance matrix $\widehat{\boldsymbol{\Sigma}}_S = \sum_{i=1}^K \hat{\lambda}_i\hat{\boldsymbol{\xi}}_i\hat{\boldsymbol{\xi}}_i&#39; + \widehat{\mathbf{R}}_K$ where $\widehat{\mathbf{R}}_K = \sum_{i=K+1}^p \hat{\lambda}_i\hat{\boldsymbol{\xi}}_i\hat{\boldsymbol{\xi}}_i&#39; = (\hat{r}_{ij})_{p \times p}$ is the principal orthogonal complement (Equation 2.4), POET applies entrywise adaptive generalized shrinkage $s_{ij}(\hat{r}_{ij})$ at threshold $\tau_{ij} = C\sqrt{\hat{\theta}_{ij}}\omega_T$ with $\omega_T = \frac{1}{\sqrt{p}} + \sqrt{\frac{\log p}{T}}$ (Equations 2.5–2.6, 3.2) to form $\widehat{\mathbf{R}}_K^{\mathcal{T}}$ and the covariance estimator $\widehat{\boldsymbol{\Sigma}}_K = \sum_{i=1}^K \hat{\lambda}_i\hat{\boldsymbol{\xi}}_i\hat{\boldsymbol{\xi}}_i&#39; + \widehat{\mathbf{R}}_K^{\mathcal{T}}$ (Equation 2.7), which is algebraically identical to constrained least-squares factor substitution $\widetilde{\boldsymbol{\Sigma}}_K = \widehat{\boldsymbol{\Lambda}}_K\widehat{\boldsymbol{\Lambda}}_K&#39; + \widehat{\boldsymbol{\Sigma}}_{u,K}^{\mathcal{T}}$ (Theorem 2.1, p. 12) and admits a Sherman–Morrison–Woodbury precision estimator $\widehat{\boldsymbol{\Sigma}}_K^{-1}$ (Equation 2.13).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved against all 442 pinned AIO concepts and 665 maintained AIMech concepts. Distinct from `AIMech:AdaptiveThresholdingForSparseHighDimensionalCovarianceMatrixEstimation` (Cai &amp; Liu 2011, which thresholds the raw sample covariance matrix $\widehat{\boldsymbol{\Sigma}}_S$ directly under overall covariance sparsity and fails when pervasive common factors make all entries of $\boldsymbol{\Sigma}$ non-sparse and spike the top $K$ eigenvalues at rate $O(p)$), distinct from `AIMech:GeneralizedThresholdingOperatorAndUniversalHighDimensionalSparseCovarianceEstimation` (Rothman, Levina, &amp; Zhu 2009, which applies generalized thresholding to $\widehat{\boldsymbol{\Sigma}}_S$ without removing the leading $K$ principal components or establishing relative-error Frobenius norm $\|\cdot\|_{\boldsymbol{\Sigma}}$ and Sherman–Morrison–Woodbury inverse rates under spiked eigenvalues), distinct from `AIMech:BaiNgPanelInformationCriteriaForDeterminingTheNumberOfFactors` (Bai &amp; Ng 2002, which determines the factor count $K$ via $PC_p/IC_p$ criteria but does not threshold the residual covariance $\widehat{\mathbf{R}}_K$ to construct an invertible high-dimensional covariance estimator), and distinct from `AIMech:LowRankPlusSparseMatrixDecompositionViaPrincipalComponentPursuit` (Candes, Li, Ma, &amp; Wright 2011, which solves a convex nuclear-norm plus $\ell_1$-norm optimization on a data matrix rather than spectral projection followed by adaptive entrywise residual covariance thresholding at rate $\omega_T = p^{-1/2} + \sqrt{(\log p)/T}$).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#spiked-pca-factor-consistency-and-least-squares-poet-equivalence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the canonical approximate factor model $\boldsymbol{\Sigma} = \mathbf{B}\mathbf{B}&#39; + \boldsymbol{\Sigma}_u$ with diagonal $\mathbf{B}&#39;\mathbf{B}$ ordered by $\|\widetilde{\mathbf{b}}_1\| \ge \dots \ge \|\widetilde{\mathbf{b}}_K\|$ and pervasiveness $\|\widetilde{\mathbf{b}}_j\|^2 / p \ge c &gt; 0$ ($j \le K$), Propositions 2.1 and 2.2 (p. 7) establish that the population eigenvalues $\{\lambda_j\}_{j=1}^p$ and eigenvectors $\{\boldsymbol{\xi}_j\}_{j=1}^p$ of $\boldsymbol{\Sigma}$ satisfy $|\lambda_j - \|\widetilde{\mathbf{b}}_j\|^2| \le \|\boldsymbol{\Sigma}_u\|$ for $j \le K$, $|\lambda_j| \le \|\boldsymbol{\Sigma}_u\|$ for $j &gt; K$, and $\|\boldsymbol{\xi}_j - \widetilde{\mathbf{b}}_j / \|\widetilde{\mathbf{b}}_j\|\| = O(p^{-1}\|\boldsymbol{\Sigma}_u\|)$ for $j \le K$. Furthermore, Theorem 2.1 (p. 12) proves that for any $K_1 \ge 1$, the constrained least-squares factor estimator minimizing $\|\mathbf{Y} - \boldsymbol{\Lambda}\mathbf{F}&#39;\|_F^2$ subject to $\frac{1}{T}\mathbf{F}&#39;\mathbf{F} = \mathbf{I}_{K_1}$ and diagonal $\boldsymbol{\Lambda}&#39;\boldsymbol{\Lambda}$ (Equation 2.8) yields idiosyncratic residuals $\hat{\mathbf{u}}_t = \mathbf{y}_t - \widehat{\boldsymbol{\Lambda}}_{K_1}\hat{\mathbf{f}}_t$ whose sample covariance $\widehat{\boldsymbol{\Sigma}}_{u,K_1} = \frac{1}{T}\sum_{t=1}^T \hat{\mathbf{u}}_t\hat{\mathbf{u}}_t&#39;$ equals the principal orthogonal complement $\widehat{\mathbf{R}}_{K_1}$ (Equations 2.4–2.6), so $\widehat{\boldsymbol{\Sigma}}_{K_1} = \widetilde{\boldsymbol{\Sigma}}_{K_1}$ and $\widehat{\boldsymbol{\Sigma}}_K^{-1} = (\widehat{\boldsymbol{\Sigma}}_{u,K}^{\mathcal{T}})^{-1} - (\widehat{\boldsymbol{\Sigma}}_{u,K}^{\mathcal{T}})^{-1}\widehat{\boldsymbol{\Lambda}}_K[\mathbf{I}_K + \widehat{\boldsymbol{\Lambda}}_K&#39;(\widehat{\boldsymbol{\Sigma}}_{u,K}^{\mathcal{T}})^{-1}\widehat{\boldsymbol{\Lambda}}_K]^{-1}\widehat{\boldsymbol{\Lambda}}_K&#39;(\widehat{\boldsymbol{\Sigma}}_{u,K}^{\mathcal{T}})^{-1}$ (Equation 2.13).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-flm2013-poet-pdf">Large Covariance Estimation by Thresholding Principal Orthogonal Complements</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, pp. 5-8, Propositions 2.1-2.2, Equations (2.1)-(2.3); Section 2.2-2.3, pp. 8-12, Equations (2.4)-(2.13), Theorem 2.1; Appendix B, pp. 41-42</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#idiosyncratic-dual-rate-thresholding-and-relative-covariance-norm-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Assumptions 3.1–3.4 and adaptive entrywise threshold $\tau_{ij} = C\sqrt{\hat{\theta}_{ij}}\omega_T$ with dual convergence rate $\omega_T = \frac{1}{\sqrt{p}} + \sqrt{\frac{\log p}{T}}$ and $\hat{\theta}_{ij} = \frac{1}{T}\sum_{t=1}^T (\hat{u}_{it}\hat{u}_{jt} - \hat{\sigma}_{u,ij})^2$ (Equation 3.2), Theorem 3.1 (p. 15) and Corollary 3.1 (p. 17) prove that with a consistent factor-number estimator $\widehat{K}$, $\max_{i,j \le p}|\hat{r}_{ij} - \sigma_{u,ij}| = O_p(\omega_T)$ and $\|\widehat{\boldsymbol{\Sigma}}_{u,\widehat{K}}^{\mathcal{T}} - \boldsymbol{\Sigma}_u\| = O_p(\omega_T^{1-q}m_p)$; if $\omega_T^{1-q}m_p = o(1)$, then $\widehat{\boldsymbol{\Sigma}}_{u,\widehat{K}}^{\mathcal{T}}$ is invertible with probability approaching 1 and $\|(\widehat{\boldsymbol{\Sigma}}_{u,\widehat{K}}^{\mathcal{T}})^{-1} - \boldsymbol{\Sigma}_u^{-1}\| = O_p(\omega_T^{1-q}m_p)$. Whereas the unnormalized spectral norm $\|\widehat{\boldsymbol{\Sigma}}_{\widehat{K}} - \boldsymbol{\Sigma}\|$ does not vanish when $p / T \to \infty$ because the top $K$ eigenvalues grow at rate $O(p)$ (Section 3.3, p. 17), Theorem 3.2 (p. 18) proves that in the relative Frobenius covariance norm $\|\mathbf{A}\|_{\boldsymbol{\Sigma}} = p^{-1/2}\|\boldsymbol{\Sigma}^{-1/2}\mathbf{A}\boldsymbol{\Sigma}^{-1/2}\|_F$ (Equation 3.3) and max-norm, POET achieves $\|\widehat{\boldsymbol{\Sigma}}_{\widehat{K}} - \boldsymbol{\Sigma}\|_{\boldsymbol{\Sigma}} = O_p\left(\frac{\sqrt{p}\log p}{T} + m_p\omega_T^{1-q}\right)$, $\|\widehat{\boldsymbol{\Sigma}}_{\widehat{K}} - \boldsymbol{\Sigma}\|_{\max} = O_p(\omega_T)$, and $\|\widehat{\boldsymbol{\Sigma}}_{\widehat{K}}^{-1} - \boldsymbol{\Sigma}^{-1}\| = O_p(m_p\omega_T^{1-q})$.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-flm2013-poet-pdf">Large Covariance Estimation by Thresholding Principal Orthogonal Complements</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.3, pp. 14-19, Equations (3.1)-(3.3), Theorems 3.1-3.2, Corollary 3.1; Appendix C, pp. 42-55</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#robustness-to-factor-overestimation-and-known-factor-comparison</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 3.3 (Section 3.3, p. 19) establishes that the convergence rates of $\widehat{\boldsymbol{\Sigma}}_{u,K_1}^{\mathcal{T}}$, $\widehat{\boldsymbol{\Sigma}}_{K_1}$, and their inverses in Theorems 3.1 and 3.2 hold uniformly over any data-driven factor number $\widehat{K} \in [K, K_{\max}]$ that is bounded above by a fixed constant $K_{\max}$ and never underestimates $K$ with probability approaching 1, demonstrating that POET is robust to moderate overestimation of the number of factors whereas underestimation ($K_1 &lt; K$) leaves an unremoved spiked factor of spectral norm $O(p)$ in the residual covariance. Furthermore, Section 4 (Theorems 4.1 and 4.2, pp. 19–21) shows that when the factors $\mathbf{f}_t$ are observable, the thresholded OLS residual estimator attains the strictly faster rate $\tilde{\omega}_T = \sqrt{\frac{\log p}{T}}$ without the latent-factor cross-sectional estimation overhead $p^{-1/2}$.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-flm2013-poet-pdf">Large Covariance Estimation by Thresholding Principal Orthogonal Complements</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, p. 19, Theorem 3.3; Section 4, pp. 19-21, Theorems 4.1-4.2; Section 6.4, pp. 28-31, Tables 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Convergence of the relative covariance norm $\|\widehat{\boldsymbol{\Sigma}}_{\widehat{K}} - \boldsymbol{\Sigma}\|_{\boldsymbol{\Sigma}} = O_p\left(\frac{\sqrt{p}\log p}{T} + m_p\omega_T^{1-q}\right)$ in Theorem 3.2(i) requires $p = o(T^2 / (\log p)^2)$, whereas precision-matrix and idiosyncratic covariance consistency in spectral norm hold even when $p \gg T^2$ provided $\omega_T^{1-q}m_p = o(1)$.</li>
+      <li>POET requires the common factors to be pervasive ($\lambda_{\min}(p^{-1}\mathbf{B}&#39;\mathbf{B}) &gt; c &gt; 0$, Equation 2.3) so that the leading $K$ eigenvalues of $\boldsymbol{\Sigma}$ separate at rate $O(p)$ from the bounded idiosyncratic spectrum $\|\boldsymbol{\Sigma}_u\| &lt; \infty$; weak or semi-strong factors whose loadings grow slower than $O(\sqrt{p})$ violate Proposition 2.1&#39;s $O(p^{-1})$ eigenvector separation bound.</li>
+      <li>Primary-source typographical audit of `arXiv:1201.0175v2`: (1) Section 6.4 line 2 (p. 28) spells &#39;consistent esimator $\widehat{K}$&#39; (&#39;esimator&#39; instead of &#39;estimator&#39;); (2) Section 7.2 line 13 (p. 34) writes &#39;where as the sample covariance does not process such a property&#39; (&#39;where as&#39; and &#39;process&#39; instead of &#39;whereas&#39; and &#39;possess&#39;); (3) Appendix B Proof of Proposition 2.1 line 5 (p. 41) writes &#39;$\mathbf{B}\mathbf{B}$&#39; omitting the transpose prime in &#39;$\mathbf{B}\mathbf{B}&#39;$&#39;, and Proof of Proposition 2.2 line 4 (p. 41) spells &#39;Prosposition 2.1&#39;; (4) Appendix B Proof of Theorem 2.1 line 2 (p. 42) writes &#39;$\widehat{\boldsymbol{\Sigma}}_u \frac{1}{T}(\mathbf{Y} - \widehat{\boldsymbol{\Lambda}}\widehat{\mathbf{F}}&#39;)(\mathbf{Y}&#39; - \widehat{\mathbf{F}}\widehat{\boldsymbol{\Lambda}}&#39;) = \frac{1}{T}\mathbf{Y}\mathbf{Y}&#39; - \widehat{\boldsymbol{\Lambda}}\widehat{\boldsymbol{\Lambda}}&#39; . where&#39; omitting the &#39;$=$&#39; sign after &#39;$\widehat{\boldsymbol{\Sigma}}_u$&#39;; (5) Appendix C.1 Proof of Lemma C.4 display (p. 43) writes &#39;$\ge cp\|\boldsymbol{\Sigma}_u\| \ge cp/2$&#39; omitting the minus sign in &#39;$\ge cp - \|\boldsymbol{\Sigma}_u\| \ge cp/2$&#39;; (6) Appendix C.2 Proof of Lemma C.10(ii) line 8 (p. 48) writes &#39;$O_p(1/\sqrt{T} + \sqrt{p})$&#39; instead of &#39;$O_p(1/\sqrt{T} + 1/\sqrt{p})$&#39;, and Proof of Corollary 3.1 line 4 (p. 49) writes &#39;$\|\mathbf{b}_i\|\mathbf{f}_t\|$&#39; missing a norm bar; and (7) Appendix C.3 line 5 (p. 52) writes &#39;One the other hand&#39; instead of &#39;On the other hand&#39;.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Extracts the top K principal components of the sample covariance matrix and thresholds the remaining principal orthogonal complement.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Decomposes the high-dimensional covariance matrix into a low-rank pervasive factor component plus a sparse thresholded idiosyncratic covariance matrix.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-flm2013-poet-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">flm2013-poet-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/pdf/1201.0175.pdf" target="_blank" rel="noopener">Large Covariance Estimation by Thresholding Principal Orthogonal Complements</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianqing Fan, Yuan Liao, Martina Mincheva
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1111/rssb.12016</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:05933dd0123b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-flm2013-poet-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">flm2013-poet-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1201.0175" target="_blank" rel="noopener">Large Covariance Estimation by Thresholding Principal Orthogonal Complements</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianqing Fan, Yuan Liao, Martina Mincheva
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1201.0175</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4d38b7b92138…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-flm2013-poet-crossref">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">flm2013-poet-crossref</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1111/rssb.12016" target="_blank" rel="noopener">Large Covariance Estimation by Thresholding Principal Orthogonal Complements</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianqing Fan, Yuan Liao, Martina Mincheva
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1111/rssb.12016</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2fc60109d082…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T04:56:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T04:56:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PrincipalOrthogonalComplementThresholdingForApproximateFactorCovarianceEstimation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PrincipalOrthogonalComplementThresholdingForApproximateFactorCovarianceEstimation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
