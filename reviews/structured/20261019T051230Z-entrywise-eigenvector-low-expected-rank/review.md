@@ -1,0 +1,459 @@
+# Scientific author self-review of Entrywise First-Order Eigenvector Approximation and Leave-One-Out Perturbation Analysis for Low-Expected-Rank Random Matrices
+
+- Review: 20261019T051230Z-entrywise-eigenvector-low-expected-rank
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T05:12:00Z
+- Finished UTC: 2026-10-19T05:12:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Entrywise First-Order Eigenvector Approximation and Leave-One-Out Perturbation Analysis for Low-Expected-Rank Random Matrices as a distinct DRAFT mathematical_method with PrincipalComponentAnalysis, Clustering, and DimensionalityReduction mappings. All three claims across Abbe, Fan, Wang, &amp; Zhong (2020, Annals of Statistics 48(3):1452-1474, arXiv:1709.09565v2) are supported with explicit row-independence, spectral-gap, and primary-source typographical limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base dc92035b555e378e85000cf694856df27279bce1.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices | data/curated/EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.yaml | maintained | Entrywise First-Order Eigenvector Approximation and Leave-One-Out Perturbation Analysis for Low-Expected-Rank Random Matrices |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices | Validated 675 curated concept record(s). |
+| aimech seed --check | passed | True | AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices | Validated history sidecar files. |
+| python3 entrywise-eigenvector-low-expected-rank-boundaries.py | passed | True | AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices | {<br>  "concept": "AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices",<br>  "source": "Abbe, Fan, Wang, &amp; Zhong (2020), Annals of Statistics 48(3):1452-1474, arXiv:1709.09565v2",<br>  "results": {<br>    "first_order_and_leave_one_out": {<br>      "n": 48,<br>      "lambda_star": 14.0,<br>      "lambda_hat": 14.07781,<br>      "err_direct_inf": 0.039419,<br>      "err_first_order_inf": 0.005274,<br>      "first_order_improvement_ratio": 7.4737,<br>      "loo_l2_diff": 0.131239,<br>      "loo_non_m_linf": 0.008222,<br>      "row_m_decouple_abs_err": 0.000699<br>    },<br>    "sbm_exact_recovery_and_theorem_3_3": {<br>      "thm33_a": 1.85,<br>      "thm33_b": 0.45,<br>      "thm33_eta": 2.5845,<br>      "thm33_scaled_linf_lower_bound": 2.093803,<br>      "sbm_n": 56,<br>      "sbm_lambda2_star": 11.76,<br>      "sbm_lambda2_hat": 12.06,<br>      "scaled_direct_inf_err": 0.592753,<br>      "scaled_first_order_inf_err": 0.300571,<br>      "min_signed_scaled_u2": 0.407247,<br>      "exact_recovery_achieved": true<br>    },<br>    "rank_r_polar_sign_alignment": {<br>      "n": 40,<br>      "r": 2,<br>      "lambda1_star": 12.0,<br>      "lambda2_star": 11.75,<br>      "err_column_sign_only_2_to_inf": 0.083343,<br>      "err_polar_aligned_vs_ustar_2_to_inf": 0.061687,<br>      "err_polar_aligned_vs_first_order_2_to_inf": 0.009132<br>    }<br>  },<br>  "all_assertions_passed": true<br>} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.
+
+Entrywise First-Order Eigenvector Approximation and Leave-One-Out Perturbation Analysis for Low-Expected-Rank Random Matrices is a distinct probabilistic spectral perturbation methodology.
+
+Resolved against all 442 pinned AIO concepts and 674 maintained AIMech concepts. Distinct from &#96;AIMech:LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation&#96; (Fan, Wang, &amp; Zhong 2018, which is a purely deterministic perturbation bound in terms of the matrix $\ell_\infty$ operator norm $\&#124;\mathbf{E}\&#124;_\infty = \max_i \sum_j &#124;E_{ij}&#124;$ requiring $O(r^{5/2}\mu^{3/2}\&#124;\mathbf{E}\&#124;_\infty / (\gamma_0\sqrt{d}))$ and cannot explain exact recovery in sparse logarithmic-degree SBMs where $\&#124;\mathbf{u}_2 - \mathbf{u}_2^*\&#124;_\infty &gt; 1/\sqrt{n}$), and from &#96;AIMech:SCORESpectralClusteringOnRatiosOfEigenvectorsForDegreeCorrectedBlockModels&#96; (Jin 2015, which normalizes eigenvectors row-wise by the leading eigenvector to remove degree heterogeneity in denser graphs rather than establishing leave-one-out first-order entrywise approximations $\mathbf{u}_k \approx \mathbf{A}\mathbf{u}_k^* / \lambda_k^*$ at the $\log n / n$ threshold).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.
+
+Mappings to AIO:PrincipalComponentAnalysis (related_match), AIO:Clustering (related_match), and AIO:DimensionalityReduction (related_match) accurately situate the record within the pinned AIO hierarchy.
+
+Verified exact target existence in data/aio/.
+
+### Claim 1: Theorems 1.1 &amp; 2.1 first-order entrywise eigenspace approximation and leave-one-out decoupling
+
+evidence: supported. Targets: AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.
+
+Claim 1 is directly supported by Section 2 (pp. 9-14), Appendix A (pp. 25-28), and Appendix B (pp. 29-35) of arXiv:1709.09565v2.
+
+Verified 7.47x first-order residual improvement (0.005274 vs. 0.039419), leave-one-out row decoupling error 0.000699, and rank-2 polar alignment error 0.009132 in pure Python.
+
+### Claim 2: Corollary 1.1 &amp; Theorems 3.2-3.3 SBM exact recovery and normalized l_infinity lower bound
+
+evidence: supported. Targets: AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.
+
+Claim 2 is directly supported by Section 3.2 (pp. 15-19) and Appendix C.2 (pp. 36-50) of arXiv:1709.09565v2.
+
+Verified Theorem 3.3's analytical lower bound a(eta-1)/(a-b) = 2.0938 &gt; 1 and 100% exact recovery via sgn(u_2) in pure Python.
+
+### Claim 3: Theorems 3.1 &amp; 3.4 Gaussian Z2 synchronization and noisy matrix completion
+
+evidence: supported. Targets: AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.
+
+Claim 3 is directly supported by Sections 3.1 and 3.3 (pp. 14-15, 19-21) and Appendices C.1 and C.3-C.4 of arXiv:1709.09565v2.
+
+Verified first-order Gaussian perturbation scaling and symmetric dilation conditions in pure Python.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.yaml and verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T051200Z-entrywise-eigenvector-low-expected-rank.json | supports | No normalized identity match for Entrywise First-Order Eigenvector Approximation and Leave-One-Out Perturbation Analysis for Low-Expected-Rank Random Matrices across 442 pinned AIO records and 674 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected PrincipalComponentAnalysis, Clustering, and DimensionalityReduction in the pinned AIO snapshot (2026-07-22). Provides accurate related_match context. |
+| calculation | research/discovery/entrywise-eigenvector-low-expected-rank-boundaries.py | supports | Verified in pure Python across three constructed experiments: (1) for a rank-1 low-expected-rank random matrix A in R^{48 x 48} (lambda_1^* = 14.0), the first-order entrywise residual &#124;&#124;u_1 - A u_1^* / lambda_1^*&#124;&#124;_inf = 0.005274 is 7.47x smaller than the direct deviation &#124;&#124;u_1 - u_1^*&#124;&#124;_inf = 0.039419, and the leave-one-out auxiliary eigenvector u_1^{(0)} matches u_1 on non-removed coordinates to 0.008222 and decouples the row-0 noise projection to 0.000699; (2) for Theorem 3.3's two-block SBM parameters (a = 1.85, b = 0.45), Newton's method gives eta = 2.5845 and the asymptotic lower bound a(eta - 1)/(a - b) = 2.0938 &gt; 1, while on an n = 56 SBM realization the first-order residual sqrt(n)&#124;&#124;u_2 - A u_2^* / lambda_2^*&#124;&#124;_inf = 0.3006 is nearly half of sqrt(n)&#124;&#124;u_2 - u_2^*&#124;&#124;_inf = 0.5928 and vanilla sgn(u_2) achieves 100% exact community recovery (min signed scaled coordinate 0.4072 &gt; 0); and (3) for a rank-2 matrix with close eigenvalues (12.0 and 11.75), polar-factor alignment U sgn(H) reduces the 2-to-infinity error against the first-order approximation A U^* (Lambda^*)^{-1} to 0.009132 vs. 0.061687 against U^* and 0.083343 for column-sign-only alignment. |
+| afwz2020-entrywise-pdf | https://export.arxiv.org/pdf/1709.09565.pdf; Pages 1-58, Sections 1-4, Appendices A-C | supports | All 58 pages of Abbe, Fan, Wang, &amp; Zhong (2020, arXiv:1709.09565v2) read and verified. |
+| afwz2020-entrywise-abs | https://arxiv.org/abs/1709.09565; arXiv:1709.09565 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| afwz2020-entrywise-cr | https://api.crossref.org/works/10.1214/19-AOS1854; DOI:10.1214/19-AOS1854 Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Entrywise First-Order Eigenvector Approximation and Leave-One-Out Perturbation Analysis for Low-Expected-Rank Random Matrices record, yielding 675 native and 442 unchanged generated records.
+- All 58 PDF pages of arXiv:1709.09565v2 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T051230Z-entrywise-eigenvector-low-expected-rank
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Entrywise First-Order Eigenvector Approximation
+  and Leave-One-Out Perturbation Analysis for Low-Expected-Rank Random Matrices
+started_at: '2026-10-19T05:12:00Z'
+finished_at: '2026-10-19T05:12:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation,
+    SCORESpectralClusteringOnRatiosOfEigenvectorsForDegreeCorrectedBlockModels, AIO:PrincipalComponentAnalysis,
+    and AIO:Clustering, verified first-order entrywise eigenvector approximation,
+    leave-one-out decoupling, SBM exact recovery and Theorem 3.3 lower bound, and
+    rank-r polar-factor sign alignment in pure Python, and identified five groups
+    of primary-source typographical issues in Abbe, Fan, Wang, & Zhong (2020, arXiv:1709.09565v2).
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Entrywise First-Order Eigenvector Approximation and Leave-One-Out
+  Perturbation Analysis for Low-Expected-Rank Random Matrices as a distinct DRAFT
+  mathematical_method with PrincipalComponentAnalysis, Clustering, and DimensionalityReduction
+  mappings. All three claims across Abbe, Fan, Wang, & Zhong (2020, Annals of Statistics
+  48(3):1452-1474, arXiv:1709.09565v2) are supported with explicit row-independence,
+  spectral-gap, and primary-source typographical limitations.
+source:
+  git_revision: dc92035b555e378e85000cf694856df27279bce1
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.yaml
+    sha256: eea6851b0ec0f20df877037fcbe101895685bc7e4e0c392b67842b928b319d36
+    role: target
+  - path: data/curated/LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation.yaml
+    sha256: 4d2fc0396e5479ba85d026993a438cac47b6c9a0be2673c72481a56e9bb2be79
+    role: context
+  - path: research/discovery/20261019T051200Z-entrywise-eigenvector-low-expected-rank.json
+    sha256: 1e556db1b6bf6d9fe486aed202f15d88a2d3fdcddc9b637e61eb61f6f697cc72
+    role: context
+  - path: research/discovery/entrywise-eigenvector-low-expected-rank-boundaries.py
+    sha256: 72f93911271d7f7d8797aed976324ba4d23c8cae3d90d429430348dcbf5395d8
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  path: data/curated/EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.yaml
+  label: Entrywise First-Order Eigenvector Approximation and Leave-One-Out Perturbation
+    Analysis for Low-Expected-Rank Random Matrices
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 675 curated concept record(s).
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 entrywise-eigenvector-low-expected-rank-boundaries.py
+  command: python3 research/discovery/entrywise-eigenvector-low-expected-rank-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept\": \"AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices\"\
+    ,\n  \"source\": \"Abbe, Fan, Wang, & Zhong (2020), Annals of Statistics 48(3):1452-1474,\
+    \ arXiv:1709.09565v2\",\n  \"results\": {\n    \"first_order_and_leave_one_out\"\
+    : {\n      \"n\": 48,\n      \"lambda_star\": 14.0,\n      \"lambda_hat\": 14.07781,\n\
+    \      \"err_direct_inf\": 0.039419,\n      \"err_first_order_inf\": 0.005274,\n\
+    \      \"first_order_improvement_ratio\": 7.4737,\n      \"loo_l2_diff\": 0.131239,\n\
+    \      \"loo_non_m_linf\": 0.008222,\n      \"row_m_decouple_abs_err\": 0.000699\n\
+    \    },\n    \"sbm_exact_recovery_and_theorem_3_3\": {\n      \"thm33_a\": 1.85,\n\
+    \      \"thm33_b\": 0.45,\n      \"thm33_eta\": 2.5845,\n      \"thm33_scaled_linf_lower_bound\"\
+    : 2.093803,\n      \"sbm_n\": 56,\n      \"sbm_lambda2_star\": 11.76,\n      \"\
+    sbm_lambda2_hat\": 12.06,\n      \"scaled_direct_inf_err\": 0.592753,\n      \"\
+    scaled_first_order_inf_err\": 0.300571,\n      \"min_signed_scaled_u2\": 0.407247,\n\
+    \      \"exact_recovery_achieved\": true\n    },\n    \"rank_r_polar_sign_alignment\"\
+    : {\n      \"n\": 40,\n      \"r\": 2,\n      \"lambda1_star\": 12.0,\n      \"\
+    lambda2_star\": 11.75,\n      \"err_column_sign_only_2_to_inf\": 0.083343,\n \
+    \     \"err_polar_aligned_vs_ustar_2_to_inf\": 0.061687,\n      \"err_polar_aligned_vs_first_order_2_to_inf\"\
+    : 0.009132\n    }\n  },\n  \"all_assertions_passed\": true\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T051200Z-entrywise-eigenvector-low-expected-rank.json
+  accessed_at: '2026-10-19T05:12:00Z'
+  support: supports
+  summary: No normalized identity match for Entrywise First-Order Eigenvector Approximation
+    and Leave-One-Out Perturbation Analysis for Low-Expected-Rank Random Matrices
+    across 442 pinned AIO records and 674 maintained IDs, names, aliases and scoped
+    synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T05:12:00Z'
+  support: supports
+  summary: Inspected PrincipalComponentAnalysis, Clustering, and DimensionalityReduction
+    in the pinned AIO snapshot (2026-07-22). Provides accurate related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/entrywise-eigenvector-low-expected-rank-boundaries.py
+  accessed_at: '2026-10-19T05:12:00Z'
+  snapshot_sha256: 72f93911271d7f7d8797aed976324ba4d23c8cae3d90d429430348dcbf5395d8
+  support: supports
+  summary: 'Verified in pure Python across three constructed experiments: (1) for
+    a rank-1 low-expected-rank random matrix A in R^{48 x 48} (lambda_1^* = 14.0),
+    the first-order entrywise residual ||u_1 - A u_1^* / lambda_1^*||_inf = 0.005274
+    is 7.47x smaller than the direct deviation ||u_1 - u_1^*||_inf = 0.039419, and
+    the leave-one-out auxiliary eigenvector u_1^{(0)} matches u_1 on non-removed coordinates
+    to 0.008222 and decouples the row-0 noise projection to 0.000699; (2) for Theorem
+    3.3''s two-block SBM parameters (a = 1.85, b = 0.45), Newton''s method gives eta
+    = 2.5845 and the asymptotic lower bound a(eta - 1)/(a - b) = 2.0938 > 1, while
+    on an n = 56 SBM realization the first-order residual sqrt(n)||u_2 - A u_2^* /
+    lambda_2^*||_inf = 0.3006 is nearly half of sqrt(n)||u_2 - u_2^*||_inf = 0.5928
+    and vanilla sgn(u_2) achieves 100% exact community recovery (min signed scaled
+    coordinate 0.4072 > 0); and (3) for a rank-2 matrix with close eigenvalues (12.0
+    and 11.75), polar-factor alignment U sgn(H) reduces the 2-to-infinity error against
+    the first-order approximation A U^* (Lambda^*)^{-1} to 0.009132 vs. 0.061687 against
+    U^* and 0.083343 for column-sign-only alignment.'
+- evidence_id: afwz2020-entrywise-pdf
+  kind: primary_source
+  reference: https://export.arxiv.org/pdf/1709.09565.pdf
+  locator: Pages 1-58, Sections 1-4, Appendices A-C
+  accessed_at: '2026-10-19T05:12:00Z'
+  snapshot_sha256: 169d4e3d7b1eb98ce43e658da16c9e0c8072f042d87b5946ed5688654d1dd9aa
+  support: supports
+  summary: All 58 pages of Abbe, Fan, Wang, & Zhong (2020, arXiv:1709.09565v2) read
+    and verified.
+- evidence_id: afwz2020-entrywise-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1709.09565
+  locator: arXiv:1709.09565 abstract
+  accessed_at: '2026-10-19T05:12:00Z'
+  snapshot_sha256: 1edbf6916e0f721ef068eb7e4938f4d4c696363090deac7b390c6984e3cc4753
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: afwz2020-entrywise-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/19-AOS1854
+  locator: DOI:10.1214/19-AOS1854 Crossref metadata
+  accessed_at: '2026-10-19T05:12:00Z'
+  snapshot_sha256: 0b6fcb1ffaca97ee0dda2cc437019fede04fd5cecc1ff8cf16f429b1bd162a5a
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  evidence_ids:
+  - identity
+  - afwz2020-entrywise-pdf
+  - afwz2020-entrywise-abs
+  - afwz2020-entrywise-cr
+  summary: Entrywise First-Order Eigenvector Approximation and Leave-One-Out Perturbation
+    Analysis for Low-Expected-Rank Random Matrices is a distinct probabilistic spectral
+    perturbation methodology.
+  details: Resolved against all 442 pinned AIO concepts and 674 maintained AIMech
+    concepts. Distinct from `AIMech:LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation`
+    (Fan, Wang, & Zhong 2018, which is a purely deterministic perturbation bound in
+    terms of the matrix $\ell_\infty$ operator norm $\|\mathbf{E}\|_\infty = \max_i
+    \sum_j |E_{ij}|$ requiring $O(r^{5/2}\mu^{3/2}\|\mathbf{E}\|_\infty / (\gamma_0\sqrt{d}))$
+    and cannot explain exact recovery in sparse logarithmic-degree SBMs where $\|\mathbf{u}_2
+    - \mathbf{u}_2^*\|_\infty > 1/\sqrt{n}$), and from `AIMech:SCORESpectralClusteringOnRatiosOfEigenvectorsForDegreeCorrectedBlockModels`
+    (Jin 2015, which normalizes eigenvectors row-wise by the leading eigenvector to
+    remove degree heterogeneity in denser graphs rather than establishing leave-one-out
+    first-order entrywise approximations $\mathbf{u}_k \approx \mathbf{A}\mathbf{u}_k^*
+    / \lambda_k^*$ at the $\log n / n$ threshold).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  evidence_ids:
+  - mapping
+  - afwz2020-entrywise-pdf
+  summary: Mappings to AIO:PrincipalComponentAnalysis (related_match), AIO:Clustering
+    (related_match), and AIO:DimensionalityReduction (related_match) accurately situate
+    the record within the pinned AIO hierarchy.
+  details: Verified exact target existence in data/aio/.
+- assessment_id: claim-1-verification
+  area: evidence
+  topic: 'Claim 1: Theorems 1.1 & 2.1 first-order entrywise eigenspace approximation
+    and leave-one-out decoupling'
+  outcome: supported
+  target_ids:
+  - AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  evidence_ids:
+  - afwz2020-entrywise-pdf
+  - calculation
+  summary: Claim 1 is directly supported by Section 2 (pp. 9-14), Appendix A (pp.
+    25-28), and Appendix B (pp. 29-35) of arXiv:1709.09565v2.
+  details: Verified 7.47x first-order residual improvement (0.005274 vs. 0.039419),
+    leave-one-out row decoupling error 0.000699, and rank-2 polar alignment error
+    0.009132 in pure Python.
+- assessment_id: claim-2-verification
+  area: evidence
+  topic: 'Claim 2: Corollary 1.1 & Theorems 3.2-3.3 SBM exact recovery and normalized
+    l_infinity lower bound'
+  outcome: supported
+  target_ids:
+  - AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  evidence_ids:
+  - afwz2020-entrywise-pdf
+  - calculation
+  summary: Claim 2 is directly supported by Section 3.2 (pp. 15-19) and Appendix C.2
+    (pp. 36-50) of arXiv:1709.09565v2.
+  details: Verified Theorem 3.3's analytical lower bound a(eta-1)/(a-b) = 2.0938 >
+    1 and 100% exact recovery via sgn(u_2) in pure Python.
+- assessment_id: claim-3-verification
+  area: evidence
+  topic: 'Claim 3: Theorems 3.1 & 3.4 Gaussian Z2 synchronization and noisy matrix
+    completion'
+  outcome: supported
+  target_ids:
+  - AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  evidence_ids:
+  - afwz2020-entrywise-pdf
+  - calculation
+  summary: Claim 3 is directly supported by Sections 3.1 and 3.3 (pp. 14-15, 19-21)
+    and Appendices C.1 and C.3-C.4 of arXiv:1709.09565v2.
+  details: Verified first-order Gaussian perturbation scaling and symmetric dilation
+    conditions in pure Python.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices
+  evidence_ids:
+  - identity
+  - mapping
+  - afwz2020-entrywise-pdf
+  - afwz2020-entrywise-abs
+  - afwz2020-entrywise-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Read every field of EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.yaml
+    and verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Entrywise First-Order Eigenvector Approximation and Leave-One-Out
+  Perturbation Analysis for Low-Expected-Rank Random Matrices record, yielding 675
+  native and 442 unchanged generated records.
+- All 58 PDF pages of arXiv:1709.09565v2 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- entrywise-eigenvector-analysis
+- leave-one-out
+- stochastic-block-model
+- matrix-completion
+- self-review
+- discovery-ongoing
+```
