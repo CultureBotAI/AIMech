@@ -1,0 +1,101 @@
+id: AIMech:DiagonalThresholdingAndSemidefiniteRelaxationSupportRecoveryForSparsePCA
+name: Diagonal Thresholding and Semidefinite Relaxation Support Recovery for Sparse Principal Components
+review_status: DRAFT
+concept_kind: mathematical_method
+aliases:
+- Amini-Wainwright Primal-Dual Witness SDP and Diagonal Thresholding Sparse PCA Analysis
+- High-Dimensional Spiked Covariance Support Recovery via SDP Relaxation and Diagonal Screening
+- Computational-Statistical Phase Transitions for Sparse Principal Component Support Recovery
+definition: 'Diagonal Thresholding and Semidefinite Relaxation Support Recovery for Sparse Principal Components is a high-dimensional sparse eigenvector model-selection and primal-dual certification methodology for the generalized k-sparse spiked covariance ensemble Sigma_p = beta z^* z^{*T} + diag(I_k, Gamma_{p-k}) (with z_i^* in {+-1/sqrt(k)} on support S(z^*) of size k, |||Gamma_{p-k}^{1/2}|||_{infty,infty} = O(1), and lambda_max(Gamma_{p-k}) <= min{1, lambda_min(Gamma_{p-k}) + beta/8}). It characterizes and contrasts two tractable decoders from n i.i.d. Gaussian samples x^i ~ N(0, Sigma_p) with sample covariance Sigma_hat = (1/n) sum_{i=1}^n x^i (x^i)^T: (1) Diagonal Thresholding, which selects the k largest sample diagonal entries D_ell = [Sigma_hat]_{ell,ell} in O(n p + p log p) operations and undergoes a sharp 0-1 support-recovery phase transition governed by the rescaled sample size theta_dia(n, p, k) = n / [k^2 log(p - k)] (Proposition 1); and (2) L1-penalized Semidefinite Programming
+  (SDP) Relaxation Z_hat = argmax_{Z >= 0, tr(Z)=1} [tr(Sigma_hat Z) - rho_n sum_{i,j} |Z_{ij}|] with regularization parameter rho_n = beta/(2k), which is certified via a three-block primal-dual witness (Z_hat = z_hat z_hat^T, U_hat) and Gordon-Slepian Gaussian comparison to have a unique rank-one solution recovering the exact signed support S_+-(z_hat) = S_+-(z^*) for theta_dia(n, p, k) > theta_wr and to specify S_+-(z^*) whenever a rank-one solution exists for theta_sdp(n, p, k) = n / [k log(p - k)] > theta_crit (Theorem 2), matching up to constants the Fano information-theoretic minimax threshold theta_sdp(n, p, k) < (1 + beta)/beta^2 below which any decoder has error probability at least 1/2 (Theorem 3).'
+identity_notes: Resolved as a distinct AIMech-native mathematical_method concept from Amini & Wainwright (2009, The Annals of Statistics 37(5B):2877-2921; arXiv:0803.4026v2, DOI:10.1214/08-AOS664). Distinct from AIMech:DirectSparsePrincipalComponentAnalysis (d'Aspremont et al. 2007, SIAM Rev. 49(3):434-448), which introduces the deterministic DSPCA conic formulation and Nesterov first-order smoothing solver without high-dimensional statistical scaling or support-recovery guarantees, and from AIMech:SparsePrincipalComponentsAnalysisViaCoordinateVarianceSelectionAndThresholding (Johnstone & Lu 2009, JASA 104(486):682-693), which proves l2 angular consistency under weak-l_q sparsity when p/n -> c, whereas Amini & Wainwright (2009) formulate exact 0-1 signed support recovery in the generalized non-identity spiked model, prove the sharp converse and achievability phase transition theta_dia = n/[k^2 log(p-k)] for diagonal thresholding (Proposition 1), construct the 3-block primal-dual witness
+  certificate proving SDP signed support recovery at scaling theta_sdp = n/[k log(p-k)] with rho_n = beta/(2k) (Theorem 2, Lemmas 5-13), and establish the Fano minimax lower bound showing statistical optimality and the computational-versus-statistical efficiency gap (Theorem 3, Lemma 14).
+definition_evidence:
+- source_id: aw2009-sdpspca-pdf
+  locator: Section 1, pp. 1-5 (Ann. Statist. pp. 2877-2881); Section 2, Sections 2.1-2.2, Proposition 1, and Theorems 2-3, pp. 6-12 (Ann. Statist. pp. 2882-2888); Sections 3-5, Lemmas 4-14, pp. 12-31; Appendices A-G, pp. 32-45
+  relation: supports
+- source_id: aw2009-sdpspca-abs
+  locator: Abstract
+  relation: supports
+- source_id: aw2009-sdpspca-cr
+  locator: DOI:10.1214/08-AOS664 article metadata
+  relation: supports
+claims:
+- claim_id: sharp-phase-transition-for-diagonal-thresholding-at-theta-dia-scaling
+  kind: scope
+  statement: 'Under the generalized k-sparse spiked covariance model Sigma_p = beta z^* z^{*T} + diag(I_k, Gamma_{p-k}) (eq. 5, p. 6) with k = O(p^{1-delta}) for delta in (0, 1), Proposition 1 (p. 8) and Section 3 (pp. 12-16) prove that the diagonal thresholding estimator S_hat(D) selecting the k largest sample diagonal variances D_ell = [Sigma_hat]_{ell,ell} undergoes a sharp phase transition in the control parameter theta_dia(n, p, k) = n / [k^2 log(p - k)] (eq. 10): setting threshold tau_k = beta/(2k), if n > max{(64/(3 beta^2)) k^2 log(p - k), (16/beta^2) k^2 log k} then P[S_hat(D) = S(z^*)] >= 1 - exp(-Theta(k^2 log(p - k))) -> 1 (eq. 11 & p. 13), whereas by the sharp chi-square lower tail bound P[chi_n^2/n > 1 + t] >= (C/sqrt(n)) exp(-n t^2/2) (Lemma 4, p. 14 & Appendix C, p. 34), the one-sided Chebyshev inequality (eq. 19), and noncentral chi_{n,nu^*}^2 conditioning (eq. 20), if n <= theta_ell k^2 log(p - k) then P[S_hat(D) = S(z^*)] <= exp(-Theta(log(p - k))) -> 0 (eq. 12).'
+  evidence:
+  - source_id: aw2009-sdpspca-pdf
+    locator: Section 2.1, Proposition 1 and Figure 1, pp. 7-9; Section 3, Lemma 4 and Proof of Proposition 1, pp. 12-16; Appendix B-C, pp. 33-34
+    relation: supports
+- claim_id: three-block-primal-dual-witness-certification-of-sdp-signed-support-recovery
+  kind: mechanism
+  statement: 'To analyze the semidefinite relaxation Z_hat = argmax_{Z in S_+^p, tr(Z)=1} [tr(Sigma_hat Z) - rho_n sum_{i,j} |Z_{ij}|] (eq. 13, p. 9) at regularization parameter rho_n = beta/(2k) (eq. 26, p. 18, yielding post-regularization signal-to-noise ratio alpha = beta - rho_n k = beta/2), Section 4 (Lemmas 5-13, pp. 16-29 & Appendices D-E, G, pp. 34-42, 44-45) constructs a primal-dual witness (Z_hat = z_hat z_hat^T, U_hat(x)) with z_hat = (z_hat_S, 0_{S^c}) for Phi = Sigma_hat - rho_n U_hat - Gamma (eq. 24): (A) on block S x S, setting U_hat_{SS} = sign(z_S^*) sign(z_S^*)^T (eq. 23), Lemma 6 proves that |||Delta_{SS}|||_{infty,infty} <= alpha/10 and |||Delta_{SS}|||_{2,2} -> 0 ensure ||z_hat_S - z_S^*||_infty <= 1/(2 sqrt(k)) (eq. 28) and exact sign recovery sign(z_hat_S) = sign(z_S^*); (B) on block S^c x S, setting U_hat_{S^c S} = (1/rho_n)(Delta_{S^c S} z_tilde_S) sign(z_hat_S)^T with z_tilde_S = z_hat_S / ||z_hat_S||_1 (eq. 30), Lemma 7 proves that |||Delta_{S^c S}|||_{infty,2}
+    <= delta/sqrt(k) (delta <= beta/4) guarantees ||U_hat_{S^c S}||_infty <= 4 delta / beta <= 1 and (Delta_{S^c S} - rho_n U_hat_{S^c S}) z_hat_S = 0; and (C) on block S^c x S^c, setting U_hat_{S^c S^c}(x) = sign(v) sign(v)^T and bounding max_{||v||_2<=eta, ||v||_1<=ell} ||n^{-1/2} G_{S^c} v||_2 <= eta + B sqrt(log m / n) ell + eps via the Gordon-Slepian inequality and Gaussian concentration (Lemmas 8 and 13, pp. 20, 24-27), Theorem 2 proves signed support recovery whenever a rank-one solution exists for theta_sdp(n, p, k) = n/[k log(p - k)] > theta_crit (Theorem 2b) and unconditional rank-one uniqueness for theta_dia(n, p, k) > theta_wr (Theorem 2a, Appendix G).'
+  evidence:
+  - source_id: aw2009-sdpspca-pdf
+    locator: Section 2.2, Theorem 2, pp. 9-11; Section 4, Lemmas 5-13, pp. 16-29; Appendices D, E, and G, Lemmas 15-16, pp. 34-42, 44-45
+    relation: supports
+- claim_id: fano-information-theoretic-minimax-lower-bound-and-mixture-covariance-spectrum
+  kind: scope
+  statement: "Section 5 (pp. 30-31) and Appendix F (pp. 42-44) establish the information-theoretic converse (Theorem 3, p. 11): restricting to the sub-collection tilde_S = {S in S | {1, ..., k-1} subset S} of cardinality |tilde_S| = p - k + 1, Lemma 14 (p. 31) proves via an explicit block eigendecomposition (eq. 84, p. 44) that the mixture covariance Sigma_M = E[x x^T] = I_p + (beta/(k |tilde_S|)) Y has exact eigenvalues 1 + beta(k-1)/k + beta/(k(p-k+1)) (multiplicity 1), 1 + beta/(k(p-k+1)) (multiplicity p - k), and 1 (multiplicity k - 1), yielding log det Sigma_M = log(1 + beta) + log(1 - [beta/(1 + beta)][(p - k)/(k(p - k + 1))]) + (p - k) log(1 + beta/(k(p - k + 1))) (eq. 55) and mutual information bound I(U; X^n) <= [beta^2 / (2(1 + beta))](n/k), so that by Fano's inequality any support estimator\u2014including exponential-time exhaustive search over (p choose k) subsets\u2014has error probability at least 1/2 when theta_sdp(n, p, k) = n/[k log(p - k)] < (1 + beta)/beta^2 (eq. 17)."
+  evidence:
+  - source_id: aw2009-sdpspca-pdf
+    locator: Section 2.2, Theorem 3, p. 11; Section 5, Lemma 14 and Proof of Theorem 3, pp. 30-31; Appendix F, Proof of Lemma 14 and Equation (84), pp. 42-44
+    relation: supports
+evidence_sources:
+- source_id: aw2009-sdpspca-pdf
+  title: High-dimensional analysis of semidefinite relaxations for sparse principal components
+  authors:
+  - Arash A. Amini
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/0803.4026.pdf
+  persistent_id: https://doi.org/10.1214/08-AOS664
+  version: arXiv:0803.4026v2 full-text 47-page PDF (564851 bytes); published in The Annals of Statistics 37(5B):2877-2921 (2009).
+  access_level: full_text
+  accessed_at: '2026-10-18T17:14:11Z'
+  sha256: b70136a9cc288520d894e3fc57ef16b04470ba0b2ce3c569c7e560c86e5a3c4a
+- source_id: aw2009-sdpspca-abs
+  title: High-dimensional analysis of semidefinite relaxations for sparse principal components (arXiv abstract)
+  authors:
+  - Arash A. Amini
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://export.arxiv.org/abs/0803.4026
+  persistent_id: https://doi.org/10.48550/arXiv.0803.4026
+  version: arXiv:0803.4026v2 abstract and metadata (6881 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T17:14:12Z'
+  sha256: 41a370f2e4140f1739cc8dd41f7579ce0298167f7648a9dedda68d072e7c1980
+- source_id: aw2009-sdpspca-cr
+  title: High-dimensional analysis of semidefinite relaxations for sparse principal components (Annals of Statistics Crossref metadata)
+  authors:
+  - Arash A. Amini
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/08-AOS664
+  persistent_id: https://doi.org/10.1214/08-AOS664
+  version: The Annals of Statistics 37(5B):2877-2921 (2009) Crossref metadata (4802 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T17:14:13Z'
+  sha256: bcfde02e00f232f6da53cded8bd89170e9a851cedd7b79fe8769c228df30075a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: narrow_match
+  rationale: Specializes Principal Component Analysis to exact signed support recovery of k-sparse leading eigenvectors in high-dimensional spiked covariance models via diagonal thresholding and semidefinite programming relaxations.
+limitations:
+- 'Computational-statistical gap and rank-one condition in the intermediate regime: While Theorem 2(b) proves that any rank-one solution of the SDP relaxation recovers the true signed support once n > theta_crit k log(p - k) (and simulations in Figure 2 confirm rank-one behavior at this scaling), the unconditional theoretical guarantee that the SDP solution is rank one in Theorem 2(a) requires the stronger diagonal-thresholding scaling n > theta_wr k^2 log(p - k), and solving the SDP takes O(n p + p^4 log p) time versus O(n p + p log p) for diagonal thresholding (Section 1, p. 4; Section 2.2, pp. 10-11).'
+- 'Flat binary spike magnitudes and known support cardinality k: The theoretical analysis assumes that the support size k is known a priori so that rho_n = beta/(2k) can be set, and assumes flat nonzero entries z_i^* in {+-1/sqrt(k)} on S(z^*) together with bounded noise-block spectrum lambda_max(Gamma_{p-k}) - lambda_min(Gamma_{p-k}) <= beta/8 (Section 2, eqs. 5-6b, pp. 6-7).'
+- 'Logarithmic sparsity assumption in technical proofs: Theorem 2 formally imposes k = O(log p) in the proof of the Wishart mixed-norm bounds, although empirical curves in Figure 2(b) show the same theta_sdp(n, p, k) phase transition for linear sparsity k = 0.1 p (Section 2.2, Remarks, pp. 11-12).'
+- 'Primary-source typographical audit of arXiv:0803.4026v2 (DOI:10.1214/08-AOS664): (1) On p. 9 (Section 2.1, line 6), ''theta_dia(n, p, n) = n/[k^2 log(p - k)]'' prints ''theta_dia(n, p, n)'' instead of ''theta_dia(n, p, k)''; (2) on p. 13 (Section 3, second display), ''P[min_{ell in S} D_ell < n(1 + tau_k)]'' writes ''n(1 + tau_k)'' instead of ''(1 + tau_k)'' (since D_ell in eq. 18 is already divided by n); (3) on p. 17 (Section 4.1, eq. 25), the lower-right block of the first matrix is printed ''Phi_{SS}'' instead of ''Phi_{S^c S^c}''; (4) on p. 31 (Section 5, final line), ''From the Fano bound (52)'' cites ''(52)'' (the Gaussian entropy bound) instead of the Fano display on p. 30 and drops the factor 1/2 from I(U; X^n) <= [beta^2/(2(1+beta))] (n/k); and (5) on p. 37 (Appendix D.3, eq. 71, line 3), ''|tilde_z_{S2} sign(hat_z_S)^T tilde_z_S|'' prints ''tilde_z_{S2}'' instead of ''||tilde_z_S||_2''.'
+curation:
+  created_at: '2026-10-19T00:20:00Z'
+  updated_at: '2026-10-19T00:20:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
