@@ -1,0 +1,100 @@
+id: AIMech:FedPacFeatureAlignmentAndClassifierCollaborationForPersonalizedFederatedLearning
+name: FedPAC (Personalized Federated Learning with Feature Alignment and Classifier Collaboration)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A personalized federated learning algorithm (Xu, Tong, & Huang 2023, Sections 3-4, Theorem 1, Equations 3-4, 10-19, 43-46) that jointly (1) aligns local feature extractors f_{theta_i} to global class feature centroids c_k via the regularization penalty R_i(theta_i; c) = (lambda / n_i) sum_{l=1}^{n_i} (1 / d) ||f_{theta_i}(x_l) - c_{y_l}||_2^2 (Equations 3, 17, 19) to reduce the local-global feature generalization gap Delta R_i (Equations 12-14), and (2) constructs each client i's personalized classifier head phi_hat_i^{(t+1)} = sum_{j=1}^m alpha_{ij} phi_j^{(t+1)} (Equation 4) using simplex-constrained weights alpha_i^* that minimize the expected chi_i^2 testing loss bound via the convex quadratic program min_{alpha_i >= 0, sum_j alpha_{ij} = 1} sum_{j=1}^m (alpha_{ij}^2 / n_j) V_j + sum_{j, j'=1}^m alpha_{ij} alpha_{ij'} D_{jj'} (Theorem 1, Equations 10-11, 43-46) computed from first- and second-order client feature statistics.
+identity_notes: Distinct from FedRep (AIMech:FedRepSharedRepresentationPersonalizedFederatedLearning, Collins et al. 2021) and FedPer (AIMech:FedPerFederatedLearningWithPersonalizationLayers), which keep each client's classifier head strictly local without inter-client classifier collaboration or global centroid alignment; and distinct from FedProto (AIMech:FedProtoFederatedPrototypeLearning, Tan et al. 2022), which communicates only class prototypes without aggregating shared feature extractors or solving a bias-variance quadratic program for personalized classifier combinations.
+aliases:
+- FedPAC
+- Feature Alignment and Classifier Collaboration in Personalized Federated Learning
+- Quadratic Bias-Variance Classifier Collaboration for Personalized Federated Learning
+definition_evidence:
+- source_id: r460-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r460-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r460-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r460-quadratic-bias-variance-classifier-collaboration-qp-mechanism
+  kind: mechanism
+  statement: Decomposes the expected chi_i^2 testing risk of a linearly combined classifier g_hat_i^* = sum_{j=1}^m alpha_{ij} g_hat_j into a pairwise distribution-mismatch bias quadratic form sum_{j,j'} alpha_{ij} alpha_{ij'} D_{jj'} and a sample-variance term sum_j (alpha_{ij}^2 / n_j) V_j (Theorem 1, Equations 10-11), and estimates V_j and D_{jj'} server-side from client class-conditional feature means mu_{j,y} and trace second moments tr(Lambda_{j,y}) under isotropic feature normalization (Appendix A.5, Equations 43-46) to solve a convex quadratic program for alpha_i^*.
+  evidence:
+  - source_id: r460-primary-pdf
+    locator: Section 4.1 Theorem 1 (Equations 10-11) & Appendix A.2-A.5 (Equations 29-35, 43-46), pp. 5-6, 15-18
+    relation: supports
+- claim_id: r460-global-centroid-feature-alignment-generalization-scope
+  kind: scope
+  statement: Bounds the local generalization gap Delta R_i = 2 E_{P_Y^{(i)}}[(E_{P_{X|Y}^{(i)}}[f(x)] - E_{P_hat_{X|Y}^{(i)}}[f(x)])^T g_i(Y) / K] (Equations 12-14) by pulling local features f_{theta_i}(x_l) toward globally aggregated class centroids c_{y_l} (Equations 3, 17, 19), ensuring that classifier heads trained on different clients operate in a common aligned semantic subspace.
+  evidence:
+  - source_id: r460-primary-pdf
+    locator: Section 3.2 (Equation 3) & Section 4.2 Feature Alignment by Regularization (Equations 12-19), pp. 4, 6-7
+    relation: supports
+- claim_id: r460-feature-statistics-upload-and-qp-overhead-limitation
+  kind: limitation
+  statement: Requires clients to compute and upload class-conditional feature means mu_{i,y} and scalar variance statistics V_i in addition to model parameters, and invokes a server-side m-variable quadratic program for each participating client during the initial collaboration rounds.
+  evidence:
+  - source_id: r460-primary-pdf
+    locator: Section 4.2 Practical Implementation & Appendix A.5 Privacy and Communication Discussion (Equations 43-46), pp. 7, 17-18
+    relation: supports
+- claim_id: r460-personalized-vision-classification-under-label-skew-application
+  kind: application
+  statement: Applied to personalized federated image classification on EMNIST, Fashion-MNIST, CIFAR-10, CIFAR-100, and CINIC-10 under pathological and Dirichlet non-IID label distributions.
+  evidence:
+  - source_id: r460-primary-pdf
+    locator: Section 5 Experiments (Tables 1-3, Figures 2-4), pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r460-primary-pdf
+  title: Personalized Federated Learning with Feature Alignment and Classifier Collaboration
+  authors: &id001
+  - Jian Xu
+  - Xinyi Tong
+  - Shao-Lun Huang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2306.11867.pdf
+  persistent_id: https://arxiv.org/abs/2306.11867
+  version: Eleventh International Conference on Learning Representations (ICLR 2023) (2023) (2365 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:03:00Z'
+  sha256: 88ac11e751877f1d932aecc5fa396e74843872c1e3b88f7a2014aefbde6a3457
+- source_id: r460-arxiv-abs
+  title: Personalized Federated Learning with Feature Alignment and Classifier Collaboration (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2306.11867
+  persistent_id: https://arxiv.org/abs/2306.11867
+  version: arXiv abstract page (1053 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:03:00Z'
+  sha256: 16a7433e22d2f06d1449a6f4e6cd7893a67f0c1d7002e17ea77b730664f0318c
+- source_id: r460-metadata-cr
+  title: Personalized Federated Learning with Feature Alignment and Classifier Collaboration (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2306.11867
+  persistent_id: https://arxiv.org/abs/2306.11867
+  version: Crossref API work record (327 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:03:00Z'
+  sha256: 97b8e3687eba178cf66ef8adfaa6d3b8651de1c103a0b8fca66930b49b37f33a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedPAC is a personalized federated learning algorithm combining global centroid feature alignment with QP-optimized inter-client classifier collaboration.
+limitations:
+- Requires transmitting class-conditional feature centroids mu_{i,y} and scalar variance statistics V_i between clients and the server.
+- Relies on an isotropic feature-covariance approximation Lambda_f^{(i)} approx I_d to avoid O(d^2) covariance matrix transmission.
+curation:
+  created_at: '2026-10-19T09:03:00Z'
+  updated_at: '2026-10-19T09:03:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
