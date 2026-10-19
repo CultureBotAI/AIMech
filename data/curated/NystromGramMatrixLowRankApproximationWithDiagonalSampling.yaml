@@ -1,0 +1,97 @@
+id: AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+name: "Nystr\xF6m Gram Matrix Low-Rank Approximation with Diagonal Sampling"
+concept_kind: algorithm
+review_status: DRAFT
+definition: "Nystr\xF6m Gram Matrix Low-Rank Approximation with Diagonal Sampling is a randomized low-rank kernel approximation algorithm analyzed by Drineas and Mahoney (2005) that approximates an n x n symmetric positive semidefinite (SPSD) Gram matrix G = X^T X using only c << n sampled columns in O(c^2 n) time and O(c n) space. The algorithm samples c columns of G in i.i.d. trials according to an importance distribution p_i >= beta G_{ii}^2 / sum_{j=1}^n G_{jj}^2, forms the rescaled n x c column sketch C = G S and c x c principal intersection sketch W = S^T G S (where S_{i_t, t} = 1 / sqrt(c p_{i_t})), computes the best rank-k Moore-Penrose pseudoinverse W_k^+ of W, and outputs the rank-k symmetric positive semidefinite approximation tilde{G}_k = C W_k^+ C^T = G S (S^T G S)_k^+ S^T G. Lemma 4 establishes the exact matrix factorization tilde{G}_k = X^T hat{U}_k hat{U}_k^T X where hat{U}_k = X S V_{W,k} Sigma_{W,k}^{-1/2} has orthonormal columns, yielding the norm identities ||G - tilde{G}_k||_2 = ||X - hat{U}_k hat{U}_k^T X||_2^2 and ||G - tilde{G}_k||_F = ||X^T X - X^T hat{U}_k hat{U}_k^T X||_F, while Theorem 3 proves that c = O(k / epsilon^4) columns suffice for ||G - tilde{G}_k||_xi <= ||G - G_k||_xi + epsilon sum_{i=1}^n G_{ii}^2 for both spectral (xi = 2) and Frobenius (xi = F) norms."
+identity_notes: "Distinct from classical Principal Component Analysis (`AIO:PrincipalComponentAnalysis`), which requires O(n^3) eigendecomposition of the full n x n Gram matrix G, and from oblivious random projection subspace embeddings (`AIMech:SubsampledRandomizedHadamardTransformSubspaceEmbedding`). Specifically captures the Drineas & Mahoney (2005) rank-k truncated pseudoinverse Nystr\xF6m estimator tilde{G}_k = C W_k^+ C^T with diagonal-squared importance sampling p_i propto G_{ii}^2, the Lemma 4 feature-space projection equivalence tilde{G}_k = X^T hat{U}_k hat{U}_k^T X, the Section 5.2 Equation 47 Schur complement identity A - tilde{A} = [[0, 0], [0, A_{22} - A_{21} A_{11}^{-1} A_{12}]], and the Theorem 3 additive spectral and Frobenius error guarantees."
+aliases:
+- "Drineas-Mahoney Nystr\xF6m Gram Matrix Approximation"
+- "Column-Sampled Rank-k Nystr\xF6m Kernel Approximation"
+- "Diagonal-Squared Importance-Sampled Nystr\xF6m Method"
+definition_evidence:
+- source_id: r328-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r328-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r328-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: "For any n x n symmetric positive semidefinite Gram matrix G = X^T X and column sampling-and-rescaling matrix S in R^{n x c}, Lemma 4 proves that the rank-k Nystr\xF6m approximation tilde{G}_k = C W_k^+ C^T = G S (S^T G S)_k^+ S^T G factors exactly as tilde{G}_k = X^T hat{U}_k hat{U}_k^T X where hat{U}_k = X S V_{W,k} Sigma_{W,k}^{-1/2} has orthonormal columns, establishing the exact operator and Frobenius norm identities ||G - tilde{G}_k||_2 = ||X - hat{U}_k hat{U}_k^T X||_2^2 and ||G - tilde{G}_k||_F = ||X^T X - X^T hat{U}_k hat{U}_k^T X||_F, while Section 5.2 (Equation 47) shows that for an invertible k x k principal block A_{11}, the unregularized residual A - tilde{A} vanishes outside the bottom-right block where it equals the Schur complement A_{22} - A_{21} A_{11}^{-1} A_{12}."
+  evidence:
+  - source_id: r328-primary-pdf
+    locator: Section 4.3, Lemma 4 and Proof, pp. 2166-2167; Section 5.2, Equation 47, p. 2168
+    relation: supports
+  - source_id: r328-metadata-cr
+    locator: JMLR Volume 6 abstract and bibliographic record (pp. 2153-2175)
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: "Theorem 3 (together with Lemmas 2 and 3) proves that when c >= 64 k / (beta epsilon^4) columns of G are sampled with probabilities p_i >= beta G_{ii}^2 / sum_{j=1}^n G_{jj}^2, the rank-k Nystr\xF6m approximation tilde{G}_k satisfies ||G - tilde{G}_k||_xi <= ||G - G_k||_xi + epsilon sum_{i=1}^n G_{ii}^2 (both in expectation and with high probability 1 - delta) for xi in {2, F} while requiring only O(n) queries to diagonal entries and O(c n) queries to the sampled columns."
+  evidence:
+  - source_id: r328-primary-pdf
+    locator: Section 3.2, Theorem 3, Equations 8-9, pp. 2160-2161; Section 4.1-4.3, Lemmas 2-3 and Proof of Theorem 3, pp. 2164-2167
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: The additive error term epsilon sum_{i=1}^n G_{ii}^2 in Theorem 3 scales with the squared trace / diagonal norm of G rather than the residual norm ||G - G_k||_F (with sample complexity O(k / epsilon^4)), and uniform column sampling p_i = 1/n (Remark on p. 2162) fails to capture high-leverage columns when diagonal entries G_{ii} are strongly non-uniform.
+  evidence:
+  - source_id: r328-primary-pdf
+    locator: Section 3.2, Discussion of Theorem 3 and Uniform Sampling Remark, pp. 2160-2162
+    relation: supports
+evidence_sources:
+- source_id: r328-primary-pdf
+  title: "On the Nystr\xF6m Method for Approximating a Gram Matrix for Improved Kernel-Based Learning"
+  authors: &id001
+  - Petros Drineas
+  - Michael W. Mahoney
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume6/drineas05a/drineas05a.pdf
+  persistent_id: https://www.jmlr.org/papers/v6/drineas05a.html
+  version: Journal of Machine Learning Research (JMLR) 6:2153-2175 (2005) (174960 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:48:00Z'
+  sha256: c77749b8ae991b1cd8a147373deec7bea2206c39f9c413c0c1792b4631723965
+- source_id: r328-arxiv-abs
+  title: "On the Nystr\xF6m Method for Approximating a Gram Matrix for Improved Kernel-Based Learning (arXiv abstract)"
+  authors: *id001
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume6/drineas05a/drineas05a.pdf
+  persistent_id: https://www.jmlr.org/papers/volume6/drineas05a/drineas05a.pdf
+  version: arXiv abstract page (6922 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:48:00Z'
+  sha256: 4a3499ed5a96a7bd04e4c0f877e3f7be7bf7e4c9348279d5cf21577e159d465b
+- source_id: r328-metadata-cr
+  title: "On the Nystr\xF6m Method for Approximating a Gram Matrix for Improved Kernel-Based Learning (Crossref metadata)"
+  authors: *id001
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/v6/drineas05a.html
+  persistent_id: https://www.jmlr.org/papers/v6/drineas05a.html
+  version: Crossref API work record (6922 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:48:00Z'
+  sha256: 4a3499ed5a96a7bd04e4c0f877e3f7be7bf7e4c9348279d5cf21577e159d465b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: narrow_match
+  rationale: Computes a low-rank factored embedding C W_k^+ C^T of an n x n Gram matrix in O(c^2 n) time.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Approximates the top-k kernel PCA / spectral decomposition G_k of a positive semidefinite Gram matrix using column sampling.
+limitations:
+- Provides an additive error bound scaling with sum_{i=1}^n G_{ii}^2 rather than relative spectral residual error, and requires pseudo-inversion of the c x c intersection matrix W_k.
+curation:
+  created_at: '2026-10-19T06:48:00Z'
+  updated_at: '2026-10-19T06:48:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
