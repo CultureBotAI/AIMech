@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tensor Spectral Decomposition of Centered 3-Star Graph Moments for Dirichlet Mixed-Membership Community Models · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Tensor Spectral Decomposition of Centered 3-Star Graph Moments for Dirichlet Mixed-Membership Community Models</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Tensor Spectral Decomposition of Centered 3-Star Graph Moments for Dirichlet Mixed-Membership Community Models</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:TensorSpectralDecompositionForDirichletMixedMembershipCommunityModels</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Tensor Spectral Approach to Mixed Membership Stochastic Blockmodels (MMSB), Anandkumar-Ge-Hsu-Kakade Centered 3-Star Tensor Community Detection, Five-Way Partition Whitened Tensor Power Method for Dirichlet MMSB, Dirichlet Moment-Centered Subgraph Count Tensor Decomposition
+    </div>
+
+  <div class="detail-desc">
+    Tensor Spectral Decomposition of Centered 3-Star Graph Moments for Dirichlet Mixed-Membership Community Models is a guaranteed polynomial-time spectral and tensor moment method introduced by Anandkumar, Ge, Hsu, and Kakade (2014, Journal of Machine Learning Research 15(66):2239-2312, arXiv:1302.2684v4) for learning the community connectivity matrix $P \in [0, 1]^{k \times k}$ and fractional vertex membership vectors $\Pi = [\pi_1 | \dots | \pi_n] \in \Delta^{k-1 \times n}$ in a Mixed Membership Stochastic Blockmodel (MMSB) with Dirichlet prior $\pi_u \stackrel{\text{i.i.d.}}{\sim} \operatorname{Dir}(\alpha)$ ($\alpha_0 = \sum_{i=1}^k \alpha_i$, $\widehat{\alpha} = \alpha / \alpha_0$) generating conditional Bernoulli edges $\mathbb{P}[G_{u,v} = 1 \mid \Pi] = \pi_u^\top P \pi_v$. Partitioning the vertices into five disjoint sets $(X, Y, A, B, C)$, the method forms $\alpha_0$-centered cross-partition adjacency matrices $G^{\alpha_0}_{X,A} = \sqrt{\alpha_0 + 1}\,G_{X,A} - (\sqrt{\alpha_0 + 1} - 1)\vec{1}\mu_{X \to A}^\top$ and $\alpha_0$-centered 3-star count tensors $\mathrm{T}^{\alpha_0}_{Y \to \{A,B,C\}}$ that algebraically cancel off-diagonal Dirichlet simplex correlations so $\mathbb{E}[\mathrm{T}^{\alpha_0}_{Y \to \{A,B,C\}} \mid \Pi_A, \Pi_B, \Pi_C] \propto \sum_{i=1}^k \widehat{\alpha}_i (F_A)_i \otimes (F_B)_i \otimes (F_C)_i$ where $F_A = \Pi_A^\top P^\top$, whitens and symmetrizes the tensor using rank-$k$ SVDs on $X$, extracts community eigenpairs $(\hat{\lambda}_i, \hat{\Phi}_i)$ via neighborhood-initialized adaptive-deflation tensor power iteration, and reconstructs $\hat{\Pi}$ and $\hat{P} = \hat{Q} G \hat{Q}^\top$.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Checked against all 442 pinned AIO concepts and 650 maintained AIMech concepts. Distinct from `AIMech:OrthogonalTensorPowerMethodForLatentVariableModels` (Anandkumar, Ge, Hsu, Kakade, &amp; Telgarsky 2014, JMLR 15:2773-2832), which analyzes general symmetric orthogonal tensor power iteration for exchangeable multi-view, GMM, ICA, and topic models where views are conditionally independent given a single node&#39;s latent state, whereas in MMSB networks every edge $G_{u,v}$ couples TWO vertices&#39; Dirichlet membership vectors $\pi_u$ and $\pi_v$, requiring 5-way vertex partitioning $(X, Y, A, B, C)$ for conditional independence, Dirichlet $\alpha_0$-centering of 3-star subgraph count tensors against cross-partition pair moments, neighborhood SVD initialization with adaptive threshold deflation, and the linear pseudo-inverse $\hat{Q}$ estimator for $\hat{P} = \hat{Q} G \hat{Q}^\top$. Also distinct from `AIMech:MixedMembershipStochasticBlockmodel` (Airoldi, Blei, Fienberg, &amp; Xing 2008), which defines the generative model and nested variational EM inference without tensor spectral moment centering or polynomial-time $\ell_1$/$\ell_\infty$ recovery guarantees.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dirichlet-moment-centering-of-cross-partition-adjacency-and-3-star-subgraph-tensors</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In an $n$-vertex Mixed Membership Stochastic Blockmodel with $k$ communities, community connectivity matrix $P \in [0, 1]^{k \times k}$, and node membership vectors $\pi_u \stackrel{\text{i.i.d.}}{\sim} \operatorname{Dir}(\alpha)$ ($\alpha_0 = \sum_{i=1}^k \alpha_i$, $\widehat{\alpha} = \alpha / \alpha_0$) generating conditional Bernoulli adjacency $\mathbb{E}[G_{u,v} \mid \Pi] = \pi_u^\top P \pi_v$, partitioning vertices into disjoint sets $X, A, B, C$ and defining the $\alpha_0$-centered cross-adjacency matrix $G^{\alpha_0}_{X,A} = \sqrt{\alpha_0 + 1}\,G_{X,A} - (\sqrt{\alpha_0 + 1} - 1)\vec{1}\mu_{X \to A}^\top$ (Eq. 14) and $\alpha_0$-centered 3-star count tensor $\mathrm{T}^{\alpha_0}_{X \to \{A,B,C\}} = (\alpha_0 + 1)(\alpha_0 + 2)\mathrm{T}_{X \to \{A,B,C\}} + 2\alpha_0^2 \mu_{X \to A} \otimes \mu_{X \to B} \otimes \mu_{X \to C} - \frac{\alpha_0(\alpha_0 + 1)}{|X|} \sum_{i \in X}[G_{i,A}^\top \otimes G_{i,B}^\top \otimes \mu_{X \to C} + G_{i,A}^\top \otimes \mu_{X \to B} \otimes G_{i,C}^\top + \mu_{X \to A} \otimes G_{i,B}^\top \otimes G_{i,C}^\top]$ (Eq. 15) algebraically cancels the negative Dirichlet simplex correlations across communities so that $\mathbb{E}[(G^{\alpha_0}_{X,A})^\top \mid \Pi_A, \Pi_X] = F_A \operatorname{Diag}(\widehat{\alpha}^{1/2}) \Psi_X$ with $F_A = \Pi_A^\top P^\top$ and $\frac{1}{|X|}\mathbb{E}_{\Pi_X}[\Psi_X \Psi_X^\top] = I_k$ (Eqs. 16, 18), and the conditional expectation of $\mathrm{T}^{\alpha_0}_{X \to \{A,B,C\}}$ has rank-$k$ canonical polyadic form proportional to $\sum_{i=1}^k \widehat{\alpha}_i (F_A)_i \otimes (F_B)_i \otimes (F_C)_i$ (Proposition 2.2, Eq. 17; Proposition C.2, Eq. 96).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-aghk2014-tensor-mmsb-pdf">A Tensor Approach to Learning Mixed Membership Community Models</a></span>
+        <span>· <strong>Locator:</strong> Section 2, pp. 9-16, Equations (6)-(18), Propositions 2.1-2.2; Appendix C, pp. 68-69, Propositions C.1-C.2, Equations (94)-(96)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#five-way-partition-whitening-neighborhood-adaptive-deflation-tensor-power-and-q-pseudoinverse-recovery</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given a 5-way vertex partition $(X, Y, A, B, C)$ of size $\Theta(n)$, computing rank-$k$ SVDs $|X|^{-1/2}(G^{\alpha_0}_{X,A})^\top_{k\text{-svd}} = \hat{U}_A \hat{D}_A \hat{V}_A^\top$, whitening matrices $\hat{W}_A = \hat{U}_A \hat{D}_A^{-1}$, and cross-partition alignment matrices $\hat{R}_{A,B} = |X|^{-1}\hat{W}_B^\top (G^{\alpha_0}_{X,B})^\top_{k\text{-svd}} (G^{\alpha_0}_{X,A})_{k\text{-svd}} \hat{W}_A$ on $X$ transforms the independent 3-star tensor on $Y$ into the whitened symmetrized $k \times k \times k$ tensor $\mathrm{T}^{\alpha_0}_{Y \to \{A,B,C\}}(\hat{W}_A, \hat{W}_B \hat{R}_{A,B}, \hat{W}_C \hat{R}_{A,C})$, whose population limit is the orthogonal symmetric tensor $\sum_{i=1}^k \lambda_i \Phi_i^{\otimes 3}$ with $\lambda_i = \widehat{\alpha}_i^{-1/2}$ and orthonormal $\Phi = W_A^\top F_A \operatorname{Diag}(\widehat{\alpha}^{1/2})$ (Lemma 3.1, Eqs. 21-22, pp. 17-18). Initializing Procedure 2 with whitened vertex neighborhood vectors $\{\hat{W}_A^\top G_{i,A}^\top\}_{i \notin A}$ and deflating previously recovered eigenpairs $(\hat{\lambda}_j, \hat{\phi}_j)$ only when $|\hat{\lambda}_j \langle \theta_t^{(\tau)}, \hat{\phi}_j \rangle| &gt; \xi \ge 25\epsilon$ guarantees $\|\hat{\Phi}_i - \Phi_{\theta(i)}\|_2 \le 8\widehat{\alpha}_{\max}^{1/2}\varepsilon_T$ and $|\hat{\lambda}_i - \widehat{\alpha}_{\theta(i)}^{-1/2}| \le 5\varepsilon_T$ (Appendix A Theorem A.1 &amp; Lemma A.1; Lemma 4.2), from which elementwise thresholding $\hat{\Pi}_{A^c} = \operatorname{Thres}(\operatorname{Diag}(\hat{\lambda})^{-1} \hat{\Phi}^\top \hat{W}_A^\top G_{A^c,A}^\top, \tau)$ (Eq. 24) and the row-normalized linear estimator $\hat{Q}^i = (\alpha_0 + 1)\frac{\hat{\Pi}^i}{\|\hat{\Pi}^i\|_1} - \frac{\alpha_0}{n}\vec{1}^\top$ (whose population counterpart $Q&#39;$ satisfies $\mathbb{E}_\Pi[Q&#39;\Pi^\top] = I_k$) reconstruct $\hat{P} = \hat{Q} G \hat{Q}^\top$ (Algorithm 1, Procedure 2, Section 3.3, pp. 20-25; Appendix B Lemmas B.1-B.3, pp. 46-49).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-aghk2014-tensor-mmsb-pdf">A Tensor Approach to Learning Mixed Membership Community Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3, pp. 17-25, Lemma 3.1, Equations (19)-(24), Algorithm 1, Procedures 1-3; Appendix A, pp. 40-45, Theorem A.1 and Lemma A.1; Appendix B, pp. 46-49, Lemmas B.1-B.3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-aghk2014-tensor-mmsb-abs">A Tensor Approach to Learning Mixed Membership Community Models</a></span>
+        <span>· <strong>Locator:</strong> Abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#finite-sample-l1-linf-error-bounds-zero-error-support-recovery-and-planted-clique-conditioning-barrier</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the homogeneous setting ($\widehat{\alpha}_i \equiv 1/k$, $P_{ii} = p &gt; P_{ij} = q$), when $n = \tilde{\Omega}(k^2(\alpha_0 + 1)^2)$ and $\frac{p - q}{\sqrt{p}} = \tilde{\Omega}\!\left(\frac{(\alpha_0 + 1)k}{\sqrt{n}}\right)$, Algorithm 1 achieves with probability at least $1 - n^{-\Omega(1)}$ (up to community permutation) per-node average $\ell_1$ membership error $\frac{1}{n}\max_{i \in [k]} \|\hat{\Pi}^i - \Pi^i\|_1 = \tilde{\mathcal{O}}\!\left(\frac{(\alpha_0 + 1)^{3/2}\sqrt{p}}{(p - q)\sqrt{n}}\right)$ and max-norm connectivity error $\max_{i,j \in [k]} |\hat{P}_{i,j} - P_{i,j}| = \tilde{\mathcal{O}}\!\left(\frac{(\alpha_0 + 1)^{3/2}k\sqrt{p}}{\sqrt{n}}\right)$ (Theorems 1.1 and 4.1, Eqs. 1-3, 29-32, pp. 3-4, 27), while Procedure 3 achieves zero-error support separation ($\Pi(i,j) \ge \xi \Rightarrow \hat{S}(i,j) = 1$ and $\Pi(i,j) \le \xi/2 \Rightarrow \hat{S}(i,j) = 0$ for $\xi = \Omega(\varepsilon_P)$, Theorem 4.2, p. 28) and exact zero-error community recovery as $\alpha_0 \to 0$ (Corollary 4.1, p. 29). For general non-homogeneous models with $\rho = \frac{\alpha_0 + 1}{\widehat{\alpha}_{\min}}$ and conditioning parameter $\zeta = \left(\frac{\widehat{\alpha}_{\max}}{\widehat{\alpha}_{\min}}\right)^{1/2}\frac{\sqrt{\max_i(P\widehat{\alpha})_i}}{\sigma_{\min}(P)}$ (Theorem 4.3, Eqs. 37-46, pp. 30-31), sensitivity of the second-order whitening step to $\widehat{\alpha}_{\max} / \widehat{\alpha}_{\min}$ creates an $s = \tilde{\Omega}(n^{2/3})$ barrier for a planted clique of size $s$ in an Erdős-Rényi graph (Section 4.2.1, Eqs. 49-50, pp. 32-33).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-aghk2014-tensor-mmsb-pdf">A Tensor Approach to Learning Mixed Membership Community Models</a></span>
+        <span>· <strong>Locator:</strong> Section 1.1, pp. 3-4, Equations (1)-(3), Theorem 1.1; Section 4, pp. 26-35, Equations (25)-(50), Theorems 4.1-4.3, Lemma 4.1, Corollary 4.1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires a known Dirichlet concentration sum $\alpha_0 = \sum_{i=1}^k \alpha_i$ and number of communities $k$ to form the $\alpha_0$-centered cross-adjacency matrices $G^{\alpha_0}_{X,A}$ (Eq. 14), 3-star tensors $\mathrm{T}^{\alpha_0}_{Y \to \{A,B,C\}}$ (Eq. 15), and linear estimator $\hat{Q}$ (Section 3.3), as well as invertibility ($\sigma_{\min}(P) &gt; 0$) of the community connectivity matrix $P \in [0, 1]^{k \times k}$.</li>
+      <li>The 5-way vertex partition $(X, Y, A, B, C)$ achieves conditional independence across stages of the analysis at the cost of partitioning the graph into five disjoint subgraphs of size $\Theta(n)$, and the second-order SVD whitening step is sensitive to the community size ratio $\widehat{\alpha}_{\max} / \widehat{\alpha}_{\min}$, resulting in an $s = \tilde{\Omega}(n^{2/3})$ barrier (rather than $n^{1/2}$) when applied to a planted clique of size $s$ in an Erdős-Rényi graph (Section 4.2.1, Eqs. 49-50, pp. 32-33).</li>
+      <li>Primary-source typographical audit of `arXiv:1302.2684v4` (JMLR 15(66):2239-2312, 2014): (1) Theorem 1.1 Equation (2) (p. 3) and Theorem 4.1 Equation (31) (p. 27) index the maximum over rows $\Pi^i$ of $\Pi \in \mathbb{R}^{k \times n}$ as $\max_{i \in [n]}$ instead of $\max_{i \in [k]}$, while Theorem 4.3 Equation (46) (p. 31) and Lemma B.3 (p. 48) index $\max_{i,j \in [n]} |\hat{P}_{i,j} - P_{i,j}|$ over $[n]$ instead of $[k]$; (2) Algorithm 1 (p. 20) and Procedure 3 (p. 25) write $\Pi \in \mathbb{R}^{n \times k}$ and $\hat{S} \in \{0, 1\}^{n \times k}$ in their Output specifications instead of $\mathbb{R}^{k \times n}$ and $\{0, 1\}^{k \times n}$; (3) Section B.3 (p. 48, line 9) writes $\hat{P} := \hat{Q}^\top G \hat{Q}$ instead of $\hat{P} := \hat{Q} G \hat{Q}^\top$ for $\hat{Q} \in \mathbb{R}^{k \times n}$; (4) Proposition 2.2 Equation (17) (p. 15) omits the scalar factor $2$ from $\Gamma(\alpha_i + 3)/\Gamma(\alpha_i + 1) = (\alpha_i + 2)(\alpha_i + 1)$ present in the third-order Dirichlet diagonal term of Proposition C.2 Equation (96) (p. 69); and (5) Proposition C.1 (p. 68) writes $\sum_{i=1}^k Y_k$ instead of $\sum_{i=1}^k Y_i$ in item 1 and $\Gamma(1 - z) \Gamma(z) \le \pi / \sin \pi z$ instead of Euler&#39;s reflection identity $\Gamma(1 - z)\Gamma(z) = \pi / \sin \pi z$ in item 2.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Uses rank-k singular value decomposition of centered cross-partition adjacency matrices to whiten and symmetrize 3rd-order 3-star subgraph count tensors.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Projects n x n network adjacency and 3-star observations onto k-dimensional orthogonal spectral subspaces to recover simplex community memberships.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-aghk2014-tensor-mmsb-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">aghk2014-tensor-mmsb-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/pdf/1302.2684.pdf" target="_blank" rel="noopener">A Tensor Approach to Learning Mixed Membership Community Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Animashree Anandkumar, Rong Ge, Daniel Hsu, Sham M. Kakade
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1302.2684v4</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:295a03bb71a5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-aghk2014-tensor-mmsb-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">aghk2014-tensor-mmsb-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1302.2684" target="_blank" rel="noopener">A Tensor Approach to Learning Mixed Membership Community Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Animashree Anandkumar, Rong Ge, Daniel Hsu, Sham M. Kakade
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1302.2684</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5123e1a0f143…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-aghk2014-tensor-mmsb-jmlr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">aghk2014-tensor-mmsb-jmlr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://jmlr.org/papers/v15/anandkumar14a.html" target="_blank" rel="noopener">A Tensor Approach to Learning Mixed Membership Community Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Animashree Anandkumar, Rong Ge, Daniel Hsu, Sham M. Kakade
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://jmlr.org/papers/v15/anandkumar14a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4a04d43d38ff…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T01:42:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T01:42:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TensorSpectralDecompositionForDirichletMixedMembershipCommunityModels.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TensorSpectralDecompositionForDirichletMixedMembershipCommunityModels.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
