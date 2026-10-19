@@ -1,0 +1,105 @@
+id: AIMech:FasterLeastSquaresApproximationViaRandomizedHadamardPreconditioning
+name: Faster Least Squares Approximation via Randomized Hadamard Preconditioning
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Faster Least Squares Approximation via Randomized Hadamard Preconditioning is a randomized sketch-and-solve algorithm for overconstrained l_2 regression min_{x in R^d} ||b - A x||_2 (with n >> d) introduced by Drineas, Mahoney, Muthukrishnan, and Sarlos (2011) that beats the classical O(n d^2) QR/SVD complexity in O(n d log n + d^3 log^2 n / epsilon) time. Algorithm 1 preconditions the design matrix A and response b by a Randomized Hadamard Transform H D (where D = diag(sigma_1, ..., sigma_n) has i.i.d. Rademacher +/-1 signs and H is the normalized n x n Walsh-Hadamard matrix), uniformly samples and rescales r = O(d log n log(d log n) + d log n / epsilon) rows via S^T, and computes tilde{x}_opt = (S^T H D A)^+ S^T H D b. The analysis decouples the random projection X = S^T H D from the linear-algebraic perturbation via two deterministic structural conditions on the column orthonormal basis U_A of A and orthogonal residual b^perp = b - A x_opt (Equations 8-9): (i) sigma_min^2(X U_A) >= 1/sqrt(2) and (ii) ||U_A^T X^T X b^perp||_2^2 <= epsilon Z^2 / 2 (where Z = ||b^perp||_2), under which Lemma 1 and Lemma 2 prove both the residual bound ||b - A tilde{x}_opt||_2 <= (1 + epsilon) Z and the parameter error bound ||x_opt - tilde{x}_opt||_2 <= sqrt(epsilon) (kappa(A) sqrt(gamma^{-2} - 1)) ||x_opt||_2.'
+identity_notes: Distinct from Subsampled Randomized Hadamard Transform Subspace Embedding (`AIMech:SubsampledRandomizedHadamardTransformSubspaceEmbedding`), which analyzes only the matrix-Chernoff singular value bounds of Phi V for a fixed orthonormal basis V without the response-residual cross-term condition ||U_A^T X^T X b^perp||_2^2 <= epsilon Z^2 / 2 or parameter recovery bounds ||x_opt - tilde{x}_opt||_2, and from CountSketch Input-Sparsity Subspace Embedding and Regression (`AIMech:CountSketchInputSparsitySubspaceEmbeddingAndRegression`). Specifically captures the Drineas et al. (2011) Randomized Hadamard leverage-flattening Lemma 3, the deterministic two-condition least-squares perturbation framework (Lemmas 1-2, Equations 8-21), and the Algorithm 1 / Algorithm 2 fast least-squares solvers.
+aliases:
+- DMMS Faster Least Squares Approximation
+- Randomized Hadamard Preconditioned Sketch-and-Solve Least Squares
+- Fast Johnson-Lindenstrauss Least Squares Solver
+definition_evidence:
+- source_id: r333-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r333-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r333-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: For any n x d full-rank matrix A = U_A Sigma_A V_A^T, exact least-squares minimizer x_opt = A^+ b, and orthogonal residual b^perp = b - A x_opt with Z = ||b^perp||_2, Lemma 1 and Lemma 2 prove that whenever the sketching operator X satisfies Condition (8) sigma_min^2(X U_A) >= 1/sqrt(2) and Condition (9) ||U_A^T X^T X b^perp||_2^2 <= epsilon Z^2 / 2, the sketched normal equations obey (X U_A)^T X U_A z_opt = (X U_A)^T X b^perp where U_A z_opt = A(tilde{x}_opt - x_opt), yielding ||z_opt||_2^2 <= epsilon Z^2, ||b - A tilde{x}_opt||_2 <= (1 + epsilon) Z, and ||x_opt - tilde{x}_opt||_2 <= (sqrt(epsilon) / sigma_min(A)) Z <= sqrt(epsilon) (kappa(A) sqrt(gamma^{-2} - 1)) ||x_opt||_2.
+  evidence:
+  - source_id: r333-primary-pdf
+    locator: Section 4.1, Structural Conditions (Equations 8-9), Lemma 1 (Equations 10-19), and Lemma 2 (Equations 20-21), pp. 6-8 of PDF (pp. 229-232)
+    relation: supports
+  - source_id: r333-arxiv-abs
+    locator: 'Abstract: (1+epsilon) residual and kappa(A) sqrt(gamma^{-2}-1) parameter approximation in O(nd log n) time'
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: Lemma 3 proves that applying the Randomized Hadamard Transform H D to any n x d orthonormal matrix U_A flattens all row leverage scores simultaneously to ||(H D U_A)_{(i)}||_2^2 <= (2 d log(40 n d)) / n for all i in [n] with probability at least 0.95, enabling uniform row sampling of r = max(48^2 d log(40 n d) log(100^2 d log(40 n d)), 40 d log(40 n d) / epsilon) rows in Algorithm 1 to satisfy both Conditions (8) and (9) in O(n d log r + r d^2) total time (Theorem 1).
+  evidence:
+  - source_id: r333-primary-pdf
+    locator: Section 2, Theorem 1, p. 4 of PDF; Section 4.2, Lemma 3 (Equation 23), Lemma 4, and Lemma 5, pp. 8-13 of PDF
+    relation: supports
+  - source_id: r333-metadata-cr
+    locator: Numerische Mathematik 117(2):219-249 bibliographic record
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Without Randomized Hadamard preconditioning H D, uniform row sampling S^T A on a design matrix A with a spiky high-leverage row (||(U_A)_{(i)}||_2^2 = 1) misses that row with probability (1 - 1/n)^r, producing a rank-deficient sampled matrix sigma_min(S^T A) = 0 and singular normal equations; moreover, direct sketch-and-solve requires r = Omega(d / epsilon) rows scaling inversely with epsilon.
+  evidence:
+  - source_id: r333-primary-pdf
+    locator: Section 1 and Section 4.2, Discussion of non-uniform leverage scores and 1/epsilon sample complexity of direct sketch-and-solve, pp. 2-5, 8-12
+    relation: supports
+evidence_sources:
+- source_id: r333-primary-pdf
+  title: Faster Least Squares Approximation
+  authors: &id001
+  - Petros Drineas
+  - Michael W. Mahoney
+  - S. Muthukrishnan
+  - Tamas Sarlos
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0710.1435.pdf
+  persistent_id: https://doi.org/10.1007/s00211-010-0331-6
+  version: Numerische Mathematik 117(2):219-249 (2011) (315081 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:56:00Z'
+  sha256: c1f41f66c34cd78246f3d0ffa26f7461bd359c832c931edba4ac6727772b798c
+- source_id: r333-arxiv-abs
+  title: Faster Least Squares Approximation (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0710.1435
+  persistent_id: https://arxiv.org/abs/0710.1435
+  version: arXiv abstract page (6920 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:56:00Z'
+  sha256: 9918969869785140b919a5f130c01c5384e5acac5d56d3697e060b4163dcfc93
+- source_id: r333-metadata-cr
+  title: Faster Least Squares Approximation (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1007/s00211-010-0331-6
+  persistent_id: https://doi.org/10.1007/s00211-010-0331-6
+  version: Crossref API work record (3544 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:56:00Z'
+  sha256: bfa6425f027860968d02722964417ac581a7c9bbb1c995550e6045045a9bd600
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: narrow_match
+  rationale: Solves overconstrained linear least-squares regression min_x ||b - A x||_2 in o(n d^2) time via Randomized Hadamard preconditioning and row sampling.
+- target: AIO:RegressionAnalysis
+  relation: narrow_match
+  rationale: Provides worst-case (1+epsilon) residual and parameter recovery guarantees for overconstrained l_2 regression.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Uses the Subsampled Randomized Hadamard Transform X = S^T H D to reduce n equations to r << n equations.
+limitations:
+- Direct sketch-and-solve requires r = O(d log n / epsilon) rows scaling linearly in 1/epsilon, and parameter recovery error ||x_opt - tilde{x}_opt||_2 scales with the condition number kappa(A) and sqrt(gamma^{-2} - 1) when only a small fraction gamma of ||b||_2 lies in range(A).
+curation:
+  created_at: '2026-10-19T06:56:00Z'
+  updated_at: '2026-10-19T06:56:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
