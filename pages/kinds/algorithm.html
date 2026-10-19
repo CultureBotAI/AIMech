@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">464 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">465 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">464</span> of <span id="totalCount">464</span>
+      Showing <span id="matchCount">465</span> of <span id="totalCount">465</span>
     </div>
   </div>
 </div>
@@ -10007,6 +10007,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="snvrg (stochastic nested variance reduction) for non-convex optimization snvrgstochasticnestedvariancereductionfornonconvexoptimization aimech:snvrgstochasticnestedvariancereductionfornonconvexoptimization algorithms algorithm stochastic nested variance reduction (snvrg) is a multi-level hierarchical variance-reduced stochastic gradient algorithm for non-convex finite-sum and online optimization introduced by zhou, xu, and gu (2018, 2020). in each outer epoch of one-epoch-snvrg (algorithm 1), snvrg maintains k + 1 nested reference points (x_tilde^{(0)}, ..., x_tilde^{(k)}) and nested semi-stochastic gradients (g^{(0)}, ..., g^{(k)}) governed by loop-length multipliers (s_1, ..., s_k) with s_l = prod_{i=l+1}^k s_i and geometric mini-batch sizes b_l. at inner step j in {0, ..., prod_{i=1}^k s_i - 1}, let l = min{i : 0 == j mod s_i} be the deepest triggered level: snvrg resets reference point x_tilde^{(l)} = x_j, updates level l via the nested control-variate difference g^{(l)} = g^{(l-1)} + nabla f_{b_l}(x_tilde^{(l)}) - nabla f_{b_l}(x_tilde^{(l-1)}) (where g^{(0)} = nabla f_{b_0}(x_tilde^{(0)})), synchronizes all finer levels x_tilde^{(i)} = x_j and g^{(i)} = g^{(l)} for i = l+1, ..., k, and takes an unnormalized constant-step gradient update x_{j+1} = x_j - eta * g^{(k)} with eta = o(1/l). distinct from two-level svrg (which corresponds to k = 1 in snvrg and requires o(n^{2/3} * varepsilon^{-2}) or o(varepsilon^{-10/3}) gradient complexity) and distinct from spider (round 345, fang et al. 2018), which updates at every step using the immediate predecessor x_{j-1} and requires accuracy-dependent normalized step sizes eta = o(varepsilon / l), whereas snvrg uses k = o(log n) or o(log(1/varepsilon)) nested reference levels with a large constant step size eta = 1/(6l) and adapts automatically across the full-gradient, polyak-lojasiewicz, and non-convex stationary regimes. snvrg stochastic nested variance reduction one-epoch-snvrg snvrg+neon2 because each nested level difference nabla f_{b_l}(x_tilde^{(l)}) - nabla f_{b_l}(x_tilde^{(l-1)}) is conditionally unbiased for nabla f(x_tilde^{(l)}) - nabla f(x_tilde^{(l-1)}) given x_tilde^{(l)} and x_tilde^{(l-1)}, the top-level variance decomposes across the k levels as e||g^{(k)} - nabla f(x_j)||_2^2 &lt;= e||g^{(0)} - nabla f(x_tilde^{(0)})||_2^2 + l^2 * sum_{l=1}^k b_l^{-1} * e||x_tilde^{(l)} - x_tilde^{(l-1)}||_2^2 (lemma 17); setting s_l = 2, b_l = 68 * 4^l * k (with k = floor(1/2 * log_2 b_0)), and constant step size eta = 1/(6l) bounds the per-step trajectory drift so that one-epoch-snvrg (algorithm 1) achieves e[f(x_s) - f(x_0)] &lt;= -(s/(32*l)) * e||nabla f(x)||_2^2 + (68*s/(32*l)) * i(b_0 &lt; n) * sigma^2 / b_0 using at most 3 * b_0 * (1 + k) stochastic gradient evaluations per epoch of length s = 2^{k+1} (lemma 4). for finite-sum and online l-smooth non-convex objectives (algorithm 2), setting b_0 = min{68*sigma^2/varepsilon^2, n} and s = (b_0/2)^{1/2} yields e||nabla f(x_out)||_2 &lt;= varepsilon in o((delta_f*l*varepsilon^{-2} * min{sigma/varepsilon, n^{1/2}} + min{sigma^2/varepsilon^2, n}) * log(2 + min{sigma^2/varepsilon^2, n})) = o_tilde(min(n + n^{1/2}*varepsilon^{-2}, varepsilon^{-3})) stochastic gradient evaluations, simultaneously outperforming gd o(n*varepsilon^{-2}), sgd o(varepsilon^{-4}), and svrg o(min(n + n^{2/3}*varepsilon^{-2}, varepsilon^{-10/3})) with a single parameter-free constant step size eta = 1/(6l) (theorem 5, corollary 6, table 1); furthermore, if f satisfies the local mu-polyak-lojasiewicz condition 1/2 * ||nabla f(x)||_2^2 &gt;= mu * (f(x) - f(x^*)), snvrg (algorithm 3) achieves f(x_out) - f(x^*) &lt;= varepsilon in o_tilde(min{n + kappa*n^{1/2}, kappa*sigma*varepsilon^{-1/2} + sigma^2*varepsilon^{-1}} * log(1/varepsilon)) where kappa = l/mu, beating svrg&#39;s o((n + kappa*n^{2/3})*log(1/varepsilon)) when kappa &gt;= n^{1/2} without knowing mu inside one-epoch-snvrg (theorem 9, corollary 10). coupling one-epoch-snvrg with neon2 negative-curvature extraction in snvrg+neon2 (algorithm 4.1 / algorithm 4.2) finds an (varepsilon_g, varepsilon_h)-second-order stationary point (||nabla f(x)||_2 &lt;= varepsilon_g, lambda_min(nabla^2 f(x)) &gt;= -varepsilon_h) in o_tilde(varepsilon_g^{-3} + varepsilon_h^{-5} + varepsilon_g^{-2}*varepsilon_h^{-3}) online and o_tilde(n*varepsilon_h^{-1.5} + n^{3/4}*varepsilon_h^{-3.5} + n^{1/2}*varepsilon_g^{-2} + n + varepsilon_h^{-5}) finite-sum stochastic gradient evaluations (theorems 13 and 15, corollaries 14 and 16); applied to non-convex robust linear regression and multi-class neural networks on cifar-10/mnist/svhn and to variance-reduced glauber dynamics for ising models, snvrg converges faster than sgd, svrg, and scsg. stochastic nested variance reduction for nonconvex optimization stochastic nested variance reduction for nonconvex optimization (arxiv abstract) stochastic nested variance reduction for nonconvex optimization (crossref metadata) dongruo zhou pan xu quanquan gu dongruo zhou pan xu quanquan gu dongruo zhou pan xu quanquan gu">
+        <td>
+          <a href="../curated/SnvrgStochasticNestedVarianceReductionForNonconvexOptimization.html" style="font-weight: 600; font-size: 1rem;">SNVRG (Stochastic Nested Variance Reduction) for Non-Convex Optimization</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> SNVRG, Stochastic Nested Variance Reduction…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            Stochastic Nested Variance Reduction (SNVRG) is a multi-level hierarchical variance-reduced stochastic gradient algorithm for non-convex fin…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:SnvrgStochasticNestedVarianceReductionForNonconvexOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

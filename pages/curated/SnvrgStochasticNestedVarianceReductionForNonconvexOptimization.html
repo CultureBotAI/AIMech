@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SNVRG (Stochastic Nested Variance Reduction) for Non-Convex Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>SNVRG (Stochastic Nested Variance Reduction) for Non-Convex Optimization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SNVRG (Stochastic Nested Variance Reduction) for Non-Convex Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SnvrgStochasticNestedVarianceReductionForNonconvexOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SNVRG, Stochastic Nested Variance Reduction, One-Epoch-SNVRG, SNVRG+Neon2
+    </div>
+
+  <div class="detail-desc">
+    Stochastic Nested Variance Reduction (SNVRG) is a multi-level hierarchical variance-reduced stochastic gradient algorithm for non-convex finite-sum and online optimization introduced by Zhou, Xu, and Gu (2018, 2020). In each outer epoch of One-Epoch-SNVRG (Algorithm 1), SNVRG maintains K + 1 nested reference points (x_tilde^{(0)}, ..., x_tilde^{(K)}) and nested semi-stochastic gradients (g^{(0)}, ..., g^{(K)}) governed by loop-length multipliers (s_1, ..., s_K) with S_l = prod_{i=l+1}^K s_i and geometric mini-batch sizes B_l. At inner step j in {0, ..., prod_{i=1}^K s_i - 1}, let l = min{i : 0 == j mod S_i} be the deepest triggered level: SNVRG resets reference point x_tilde^{(l)} = x_j, updates level l via the nested control-variate difference g^{(l)} = g^{(l-1)} + nabla f_{B_l}(x_tilde^{(l)}) - nabla f_{B_l}(x_tilde^{(l-1)}) (where g^{(0)} = nabla f_{B_0}(x_tilde^{(0)})), synchronizes all finer levels x_tilde^{(i)} = x_j and g^{(i)} = g^{(l)} for i = l+1, ..., K, and takes an unnormalized constant-step gradient update x_{j+1} = x_j - eta * g^{(K)} with eta = O(1/L).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from two-level SVRG (which corresponds to K = 1 in SNVRG and requires O(n^{2/3} * varepsilon^{-2}) or O(varepsilon^{-10/3}) gradient complexity) and distinct from SPIDER (Round 345, Fang et al. 2018), which updates at every step using the immediate predecessor x_{j-1} and requires accuracy-dependent normalized step sizes eta = O(varepsilon / L), whereas SNVRG uses K = O(log n) or O(log(1/varepsilon)) nested reference levels with a large constant step size eta = 1/(6L) and adapts automatically across the full-gradient, Polyak-Lojasiewicz, and non-convex stationary regimes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r372-claim-nested-variance-telescoping-and-epoch-descent-lemma</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because each nested level difference nabla f_{B_l}(x_tilde^{(l)}) - nabla f_{B_l}(x_tilde^{(l-1)}) is conditionally unbiased for nabla F(x_tilde^{(l)}) - nabla F(x_tilde^{(l-1)}) given x_tilde^{(l)} and x_tilde^{(l-1)}, the top-level variance decomposes across the K levels as E||g^{(K)} - nabla F(x_j)||_2^2 &lt;= E||g^{(0)} - nabla F(x_tilde^{(0)})||_2^2 + L^2 * sum_{l=1}^K B_l^{-1} * E||x_tilde^{(l)} - x_tilde^{(l-1)}||_2^2 (Lemma 17); setting s_l = 2, B_l = 68 * 4^l * K (with K = floor(1/2 * log_2 B_0)), and constant step size eta = 1/(6L) bounds the per-step trajectory drift so that One-Epoch-SNVRG (Algorithm 1) achieves E[F(x_S) - F(x_0)] &lt;= -(S/(32*L)) * E||nabla F(x)||_2^2 + (68*S/(32*L)) * I(B_0 &lt; n) * sigma^2 / B_0 using at most 3 * B_0 * (1 + K) stochastic gradient evaluations per epoch of length S = 2^{K+1} (Lemma 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r372-primary-pdf">Stochastic Nested Variance Reduction for Nonconvex Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3-4, Algorithm 1 and Lemma 4, pp. 6-8, 12; Appendix A.1, Proof of Lemma 4 and Lemmas 17-19, Equations (A.1)-(A.17), pp. 26-32</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r372-claim-finite-sum-online-and-polyak-lojasiewicz-convergence-rates</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For finite-sum and online L-smooth non-convex objectives (Algorithm 2), setting B_0 = min{68*sigma^2/varepsilon^2, n} and S = (B_0/2)^{1/2} yields E||nabla F(x_out)||_2 &lt;= varepsilon in O((Delta_F*L*varepsilon^{-2} * min{sigma/varepsilon, n^{1/2}} + min{sigma^2/varepsilon^2, n}) * log(2 + min{sigma^2/varepsilon^2, n})) = O_tilde(min(n + n^{1/2}*varepsilon^{-2}, varepsilon^{-3})) stochastic gradient evaluations, simultaneously outperforming GD O(n*varepsilon^{-2}), SGD O(varepsilon^{-4}), and SVRG O(min(n + n^{2/3}*varepsilon^{-2}, varepsilon^{-10/3})) with a single parameter-free constant step size eta = 1/(6L) (Theorem 5, Corollary 6, Table 1); furthermore, if F satisfies the local mu-Polyak-Lojasiewicz condition 1/2 * ||nabla F(x)||_2^2 &gt;= mu * (F(x) - F(x^*)), SNVRG (Algorithm 3) achieves F(x_out) - F(x^*) &lt;= varepsilon in O_tilde(min{n + kappa*n^{1/2}, kappa*sigma*varepsilon^{-1/2} + sigma^2*varepsilon^{-1}} * log(1/varepsilon)) where kappa = L/mu, beating SVRG&#39;s O((n + kappa*n^{2/3})*log(1/varepsilon)) when kappa &gt;= n^{1/2} without knowing mu inside One-Epoch-SNVRG (Theorem 9, Corollary 10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r372-primary-pdf">Stochastic Nested Variance Reduction for Nonconvex Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Table 1, p. 3; Section 4.1-4.2, Algorithms 2-3, Theorems 5 and 9, Corollaries 6 and 10, and Remarks 7-8, 11-12, pp. 9-11, 13-16; Appendix A.2-A.3, pp. 33-34</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r372-claim-snvrg-neon2-local-minima-and-glauber-dynamics-mcmc</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Coupling One-Epoch-SNVRG with Neon2 negative-curvature extraction in SNVRG+Neon2 (Algorithm 4.1 / Algorithm 4.2) finds an (varepsilon_g, varepsilon_H)-second-order stationary point (||nabla F(x)||_2 &lt;= varepsilon_g, lambda_min(nabla^2 F(x)) &gt;= -varepsilon_H) in O_tilde(varepsilon_g^{-3} + varepsilon_H^{-5} + varepsilon_g^{-2}*varepsilon_H^{-3}) online and O_tilde(n*varepsilon_H^{-1.5} + n^{3/4}*varepsilon_H^{-3.5} + n^{1/2}*varepsilon_g^{-2} + n + varepsilon_H^{-5}) finite-sum stochastic gradient evaluations (Theorems 13 and 15, Corollaries 14 and 16); applied to non-convex robust linear regression and multi-class neural networks on CIFAR-10/MNIST/SVHN and to variance-reduced Glauber dynamics for Ising models, SNVRG converges faster than SGD, SVRG, and SCSG.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r372-primary-pdf">Stochastic Nested Variance Reduction for Nonconvex Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Table 2, p. 3; Section 5-7, Algorithms 4.1-4.2, Theorems 13 and 15, Corollaries 14 and 16, and Figures 2-4, pp. 16-24; Appendix B-C, pp. 35-56</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Incurs a logarithmic factor O(log(min(sigma^2/varepsilon^2, n))) in stochastic gradient complexity due to maintaining K = floor(1/2 * log_2 B_0) nested reference levels and their associated memory O(K * d), and in the second-order regime when varepsilon_H = O(varepsilon^{1/2}) has an O_tilde(varepsilon^{-3.5}) mixed term (Remark 7, p. 13; Section 5, p. 19).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Evaluated on non-convex robust linear regression with non-convex biweight losses.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Applied to variance-reduced Glauber dynamics Markov chain Monte Carlo sampling in Ising models (Appendix C).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r372-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r372-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1806.07811.pdf" target="_blank" rel="noopener">Stochastic Nested Variance Reduction for Nonconvex Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dongruo Zhou, Pan Xu, Quanquan Gu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://jmlr.org/papers/v21/19-055.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8d412a158119…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r372-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r372-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1806.07811" target="_blank" rel="noopener">Stochastic Nested Variance Reduction for Nonconvex Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dongruo Zhou, Pan Xu, Quanquan Gu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1806.07811</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:73335df23ee0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r372-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r372-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://jmlr.org/papers/v21/19-055.html" target="_blank" rel="noopener">Stochastic Nested Variance Reduction for Nonconvex Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dongruo Zhou, Pan Xu, Quanquan Gu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://jmlr.org/papers/v21/19-055.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:17f1a2b142c3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:35:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:35:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SnvrgStochasticNestedVarianceReductionForNonconvexOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SnvrgStochasticNestedVarianceReductionForNonconvexOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
