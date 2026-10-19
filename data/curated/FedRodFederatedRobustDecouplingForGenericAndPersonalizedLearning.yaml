@@ -1,0 +1,99 @@
+id: AIMech:FedRodFederatedRobustDecouplingForGenericAndPersonalizedLearning
+name: Fed-RoD (Federated Robust Decoupling for Generic and Personalized Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A dual-objective federated classification framework (Chen & Chao 2022, Section 4, Equations 6-9, Theorem 1) that simultaneously trains a class-balanced generic model and personalized client predictors without extra communication rounds by decoupling the network into a shared feature extractor f(x; theta), a shared generic linear head h^G(z; W_G) trained with Balanced Softmax Risk Management (BSRM, Eq. 7: l_BSRM(x, y) = -log(N_{m,y}^gamma exp(g_y) / sum_{c''} N_{m,c''}^gamma exp(g_{c''}))), and a lightweight personalized head h^P(z; v_m) whose logits are added to the generic logits via hat_y^P = g(x; theta, W_G) + h^P(f(x; theta); v_m) and trained with empirical cross-entropy on client m''s local class prior.'
+identity_notes: Distinct from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which discards a shared global classifier head and cannot perform zero-shot generic inference on unseen balanced test distributions, and from CCVR (AIMech:CcvrClassifierCalibrationWithVirtualRepresentationsForFederatedLearning, Luo et al. 2021), which calibrates only a generic head post-hoc using uploaded Gaussian feature covariances rather than jointly training a Bayes-optimal balanced generic head and an additive personalized residual head.
+aliases:
+- Fed-RoD
+- Fed-RoD with Balanced Softmax Risk Management
+- Federated Robust Decoupling
+definition_evidence:
+- source_id: r444-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r444-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r444-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r444-balanced-softmax-bayes-optimality-under-identical-class-conditionals
+  kind: mechanism
+  statement: When clients share class-conditional feature distributions P_m(x | y = c) = P(x | y = c) but differ in skewed class priors P_m(y = c) propto N_{m,c}, Theorem 1 (Section 4.1) proves that minimizing the Balanced Softmax loss l_BSRM (Eq. 7 with gamma = 1) on every client m makes the local optimal logit vector g_m^*(x) = log P(x | y = c) + const identical across all clients and equal to the centralized class-balanced Bayes-optimal classifier, eliminating label-skew client drift during local updates.
+  evidence:
+  - source_id: r444-primary-pdf
+    locator: Section 4.1 Balanced Risk Minimization for the Generic Model (Equations 6-7, Theorem 1) & Appendix A Proof
+    relation: supports
+- claim_id: r444-additive-personalized-logit-residual-and-hypernetwork-unseen-adaptation
+  kind: mechanism
+  statement: Combining the generic logit vector g(x; theta, W_G) with an additive local head h^P(f(x; theta); v_m) via hat_y^P = g(x; theta, W_G) + h^P(f(x; theta); v_m) (Section 4.2, Eq. 8) allows the personalized head to learn the log-prior offset log P_m(y = c) under empirical cross-entropy while keeping W_G shared; in Fed-RoD (Hyper) (Section 4.3, Eq. 9), a lightweight shared hypernetwork generates v_m = H(q_m; phi) from client m's normalized class-distribution vector q_m = [N_{m,1}, ..., N_{m,C}] / N_m, enabling zero-shot personalization for new clients from unlabeled or few-shot prior estimates.
+  evidence:
+  - source_id: r444-primary-pdf
+    locator: Section 4.2 Personalized Model via Two Predictors (Equation 8) & Section 4.3 Adaptive Personalization via Hypernetworks (Equation 9)
+    relation: supports
+- claim_id: r444-label-shift-conditional-invariance-assumption-limitation
+  kind: limitation
+  statement: The theoretical consensus optimality of the Balanced Softmax generic objective (Theorem 1) relies on the label-shift assumption that class-conditional distributions P_m(x | y = c) are consistent across clients and does not directly remove severe covariate/domain shift across P_m(x | y).
+  evidence:
+  - source_id: r444-primary-pdf
+    locator: Section 4.1 Assumption and Theorem 1 Discussion
+    relation: supports
+- claim_id: r444-simultaneous-generic-and-personalized-cifar-emnist-femnist-application
+  kind: application
+  statement: Applied to simultaneous generic and personalized federated image classification on Dirichlet-partitioned CIFAR-10, CIFAR-100, EMNIST, and FMNIST, outperforming both generic FL baselines on balanced test sets and personalized FL baselines on local client test distributions.
+  evidence:
+  - source_id: r444-primary-pdf
+    locator: Section 3 Empirical Study (Table 1, Figure 1) & Section 5 Experiments (Tables 2-5, Figures 3-5)
+    relation: supports
+evidence_sources:
+- source_id: r444-primary-pdf
+  title: On Bridging Generic and Personalized Federated Learning for Image Classification
+  authors: &id001
+  - Hong-You Chen
+  - Wei-Lun Chao
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2107.00778
+  persistent_id: https://openreview.net/forum?id=I1hQbx10Kxn
+  version: International Conference on Learning Representations (ICLR 2022) (2022) (139073 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:47:00Z'
+  sha256: d90621447cee1f2731dc12bfd98391164b3e8988b6817c43ade2656cabf8a9a9
+- source_id: r444-arxiv-abs
+  title: On Bridging Generic and Personalized Federated Learning for Image Classification (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2107.00778
+  persistent_id: https://arxiv.org/abs/2107.00778
+  version: arXiv abstract page (14418 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:47:00Z'
+  sha256: f0fc440c1546ea1532f8041a13180a04891bfe7b6b859a4d86e386587ae7eaa6
+- source_id: r444-metadata-cr
+  title: On Bridging Generic and Personalized Federated Learning for Image Classification (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=I1hQbx10Kxn
+  persistent_id: https://openreview.net/forum?id=I1hQbx10Kxn
+  version: Crossref API work record (333 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:47:00Z'
+  sha256: 014b025bb68820bf5407e1a37d38457e06388257fb2a1f1cac7fdb1de0b8969c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: Fed-RoD decouples generic class-balanced risk minimization and local empirical risk minimization within federated learning.
+limitations:
+- Assumes label distribution skew (varying P_m(y)) with shared class-conditional distributions P(x|y).
+- Requires knowing local per-class sample counts N_{m,c} on each client to evaluate Balanced Softmax.
+curation:
+  created_at: '2026-10-19T08:47:00Z'
+  updated_at: '2026-10-19T08:47:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

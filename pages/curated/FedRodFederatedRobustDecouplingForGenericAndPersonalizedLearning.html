@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fed-RoD (Federated Robust Decoupling for Generic and Personalized Learning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Fed-RoD (Federated Robust Decoupling for Generic and Personalized Learning)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Fed-RoD (Federated Robust Decoupling for Generic and Personalized Learning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedRodFederatedRobustDecouplingForGenericAndPersonalizedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Fed-RoD, Fed-RoD with Balanced Softmax Risk Management, Federated Robust Decoupling
+    </div>
+
+  <div class="detail-desc">
+    A dual-objective federated classification framework (Chen &amp; Chao 2022, Section 4, Equations 6-9, Theorem 1) that simultaneously trains a class-balanced generic model and personalized client predictors without extra communication rounds by decoupling the network into a shared feature extractor f(x; theta), a shared generic linear head h^G(z; W_G) trained with Balanced Softmax Risk Management (BSRM, Eq. 7: l_BSRM(x, y) = -log(N_{m,y}^gamma exp(g_y) / sum_{c&#39;} N_{m,c&#39;}^gamma exp(g_{c&#39;}))), and a lightweight personalized head h^P(z; v_m) whose logits are added to the generic logits via hat_y^P = g(x; theta, W_G) + h^P(f(x; theta); v_m) and trained with empirical cross-entropy on client m&#39;s local class prior.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which discards a shared global classifier head and cannot perform zero-shot generic inference on unseen balanced test distributions, and from CCVR (AIMech:CcvrClassifierCalibrationWithVirtualRepresentationsForFederatedLearning, Luo et al. 2021), which calibrates only a generic head post-hoc using uploaded Gaussian feature covariances rather than jointly training a Bayes-optimal balanced generic head and an additive personalized residual head.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r444-balanced-softmax-bayes-optimality-under-identical-class-conditionals</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When clients share class-conditional feature distributions P_m(x | y = c) = P(x | y = c) but differ in skewed class priors P_m(y = c) propto N_{m,c}, Theorem 1 (Section 4.1) proves that minimizing the Balanced Softmax loss l_BSRM (Eq. 7 with gamma = 1) on every client m makes the local optimal logit vector g_m^*(x) = log P(x | y = c) + const identical across all clients and equal to the centralized class-balanced Bayes-optimal classifier, eliminating label-skew client drift during local updates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r444-primary-pdf">On Bridging Generic and Personalized Federated Learning for Image Classification</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 Balanced Risk Minimization for the Generic Model (Equations 6-7, Theorem 1) &amp; Appendix A Proof</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r444-additive-personalized-logit-residual-and-hypernetwork-unseen-adaptation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Combining the generic logit vector g(x; theta, W_G) with an additive local head h^P(f(x; theta); v_m) via hat_y^P = g(x; theta, W_G) + h^P(f(x; theta); v_m) (Section 4.2, Eq. 8) allows the personalized head to learn the log-prior offset log P_m(y = c) under empirical cross-entropy while keeping W_G shared; in Fed-RoD (Hyper) (Section 4.3, Eq. 9), a lightweight shared hypernetwork generates v_m = H(q_m; phi) from client m&#39;s normalized class-distribution vector q_m = [N_{m,1}, ..., N_{m,C}] / N_m, enabling zero-shot personalization for new clients from unlabeled or few-shot prior estimates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r444-primary-pdf">On Bridging Generic and Personalized Federated Learning for Image Classification</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Personalized Model via Two Predictors (Equation 8) &amp; Section 4.3 Adaptive Personalization via Hypernetworks (Equation 9)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r444-label-shift-conditional-invariance-assumption-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The theoretical consensus optimality of the Balanced Softmax generic objective (Theorem 1) relies on the label-shift assumption that class-conditional distributions P_m(x | y = c) are consistent across clients and does not directly remove severe covariate/domain shift across P_m(x | y).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r444-primary-pdf">On Bridging Generic and Personalized Federated Learning for Image Classification</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 Assumption and Theorem 1 Discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r444-simultaneous-generic-and-personalized-cifar-emnist-femnist-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to simultaneous generic and personalized federated image classification on Dirichlet-partitioned CIFAR-10, CIFAR-100, EMNIST, and FMNIST, outperforming both generic FL baselines on balanced test sets and personalized FL baselines on local client test distributions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r444-primary-pdf">On Bridging Generic and Personalized Federated Learning for Image Classification</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Empirical Study (Table 1, Figure 1) &amp; Section 5 Experiments (Tables 2-5, Figures 3-5)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Assumes label distribution skew (varying P_m(y)) with shared class-conditional distributions P(x|y).</li>
+      <li>Requires knowing local per-class sample counts N_{m,c} on each client to evaluate Balanced Softmax.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Fed-RoD decouples generic class-balanced risk minimization and local empirical risk minimization within federated learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r444-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r444-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2107.00778" target="_blank" rel="noopener">On Bridging Generic and Personalized Federated Learning for Image Classification</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hong-You Chen, Wei-Lun Chao
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=I1hQbx10Kxn</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d90621447cee…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r444-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r444-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2107.00778" target="_blank" rel="noopener">On Bridging Generic and Personalized Federated Learning for Image Classification (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hong-You Chen, Wei-Lun Chao
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2107.00778</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f0fc440c1546…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r444-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r444-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=I1hQbx10Kxn" target="_blank" rel="noopener">On Bridging Generic and Personalized Federated Learning for Image Classification (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hong-You Chen, Wei-Lun Chao
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=I1hQbx10Kxn</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:014b025bb688…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:47:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:47:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedRodFederatedRobustDecouplingForGenericAndPersonalizedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedRodFederatedRobustDecouplingForGenericAndPersonalizedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
