@@ -1,0 +1,96 @@
+id: AIMech:HeteroskedasticPCAPrincipalSubspaceConfidenceRegionsAndSpikedCovarianceInferenceWithMissingData
+name: Heteroskedastic PCA Principal Subspace Confidence Regions and Spiked Covariance Inference with Missing Data
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: "A distributional inference and uncertainty quantification methodology (introduced by Yuling Yan, Yuxin Chen, and Jianqing Fan in 2024) for estimating and constructing valid confidence regions for the $r$-dimensional principal subspace $\\boldsymbol{U}^\\star \\in \\mathbb{O}^{d \\times r}$ and linear forms of eigenvectors of a low-rank spiked covariance matrix $\\boldsymbol{\\Sigma}^\\star = \\boldsymbol{U}^\\star\\boldsymbol{\\Lambda}^\\star\\boldsymbol{U}^{\\star\\top} \\in \\mathbb{R}^{d \\times d}$ from $n$ incomplete sample columns observed at rate $p$ with entrywise heteroskedastic noise variances $\\sigma_{i,t}^2 = \\mathrm{Var}(E_{i,t})$. Because the diagonal of the inverse-probability-weighted empirical Gram matrix $\\widehat{\\boldsymbol{G}} = \\frac{1}{n p^2}\\mathcal{P}_\\Omega(\\boldsymbol{X})\\mathcal{P}_\\Omega(\\boldsymbol{X})^\\top$ has severe bias $\\mathbb{E}[\\widehat{G}_{i,i}] = \\frac{1}{p}\\Sigma_{i,i}^\\star + \\frac{1}{n p}\\sum_{t=1}^n \\sigma_{i,t}^2$, the method eliminates diagonal bias either by zeroing out the diagonal $\\boldsymbol{M} = \\mathcal{P}_{\\mathrm{off-diag}}(\\widehat{\\boldsymbol{G}})$ (Algorithm 1, Deflated Heteroskedastic PCA) or by iterative low-rank diagonal imputation (HeteroPCA). Theorems 1\u20134 establish a second-order Neumann-series expansion showing that for every row $1 \\le i \\le d$, the aligned subspace row error $(\\boldsymbol{U}\\boldsymbol{H} - \\boldsymbol{U}^\\star)_{i,\\cdot}^\\top$ is asymptotically normal $\\mathcal{N}(\\boldsymbol{0}, \\boldsymbol{S}^{(i,\\star)})$, that the plug-in covariance estimator $\\widehat{\\boldsymbol{S}}^{(i)}$ (Equations 3.8\u20133.10) yields pivotal Wald statistics $W_i = (\\boldsymbol{U}\\widehat{\\boldsymbol{H}} - \\boldsymbol{U}^\\star)_{i,\\cdot}(\\widehat{\\boldsymbol{S}}^{(i)})^{-1}(\\boldsymbol{U}\\widehat{\\boldsymbol{H}} - \\boldsymbol{U}^\\star)_{i,\\cdot}^\\top \\stackrel{\\mathrm{d}}{\\to} \\chi_r^2$, and that linear forms $\\boldsymbol{c}^\\top(\\boldsymbol{u}_k - \\boldsymbol{u}_k^\\star)$ (Theorems 5\u20136) and entrywise covariance estimates $\\widehat{\\Sigma}_{i,j} - \\Sigma_{i,j}^\\star$ (Theorems 7\u20138) achieve valid $(1-\\alpha)$ Gaussian confidence intervals without requiring eigengaps among the top $r$ eigenvalues for subspace and covariance inference."
+identity_notes: Resolved against all 442 pinned AIO concepts and 687 maintained AIMech concepts. Distinct from `AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis` (Chen, Cheng, & Fan 2021, which analyzes a single $n \times n$ asymmetric noisy matrix with independent entries rather than sample Gram matrices $\frac{1}{n}\sum_{t=1}^n \boldsymbol{z}_t\boldsymbol{z}_t^\top$ whose entries have dependent Wishart-type products across $n$ observations, diagonal noise-variance inflation, and multi-rank $\chi_r^2$ Wald subspace confidence regions) and from `AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification` (Chen, Fan, Ma, & Yan 2019, which addresses homoskedastic matrix completion where $d_1 \asymp d_2$ rather than spiked covariance PCA with $d \ll n$ or $d \gtrsim n$ under heteroskedastic column observations).
+aliases:
+- Diagonal-Deleted Heteroskedastic PCA Subspace Inference with Missing Data
+- Yan-Chen-Fan Heteroskedastic PCA Confidence Regions and Spiked Covariance Inference
+- Deflated Gram Matrix Principal Subspace Wald Inference
+definition_evidence:
+- source_id: ycf2024-hpca-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: ycf2024-hpca-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: ycf2024-hpca-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-diagonal-deletion-bias-elimination-and-rowwise-subspace-normality
+  kind: mechanism
+  statement: "Zeroing the diagonal of the inverse-probability-weighted sample Gram matrix $\\boldsymbol{M} = \\mathcal{P}_{\\mathrm{off-diag}}(\\frac{1}{n p^2}\\mathcal{P}_\\Omega(\\boldsymbol{X})\\mathcal{P}_\\Omega(\\boldsymbol{X})^\\top)$ removes the $\\frac{1}{np}\\sum_{t=1}^n\\sigma_{i,t}^2$ diagonal noise spike while incurring only an $O(\\mu r/d)$ deterministic off-diagonal perturbation, and Theorem 1 proves that under $\\sqrt{n}p \\gg \\kappa^2\\mu r\\sqrt{\\log^3(d+n)}$ the aligned principal subspace rows satisfy $(\\boldsymbol{U}\\widehat{\\boldsymbol{H}} - \\boldsymbol{U}^\\star)_{i,\\cdot}^\\top = (\\boldsymbol{\\Lambda}^\\star)^{-1}\\boldsymbol{U}^{\\star\\top}(\\boldsymbol{M} - \\mathbb{E}[\\boldsymbol{M}])_{\\cdot,i} + \\boldsymbol{\\psi}_i$ with $(\\boldsymbol{S}^{(i,\\star)})^{-1/2}(\\boldsymbol{U}\\widehat{\\boldsymbol{H}} - \\boldsymbol{U}^\\star)_{i,\\cdot}^\\top \\stackrel{\\mathrm{d}}{\\to} \\mathcal{N}(\\boldsymbol{0},\\boldsymbol{I}_r)$ (Sections 2.2 and 3.1, Equations 2.5 and 3.2\u20133.7, Theorem 1)."
+  evidence:
+  - source_id: ycf2024-hpca-pdf
+    locator: Section 2.2 (Eq. 2.5, pp. 733-734), Section 3.1 (Eqs. 3.2-3.7, Theorem 1, pp. 735-737)
+    relation: supports
+- claim_id: claim-plug-in-covariance-consistency-and-chi-square-subspace-wald-regions
+  kind: mechanism
+  statement: "Using the data-driven variance-covariance estimator $\\widehat{\\boldsymbol{S}}^{(i)} = \\frac{1}{n}\\boldsymbol{\\Lambda}^{-1}\\boldsymbol{U}^\\top\\widehat{\\boldsymbol{\\Xi}}^{(i)}\\boldsymbol{U}\\boldsymbol{\\Lambda}^{-1}$ with $\\widehat{\\Xi}_{j,l}^{(i)} = \\mathbb{I}_{\\{j=l\\ne i\\}}\\frac{1}{n}\\sum_{t=1}^n Z_{i,t}^2 Z_{j,t}^2$ (Equations 3.8\u20133.10), Theorem 2 proves $\\|(\\widehat{\\boldsymbol{S}}^{(i)})^{-1/2}\\boldsymbol{S}^{(i,\\star)}(\\widehat{\\boldsymbol{S}}^{(i)})^{-1/2} - \\boldsymbol{I}_r\\| = o_P(1)$ and establishes the pivotal $\\chi_r^2$ convergence $W_i = (\\boldsymbol{U}\\widehat{\\boldsymbol{H}} - \\boldsymbol{U}^\\star)_{i,\\cdot}(\\widehat{\\boldsymbol{S}}^{(i)})^{-1}(\\boldsymbol{U}\\widehat{\\boldsymbol{H}} - \\boldsymbol{U}^\\star)_{i,\\cdot}^\\top \\stackrel{\\mathrm{d}}{\\to} \\chi_r^2$ without requiring any separation among the $r$ nonzero eigenvalues $\\lambda_1^\\star,\\dots,\\lambda_r^\\star$ (Section 3.1, Theorem 2, Corollary 1, Section 3.2, Theorems 3\u20134)."
+  evidence:
+  - source_id: ycf2024-hpca-pdf
+    locator: Sections 3.1-3.2 (Eqs. 3.8-3.11, Theorems 2-4, Corollary 1, pp. 737-741)
+    relation: supports
+- claim_id: claim-individual-eigenvector-linear-forms-and-entrywise-covariance-inference
+  kind: application
+  statement: "When the $k$-th eigenvalue $\\lambda_k^\\star$ is separated by $\\Delta_k^\\star = \\min_{l \\ne k}|\\lambda_k^\\star - \\lambda_l^\\star| > 0$, Theorems 5\u20136 establish a second-order resolvent expansion for any linear form $\\boldsymbol{c}^\\top(\\boldsymbol{u}_k - \\boldsymbol{u}_k^\\star) / \\sqrt{\\widehat{v}_{\\boldsymbol{c},k}} \\stackrel{\\mathrm{d}}{\\to} \\mathcal{N}(0,1)$ Incorporating cross-subspace interaction terms $\\sum_{l \\ne k}\\frac{\\lambda_l^\\star}{\\lambda_k^\\star - \\lambda_l^\\star}\\boldsymbol{u}_l^\\star\\boldsymbol{u}_l^{\\star\\top}$, while Theorems 7\u20138 prove eigengap-free asymptotic normality $(\\widehat{\\Sigma}_{i,j} - \\Sigma_{i,j}^\\star)/\\sqrt{\\widehat{\\vartheta}_{i,j}} \\stackrel{\\mathrm{d}}{\\to} \\mathcal{N}(0,1)$ for the reconstructed covariance matrix $\\widehat{\\boldsymbol{\\Sigma}} = \\boldsymbol{U}\\boldsymbol{\\Lambda}\\boldsymbol{U}^\\top$ (Sections 3.3\u20133.4, Theorems 5\u20138)."
+  evidence:
+  - source_id: ycf2024-hpca-pdf
+    locator: Sections 3.3-3.4 (Theorems 5-8, pp. 741-746)
+    relation: supports
+evidence_sources:
+- source_id: ycf2024-hpca-pdf
+  title: Inference for Heteroskedastic PCA with Missing Data
+  authors: &id001
+  - Yuling Yan
+  - Yuxin Chen
+  - Jianqing Fan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2107.12365.pdf
+  persistent_id: https://doi.org/10.1214/24-AOS2366
+  version: arXiv:2107.12365v2 full-text PDF (69 pages), published in The Annals of Statistics 52(2):729-756 (2024). (3029295 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:38:00Z'
+  sha256: 2aaf20e127117dbcdf09b4a83a123e8b4bfc6adac75c0d0d759d17e3c18e5a95
+- source_id: ycf2024-hpca-abs
+  title: Inference for Heteroskedastic PCA with Missing Data (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2107.12365
+  persistent_id: https://arxiv.org/abs/2107.12365
+  version: arXiv abstract page (6465 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:38:00Z'
+  sha256: d92dcee36dd492336729939f327066e9c7835536496f95134d41251e42e0ba07
+- source_id: ycf2024-hpca-cr
+  title: Inference for Heteroskedastic PCA with Missing Data (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/24-AOS2366
+  persistent_id: https://doi.org/10.1214/24-AOS2366
+  version: Crossref API work record (8255 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:38:00Z'
+  sha256: 9d30bd3ca31be5afb779d88ebb419e0628abbd468c997025e8538a6e3f85910f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: narrow_match
+  rationale: Provides bias-corrected principal subspace estimation and asymptotic chi-square/Gaussian confidence regions for PCA under heteroskedastic noise and missing data.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Quantifies uncertainty of low-dimensional principal subspace embeddings from incomplete heteroskedastic observations.
+limitations:
+- Zeroing out the diagonal of the Gram matrix (Algorithm 1) introduces a deterministic rank-r diagonal missingness bias of order O(mu r / d), so valid inference without iterative diagonal imputation requires the dimension d to be sufficiently large that mu r / d = o(sigma / (lambda^* sqrt(n) p)); otherwise iterative HeteroPCA (Theorems 3-4) is required.
+- Individual eigenvector inference (Theorems 5-6) requires a strict eigengap Delta^*_k > 0 separating the k-th spike from the other r-1 spikes, even though subspace inference (Theorems 1-4) and covariance matrix inference (Theorems 7-8) are eigengap-free.
+curation:
+  created_at: '2026-10-19T05:38:00Z'
+  updated_at: '2026-10-19T05:38:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
