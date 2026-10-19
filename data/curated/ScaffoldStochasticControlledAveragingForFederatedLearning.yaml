@@ -1,0 +1,103 @@
+id: AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning
+name: SCAFFOLD Stochastic Controlled Averaging for Heterogeneous Federated Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A federated optimization algorithm (SCAFFOLD) that eliminates client drift across N heterogeneous clients by maintaining a local control variate c_i on each client i and an aggregate server control variate c = (1/N) sum_{i=1}^N c_i, correcting each of the K local mini-batch steps on sampled clients S subseteq [N] via y_i <- y_i - eta_l * (g_i(y_i) - c_i + c), updating the client control variate via c_i^+ = g_i(x) (Option I) or c_i^+ = c_i - c + (1 / (K * eta_l)) * (x - y_i) (Option II), and updating the global model x <- x + eta_g * (1/|S|) sum_{i in S} (y_i - x) and server control variate c <- c + (1/N) sum_{i in S} (c_i^+ - c_i), achieving convergence rates invariant to arbitrary client gradient dissimilarity.
+identity_notes: Distinct from uncorrected periodic local SGD (AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent, which Theorem II proves suffers an unavoidable Omega(G^2 / (mu^2 * R^2)) client-drift lower bound when K >= 2 under gradient dissimilarity G > 0), from proximal penalty stabilization without control variates (AIMech:FedProxProximalHeterogeneousFederatedOptimization), and from single-machine or every-step compressed variance reduction (AIMech:PageProbabilisticGradientEstimatorForNonconvexOptimization and AIMech:Ef21MarkovCompressorErrorFeedbackForHeterogeneousNonconvexOptimization). Narrower than AIO:FederatedLearning, which covers the general federated learning paradigm without specifying stateful client/server control-variate drift correction.
+aliases:
+- SCAFFOLD
+- Stochastic Controlled Averaging for Federated Learning
+- Control-Variate Drift-Corrected Federated Averaging
+definition_evidence:
+- source_id: r384-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r384-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r384-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r384-fedavg-client-drift-lower-bound-and-fixed-point-invariance
+  kind: mechanism
+  statement: Theorem I and Theorem II prove that under (G, B)-bounded gradient dissimilarity with K >= 2 local steps, FedAvg suffers an unavoidable Omega(G^2 / (mu^2 * R^2)) error floor from client drift even with full participation (S = N) and zero stochastic noise (sigma = 0); by contrast, SCAFFOLD's drift-corrected local step y_i <- y_i - eta_l * (g_i(y_i) - c_i + c) satisfies grad f_i(x*) - c_i* + c* = 0 when c_i* = grad f_i(x*) and c* = grad f(x*) = 0, making the global optimum x* an exact fixed point of the K-step local trajectory for any K >= 1.
+  evidence:
+  - source_id: r384-primary-pdf
+    locator: Section 3 Theorem I, Theorem II, Section 4 Equations (2)-(5), and Section 5 Theorem III, pp. 3-6
+    relation: supports
+- claim_id: r384-heterogeneity-independent-convergence-and-hessian-similarity-speedup
+  kind: mechanism
+  statement: Theorem III proves that SCAFFOLD converges in R = O_tilde(sigma^2 / (mu * S * K * epsilon) + N / S + beta * N / (mu * S)) communication rounds for mu-strongly convex functions (reducing to SAGA when sigma = 0, K = 1, S = 1) and O((beta * N / S)^{2/3} * D^2 / epsilon + ...) for nonconvex functions without any dependence on gradient dissimilarity (G, B); moreover, under delta-bounded Hessian dissimilarity ||nabla^2 f_i(x) - nabla^2 f(x)|| <= delta, Theorem IV proves a true local-step communication reduction R = O_tilde(beta * sigma^2 / (mu * K * N * epsilon) + beta / (mu * K) + delta / mu).
+  evidence:
+  - source_id: r384-primary-pdf
+    locator: Section 5 Theorem III, Corollary I, and Theorem IV, pp. 5-7
+    relation: supports
+- claim_id: r384-stateful-client-control-variate-and-2x-communication-limitation
+  kind: limitation
+  statement: SCAFFOLD requires stateful clients that persist local control variates c_i across rounds (causing control-variate staleness of factor N/S when S << N clients are sampled per round) and doubles the per-round communication payload (sending both Delta y_i and Delta c_i).
+  evidence:
+  - source_id: r384-primary-pdf
+    locator: Section 4 Algorithm 1 and Section 5 Theorem III Discussion (Lag Term N/S), pp. 4-6
+    relation: supports
+- claim_id: r384-non-iid-federated-classification-application
+  kind: application
+  statement: Applied to federated logistic regression and 2-layer neural network classification on non-IID partitioned EMNIST across heterogeneous clients with partial participation.
+  evidence:
+  - source_id: r384-primary-pdf
+    locator: Section 6 Experiments, Figures 2-4 and Table 3, pp. 7-8
+    relation: supports
+evidence_sources:
+- source_id: r384-primary-pdf
+  title: 'SCAFFOLD: Stochastic Controlled Averaging for Federated Learning'
+  authors: &id001
+  - Sai Praneeth Karimireddy
+  - Satyen Kale
+  - Mehryar Mohri
+  - Sashank J. Reddi
+  - Sebastian U. Stich
+  - Ananda Theertha Suresh
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1910.06378.pdf
+  persistent_id: https://proceedings.mlr.press/v119/karimireddy20a.html
+  version: Proceedings of the 37th International Conference on Machine Learning (ICML 2020), PMLR 119:5132-5143 (2020) (289873 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:47:00Z'
+  sha256: a7542649e51bb3fcc95c3696bea59fa26d10f7ec44f4c0e1bc316772f41d252a
+- source_id: r384-arxiv-abs
+  title: 'SCAFFOLD: Stochastic Controlled Averaging for Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1910.06378
+  persistent_id: https://arxiv.org/abs/1910.06378
+  version: arXiv abstract page (7192 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:47:00Z'
+  sha256: 23a60613c6017404e0a52544126e9771bc37e342ddeaf6e021f05e34e5ce504f
+- source_id: r384-metadata-cr
+  title: 'SCAFFOLD: Stochastic Controlled Averaging for Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v119/karimireddy20a.html
+  persistent_id: https://proceedings.mlr.press/v119/karimireddy20a.html
+  version: Crossref API work record (422 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:47:00Z'
+  sha256: 41a62fa7b5fd8516391259d37f47c594f579f6582b9485e4caebb216e60ab11a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: SCAFFOLD is a specific federated optimization algorithm within AIO:FederatedLearning that uses stateful client and server control variates to eliminate client drift.
+limitations:
+- Requires stateful clients capable of storing a d-dimensional control variate c_i across communication rounds, making it unsuitable for purely stateless cross-device settings where each client participates only once.
+- Doubles bidirectional communication volume per participating client (transmitting both model updates and control-variate updates) and incurs an N/S staleness lag when client sampling fraction S/N is very small.
+curation:
+  created_at: '2026-10-19T07:47:00Z'
+  updated_at: '2026-10-19T07:47:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

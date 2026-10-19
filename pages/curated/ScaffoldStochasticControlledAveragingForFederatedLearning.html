@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCAFFOLD Stochastic Controlled Averaging for Heterogeneous Federated Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>SCAFFOLD Stochastic Controlled Averaging for Heterogeneous Federated Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SCAFFOLD Stochastic Controlled Averaging for Heterogeneous Federated Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SCAFFOLD, Stochastic Controlled Averaging for Federated Learning, Control-Variate Drift-Corrected Federated Averaging
+    </div>
+
+  <div class="detail-desc">
+    A federated optimization algorithm (SCAFFOLD) that eliminates client drift across N heterogeneous clients by maintaining a local control variate c_i on each client i and an aggregate server control variate c = (1/N) sum_{i=1}^N c_i, correcting each of the K local mini-batch steps on sampled clients S subseteq [N] via y_i &lt;- y_i - eta_l * (g_i(y_i) - c_i + c), updating the client control variate via c_i^+ = g_i(x) (Option I) or c_i^+ = c_i - c + (1 / (K * eta_l)) * (x - y_i) (Option II), and updating the global model x &lt;- x + eta_g * (1/|S|) sum_{i in S} (y_i - x) and server control variate c &lt;- c + (1/N) sum_{i in S} (c_i^+ - c_i), achieving convergence rates invariant to arbitrary client gradient dissimilarity.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from uncorrected periodic local SGD (AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent, which Theorem II proves suffers an unavoidable Omega(G^2 / (mu^2 * R^2)) client-drift lower bound when K &gt;= 2 under gradient dissimilarity G &gt; 0), from proximal penalty stabilization without control variates (AIMech:FedProxProximalHeterogeneousFederatedOptimization), and from single-machine or every-step compressed variance reduction (AIMech:PageProbabilisticGradientEstimatorForNonconvexOptimization and AIMech:Ef21MarkovCompressorErrorFeedbackForHeterogeneousNonconvexOptimization). Narrower than AIO:FederatedLearning, which covers the general federated learning paradigm without specifying stateful client/server control-variate drift correction.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r384-fedavg-client-drift-lower-bound-and-fixed-point-invariance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem I and Theorem II prove that under (G, B)-bounded gradient dissimilarity with K &gt;= 2 local steps, FedAvg suffers an unavoidable Omega(G^2 / (mu^2 * R^2)) error floor from client drift even with full participation (S = N) and zero stochastic noise (sigma = 0); by contrast, SCAFFOLD&#39;s drift-corrected local step y_i &lt;- y_i - eta_l * (g_i(y_i) - c_i + c) satisfies grad f_i(x*) - c_i* + c* = 0 when c_i* = grad f_i(x*) and c* = grad f(x*) = 0, making the global optimum x* an exact fixed point of the K-step local trajectory for any K &gt;= 1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r384-primary-pdf">SCAFFOLD: Stochastic Controlled Averaging for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Theorem I, Theorem II, Section 4 Equations (2)-(5), and Section 5 Theorem III, pp. 3-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r384-heterogeneity-independent-convergence-and-hessian-similarity-speedup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem III proves that SCAFFOLD converges in R = O_tilde(sigma^2 / (mu * S * K * epsilon) + N / S + beta * N / (mu * S)) communication rounds for mu-strongly convex functions (reducing to SAGA when sigma = 0, K = 1, S = 1) and O((beta * N / S)^{2/3} * D^2 / epsilon + ...) for nonconvex functions without any dependence on gradient dissimilarity (G, B); moreover, under delta-bounded Hessian dissimilarity ||nabla^2 f_i(x) - nabla^2 f(x)|| &lt;= delta, Theorem IV proves a true local-step communication reduction R = O_tilde(beta * sigma^2 / (mu * K * N * epsilon) + beta / (mu * K) + delta / mu).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r384-primary-pdf">SCAFFOLD: Stochastic Controlled Averaging for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Theorem III, Corollary I, and Theorem IV, pp. 5-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r384-stateful-client-control-variate-and-2x-communication-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    SCAFFOLD requires stateful clients that persist local control variates c_i across rounds (causing control-variate staleness of factor N/S when S &lt;&lt; N clients are sampled per round) and doubles the per-round communication payload (sending both Delta y_i and Delta c_i).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r384-primary-pdf">SCAFFOLD: Stochastic Controlled Averaging for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Algorithm 1 and Section 5 Theorem III Discussion (Lag Term N/S), pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r384-non-iid-federated-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to federated logistic regression and 2-layer neural network classification on non-IID partitioned EMNIST across heterogeneous clients with partial participation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r384-primary-pdf">SCAFFOLD: Stochastic Controlled Averaging for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Experiments, Figures 2-4 and Table 3, pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires stateful clients capable of storing a d-dimensional control variate c_i across communication rounds, making it unsuitable for purely stateless cross-device settings where each client participates only once.</li>
+      <li>Doubles bidirectional communication volume per participating client (transmitting both model updates and control-variate updates) and incurs an N/S staleness lag when client sampling fraction S/N is very small.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SCAFFOLD is a specific federated optimization algorithm within AIO:FederatedLearning that uses stateful client and server control variates to eliminate client drift.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r384-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r384-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1910.06378.pdf" target="_blank" rel="noopener">SCAFFOLD: Stochastic Controlled Averaging for Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank J. Reddi, Sebastian U. Stich, Ananda Theertha Suresh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v119/karimireddy20a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a7542649e51b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r384-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r384-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1910.06378" target="_blank" rel="noopener">SCAFFOLD: Stochastic Controlled Averaging for Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank J. Reddi, Sebastian U. Stich, Ananda Theertha Suresh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1910.06378</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:23a60613c601…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r384-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r384-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v119/karimireddy20a.html" target="_blank" rel="noopener">SCAFFOLD: Stochastic Controlled Averaging for Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank J. Reddi, Sebastian U. Stich, Ananda Theertha Suresh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v119/karimireddy20a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:41a62fa7b5fd…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:47:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:47:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ScaffoldStochasticControlledAveragingForFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ScaffoldStochasticControlledAveragingForFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
