@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIGing and Push-DIGing (Distributed Inexact Gradient Tracking Over Time-Varying Graphs) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>DIGing and Push-DIGing (Distributed Inexact Gradient Tracking Over Time-Varying Graphs)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DIGing and Push-DIGing (Distributed Inexact Gradient Tracking Over Time-Varying Graphs)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DIGing and Push-DIGing, Distributed Inexact Gradient Tracking, Push-DIGing
+    </div>
+
+  <div class="detail-desc">
+    A pair of geometrically convergent distributed gradient tracking algorithms over time-varying graphs (Nedic, Olshevsky, &amp; Shi 2017, Sections 2 and 4, Algorithms 1-2): (1) Distributed Inexact Gradient Tracking (DIGing, Algorithm 1), which updates x(k+1) = W(k) x(k) - alpha y(k) and y(k+1) = W(k) y(k) + nabla f(x(k+1)) - nabla f(x(k)) with y(0) = nabla f(x(0)) over B-connected sequences of doubly stochastic matrices W(k); and (2) Push-DIGing (Algorithm 2), which achieves geometric convergence over time-varying B-strongly-connected directed graphs using column-stochastic matrices C(k) via u(k+1) = C(k)(u(k) - alpha y(k)), v(k+1) = C(k) v(k), x(k+1) = V(k+1)^{-1} u(k+1), and y(k+1) = C(k) y(k) + nabla f(x(k+1)) - nabla f(x(k)).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from DSGT and GSGT (AIMech:DsgtAndGsgtDistributedStochasticGradientTracking, Pu &amp; Nedic 2021), which analyze noisy stochastic gradients G(x_k, xi_k) over static expectation-doubly-stochastic graphs, and from Stochastic Gradient Push (AIMech:StochasticGradientPushAndOverlapSgpForDistributedDeepLearning, Assran et al. 2019), which omits the gradient tracker y(k) and achieves sublinear O(1 / sqrt(n K)) convergence rather than global R-linear geometric convergence O(lambda^k) over time-varying directed graphs.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r431-small-gain-cyclic-loop-and-explicit-geometric-convergence-rate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By modeling the four error sequences (||x - x^*||, ||y - bar_y||, ||bar_y||, ||x(k) - x(k-1)||) in exponentially weighted l_infty^{lambda} norms and bounding their B-step consensus contraction factor delta in [0, 1) (Lemma 3.3), the small-gain theorem (Theorem 3.5) proves that whenever the cyclic product gamma_1 gamma_2 gamma_3 gamma_4 &lt; 1 holds, DIGing converges globally at the explicit R-linear rate O(lambda^k) with lambda = (1 - alpha bar_mu / 1.5)^{1/(2B)}, achieving polynomial complexity O(n^{4.5} bar_kappa^{1.5} ln(1 / varepsilon)) under lazy Metropolis weights (Theorem 3.7, Theorem 3.14, Corollaries 3.15-3.16).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r431-primary-pdf">Achieving Geometric Convergence for Distributed Optimization Over Time-Varying Graphs</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Small-Gain Convergence Analysis (Lemmas 3.3-3.13, Theorem 3.7, Theorem 3.14, Corollaries 3.15-3.16)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r431-push-diging-row-stochastic-similarity-transformation-on-digraphs</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In Push-DIGing (Algorithm 2), scaling the column-stochastic matrix C(k) by the diagonal PushSum weight matrix V(k) = diag(v(k)) defines the similarity-transformed matrix tilde_R(k) = V(k+1)^{-1} C(k) V(k) which is strictly row-stochastic (tilde_R(k) 1 = 1, Eq. 4.4), converting the de-biased iterate evolution into x(k+1) = tilde_R(k)(x(k) - alpha V(k)^{-1} y(k)) (Eq. 4.6a) while C(k) preserves 1^T y(k) = 1^T nabla f(x(k)), establishing global R-linear convergence O((lambda_P)^k) over time-varying B-strongly-connected directed graphs (Theorem 4.13).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r431-primary-pdf">Achieving Geometric Convergence for Distributed Optimization Over Time-Varying Graphs</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Push-DIGing for Time-Varying Directed Graphs (Algorithm 2, Equations 4.1-4.8, Lemmas 4.1-4.12, Theorem 4.13)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r431-exact-gradient-and-bounded-intercommunication-interval-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Guarantees exact geometric convergence only for deterministic (noiseless) local gradients under bounded B-connected communication intervals and uniform positive lower bounds tau &gt; 0 on nonzero mixing weights.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r431-primary-pdf">Achieving Geometric Convergence for Distributed Optimization Over Time-Varying Graphs</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 Assumptions 1-4 &amp; Section 4.2 Assumptions 2&#39;-3&#39;</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r431-time-varying-wireless-sensor-network-huber-and-logistic-estimation-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed Huber loss minimization and regularized logistic regression over time-varying undirected and directed multi-agent graphs.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r431-primary-pdf">Achieving Geometric Convergence for Distributed Optimization Over Time-Varying Graphs</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Numerical Experiments (Figures 1-4), pp. 2627-2630</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires exchanging two d-dimensional vectors (iterate and gradient tracker) per communication step.</li>
+      <li>In Push-DIGing, each agent must know its instantaneous out-degree to construct column-stochastic weights.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DIGing and Push-DIGing are foundational decentralized gradient-tracking optimization algorithms over time-varying undirected and directed networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r431-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r431-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1607.03218" target="_blank" rel="noopener">Achieving Geometric Convergence for Distributed Optimization Over Time-Varying Graphs</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Angelia Nedic, Alex Olshevsky, Wei Shi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/16M1084316</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5b4d942cb487…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r431-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r431-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1607.03218" target="_blank" rel="noopener">Achieving Geometric Convergence for Distributed Optimization Over Time-Varying Graphs (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Angelia Nedic, Alex Olshevsky, Wei Shi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1607.03218</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4d61bf09bd7e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r431-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r431-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1137/16M1084316" target="_blank" rel="noopener">Achieving Geometric Convergence for Distributed Optimization Over Time-Varying Graphs (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Angelia Nedic, Alex Olshevsky, Wei Shi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/16M1084316</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fdc60b7c9b28…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:34:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:34:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
