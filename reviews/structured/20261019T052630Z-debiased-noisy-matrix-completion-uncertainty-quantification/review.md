@@ -1,0 +1,391 @@
+# Scientific author self-review of De-biased Noisy Matrix Completion and De-shrunken Low-Rank Factor Uncertainty Quantification
+
+- Review: 20261019T052630Z-debiased-noisy-matrix-completion-uncertainty-quantification
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T05:26:00Z
+- Finished UTC: 2026-10-19T05:26:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain De-biased Noisy Matrix Completion and De-shrunken Low-Rank Factor Uncertainty Quantification as a distinct DRAFT mathematical_method. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base c2f668bfabf143a103eab8294de5b6846a5cf882.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification | data/curated/DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification.yaml | maintained | De-biased Noisy Matrix Completion and De-shrunken Low-Rank Factor Uncertainty Quantification |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification | Validated history sidecar files. |
+| python3 debiased-noisy-matrix-completion-uncertainty-quantification-boundaries.py | passed | True | AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification | {<br>  "n": 16,<br>  "p_obs": 0.75,<br>  "sigma": 0.04,<br>  "lambda_reg": 0.221703,<br>  "eq_d4_deshrinking_identity_max_err": 1.3322676295501878e-15,<br>  "lemma3_svp_vs_factor_max_rel_diff": 9.8e-05,<br>  "mean_frob_sq_shrunken": 0.152817,<br>  "mean_frob_sq_debiased": 0.071964,<br>  "oracle_2n_r_sigma2_over_p": 0.068267,<br>  "empirical_95_ci_coverage_debiased": 0.9452,<br>  "empirical_95_ci_coverage_shrunken_uncorrected": 0.7897,<br>  "max_plugin_variance_rel_err": 0.2691<br>} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification.
+
+De-biased Noisy Matrix Completion and De-shrunken Low-Rank Factor Uncertainty Quantification is a distinct concept.
+
+Resolved against all 442 pinned AIO concepts and 681 maintained AIMech concepts. Distinct from &#96;AIMech:ImplicitRegularizationInNonconvexStatisticalEstimationByLeaveOneOutTrajectoryAnalysis&#96; (Ma, Wang, Chi, &amp; Chen 2020, which analyzes order-wise convergence of unregularized nonconvex gradient descent without de-biasing, distributional normality, or confidence intervals) and from &#96;AIMech:DecorrelatedScoreFunctionAndOneStepEstimatorForSparseHighDimensionalInference&#96; (Ning &amp; Liu 2017, which de-biases sparse $\ell_1$-penalized M-estimators via score projections rather than rank-$r$ singular value projection $\mathcal{P}_{\text{rank-}r}[\boldsymbol{Z} - p^{-1}\mathcal{P}_\Omega(\boldsymbol{Z}-\boldsymbol{M})]$ and spectral factor de-shrinking $(\boldsymbol{I}_r + \frac{\lambda}{p}(\boldsymbol{X}^\top\boldsymbol{X})^{-1})^{1/2}$).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in debiased-noisy-matrix-completion-uncertainty-quantification-boundaries.py passed with exit code 0: {
+  "n": 16,
+  "p_obs": 0.75,
+  "sigma": 0.04,
+  "lambda_reg": 0.221703,
+  "eq_d4_deshrinking_identity_max_err": 1.3322676295501878e-15,
+  "lemma3_svp_vs_factor_max_rel_diff": 9.8e-05,
+  "mean_frob_sq_shrunken": 0.152817,
+  "mean_frob_sq_debiased": 0.071964,
+  "oracle_2n_r_sigma2_over_p": 0.068267,
+  "empirical_95_ci_coverage_debiased": 0.9452,
+  "empirical_95_ci_coverage_shrunken_uncorrected": 0.7897,
+  "max_plugin_variance_rel_err": 0.2691
+}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T052600Z-debiased-noisy-matrix-completion-uncertainty-quantification.json | supports | No normalized identity match for AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/debiased-noisy-matrix-completion-uncertainty-quantification-boundaries.py | supports | All constructed boundary assertions in debiased-noisy-matrix-completion-uncertainty-quantification-boundaries.py passed with exit code 0: {<br>  "n": 16,<br>  "p_obs": 0.75,<br>  "sigma": 0.04,<br>  "lambda_reg": 0.221703,<br>  "eq_d4_deshrinking_identity_max_err": 1.3322676295501878e-15,<br>  "lemma3_svp_vs_factor_max_rel_diff": 9.8e-05,<br>  "mean_frob_sq_shrunken": 0.152817,<br>  "mean_frob_sq_debiased": 0.071964,<br>  "oracle_2n_r_sigma2_over_p": 0.068267,<br>  "empirical_95_ci_coverage_debiased": 0.9452,<br>  "empirical_95_ci_coverage_shrunken_uncorrected": 0.7897,<br>  "max_plugin_variance_rel_err": 0.2691<br>} |
+| cfmy2019-mcinf-pdf | https://arxiv.org/pdf/1906.04159.pdf; Full-text PDF | supports | Full-text PDF (arXiv:1906.04159v2 full-text PDF (69 pages), published in Proceedings of the National Academy of Sciences (PNAS) 116(46):22931-22937 (2019).) read and verified. |
+| cfmy2019-mcinf-abs | https://arxiv.org/abs/1906.04159; arXiv abstract | supports | arXiv abstract read and verified. |
+| cfmy2019-mcinf-cr | https://api.crossref.org/works/10.1073/pnas.1910053116; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification in Round 287.
+- All pages of arXiv:1906.04159v2 full-text PDF (69 pages), published in Proceedings of the National Academy of Sciences (PNAS) 116(46):22931-22937 (2019). were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T052630Z-debiased-noisy-matrix-completion-uncertainty-quantification
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of De-biased Noisy Matrix Completion and De-shrunken
+  Low-Rank Factor Uncertainty Quantification
+started_at: '2026-10-19T05:26:00Z'
+finished_at: '2026-10-19T05:26:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+    against existing AIMech and AIO records and verified all claims against arXiv:1906.04159v2
+    full-text PDF (69 pages), published in Proceedings of the National Academy of
+    Sciences (PNAS) 116(46):22931-22937 (2019). and pure-Python boundary checks. This
+    is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain De-biased Noisy Matrix Completion and De-shrunken Low-Rank Factor
+  Uncertainty Quantification as a distinct DRAFT mathematical_method. All three claims
+  are supported by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: c2f668bfabf143a103eab8294de5b6846a5cf882
+  state: working_tree
+  inputs:
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification.yaml
+    sha256: ca77ff0179bbd2a57cdb7faa1169da1f22242a753c2bc69d980ec5606d440ac6
+    role: target
+  - path: research/discovery/20261019T052600Z-debiased-noisy-matrix-completion-uncertainty-quantification.json
+    sha256: 1bc190160e0283f178eba905bab5e0fd32816f71baf66f4d2e522ec5cb5e53d6
+    role: context
+  - path: research/discovery/debiased-noisy-matrix-completion-uncertainty-quantification-boundaries.py
+    sha256: c79ab3da68305453d207c914a4761097e7fcd0dd58c79dac1d988c8286329513
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+  path: data/curated/DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification.yaml
+  label: De-biased Noisy Matrix Completion and De-shrunken Low-Rank Factor Uncertainty
+    Quantification
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 debiased-noisy-matrix-completion-uncertainty-quantification-boundaries.py
+  command: python3 research/discovery/debiased-noisy-matrix-completion-uncertainty-quantification-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"n\": 16,\n  \"p_obs\": 0.75,\n  \"sigma\": 0.04,\n  \"lambda_reg\"\
+    : 0.221703,\n  \"eq_d4_deshrinking_identity_max_err\": 1.3322676295501878e-15,\n\
+    \  \"lemma3_svp_vs_factor_max_rel_diff\": 9.8e-05,\n  \"mean_frob_sq_shrunken\"\
+    : 0.152817,\n  \"mean_frob_sq_debiased\": 0.071964,\n  \"oracle_2n_r_sigma2_over_p\"\
+    : 0.068267,\n  \"empirical_95_ci_coverage_debiased\": 0.9452,\n  \"empirical_95_ci_coverage_shrunken_uncorrected\"\
+    : 0.7897,\n  \"max_plugin_variance_rel_err\": 0.2691\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T052600Z-debiased-noisy-matrix-completion-uncertainty-quantification.json
+  accessed_at: '2026-10-19T05:26:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T05:26:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/debiased-noisy-matrix-completion-uncertainty-quantification-boundaries.py
+  accessed_at: '2026-10-19T05:26:00Z'
+  snapshot_sha256: c79ab3da68305453d207c914a4761097e7fcd0dd58c79dac1d988c8286329513
+  support: supports
+  summary: "All constructed boundary assertions in debiased-noisy-matrix-completion-uncertainty-quantification-boundaries.py\
+    \ passed with exit code 0: {\n  \"n\": 16,\n  \"p_obs\": 0.75,\n  \"sigma\": 0.04,\n\
+    \  \"lambda_reg\": 0.221703,\n  \"eq_d4_deshrinking_identity_max_err\": 1.3322676295501878e-15,\n\
+    \  \"lemma3_svp_vs_factor_max_rel_diff\": 9.8e-05,\n  \"mean_frob_sq_shrunken\"\
+    : 0.152817,\n  \"mean_frob_sq_debiased\": 0.071964,\n  \"oracle_2n_r_sigma2_over_p\"\
+    : 0.068267,\n  \"empirical_95_ci_coverage_debiased\": 0.9452,\n  \"empirical_95_ci_coverage_shrunken_uncorrected\"\
+    : 0.7897,\n  \"max_plugin_variance_rel_err\": 0.2691\n}"
+- evidence_id: cfmy2019-mcinf-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1906.04159.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T05:26:00Z'
+  snapshot_sha256: 82dc60654f45e595fff4b948ccc9ce624fd05b551c53eb17058495a62b1910b0
+  support: supports
+  summary: Full-text PDF (arXiv:1906.04159v2 full-text PDF (69 pages), published in
+    Proceedings of the National Academy of Sciences (PNAS) 116(46):22931-22937 (2019).)
+    read and verified.
+- evidence_id: cfmy2019-mcinf-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1906.04159
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T05:26:00Z'
+  snapshot_sha256: 550499b9820a062ab231e7a57898872d5e07b1e057359f78c43b9815f19752b0
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: cfmy2019-mcinf-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1073/pnas.1910053116
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T05:26:00Z'
+  snapshot_sha256: 1dc88365ad528889d0824ec6a298dc065a8ab93ed9bd1542559ae710ad6863a1
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+  evidence_ids:
+  - identity
+  - cfmy2019-mcinf-pdf
+  - cfmy2019-mcinf-abs
+  - cfmy2019-mcinf-cr
+  summary: De-biased Noisy Matrix Completion and De-shrunken Low-Rank Factor Uncertainty
+    Quantification is a distinct concept.
+  details: Resolved against all 442 pinned AIO concepts and 681 maintained AIMech
+    concepts. Distinct from `AIMech:ImplicitRegularizationInNonconvexStatisticalEstimationByLeaveOneOutTrajectoryAnalysis`
+    (Ma, Wang, Chi, & Chen 2020, which analyzes order-wise convergence of unregularized
+    nonconvex gradient descent without de-biasing, distributional normality, or confidence
+    intervals) and from `AIMech:DecorrelatedScoreFunctionAndOneStepEstimatorForSparseHighDimensionalInference`
+    (Ning & Liu 2017, which de-biases sparse $\ell_1$-penalized M-estimators via score
+    projections rather than rank-$r$ singular value projection $\mathcal{P}_{\text{rank-}r}[\boldsymbol{Z}
+    - p^{-1}\mathcal{P}_\Omega(\boldsymbol{Z}-\boldsymbol{M})]$ and spectral factor
+    de-shrinking $(\boldsymbol{I}_r + \frac{\lambda}{p}(\boldsymbol{X}^\top\boldsymbol{X})^{-1})^{1/2}$).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+  evidence_ids:
+  - mapping
+  - cfmy2019-mcinf-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+  evidence_ids:
+  - cfmy2019-mcinf-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: "All constructed boundary assertions in debiased-noisy-matrix-completion-uncertainty-quantification-boundaries.py\
+    \ passed with exit code 0: {\n  \"n\": 16,\n  \"p_obs\": 0.75,\n  \"sigma\": 0.04,\n\
+    \  \"lambda_reg\": 0.221703,\n  \"eq_d4_deshrinking_identity_max_err\": 1.3322676295501878e-15,\n\
+    \  \"lemma3_svp_vs_factor_max_rel_diff\": 9.8e-05,\n  \"mean_frob_sq_shrunken\"\
+    : 0.152817,\n  \"mean_frob_sq_debiased\": 0.071964,\n  \"oracle_2n_r_sigma2_over_p\"\
+    : 0.068267,\n  \"empirical_95_ci_coverage_debiased\": 0.9452,\n  \"empirical_95_ci_coverage_shrunken_uncorrected\"\
+    : 0.7897,\n  \"max_plugin_variance_rel_err\": 0.2691\n}"
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+  evidence_ids:
+  - identity
+  - mapping
+  - cfmy2019-mcinf-pdf
+  - cfmy2019-mcinf-abs
+  - cfmy2019-mcinf-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+  in Round 287.
+- All pages of arXiv:1906.04159v2 full-text PDF (69 pages), published in Proceedings
+  of the National Academy of Sciences (PNAS) 116(46):22931-22937 (2019). were read
+  in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

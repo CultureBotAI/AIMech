@@ -1,0 +1,100 @@
+id: AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification
+name: De-biased Noisy Matrix Completion and De-shrunken Low-Rank Factor Uncertainty Quantification
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: "A unified statistical inference and uncertainty quantification methodology (introduced by Yuxin Chen, Jianqing Fan, Cong Ma, and Yuling Yan in 2019) for noisy low-rank matrix completion $M_{ij} = M_{ij}^\\star + E_{ij}$, $(i,j)\\in\\Omega$, $E_{ij}\\stackrel{\\text{i.i.d.}}{\\sim}\\mathcal{N}(0,\\sigma^2)$ under uniform random sampling with probability $p$. Given either the convex nuclear-norm regularized estimator $\\boldsymbol{Z}^{\\text{cvx}} = \\arg\\min_{\\boldsymbol{Z}} \\frac{1}{2}\\|\\mathcal{P}_\\Omega(\\boldsymbol{Z} - \\boldsymbol{M})\\|_F^2 + \\lambda\\|\\boldsymbol{Z}\\|_*$ or the nonconvex factored gradient descent estimator $(\\boldsymbol{X}^{\\text{ncvx}},\\boldsymbol{Y}^{\\text{ncvx}})$ minimizing $\\frac{1}{2}\\|\\mathcal{P}_\\Omega(\\boldsymbol{X}\\boldsymbol{Y}^\\top - \\boldsymbol{M})\\|_F^2 + \\frac{\\lambda}{2}(\\|\\boldsymbol{X}\\|_F^2 + \\|\\boldsymbol{Y}\\|_F^2)$, the method compensates for regularization shrinkage without sample splitting via two nearly equivalent estimators (Lemma 3): (1) the rank-$r$ projected *de-biased matrix estimator* $\\boldsymbol{M}^{\\text{d}} = \\mathcal{P}_{\\text{rank-}r}[\\boldsymbol{Z} - \\frac{1}{p}\\mathcal{P}_\\Omega(\\boldsymbol{Z} - \\boldsymbol{M})]$ (Equation 3.7), and (2) the *de-shrunken low-rank factor estimators* $\\boldsymbol{X}^{\\text{d}} = \\boldsymbol{X}(\\boldsymbol{I}_r + \\frac{\\lambda}{p}(\\boldsymbol{X}^\\top\\boldsymbol{X})^{-1})^{1/2}$ and $\\boldsymbol{Y}^{\\text{d}} = \\boldsymbol{Y}(\\boldsymbol{I}_r + \\frac{\\lambda}{p}(\\boldsymbol{Y}^\\top\\boldsymbol{Y})^{-1})^{1/2}$ satisfying $\\boldsymbol{M}^{\\text{d}} \\approx \\boldsymbol{X}^{\\text{d}}\\boldsymbol{Y}^{\\text{d}\\top}$ (Equations 3.8\u20133.9). Theorem 1 proves that up to global orthogonal rotation $\\boldsymbol{H}^{\\text{d}}$, the rows of $\\boldsymbol{X}^{\\text{d}}\\boldsymbol{H}^{\\text{d}} - \\boldsymbol{X}^\\star$ and $\\boldsymbol{Y}^{\\text{d}}\\boldsymbol{H}^{\\text{d}} - \\boldsymbol{Y}^\\star$ admit non-asymptotic i.i.d. $\\mathcal{N}(\\boldsymbol{0}, \\frac{\\sigma^2}{p}(\\boldsymbol{\\Sigma}^\\star)^{-1})$ decompositions matching the oracle Cram\xE9r\u2013Rao lower bound (Lemma 1). Theorem 2 and Corollary 1 establish that $M_{ij}^{\\text{d}} - M_{ij}^\\star = g_{ij} + \\Delta_{ij}$ with $g_{ij}\\sim\\mathcal{N}(0, v_{ij}^\\star)$, $v_{ij}^\\star = \\frac{\\sigma^2}{p}(\\|\\boldsymbol{U}_{i,\\cdot}^\\star\\|_2^2 + \\|\\boldsymbol{V}_{j,\\cdot}^\\star\\|_2^2)$, yielding valid two-sided $(1-\\alpha)$ confidence intervals $[M_{ij}^{\\text{d}} \\pm \\Phi^{-1}(1-\\alpha/2)\\sqrt{v_{ij}}]$ and sharp Frobenius accuracy $\\|\\boldsymbol{M}^{\\text{d}} - \\boldsymbol{M}^\\star\\|_F^2 = (2+o(1))nr\\sigma^2/p$ matching the oracle tangent-space lower bound including the pre-constant 2 (Theorems 3\u20134)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 681 maintained AIMech concepts. Distinct from `AIMech:ImplicitRegularizationInNonconvexStatisticalEstimationByLeaveOneOutTrajectoryAnalysis` (Ma, Wang, Chi, & Chen 2020, which analyzes order-wise convergence of unregularized nonconvex gradient descent without de-biasing, distributional normality, or confidence intervals) and from `AIMech:DecorrelatedScoreFunctionAndOneStepEstimatorForSparseHighDimensionalInference` (Ning & Liu 2017, which de-biases sparse $\ell_1$-penalized M-estimators via score projections rather than rank-$r$ singular value projection $\mathcal{P}_{\text{rank-}r}[\boldsymbol{Z} - p^{-1}\mathcal{P}_\Omega(\boldsymbol{Z}-\boldsymbol{M})]$ and spectral factor de-shrinking $(\boldsymbol{I}_r + \frac{\lambda}{p}(\boldsymbol{X}^\top\boldsymbol{X})^{-1})^{1/2}$).
+aliases:
+- De-biased Matrix Completion and De-shrunken Low-Rank Factor Estimator
+- Chen-Fan-Ma-Yan Noisy Matrix Completion Uncertainty Quantification
+- Sample-Splitting-Free De-biased Nuclear Norm and Nonconvex Matrix Completion Inference
+definition_evidence:
+- source_id: cfmy2019-mcinf-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: cfmy2019-mcinf-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: cfmy2019-mcinf-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-equivalence-of-debiased-matrix-and-deshrunken-factor-estimators
+  kind: mechanism
+  statement: For regularization parameter $\lambda = C_\lambda\sigma\sqrt{np}$, Lemma 3 proves that the convex de-biased estimator $\boldsymbol{M}^{\text{cvx,d}} = \mathcal{P}_{\text{rank-}r}[\boldsymbol{Z}^{\text{cvx}} - p^{-1}\mathcal{P}_\Omega(\boldsymbol{Z}^{\text{cvx}} - \boldsymbol{M})]$, the nonconvex de-biased estimator $\boldsymbol{M}^{\text{ncvx,d}}$, the tangent-space linearized estimator $\boldsymbol{Z} - p^{-1}\mathcal{P}_T\mathcal{P}_\Omega(\boldsymbol{Z} - \boldsymbol{M})$, and the de-shrunken factor product $\boldsymbol{X}^{\text{ncvx,d}}\boldsymbol{Y}^{\text{ncvx,d}\top}$ coincide within $O(n^{-4}\sigma\sqrt{n/p})$ in Frobenius norm and obey the exact Gram de-shrinking identity $\boldsymbol{Y}^{\text{d}\top}\boldsymbol{Y}^{\text{d}} = \boldsymbol{Y}^\top\boldsymbol{Y} + \frac{\lambda}{p}\boldsymbol{I}_r$ (Sections 3.2 and 5.1, Lemma 3, Appendix C, Equation D.4).
+  evidence:
+  - source_id: cfmy2019-mcinf-pdf
+    locator: Section 3.2 (Eqs. 3.7-3.9, pp. 6-7), Section 5.1 (Lemma 3, p. 19), Appendix C & D.1 (pp. 28-34)
+    relation: supports
+- claim_id: claim-nonasymptotic-gaussian-factor-and-entrywise-confidence-intervals
+  kind: mechanism
+  statement: "Under $np \\gtrsim \\kappa^8\\mu^3 r^3\\log^3 n$ and $\\sigma/\\sigma_{\\min} \\lesssim \\sqrt{p/(\\kappa^8\\mu r n\\log^2 n)}$, Theorems 1\u20132 and 5\u20136 prove that $\\boldsymbol{X}^{\\text{d}}\\boldsymbol{H}^{\\text{d}} - \\boldsymbol{X}^\\star = \\boldsymbol{Z}_X + \\boldsymbol{\\Psi}_X$ with i.i.d. rows $\\boldsymbol{Z}_X^\\top\\boldsymbol{e}_j \\sim \\mathcal{N}(\\boldsymbol{0}, \\frac{\\sigma^2}{p}(\\boldsymbol{\\Sigma}^\\star)^{-1})$ and negligible residual $\\|\\boldsymbol{\\Psi}_X\\|_{2,\\infty} = o(\\sigma\\sqrt{r/(p\\sigma_{\\max})})$, while each entry satisfies $M_{ij}^{\\text{d}} - M_{ij}^\\star = g_{ij} + \\Delta_{ij}$ with $g_{ij} \\sim \\mathcal{N}(0, v_{ij}^\\star)$, $|\\Delta_{ij}| = o(\\sqrt{v_{ij}^\\star})$, and plug-in variance $v_{ij} = \\frac{\\sigma^2}{p}(\\boldsymbol{X}_{i,\\cdot}^{\\text{d}}(\\boldsymbol{X}^{\\text{d}\\top}\\boldsymbol{X}^{\\text{d}})^{-1}\\boldsymbol{X}_{i,\\cdot}^{\\text{d}\\top} + \\boldsymbol{Y}_{j,\\cdot}^{\\text{d}}(\\boldsymbol{Y}^{\\text{d}\\top}\\boldsymbol{Y}^{\\text{d}})^{-1}\\boldsymbol{Y}_{j,\\cdot}^{\\text{d}\\top})$ achieving asymptotically exact $(1-\\alpha)$ coverage matching the oracle Cram\xE9r\u2013Rao lower bounds of Lemmas 1\u20132 (Sections 3.3\u20133.4 and 5.2\u20135.5)."
+  evidence:
+  - source_id: cfmy2019-mcinf-pdf
+    locator: Sections 3.3-3.4 (Theorems 1-2, Corollary 1, Lemmas 1-2, pp. 7-11), Sections 5.2-5.5 (Theorems 5-6, pp. 20-23)
+    relation: supports
+- claim_id: claim-exact-frobenius-estimation-optimality-including-preconstant
+  kind: application
+  statement: "Summing the de-biased factor decompositions over all $n^2$ entries, Theorem 3 proves that $\\|\\boldsymbol{M}^{\\text{d}} - \\boldsymbol{M}^\\star\\|_F^2 = \\frac{(2+o(1))nr\\sigma^2}{p}$ with probability at least $1 - O(n^{-3})$, matching the oracle tangent-space lower bound $\\mathbb{E}[\\|\\widehat{\\boldsymbol{M}} - \\boldsymbol{M}^\\star\\|_F^2 \\mid \\Omega] \\ge \\frac{(1-\\varepsilon)2nr\\sigma^2}{p}$ of Theorem 4 with the exact pre-constant 2 (Section 3.5, Theorems 3\u20134, Appendix G)."
+  evidence:
+  - source_id: cfmy2019-mcinf-pdf
+    locator: Section 3.5 (Theorems 3-4, p. 11), Appendix G (pp. 53-55)
+    relation: supports
+evidence_sources:
+- source_id: cfmy2019-mcinf-pdf
+  title: Inference and Uncertainty Quantification for Noisy Matrix Completion
+  authors: &id001
+  - Yuxin Chen
+  - Jianqing Fan
+  - Cong Ma
+  - Yuling Yan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1906.04159.pdf
+  persistent_id: https://doi.org/10.1073/pnas.1910053116
+  version: arXiv:1906.04159v2 full-text PDF (69 pages), published in Proceedings of the National Academy of Sciences (PNAS) 116(46):22931-22937 (2019). (1655256 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:26:00Z'
+  sha256: 82dc60654f45e595fff4b948ccc9ce624fd05b551c53eb17058495a62b1910b0
+- source_id: cfmy2019-mcinf-abs
+  title: Inference and Uncertainty Quantification for Noisy Matrix Completion (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1906.04159
+  persistent_id: https://arxiv.org/abs/1906.04159
+  version: arXiv abstract page (7177 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:26:00Z'
+  sha256: 550499b9820a062ab231e7a57898872d5e07b1e057359f78c43b9815f19752b0
+- source_id: cfmy2019-mcinf-cr
+  title: Inference and Uncertainty Quantification for Noisy Matrix Completion (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1073/pnas.1910053116
+  persistent_id: https://doi.org/10.1073/pnas.1910053116
+  version: Crossref API work record (3648 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:26:00Z'
+  sha256: 1dc88365ad528889d0824ec6a298dc065a8ab93ed9bd1542559ae710ad6863a1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Uses rank-r singular value projection and low-rank spectral factor de-shrinking.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Provides uncertainty quantification for low-rank matrix factorization and completion.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Generalizes the linearized one-step subgradient de-biasing paradigm of de-sparsified Lasso to nuclear-norm and factored matrix completion (Section 4, Eqs. 4.1-4.4).
+limitations:
+- When the Leverage/row norm ||U^*_{i,.}||_2 + ||V^*_{j,.}||_2 of an entry (i,j) vanishes (so v^*_{ij} = 0), the first-order Gaussian term g_{ij} vanishes and M^d_{ij} - M^*_{ij} is distributed as the inner product u^T v of two independent Gaussian vectors rather than a normal distribution (Equation 3.24, Section 6).
+- In the symmetric matrix completion setting where M^* = (M^*)^T and P_Omega(E) is symmetric, Remark 5 shows that the diagonal entry variance v^*_{ii} doubles to (4 sigma^2 / p) ||U^*_{i,.}||_2^2 because Z_X^T e_i and Z_Y^T e_i are identical rather than independent.
+curation:
+  created_at: '2026-10-19T05:26:00Z'
+  updated_at: '2026-10-19T05:26:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
