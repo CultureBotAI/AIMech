@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PAGE (Probabilistic Gradient Estimator) for Non-Convex Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>PAGE (Probabilistic Gradient Estimator) for Non-Convex Optimization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">PAGE (Probabilistic Gradient Estimator) for Non-Convex Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PageProbabilisticGradientEstimatorForNonconvexOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PAGE, Probabilistic Gradient Estimator, Loopless Probabilistic Recursive Gradient Estimator
+    </div>
+
+  <div class="detail-desc">
+    A single-loop (loopless) variance-reduced stochastic optimization algorithm and probabilistic gradient estimator (Li, Bao, Zhang, &amp; Richtarik 2021) for non-convex finite-sum and online minimization min_x f(x) = (1/n) sum_{i=1}^n f_i(x) that updates iterates via x^{t+1} = x^t - eta * g^t and constructs the gradient estimator g^{t+1} by a Bernoulli coin flip with probability p_t in (0, 1]: with probability p_t it computes a fresh minibatch SGD gradient (1/b) sum_{i in I} nabla f_i(x^{t+1}) of size |I| = b, and with probability 1 - p_t it reuses the previous estimator with a small-minibatch SARAH/SPIDER recursive correction g^t + (1/b&#39;) sum_{i in I&#39;} (nabla f_i(x^{t+1}) - nabla f_i(x^t)) of size |I&#39;| = b&#39; &lt;&lt; b, achieving optimal non-convex gradient complexity O(n + n^{1/2} * varepsilon^{-2}) (and O(b + b^{1/2} * varepsilon^{-2}) with b = Theta(sigma^2 / varepsilon^2) in the online setting) using a large constant step size eta = 1 / (2L) when p_t = b&#39; / (b + b&#39;) and b&#39; = n^{1/2}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from double-loop recursive gradient methods SARAH (Nguyen et al. 2017, AIMech:SARAHStochasticRecursiveGradientForFiniteSumOptimization), SPIDER (Fang et al. 2018, AIMech:SPIDERStochasticPathIntegratedDifferentialEstimatorForNonConvexOptimization), and SpiderBoost (Wang et al. 2019, Round 376), which reset the gradient estimator at deterministic epoch boundaries mod(k, q) = 0; from L-SVRG / Loopless Katyusha (Kovalev et al. 2020, AIMech:LooplessSVRGAndLooplessKatyushaStochasticOptimization, which uses a loopless coin flip to update an anchor point w^t in the SVRG control-variate estimator nabla f_i(x^t) - nabla f_i(w^t) + nabla f(w^t) rather than switching between a fresh minibatch gradient and a recursive path-integrated step); and from STORM (Cutkosky &amp; Orabona 2019, AIMech:StormStochasticRecursiveMomentumForNonconvexOptimization, which blends both terms at every step via deterministic weight a_t rather than a probabilistic two-branch estimator with unequal minibatch sizes b and b&#39;).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r374-claim-page-variance-recursion-and-lyapunov-descent</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under average L-smoothness E_i||nabla f_i(x) - nabla f_i(y)||_2^2 &lt;= L^2 ||x - y||_2^2 (Assumption 2), the PAGE estimator (Equation 3) satisfies the one-step conditional variance recursion E[||g^{t+1} - nabla f(x^{t+1})||_2^2 | F_t] &lt;= (1 - p_t) ||g^t - nabla f(x^t)||_2^2 + ((1 - p_t) L^2 / b&#39;) ||x^{t+1} - x^t||_2^2 + p_t * I(b &lt; n) * sigma^2 / b (Lemmas 3-4); combining this with the exact gradient descent identity f(x^{t+1}) &lt;= f(x^t) - (eta/2) ||nabla f(x^t)||_2^2 - (1/(2*eta) - L/2) ||x^{t+1} - x^t||_2^2 + (eta/2) ||g^t - nabla f(x^t)||_2^2 (Lemma 2) yields strict decrease of the Lyapunov potential Phi_t = f(x^t) - f^* + (eta / (2 * p_t)) ||g^t - nabla f(x^t)||_2^2 whenever eta &lt;= 1 / (L * (1 + ((1 - p_t) / (p_t * b&#39;))^{1/2})).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r374-primary-pdf">PAGE: A Simple and Optimal Probabilistic Gradient Estimator for Nonconvex Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3-4, Equation (3), Theorems 1 and 3; Appendix A, Lemmas 2, 3, and 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r374-claim-optimal-nonconvex-and-pl-linear-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Setting p_t = b&#39; / (b + b&#39;) with b = n (finite-sum) or b = ceil(2*sigma^2 / varepsilon^2) (online) and any b&#39; in [1, b^{1/2}] gives (1 - p_t)/(p_t * b&#39;) = b / b&#39;^2, allowing step size eta = 1 / (L * (1 + b^{1/2}/b&#39;)) (= 1/(2L) when b&#39; = b^{1/2}) and expected per-step gradient cost p_t * b + (1 - p_t) * b&#39; &lt;= 2*b&#39;, finding E||nabla f(xhat_T)||_2 &lt;= varepsilon in O(b + b^{1/2} * L * Delta_0 / varepsilon^2) = O(min(n + n^{1/2}/varepsilon^2, sigma^2/varepsilon^2 + sigma/varepsilon^3)) stochastic gradient evaluations, matching the Carmon et al. / Fang et al. / Arjevani et al. lower bounds (Theorems 1-4, Corollaries 1-4); furthermore, under the mu-Polyak-Lojasiewicz condition 1/2 * ||nabla f(x)||_2^2 &gt;= mu * (f(x) - f^*), PAGE automatically switches to linear convergence O((b + b^{1/2} * L / mu) * log(1/varepsilon)) without restarting an outer loop (Theorem 5, Corollary 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r374-primary-pdf">PAGE: A Simple and Optimal Probabilistic Gradient Estimator for Nonconvex Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Table 1; Section 4, Theorems 1-5, Corollaries 1-5; Appendix A.2 and Appendix B</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r374-claim-unifies-sgd-gd-and-loopless-sarah-spider</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    PAGE continuously interpolates between pure minibatch SGD (recovered at p_t = 1 with b &lt; n), full-batch gradient descent (recovered at p_t = 1 with b = n), and loopless variance-reduced recursive gradient descent (for p_t = b&#39;/(b+b&#39;)), and empirically outperforms SGD, SVRG, SCSG, and SPIDER on non-convex neural network training on MNIST and CIFAR-10.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r374-primary-pdf">PAGE: A Simple and Optimal Probabilistic Gradient Estimator for Nonconvex Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Special Cases; Section 5, Experiments, Figures 1-2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>In the finite-sum setting (b = n) or high-accuracy online regime (b = Theta(sigma^2/varepsilon^2)), the Bernoulli coin flip occasionally triggers a large batch of size b with probability p_t = b&#39;/(b + b&#39;), causing non-uniform per-iteration compute latency compared to uniform-batch single-loop methods like STORM (Section 3, Algorithm 1).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Used to optimize non-convex regularized empirical risk and multi-class classification objectives.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r374-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r374-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2008.10898" target="_blank" rel="noopener">PAGE: A Simple and Optimal Probabilistic Gradient Estimator for Nonconvex Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhize Li, Hongyan Bao, Xiangliang Zhang, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v139/li21a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f23577a4052a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r374-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r374-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2008.10898" target="_blank" rel="noopener">PAGE: A Simple and Optimal Probabilistic Gradient Estimator for Nonconvex Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhize Li, Hongyan Bao, Xiangliang Zhang, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2008.10898</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dcaa79d623e1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r374-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r374-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v139/li21a.html" target="_blank" rel="noopener">PAGE: A Simple and Optimal Probabilistic Gradient Estimator for Nonconvex Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhize Li, Hongyan Bao, Xiangliang Zhang, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v139/li21a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:30b011e9052c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:37:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:37:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PageProbabilisticGradientEstimatorForNonconvexOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PageProbabilisticGradientEstimatorForNonconvexOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

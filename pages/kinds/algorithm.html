@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">466 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">467 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">466</span> of <span id="totalCount">466</span>
+      Showing <span id="matchCount">467</span> of <span id="totalCount">467</span>
     </div>
   </div>
 </div>
@@ -7603,6 +7603,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="page (probabilistic gradient estimator) for non-convex optimization pageprobabilisticgradientestimatorfornonconvexoptimization aimech:pageprobabilisticgradientestimatorfornonconvexoptimization algorithms algorithm a single-loop (loopless) variance-reduced stochastic optimization algorithm and probabilistic gradient estimator (li, bao, zhang, &amp; richtarik 2021) for non-convex finite-sum and online minimization min_x f(x) = (1/n) sum_{i=1}^n f_i(x) that updates iterates via x^{t+1} = x^t - eta * g^t and constructs the gradient estimator g^{t+1} by a bernoulli coin flip with probability p_t in (0, 1]: with probability p_t it computes a fresh minibatch sgd gradient (1/b) sum_{i in i} nabla f_i(x^{t+1}) of size |i| = b, and with probability 1 - p_t it reuses the previous estimator with a small-minibatch sarah/spider recursive correction g^t + (1/b&#39;) sum_{i in i&#39;} (nabla f_i(x^{t+1}) - nabla f_i(x^t)) of size |i&#39;| = b&#39; &lt;&lt; b, achieving optimal non-convex gradient complexity o(n + n^{1/2} * varepsilon^{-2}) (and o(b + b^{1/2} * varepsilon^{-2}) with b = theta(sigma^2 / varepsilon^2) in the online setting) using a large constant step size eta = 1 / (2l) when p_t = b&#39; / (b + b&#39;) and b&#39; = n^{1/2}. distinct from double-loop recursive gradient methods sarah (nguyen et al. 2017, aimech:sarahstochasticrecursivegradientforfinitesumoptimization), spider (fang et al. 2018, aimech:spiderstochasticpathintegrateddifferentialestimatorfornonconvexoptimization), and spiderboost (wang et al. 2019, round 376), which reset the gradient estimator at deterministic epoch boundaries mod(k, q) = 0; from l-svrg / loopless katyusha (kovalev et al. 2020, aimech:looplesssvrgandlooplesskatyushastochasticoptimization, which uses a loopless coin flip to update an anchor point w^t in the svrg control-variate estimator nabla f_i(x^t) - nabla f_i(w^t) + nabla f(w^t) rather than switching between a fresh minibatch gradient and a recursive path-integrated step); and from storm (cutkosky &amp; orabona 2019, aimech:stormstochasticrecursivemomentumfornonconvexoptimization, which blends both terms at every step via deterministic weight a_t rather than a probabilistic two-branch estimator with unequal minibatch sizes b and b&#39;). page probabilistic gradient estimator loopless probabilistic recursive gradient estimator under average l-smoothness e_i||nabla f_i(x) - nabla f_i(y)||_2^2 &lt;= l^2 ||x - y||_2^2 (assumption 2), the page estimator (equation 3) satisfies the one-step conditional variance recursion e[||g^{t+1} - nabla f(x^{t+1})||_2^2 | f_t] &lt;= (1 - p_t) ||g^t - nabla f(x^t)||_2^2 + ((1 - p_t) l^2 / b&#39;) ||x^{t+1} - x^t||_2^2 + p_t * i(b &lt; n) * sigma^2 / b (lemmas 3-4); combining this with the exact gradient descent identity f(x^{t+1}) &lt;= f(x^t) - (eta/2) ||nabla f(x^t)||_2^2 - (1/(2*eta) - l/2) ||x^{t+1} - x^t||_2^2 + (eta/2) ||g^t - nabla f(x^t)||_2^2 (lemma 2) yields strict decrease of the lyapunov potential phi_t = f(x^t) - f^* + (eta / (2 * p_t)) ||g^t - nabla f(x^t)||_2^2 whenever eta &lt;= 1 / (l * (1 + ((1 - p_t) / (p_t * b&#39;))^{1/2})). setting p_t = b&#39; / (b + b&#39;) with b = n (finite-sum) or b = ceil(2*sigma^2 / varepsilon^2) (online) and any b&#39; in [1, b^{1/2}] gives (1 - p_t)/(p_t * b&#39;) = b / b&#39;^2, allowing step size eta = 1 / (l * (1 + b^{1/2}/b&#39;)) (= 1/(2l) when b&#39; = b^{1/2}) and expected per-step gradient cost p_t * b + (1 - p_t) * b&#39; &lt;= 2*b&#39;, finding e||nabla f(xhat_t)||_2 &lt;= varepsilon in o(b + b^{1/2} * l * delta_0 / varepsilon^2) = o(min(n + n^{1/2}/varepsilon^2, sigma^2/varepsilon^2 + sigma/varepsilon^3)) stochastic gradient evaluations, matching the carmon et al. / fang et al. / arjevani et al. lower bounds (theorems 1-4, corollaries 1-4); furthermore, under the mu-polyak-lojasiewicz condition 1/2 * ||nabla f(x)||_2^2 &gt;= mu * (f(x) - f^*), page automatically switches to linear convergence o((b + b^{1/2} * l / mu) * log(1/varepsilon)) without restarting an outer loop (theorem 5, corollary 5). page continuously interpolates between pure minibatch sgd (recovered at p_t = 1 with b &lt; n), full-batch gradient descent (recovered at p_t = 1 with b = n), and loopless variance-reduced recursive gradient descent (for p_t = b&#39;/(b+b&#39;)), and empirically outperforms sgd, svrg, scsg, and spider on non-convex neural network training on mnist and cifar-10. page: a simple and optimal probabilistic gradient estimator for nonconvex optimization page: a simple and optimal probabilistic gradient estimator for nonconvex optimization (arxiv abstract) page: a simple and optimal probabilistic gradient estimator for nonconvex optimization (crossref metadata) zhize li hongyan bao xiangliang zhang peter richtarik zhize li hongyan bao xiangliang zhang peter richtarik zhize li hongyan bao xiangliang zhang peter richtarik">
+        <td>
+          <a href="../curated/PageProbabilisticGradientEstimatorForNonconvexOptimization.html" style="font-weight: 600; font-size: 1rem;">PAGE (Probabilistic Gradient Estimator) for Non-Convex Optimization</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> PAGE, Probabilistic Gradient Estimator…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A single-loop (loopless) variance-reduced stochastic optimization algorithm and probabilistic gradient estimator (Li, Bao, Zhang, &amp; Richtari…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PageProbabilisticGradientEstimatorForNonconvexOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
