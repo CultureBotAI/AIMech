@@ -1,0 +1,101 @@
+id: AIMech:OLSPostLassoAndFitnessThresholdedPostModelSelectionInHighDimensionalSparseModels
+name: OLS Post-Lasso and Fitness-Thresholded Post-Model-Selection Estimation in High-Dimensional Sparse Models
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A two-stage high-dimensional sparse regression methodology and non-asymptotic oracle rate theory (introduced by Alexandre Belloni and Victor Chernozhukov in 2013) that refits Ordinary Least Squares (OLS) on the covariate support $\widehat{T} \subseteq \{1, \dots, p\}$ selected by a first-stage $\ell_1$-penalized Lasso estimator $\widehat{\beta}_{\mathrm{L}} \in \arg\min_{\beta \in \mathbb{R}^p} \left\{\widehat{Q}(\beta) + \frac{\lambda}{n}\|\beta\|_1\right\}$ ($\widehat{Q}(\beta) = \frac{1}{n}\sum_{i=1}^n (y_i - x_i''\beta)^2$), or on an augmented/fitness-thresholded support $\widetilde{T} = \widehat{T}_{t_\gamma} = \{j \in \operatorname{supp}(\widehat{\beta}_{\mathrm{L}}) : |\widehat{\beta}_{\mathrm{L},j}| > t_\gamma\}$ with $\widetilde{\beta}_{\mathrm{PL}} \in \arg\min_{\operatorname{supp}(\beta) \subseteq \widetilde{T}} \widehat{Q}(\beta)$ where $t_\gamma = \min\{t \ge 0 : \widehat{Q}(\widehat{\beta}_{\mathrm{PL}}(\widehat{T}_t)) - \widehat{Q}(\widehat{\beta}_{\mathrm{L}}) \le \gamma\}$ (Equation 2.11). In the general nonparametric approximation model $y_i = f(z_i) + \epsilon_i = x_i''\beta_0 + r_i + \epsilon_i$ with approximation error $c_s = \left(\mathbb{E}_n[r_i^2]\right)^{1/2}$, Theorem 3 bounds the random empirical sparsity $\widehat{m} = |\widetilde{T} \setminus T| \le s\,L_n$ via the sublinearity of maximal sparse eigenvalues $\phi(\ell k) \le \lceil\ell\rceil\phi(k)$ (Lemma 3), and Theorem 4 proves that OLS Post-Lasso achieves the prediction error bound $\|\widetilde{f}_{\mathrm{PL}} - f\|_{2,n} \lesssim \sigma\sqrt{\frac{\widehat{m}\log p + k\log(ep/k)}{n\,\kappa(k + \widehat{m})}} + c_s + \mathbf{1}\{\widehat{T} \not\supseteq T\}\sqrt{\left[\widehat{Q}(\widetilde{\beta}_{\mathrm{PL}}) - \widehat{Q}(\widehat{\beta}_{\mathrm{L}})\right]_+} + B_n\,\sigma\sqrt{\frac{s\log p}{n}}\frac{1}{\kappa(s, \mathbf{c})}$, matching Lasso''s rate even when model selection partially fails and achieving a strictly faster $\sqrt{(s/n)\log(ep/s)}$ rate when $\widehat{T} = T$, while completely eliminating the unavoidable $\ell_1$-shrinkage bias $\|\widehat{f}_{\mathrm{L}} - f\|_{2,n} \ge \frac{\|\widehat{\beta}_{\mathrm{L}}\|_1}{\|f\|_{2,n}} \cdot \frac{(1 - 1/c)\lambda}{n} - c_s$ proved in Remark 3.1 (Equation 3.19).'
+identity_notes: Resolved against all 442 pinned AIO concepts and 662 maintained AIMech concepts. Distinct from `AIMech:L1PenalizedAndPostPenalizedQuantileRegressionProcessInHighDimensionalSparseModels` (Belloni & Chernozhukov 2011, which analyzes the check-loss $\ell_1$-QR and post-$\ell_1$-QR process across quantiles $u \in \mathcal{U}$ under conditional density regularity and pivotal score suprema), distinct from `AIMech:PostDoubleSelectionHighDimensionalTreatmentEffectInference` (Belloni, Chernozhukov, & Hansen 2014, which performs union-of-supports double selection across outcome and treatment equations for semiparametric causal treatment-effect inference rather than single-equation OLS Post-Lasso prediction/estimation oracle inequalities, Lemma 3 sparse-eigenvalue sublinearity, Remark 3.1 Lasso shrinkage lower bounds, and Equation 2.11 fitness-thresholded support pruning), distinct from `AIMech:AdaptiveLassoOracleVariableSelection` (Zou 2006, reweighted $\ell_1$ penalization under fixed-$p$ or asymptotic beta-min assumptions), and distinct from `AIO:LassoRegression` and `AIO:LinearRegression`.
+aliases:
+- OLS Post-Lasso
+- Least Squares Post-Lasso
+- Fitness-Thresholded Post-Lasso
+- Belloni-Chernozhukov OLS Post-Lasso Oracle Inequalities
+definition_evidence:
+- source_id: bc2013-postlasso-pdf
+  locator: Section 2, pp. 4-9, Equations (2.1)-(2.12); Section 3, pp. 9-12, Condition RE, Condition SE, Lemmas 1-4; Section 4, pp. 12-16, Theorems 1-3, Remark 3.1, Equation (3.19); Section 5, pp. 16-18, Theorem 4, Corollaries 1-3; Appendices A-E, pp. 20-26
+  relation: supports
+- source_id: bc2013-postlasso-abs
+  locator: arXiv:1001.0188 abstract
+  relation: supports
+- source_id: bc2013-postlasso-crossref
+  locator: DOI:10.3150/11-BEJ410 Crossref metadata
+  relation: supports
+claims:
+- claim_id: sparse-eigenvalue-sublinearity-and-lasso-shrinkage-lower-bound
+  kind: mechanism
+  statement: For the empirical Gram matrix $M = \mathbb{E}_n[x_i x_i']$ with maximal $k$-sparse eigenvalue $\phi(k) = \sup_{1 \le \|\delta\|_0 \le k} \frac{\delta' M \delta}{\|\delta\|_2^2}$, Lemma 3 (p. 11; Appendix A, p. 20) proves the subadditivity $\phi(k_1 + k_2) \le \phi(k_1) + \phi(k_2)$ and sublinearity $\phi(\ell k) \le \lceil\ell\rceil\phi(k)$ for all $\ell \ge 1$. While Theorem 1 (p. 12) shows that the first-stage Lasso achieves $\|\widehat{f}_{\mathrm{L}} - f\|_{2,n} \le \left(1 + \frac{1}{c}\right)\frac{\lambda\sqrt{s}}{n\,\kappa(s, c_0)} + 2c_s$ on the score-domination event $\lambda \ge c n\|S\|_\infty$ ($S = \frac{2}{n}\sum_{i=1}^n x_i\epsilon_i$, $c > 1$), Remark 3.1 (Equation 3.19, p. 13) proves that Lasso suffers a deterministic shrinkage lower bound $\|\widehat{f}_{\mathrm{L}} - f\|_{2,n} \ge \frac{\|\widehat{\beta}_{\mathrm{L}}\|_1}{\|f\|_{2,n}} \cdot \frac{(1 - 1/c)\lambda}{n} - c_s$ whenever $\lambda \ge c n\|S\|_\infty$, preventing Lasso from adapting to smaller noise or smaller true support without reducing $\lambda$ below the noise-domination threshold.
+  evidence:
+  - source_id: bc2013-postlasso-pdf
+    locator: Section 3, pp. 10-11, Lemma 3; Section 4, pp. 12-13, Theorem 1, Remark 3.1, Equation (3.19); Appendix A, p. 20
+    relation: supports
+- claim_id: post-lasso-empirical-sparsity-bound-and-oracle-rate-without-model-selection-success
+  kind: mechanism
+  statement: By Theorem 3 (p. 14; Appendix C, pp. 21-23), on the event $\lambda \ge c n\|S\|_\infty$, the number of unthresholded false-positive covariates selected by Lasso is bounded by $|\widehat{T} \setminus T| \le s \cdot \min_{m \in \mathcal{M}} \phi(m)\,L_n$ where $L_n = \left[\frac{2\bar{c}}{\kappa(s, 2\bar{c})} + \frac{4n c_s}{\lambda\sqrt{s}}\right]^2$ and $\bar{c} = \frac{c+1}{c-1}$. Building on this sparsity control, Theorem 4 (p. 15; Appendix D, pp. 23-25) establishes that for any post-selection support $\widetilde{T}$ with $\widehat{m} = |\widetilde{T} \setminus T|$ and $k = |T \setminus \widetilde{T}|$, the OLS Post-Lasso estimator $\widetilde{\beta}_{\mathrm{PL}}$ satisfies $\|\widetilde{f}_{\mathrm{PL}} - f\|_{2,n} \le C\sigma\sqrt{\frac{\widehat{m}\log p + k\log(ep/k)}{n\,\kappa(k + \widehat{m})}} + c_s + \mathbf{1}\{\widehat{T} \not\supseteq T\}\sqrt{\left[\widehat{Q}(\widetilde{\beta}_{\mathrm{PL}}) - \widehat{Q}(\widehat{\beta}_{\mathrm{L}})\right]_+} + B_n\,\sigma\sqrt{\frac{s\log p}{n}}\frac{1}{\kappa(s, c_0)}$ with $B_n = \mathbf{1}\{T \not\subseteq \widetilde{T}\}$ (or $B_n = \mathbf{1}\{\widehat{T} \not\subseteq \widetilde{T}\}$).
+  evidence:
+  - source_id: bc2013-postlasso-pdf
+    locator: Section 4, p. 14, Theorem 3; Section 5, pp. 15-17, Theorem 4, Corollaries 1-3; Appendices C and D, pp. 21-25
+    relation: supports
+- claim_id: fitness-thresholded-post-lasso-support-pruning-with-controlled-empirical-risk
+  kind: mechanism
+  statement: 'While naive coordinate thresholding $\widehat{T}_t = \{j : |\widehat{\beta}_{\mathrm{L},j}| > t\}$ can discard correlated signal variables and cause uncontrolled increases in empirical risk $\widehat{Q}(\widehat{\beta}_{\mathrm{PL}}(\widehat{T}_t)) - \widehat{Q}(\widehat{\beta}_{\mathrm{L}})$, the fitness-thresholded rule $t_\gamma = \min\{t \ge 0 : \widehat{Q}(\widehat{\beta}_{\mathrm{PL}}(\widehat{T}_t)) - \widehat{Q}(\widehat{\beta}_{\mathrm{L}}) \le \gamma\}$ (Equation 2.11, pp. 7-8) with tolerance $\gamma = O(\sigma^2 s\log p / n)$ guarantees by construction that $\widehat{Q}(\widehat{\beta}_{\mathrm{PL}}(\widehat{T}_{t_\gamma})) - \widehat{Q}(\widehat{\beta}_{\mathrm{L}}) \le \gamma$ while pruning spurious low-amplitude Lasso coordinates to reduce $\widehat{m}$ and achieve the Theorem 4 oracle bound.'
+  evidence:
+  - source_id: bc2013-postlasso-pdf
+    locator: Section 2.2, pp. 7-8, Equations (2.10)-(2.11); Section 5, pp. 15-17, Theorem 4, Corollary 2
+    relation: supports
+evidence_sources:
+- source_id: bc2013-postlasso-pdf
+  title: Least squares after model selection in high-dimensional sparse models
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1001.0188.pdf
+  persistent_id: https://doi.org/10.3150/11-BEJ410
+  version: arXiv:1001.0188v5 full-text PDF (Bernoulli 19(2):521-547, 2013; 27 pages, 392949 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T04:50:00Z'
+  sha256: 3b8ed91d939c20efa9687f9b19920916bea42140615c0560210189bbd7ba1bc5
+- source_id: bc2013-postlasso-abs
+  title: Least squares after model selection in high-dimensional sparse models
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1001.0188
+  persistent_id: https://arxiv.org/abs/1001.0188
+  version: arXiv:1001.0188 abstract page (7632 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T04:50:00Z'
+  sha256: 08b82138c5355b576d24d246d847536b2e0acbaf1f1f71260ad20737b5d734bd
+- source_id: bc2013-postlasso-crossref
+  title: Least squares after model selection in high-dimensional sparse models
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.3150/11-BEJ410
+  persistent_id: https://doi.org/10.3150/11-BEJ410
+  version: Bernoulli 19(2):521-547 (2013) Crossref metadata (3891 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T04:50:00Z'
+  sha256: 06847f0cbd5e7336f6500836ca980f09699345040de808efa62af02b3a614b19
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: broad_match
+  rationale: Uses first-stage Lasso support selection followed by unpenalized OLS refitting to remove l_1 shrinkage bias.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Performs second-stage Ordinary Least Squares linear regression on the Lasso-selected or fitness-thresholded covariate subset.
+limitations:
+- Theorem 3's bound on the empirical post-selection dimension $\widehat{m} = |\widehat{T} \setminus T| \le s \cdot \min_{m \in \mathcal{M}} \phi(m)\,L_n$ depends on bounded sparse eigenvalues $\phi(m)$ of the empirical Gram matrix $M = \mathbb{E}_n[x_i x_i']$; when covariates exhibit near-collinear clusters that inflate $\phi(m)$ relative to $\kappa(s, c_0)$, Lasso may include additional false positives unless fitness thresholding (Eq. 2.11) is applied.
+- Achieving the strictly faster oracle rate $O_{\mathbb{P}}\left(\sigma\sqrt{\frac{s\log(ep/s)}{n}}\right)$ in Corollary 2 (rather than the standard Lasso rate $O_{\mathbb{P}}\left(\sigma\sqrt{\frac{s\log p}{n}}\right)$) requires either exact support inclusion $T \subseteq \widetilde{T}$ with $\widehat{m} = 0$ (which depends on a beta-min separation condition) or an unpenalized refit that does not omit active variables ($B_n = 0$).
+- 'Primary-source typographical audit of `arXiv:1001.0188v5`: (1) Section 2.2 line after Eq. (2.10) (p. 7) writes ''thresholded Lassol'' instead of ''thresholded Lasso''; (2) Section 3 Lemma 1 first display (p. 10) writes ''$\|\delta\|$'' in the denominator instead of ''$\|\delta\|^2$'' in both sparse eigenvalue definitions $\kappa(k)$ and $\phi(k)$; (3) Section 5 paragraph after Theorem 4 line 5 (p. 15) writes ''$B_n$ has no affect on the rate'' instead of ''no effect''; (4) Appendix B Proof of Theorem 1 second display (p. 21) omits the factor ''$\bar{c}$'' before ''$\|\delta_T\|_1$'' in the intermediate inequality; and (5) Acknowledgements line 4 (p. 26) writes ''Brigham Fradsen'', ''refereers'', and ''articler''.'
+curation:
+  created_at: '2026-10-19T04:50:00Z'
+  updated_at: '2026-10-19T04:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
