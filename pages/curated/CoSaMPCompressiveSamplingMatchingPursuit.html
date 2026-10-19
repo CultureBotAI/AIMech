@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CoSaMP (Compressive Sampling Matching Pursuit) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>CoSaMP (Compressive Sampling Matching Pursuit)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">CoSaMP (Compressive Sampling Matching Pursuit)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CoSaMPCompressiveSamplingMatchingPursuit</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CoSaMP, Compressive Sampling Matching Pursuit, Needell-Tropp CoSaMP Algorithm
+    </div>
+
+  <div class="detail-desc">
+    CoSaMP (Compressive Sampling Matching Pursuit) is an iterative greedy-pursuit signal reconstruction algorithm introduced by Needell and Tropp (2009) that combines combinatorial support-identification ideas with the optimal restricted-isometry stability guarantees of convex optimization. Given noisy linear measurements u = Phi x + e in C^m of an N-dimensional signal x and target sparsity s, each iteration k &gt;= 1 executes five steps: (1) Identification of the 2s largest coordinates Omega = supp((Phi^* v)_{2s}) of the proxy y = Phi^* v from the current residual v; (2) Support Merger T = Omega union supp(a^{k-1}) of size at most 3s; (3) Estimation via restricted least squares b|_T = Phi_T^dagger u and b|_{T^c} = 0; (4) Pruning to retain only the s largest entries a^k = b_s; and (5) Sample update v = u - Phi a^k. Under the Restricted Isometry Property delta_{4s} &lt;= 0.1, CoSaMP satisfies ||x - a^k||_2 &lt;= 2^{-k} ||x||_2 + 20*nu where nu = ||x - x_s||_2 + s^{-1/2} ||x - x_s||_1 + ||e||_2.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from single-atom Orthogonal Matching Pursuit (AIMech:OrthogonalMatchingPursuitTroppGilbertSignalRecovery), projection-free Iterative Hard Thresholding (AIMech:IterativeHardThresholdingForCompressedSensing), and Subspace Pursuit (which identifies s rather than 2s proxy coordinates and re-projects after pruning). Specifically captures the Needell-Tropp (2009) five-step CoSaMP iteration (Algorithm 2.1), its five component lemmas for identification, support merger, least-squares estimation, and pruning (Lemmas 4.2-4.5), its uniform mixed-norm compressible recovery guarantee (Theorem 2.1), and its Richardson/conjugate-gradient fast least-squares complexity analysis (Section 5, Lemma 5.1 and Theorem 5.2).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On an s-sparse signal with corrupted measurements u = Phi x + e, CoSaMP&#39;s four stagewise bounds—Identification ||(x - a^{k-1})_{Omega^c}||_2 &lt;= 0.2223 ||x - a^{k-1}||_2 + 2.34 ||e||_2 (Lemma 4.2), Support Merger ||x_{T^c}||_2 &lt;= ||(x - a^{k-1})_{Omega^c}||_2 (Lemma 4.3), Estimation ||x - b||_2 &lt;= 1.112 ||x_{T^c}||_2 + 1.06 ||e||_2 (Lemma 4.4), and Pruning ||x - a^k||_2 &lt;= 2 ||x - b||_2 (Lemma 4.5)—compose under delta_{4s} &lt;= 0.1 to yield the per-iteration error contraction ||x - a^k||_2 &lt;= 0.5 ||x - a^{k-1}||_2 + 7.5 ||e||_2 (Theorem 4.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r315-primary-pdf">CoSaMP: Iterative signal recovery from incomplete and inaccurate samples</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2, Theorem 4.1 and Lemmas 4.2-4.5, pp. 11-16</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r315-metadata-cr">CoSaMP: Iterative signal recovery from incomplete and inaccurate samples (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata for Applied and Computational Harmonic Analysis 26(3):301-321</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For general compressible signals x in C^N, Lemma 4.1 absorbs the best-(s/2) tail x - x_{s/2} into effective measurement noise e_tilde = Phi(x - x_{s/2}) + e with ||e_tilde||_2 &lt;= sqrt(1 + delta_s)*(||x - x_{s/2}||_2 + s^{-1/2} ||x - x_{s/2}||_1) + ||e||_2, yielding Theorem 2.1&#39;s uniform mixed-(l2, l1) recovery bound ||x - a^k||_2 &lt;= 2^{-k} ||x||_2 + 20*nu; furthermore, replacing exact pseudoinversion by 3 steps of Richardson iteration z^{l+1} = Phi_T^* u - (Phi_T^* Phi_T - I) z^l initialized at a^{k-1}|_T preserves the runtime O(L * log(||x||_2/eta)) where L is the cost of a matrix-vector multiply (Lemma 5.1 and Theorem 5.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r315-primary-pdf">CoSaMP: Iterative signal recovery from incomplete and inaccurate samples</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, Theorem 2.1, p. 5; Section 4.1, Lemma 4.1 and Reduction to Sparse Case, pp. 11-13; Section 5.1-5.2, Lemma 5.1 and Theorem 5.2, pp. 16-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    CoSaMP requires prior knowledge of the target sparsity level s as an explicit input parameter and relies on the 4s-restricted isometry constant delta_{4s} &lt;= 0.1 (because merging a 2s identification set with an s-sparse iterate forms a 3s-sparse least-squares support whose interaction with an s-sparse residual spans up to 4s columns); if the true non-zero tail energy nu is large, the reconstruction error saturates at an O(nu) noise floor.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r315-primary-pdf">CoSaMP: Iterative signal recovery from incomplete and inaccurate samples</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, Algorithm 2.1 input specification and Theorem 2.1, pp. 4-6; Section 3.2, Proposition 3.5, p. 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires the target sparsity s to be specified in advance and requires the sensing matrix to satisfy the 4s-Restricted Isometry Property; when the unrecoverable tail-and-noise energy nu is non-zero, CoSaMP&#39;s error plateaus at an O(nu) floor.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            CoSaMP solves sparse linear inverse problems using iterative restricted least-squares estimation on merged 3s-sparse supports.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LassoRegression.html" style="font-weight: 600;"><code>AIO:LassoRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Lasso Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            CoSaMP provides matching mixed-(l2, l1) instance-optimality guarantees to l1 Basis Pursuit / Lasso via greedy iterative support pruning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r315-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r315-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/0803.2392v2" target="_blank" rel="noopener">CoSaMP: Iterative signal recovery from incomplete and inaccurate samples</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Deanna Needell, Joel A. Tropp
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1016/j.acha.2008.07.002</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b7c44f7100ce…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r315-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r315-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/0803.2392v2" target="_blank" rel="noopener">CoSaMP: Iterative signal recovery from incomplete and inaccurate samples (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Deanna Needell, Joel A. Tropp
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/0803.2392v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:57f5b27b39de…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r315-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r315-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1016/j.acha.2008.07.002" target="_blank" rel="noopener">CoSaMP: Iterative signal recovery from incomplete and inaccurate samples (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Deanna Needell, Joel A. Tropp
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1016/j.acha.2008.07.002</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c0868fb51319…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:22:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:22:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CoSaMPCompressiveSamplingMatchingPursuit.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CoSaMPCompressiveSamplingMatchingPursuit.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
