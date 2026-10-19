@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sinkhorn Distances and Entropic Regularized Optimal Transport · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Sinkhorn Distances and Entropic Regularized Optimal Transport</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Sinkhorn Distances and Entropic Regularized Optimal Transport</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Sinkhorn Distance, Dual-Sinkhorn Entropic Optimal Transport, Cuturi Lightspeed Optimal Transport via Sinkhorn-Knopp Matrix Scaling
+    </div>
+
+  <div class="detail-desc">
+    Sinkhorn Distances and Entropic Regularized Optimal Transport is a scalable optimal transport framework introduced by Cuturi (2013) that replaces the unregularized O(d^3 log d) network-simplex linear program d_M(r, c) = min_{P in U(r, c)} &lt;P, M&gt; over the transport polytope U(r, c) = {P in R_+^{d x d} : P 1_d = r, P^T 1_d = c} with the strictly convex entropic-regularized Dual-Sinkhorn problem d_M^lambda(r, c) = &lt;P^lambda, M&gt; where P^lambda = argmin_{P in U(r, c)} {&lt;P, M&gt; - (1/lambda) h(P)} and h(P) = -sum_{i,j} P_{ij} log P_{ij} is the Shannon entropy (Equations 2-3). By strict convexity and KKT optimality (Lemma 2), the unique optimal coupling has the diagonal-scaling form P^lambda = diag(u) K diag(v) of the Gibbs kernel K_{ij} = exp(-lambda M_{ij}), which is computed at linear convergence rate via the Sinkhorn-Knopp alternating row- and column-normalization iteration u &lt;- r ./ (K v), v &lt;- c ./ (K^T u) using vectorized matrix-vector multiplications in O(d^2) operations per iteration (Algorithm 1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from 1-Wasserstein discriminator critic maximization in Wasserstein GANs (AIMech:WassersteinGANAndKantorovichRubinsteinDualityCritic) and from classical combinatorial auction / network-simplex linear programming solvers. Specifically captures Cuturi&#39;s (2013) Primal-Sinkhorn entropy ball constraint U_alpha(r, c) (Definition 1 and Equation 1), the Dual-Sinkhorn entropic Lagrangian d_M^lambda(r, c) = &lt;P^lambda, M&gt; (Equation 2), the metric symmetry and triangle-inequality proof via conditional gluing of transport plans and strong data-processing inequality I(X; Z) &lt;= min(I(X; Y), I(Y; Z)) (Theorem 1 and Lemma 1), the Gibbs kernel diagonal scaling characterization P^lambda = diag(u) exp(-lambda M) diag(v) (Lemma 2), and the vectorized Sinkhorn-Knopp algorithm (Algorithm 1).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any cost matrix M in R_+^{d x d}, marginals r, c in Delta_d, and entropic regularization parameter lambda &gt; 0, Lemma 2 proves via KKT multipliers alpha, beta that the unique minimizer P^lambda of &lt;P, M&gt; - (1/lambda) h(P) over U(r, c) has entries P_{ij}^lambda = u_i exp(-lambda M_{ij}) v_j for unique up-to-scalar nonnegative scaling vectors u, v &gt;= 0, reducing optimal transport computation to Sinkhorn-Knopp alternating projections u &lt;- r ./ (K v), v &lt;- c ./ (K^T u) on the positive Gibbs kernel K = exp(-lambda M).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r324-primary-pdf">Sinkhorn Distances: Lightspeed Computation of Optimal Transport</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Equation 2, Lemma 2, and Algorithm 1, pp. 4-6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r324-metadata-cr">Sinkhorn Distances: Lightspeed Computation of Optimal Transport (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata for NeurIPS 2013 26:2292-2300</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Whenever M is a metric matrix, Theorem 1 and Lemma 1 prove that the Primal-Sinkhorn divergence d_{M,alpha}(r, c) = min_{P in U_alpha(r, c)} &lt;P, M&gt; over the KL/mutual-information constrained polytope U_alpha(r, c) = {P in U(r, c) : KL(P || r c^T) &lt;= alpha} is symmetric and satisfies the triangle inequality d_{M,alpha}(x, z) &lt;= d_{M,alpha}(x, y) + d_{M,alpha}(y, z) because the conditionally glued coupling S = P diag(1/y) Q in U(x, z) satisfies the data-processing mutual-information bound I(X; Z) &lt;= min(I(X; Y), I(Y; Z)) &lt;= alpha.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r324-primary-pdf">Sinkhorn Distances: Lightspeed Computation of Optimal Transport</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Definition 1, Equation 1, and Theorem 1, pp. 3-4; Supplementary Material, Lemma 1 and Proof of Theorem 1, pp. 10-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Unlike unregularized optimal transport d_M(r, c), both d_{M,alpha}(r, r) and d_M^lambda(r, r) violate identity of indiscernibles (d_M^lambda(r, r) &gt; 0 whenever lambda &lt; infinity and r is not a Dirac delta, requiring indicator correction 1_{r != c} to form a true metric), and taking very large lambda to approach the unregularized LP solution causes numerical underflow in K = exp(-lambda M) and slows Sinkhorn&#39;s Hilbert-metric contraction factor.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r324-primary-pdf">Sinkhorn Distances: Lightspeed Computation of Optimal Transport</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Theorem 1 and Corollary 1, pp. 3-4; Section 4, Discussion of Hilbert projective metric convergence and large lambda, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Suffers from entropic bias (d_M^lambda(r, r) &gt; 0 for finite lambda unless explicitly debiased) and numerical underflow of exp(-lambda M_{ij}) coupled with slower Sinkhorn-Knopp convergence when the regularization weight 1/lambda approaches zero.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Sinkhorn distances provide fast entropic-regularized optimal transport geometry for histogram clustering and barycenter computation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r324-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r324-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1306.0895v1" target="_blank" rel="noopener">Sinkhorn Distances: Lightspeed Computation of Optimal Transport</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Marco Cuturi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper/2013/hash/af21d0c97db2e27e13572cbf59eb343d-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f666b9bce6bb…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r324-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r324-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1306.0895v1" target="_blank" rel="noopener">Sinkhorn Distances: Lightspeed Computation of Optimal Transport (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Marco Cuturi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1306.0895v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:af40e4e68f04…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r324-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r324-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper/2013/hash/af21d0c97db2e27e13572cbf59eb343d-Abstract.html" target="_blank" rel="noopener">Sinkhorn Distances: Lightspeed Computation of Optimal Transport (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Marco Cuturi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper/2013/hash/af21d0c97db2e27e13572cbf59eb343d-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bef913c6effc…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:40:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:40:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SinkhornDistancesAndEntropicRegularizedOptimalTransport.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SinkhornDistancesAndEntropicRegularizedOptimalTransport.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

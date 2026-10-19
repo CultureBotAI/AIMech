@@ -1,0 +1,93 @@
+id: AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+name: Sinkhorn Distances and Entropic Regularized Optimal Transport
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Sinkhorn Distances and Entropic Regularized Optimal Transport is a scalable optimal transport framework introduced by Cuturi (2013) that replaces the unregularized O(d^3 log d) network-simplex linear program d_M(r, c) = min_{P in U(r, c)} <P, M> over the transport polytope U(r, c) = {P in R_+^{d x d} : P 1_d = r, P^T 1_d = c} with the strictly convex entropic-regularized Dual-Sinkhorn problem d_M^lambda(r, c) = <P^lambda, M> where P^lambda = argmin_{P in U(r, c)} {<P, M> - (1/lambda) h(P)} and h(P) = -sum_{i,j} P_{ij} log P_{ij} is the Shannon entropy (Equations 2-3). By strict convexity and KKT optimality (Lemma 2), the unique optimal coupling has the diagonal-scaling form P^lambda = diag(u) K diag(v) of the Gibbs kernel K_{ij} = exp(-lambda M_{ij}), which is computed at linear convergence rate via the Sinkhorn-Knopp alternating row- and column-normalization iteration u <- r ./ (K v), v <- c ./ (K^T u) using vectorized matrix-vector multiplications in O(d^2) operations per iteration (Algorithm 1).'
+identity_notes: Distinct from 1-Wasserstein discriminator critic maximization in Wasserstein GANs (AIMech:WassersteinGANAndKantorovichRubinsteinDualityCritic) and from classical combinatorial auction / network-simplex linear programming solvers. Specifically captures Cuturi's (2013) Primal-Sinkhorn entropy ball constraint U_alpha(r, c) (Definition 1 and Equation 1), the Dual-Sinkhorn entropic Lagrangian d_M^lambda(r, c) = <P^lambda, M> (Equation 2), the metric symmetry and triangle-inequality proof via conditional gluing of transport plans and strong data-processing inequality I(X; Z) <= min(I(X; Y), I(Y; Z)) (Theorem 1 and Lemma 1), the Gibbs kernel diagonal scaling characterization P^lambda = diag(u) exp(-lambda M) diag(v) (Lemma 2), and the vectorized Sinkhorn-Knopp algorithm (Algorithm 1).
+aliases:
+- Sinkhorn Distance
+- Dual-Sinkhorn Entropic Optimal Transport
+- Cuturi Lightspeed Optimal Transport via Sinkhorn-Knopp Matrix Scaling
+definition_evidence:
+- source_id: r324-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r324-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r324-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: For any cost matrix M in R_+^{d x d}, marginals r, c in Delta_d, and entropic regularization parameter lambda > 0, Lemma 2 proves via KKT multipliers alpha, beta that the unique minimizer P^lambda of <P, M> - (1/lambda) h(P) over U(r, c) has entries P_{ij}^lambda = u_i exp(-lambda M_{ij}) v_j for unique up-to-scalar nonnegative scaling vectors u, v >= 0, reducing optimal transport computation to Sinkhorn-Knopp alternating projections u <- r ./ (K v), v <- c ./ (K^T u) on the positive Gibbs kernel K = exp(-lambda M).
+  evidence:
+  - source_id: r324-primary-pdf
+    locator: Section 4, Equation 2, Lemma 2, and Algorithm 1, pp. 4-6
+    relation: supports
+  - source_id: r324-metadata-cr
+    locator: Bibliographic metadata for NeurIPS 2013 26:2292-2300
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: 'Whenever M is a metric matrix, Theorem 1 and Lemma 1 prove that the Primal-Sinkhorn divergence d_{M,alpha}(r, c) = min_{P in U_alpha(r, c)} <P, M> over the KL/mutual-information constrained polytope U_alpha(r, c) = {P in U(r, c) : KL(P || r c^T) <= alpha} is symmetric and satisfies the triangle inequality d_{M,alpha}(x, z) <= d_{M,alpha}(x, y) + d_{M,alpha}(y, z) because the conditionally glued coupling S = P diag(1/y) Q in U(x, z) satisfies the data-processing mutual-information bound I(X; Z) <= min(I(X; Y), I(Y; Z)) <= alpha.'
+  evidence:
+  - source_id: r324-primary-pdf
+    locator: Section 3, Definition 1, Equation 1, and Theorem 1, pp. 3-4; Supplementary Material, Lemma 1 and Proof of Theorem 1, pp. 10-12
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Unlike unregularized optimal transport d_M(r, c), both d_{M,alpha}(r, r) and d_M^lambda(r, r) violate identity of indiscernibles (d_M^lambda(r, r) > 0 whenever lambda < infinity and r is not a Dirac delta, requiring indicator correction 1_{r != c} to form a true metric), and taking very large lambda to approach the unregularized LP solution causes numerical underflow in K = exp(-lambda M) and slows Sinkhorn's Hilbert-metric contraction factor.
+  evidence:
+  - source_id: r324-primary-pdf
+    locator: Section 3, Theorem 1 and Corollary 1, pp. 3-4; Section 4, Discussion of Hilbert projective metric convergence and large lambda, pp. 5-6
+    relation: supports
+evidence_sources:
+- source_id: r324-primary-pdf
+  title: 'Sinkhorn Distances: Lightspeed Computation of Optimal Transport'
+  authors: &id001
+  - Marco Cuturi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1306.0895v1
+  persistent_id: https://papers.nips.cc/paper/2013/hash/af21d0c97db2e27e13572cbf59eb343d-Abstract.html
+  version: Advances in Neural Information Processing Systems (NeurIPS 2013), 26:2292-2300 (2013) (1004298 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:40:00Z'
+  sha256: f666b9bce6bbe0111fbaa49d550c7c58a53da11f5e62bdb547b422b83414f20f
+- source_id: r324-arxiv-abs
+  title: 'Sinkhorn Distances: Lightspeed Computation of Optimal Transport (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1306.0895v1
+  persistent_id: https://arxiv.org/abs/1306.0895v1
+  version: arXiv abstract page (5793 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:40:00Z'
+  sha256: af40e4e68f0469d5c9a9763dddaa761e62043417b7e32b41dbd7d3ba0c97413b
+- source_id: r324-metadata-cr
+  title: 'Sinkhorn Distances: Lightspeed Computation of Optimal Transport (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2013/hash/af21d0c97db2e27e13572cbf59eb343d-Abstract.html
+  persistent_id: https://papers.nips.cc/paper/2013/hash/af21d0c97db2e27e13572cbf59eb343d-Abstract.html
+  version: Crossref API work record (9042 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:40:00Z'
+  sha256: bef913c6effcfdf23c6cd24cfdc4be924757c30778a91fef744ab9e8b213c6ea
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Sinkhorn distances provide fast entropic-regularized optimal transport geometry for histogram clustering and barycenter computation.
+limitations:
+- Suffers from entropic bias (d_M^lambda(r, r) > 0 for finite lambda unless explicitly debiased) and numerical underflow of exp(-lambda M_{ij}) coupled with slower Sinkhorn-Knopp convergence when the regularization weight 1/lambda approaches zero.
+curation:
+  created_at: '2026-10-19T06:40:00Z'
+  updated_at: '2026-10-19T06:40:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
