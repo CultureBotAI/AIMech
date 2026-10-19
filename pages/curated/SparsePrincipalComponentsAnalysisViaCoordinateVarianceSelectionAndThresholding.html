@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sparse Principal Components Analysis via Coordinate-Variance Subset Selection and Thresholding · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Sparse Principal Components Analysis via Coordinate-Variance Subset Selection and Thresholding</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Sparse Principal Components Analysis via Coordinate-Variance Subset Selection and Thresholding</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:SparsePrincipalComponentsAnalysisViaCoordinateVarianceSelectionAndThresholding</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Johnstone-Lu Adaptive Sparse Principal Components Analysis, ASPCA Coordinate-Variance Subset Selection and Wavelet Thresholding, Spiked Covariance Model Coordinate-Screening Sparse PCA
+    </div>
+
+  <div class="detail-desc">
+    Sparse Principal Components Analysis via Coordinate-Variance Subset Selection and Thresholding (ASPCA) is a high-dimensional principal component estimation methodology motivated by the single- and multi-component spiked covariance models x_i = mu + sum_{j=1}^m v_i^j rho^j + sigma z_i (where classical sample PCA is consistent for rho^1 if and only if p(n)/n -&gt; 0 and satisfies liminf_{n-&gt;infty} E angle(rho_hat^1, rho^1) &gt; 0 whenever p(n)/n -&gt; c &gt; 0; Theorems 1-3). Given n observations on p variables, the algorithm (1) represents each observation x_i(t) = sum_nu x_{i,nu} e_nu(t) in an orthonormal basis {e_nu} (such as wavelets) where population principal components belong to weak l_q balls wl_q(C) (|rho|_{(nu)} &lt;= C nu^{-1/q}); (2) computes sample coordinate variances sigma_hat_nu^2 = Var_hat(x_{i,nu}) and selects a reduced coordinate subset I_hat of size k &lt;&lt; min(n, p) exceeding noise either via threshold sigma_hat_nu^2 &gt;= sigma_hat^2 (1 + gamma_n) with median noise estimate sigma_hat^2 = median(sigma_hat_nu^2) and gamma_n = gamma sqrt(n^{-1} log n) or via cumulative chi-square percentile excess fraction w(n); (3) performs standard PCA on the k x k reduced sample covariance S_I in O(k^3) operations to obtain eigenvectors rho_hat^j; (4) denoises coordinates by hard thresholding rho_hat_nu^{*j} = eta_H(rho_hat_nu^j, delta) at Anderson-variance threshold delta = tau_hat_j sqrt(2 log k); and (5) reconstructs rho_hat_j(t) = sum_nu rho_hat_nu^{*j} e_nu(t) in O(n p log p + k^2 p) total operations, recovering almost-sure angular consistency angle(rho_hat_I, rho) -&gt; 0 even when p/n -&gt; c &gt; 0 or p = O(n^a) (Theorem 5).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved as a distinct AIMech-native mathematical_method concept from Johnstone &amp; Lu (2009, Journal of the American Statistical Association 104(486):682-693; arXiv:0901.4392v1, DOI:10.1198/jasa.2009.0121). Distinct from AIMech:SparsePrincipalComponentAnalysis (Zou, Hastie, &amp; Tibshirani 2006), which formulates sparse PCA as an alternating L1/L2 Elastic-Net regression optimization problem, and from AIMech:DirectSparsePrincipalComponentAnalysis (d&#39;Aspremont et al. 2007), which solves a trace-L1 semidefinite programming relaxation, whereas Johnstone &amp; Lu (2009) introduce the spiked covariance model x_i = v_i rho + sigma z_i, prove the necessary and sufficient condition p/n -&gt; 0 for classical PCA consistency (Theorems 1-3), and establish non-iterative coordinate-variance subset screening followed by reduced k x k eigendecomposition and wavelet-domain hard thresholding with polynomial false-selection bounds (Theorem 4) and almost-sure high-dimensional consistency (Theorem 5).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#spiked-covariance-phase-transition-and-inconsistency-of-classical-pca</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the single-component spiked factor model x_i = v_i rho + sigma z_i (eq. 2, p. 3) and the m-component model x_i = mu + sum_{j=1}^m v_i^j rho^j + sigma z_i (eq. 8, p. 5) with p(n)/n -&gt; c in [0, infty) and ||rho^j(n)|| -&gt; varrho_j, Theorem 1 (p. 5) and Theorem 3 (p. 6; proved via Proposition 1 and Golub-Van Loan symmetric perturbation bounds in Appendix A.1-A.2, pp. 17-22) establish the almost-sure upper bound limsup_{n-&gt;infty} sin angle(rho_hat^1, rho^1) &lt;= [4 sigma sqrt(c) / (varrho_1^2 - varrho_2^2)] [varrho_+ + (2 + sqrt(c)) sigma], proving consistency angle(rho_hat^1, rho^1) = O_p(sqrt(p/n)) -&gt; 0 when p/n -&gt; 0. Conversely, when p/n -&gt; c &gt; 0, Theorem 2 (p. 5) and Theorem 3 (p. 6) prove via the symmetric reflection decomposition S_+ = D + B versus S_- = D - B and Lemma 1 (angle(eta, M eta) &lt;= 3 angle(eta, xi), Appendix A.1, p. 16 &amp; Appendix A.3, pp. 22-24) that classical PCA is strictly inconsistent: liminf_{n-&gt;infty} E angle(rho_hat^1, rho^1) &gt; 0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jl2009-spca-pdf">On Consistency and Sparsity for Principal Components Analysis in High Dimensions (arXiv title: Sparse Principal Components Analysis)</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equations (4)-(10) and Theorems 1-3, pp. 4-6; Appendix A.1-A.3, Lemma 1, Proposition 1, and Proofs of Theorems 1-3, pp. 15-24</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#five-step-basis-coordinate-variance-screening-and-eigenvector-thresholding-algorithm</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section 3 and Sections 3.1-3.4 (pp. 6-11) formulate the five-step Sparse PCA algorithm: (1) transform signals x_i(t) = sum_nu x_{i,nu} e_nu(t) into a sparse orthonormal basis {e_nu} (such as wavelets, where Besov smoothness rho in B_{p,q}^alpha implies weak-l_p sparsity (rho_nu) in wl_p with p = 2/(2 alpha + 1), Section 3.1, p. 7); (2) compute coordinate sample variances sigma_hat_nu^2 and select subset I_hat via either fixed noise fraction sigma_hat_nu^2 &gt;= sigma_hat^2(1 + alpha_n) or adaptive chi-square percentile excess sum_{nu=1}^{k_hat} tau_hat_{(nu)}^2 &gt;= w(n) sum_nu tau_hat_{(nu)}^2 using the median noise variance estimator sigma_hat^2 = median(sigma_hat_nu^2) (eq. 11, p. 8); (3) compute the k x k reduced eigendecomposition on {x_{i,nu}, nu in I_hat}; (4) apply hard thresholding eta_H(rho_hat_nu^j, delta) with threshold delta = tau_hat_j sqrt(2 log k) where tau_hat_nu approx (1/sqrt(n)) sigma sqrt(||rho||^2 + sigma^2) / ||rho||^2 (eq. 13, p. 11) and ||rho||_hat^2 = sum_{nu=1}^p (S_nu^2 - median(S_nu^2)) (eq. 14, p. 11); and (5) reconstruct in the signal domain in O(n p log p + k^2 p) = o(p^3) operations (Section 3.3, pp. 8-9).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jl2009-spca-pdf">On Consistency and Sparsity for Principal Components Analysis in High Dimensions (arXiv title: Sparse Principal Components Analysis)</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Sections 3.1-3.4, Equations (11)-(14), and Table 1, pp. 6-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#polynomial-subset-selection-reliability-and-almost-sure-weak-lq-consistency</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under marginal chi-square coordinate variances sigma_hat_nu^2 = S_{nu,nu} ~ sigma_nu^2 chi_{(n)}^2 / n without joint distribution assumptions (eq. 15, p. 11), Theorem 4 (p. 12; proved via Cramer large deviations in Appendix A.4, p. 25) proves that the probability of either a false exclusion FE = cup_{l in I_in} {sigma_hat_l^2 &lt; sigma_hat_{(k)}^2} or false inclusion FI = cup_{l in I_out} {sigma_hat_l^2 &gt;= sigma_hat_{(k)}^2} at relative separation alpha_n = gamma n^{-1/2}(log n)^{1/2} is polynomially small: P{FE cup FI} &lt;= 2 p k n^{-b(gamma)} + k n^{-(1-2 alpha_n) b(gamma)} with b(gamma) = [gamma sqrt(3)/(4 + 2 sqrt(3))]^2. Furthermore, under the single-component model with p/n -&gt; c &gt; 0 (or p = O(n^a)) and uniform weak-l_q sparsity rho(n) in wl_q(C) (eq. 17, p. 13), Theorem 5 (p. 13; Appendix A.5, pp. 25-28) proves that the subset-selected PCA estimator rho_hat_I with I_hat = {nu : sigma_hat_nu^2 &gt;= sigma^2(1 + gamma_n)} is almost surely consistent: angle(rho_hat_I, rho) -&gt; 0 a.s.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jl2009-spca-pdf">On Consistency and Sparsity for Principal Components Analysis in High Dimensions (arXiv title: Sparse Principal Components Analysis)</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.5-3.6, Equations (15)-(17) and Theorems 4-5, pp. 11-13; Appendix A.4-A.5, Equation (54) and Proofs of Theorems 4-5, pp. 25-28</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an a priori known sparsifying orthonormal basis {e_nu}: Consistency in Theorem 5 relies on the population principal component having a uniform weak-l_q sparse expansion in a fixed, pre-specified basis (such as a wavelet basis for functional signals); data-adaptive basis selection from a library of bases is not covered by the theoretical guarantees (Section 3.1, p. 7).</li>
+      <li>Coordinate-variance screening depends on homoscedastic observational noise across basis coordinates: Both the median noise estimator sigma_hat^2 = median(sigma_hat_nu^2) (eq. 11) and the variance-ranking subset selection step assume that the observational noise variance sigma^2 is identical across all coordinates nu = 1, ..., p; if noise variances vary across coordinates, high-noise coordinates can be spuriously selected.</li>
+      <li>Large sample sizes required for fine coordinate-variance discrimination: As shown in the numerical illustration of Theorem 4 (Section 3.5, p. 12), reliably distinguishing coordinate standard deviations differing by 25% (sqrt(1 + alpha_n) = 1.25) at k = 50, p = 1000 requires sample sizes on the order of n = 1000 due to the inherent variance of chi-square variance estimates.</li>
+      <li>Primary-source typographical audit of arXiv:0901.4392v1 (DOI:10.1198/jasa.2009.0121): (1) On p. 5 (Section 2, condition (b)), &#39;independent over j = 1,...,m and i = 1,...,m&#39; prints &#39;i = 1,...,m&#39; instead of &#39;i = 1,...,n&#39;; (2) on p. 11 (lines 6-11 and eq. 14), the nu-th diagonal element of the sample covariance matrix S is denoted S_nu^2 (with E(S_nu^2) = rho_nu^2 + sigma^2) whereas eq. (15) on the same page writes sigma_hat_nu^2 = S_{nu,nu}; (3) on p. 22 (Appendix A.3, Figure 8), the figure caption is left as placeholder draft text &#39;Figure 8: Needs caption, with x &lt;- rho_hat, lam &lt;- lambda_hat&#39;; and (4) on p. 26 (lines 21, 25) and p. 27 (line 1), the condition &#39;If sqrt(gamma) &gt;= 12&#39; is written where p. 13 (line 6) writes &#39;gamma &gt; sqrt(12)&#39;.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Specializes Principal Component Analysis to high-dimensional settings (p comparable to or larger than n) by pre-selecting a subset of basis coordinates with largest sample variances and hard-thresholding the resulting reduced-PCA eigenvectors.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-jl2009-spca-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">jl2009-spca-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/pdf/0901.4392.pdf" target="_blank" rel="noopener">On Consistency and Sparsity for Principal Components Analysis in High Dimensions (arXiv title: Sparse Principal Components Analysis)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Iain M. Johnstone, Arthur Yu Lu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1198/jasa.2009.0121</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1d7accf3c72b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-jl2009-spca-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">jl2009-spca-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/abs/0901.4392" target="_blank" rel="noopener">Sparse Principal Components Analysis (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Iain M. Johnstone, Arthur Yu Lu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.0901.4392</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c75cbca36fa8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-jl2009-spca-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">jl2009-spca-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1198/jasa.2009.0121" target="_blank" rel="noopener">On Consistency and Sparsity for Principal Components Analysis in High Dimensions (JASA Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Iain M. Johnstone, Arthur Yu Lu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1198/jasa.2009.0121</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6ec840517609…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-18T23:58:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-18T23:58:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SparsePrincipalComponentsAnalysisViaCoordinateVarianceSelectionAndThresholding.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SparsePrincipalComponentsAnalysisViaCoordinateVarianceSelectionAndThresholding.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
