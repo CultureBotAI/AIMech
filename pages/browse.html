@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1261</strong> artificial intelligence concepts, comprising <strong>819</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1262</strong> artificial intelligence concepts, comprising <strong>820</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1261)</option>
-        <option value="curated">Curated AIMech (819)</option>
+        <option value="all">All Origins (1262)</option>
+        <option value="curated">Curated AIMech (820)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (517)</option>
+          <option value="algorithm">Algorithms (518)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1261</span> of <span id="totalCount">1261</span>
+      Showing <span id="matchCount">1262</span> of <span id="totalCount">1262</span>
     </div>
   </div>
 </div>
@@ -6309,6 +6309,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="dcd-psgd and ecd-psgd (difference-compression and extrapolation-compression decentralized parallel sgd) dcdpsgdandecdpsgdcompresseddecentralizedparallelstochasticgradientdescent aimech:dcdpsgdandecdpsgdcompresseddecentralizedparallelstochasticgradientdescent algorithms algorithm a pair of communication-compressed decentralized parallel stochastic gradient descent algorithms over doubly stochastic gossip graphs w (tang et al. 2018, section 4, algorithms 1-2) that overcome the divergence of naive model-compression gossip by maintaining local neighbor replicas x_tilde_t^{(j)} and compressing either: (1) the iterate difference z_t^{(i)} = x_{t+1/2}^{(i)} - x_t^{(i)} via x_{t+1}^{(i)} = x_t^{(i)} + c(z_t^{(i)}) in difference compression d-psgd (dcd-psgd, algorithm 1), or (2) the time-extrapolated state z_t^{(j)} = (1 - 0.5 t) x_{t-1}^{(j)} + 0.5 t x_t^{(j)} reconstructed as x_tilde_t^{(j)} = (1 - 2 / t) x_tilde_{t-1}^{(j)} + (2 / t) c(z_t^{(j)}) in extrapolation compression d-psgd (ecd-psgd, algorithm 2). distinct from choco-sgd and choco-gossip (aimech:chocosgdandchocogossipdecentralizedcompressedoptimization, koloskova, stich, &amp; jaggi 2019), which introduce a consensus stepsize gamma in (0, 1] on the gossip step x_{t+1} = x_t - eta g_t + gamma sum_j w_{ij} (x_hat_j - x_hat_i) to support biased contractive compressors, whereas dcd-psgd applies full-weight gossip w to unbiasedly compressed differences and ecd-psgd uses harmonic o(1/t) extrapolation-averaging. dcd-psgd and ecd-psgd difference compression d-psgd and extrapolation compression d-psgd communication-compressed decentralized parallel sgd in dcd-psgd (algorithm 1), compressing the model difference z_t^{(i)} = sum_j x_t^{(j)} w_{ij} - gamma g_t^{(i)} - x_t^{(i)} causes the compression error to vanish as x_{t+1/2}^{(i)} - x_t^{(i)} -&gt; 0, achieving the o(1 / sqrt(n t)) non-convex linear speedup rate whenever the relative compression noise ratio alpha satisfies the spectral stability condition (1 - rho)^2 - 4 mu^2 alpha^2 &gt; 0 (where rho = max_{i&gt;=2} |lambda_i(w)| and mu = max_{i&gt;=2} |1 - lambda_i(w)|, theorem 1, corollary 2). when compression is too aggressive for dcd-psgd ((1 - rho)^2 - 4 mu^2 alpha^2 &lt;= 0), ecd-psgd (algorithm 2) compresses z_t^{(j)} = (1 - 0.5 t) x_{t-1}^{(j)} + 0.5 t x_t^{(j)} and updates x_tilde_t^{(j)} = (1 - 2/t) x_tilde_{t-1}^{(j)} + (2/t) c(z_t^{(j)}), which satisfies the exact noiseless identity x_tilde_t^{(j)} = x_t^{(j)} when c(z) = z (lemma 11) and damps compression noise variance by o(1 / t) (e||x_tilde_t^{(j)} - x_t^{(j)}||^2 &lt;= o(1 / t), lemma 12), guaranteeing o(1 / sqrt(n t)) convergence for arbitrarily large compression noise (theorem 3, corollary 4). both dcd-psgd and ecd-psgd assume unbiased stochastic compression operators (e[c(z)] = z) and require each worker i to store local replicas x_tilde_t^{(j)} (or their weighted sum) for its connected graph neighbors j. applied to decentralized ring-topology training of resnet-20 on cifar-10 with stochastic quantization, outperforming naive model-compression d-psgd and centralized qsgd at low network bandwidth. communication compression for decentralized training communication compression for decentralized training (arxiv abstract) communication compression for decentralized training (crossref metadata) hanlin tang shaoduo gan ce zhang tong zhang ji liu hanlin tang shaoduo gan ce zhang tong zhang ji liu hanlin tang shaoduo gan ce zhang tong zhang ji liu">
+        <td>
+          <a href="curated/DcdPsgdAndEcdPsgdCompressedDecentralizedParallelStochasticGradientDescent.html" style="font-weight: 600; font-size: 1rem;">DCD-PSGD and ECD-PSGD (Difference-Compression and Extrapolation-Compression Decentralized Parallel SGD)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> DCD-PSGD and ECD-PSGD, Difference Compression D-PSGD and Extrapolation Compression D-PSGD…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A pair of communication-compressed decentralized parallel stochastic gradient descent algorithms over doubly stochastic gossip graphs W (Tan…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:DcdPsgdAndEcdPsgdCompressedDecentralizedParallelStochasticGradientDescent</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

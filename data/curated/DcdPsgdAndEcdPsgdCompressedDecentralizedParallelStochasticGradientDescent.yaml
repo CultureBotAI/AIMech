@@ -1,0 +1,102 @@
+id: AIMech:DcdPsgdAndEcdPsgdCompressedDecentralizedParallelStochasticGradientDescent
+name: DCD-PSGD and ECD-PSGD (Difference-Compression and Extrapolation-Compression Decentralized Parallel SGD)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A pair of communication-compressed decentralized parallel stochastic gradient descent algorithms over doubly stochastic gossip graphs W (Tang et al. 2018, Section 4, Algorithms 1-2) that overcome the divergence of naive model-compression gossip by maintaining local neighbor replicas x_tilde_t^{(j)} and compressing either: (1) the iterate difference z_t^{(i)} = x_{t+1/2}^{(i)} - x_t^{(i)} via x_{t+1}^{(i)} = x_t^{(i)} + C(z_t^{(i)}) in Difference Compression D-PSGD (DCD-PSGD, Algorithm 1), or (2) the time-extrapolated state z_t^{(j)} = (1 - 0.5 t) x_{t-1}^{(j)} + 0.5 t x_t^{(j)} reconstructed as x_tilde_t^{(j)} = (1 - 2 / t) x_tilde_{t-1}^{(j)} + (2 / t) C(z_t^{(j)}) in Extrapolation Compression D-PSGD (ECD-PSGD, Algorithm 2).'
+identity_notes: Distinct from Choco-SGD and Choco-Gossip (AIMech:ChocoSgdAndChocoGossipDecentralizedCompressedOptimization, Koloskova, Stich, & Jaggi 2019), which introduce a consensus stepsize gamma in (0, 1] on the gossip step x_{t+1} = x_t - eta g_t + gamma sum_j w_{ij} (x_hat_j - x_hat_i) to support biased contractive compressors, whereas DCD-PSGD applies full-weight gossip W to unbiasedly compressed differences and ECD-PSGD uses harmonic O(1/t) extrapolation-averaging.
+aliases:
+- DCD-PSGD and ECD-PSGD
+- Difference Compression D-PSGD and Extrapolation Compression D-PSGD
+- Communication-Compressed Decentralized Parallel SGD
+definition_evidence:
+- source_id: r425-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r425-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r425-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r425-dcd-psgd-spectral-compression-threshold-and-linear-speedup
+  kind: mechanism
+  statement: In DCD-PSGD (Algorithm 1), compressing the model difference z_t^{(i)} = sum_j x_t^{(j)} W_{ij} - gamma g_t^{(i)} - x_t^{(i)} causes the compression error to vanish as x_{t+1/2}^{(i)} - x_t^{(i)} -> 0, achieving the O(1 / sqrt(n T)) non-convex linear speedup rate whenever the relative compression noise ratio alpha satisfies the spectral stability condition (1 - rho)^2 - 4 mu^2 alpha^2 > 0 (where rho = max_{i>=2} |lambda_i(W)| and mu = max_{i>=2} |1 - lambda_i(W)|, Theorem 1, Corollary 2).
+  evidence:
+  - source_id: r425-primary-pdf
+    locator: Section 4.1 DCD-PSGD (Algorithm 1, Theorem 1, Corollary 2, Remark 1) & Supplementary Material (Lemmas 5-10)
+    relation: supports
+- claim_id: r425-ecd-psgd-harmonic-extrapolation-arbitrary-compression-convergence
+  kind: mechanism
+  statement: When compression is too aggressive for DCD-PSGD ((1 - rho)^2 - 4 mu^2 alpha^2 <= 0), ECD-PSGD (Algorithm 2) compresses z_t^{(j)} = (1 - 0.5 t) x_{t-1}^{(j)} + 0.5 t x_t^{(j)} and updates x_tilde_t^{(j)} = (1 - 2/t) x_tilde_{t-1}^{(j)} + (2/t) C(z_t^{(j)}), which satisfies the exact noiseless identity x_tilde_t^{(j)} = x_t^{(j)} when C(z) = z (Lemma 11) and damps compression noise variance by O(1 / t) (E||x_tilde_t^{(j)} - x_t^{(j)}||^2 <= O(1 / t), Lemma 12), guaranteeing O(1 / sqrt(n T)) convergence for arbitrarily large compression noise (Theorem 3, Corollary 4).
+  evidence:
+  - source_id: r425-primary-pdf
+    locator: Section 4.2 ECD-PSGD (Algorithm 2, Theorem 3, Corollary 4) & Supplementary Material (Lemmas 11-12)
+    relation: supports
+- claim_id: r425-neighbor-replica-memory-and-unbiased-compressor-limitation
+  kind: limitation
+  statement: Both DCD-PSGD and ECD-PSGD assume unbiased stochastic compression operators (E[C(z)] = z) and require each worker i to store local replicas x_tilde_t^{(j)} (or their weighted sum) for its connected graph neighbors j.
+  evidence:
+  - source_id: r425-primary-pdf
+    locator: Section 3-4 Assumption 1 & Algorithms 1-2
+    relation: supports
+- claim_id: r425-decentralized-resnet20-cifar10-ring-topology-training-application
+  kind: application
+  statement: Applied to decentralized ring-topology training of ResNet-20 on CIFAR-10 with stochastic quantization, outperforming naive model-compression D-PSGD and centralized QSGD at low network bandwidth.
+  evidence:
+  - source_id: r425-primary-pdf
+    locator: Section 5 Experiments (Figures 3-6), pp. 7658-7660
+    relation: supports
+evidence_sources:
+- source_id: r425-primary-pdf
+  title: Communication Compression for Decentralized Training
+  authors: &id001
+  - Hanlin Tang
+  - Shaoduo Gan
+  - Ce Zhang
+  - Tong Zhang
+  - Ji Liu
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1803.06443
+  persistent_id: https://papers.nips.cc/paper/2018/hash/2b8a61594b1f4c4db0902a8a395ced93-Abstract.html
+  version: Advances in Neural Information Processing Systems 31 (NeurIPS 2018), pp. 7652-7662 (2018) (71115 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:28:00Z'
+  sha256: 430f3f305e80ea79d96fe816e2719b7da1798d4cea235c7800df66729bf7900f
+- source_id: r425-arxiv-abs
+  title: Communication Compression for Decentralized Training (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1803.06443
+  persistent_id: https://arxiv.org/abs/1803.06443
+  version: arXiv abstract page (7833 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:28:00Z'
+  sha256: c46ead1de7b70621559acb3830458a7f341730bbaa67ad3bea504184008c1ac5
+- source_id: r425-metadata-cr
+  title: Communication Compression for Decentralized Training (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2018/hash/2b8a61594b1f4c4db0902a8a395ced93-Abstract.html
+  persistent_id: https://papers.nips.cc/paper/2018/hash/2b8a61594b1f4c4db0902a8a395ced93-Abstract.html
+  version: Crossref API work record (414 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:28:00Z'
+  sha256: 78e1ac5ab66fee8df34eb4ad8814d379118dc85b7762dbbfdf63fe3798369ea3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: DCD-PSGD and ECD-PSGD are communication-compressed decentralized stochastic gradient optimization algorithms closely related to decentralized federated learning.
+limitations:
+- DCD-PSGD diverges when the relative compression noise alpha exceeds the spectral threshold (1 - rho) / (2 mu).
+- ECD-PSGD's extrapolation step amplifies transient stochastic gradient variance by a constant factor when x_t - x_{t-1} is large.
+curation:
+  created_at: '2026-10-19T08:28:00Z'
+  updated_at: '2026-10-19T08:28:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
