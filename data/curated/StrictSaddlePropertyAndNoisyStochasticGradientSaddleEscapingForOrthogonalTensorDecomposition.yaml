@@ -1,0 +1,109 @@
+id: AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+name: Strict Saddle Property and Noisy Stochastic Gradient Saddle Escaping for Orthogonal Tensor Decomposition
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'The geometric characterization of $(\theta,\gamma,\zeta)$-strict saddle functions (both unconstrained in $\mathbb{R}^d$ and manifold-constrained via generalized Lagrange multipliers on $\{c(x)=0\}$) and the polynomial-time saddle-escaping convergence guarantee of *Noisy Stochastic Gradient Descent* $w_{t+1} = w_t - \eta(\nabla f(w_t) + \xi_t + n_t)$ (with injected isotropic spherical noise $n_t \sim \mathrm{Unif}(\mathbb{S}^{d-1})$) and *Projected Noisy SGD* $w_{t+1} = \Pi_{\mathcal{X}}(w_t - \eta(\nabla f(w_t) + \xi_t + n_t))$, introduced by Rong Ge, Furong Huang, Chi Jin, and Yang Yuan (2015). A twice-differentiable function $f$ satisfies the $(\theta,\gamma,\zeta)$-strict saddle property (Definition 1 / Definition 5) if every point $x$ obeys at least one of: (1) $\|\nabla f(x)\| \ge \theta$ (or Riemannian tangent gradient $\|\chi(x)\| \ge \theta$), (2) $\lambda_{\min}(\nabla^2 f(x)) \le -\gamma$ (or minimum tangent-space Hessian eigenvalue $\lambda_{\min}(M(x)) \le -\gamma$), or (3) $x$ lies within distance $\zeta$ of a local minimum $x^*$ around which $f$ is locally $\alpha$-strongly convex. Theorems 6 and 16 prove that Noisy SGD escapes every saddle region in $O(\gamma^{-2}\log d)$ iterations via second-order Taylor quadratic growth of the negative-eigenvector projection and outputs an $\epsilon$-close local minimum in $O(\mathrm{poly}(1/\theta, 1/\gamma, d)/\epsilon^2)$ iterations; furthermore, Theorem 13 proves that the fourth-order cross-correlation objective $\min_{\|u^{(i)}\|_2=1} \sum_{i\ne j}\langle T, u^{(i)}\otimes u^{(i)}\otimes u^{(j)}\otimes u^{(j)}\rangle$ for orthogonal tensor decomposition satisfies the manifold strict-saddle property with all local minima equal to signed permutations of the true components $\{\pm a_1,\dots,\pm a_d\}$ without sequential deflation.'
+identity_notes: Resolved against all 442 pinned AIO concepts and 705 maintained AIMech concepts. Distinct from `AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels` (which relies on sequential tensor power iterations and deflation of an explicit empirical $d\times d\times d$ tensor) and `AIMech:NonconvexMatrixCompletionLandscapeWithoutSpuriousLocalMinima` (which analyzes Burer-Monteiro matrix completion rather than the $(\theta,\gamma,\zeta)$-strict saddle framework, Noisy SGD negative-curvature amplification, and deflation-free fourth-order cross-correlation tensor objectives on $\prod_{i=1}^d \mathbb{S}^{d-1}$).
+aliases:
+- Strict Saddle Property and Noisy SGD Saddle Escaping (Ge-Huang-Jin-Yuan 2015)
+- Projected Noisy Stochastic Gradient Descent on Strict Saddle Manifolds
+- Deflation-Free Cross-Correlation Orthogonal Tensor Decomposition
+definition_evidence:
+- source_id: ghjy2015-strictsaddle-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: ghjy2015-strictsaddle-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: ghjy2015-strictsaddle-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-strict-saddle-definition-and-noisy-sgd-polynomial-escape-theorem
+  kind: mechanism
+  statement: For any $\beta$-smooth, $\rho$-Hessian-Lipschitz function $f:\mathbb{R}^d\to\mathbb{R}$ satisfying the $(\theta,\gamma,\zeta)$-strict saddle property (Definition 1), Theorem 6 and Lemma 9 prove that Noisy SGD $w_{t+1} = w_t - \eta(\nabla f(w_t) + \xi_t + n_t)$ with isotropic perturbation $n_t \sim \mathrm{Unif}(\mathbb{S}^{d-1})$ decreases function value by $\Omega(\eta\theta^2)$ when $\|\nabla f(w_t)\| \ge \theta$ (Lemma 7), amplifies the negative-eigenvector component at rate $(1 + \eta|\lambda_i|)^{2t}$ near any saddle point with $\lambda_{\min}(\nabla^2 f(w_0)) \le -\gamma$ to achieve $\mathbb{E}[f(w_T)] - f(w_0) \le -\eta\sigma^2/(4d)$ in $T = O(\gamma^{-1}\eta^{-1}\log d)$ steps (Lemma 9), and reaches $\|w_t - x^*\|_2 \le \epsilon$ in $O(\eta^{-2}\log(1/\delta))$ total steps with $\eta = \widetilde{O}(\epsilon^2/\mathrm{poly}(d,1/\gamma,1/\theta))$.
+  evidence:
+  - source_id: ghjy2015-strictsaddle-pdf
+    locator: Section 3, Assumption 1, Definitions 1-2, Algorithm 1, Theorem 6, & Lemmas 7-10, pp. 5-10; Appendix B, pp. 21-30
+    relation: supports
+  - source_id: ghjy2015-strictsaddle-abs
+    locator: Abstract
+    relation: supports
+- claim_id: claim-manifold-strict-saddle-property-of-deflation-free-orthogonal-tensor-cross-correlation
+  kind: mechanism
+  statement: 'For an orthogonal symmetric fourth-order tensor $T = \sum_{k=1}^d a_k^{\otimes 4}$, the deflation-free cross-correlation objective $\min_{\|u^{(i)}\|_2=1} \sum_{i\ne j} T(u^{(i)},u^{(i)},u^{(j)},u^{(j)})$ on $(\mathbb{S}^{d-1})^d$ (Equation 13) satisfies the manifold $(\theta,\gamma,\zeta)$-strict saddle property with $\theta = 1/(4d^{3.5}), \gamma = 1/(3d^2), \zeta = 1/(2d^{1.5})$, and $\alpha = 1$: every stationary point where two rows $u^{(i)}, u^{(j)}$ share non-tiny support exhibits a tangent direction $v\in\mathcal{T}(U)$ with quadratic curvature $v^\top M(U) v \le -1/(3d^2)$ (Lemma 44), whereas every point near a signed permutation $V$ of $\{a_1,\dots,a_d\}$ satisfies $v^\top M(V) v \ge 2\|v\|_2^2$ (Lemma 45), so Projected Noisy SGD (Algorithm 2) recovers all $d$ components simultaneously without forming $T$ explicitly (Theorems 13 and 16).'
+  evidence:
+  - source_id: ghjy2015-strictsaddle-pdf
+    locator: Section 4.2, Equation (13) & Theorem 13, pp. 12-13; Section 5, Definition 5, Algorithm 2, & Theorem 16, pp. 14-16; Appendix D.2, Lemmas 44-45, pp. 39-44
+    relation: supports
+  - source_id: ghjy2015-strictsaddle-cr
+    locator: COLT / PMLR Volume 40:797-842 (2015) metadata
+    relation: supports
+- claim_id: claim-scope-online-ica-topic-models-gmm-and-community-detection-via-fourth-order-moments
+  kind: scope
+  statement: Section 2 and Appendix A show that Independent Component Analysis (fourth-order cumulant $\mathbb{E}[y^{\otimes 4}] - T_{\mathcal{N}}$), Latent Dirichlet Allocation topic models, spherical Gaussian mixture models, and multi-view models admit unbiased online stochastic gradients of the fourth-order tensor objective from $O(1)$ streaming samples per step without ever storing an $O(d^4)$ or $O(d^3)$ moment tensor in memory.
+  evidence:
+  - source_id: ghjy2015-strictsaddle-pdf
+    locator: Section 2, Equation (4), pp. 3-5; Section 4.1-4.2, Theorems 12-13, pp. 10-13; Appendix A, pp. 18-20
+    relation: supports
+- claim_id: claim-limitation-whitened-orthogonality-and-degenerate-higher-order-saddles
+  kind: limitation
+  statement: Noisy SGD's polynomial escape guarantee requires non-degenerate second-order negative curvature ($\lambda_{\min}(\nabla^2 f(x)) \le -\gamma < 0$) and fails on degenerate higher-order monkey saddles where $\nabla f(x) = 0$ and $\nabla^2 f(x) = 0$; in addition, the tensor objective (Equation 13) assumes orthonormal components $\{a_1,\dots,a_d\}$ after second-order whitening.
+  evidence:
+  - source_id: ghjy2015-strictsaddle-pdf
+    locator: Section 1 & Section 3, Definition 1, pp. 2-6; Section 4, Equation (10), p. 11
+    relation: supports
+evidence_sources:
+- source_id: ghjy2015-strictsaddle-pdf
+  title: "Escaping From Saddle Points \u2014 Online Stochastic Gradient for Tensor Decomposition"
+  authors: &id001
+  - Rong Ge
+  - Furong Huang
+  - Chi Jin
+  - Yang Yuan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1503.02101.pdf
+  persistent_id: https://doi.org/10.48550/arXiv.1503.02101
+  version: arXiv:1503.02101v1 full-text PDF (46 pages), published in Proceedings of The 28th Conference on Learning Theory (COLT / PMLR) 40:797-842 (2015). (491464 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:14:00Z'
+  sha256: 2d5f263ec7605c553644e2997c488791723c6eedf15c29842512b085f242505c
+- source_id: ghjy2015-strictsaddle-abs
+  title: "Escaping From Saddle Points \u2014 Online Stochastic Gradient for Tensor Decomposition (arXiv abstract)"
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1503.02101
+  persistent_id: https://arxiv.org/abs/1503.02101
+  version: arXiv abstract page (6908 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:14:00Z'
+  sha256: 3ac05b80eb86791ccb458ffe4244652137e22dd67fc58f85155402cad2125448
+- source_id: ghjy2015-strictsaddle-cr
+  title: "Escaping From Saddle Points \u2014 Online Stochastic Gradient for Tensor Decomposition (Crossref metadata)"
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v40/Ge15.html
+  persistent_id: https://doi.org/10.48550/arXiv.1503.02101
+  version: Crossref API work record (6288 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:14:00Z'
+  sha256: a3418e61833f2b6b750384326a11e2b0b778678fbd388bbbd1d63c3f40af1295
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Solves spherical Gaussian mixture clustering and topic modeling via online saddle-escaping stochastic gradient tensor decomposition.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Extends second-order subspace learning to fourth-order orthogonal tensor decomposition on unit-sphere manifolds.
+limitations:
+- Requires the $(\theta,\gamma,\zeta)$-strict saddle condition (failing on degenerate higher-order saddles with $\nabla^2 f = 0$) and assumes orthonormalized tensor components.
+curation:
+  created_at: '2026-10-19T06:14:00Z'
+  updated_at: '2026-10-19T06:14:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
