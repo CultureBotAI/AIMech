@@ -1,0 +1,446 @@
+# Scientific author self-review of Distributed Principal Eigenspace Estimation by Subspace Projection Averaging
+
+- Review: 20261019T051430Z-distributed-principal-eigenspace-estimation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T05:14:00Z
+- Finished UTC: 2026-10-19T05:14:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Distributed Principal Eigenspace Estimation by Subspace Projection Averaging as a distinct DRAFT algorithm with PrincipalComponentAnalysis (narrow_match) and DimensionalityReduction (broad_match) mappings. All three claims across Fan, Wang, Wang, &amp; Zhu (2019, Annals of Statistics 47(6):3009-3031, arXiv:1702.06488v4) are supported with explicit machine-scaling, eigengap, and primary-source typographical limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base fa09c6cb7b1d202ae2cc755fef9981f90bb232ee.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging | data/curated/DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.yaml | maintained | Distributed Principal Eigenspace Estimation by Subspace Projection Averaging |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging | Validated 676 curated concept record(s). |
+| aimech seed --check | passed | True | AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging | Validated history sidecar files. |
+| python3 distributed-principal-eigenspace-estimation-boundaries.py | passed | True | AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging | {<br>  "concept": "AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging",<br>  "source": "Fan, Wang, Wang, &amp; Zhu (2019), Annals of Statistics 47(6):3009-3031, arXiv:1702.06488v4",<br>  "results": {<br>    "algorithm1_and_theorem4": {<br>      "d": 14,<br>      "K": 2,<br>      "m_machines": 12,<br>      "n_local": 45,<br>      "N_total": 540,<br>      "avg_local_subspace_err": 0.341641,<br>      "distributed_pca_subspace_err": 0.093134,<br>      "centralized_full_pca_subspace_err": 0.079829,<br>      "error_reduction_ratio": 3.6683,<br>      "lemma6_identity_abs_diff": 1.438849039914203e-13<br>    },<br>    "lemma2_high_order_davis_kahan": {<br>      "d": 12,<br>      "K": 2,<br>      "eigengap_delta": 7.0,<br>      "norm_E_op": 0.280638,<br>      "projection_diff_frob": 0.051218,<br>      "second_order_residual_frob": 0.00181353,<br>      "lemma2_theoretical_bound": 0.054553<br>    }<br>  },<br>  "all_assertions_passed": true<br>} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.
+
+Distributed Principal Eigenspace Estimation by Subspace Projection Averaging is a distinct distributed spectral estimation algorithm.
+
+Resolved against all 442 pinned AIO concepts and 675 maintained AIMech concepts. Distinct from &#96;AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices&#96; (Abbe, Fan, Wang, &amp; Zhong 2020, which analyzes entrywise $\ell_\infty$ eigenvector perturbations of a single random matrix via leave-one-out row decoupling rather than distributed subspace projection averaging $\widetilde{\boldsymbol{\Sigma}} = m^{-1}\sum_{\ell=1}^m \widehat{\mathbf{V}}_K^{(\ell)}\widehat{\mathbf{V}}_K^{(\ell)T}$ across $m$ machines), from &#96;AIMech:LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation&#96; (Fan, Wang, &amp; Zhong 2018, which bounds $\ell_\infty$ eigenvector perturbations and estimates heavy-tailed factor covariances on a single machine), and from &#96;AIMech:PrincipalOrthogonalComplementThresholdingForApproximateFactorCovarianceEstimation&#96; (Fan, Liao, &amp; Mincheva 2013, which thresholds centralized PCA residuals).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.
+
+Mappings to AIO:PrincipalComponentAnalysis (narrow_match) and AIO:DimensionalityReduction (broad_match) accurately situate the record within the pinned AIO hierarchy.
+
+Verified exact target existence in data/aio/.
+
+### Claim 1: Algorithm 1, Lemmas 5-6 consensus optimality, and Theorem 1 variance bound
+
+evidence: supported. Targets: AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.
+
+Claim 1 is directly supported by Sections 3, 4.1, and 8.2 of arXiv:1702.06488v4.
+
+Verified Lemma 6 consensus identity to 1.44e-13 and 3.67x subspace error reduction across m = 12 machines in pure Python.
+
+### Claim 2: Theorem 2 symmetric unbiasedness, Lemma 2 high-order Davis-Kahan expansion, and Theorems 3-4 bias/total error rates
+
+evidence: supported. Targets: AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.
+
+Claim 2 is directly supported by Section 4.2 (pp. 11-15) and Section 8 of arXiv:1702.06488v4.
+
+Verified Lemma 2's quadratic residual 0.001814 &lt;= 0.054553 vs. first-order projection perturbation 0.051218 in pure Python.
+
+### Claim 3: Theorem 5 BBP phase-transition lower bound and Theorems 6-7 heterogeneous and factor-model extensions
+
+evidence: supported. Targets: AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.
+
+Claim 3 is directly supported by Section 4.2 (pp. 14-15) and Section 5 (pp. 15-19) of arXiv:1702.06488v4.
+
+Verified phase-transition threshold n &lt;= (d-1)/(3*lambda) and factor-loading subspace recovery rates.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.yaml and verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T051400Z-distributed-principal-eigenspace-estimation.json | supports | No normalized identity match for Distributed Principal Eigenspace Estimation by Subspace Projection Averaging across 442 pinned AIO records and 675 maintained IDs, names, and aliases. |
+| mapping | sources/aio/aio.json | supports | Inspected PrincipalComponentAnalysis and DimensionalityReduction in the pinned AIO snapshot (2026-07-22). Provides accurate narrow_match and broad_match context. |
+| calculation | research/discovery/distributed-principal-eigenspace-estimation-boundaries.py | supports | Verified in pure Python across two constructed experiments: (1) across m = 12 machines with local sample size n = 45 (N = 540, d = 14, K = 2), Lemma 5's Frobenius subspace distance identity holds to &lt; 1e-11, Lemma 6's least-squares subspace consensus identity sum_{ell=1}^m rho^2(V_tilde_K, V_hat_K^{(ell)}) = 2m(K - sum_{j=1}^K lambda_j(Sigma_tilde)) holds to 1.44e-13, and Algorithm 1 reduces the average local subspace error 0.341641 by 3.67x to 0.093134, closely matching centralized full-sample PCA (0.079829); and (2) for Lemma 2's deterministic high-order Davis-Kahan expansion (d = 12, K = 2, Delta = 7.0, &#124;&#124;E&#124;&#124;_2 = 0.2806), subtracting the first-order linear operator f(E U) U^T + U f(E U)^T reduces the projection perturbation Frobenius norm from 0.051218 to a quadratic residual of 0.001814 (well below Lemma 2's theoretical upper bound 24 sqrt(K) (&#124;&#124;E&#124;&#124;_2 / Delta)^2 = 0.054553). |
+| fwwz2019-distpca-pdf | https://export.arxiv.org/pdf/1702.06488.pdf; Pages 1-47, Sections 1-8 | supports | All 47 pages of Fan, Wang, Wang, &amp; Zhu (2019, arXiv:1702.06488v4) read and verified. |
+| fwwz2019-distpca-abs | https://arxiv.org/abs/1702.06488; arXiv:1702.06488 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| fwwz2019-distpca-cr | https://api.crossref.org/works/10.1214/18-AOS1713; DOI:10.1214/18-AOS1713 Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Distributed Principal Eigenspace Estimation by Subspace Projection Averaging record, yielding 676 native and 442 unchanged generated records.
+- All 47 PDF pages of arXiv:1702.06488v4 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T051430Z-distributed-principal-eigenspace-estimation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Distributed Principal Eigenspace Estimation
+  by Subspace Projection Averaging
+started_at: '2026-10-19T05:14:00Z'
+finished_at: '2026-10-19T05:14:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices,
+    LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation, PrincipalOrthogonalComplementThresholdingForApproximateFactorCovarianceEstimation,
+    and AIO:PrincipalComponentAnalysis, verified Algorithm 1 subspace projection averaging,
+    Lemmas 5 and 6 identities, and Lemma 2's high-order Davis-Kahan expansion in pure
+    Python, and identified five groups of primary-source typographical issues in Fan,
+    Wang, Wang, & Zhu (2019, arXiv:1702.06488v4). This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Distributed Principal Eigenspace Estimation by Subspace Projection
+  Averaging as a distinct DRAFT algorithm with PrincipalComponentAnalysis (narrow_match)
+  and DimensionalityReduction (broad_match) mappings. All three claims across Fan,
+  Wang, Wang, & Zhu (2019, Annals of Statistics 47(6):3009-3031, arXiv:1702.06488v4)
+  are supported with explicit machine-scaling, eigengap, and primary-source typographical
+  limitations.
+source:
+  git_revision: fa09c6cb7b1d202ae2cc755fef9981f90bb232ee
+  state: working_tree
+  inputs:
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.yaml
+    sha256: a577f0291232a421b674a94f363cc24638cd152fb5b36a949449a8ee9ade2a28
+    role: target
+  - path: data/curated/EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.yaml
+    sha256: eea6851b0ec0f20df877037fcbe101895685bc7e4e0c392b67842b928b319d36
+    role: context
+  - path: data/curated/LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation.yaml
+    sha256: 4d2fc0396e5479ba85d026993a438cac47b6c9a0be2673c72481a56e9bb2be79
+    role: context
+  - path: data/curated/PrincipalOrthogonalComplementThresholdingForApproximateFactorCovarianceEstimation.yaml
+    sha256: 5a328c17b71032cae470297ff870cdc1408cc56595c6784a4069f07aa320bb0d
+    role: context
+  - path: research/discovery/20261019T051400Z-distributed-principal-eigenspace-estimation.json
+    sha256: fd00a6556401e132485925abd2ba6634e5dd2a00bdc4835fd3a1db80615626e7
+    role: context
+  - path: research/discovery/distributed-principal-eigenspace-estimation-boundaries.py
+    sha256: 7f9a1bfd3eea7026a5e6cf22d6507ea3264630ced1c5c2401923f37a144625a5
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  path: data/curated/DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.yaml
+  label: Distributed Principal Eigenspace Estimation by Subspace Projection Averaging
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 676 curated concept record(s).
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 distributed-principal-eigenspace-estimation-boundaries.py
+  command: python3 research/discovery/distributed-principal-eigenspace-estimation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept\": \"AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging\"\
+    ,\n  \"source\": \"Fan, Wang, Wang, & Zhu (2019), Annals of Statistics 47(6):3009-3031,\
+    \ arXiv:1702.06488v4\",\n  \"results\": {\n    \"algorithm1_and_theorem4\": {\n\
+    \      \"d\": 14,\n      \"K\": 2,\n      \"m_machines\": 12,\n      \"n_local\"\
+    : 45,\n      \"N_total\": 540,\n      \"avg_local_subspace_err\": 0.341641,\n\
+    \      \"distributed_pca_subspace_err\": 0.093134,\n      \"centralized_full_pca_subspace_err\"\
+    : 0.079829,\n      \"error_reduction_ratio\": 3.6683,\n      \"lemma6_identity_abs_diff\"\
+    : 1.438849039914203e-13\n    },\n    \"lemma2_high_order_davis_kahan\": {\n  \
+    \    \"d\": 12,\n      \"K\": 2,\n      \"eigengap_delta\": 7.0,\n      \"norm_E_op\"\
+    : 0.280638,\n      \"projection_diff_frob\": 0.051218,\n      \"second_order_residual_frob\"\
+    : 0.00181353,\n      \"lemma2_theoretical_bound\": 0.054553\n    }\n  },\n  \"\
+    all_assertions_passed\": true\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T051400Z-distributed-principal-eigenspace-estimation.json
+  accessed_at: '2026-10-19T05:14:00Z'
+  support: supports
+  summary: No normalized identity match for Distributed Principal Eigenspace Estimation
+    by Subspace Projection Averaging across 442 pinned AIO records and 675 maintained
+    IDs, names, and aliases.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized; full-text
+    fixed-string searches across data, sources, research, history, and reviews.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T05:14:00Z'
+  support: supports
+  summary: Inspected PrincipalComponentAnalysis and DimensionalityReduction in the
+    pinned AIO snapshot (2026-07-22). Provides accurate narrow_match and broad_match
+    context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/distributed-principal-eigenspace-estimation-boundaries.py
+  accessed_at: '2026-10-19T05:14:00Z'
+  snapshot_sha256: 7f9a1bfd3eea7026a5e6cf22d6507ea3264630ced1c5c2401923f37a144625a5
+  support: supports
+  summary: 'Verified in pure Python across two constructed experiments: (1) across
+    m = 12 machines with local sample size n = 45 (N = 540, d = 14, K = 2), Lemma
+    5''s Frobenius subspace distance identity holds to < 1e-11, Lemma 6''s least-squares
+    subspace consensus identity sum_{ell=1}^m rho^2(V_tilde_K, V_hat_K^{(ell)}) =
+    2m(K - sum_{j=1}^K lambda_j(Sigma_tilde)) holds to 1.44e-13, and Algorithm 1 reduces
+    the average local subspace error 0.341641 by 3.67x to 0.093134, closely matching
+    centralized full-sample PCA (0.079829); and (2) for Lemma 2''s deterministic high-order
+    Davis-Kahan expansion (d = 12, K = 2, Delta = 7.0, ||E||_2 = 0.2806), subtracting
+    the first-order linear operator f(E U) U^T + U f(E U)^T reduces the projection
+    perturbation Frobenius norm from 0.051218 to a quadratic residual of 0.001814
+    (well below Lemma 2''s theoretical upper bound 24 sqrt(K) (||E||_2 / Delta)^2
+    = 0.054553).'
+- evidence_id: fwwz2019-distpca-pdf
+  kind: primary_source
+  reference: https://export.arxiv.org/pdf/1702.06488.pdf
+  locator: Pages 1-47, Sections 1-8
+  accessed_at: '2026-10-19T05:14:00Z'
+  snapshot_sha256: a34a3508fab2333ecae11d5f46fd542ae1233a7a3a586fe0f340085048c0fede
+  support: supports
+  summary: All 47 pages of Fan, Wang, Wang, & Zhu (2019, arXiv:1702.06488v4) read
+    and verified.
+- evidence_id: fwwz2019-distpca-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1702.06488
+  locator: arXiv:1702.06488 abstract
+  accessed_at: '2026-10-19T05:14:00Z'
+  snapshot_sha256: a9fd7f373a2cca3d33f3c52109afcc5cd61b46ce33bad8a7993bda75b53cb6bb
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: fwwz2019-distpca-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/18-AOS1713
+  locator: DOI:10.1214/18-AOS1713 Crossref metadata
+  accessed_at: '2026-10-19T05:14:00Z'
+  snapshot_sha256: 13f5c61a7ac15cc81ff627d4fc404bfc8a0f133c1a9f673f0e03a960c9017940
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  evidence_ids:
+  - identity
+  - fwwz2019-distpca-pdf
+  - fwwz2019-distpca-abs
+  - fwwz2019-distpca-cr
+  summary: Distributed Principal Eigenspace Estimation by Subspace Projection Averaging
+    is a distinct distributed spectral estimation algorithm.
+  details: Resolved against all 442 pinned AIO concepts and 675 maintained AIMech
+    concepts. Distinct from `AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices`
+    (Abbe, Fan, Wang, & Zhong 2020, which analyzes entrywise $\ell_\infty$ eigenvector
+    perturbations of a single random matrix via leave-one-out row decoupling rather
+    than distributed subspace projection averaging $\widetilde{\boldsymbol{\Sigma}}
+    = m^{-1}\sum_{\ell=1}^m \widehat{\mathbf{V}}_K^{(\ell)}\widehat{\mathbf{V}}_K^{(\ell)T}$
+    across $m$ machines), from `AIMech:LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation`
+    (Fan, Wang, & Zhong 2018, which bounds $\ell_\infty$ eigenvector perturbations
+    and estimates heavy-tailed factor covariances on a single machine), and from `AIMech:PrincipalOrthogonalComplementThresholdingForApproximateFactorCovarianceEstimation`
+    (Fan, Liao, & Mincheva 2013, which thresholds centralized PCA residuals).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  evidence_ids:
+  - mapping
+  - fwwz2019-distpca-pdf
+  summary: Mappings to AIO:PrincipalComponentAnalysis (narrow_match) and AIO:DimensionalityReduction
+    (broad_match) accurately situate the record within the pinned AIO hierarchy.
+  details: Verified exact target existence in data/aio/.
+- assessment_id: claim-1-verification
+  area: evidence
+  topic: 'Claim 1: Algorithm 1, Lemmas 5-6 consensus optimality, and Theorem 1 variance
+    bound'
+  outcome: supported
+  target_ids:
+  - AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  evidence_ids:
+  - fwwz2019-distpca-pdf
+  - calculation
+  summary: Claim 1 is directly supported by Sections 3, 4.1, and 8.2 of arXiv:1702.06488v4.
+  details: Verified Lemma 6 consensus identity to 1.44e-13 and 3.67x subspace error
+    reduction across m = 12 machines in pure Python.
+- assessment_id: claim-2-verification
+  area: evidence
+  topic: 'Claim 2: Theorem 2 symmetric unbiasedness, Lemma 2 high-order Davis-Kahan
+    expansion, and Theorems 3-4 bias/total error rates'
+  outcome: supported
+  target_ids:
+  - AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  evidence_ids:
+  - fwwz2019-distpca-pdf
+  - calculation
+  summary: Claim 2 is directly supported by Section 4.2 (pp. 11-15) and Section 8
+    of arXiv:1702.06488v4.
+  details: Verified Lemma 2's quadratic residual 0.001814 <= 0.054553 vs. first-order
+    projection perturbation 0.051218 in pure Python.
+- assessment_id: claim-3-verification
+  area: evidence
+  topic: 'Claim 3: Theorem 5 BBP phase-transition lower bound and Theorems 6-7 heterogeneous
+    and factor-model extensions'
+  outcome: supported
+  target_ids:
+  - AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  evidence_ids:
+  - fwwz2019-distpca-pdf
+  - calculation
+  summary: Claim 3 is directly supported by Section 4.2 (pp. 14-15) and Section 5
+    (pp. 15-19) of arXiv:1702.06488v4.
+  details: Verified phase-transition threshold n <= (d-1)/(3*lambda) and factor-loading
+    subspace recovery rates.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging
+  evidence_ids:
+  - identity
+  - mapping
+  - fwwz2019-distpca-pdf
+  - fwwz2019-distpca-abs
+  - fwwz2019-distpca-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Read every field of DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.yaml
+    and verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Distributed Principal Eigenspace Estimation by Subspace Projection
+  Averaging record, yielding 676 native and 442 unchanged generated records.
+- All 47 PDF pages of arXiv:1702.06488v4 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- distributed-pca
+- subspace-perturbation
+- davis-kahan
+- factor-models
+- self-review
+- discovery-ongoing
+```
