@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz Optimization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Jin-Ge-Netrapalli-Kakade-Jordan Perturbed Gradient Descent (PGD), Hessian-Free Second-Order Stationary Point Convergence via Isotropic Ball Perturbation, Thin-Pancake Stuck-Region Escape for Strict Saddle Optimization
+    </div>
+
+  <div class="detail-desc">
+    Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz Optimization is a purely first-order non-convex optimization algorithm and geometric saddle-escape theory introduced by Jin, Ge, Netrapalli, Kakade, and Jordan (2017) for l-gradient-Lipschitz (||grad f(x_1) - grad f(x_2)|| &lt;= l ||x_1 - x_2||) and rho-Hessian-Lipschitz (||grad^2 f(x_1) - grad^2 f(x_2)|| &lt;= rho ||x_1 - x_2||) objectives f: R^d -&gt; R. Whenever the gradient norm satisfies ||grad f(x_t)|| &lt;= g_thres and at least t_thres steps have elapsed since the previous perturbation, Algorithm 1 adds a single isotropic uniform perturbation xi_t ~ Unif(B_0(r)) of radius r = tilde{Theta}(epsilon / l) and continues standard gradient descent x_{t+1} = x_t - eta grad f(x_t) with step size eta = tilde{Theta}(1 / l). By bounding the stuck region X_stuck subseteq B_{tilde{x}}(r) via a two-sequence coupling lemma (Lemma 15 and Lemma 17) showing that along the minimum-eigenvalue direction e_1 of grad^2 f(tilde{x}) (with lambda_min(grad^2 f(tilde{x})) &lt;= -sqrt(rho epsilon)) the stuck set has width at most delta * r / sqrt(d) along e_1 (forming a &#39;thin pancake&#39; of volume fraction at most delta), Theorem 3 proves that Perturbed Gradient Descent finds an epsilon-second-order stationary point (||grad f(x)|| &lt;= epsilon and lambda_min(grad^2 f(x)) &gt;= -sqrt(rho epsilon)) in O(l (f(x_0) - f^*) / epsilon^2 * log^4(d l Delta_f / (epsilon^2 delta))) gradient evaluations, matching unperturbed gradient descent&#39;s first-order complexity up to polylogarithmic factors without computing or inverting any Hessians.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Strict-Saddle Property and Noisy Stochastic Gradient Saddle Escaping for Orthogonal Tensor Decomposition (`AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition`), which injects noise at every stochastic step with poly(d / epsilon) iteration dependence, and from Gradient Descent Avoidance of Strict Saddle Points via Stable Manifold Theorem (`AIMech:GradientDescentAvoidanceOfStrictSaddlePointsViaStableManifoldTheorem`), which establishes asymptotic measure-zero avoidance without quantitative polynomial iteration bounds. Specifically captures the Jin et al. (2017) thresholded ball-perturbation rule (Algorithm 1), the two-point coupling width bound for the thin-pancake stuck region (Lemmas 14-17), the dimension-free log^4(d)/epsilon^2 rate (Theorem 3), and the global strict-saddle/regularity decomposition for symmetric low-rank matrix factorization (Lemmas 6-7).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any l-gradient-Lipschitz and rho-Hessian-Lipschitz function f: R^d -&gt; R, if x_tilde satisfies ||grad f(x_tilde)|| &lt;= g_thres and lambda_min(grad^2 f(x_tilde)) &lt;= -sqrt(rho epsilon), then for any two initial perturbations w_0 = u_0 + mu * r * e_1 in B_{x_tilde}(r) separated by mu * r along the minimum eigenvector e_1 of H = grad^2 f(x_tilde), at least one trajectory {u_t} or {w_t} leaves B_{x_tilde}(F * l) within T &lt; t_thres steps and decreases the objective by f(x_tilde) - f(x_{t_0 + t_thres}) &gt;= f_thres = Omega(sqrt(epsilon^3 / rho) / log^3(d l Delta_f / (epsilon^2 delta))), implying that the stuck region X_stuck occupies volume fraction at most delta in B_{x_tilde}(r) and yielding an epsilon-second-order stationary point in tilde{O}(l (f(x_0) - f^*) / epsilon^2) total gradient steps.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r337-primary-pdf">How to Escape Saddle Points Efficiently</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Theorem 3, p. 5; Section 3, Lemmas 4 and 5, pp. 7-9; Appendix A, Theorem 9 and Lemmas 14-17, pp. 15-24</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r337-arxiv-abs">How to Escape Saddle Points Efficiently (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract: Perturbed GD converges to second-order stationary points in tilde{O}(1/epsilon^2) iterations with log^4(d) dimension dependence</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For symmetric low-rank matrix factorization min_{U in R^{d x r}} (1/2) ||U U^T - M^*||_F^2 where M^* = V^* (V^*)^T has top and r-th singular values sigma_1^*, sigma_r^* &gt; 0, the objective satisfies the exact algebraic Hessian identity grad^2 f(U)(Delta, Delta) = ||Delta Delta^T||_F^2 - 3 ||U U^T - M^*||_F^2 + 4 &lt;grad f(U), Delta&gt; for Delta = U - U^* (where U^* = V^* R_U aligns U to V^*), is globally (theta, gamma, zeta)-strict-saddle with gamma = (1/3) sigma_r^*, and satisfies the local (alpha = (1/3) sigma_r^*, beta = 1/(20 sigma_1^*))-regularity condition in the neighborhood of every global minimum.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r337-primary-pdf">How to Escape Saddle Points Efficiently</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Lemmas 6 and 7, pp. 10-11; Appendix C, Proof of Lemma 7 and Equations 21-26, pp. 31-35</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r337-metadata-cr">How to Escape Saddle Points Efficiently (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Abstract: Characterization of global strict-saddle geometry and local regularity for matrix Sensing and Factorization</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Unperturbed deterministic gradient descent initialized inside the codimension-1 orthogonal stuck subspace (where the component along the negative eigendirection e_1 is zero) remains trapped in the strict-saddle manifold forever without perturbation, and Perturbed Gradient Descent cannot guarantee polynomial-time escape from degenerate higher-order saddle points where grad f(x) = 0 and lambda_min(grad^2 f(x)) = 0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r337-primary-pdf">How to Escape Saddle Points Efficiently</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Introduction (strict vs higher-order saddles and NP-hardness), pp. 1-3; Section 3, Intuition of Thin Pancake Stuck Region, pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Guarantees escape only from strict (second-order) saddle points where lambda_min(grad^2 f(x)) &lt;= -sqrt(rho epsilon); escaping degenerate third- or higher-order saddle points can be NP-hard in general.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Establishes global strict-saddle escape and global optimality for non-convex Burer-Monteiro low-rank matrix factorization objectives.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Provides Hessian-free first-order optimization guarantees for low-rank matrix sensing and dimensionality reduction factorizations.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Analyzes smooth non-convex quadratic sensing and factorized least-squares objectives.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r337-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r337-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1703.00887.pdf" target="_blank" rel="noopener">How to Escape Saddle Points Efficiently</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chi Jin, Rong Ge, Praneeth Netrapalli, Sham M. Kakade, Michael I. Jordan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v70/jin17a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:52953f9c6a2b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r337-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r337-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1703.00887" target="_blank" rel="noopener">How to Escape Saddle Points Efficiently (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chi Jin, Rong Ge, Praneeth Netrapalli, Sham M. Kakade, Michael I. Jordan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1703.00887</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:edc14bc55d0e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r337-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r337-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v70/jin17a.html" target="_blank" rel="noopener">How to Escape Saddle Points Efficiently (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chi Jin, Rong Ge, Praneeth Netrapalli, Sham M. Kakade, Michael I. Jordan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v70/jin17a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b6ae0bb4db15…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:59:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:59:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
