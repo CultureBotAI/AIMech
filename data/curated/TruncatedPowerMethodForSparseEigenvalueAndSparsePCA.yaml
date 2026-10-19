@@ -1,0 +1,99 @@
+id: AIMech:TruncatedPowerMethodForSparseEigenvalueAndSparsePCA
+name: Truncated Power Method for Sparse Eigenvalue and Sparse PCA
+concept_kind: algorithm
+review_status: DRAFT
+definition: Truncated Power Method for Sparse Eigenvalue and Sparse PCA (TPower) is a non-convex iterative hard-thresholding spectral algorithm introduced by Yuan and Zhang (2013) that approximates the k-sparse largest (or smallest) eigenvalue problem max_{x in R^p} x^T A x subject to ||x||_2 = 1 and ||x||_0 <= k for a symmetric positive semidefinite matrix A in R^{p x p}. Starting from a k-sparse unit vector x_0, each iteration t >= 1 computes the power-step vector g_t = A x_{t-1}, restricts g_t to the support F_t = supp(g_t, k) of its k largest-magnitude coordinates via the truncation operator Truncate(g_t, F_t), and normalizes x_t = Truncate(g_t, F_t) / ||Truncate(g_t, F_t)||_2. Under the sparse restricted eigenvalue/condition number ratio gamma_{k+2s} = rho_max(k+2s)/rho_min(k+2s) and a sparsity-over-relaxation factor k >= s (1 + 4/(gamma_{k+2s}-1)^{-2}) when the target eigenvector x_bar has support size |F_bar| = s, TPower monotonically increases the Rayleigh objective x_t^T A x_t and contracts geometrically in directional alignment |x_t^T x_bar| toward the true sparse principal eigenvector.
+identity_notes: Distinct from generic AIO:PrincipalComponentAnalysis, AIO:DimensionalityReduction, semidefinite relaxations (DSPCA), diagonal-thresholding and covariance-thresholding sparse PCA (AIMech:CovarianceThresholdingAndReducedRankSemidefiniteRelaxationForSparsePCA), and convex Fantope projection (AIMech:FantopeProjectionAndSelectionForSparsePCA). Specifically captures the Yuan-Zhang (2013) non-convex Truncated Power (TPower) method (Algorithm 1), its two-step optimality certificate x_t = Truncate(A x_t, supp(x_t)) / ||Truncate(A x_t, supp(x_t))||_2 (Proposition 1), its support-truncation perturbation bounds (Lemmas 3-4), and its geometric alignment contraction under sparse condition number control (Theorems 1-2).
+aliases:
+- Truncated Power Method
+- TPower
+- k-Sparse Largest Eigenvalue Truncated Power Iteration
+- Sparse Eigenvalue Truncation Iteration
+- Yuan-Zhang Truncated Power Method for Sparse PCA
+definition_evidence:
+- source_id: r313-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r313-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r313-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: Each TPower iteration decomposes the cardinality-constrained quadratic maximization into a linear lower-bound maximization y_t = argmax_{||y||_2=1, ||y||_0<=k} x_{t-1}^T A y = Truncate(A x_{t-1}, F_t)/||Truncate(A x_{t-1}, F_t)||_2 where F_t = supp(A x_{t-1}, k), ensuring monotonic ascent x_{t-1}^T A x_{t-1} <= x_{t-1}^T A x_t <= x_t^T A x_t for any positive semidefinite matrix A and convergence to a fixed point satisfying the fixed-support eigenvector equation (A x)_{F} = lambda x_F with lambda >= max_{i not in F} |(A x)_i| / min_{i in F} |x_i|.
+  evidence:
+  - source_id: r313-primary-pdf
+    locator: Section 2.2, Algorithm 1 and derivation, p. 902; Section 3.1, Proposition 1, pp. 903-904; Appendix A, Proof of Proposition 1, pp. 916-917
+    relation: supports
+  - source_id: r313-metadata-cr
+    locator: Abstract and JMLR v14 paper record (pp. 899-925)
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: For a target eigenvector x_bar with sparsity |supp(x_bar)| <= s and perturbation E = A - A_bar with sparse spectral norm rho(s+k; E) <= epsilon, the untruncated power step x'_t = A x_{t-1}/||A x_{t-1}||_2 satisfies Lemma 3's alignment bound sqrt(1 - |x'_t^T x_bar|^2) <= gamma_{k+2s} sqrt(1 - |x_{t-1}^T x_bar|^2) + sqrt(2)*epsilon/lambda_bar, and the k-truncation step satisfies Lemma 4's alignment preservation |x_t^T x_bar| >= |x'_t^T x_bar| - min(sqrt(s/k), (1 + sqrt(2*s/k)) sqrt(1 - |x'_t^T x_bar|^2)), yielding geometric contraction sqrt(1 - |x_t^T x_bar|^2) <= mu sqrt(1 - |x_{t-1}^T x_bar|^2) + c*epsilon whenever mu = (1 + sqrt(1 + (1+sqrt(2))^2 s/k)) gamma_{k+2s} < 1 (Theorem 1).
+  evidence:
+  - source_id: r313-primary-pdf
+    locator: Section 3.2, Theorem 1, Corollary 1, and Theorem 2, pp. 904-907; Appendix B, Lemmas 2-4 and Proof of Theorem 1, pp. 918-922
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Because the k-sparse eigenvalue objective is non-convex and invariant to sign flips, TPower is a local ascent method whose convergence to the global sparse eigenvector requires both an initial iterate x_0 with strictly positive alignment |x_0^T x_bar| > c*epsilon/(1-mu) (preventing orthogonal initialization trapping in complementary coordinates) and a sparsity-over-relaxation factor k/s > 1 + 4/(gamma_{k+2s}-1)^{-2} when the restricted condition ratio gamma_{k+2s} is not sufficiently small.
+  evidence:
+  - source_id: r313-primary-pdf
+    locator: Section 2.2, Initialization discussion, p. 902; Section 3.2, Theorem 1 Condition 4 and Remark 5, pp. 905-906
+    relation: supports
+evidence_sources:
+- source_id: r313-primary-pdf
+  title: Truncated Power Method for Sparse Eigenvalue Problems
+  authors: &id001
+  - Xiao-Tong Yuan
+  - Tong Zhang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1112.2679v1
+  persistent_id: https://jmlr.org/papers/v14/yuan13a.html
+  version: Journal of Machine Learning Research, 14:899-925 (2013) (712162 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:18:00Z'
+  sha256: a29ec76e0fc0d5d20824c904070faa1e8446a1deec25e291658c468536ec0e2b
+- source_id: r313-arxiv-abs
+  title: Truncated Power Method for Sparse Eigenvalue Problems (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1112.2679v1
+  persistent_id: https://arxiv.org/abs/1112.2679v1
+  version: arXiv abstract page (5569 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:18:00Z'
+  sha256: 9bc9b80aa722504458b6b815b8eff5e2b671d6a18d7a9718dceb3ea115271390
+- source_id: r313-metadata-cr
+  title: Truncated Power Method for Sparse Eigenvalue Problems (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://jmlr.org/papers/v14/yuan13a.html
+  persistent_id: https://jmlr.org/papers/v14/yuan13a.html
+  version: Crossref API work record (5495 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:18:00Z'
+  sha256: dfa00e0f8b304f0a614e94515b66b9d74e520574467f45e5e216543a273ca952
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: narrow_match
+  rationale: TPower computes k-sparse leading principal components via iterative hard-thresholded power iteration.
+- target: AIO:DimensionalityReduction
+  relation: broad_match
+  rationale: Sparse eigenvalue extraction and sparse PCA are dimensionality reduction techniques.
+limitations:
+- Requires a warm initialization x_0 with non-vanishing alignment |x_0^T x_bar| > 0 with the target sparse eigenvector and requires the working cardinality k to exceed the true sparsity s by a factor proportional to (1 - gamma_{k+2s})^{-2}; initialized in an orthogonal coordinate subspace, TPower remains trapped at a suboptimal stationary point.
+curation:
+  created_at: '2026-10-19T06:18:00Z'
+  updated_at: '2026-10-19T06:18:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

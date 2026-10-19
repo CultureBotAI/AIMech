@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Truncated Power Method for Sparse Eigenvalue and Sparse PCA · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Truncated Power Method for Sparse Eigenvalue and Sparse PCA</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Truncated Power Method for Sparse Eigenvalue and Sparse PCA</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:TruncatedPowerMethodForSparseEigenvalueAndSparsePCA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Truncated Power Method, TPower, k-Sparse Largest Eigenvalue Truncated Power Iteration, Sparse Eigenvalue Truncation Iteration, Yuan-Zhang Truncated Power Method for Sparse PCA
+    </div>
+
+  <div class="detail-desc">
+    Truncated Power Method for Sparse Eigenvalue and Sparse PCA (TPower) is a non-convex iterative hard-thresholding spectral algorithm introduced by Yuan and Zhang (2013) that approximates the k-sparse largest (or smallest) eigenvalue problem max_{x in R^p} x^T A x subject to ||x||_2 = 1 and ||x||_0 &lt;= k for a symmetric positive semidefinite matrix A in R^{p x p}. Starting from a k-sparse unit vector x_0, each iteration t &gt;= 1 computes the power-step vector g_t = A x_{t-1}, restricts g_t to the support F_t = supp(g_t, k) of its k largest-magnitude coordinates via the truncation operator Truncate(g_t, F_t), and normalizes x_t = Truncate(g_t, F_t) / ||Truncate(g_t, F_t)||_2. Under the sparse restricted eigenvalue/condition number ratio gamma_{k+2s} = rho_max(k+2s)/rho_min(k+2s) and a sparsity-over-relaxation factor k &gt;= s (1 + 4/(gamma_{k+2s}-1)^{-2}) when the target eigenvector x_bar has support size |F_bar| = s, TPower monotonically increases the Rayleigh objective x_t^T A x_t and contracts geometrically in directional alignment |x_t^T x_bar| toward the true sparse principal eigenvector.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from generic AIO:PrincipalComponentAnalysis, AIO:DimensionalityReduction, semidefinite relaxations (DSPCA), diagonal-thresholding and covariance-thresholding sparse PCA (AIMech:CovarianceThresholdingAndReducedRankSemidefiniteRelaxationForSparsePCA), and convex Fantope projection (AIMech:FantopeProjectionAndSelectionForSparsePCA). Specifically captures the Yuan-Zhang (2013) non-convex Truncated Power (TPower) method (Algorithm 1), its two-step optimality certificate x_t = Truncate(A x_t, supp(x_t)) / ||Truncate(A x_t, supp(x_t))||_2 (Proposition 1), its support-truncation perturbation bounds (Lemmas 3-4), and its geometric alignment contraction under sparse condition number control (Theorems 1-2).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each TPower iteration decomposes the cardinality-constrained quadratic maximization into a linear lower-bound maximization y_t = argmax_{||y||_2=1, ||y||_0&lt;=k} x_{t-1}^T A y = Truncate(A x_{t-1}, F_t)/||Truncate(A x_{t-1}, F_t)||_2 where F_t = supp(A x_{t-1}, k), ensuring monotonic ascent x_{t-1}^T A x_{t-1} &lt;= x_{t-1}^T A x_t &lt;= x_t^T A x_t for any positive semidefinite matrix A and convergence to a fixed point satisfying the fixed-support eigenvector equation (A x)_{F} = lambda x_F with lambda &gt;= max_{i not in F} |(A x)_i| / min_{i in F} |x_i|.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r313-primary-pdf">Truncated Power Method for Sparse Eigenvalue Problems</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Algorithm 1 and derivation, p. 902; Section 3.1, Proposition 1, pp. 903-904; Appendix A, Proof of Proposition 1, pp. 916-917</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r313-metadata-cr">Truncated Power Method for Sparse Eigenvalue Problems (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Abstract and JMLR v14 paper record (pp. 899-925)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a target eigenvector x_bar with sparsity |supp(x_bar)| &lt;= s and perturbation E = A - A_bar with sparse spectral norm rho(s+k; E) &lt;= epsilon, the untruncated power step x&#39;_t = A x_{t-1}/||A x_{t-1}||_2 satisfies Lemma 3&#39;s alignment bound sqrt(1 - |x&#39;_t^T x_bar|^2) &lt;= gamma_{k+2s} sqrt(1 - |x_{t-1}^T x_bar|^2) + sqrt(2)*epsilon/lambda_bar, and the k-truncation step satisfies Lemma 4&#39;s alignment preservation |x_t^T x_bar| &gt;= |x&#39;_t^T x_bar| - min(sqrt(s/k), (1 + sqrt(2*s/k)) sqrt(1 - |x&#39;_t^T x_bar|^2)), yielding geometric contraction sqrt(1 - |x_t^T x_bar|^2) &lt;= mu sqrt(1 - |x_{t-1}^T x_bar|^2) + c*epsilon whenever mu = (1 + sqrt(1 + (1+sqrt(2))^2 s/k)) gamma_{k+2s} &lt; 1 (Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r313-primary-pdf">Truncated Power Method for Sparse Eigenvalue Problems</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Theorem 1, Corollary 1, and Theorem 2, pp. 904-907; Appendix B, Lemmas 2-4 and Proof of Theorem 1, pp. 918-922</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the k-sparse eigenvalue objective is non-convex and invariant to sign flips, TPower is a local ascent method whose convergence to the global sparse eigenvector requires both an initial iterate x_0 with strictly positive alignment |x_0^T x_bar| &gt; c*epsilon/(1-mu) (preventing orthogonal initialization trapping in complementary coordinates) and a sparsity-over-relaxation factor k/s &gt; 1 + 4/(gamma_{k+2s}-1)^{-2} when the restricted condition ratio gamma_{k+2s} is not sufficiently small.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r313-primary-pdf">Truncated Power Method for Sparse Eigenvalue Problems</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Initialization discussion, p. 902; Section 3.2, Theorem 1 Condition 4 and Remark 5, pp. 905-906</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires a warm initialization x_0 with non-vanishing alignment |x_0^T x_bar| &gt; 0 with the target sparse eigenvector and requires the working cardinality k to exceed the true sparsity s by a factor proportional to (1 - gamma_{k+2s})^{-2}; initialized in an orthogonal coordinate subspace, TPower remains trapped at a suboptimal stationary point.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            TPower computes k-sparse leading principal components via iterative hard-thresholded power iteration.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Sparse eigenvalue extraction and sparse PCA are dimensionality reduction techniques.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r313-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r313-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1112.2679v1" target="_blank" rel="noopener">Truncated Power Method for Sparse Eigenvalue Problems</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiao-Tong Yuan, Tong Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://jmlr.org/papers/v14/yuan13a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a29ec76e0fc0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r313-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r313-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1112.2679v1" target="_blank" rel="noopener">Truncated Power Method for Sparse Eigenvalue Problems (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiao-Tong Yuan, Tong Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1112.2679v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9bc9b80aa722…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r313-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r313-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://jmlr.org/papers/v14/yuan13a.html" target="_blank" rel="noopener">Truncated Power Method for Sparse Eigenvalue Problems (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiao-Tong Yuan, Tong Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://jmlr.org/papers/v14/yuan13a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dfa00e0f8b30…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:18:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:18:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TruncatedPowerMethodForSparseEigenvalueAndSparsePCA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TruncatedPowerMethodForSparseEigenvalueAndSparsePCA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
