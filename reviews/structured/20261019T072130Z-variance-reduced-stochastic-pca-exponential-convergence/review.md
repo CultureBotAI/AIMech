@@ -1,0 +1,363 @@
+# Scientific author self-review of Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA)
+
+- Review: 20261019T072130Z-variance-reduced-stochastic-pca-exponential-convergence
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T07:21:00Z
+- Finished UTC: 2026-10-19T07:21:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/VarianceReducedStochasticPCAWithExponentialConvergence.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 36beadf21a62a3fef621767704242c52eefaa08c.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:VarianceReducedStochasticPCAWithExponentialConvergence | data/curated/VarianceReducedStochasticPCAWithExponentialConvergence.yaml | maintained | Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:VarianceReducedStochasticPCAWithExponentialConvergence | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:VarianceReducedStochasticPCAWithExponentialConvergence | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:VarianceReducedStochasticPCAWithExponentialConvergence | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:VarianceReducedStochasticPCAWithExponentialConvergence | Validated history sidecar files. |
+| python3 variance-reduced-stochastic-pca-exponential-convergence-boundaries.py | passed | True | AIMech:VarianceReducedStochasticPCAWithExponentialConvergence | [PASS] Round 358 VR-PCA (Shamir 2015): fast_diff=3.33e-16, b0=0.6331-&gt;b_vr=2.22e-16&lt;&lt;b_oja=7.3890e-02, var_first=7.707e-04-&gt;var_last=0.000e+00 (s1=0.8888) |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:VarianceReducedStochasticPCAWithExponentialConvergence.
+
+Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA) is a distinct concept.
+
+Distinct from generic PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis) and DimensionalityReduction (AIO:DimensionalityReduction), which do not specify SVRG-style variance-reduced stochastic power updates on the unit sphere. Distinct from AIMech:StreamingPCANearOptimalFiniteSampleOjaAlgorithm (Round 357), which is a single-pass streaming Oja algorithm with decaying step size eta_t = O(1/t) and sub-exponential O(1/n) convergence rate due to non-vanishing stochastic update variance. Also distinct from AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation (Round 354), which applies SVRG to solve shifted linear systems (lambda I - A)x = b rather than directly iterating normalized variance-reduced power steps on the non-convex unit-sphere Rayleigh quotient.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:VarianceReducedStochasticPCAWithExponentialConvergence.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:VarianceReducedStochasticPCAWithExponentialConvergence.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in variance-reduced-stochastic-pca-exponential-convergence-boundaries.py passed with exit code 0: [PASS] Round 358 VR-PCA (Shamir 2015): fast_diff=3.33e-16, b0=0.6331-&gt;b_vr=2.22e-16&lt;&lt;b_oja=7.3890e-02, var_first=7.707e-04-&gt;var_last=0.000e+00 (s1=0.8888)
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:VarianceReducedStochasticPCAWithExponentialConvergence.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T072100Z-variance-reduced-stochastic-pca-exponential-convergence.json | supports | No normalized identity match for AIMech:VarianceReducedStochasticPCAWithExponentialConvergence across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/variance-reduced-stochastic-pca-exponential-convergence-boundaries.py | supports | All constructed boundary assertions in variance-reduced-stochastic-pca-exponential-convergence-boundaries.py passed with exit code 0: [PASS] Round 358 VR-PCA (Shamir 2015): fast_diff=3.33e-16, b0=0.6331-&gt;b_vr=2.22e-16&lt;&lt;b_oja=7.3890e-02, var_first=7.707e-04-&gt;var_last=0.000e+00 (s1=0.8888) |
+| r358-primary-pdf | https://arxiv.org/pdf/1409.2848.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the 32nd International Conference on Machine Learning (ICML), PMLR 37:144-152 (2015)) read and verified. |
+| r358-arxiv-abs | https://arxiv.org/abs/1409.2848; arXiv abstract | supports | arXiv abstract read and verified. |
+| r358-metadata-cr | https://proceedings.mlr.press/v37/shamir15.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:VarianceReducedStochasticPCAWithExponentialConvergence in Round 358.
+- All pages of Proceedings of the 32nd International Conference on Machine Learning (ICML), PMLR 37:144-152 (2015) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T072130Z-variance-reduced-stochastic-pca-exponential-convergence
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Variance-Reduced Stochastic PCA and SVD with
+  Exponential Convergence (VR-PCA)
+started_at: '2026-10-19T07:21:00Z'
+finished_at: '2026-10-19T07:21:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 32nd International Conference on Machine Learning (ICML), PMLR 37:144-152
+    (2015) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Variance-Reduced Stochastic PCA and SVD with Exponential Convergence
+  (VR-PCA) as a distinct DRAFT algorithm. All three claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 36beadf21a62a3fef621767704242c52eefaa08c
+  state: working_tree
+  inputs:
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/VarianceReducedStochasticPCAWithExponentialConvergence.yaml
+    sha256: 892c075befb96fe17a40bfb4b9061d7b61ecc25ae44cf7f5ce240d17fdf8bfe3
+    role: target
+  - path: research/discovery/20261019T072100Z-variance-reduced-stochastic-pca-exponential-convergence.json
+    sha256: 79e06be390a48338ccff7d0643db368ad17dfb4a019459f1b7349174e130e634
+    role: context
+  - path: research/discovery/variance-reduced-stochastic-pca-exponential-convergence-boundaries.py
+    sha256: f87a6620fc73a602d5d0ccaaa16ef81e13f3d8e9c009b01099090b80a11c16d5
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+  path: data/curated/VarianceReducedStochasticPCAWithExponentialConvergence.yaml
+  label: Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/VarianceReducedStochasticPCAWithExponentialConvergence.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/VarianceReducedStochasticPCAWithExponentialConvergence.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:VarianceReducedStochasticPCAWithExponentialConvergence'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 variance-reduced-stochastic-pca-exponential-convergence-boundaries.py
+  command: python3 research/discovery/variance-reduced-stochastic-pca-exponential-convergence-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 358 VR-PCA (Shamir 2015): fast_diff=3.33e-16, b0=0.6331->b_vr=2.22e-16<<b_oja=7.3890e-02,
+    var_first=7.707e-04->var_last=0.000e+00 (s1=0.8888)'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T072100Z-variance-reduced-stochastic-pca-exponential-convergence.json
+  accessed_at: '2026-10-19T07:21:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T07:21:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/variance-reduced-stochastic-pca-exponential-convergence-boundaries.py
+  accessed_at: '2026-10-19T07:21:00Z'
+  snapshot_sha256: f87a6620fc73a602d5d0ccaaa16ef81e13f3d8e9c009b01099090b80a11c16d5
+  support: supports
+  summary: 'All constructed boundary assertions in variance-reduced-stochastic-pca-exponential-convergence-boundaries.py
+    passed with exit code 0: [PASS] Round 358 VR-PCA (Shamir 2015): fast_diff=3.33e-16,
+    b0=0.6331->b_vr=2.22e-16<<b_oja=7.3890e-02, var_first=7.707e-04->var_last=0.000e+00
+    (s1=0.8888)'
+- evidence_id: r358-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1409.2848.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T07:21:00Z'
+  snapshot_sha256: d649996a05241881d6d9976fec1d8ff108d22d4d189be69d8f72a365c8587877
+  support: supports
+  summary: Full-text PDF (Proceedings of the 32nd International Conference on Machine
+    Learning (ICML), PMLR 37:144-152 (2015)) read and verified.
+- evidence_id: r358-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1409.2848
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T07:21:00Z'
+  snapshot_sha256: b3f340ea7dcf8c530a207c292e3519b7fc2c92de02d495c26f66b671ea786725
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r358-metadata-cr
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v37/shamir15.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T07:21:00Z'
+  snapshot_sha256: 95caf807ecac9c42bd3424b8389ec6042bc08d25bc70679afa3aa01ccf1f24c6
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+  evidence_ids:
+  - identity
+  - r358-primary-pdf
+  - r358-arxiv-abs
+  - r358-metadata-cr
+  summary: Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA)
+    is a distinct concept.
+  details: Distinct from generic PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis)
+    and DimensionalityReduction (AIO:DimensionalityReduction), which do not specify
+    SVRG-style variance-reduced stochastic power updates on the unit sphere. Distinct
+    from AIMech:StreamingPCANearOptimalFiniteSampleOjaAlgorithm (Round 357), which
+    is a single-pass streaming Oja algorithm with decaying step size eta_t = O(1/t)
+    and sub-exponential O(1/n) convergence rate due to non-vanishing stochastic update
+    variance. Also distinct from AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation
+    (Round 354), which applies SVRG to solve shifted linear systems (lambda I - A)x
+    = b rather than directly iterating normalized variance-reduced power steps on
+    the non-convex unit-sphere Rayleigh quotient.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+  evidence_ids:
+  - mapping
+  - r358-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+  evidence_ids:
+  - r358-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in variance-reduced-stochastic-pca-exponential-convergence-boundaries.py
+    passed with exit code 0: [PASS] Round 358 VR-PCA (Shamir 2015): fast_diff=3.33e-16,
+    b0=0.6331->b_vr=2.22e-16<<b_oja=7.3890e-02, var_first=7.707e-04->var_last=0.000e+00
+    (s1=0.8888)'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+  evidence_ids:
+  - identity
+  - mapping
+  - r358-primary-pdf
+  - r358-arxiv-abs
+  - r358-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+  in Round 358.
+- All pages of Proceedings of the 32nd International Conference on Machine Learning
+  (ICML), PMLR 37:144-152 (2015) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

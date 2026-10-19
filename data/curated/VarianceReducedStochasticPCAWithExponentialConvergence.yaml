@@ -1,0 +1,93 @@
+id: AIMech:VarianceReducedStochasticPCAWithExponentialConvergence
+name: Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA)
+concept_kind: algorithm
+review_status: DRAFT
+definition: Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA) is an epoch-based stochastic spectral optimization algorithm introduced and analyzed by Ohad Shamir (2015) for computing the leading eigenvector(s) of an empirical covariance matrix A = (1/n) sum_{i=1}^n x_i x_i^T from a data matrix X = (x_1, ..., x_n) in R^{d x n}. In each outer epoch s, VR-PCA computes the exact full-pass anchor vector u_tilde = A w_tilde_{s-1} = (1/n) sum_{i=1}^n x_i (x_i^T w_tilde_{s-1}) and performs m inner stochastic updates w_t' = w_{t-1} + eta*(x_{i_t}(x_{i_t}^T w_{t-1} - x_{i_t}^T w_tilde_{s-1}) + u_tilde) = (I + eta*A)w_{t-1} + eta*(x_{i_t} x_{i_t}^T - A)(w_{t-1} - w_tilde_{s-1}), w_t = w_t' / ||w_t'||_2 with a fixed step size eta, driving the stochastic gradient variance ||w_{t-1} - w_tilde_{s-1}||_2^2 to zero across epochs and achieving linear/exponential convergence in O(d_s (n + (r/lambda)^2) log(1/epsilon)) total runtime.
+identity_notes: Distinct from generic PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis) and DimensionalityReduction (AIO:DimensionalityReduction), which do not specify SVRG-style variance-reduced stochastic power updates on the unit sphere. Distinct from AIMech:StreamingPCANearOptimalFiniteSampleOjaAlgorithm (Round 357), which is a single-pass streaming Oja algorithm with decaying step size eta_t = O(1/t) and sub-exponential O(1/n) convergence rate due to non-vanishing stochastic update variance. Also distinct from AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation (Round 354), which applies SVRG to solve shifted linear systems (lambda I - A)x = b rather than directly iterating normalized variance-reduced power steps on the non-convex unit-sphere Rayleigh quotient.
+aliases:
+- Shamir VR-PCA Algorithm
+- Variance-Reduced Oja Iteration for Principal Component Analysis
+- Epoch-Anchored Stochastic Power Iteration for PCA and SVD
+definition_evidence:
+- source_id: r358-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r358-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r358-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r358-claim-variance-reduced-power-step-and-sparse-amortized-implementation
+  kind: mechanism
+  statement: Rewriting each inner VR-PCA iteration (Algorithm 1) as w_t' = (I + eta*A)w_{t-1} + eta*(x_{i_t} x_{i_t}^T - A)(w_{t-1} - w_tilde_{s-1}), w_t = w_t' / ||w_t'||_2 replaces the O(1)-variance stochastic noise of Oja's algorithm with a zero-mean perturbation whose variance is bounded by O(eta^2 ||w_{t-1} - w_tilde_{s-1}||_2^2) (Section 2, Equations 4-5); moreover, representing w_t = alpha*g + beta*u_tilde alongside scalar invariants gamma = ||alpha*g||^2, delta = <alpha*g, u_tilde>, and zeta = ||u_tilde||^2 enables exact unit-sphere normalization and sparse vector updates in O(d_s) time per inner step and O(d_s(m + n)) total time per epoch, where d_s is the average sparsity of x_i (Remark 2, p. 4; Appendix A, pp. 17-18).
+  evidence:
+  - source_id: r358-primary-pdf
+    locator: Section 2, Algorithm 1, Equations 4-5, and Remarks 1-2, pp. 3-4; Appendix A, pp. 17-18
+    relation: supports
+- claim_id: r358-claim-second-order-taylor-one-step-stochastic-recurrence
+  kind: mechanism
+  statement: For normalized data max_i ||x_i||^2 <= 1 and eigengap lambda = s_1 - s_2 > 0, whenever <w_t, v_1> >= 1/2, <w_tilde_{s-1}, v_1> >= 0, and eta <= c*lambda, a second-order Taylor expansion of the ratio f(x, y) = x / (x + y) for x = (a_1 + z_1)^2 and y = sum_{i=2}^d (a_i + z_i)^2 establishes that the squared cosine residual b_t = 1 - <w_t, v_1>^2 satisfies the conditional expectation recurrence E[b_{t+1} | w_t] <= (1 - eta*lambda / 16)*b_t + c*eta^2*b_tilde where b_tilde = 1 - <w_tilde_{s-1}, v_1>^2 (Section 4, Part I, Lemma 1, Equations 8-17).
+  evidence:
+  - source_id: r358-primary-pdf
+    locator: Section 4, Part I, Lemma 1 and Equations 8-17, pp. 8-13
+    relation: supports
+- claim_id: r358-claim-hoeffding-azuma-epoch-contraction-and-exponential-runtime
+  kind: mechanism
+  statement: Given max_i ||x_i||^2 <= r, eigengap s_1 - s_2 = lambda > 0, and initial alignment <w_tilde_0, v_1> >= 1/sqrt(2), running VR-PCA with step size eta <= (c_1 delta^2 / r^2)*lambda and epoch length m >= (c_2 log(2/delta))/(eta*lambda) satisfying m*eta^2*r^2 + r*sqrt(m*eta^2*log(2/delta)) <= c_3 ensures via the maximal Hoeffding-Azuma inequality (Lemmas 2-4) that after T = ceil(log(1/epsilon)/log(2/delta)) epochs, <w_tilde_T, v_1>^2 >= 1 - epsilon with probability at least 1 - 2*log(1/epsilon)*delta in total runtime O(d_s (n + (r/lambda)^2) log(1/epsilon)), decoupling the sample size n from the condition-number factor (r/lambda)^2 (Theorem 1).
+  evidence:
+  - source_id: r358-primary-pdf
+    locator: Section 2, Theorem 1 and Equations 6-7, pp. 4-5; Section 4, Parts II-III, Lemmas 2, 3, and 4, pp. 13-16
+    relation: supports
+evidence_sources:
+- source_id: r358-primary-pdf
+  title: A Stochastic PCA and SVD Algorithm with an Exponential Convergence Rate
+  authors: &id001
+  - Ohad Shamir
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1409.2848.pdf
+  persistent_id: https://proceedings.mlr.press/v37/shamir15.html
+  version: Proceedings of the 32nd International Conference on Machine Learning (ICML), PMLR 37:144-152 (2015) (423833 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:21:00Z'
+  sha256: d649996a05241881d6d9976fec1d8ff108d22d4d189be69d8f72a365c8587877
+- source_id: r358-arxiv-abs
+  title: A Stochastic PCA and SVD Algorithm with an Exponential Convergence Rate (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1409.2848
+  persistent_id: https://arxiv.org/abs/1409.2848
+  version: arXiv abstract page (6321 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:21:00Z'
+  sha256: b3f340ea7dcf8c530a207c292e3519b7fc2c92de02d495c26f66b671ea786725
+- source_id: r358-metadata-cr
+  title: A Stochastic PCA and SVD Algorithm with an Exponential Convergence Rate (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v37/shamir15.html
+  persistent_id: https://proceedings.mlr.press/v37/shamir15.html
+  version: Crossref API work record (3873 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:21:00Z'
+  sha256: 95caf807ecac9c42bd3424b8389ec6042bc08d25bc70679afa3aa01ccf1f24c6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Solves empirical PCA and SVD with an exponentially convergent variance-reduced stochastic iteration.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Extracts top-k singular subspaces for large-scale dimensionality reduction.
+limitations:
+- Theorem 1's formal convergence guarantee assumes a warm-start initialization <w_tilde_0, v_1> >= 1/sqrt(2) (which can be obtained via a burn-in phase of Oja's algorithm) and scales inversely with the squared eigengap (r/lambda)^2 rather than r/lambda (Section 2, p. 5; Section 5, p. 16).
+curation:
+  created_at: '2026-10-19T07:21:00Z'
+  updated_at: '2026-10-19T07:21:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
