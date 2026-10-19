@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">457 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">458 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">457</span> of <span id="totalCount">457</span>
+      Showing <span id="matchCount">458</span> of <span id="totalCount">458</span>
     </div>
   </div>
 </div>
@@ -4039,6 +4039,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="frequent directions deterministic row-update matrix sketching via singular-value shrinkage frequentdirectionsdeterministicmatrixsketching aimech:frequentdirectionsdeterministicmatrixsketching algorithms algorithm frequent directions (frequentdirections and fast-frequentdirections) is a deterministic row-update streaming matrix sketching algorithm introduced by liberty (2013) and analyzed with tight relative-error and space-optimality bounds by ghashami, liberty, phillips, and woodruff (2015, 2016). given an input matrix a in r^{n x d} streamed one row a_i at a time, the algorithm maintains a sketch b in r^{ell x d} (or r^{2*ell x d} in fast-frequentdirections) by inserting incoming rows into zero-valued rows of b, computing the svd [u, sigma, v] = svd(b) once b has no zero rows, setting delta_i = sigma_ell^2, and shrinking all squared singular values via b &lt;- sqrt(max(sigma^2 - delta_i i, 0)) * v^t so that at least the last row of b (or last ell + 1 rows in fast-frequentdirections) is zeroed out while reducing ||b||_f^2 at least ell times faster than any single unit direction. distinct from aimech:frequentdirectionsdeterministicstreamingmatrixsketching (round 330, liberty kdd 2013), which established only the flat-spectrum frobenius covariance error bound ||a^t a - b^t b||_2 &lt;= 2||a||_f^2/ell without rank-k tail residuals or relative-error projection bounds; this record captures ghashami, liberty, phillips, and woodruff&#39;s (2015, 2016) tail-residual relative-error covariance and rank-k projection analysis (||a^t a - b^t b||_2 &lt;= ||a - a_k||_f^2/(ell - k), ||a - pi_b^k(a)||_f^2 &lt;= (ell/(ell - k))||a - a_k||_f^2) and matching grassmannian/index space-optimality lower bounds. also distinct from aimech:noisypowermethodforstreaminganddifferentiallyprivatepca (round 356) and aimech:streamingpcanearoptimalfinitesampleojaalgorithm (round 357), which are randomized iterative subspace estimators rather than deterministic misra-gries-style singular-value shrinkage sketches. tail-residual frequent directions sketching fast-frequentdirections space-optimal frequentdirections rank-k projection sketch let delta = sum_{i=1}^n delta_i be the total squared singular mass subtracted during frequentdirections (algorithms 2.1 and 3.1); the sketch b satisfies three invariants for every unit vector x in r^d: (property 1) ||ax||^2 - ||bx||^2 &gt;= 0 (a^t a &gt;= b^t b), (property 2) ||ax||^2 - ||bx||^2 &lt;= delta, and (property 3) delta*ell &lt;= ||a||_f^2 - ||b||_f^2; bootstrapping property 3 on the top-k singular vectors y_1, ..., y_k of a yields delta*(ell - k) &lt;= ||a - a_k||_f^2, proving that for all 0 &lt;= k &lt; ell, 0 &lt;= ||a^t a - b^t b||_2 &lt;= delta &lt;= ||a - a_k||_f^2 / (ell - k) (theorem 1.1) and ||a - pi_b^k(a)||_f^2 &lt;= (1 + k/(ell - k))*||a - a_k||_f^2 (theorem 1.2). fast-frequentdirections (algorithm 3.1) doubles the sketch buffer to 2*ell x d and triggers svd plus shrinkage by delta = sigma_ell^2 only once every ell + 1 row insertions (zeroing the last ell + 1 rows), reducing total running time from o(n*d*ell^2) to o((n/ell)*d*ell^2) = o(n*d*ell) with o(d*ell) amortized (and worst-case via active/maintenance double buffering) update time per row (theorem 1.5, section 3.2); moreover, sketches b_1, b_2 of a_1, a_2 are mergeable by running algorithm 3.1 on b&#39; = [b_1; b_2], preserving properties 1-3 with delta = delta_1 + delta_2 + delta (section 3.1). via packing on the grassmannian manifold (kapralov-talwar / absil-edelman-koev), any matrix sketch b satisfying ||a^t a - b^t b||_2 &lt;= ||a - a_k||_f^2 / (ell - k) (or &lt;= varepsilon*||a - a_k||_f^2 with ell = ceil(k + 1/varepsilon)) requires omega(d*ell) = omega(d*k + d/varepsilon) bits of space (theorems 1.3 and 4.1); furthermore, a one-way communication reduction from the index problem on b = [i, r; e_{i_1}, ..., e_{i_k}] using the singular value 2 + zeta (where zeta = (sqrt(5) - 1)/2 approx 0.618) of rank-2 pairs z_ell = (e_{i_ell} + r_{i_ell}, e_{i_ell}) proves that any row-update streaming algorithm outputting a rank-k projection p with ||a - ap||_f^2 &lt;= (1 + varepsilon)*||a - a_k||_f^2 with probability &gt;= 2/3 requires omega(k*d/varepsilon) bits of space (theorems 1.4 and 4.2, lemma 4.1), establishing that frequentdirections with ell = ceil(k + k/varepsilon) is space-optimal up to logarithmic word-size factors. frequent directions: simple and deterministic matrix sketching frequent directions: simple and deterministic matrix sketching (arxiv abstract) frequent directions: simple and deterministic matrix sketching (crossref metadata) mina ghashami edo liberty jeff m. phillips david p. woodruff mina ghashami edo liberty jeff m. phillips david p. woodruff mina ghashami edo liberty jeff m. phillips david p. woodruff">
+        <td>
+          <a href="../curated/FrequentDirectionsDeterministicMatrixSketching.html" style="font-weight: 600; font-size: 1rem;">Frequent Directions Deterministic Row-Update Matrix Sketching via Singular-Value Shrinkage</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Tail-Residual Frequent Directions Sketching, Fast-FrequentDirections…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            Frequent Directions (FrequentDirections and Fast-FrequentDirections) is a deterministic row-update streaming matrix sketching algorithm intr…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FrequentDirectionsDeterministicMatrixSketching</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
