@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>q-Fair Federated Learning (q-FFL) and q-FedAvg for Alpha-Fair Resource Allocation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>q-Fair Federated Learning (q-FFL) and q-FedAvg for Alpha-Fair Resource Allocation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">q-Fair Federated Learning (q-FFL) and q-FedAvg for Alpha-Fair Resource Allocation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:QFairFederatedLearningAlphaFairResourceAllocation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> q-FFL, q-Fair Federated Learning, q-FedAvg, q-FedSGD, q-MAML
+    </div>
+
+  <div class="detail-desc">
+    A fairness-aware federated optimization formulation (q-Fair Federated Learning, q-FFL) and its communication-efficient solver (q-FedAvg) inspired by alpha-fair resource allocation in wireless networks, which minimizes the reweighted aggregate objective f_q(w) = sum_{k=1}^m (p_k / (q + 1)) F_k^{q+1}(w) across m devices with non-negative local losses F_k(w) and tunable fairness exponent q &gt;= 0, continuously interpolating between standard Federated Averaging (q = 0) and minimax Agnostic Federated Learning (q -&gt; infinity). Using an analytical local Lipschitz upper bound L_q(w) = L F_k(w)^q + q F_k(w)^{q-1} ||nabla F_k(w)||^2 derived from the base smoothness constant L at q = 0, q-FedSGD and q-FedAvg dynamically scale device updates Delta_k = F_k^q(w^t) Delta_k^t by the denominator sum_k h_k^t without retuning learning rates for each q.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard Federated Averaging (AIMech:FederatedAveragingClientServerOptimization, which is the q = 0 special case that minimizes average loss without controlling cross-device accuracy variance) and from Ditto (AIMech:DittoFairAndRobustPersonalizedFederatedMultiTaskLearning, which achieves device fairness via personalized models v_k regularized toward w^* rather than learning a single fair global model w via (q+1)-power loss reweighting).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r394-local-lipschitz-hessian-bound-and-dynamic-step-size</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Lemma 3 proves that for any non-negative L-smooth function f(w), the gradient of f_q(w) = f(w)^{q+1}/(q+1) is nabla f_q(w) = f(w)^q nabla f(w) with Hessian nabla^2 f_q(w) = q f(w)^{q-1} nabla f(w) nabla f(w)^T + f(w)^q nabla^2 f(w), whose spectral norm at w is upper-bounded by L_q(w) = L f(w)^q + q f(w)^{q-1} ||nabla f(w)||^2; substituting the heuristic local update Delta_k^t = L(w^t - w_bar_k^{t+1}) for nabla F_k(w^t) in q-FedAvg (Algorithm 2) yields h_k^t = q F_k^{q-1}(w^t)||Delta_k^t||^2 + L F_k^q(w^t), allowing a single tuned step size 1/L at q = 0 to transfer across all q &gt; 0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r394-primary-pdf">Fair Resource Allocation in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 Improving Communication Efficiency: q-FedAvg (Lemma 3, Algorithms 1-2), pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r394-uniformity-interpolation-and-variance-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Definition 1 (fairness via uniformity of test accuracy distribution across devices) and Appendix B.2 Lemmas 4-6, increasing q &gt;= 0 amplifies relative gradient contributions from higher-loss devices as (F_i(w) / F_j(w))^q, monotonically decreasing the generalization error of the worst-performing device and tightening the cross-device accuracy variance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r394-primary-pdf">Fair Resource Allocation in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Definition 1, Section 3.2 Eq. (2), and Appendix B.2 Properties of the q-FFL Objective (Lemmas 4-6), pp. 3-4, 15-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r394-nonnegative-loss-and-mean-worst-tradeoff-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires local objective functions F_k(w) &gt;= 0 so F_k^{q+1}(w) preserves convexity/monotonicity, and replacing nabla F_k(w^t) by L(w^t - w_bar_k^{t+1}) in q-FedAvg is a heuristic approximation when multiple local SGD steps are taken; moreover, overly large q prioritizes noisy or outlier devices at the expense of mean global accuracy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r394-primary-pdf">Fair Resource Allocation in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3 and Section 4.2 Choosing q, pp. 4-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r394-federated-benchmarks-and-q-maml-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to Federated Extended MNIST (FEMNIST), Vehicle sensor classification, Sent140 Twitter sentiment analysis, Shakespeare RNN, and Omniglot meta-learning via q-MAML (Algorithm 4), reducing cross-device test accuracy variance by an average of 45% while maintaining mean accuracy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r394-primary-pdf">Fair Resource Allocation in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Evaluation (Table 1, Figures 1-4) and Appendix D Algorithm 4 (q-MAML), pp. 6-9, 18-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires non-negative local loss functions F_k(w) &gt;= 0.</li>
+      <li>Susceptible to corrupt or noisy outlier devices whose artificially high losses F_k(w)^q receive amplified weights as q increases.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            q-Fair Federated Learning (q-FFL) and q-FedAvg are fairness-reweighted federated optimization methods within FederatedLearning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r394-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r394-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=ByexElSYDr" target="_blank" rel="noopener">Fair Resource Allocation in Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tian Li, Maziar Sanjabi, Ahmad Beirami, Virginia Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1905.10497</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6adecbef0cb8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r394-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r394-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1905.10497" target="_blank" rel="noopener">Fair Resource Allocation in Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tian Li, Maziar Sanjabi, Ahmad Beirami, Virginia Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1905.10497</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d13914235751…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r394-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r394-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.48550/arXiv.1905.10497" target="_blank" rel="noopener">Fair Resource Allocation in Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tian Li, Maziar Sanjabi, Ahmad Beirami, Virginia Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1905.10497</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:940466014f33…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:57:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:57:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/QFairFederatedLearningAlphaFairResourceAllocation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/QFairFederatedLearningAlphaFairResourceAllocation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
