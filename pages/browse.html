@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1222</strong> artificial intelligence concepts, comprising <strong>780</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1223</strong> artificial intelligence concepts, comprising <strong>781</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1222)</option>
-        <option value="curated">Curated AIMech (780)</option>
+        <option value="all">All Origins (1223)</option>
+        <option value="curated">Curated AIMech (781)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (478)</option>
+          <option value="algorithm">Algorithms (479)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1222</span> of <span id="totalCount">1222</span>
+      Showing <span id="matchCount">1223</span> of <span id="totalCount">1223</span>
     </div>
   </div>
 </div>
@@ -9495,6 +9495,32 @@
         </td>
         <td>
             <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fednova normalized averaging for heterogeneous federated optimization fednovanormalizedaveragingforheterogeneousfederatedoptimization aimech:fednovanormalizedaveragingforheterogeneousfederatedoptimization algorithms algorithm a heterogeneous federated optimization framework and normalized averaging algorithm (fednova) that models client i&#39;s cumulative local model change over tau_i^{(t)} local steps as delta_i^{(t)} = x_i^{(t,tau_i)} - x^{(t,0)} = -eta * g_i^{(t)} * a_i^{(t)}, where g_i^{(t)} in r^{d x tau_i} stacks the local stochastic gradients and a_i^{(t)} in r^{tau_i} is the local solver&#39;s gradient weighting vector (a_i = [1,...,1]^t for vanilla sgd, a_i = [(1-alpha)^{tau_i-1},...,1]^t for proximal sgd, and a_i = [1-rho^{tau_i},...,1-rho]^t/(1-rho) for momentum sgd), normalizes each client&#39;s update into an effective local gradient d_i^{(t)} = g_i^{(t)} a_i^{(t)} / ||a_i^{(t)}||_1 = -delta_i^{(t)} / (eta * ||a_i^{(t)}||_1), and aggregates across clients with weights w_i = p_i and effective global step size tau_eff^{(t)} (defaulting to sum_{i=1}^m p_i ||a_i^{(t)}||_1) via x^{(t+1,0)} = x^{(t,0)} - tau_eff^{(t)} * sum_{i=1}^m p_i * eta * d_i^{(t)}, eliminating the surrogate objective inconsistency chi^2_{p||w} = sum_{i=1}^m (p_i - w_i)^2 / w_i caused by heterogeneous local step counts tau_i or heterogeneous local solvers while achieving o(1/sqrt(m * tau_tilde * t)) convergence to stationary points of the true global objective f(x) = sum_{i=1}^m p_i f_i(x). distinct from fedprox (aimech:fedproxproximalheteratedoptimization / aimech:fedproxproximalheterogeneousfederatedoptimization, which adds a proximal penalty (mu/2)||x - x^{(t,0)}||^2 to local objectives but still suffers from surrogate objective inconsistency w_i proportional to p_i ||a_i||_1 when tau_i varies across clients, as proven in wang et al. 2020 section 4.3), from scaffold (aimech:scaffoldstochasticcontrolledaveragingforfederatedlearning, which transmits control variate shifts c_i and requires equal local step counts), and from local sgd (aimech:localsgdperiodicaveragingparallelstochasticgradientdescent). no pinned aio class covers fednova or objective-inconsistency-eliminating normalized federated averaging. fednova federated normalized averaging normalized averaging for heterogeneous federated optimization theorem 1 and corollary 1 prove that any federated algorithm aggregating unnormalized local updates with weights w_i proportional to p_i ||a_i||_1 converges to a stationary point of a mismatched surrogate objective f_tilde(x) = sum_{i=1}^m w_i f_i(x) with w_i = p_i ||a_i||_1 / sum_j p_j ||a_j||_1, and theorem 2 combined with lemma 4 shows that on strongly convex quadratic local losses f_i(x) = (1/2) x^t h_i x - e_i^t x, standard fedavg converges as eta -&gt; 0 to x_inf^{fedavg} = (sum_i p_i tau_i h_i)^{-1} (sum_i p_i tau_i e_i) != x* with a non-vanishing lower bound min_{t in [t]} e||nabla f(x^{(t,0)})||^2 = omega(chi^2_{p||w} kappa^2 / (chi^2_{p||w} beta^2 + 1)). by normalizing each client&#39;s cumulative update by ||a_i^{(t)}||_1 (where ||a_i||_1 = tau_i for vanilla sgd, (1 - (1-alpha)^{tau_i})/alpha for proximal sgd, and (tau_i - rho(1-rho^{tau_i})/(1-rho))/(1-rho) for momentum sgd) and setting w_i = p_i, fednova achieves exact surrogate consistency (chi^2_{p||w} = 0) and theorem 3 / corollary 3 guarantees (1/t) sum_{t=0}^{t-1} e||nabla f(x^{(t,0)})||^2 = o(1/sqrt(m * tau_tilde * t) + m * tau_tilde / t) for l-smooth nonconvex objectives. while fednova eliminates the o(chi^2_{p||w}) objective inconsistency term as eta -&gt; 0, theorem 3 requires local step sizes to satisfy eta * l * max_i ||a_i||_1 &lt;= o(1) so that client-drift variance o(eta^2 l^2 ||a_i||_2^2) remains controlled when local step counts tau_i are large. applied to federated training of vgg-11 and resnet-18 on non-iid dirichlet-partitioned cifar-10 and synthetic quadratic benchmarks under heterogeneous client local epochs e_i and straggler drop-offs, outperforming fedavg and fedprox while supporting local momentum and proximal solvers. tackling the objective inconsistency problem in heterogeneous federated optimization tackling the objective inconsistency problem in heterogeneous federated optimization (arxiv abstract) tackling the objective inconsistency problem in heterogeneous federated optimization (crossref metadata) jianyu wang qinghua liu hao liang gauri joshi h. vincent poor jianyu wang qinghua liu hao liang gauri joshi h. vincent poor jianyu wang qinghua liu hao liang gauri joshi h. vincent poor">
+        <td>
+          <a href="curated/FedNovaNormalizedAveragingForHeterogeneousFederatedOptimization.html" style="font-weight: 600; font-size: 1rem;">FedNova Normalized Averaging for Heterogeneous Federated Optimization</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedNova, Federated Normalized Averaging…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A heterogeneous federated optimization framework and normalized averaging algorithm (FedNova) that models client i&#39;s cumulative local model…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedNovaNormalizedAveragingForHeterogeneousFederatedOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

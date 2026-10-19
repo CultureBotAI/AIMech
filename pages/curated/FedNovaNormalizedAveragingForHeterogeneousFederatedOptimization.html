@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedNova Normalized Averaging for Heterogeneous Federated Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedNova Normalized Averaging for Heterogeneous Federated Optimization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedNova Normalized Averaging for Heterogeneous Federated Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedNovaNormalizedAveragingForHeterogeneousFederatedOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedNova, Federated Normalized Averaging, Normalized Averaging for Heterogeneous Federated Optimization
+    </div>
+
+  <div class="detail-desc">
+    A heterogeneous federated optimization framework and normalized averaging algorithm (FedNova) that models client i&#39;s cumulative local model change over tau_i^{(t)} local steps as Delta_i^{(t)} = x_i^{(t,tau_i)} - x^{(t,0)} = -eta * G_i^{(t)} * a_i^{(t)}, where G_i^{(t)} in R^{d x tau_i} stacks the local stochastic gradients and a_i^{(t)} in R^{tau_i} is the local solver&#39;s gradient weighting vector (a_i = [1,...,1]^T for vanilla SGD, a_i = [(1-alpha)^{tau_i-1},...,1]^T for proximal SGD, and a_i = [1-rho^{tau_i},...,1-rho]^T/(1-rho) for momentum SGD), normalizes each client&#39;s update into an effective local gradient d_i^{(t)} = G_i^{(t)} a_i^{(t)} / ||a_i^{(t)}||_1 = -Delta_i^{(t)} / (eta * ||a_i^{(t)}||_1), and aggregates across clients with weights w_i = p_i and effective global step size tau_eff^{(t)} (defaulting to sum_{i=1}^m p_i ||a_i^{(t)}||_1) via x^{(t+1,0)} = x^{(t,0)} - tau_eff^{(t)} * sum_{i=1}^m p_i * eta * d_i^{(t)}, eliminating the surrogate objective inconsistency chi^2_{p||w} = sum_{i=1}^m (p_i - w_i)^2 / w_i caused by heterogeneous local step counts tau_i or heterogeneous local solvers while achieving O(1/sqrt(m * tau_tilde * T)) convergence to stationary points of the true global objective F(x) = sum_{i=1}^m p_i F_i(x).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedProx (AIMech:FedProxProximalHeteratedOptimization / AIMech:FedProxProximalHeterogeneousFederatedOptimization, which adds a proximal penalty (mu/2)||x - x^{(t,0)}||^2 to local objectives but still suffers from surrogate objective inconsistency w_i proportional to p_i ||a_i||_1 when tau_i varies across clients, as proven in Wang et al. 2020 Section 4.3), from SCAFFOLD (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning, which transmits control variate shifts c_i and requires equal local step counts), and from Local SGD (AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent). No pinned AIO class covers FedNova or objective-inconsistency-eliminating normalized federated averaging.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r386-surrogate-objective-inconsistency-theorem</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 1 and Corollary 1 prove that any federated algorithm aggregating unnormalized local updates with weights w_i proportional to p_i ||a_i||_1 converges to a stationary point of a mismatched surrogate objective F_tilde(x) = sum_{i=1}^m w_i F_i(x) with w_i = p_i ||a_i||_1 / sum_j p_j ||a_j||_1, and Theorem 2 combined with Lemma 4 shows that on strongly convex quadratic local losses F_i(x) = (1/2) x^T H_i x - e_i^T x, standard FedAvg converges as eta -&gt; 0 to x_inf^{FedAvg} = (sum_i p_i tau_i H_i)^{-1} (sum_i p_i tau_i e_i) != x* with a non-vanishing lower bound min_{t in [T]} E||nabla F(x^{(t,0)})||^2 = Omega(chi^2_{p||w} kappa^2 / (chi^2_{p||w} beta^2 + 1)).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r386-primary-pdf">Tackling the Objective Inconsistency Problem in Heterogeneous Federated Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2 Theorem 1, Corollary 1, Theorem 2, and Appendix B Lemmas 3-4, pp. 4-6, 15-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r386-normalized-averaging-stationarity-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By normalizing each client&#39;s cumulative update by ||a_i^{(t)}||_1 (where ||a_i||_1 = tau_i for vanilla SGD, (1 - (1-alpha)^{tau_i})/alpha for proximal SGD, and (tau_i - rho(1-rho^{tau_i})/(1-rho))/(1-rho) for momentum SGD) and setting w_i = p_i, FedNova achieves exact surrogate consistency (chi^2_{p||w} = 0) and Theorem 3 / Corollary 3 guarantees (1/T) sum_{t=0}^{T-1} E||nabla F(x^{(t,0)})||^2 = O(1/sqrt(m * tau_tilde * T) + m * tau_tilde / T) for L-smooth nonconvex objectives.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r386-primary-pdf">Tackling the Objective Inconsistency Problem in Heterogeneous Federated Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3, Section 5 Theorem 3 &amp; Corollary 3, pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r386-local-step-size-and-drift-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    While FedNova eliminates the O(chi^2_{p||w}) objective inconsistency term as eta -&gt; 0, Theorem 3 requires local step sizes to satisfy eta * L * max_i ||a_i||_1 &lt;= O(1) so that client-drift variance O(eta^2 L^2 ||a_i||_2^2) remains controlled when local step counts tau_i are large.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r386-primary-pdf">Tackling the Objective Inconsistency Problem in Heterogeneous Federated Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Theorem 3 condition (12) and Lemma 4 finite-eta limit (19), pp. 7, 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r386-heterogeneous-epoch-federated-training-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to federated training of VGG-11 and ResNet-18 on non-IID Dirichlet-partitioned CIFAR-10 and synthetic quadratic benchmarks under heterogeneous client local epochs E_i and straggler drop-offs, outperforming FedAvg and FedProx while supporting local momentum and proximal solvers.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r386-primary-pdf">Tackling the Objective Inconsistency Problem in Heterogeneous Federated Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Experimental Results, Table 2 &amp; Figures 3-4, pp. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires each participating client i to report or allow computation of its effective local step weight norm ||a_i^{(t)}||_1 alongside its model update.</li>
+      <li>Eliminates objective inconsistency as eta -&gt; 0 but still incurs O(eta^2 L^2 ||a_i||_2^2) client drift at finite step sizes unless combined with variance reduction.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedNova is a specialized federated optimization algorithm that normalizes heterogeneous client local updates by ||a_i||_1 to eliminate surrogate objective inconsistency.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r386-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r386-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2007.07481.pdf" target="_blank" rel="noopener">Tackling the Objective Inconsistency Problem in Heterogeneous Federated Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianyu Wang, Qinghua Liu, Hao Liang, Gauri Joshi, H. Vincent Poor
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2020/hash/564127c03caab942e503ee6f810f54fd-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fea608d53eeb…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r386-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r386-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2007.07481" target="_blank" rel="noopener">Tackling the Objective Inconsistency Problem in Heterogeneous Federated Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianyu Wang, Qinghua Liu, Hao Liang, Gauri Joshi, H. Vincent Poor
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2007.07481</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:29b9efe76fc6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r386-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r386-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/2020/hash/564127c03caab942e503ee6f810f54fd-Abstract.html" target="_blank" rel="noopener">Tackling the Objective Inconsistency Problem in Heterogeneous Federated Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianyu Wang, Qinghua Liu, Hao Liang, Gauri Joshi, H. Vincent Poor
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2020/hash/564127c03caab942e503ee6f810f54fd-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9201f121060c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:49:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:49:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedNovaNormalizedAveragingForHeterogeneousFederatedOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedNovaNormalizedAveragingForHeterogeneousFederatedOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
