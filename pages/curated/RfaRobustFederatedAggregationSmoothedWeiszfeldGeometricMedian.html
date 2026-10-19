@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RFA Robust Federated Aggregation via Smoothed Weiszfeld Geometric Median · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>RFA Robust Federated Aggregation via Smoothed Weiszfeld Geometric Median</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">RFA Robust Federated Aggregation via Smoothed Weiszfeld Geometric Median</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RFA, Robust Federated Aggregation, Smoothed Weiszfeld Geometric Median Federated Aggregation, One-Step RFA
+    </div>
+
+  <div class="detail-desc">
+    A Byzantine-robust and secure-aggregation-compatible federated learning algorithm (RFA, Algorithm 1) that replaces the weighted arithmetic mean in FedAvg with an approximate weighted l_2 geometric median (GM) argmin_{v in R^d} sum_{i in S_t} alpha_i ||v - w_i^{(t)}||_2 computed via R steps of the Smoothed Weiszfeld algorithm (Algorithm 2). At each inner iteration r = 0,...,R-1, the server and clients execute a linear Secure Average oracle call to form v^{(r+1)} = (sum_{i in S_t} beta_i^{(r)} w_i^{(t)}) / (sum_{i in S_t} beta_i^{(r)}) with smoothed inverse-distance weights beta_i^{(r)} = alpha_i / max(nu, ||v^{(r)} - w_i^{(t)}||_2) for smoothing parameter nu &gt; 0, alongside communication-reduced One-Step RFA (R = 1, Algorithm 3) and Personalized RFA (Algorithm 4).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Coordinate-wise Median and Trimmed Mean (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning, which compute coordinate-separable l_1 medians or trimmed means that cannot be implemented via a small number of linear Secure Aggregation sum queries and lack rotation equivariance) and from Krum (AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent, which requires server inspection of all O(m^2) pairwise client model distances, incompatible with cryptographic Secure Average oracles).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r402-smoothed-weiszfeld-surrogate-convergence-and-secure-aggregation-privacy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Algorithm 2 derives the Smoothed Weiszfeld update as exact alternating minimization of the jointly convex surrogate G(v, eta) = (1/2) sum_{i=1}^m alpha_i (||v - w_i||_2^2 / eta_i + eta_i) over v in R^d and eta_i &gt;= nu, with Proposition 2 proving O(1 / (nu_bar R)) convergence to the geometric median objective and Proposition 3 bounding each device&#39;s normalized weight beta_i^{(r)} / sum_j beta_j^{(r)} &lt;= (1 + (m - 1) nu_bar / B)^{-1} across R linear Secure Average oracle calls.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r402-primary-pdf">Robust Aggregation for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section IV The RFA Algorithm and Convergence (Algorithm 2, Propositions 2 and 3), pp. 1144-1146</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r402-corruption-tolerance-up-to-half-and-heterogeneous-local-sgd-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For corruption level rho &lt; 1/2 (measuring the total weight of corrupted devices), Theorem 4 proves that RFA with tail-averaged local SGD on strongly convex least-squares objectives achieves linear convergence in communication rounds T up to a neighborhood controlled by geometric median tolerance epsilon^2 / m^2, local SGD noise sigma^2 / N_0, and bounded input/output heterogeneity Omega^2 = Omega_X^2 * Omega_{Y|X}^2, amplified by (1 - 2*rho)^{-2} (or (1 - 2*rho)^{-4} when rho &gt; 1/3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r402-primary-pdf">Robust Aggregation for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section IV-A Convergence Analysis (Assumptions 1-3, Theorem 4, Corollary 5), pp. 1146-1148</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r402-r-round-secure-average-communication-overhead-and-heterogeneity-amplification-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Executing R steps of the Smoothed Weiszfeld algorithm increases per-round communication and cryptographic Secure Average invocations by a factor of R (unless approximated by One-Step RFA with R = 1), and the heterogeneity neighborhood in Theorem 4 scales with (1 - 2*rho)^{-4} as the corruption fraction rho approaches the 1/2 breakdown point.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r402-primary-pdf">Robust Aggregation for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section IV Proposition 3, Section IV-A Theorem 4, and Section IV-B Practical Extensions (Algorithms 3-4), pp. 1145-1148</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r402-femnist-sent140-and-shakespeare-corruption-defense-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated on federated character recognition (EMNIST), sentiment analysis (Sent140), and character-level language modeling (Shakespeare) under data poisoning, label flipping, and omniscient parameter corruption up to rho &lt; 1/2, outperforming FedAvg and Coordinate-wise Median with 3 steps of Smoothed Weiszfeld or One-Step RFA.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r402-primary-pdf">Robust Aggregation for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section V Numerical Experiments (Figures 2-6, Table I), pp. 1148-1152</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Multi-step Smoothed Weiszfeld requires R sequential rounds of linear Secure Aggregation per federated update.</li>
+      <li>Theoretical error bounds degrade by (1 - 2*rho)^{-4} as the corrupted device weight fraction rho approaches 1/2.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            RFA is a geometric-median-based Byzantine-robust aggregation algorithm for FederatedLearning compatible with secure aggregation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r402-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r402-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1109/TSP.2022.3153135" target="_blank" rel="noopener">Robust Aggregation for Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Krishna Pillutla, Sham M. Kakade, Zaid Harchaoui
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TSP.2022.3153135</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4f53ba8e0d4f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r402-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r402-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1912.13445" target="_blank" rel="noopener">Robust Aggregation for Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Krishna Pillutla, Sham M. Kakade, Zaid Harchaoui
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1912.13445</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1241ddb7cee6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r402-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r402-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1109/TSP.2022.3153135" target="_blank" rel="noopener">Robust Aggregation for Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Krishna Pillutla, Sham M. Kakade, Zaid Harchaoui
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TSP.2022.3153135</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d6f202803142…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:05:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:05:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
