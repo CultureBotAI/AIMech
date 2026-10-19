@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1223</strong> artificial intelligence concepts, comprising <strong>781</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1224</strong> artificial intelligence concepts, comprising <strong>782</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1223)</option>
-        <option value="curated">Curated AIMech (781)</option>
+        <option value="all">All Origins (1224)</option>
+        <option value="curated">Curated AIMech (782)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (479)</option>
+          <option value="algorithm">Algorithms (480)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1223</span> of <span id="totalCount">1223</span>
+      Showing <span id="matchCount">1224</span> of <span id="totalCount">1224</span>
     </div>
   </div>
 </div>
@@ -9449,6 +9449,32 @@
         </td>
         <td>
             <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="feddyn dynamic regularization for federated learning feddyndynamicregularizationforfederatedlearning aimech:feddyndynamicregularizationforfederatedlearning algorithms algorithm a communication-efficient federated optimization method (feddyn) in which each active device k in p_t at round t minimizes a dynamically regularized local risk objective theta_k^t = argmin_theta [ l_k(theta) - &lt;nabla l_k(theta_k^{t-1}), theta&gt; + (alpha / 2) ||theta - theta^{t-1}||^2 ], recursively updates its local gradient state via the exact first-order optimality relation nabla l_k(theta_k^t) = nabla l_k(theta_k^{t-1}) - alpha * (theta_k^t - theta^{t-1}), and transmits only theta_k^t to the server, which updates a server state vector h^t = h^{t-1} - (alpha / m) * (sum_{k in p_t} theta_k^t - p * theta^{t-1}) == (1/m) sum_{k=1}^m nabla l_k(theta_k^t) and forms the next global model theta^t = (1/p) sum_{k in p_t} theta_k^t - (1/alpha) * h^t, ensuring that local optima dynamically align with stationary points of the global empirical loss l(theta) = (1/m) sum_{k=1}^m l_k(theta) under arbitrary statistical heterogeneity and partial participation without extra communication payload per round. distinct from fedprox (aimech:fedproxproximalheterogeneousfederatedoptimization, which penalizes (mu/2)||theta - theta^{t-1}||^2 without the dynamic linear gradient-alignment term -&lt;nabla l_k(theta_k^{t-1}), theta&gt;, so client minimizers do not align with theta* when nabla l_k(theta*) != 0), from scaffold (aimech:scaffoldstochasticcontrolledaveragingforfederatedlearning, which doubles communication payload by transmitting control variate updates delta c_i alongside model parameters), and from fednova (aimech:fednovanormalizedaveragingforheterogeneousfederatedoptimization). no pinned aio class covers feddyn. feddyn federated learning based on dynamic regularization dynamic regularized federated optimization by augmenting l_k(theta) with -&lt;nabla l_k(theta_k^{t-1}), theta&gt; + (alpha/2)||theta - theta^{t-1}||^2, exact local minimization enforces nabla l_k(theta_k^t) - nabla l_k(theta_k^{t-1}) + alpha(theta_k^t - theta^{t-1}) = 0 (eq. 2), so the server recursion h^t = h^{t-1} - (alpha/m)(sum_{k in p_t} theta_k^t - p * theta^{t-1}) maintains the exact invariant h^t = (1/m) sum_{k=1}^m nabla l_k(theta_k^t) at every round t &gt;= 1 even under partial participation p &lt; m, and any fixed point theta_k^infty = theta^infty = theta* satisfies (1/m) sum_{k=1}^m nabla l_k(theta*) = 0. under p-out-of-m partial client participation and l-smooth local losses, theorems 1, 2, and 3 prove that feddyn achieves o((1/t) sqrt(m/p) (l * d^2 + (1/l) * zeta_*^2)) convergence for convex losses, linear convergence (1 + mu / alpha)^{-(t-1)} with alpha = max(5*(m/p)*mu, 30*l) (i.e. o((m/p)*(l/mu) log(1/eps)) communication rounds independent of heterogeneity zeta_*^2) for mu-strongly convex losses, and o((l/t)*(m/p)) ergodic gradient norm decay for nonconvex losses. requires each client k to maintain a persistent local gradient state nabla l_k(theta_k^{t-1}) in r^d across communication rounds (making it unsuitable for purely stateless cross-device settings where clients participate only once) and assumes exact or high-accuracy minimization of the local regularized subproblem. applied to federated classification and language modeling on cifar-10, cifar-100, mnist, fashion-mnist, shakespeare, and stackoverflow across iid, dirichlet non-iid, and 10%/1% partial participation regimes, achieving target accuracy in 3x-5x fewer communication rounds than fedavg, fedprox, and scaffold. federated learning based on dynamic regularization federated learning based on dynamic regularization (arxiv abstract) federated learning based on dynamic regularization (crossref metadata) durmus alp emre acar yue zhao ramon matas navarro matthew mattina paul n. whatmough venkatesh saligrama durmus alp emre acar yue zhao ramon matas navarro matthew mattina paul n. whatmough venkatesh saligrama durmus alp emre acar yue zhao ramon matas navarro matthew mattina paul n. whatmough venkatesh saligrama">
+        <td>
+          <a href="curated/FedDynDynamicRegularizationForFederatedLearning.html" style="font-weight: 600; font-size: 1rem;">FedDyn Dynamic Regularization for Federated Learning</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedDyn, Federated Learning Based on Dynamic Regularization…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A communication-efficient federated optimization method (FedDyn) in which each active device k in P_t at round t minimizes a dynamically reg…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedDynDynamicRegularizationForFederatedLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="aio"
