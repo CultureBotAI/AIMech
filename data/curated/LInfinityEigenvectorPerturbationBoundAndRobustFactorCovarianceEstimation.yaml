@@ -1,0 +1,105 @@
+id: AIMech:LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation
+name: L-Infinity Eigenvector Perturbation Bound and Robust Factor Covariance Estimation
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: "A deterministic entrywise ($\\ell_\\infty$) eigenvector and singular-vector perturbation theory and heavy-tailed factor covariance estimation framework (introduced by Jianqing Fan, Weichen Wang, and Yiqiao Zhong in 2018). For a rank-$r$ symmetric matrix $\\mathbf{A} = \\mathbf{V}\\boldsymbol{\\Lambda}\\mathbf{V}^T \\in \\mathbb{R}^{d \\times d}$ with orthonormal eigenvectors $\\mathbf{V} = [\\mathbf{v}_1, \\dots, \\mathbf{v}_r]$, coherence $\\mu(\\mathbf{V}) = (d/r)\\max_i \\sum_{j=1}^r V_{ij}^2$, eigengap $\\gamma_0 = \\min\\{|\\lambda_i - \\lambda_j| : 1 \\le i \\ne j \\le r+1\\}$, and symmetric perturbation $\\widetilde{\\mathbf{A}} = \\mathbf{A} + \\mathbf{E}$ satisfying $\\gamma_0 - \\|\\mathbf{E}\\|_\\infty = \\Omega(r^3\\mu^2\\|\\mathbf{E}\\|_\\infty)$, where $\\|\\mathbf{E}\\|_\\infty = \\max_i \\sum_{j=1}^d |E_{ij}|$ is the matrix $\\ell_\\infty$ operator norm, Theorem 1 (and Theorem 2.1) establishes the coordinatewise delocalized perturbation bound $\\max_{1 \\le k \\le r}\\|\\widetilde{\\mathbf{v}}_k - \\operatorname{sgn}(\\widetilde{\\mathbf{v}}_k^T\\mathbf{v}_k)\\mathbf{v}_k\\|_\\infty = O\\left(r^{5/2}\\mu^{3/2}\\,\\frac{\\|\\mathbf{E}\\|_\\infty}{\\gamma_0\\sqrt{d}}\\right)$, improving upon the Davis\u2013Kahan $\\ell_2$ bound by a factor of $1/\\sqrt{d}$, while Theorems 2.2\u20132.4 extend the bound to rectangular low-rank matrices $\\mathbf{A} = \\mathbf{U}\\boldsymbol{\\Sigma}\\mathbf{V}^T \\in \\mathbb{R}^{d_1 \\times d_2}$ via asymmetric singular-vector norms $\\|\\mathbf{E}\\|_{2,\\infty}$ and approximate low-rank decompositions $\\mathbf{A} = \\mathbf{A}_r + \\mathbf{A}_{\\rm rem}$. Applying this $\\ell_\\infty$ eigenvector perturbation bound to a spiked approximate factor model $\\mathbf{y}_i = \\mathbf{B}\\mathbf{f}_i + \\boldsymbol{\\varepsilon}_i$ with covariance $\\boldsymbol{\\Sigma} = \\mathbf{B}\\mathbf{B}^T + \\boldsymbol{\\Sigma}_u$, the framework constructs two robust high-dimensional factor covariance estimators under heavy tails: (1) an entrywise Catoni M-estimator $\\widehat{\\Sigma}_{jk}$ solving $\\sum_{i=1}^n \\psi(\\alpha(Y_{ij}Y_{ik} - \\widehat{\\Sigma}_{jk})) = 0$ with $\\psi(x) = \\operatorname{sgn}(x)\\log(1 + |x| + x^2/2)$ under finite fourth moments, followed by top-$r$ eigen-extraction and adaptive thresholding of the residual covariance (Section 3, Theorems 3.1\u20133.2); and (2) an elliptical-distribution estimator combining the eigenvectors $\\widetilde{\\mathbf{V}}^K$ of the spatial Kendall's tau matrix $\\widetilde{\\boldsymbol{\\Sigma}}^K = \\binom{n}{2}^{-1}\\sum_{i < i'}(\\mathbf{y}_i - \\mathbf{y}_{i'})(\\mathbf{y}_i - \\mathbf{y}_{i'})^T / \\|\\mathbf{y}_i - \\mathbf{y}_{i'}\\|_2^2$ with Catoni variance and principal-eigenvalue estimators without requiring finite fourth moments for the eigenvector directions (Section 4, Theorems 4.1\u20134.2)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 673 maintained AIMech concepts. Distinct from `AIMech:PrincipalOrthogonalComplementThresholdingForApproximateFactorCovarianceEstimation` (Fan, Liao, & Mincheva 2013, which uses the sample covariance matrix $\widehat{\boldsymbol{\Sigma}}_{\rm samp} = n^{-1}\sum_{i=1}^n \mathbf{y}_i\mathbf{y}_i^T$ under sub-Gaussian tails and relies on the $p \times p$ dual Gram matrix $T \times T$ rather than proving deterministic $\ell_\infty$ eigenvector perturbation bounds in terms of $\|\mathbf{E}\|_\infty$ or using Catoni M-estimation and spatial Kendall's tau under heavy tails), and from `AIMech:AdaptiveThresholdingForHighDimensionalSparseCovarianceMatrixEstimation` (Cai & Liu 2011, which thresholds the sample covariance matrix directly without latent factor extraction or $\ell_\infty$ singular-vector perturbation theory).
+aliases:
+- L-Infinity Eigenvector Perturbation Bound
+- Fan-Wang-Zhong L-Infinity Singular Vector Perturbation Theorem
+- Robust Factor Covariance Estimation via Catoni M-Estimator and Spatial Kendall's Tau
+- Entrywise L-Infinity Singular Vector Perturbation Bound
+- Robust POET via Catoni M-Estimator and Spatial Kendall's Tau
+definition_evidence:
+- source_id: fwz2018-linf-pdf
+  locator: Sections 1-4, pages 1-20, Theorems 1, 2.1-2.4, 3.1-3.2, and 4.1-4.2
+  relation: supports
+- source_id: fwz2018-linf-abs
+  locator: arXiv:1603.03516v2 abstract
+  relation: supports
+- source_id: fwz2018-linf-jmlr
+  locator: Title, authors, DOI, and journal bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-l-infinity-eigenvector-and-singular-vector-perturbation-bounds
+  kind: mechanism
+  statement: "For a symmetric rank-$r$ matrix $\\mathbf{A} = \\mathbf{V}\\boldsymbol{\\Lambda}\\mathbf{V}^T \\in \\mathbb{R}^{d \\times d}$ with coherence $\\mu(\\mathbf{V}) = (d/r)\\max_i \\sum_{j=1}^r V_{ij}^2$ and eigengap $\\gamma_0$, any symmetric perturbation $\\widetilde{\\mathbf{A}} = \\mathbf{A} + \\mathbf{E}$ satisfying $\\gamma_0 - \\|\\mathbf{E}\\|_\\infty = \\Omega(r^3\\mu^2\\|\\mathbf{E}\\|_\\infty)$ has perturbed eigenvectors satisfying $\\max_{1 \\le k \\le r}\\|\\widetilde{\\mathbf{v}}_k - \\operatorname{sgn}(\\widetilde{\\mathbf{v}}_k^T\\mathbf{v}_k)\\mathbf{v}_k\\|_\\infty = O(r^{5/2}\\mu^{3/2}\\|\\mathbf{E}\\|_\\infty / (\\gamma_0\\sqrt{d}))$ (Theorem 1 / Theorem 2.1), proved by reducing the eigenvector equation via Schur complement to the secular identity $\\widetilde{\\lambda}_k = \\lambda_k + \\mathbf{u}_k^T\\mathbf{E}\\mathbf{u}_k + \\mathbf{u}_k^T\\mathbf{E}\\mathbf{x}^*$ and bounding the Neumann series $\\mathbf{x}^* = \\sum_{m=0}^\\infty \\widetilde{\\lambda}_k^{-(m+1)}(\\mathbf{Q}\\mathbf{E}\\mathbf{Q})^m\\mathbf{Q}\\mathbf{E}\\mathbf{u}_k$ in $\\ell_\\infty$ norm via contraction analysis (Section 5.1, Lemmas 5.1\u20135.3); for general rectangular matrices $\\mathbf{A} = \\mathbf{U}\\boldsymbol{\\Sigma}\\mathbf{V}^T + \\mathbf{A}_{\\rm rem} \\in \\mathbb{R}^{d_1 \\times d_2}$, Theorem 2.4 bounds $\\|\\widetilde{\\mathbf{u}}_i - \\mathbf{u}_i\\|_\\infty$ and $\\|\\widetilde{\\mathbf{v}}_i - \\mathbf{v}_i\\|_\\infty$ by $O(r^{5/2}\\mu_0^{3/2}\\tau_0 / (\\delta_0 - \\varepsilon_0)) / \\sqrt{d_k}$ where $\\tau_0 = \\max\\{\\|\\widetilde{\\mathbf{E}}\\|_{2,\\infty}, \\|\\widetilde{\\mathbf{E}}^T\\|_{2,\\infty}\\}$ and $\\widetilde{\\mathbf{E}} = \\mathbf{E} + \\mathbf{A}_{\\rm rem}$."
+  evidence:
+  - source_id: fwz2018-linf-pdf
+    locator: Section 2 (pp. 5-10, Theorems 2.1-2.4), Section 5 (pp. 24-31, Lemmas 5.1-5.4), Appendices A-B (pp. 32-44)
+    relation: supports
+- claim_id: claim-catoni-m-estimator-robust-factor-covariance-recovery
+  kind: mechanism
+  statement: "In a spiked factor model $\\mathbf{y}_i = \\mathbf{B}\\mathbf{f}_i + \\boldsymbol{\\varepsilon}_i$ ($i=1,\\dots,n$) with pervasive loadings $\\|p^{-1}\\mathbf{B}^T\\mathbf{B} - \\boldsymbol{\\Sigma}_B\\|_2 = o(1)$ and heavy-tailed observations satisfying the bounded fourth-moment condition $\\max_{j,k}\\mathbb{E}[(Y_{ij}Y_{ik} - \\Sigma_{jk})^2] \\le v_0^2 < \\infty$ (Assumption 3.2), the entrywise Catoni M-estimator $\\widehat{\\Sigma}_{jk}$ (Equations 3.2\u20133.3) achieves uniform entrywise concentration $\\|\\widehat{\\boldsymbol{\\Sigma}} - \\boldsymbol{\\Sigma}\\|_{\\max} = O_p(\\sqrt{\\log d / n}) without sub-Gaussian tails; combined with Theorem 2.2, this yields $\\|\\widehat{\\mathbf{v}}_k - \\mathbf{v}_k\\|_\\infty = O_p(\\sqrt{\\log d / (n d)} + 1/d)$ for the spiked eigenvectors and optimal convergence rates $\\|\\widehat{\\boldsymbol{\\Sigma}}_u - \\boldsymbol{\\Sigma}_u\\|_2 = O_p(\\omega_n^{1-q} m_d)$ and $\\|\\widehat{\\boldsymbol{\\Sigma}} - \\boldsymbol{\\Sigma}\\|_{\\boldsymbol{\\Sigma}} = O_p(d^{-1/2}\\sqrt{\\log d / n} + \\omega_n^{1-q} m_d)$ where $\\omega_n = \\sqrt{\\log d / n} + 1/\\sqrt{d}$ (Section 3.2, Theorems 3.1\u20133.2)."
+  evidence:
+  - source_id: fwz2018-linf-pdf
+    locator: Section 3 (pp. 10-16, Assumptions 3.1-3.2, Equations 3.2-3.6, Theorems 3.1-3.2), Appendix C (pp. 44-45)
+    relation: supports
+- claim_id: claim-elliptical-spatial-kendalls-tau-eigenvector-recovery
+  kind: mechanism
+  statement: "When $\\mathbf{y}_i \\sim \\mathrm{ED}_d(\\mathbf{0}, \\boldsymbol{\\Sigma}, \\xi)$ follows an elliptical factor model where fourth moments may not exist, the spatial Kendall's tau U-statistic matrix $\\widetilde{\\boldsymbol{\\Sigma}}^K = \\binom{n}{2}^{-1}\\sum_{i < i'}(\\mathbf{y}_i - \\mathbf{y}_{i'})(\\mathbf{y}_i - \\mathbf{y}_{i'})^T / \\|\\mathbf{y}_i - \\mathbf{y}_{i'}\\|_2^2$ shares the exact population eigenvectors $\\mathbf{V}$ of $\\boldsymbol{\\Sigma}$ with top-$r$ eigenvalues $\\widetilde{\\lambda}_j \\asymp \\lambda_j / \\operatorname{tr}(\\boldsymbol{\\Sigma}) = \\Theta(1)$ and satisfies $\\|\\widetilde{\\boldsymbol{\\Sigma}}^K - \\boldsymbol{\\Sigma}^K\\|_2 = O_p(\\sqrt{\\log d / n})$ unconditionally on tail heaviness; applying Theorem 2.2 to $\\widetilde{\\boldsymbol{\\Sigma}}^K$ proves that its top $r$ eigenvectors $\\widetilde{\\mathbf{v}}_j^K$ satisfy $\\max_{1 \\le j \\le r}\\|\\widetilde{\\mathbf{v}}_j^K - \\mathbf{v}_j\\|_\\infty = O_p(\\sqrt{d\\log d / n} + d^{-1/2})$ without any moment condition on $\\xi$ (Section 4.1, Theorems 4.1\u20134.2)."
+  evidence:
+  - source_id: fwz2018-linf-pdf
+    locator: Section 4 (pp. 16-20, Equations 4.1-4.4, Theorems 4.1-4.2), Appendix D (pp. 45-46)
+    relation: supports
+evidence_sources:
+- source_id: fwz2018-linf-pdf
+  title: An l_infinity Eigenvector Perturbation Bound and Its Application to Robust Covariance Estimation
+  authors:
+  - Jianqing Fan
+  - Weichen Wang
+  - Yiqiao Zhong
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1603.03516.pdf
+  persistent_id: https://jmlr.org/papers/v18/16-140.html
+  version: arXiv:1603.03516v2 full-text PDF (48 pages, 661852 bytes), published in Journal of Machine Learning Research 18(207):1-42 (2018).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:10:00Z'
+  sha256: a12e3611ecf0a54d1e94cd817cf34c6fe0e9a0356ce752712119eb877e3d4be2
+- source_id: fwz2018-linf-abs
+  title: An l_infinity Eigenvector Perturbation Bound and Its Application to Robust Covariance Estimation (arXiv abstract)
+  authors:
+  - Jianqing Fan
+  - Weichen Wang
+  - Yiqiao Zhong
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1603.03516
+  persistent_id: https://arxiv.org/abs/1603.03516
+  version: arXiv:1603.03516 abstract page (6747 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:10:00Z'
+  sha256: df06a64ce264c2d1e2ab0fa33cc1395070238ecb783f0193550a86e3b364a4b2
+- source_id: fwz2018-linf-jmlr
+  title: An l_infinity Eigenvector Perturbation Bound and Its Application to Robust Covariance Estimation (JMLR metadata)
+  authors:
+  - Jianqing Fan
+  - Weichen Wang
+  - Yiqiao Zhong
+  source_type: primary_paper
+  url: https://jmlr.org/papers/v18/16-140.html
+  persistent_id: https://jmlr.org/papers/v18/16-140.html
+  version: JMLR Volume 18 Paper 207 page (6057 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:10:00Z'
+  sha256: 5b0832c747e46b0e616ef5fad764288d3f3db1a07a497dbfededa723561ecbeb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: The l_infinity eigenvector perturbation bound characterizes coordinatewise stability of principal components and singular vectors, and Sections 3-4 apply it to robust principal-component factor covariance estimation.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Low-rank spectral and singular-value decomposition of high-dimensional factor covariance matrices is a core linear dimensionality-reduction methodology.
+limitations:
+- The 1/sqrt(d) entrywise perturbation gain in Theorems 1 and 2.1-2.4 critically requires that the unperturbed singular vectors be incoherent (mu_0 = O(1)) and that individual eigenvalues be well-separated (gamma_0 >> r^3 mu^2 ||E||_inf); if the eigenvectors are localized (mu_0 ~ d) or if two spiked eigenvalues coalesce (gamma_0 -> 0), the individual eigenvectors can rotate within the eigenspace and lose O(1/sqrt(d)) coordinatewise stability.
+- Because the matrix l_infinity operator norm satisfies ||E||_inf = max_i sum_{j=1}^d |E_{ij}| <= d ||E||_max, applying Theorem 2.1 directly to an unstructured perturbation with entrywise noise ||E||_max = O_p(sqrt(log d / n)) introduces a factor of d unless E is either row-sparse, banded, or split into a low-rank/spectral piece and a sparse piece.
+- 'Primary-source typographical audit of Fan, Wang, & Zhong (2018, arXiv:1603.03516v2) uncovered five minor notation and typographical issues that are corrected in this record: (1) Section 1 Footnote 1 (p. 4) spells ''This is becuase eigenvectors and singular vectors are not unique'' (''becuase''); (2) Section 2.2 Theorem 2.3 (p. 9) writes ''Suppose that delta_0 - varepsilon_0 = Omega(r^3 mu_0^2 tau_0)'' in the theorem hypothesis, whereas delta_0 is not defined until Theorem 2.4 and the actual denominator in Theorem 2.3''s conclusion and proof (Lemma 5.4 on p. 30 and Lemma B.3 on p. 40) is ''sigma_r - varepsilon_0''; (3) Section 2.2 Theorem 2.4 (p. 9) writes ''the interval [sigma_i - delta_0, sigma_i + delta_0] does not contain any eigenvalues of A other than sigma_i'' (''eigenvalues'' instead of ''singular values'' for the rectangular matrix A in R^{d_1 x d_2}); (4) Section 4.2 heading (p. 20) spells ''robust covariance esitmation'', Fig. 3 caption (p. 21) spells ''aginst'', p. 22 line 3 spells ''second-order U-statstic'', and p. 22 line 8 writes ''widetilde{V}^S'' instead of ''widetilde{V}^K'' for the top r eigenvectors of the spatial Kendall''s tau matrix widetilde{Sigma}^K; and (5) Section 5.1 Lemma 5.2 (p. 27) writes ''x^* subseteq B_0'' instead of ''x^* in B_0'', and Appendix A.3 Proof of Lemma 5.3 (p. 37) writes ''under the assumption of of Theorem 2.1''.'
+curation:
+  created_at: '2026-10-19T05:10:00Z'
+  updated_at: '2026-10-19T05:10:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
