@@ -1,0 +1,102 @@
+id: AIMech:FedEtfNeuralCollapseSimplexEquiangularTightFrameClassifierForFederatedLearning
+name: FedETF (Neural-Collapse-Inspired Federated Learning with Synthetic Fixed Simplex ETF Classifier)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A neural-collapse-inspired federated learning algorithm (Li et al. 2023, Sections 3.2-4.2, Definition 3.1, Equations 3-11, Algorithms 1-2) that eliminates local classifier bias under non-IID data by replacing learnable linear classifiers with a synthetic, globally fixed Simplex Equiangular Tight Frame (ETF) classifier matrix V_ETF = sqrt(C / (C - 1)) U (I_C - (1 / C) 1_C 1_C^T) in R^{d x C} (d >= C - 1, U^T U = I_C) whose columns satisfy unit l_2-norm and maximal equiangular separation v_i^T v_j = (C / (C - 1)) delta_{i,j} - 1 / (C - 1) (Equations 3-4), projecting client backbone features onto the unit hypersphere mu = g(p; f(u; x)) / ||g(p; f(u; x))||_2 (Equation 5), training {u, p, beta} globally via a class-frequency-balanced feature loss ell^g(w, V_ETF; x, y) = -log[(n_{k,y}^gamma exp(beta v_y^T mu)) / sum_{c in [C]} n_{k,c}^gamma exp(beta v_c^T mu)] with learnable scalar temperature beta (Equations 6-8), and adapting locally via two-stage alternating personalized finetuning (Equations 9-11).
+identity_notes: Distinct from CCVR (AIMech:CcvrClassifierCalibrationWithVirtualRepresentationsForFederatedLearning, Luo et al. 2021), which trains standard unconstrained classifiers during federated learning and recalibrates the classifier post-hoc using Gaussian virtual features; and distinct from FedBABU (AIMech:FedBabuFederatedLearningWithBodyAggregationAndBodyUpdate, Oh et al. 2022), which freezes a randomly initialized orthogonal or uniform classifier head rather than synthesizing an exact Simplex Equiangular Tight Frame V_ETF with a projection layer, learnable temperature scaling beta, and power-law balanced feature loss.
+aliases:
+- FedETF
+- Simplex Equiangular Tight Frame Federated Learning
+- Neural-Collapse Synthetic Fixed ETF Classifier for Heterogeneous Federated Learning
+definition_evidence:
+- source_id: r461-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r461-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r461-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r461-synthetic-simplex-etf-and-balanced-feature-loss-mechanism
+  kind: mechanism
+  statement: Synthesizes a fixed C-simplex ETF classifier V_ETF = sqrt(C / (C - 1)) U (I_C - (1 / C) 1_C 1_C^T) with pairwise cosine similarity -1 / (C - 1) (Definition 3.1, Equations 3-4) and trains l_2-normalized projected features mu alongside a learnable temperature scalar beta using the balanced feature loss ell^g(w, V_ETF; x, y) weighted by local class sample counts n_{k,c}^gamma (Equations 5-7), aligning all clients' class representations toward the optimal Neural Collapse (NC1-NC3) geometry without classifier drift.
+  evidence:
+  - source_id: r461-primary-pdf
+    locator: Section 3.2 (Equations 3-4) & Section 4.1 Improving Generalization by ETF Classifier (Equations 5-8), pp. 3-5
+    relation: supports
+- claim_id: r461-two-stage-alternating-personalized-adaptation-scope
+  kind: scope
+  statement: Supports both global model generalization and local personalization via a two-stage post-training adaptation protocol (Section 4.2, Equations 9-11, Algorithm 2) that first adapts the backbone {u, beta} with {p, V_ETF} frozen and then alternates finetuning {V_ETF, beta} and {p, beta} under unweighted cross-entropy loss to match skewed local test distributions.
+  evidence:
+  - source_id: r461-primary-pdf
+    locator: Section 4.2 Personalized Adaptation by Local Finetuning (Equations 9-11) & Appendix A Algorithm 2, pp. 5-6, 13
+    relation: supports
+- claim_id: r461-feature-dimension-lower-bound-and-projection-layer-limitation
+  kind: limitation
+  statement: Requires the projection feature dimension d to satisfy d >= C - 1 so that an orthonormal frame U in R^{d x C} with U^T U = I_C can embed a C-class Simplex ETF, and introduces an extra projection MLP g(p; h) plus hyperparameter gamma for balanced loss weighting.
+  evidence:
+  - source_id: r461-primary-pdf
+    locator: Section 3.2 Definition 3.1 & Section 4.1 Equations 5-6, pp. 3-5
+    relation: supports
+- claim_id: r461-long-tailed-and-heterogeneous-federated-vision-application
+  kind: application
+  statement: Applied to heterogeneous and long-tailed federated visual recognition on CIFAR-10, CIFAR-100, and Tiny-ImageNet across Dirichlet label skew and partial client participation.
+  evidence:
+  - source_id: r461-primary-pdf
+    locator: Section 5 Experiments (Tables 1-4, Figures 3-6), pp. 6-9
+    relation: supports
+evidence_sources:
+- source_id: r461-primary-pdf
+  title: 'No Fear of Classifier Biases: Neural Collapse Inspired Federated Learning with Synthetic and Fixed Classifier'
+  authors: &id001
+  - Zexi Li
+  - Xinyi Shang
+  - Rui He
+  - Tao Lin
+  - Chao Wu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2303.10058.pdf
+  persistent_id: https://doi.org/10.1109/ICCV51070.2023.00490
+  version: Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV 2023), pp. 5319-5329 (2023) (2526 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:04:00Z'
+  sha256: 587808ccadee613795a9ca3455da669e32a71394f45a40f5ee998604ade0aa0a
+- source_id: r461-arxiv-abs
+  title: 'No Fear of Classifier Biases: Neural Collapse Inspired Federated Learning with Synthetic and Fixed Classifier (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2303.10058
+  persistent_id: https://arxiv.org/abs/2303.10058
+  version: arXiv abstract page (1053 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:04:00Z'
+  sha256: 129613d29009471121a5faf5a919beeea60b27a020b47bbf0bfd9e9f30244f8f
+- source_id: r461-metadata-cr
+  title: 'No Fear of Classifier Biases: Neural Collapse Inspired Federated Learning with Synthetic and Fixed Classifier (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/ICCV51070.2023.00490
+  persistent_id: https://doi.org/10.1109/ICCV51070.2023.00490
+  version: Crossref API work record (452 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:04:00Z'
+  sha256: d3dde62005566ad3fa1975c47568d563dcf70792263a867880808b7b37dbb8b5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedETF is a federated learning algorithm that fixes a synthetic Simplex Equiangular Tight Frame classifier to eliminate non-IID classifier bias.
+limitations:
+- Requires feature embedding dimension d >= C - 1 to construct an exact C-class Simplex ETF.
+- Adds an explicit projection layer g(p; h) and two-stage alternating finetuning epochs for personalized adaptation.
+curation:
+  created_at: '2026-10-19T09:04:00Z'
+  updated_at: '2026-10-19T09:04:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
