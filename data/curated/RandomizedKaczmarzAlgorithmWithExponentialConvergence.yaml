@@ -1,0 +1,94 @@
+id: AIMech:RandomizedKaczmarzAlgorithmWithExponentialConvergence
+name: Randomized Kaczmarz Algorithm with Exponential Convergence
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Randomized Kaczmarz Algorithm with Exponential Convergence is a stochastic row-action iterative solver introduced by Strohmer and Vershynin (2009) for consistent overdetermined linear systems A x = b (with A in C^{m x n}, m >= n, and rows a_1,...,a_m). At each iteration k, the algorithm updates x_k = x_{k-1} + ((b_{r(i)} - <x_{k-1}, a_{r(i)}>) / ||a_{r(i)}||_2^2) a_{r(i)} by orthogonally projecting x_{k-1} onto the solution hyperplane {z : <a_{r(i)}, z> = b_{r(i)}} of a row r(i) sampled independently with probability proportional to its squared Euclidean norm, P(r(i) = j) = ||a_j||_2^2 / ||A||_F^2 (Algorithm 1). By weighting row selection by ||a_j||_2^2 rather than cycling deterministically or sampling uniformly, Theorem 2 proves that the expected squared error contracts geometrically at every step according to E ||x_k - x||_2^2 <= (1 - kappa(A)^{-2})^k ||x_0 - x||_2^2, where kappa(A) = ||A||_F ||A^{-1}||_2 is the Demmel / scaled condition number (with ||A^{-1}||_2 = 1/sigma_min(A)), a rate that depends solely on kappa(A) and is completely independent of the number of equations m.'
+identity_notes: Distinct from finite-sum variance-reduced gradient methods such as SVRG, SAGA, and SDCA, and from deterministic cyclic Kaczmarz / Algebraic Reconstruction Technique (ART). Specifically captures the Strohmer-Vershynin (2009) squared-row-norm sampling distribution p_j = ||a_j||_2^2 / ||A||_F^2 (Algorithm 1, Equation 4), the exact Demmel scaled condition number contraction factor 1 - kappa(A)^{-2} (Theorem 2), the tightness of this rate on circulant/parseval ensembles and high- probability lower bounds (Section 3.2 and Theorem 3), and the invariance to poorly scaled rows demonstrated against uniform row sampling (Section 2.2).
+aliases:
+- Strohmer-Vershynin Randomized Kaczmarz Algorithm
+- Row-Norm Weighted Randomized Kaczmarz Method
+- Exponentially Convergent Randomized Algebraic Reconstruction Technique
+definition_evidence:
+- source_id: r323-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r323-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r323-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: For any full-column-rank matrix A in C^{m x n} and any vector z in C^n, the unit direction vectors z_j = a_j / ||a_j||_2 weighted by p_j = ||a_j||_2^2 / ||A||_F^2 satisfy sum_{j=1}^m p_j |<z, z_j>|^2 = ||A z||_2^2 / ||A||_F^2 >= kappa(A)^{-2} ||z||_2^2 (Equation 9), which by the Pythagorean identity ||x_k - x||_2^2 = ||x_{k-1} - x||_2^2 - |<x_{k-1} - x, z_{r(k)}>|^2 implies the exact one-step conditional expectation contraction E_{r(k)} ||x_k - x||_2^2 <= (1 - kappa(A)^{-2}) ||x_{k-1} - x||_2^2 and E ||x_k - x||_2^2 <= (1 - kappa(A)^{-2})^k ||x_0 - x||_2^2 (Theorem 2).
+  evidence:
+  - source_id: r323-primary-pdf
+    locator: Section 2, Theorem 2 and Proof (Equations 8-10), pp. 4-6
+    relation: supports
+  - source_id: r323-metadata-cr
+    locator: Bibliographic metadata for Journal of Fourier Analysis and Applications 15(2):262-278
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: The convergence rate 1 - kappa(A)^{-2} of Theorem 2 is attained with exact equality E ||x_k - x||_2^2 = (1 - kappa(A)^{-2})^k ||x_0 - x||_2^2 whenever A^T A = (||A||_F^2 / n) I_n is a tight frame (so kappa(A)^2 = n, Section 3.2), and Theorem 3 establishes a general high-probability lower bound ||x_k - x||_2^2 >= (1 - (2 k / sigma) kappa(A)^{-2}) ||x_0 - x||_2^2 holding with probability at least 1 - sigma; moreover, because kappa(A)^2 <= n R^2 for subgaussian or Gaussian measurement matrices with m >= C n, Randomized Kaczmarz solves least-squares systems in O(n^2) operations, faster than O(m n^2) QR/SVD solvers and O(m n) per-step Conjugate Gradient when m > n (Section 2.1 and Section 4.1).
+  evidence:
+  - source_id: r323-primary-pdf
+    locator: Section 2.1, pp. 4-5; Section 3.2, Theorem 3, pp. 7-8; Section 4.1, Proposition 4, pp. 8-9
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Whereas sampling rows with probability proportional to ||a_j||_2^2 makes the algorithm invariant to multiplying a single row by a small scalar epsilon -> 0, sampling rows uniformly at random can be slowed down arbitrarily by near-zero rows (Section 2.2); furthermore, the unmodified Kaczmarz iteration assumes a consistent linear system A x = b and oscillates within a noise ball around the least-squares solution if b is corrupted by inconsistent additive noise.
+  evidence:
+  - source_id: r323-primary-pdf
+    locator: Section 1, Equation 1, p. 1; Section 2.2, Remark on Why Not Sample Rows Uniformly, p. 6
+    relation: supports
+evidence_sources:
+- source_id: r323-primary-pdf
+  title: A randomized Kaczmarz algorithm with exponential convergence
+  authors: &id001
+  - Thomas Strohmer
+  - Roman Vershynin
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/math/0702226v1
+  persistent_id: https://doi.org/10.1007/s00041-008-9030-4
+  version: Journal of Fourier Analysis and Applications, 15(2):262-278 (2009) (322181 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:38:00Z'
+  sha256: 4ff4019ffa54f1d3571c95936c5375117c2036a92b67c66bfc8d0776d5a9a156
+- source_id: r323-arxiv-abs
+  title: A randomized Kaczmarz algorithm with exponential convergence (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/math/0702226v1
+  persistent_id: https://arxiv.org/abs/math/0702226v1
+  version: arXiv abstract page (6105 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:38:00Z'
+  sha256: 570906d47c306462ae4b2a818142da81426c33c7186b8cc5a1bbefd5ad9cdf13
+- source_id: r323-metadata-cr
+  title: A randomized Kaczmarz algorithm with exponential convergence (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1007/s00041-008-9030-4
+  persistent_id: https://doi.org/10.1007/s00041-008-9030-4
+  version: Crossref API work record (4724 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:38:00Z'
+  sha256: abe2d2e1b9c7019338f4bc9e6aef2751e3bdca1fd4a1588c1a60e7ad133057bc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Randomized Kaczmarz is a stochastic row-projection solver for overdetermined linear systems and least-squares regression.
+limitations:
+- Requires precomputing all row norms ||a_j||_2^2 (an O(m n) one-time pass) to form the sampling distribution, and the basic un-relaxed iteration does not converge to the least-squares minimizer when the system A x = b is inconsistent without step-size decay or dual residual removal.
+curation:
+  created_at: '2026-10-19T06:38:00Z'
+  updated_at: '2026-10-19T06:38:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

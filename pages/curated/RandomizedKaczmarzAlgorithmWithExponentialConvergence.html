@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Randomized Kaczmarz Algorithm with Exponential Convergence · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Randomized Kaczmarz Algorithm with Exponential Convergence</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Randomized Kaczmarz Algorithm with Exponential Convergence</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RandomizedKaczmarzAlgorithmWithExponentialConvergence</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Strohmer-Vershynin Randomized Kaczmarz Algorithm, Row-Norm Weighted Randomized Kaczmarz Method, Exponentially Convergent Randomized Algebraic Reconstruction Technique
+    </div>
+
+  <div class="detail-desc">
+    Randomized Kaczmarz Algorithm with Exponential Convergence is a stochastic row-action iterative solver introduced by Strohmer and Vershynin (2009) for consistent overdetermined linear systems A x = b (with A in C^{m x n}, m &gt;= n, and rows a_1,...,a_m). At each iteration k, the algorithm updates x_k = x_{k-1} + ((b_{r(i)} - &lt;x_{k-1}, a_{r(i)}&gt;) / ||a_{r(i)}||_2^2) a_{r(i)} by orthogonally projecting x_{k-1} onto the solution hyperplane {z : &lt;a_{r(i)}, z&gt; = b_{r(i)}} of a row r(i) sampled independently with probability proportional to its squared Euclidean norm, P(r(i) = j) = ||a_j||_2^2 / ||A||_F^2 (Algorithm 1). By weighting row selection by ||a_j||_2^2 rather than cycling deterministically or sampling uniformly, Theorem 2 proves that the expected squared error contracts geometrically at every step according to E ||x_k - x||_2^2 &lt;= (1 - kappa(A)^{-2})^k ||x_0 - x||_2^2, where kappa(A) = ||A||_F ||A^{-1}||_2 is the Demmel / scaled condition number (with ||A^{-1}||_2 = 1/sigma_min(A)), a rate that depends solely on kappa(A) and is completely independent of the number of equations m.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from finite-sum variance-reduced gradient methods such as SVRG, SAGA, and SDCA, and from deterministic cyclic Kaczmarz / Algebraic Reconstruction Technique (ART). Specifically captures the Strohmer-Vershynin (2009) squared-row-norm sampling distribution p_j = ||a_j||_2^2 / ||A||_F^2 (Algorithm 1, Equation 4), the exact Demmel scaled condition number contraction factor 1 - kappa(A)^{-2} (Theorem 2), the tightness of this rate on circulant/parseval ensembles and high- probability lower bounds (Section 3.2 and Theorem 3), and the invariance to poorly scaled rows demonstrated against uniform row sampling (Section 2.2).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any full-column-rank matrix A in C^{m x n} and any vector z in C^n, the unit direction vectors z_j = a_j / ||a_j||_2 weighted by p_j = ||a_j||_2^2 / ||A||_F^2 satisfy sum_{j=1}^m p_j |&lt;z, z_j&gt;|^2 = ||A z||_2^2 / ||A||_F^2 &gt;= kappa(A)^{-2} ||z||_2^2 (Equation 9), which by the Pythagorean identity ||x_k - x||_2^2 = ||x_{k-1} - x||_2^2 - |&lt;x_{k-1} - x, z_{r(k)}&gt;|^2 implies the exact one-step conditional expectation contraction E_{r(k)} ||x_k - x||_2^2 &lt;= (1 - kappa(A)^{-2}) ||x_{k-1} - x||_2^2 and E ||x_k - x||_2^2 &lt;= (1 - kappa(A)^{-2})^k ||x_0 - x||_2^2 (Theorem 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r323-primary-pdf">A randomized Kaczmarz algorithm with exponential convergence</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Theorem 2 and Proof (Equations 8-10), pp. 4-6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r323-metadata-cr">A randomized Kaczmarz algorithm with exponential convergence (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata for Journal of Fourier Analysis and Applications 15(2):262-278</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The convergence rate 1 - kappa(A)^{-2} of Theorem 2 is attained with exact equality E ||x_k - x||_2^2 = (1 - kappa(A)^{-2})^k ||x_0 - x||_2^2 whenever A^T A = (||A||_F^2 / n) I_n is a tight frame (so kappa(A)^2 = n, Section 3.2), and Theorem 3 establishes a general high-probability lower bound ||x_k - x||_2^2 &gt;= (1 - (2 k / sigma) kappa(A)^{-2}) ||x_0 - x||_2^2 holding with probability at least 1 - sigma; moreover, because kappa(A)^2 &lt;= n R^2 for subgaussian or Gaussian measurement matrices with m &gt;= C n, Randomized Kaczmarz solves least-squares systems in O(n^2) operations, faster than O(m n^2) QR/SVD solvers and O(m n) per-step Conjugate Gradient when m &gt; n (Section 2.1 and Section 4.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r323-primary-pdf">A randomized Kaczmarz algorithm with exponential convergence</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, pp. 4-5; Section 3.2, Theorem 3, pp. 7-8; Section 4.1, Proposition 4, pp. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Whereas sampling rows with probability proportional to ||a_j||_2^2 makes the algorithm invariant to multiplying a single row by a small scalar epsilon -&gt; 0, sampling rows uniformly at random can be slowed down arbitrarily by near-zero rows (Section 2.2); furthermore, the unmodified Kaczmarz iteration assumes a consistent linear system A x = b and oscillates within a noise ball around the least-squares solution if b is corrupted by inconsistent additive noise.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r323-primary-pdf">A randomized Kaczmarz algorithm with exponential convergence</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Equation 1, p. 1; Section 2.2, Remark on Why Not Sample Rows Uniformly, p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires precomputing all row norms ||a_j||_2^2 (an O(m n) one-time pass) to form the sampling distribution, and the basic un-relaxed iteration does not converge to the least-squares minimizer when the system A x = b is inconsistent without step-size decay or dual residual removal.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Randomized Kaczmarz is a stochastic row-projection solver for overdetermined linear systems and least-squares regression.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r323-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r323-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/math/0702226v1" target="_blank" rel="noopener">A randomized Kaczmarz algorithm with exponential convergence</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thomas Strohmer, Roman Vershynin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/s00041-008-9030-4</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4ff4019ffa54…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r323-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r323-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/math/0702226v1" target="_blank" rel="noopener">A randomized Kaczmarz algorithm with exponential convergence (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thomas Strohmer, Roman Vershynin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/math/0702226v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:570906d47c30…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r323-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r323-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1007/s00041-008-9030-4" target="_blank" rel="noopener">A randomized Kaczmarz algorithm with exponential convergence (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thomas Strohmer, Roman Vershynin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/s00041-008-9030-4</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:abe2d2e1b9c7…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:38:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:38:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RandomizedKaczmarzAlgorithmWithExponentialConvergence.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RandomizedKaczmarzAlgorithmWithExponentialConvergence.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
