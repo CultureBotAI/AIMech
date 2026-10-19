@@ -1,0 +1,100 @@
+id: AIMech:FedAwsFederatedAveragingWithSpreadoutForPositiveOnlyLabels
+name: FedAwS (Federated Averaging with Spreadout for Positive-Only Labels)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A federated multi-class and extreme-classification training algorithm (Yu, Rawat, Menon, & Kumar 2020, Section 3, Equations 7-8, Algorithm 1) for settings where each client i holds only positive examples of its own class(es) and cannot share data or other clients'' class embeddings: clients locally minimize only the positive alignment loss l_pos(f(x), y) = d(w_y, g_theta(x))^2 on the shared input encoder g_theta and local class embedding w_y, while the central server prevents trivial embedding collapse after averaging by applying a geometric spreadout regularizer reg_sp(W) = sum_{c in [C]} sum_{c'' != c} (max(0, nu - d(w_c, w_{c''})))^2 (Equation 7) or its top-k closest-negative variant reg_sp^top(W) (Equation 8) to the class embedding matrix W.'
+identity_notes: Distinct from standard FedAvg and from FedProto (AIMech:FedProtoFederatedPrototypeLearningAcrossHeterogeneousClients, Tan et al. 2022), which assume each client observes multi-class labeled examples locally so negative classes are separated by client-side cross-entropy rather than learning from positive-only single-class client data via a server-side geometric spreadout regularizer on class embeddings.
+aliases:
+- FedAwS
+- Federated Averaging with Spreadout
+definition_evidence:
+- source_id: r450-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r450-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r450-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r450-server-spreadout-prevents-positive-only-collapse-mechanism
+  kind: mechanism
+  statement: When clients only have access to positive examples of class i and minimize l_pos(f(x), i) = d(w_i, g_theta(x))^2, naive FedAvg collapses all class embeddings w_1, ..., w_C and encoder outputs g_theta(x) to a single point; applying the server-side spreadout regularizer reg_sp(W) (Eq. 7) or stochastic negative mining reg_sp^top(W) over the k closest classes N_k(c) (Eq. 8) enforces pairwise separation margin nu without transmitting negative examples or full class matrices to clients.
+  evidence:
+  - source_id: r450-primary-pdf
+    locator: Section 3.1 Failure of Vanilla FedAvg & Section 3.2 FedAwS (Equations 7-8, Algorithm 1), pp. 10948-10950
+    relation: supports
+- claim_id: r450-contrastive-loss-surrogate-equivalence-bound
+  kind: mechanism
+  statement: Lemma 1, Proposition 2, and Theorem 1 (Section 4, Equations 13-21, pp. 10950-10952) prove that cosine contrastive loss l_ccl is a valid multi-class classification surrogate and that for balanced classes with weight lambda = 1/C, the FedAwS objective approximates l_ccl within |l_ccl(f(x), y) - l_sp(f(x), y)| <= (1 + 2*nu) ||w_y - g_theta(x)||_2, vanishing as positive examples align with their class embeddings.
+  evidence:
+  - source_id: r450-primary-pdf
+    locator: Section 4 Theoretical Justification (Propositions 1-2, Lemma 1, Theorem 1, Equations 13-21), pp. 10950-10952
+    relation: supports
+- claim_id: r450-quadratic-pairwise-class-cost-and-margin-tuning-limitation
+  kind: limitation
+  statement: Full pairwise spreadout regularization reg_sp(W) costs O(C^2 d) per server step when the number of classes C is large (requiring top-k negative mining reg_sp^top in Eq. 8), and performance depends on selecting the margin hyperparameter nu and top-k neighborhood size.
+  evidence:
+  - source_id: r450-primary-pdf
+    locator: Section 3.2 Stochastic Negative Mining (Equation 8) & Section 5.2 Ablation Studies, pp. 10949-10954
+    relation: supports
+- claim_id: r450-user-verification-and-extreme-multilabel-federated-application
+  kind: application
+  statement: Applied to positive-only federated classification on CIFAR-10, CIFAR-100, and extreme multi-label classification datasets (AmazonCat-13K, WikiLSHTC-325K, Amazon-670K).
+  evidence:
+  - source_id: r450-primary-pdf
+    locator: Section 5 Experiments (Tables 1-4, Figures 2-3), pp. 10952-10955
+    relation: supports
+evidence_sources:
+- source_id: r450-primary-pdf
+  title: Federated Learning with Only Positive Labels
+  authors: &id001
+  - Felix X. Yu
+  - Ankit Singh Rawat
+  - Aditya Krishna Menon
+  - Sanjiv Kumar
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2004.10342
+  persistent_id: https://proceedings.mlr.press/v119/yu20f.html
+  version: Proceedings of the 37th International Conference on Machine Learning (ICML 2020), PMLR 119:10946-10956 (2020) (54238 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:53:00Z'
+  sha256: 203d2fd64a4c600823dc3cddc3bcc21c4e3832dbfc0d8639a0c97d8c94c3074e
+- source_id: r450-arxiv-abs
+  title: Federated Learning with Only Positive Labels (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.10342
+  persistent_id: https://arxiv.org/abs/2004.10342
+  version: arXiv abstract page (14573 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:53:00Z'
+  sha256: 9329ef937d52be45ffee6a58af3d18f1ebea3d719e96b3b003b3ea81bde59623
+- source_id: r450-metadata-cr
+  title: Federated Learning with Only Positive Labels (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v119/yu20f.html
+  persistent_id: https://proceedings.mlr.press/v119/yu20f.html
+  version: Crossref API work record (392 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:53:00Z'
+  sha256: 0168155f006fc186e380058cc471baa4d790bdf9fe596a4bb0153af795fb3d01
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedAwS is a federated learning algorithm designed for positive-only client label distributions using server-side class-embedding spreadout regularization.
+limitations:
+- Requires the central server to hold and update all C class embeddings W = [w_1, ..., w_C].
+- Theoretical contrastive surrogate equivalence (Theorem 1) assumes small positive alignment residual ||w_y - g_theta(x)||_2.
+curation:
+  created_at: '2026-10-19T08:53:00Z'
+  updated_at: '2026-10-19T08:53:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
