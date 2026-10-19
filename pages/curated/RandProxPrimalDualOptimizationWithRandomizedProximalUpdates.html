@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RandProx (Primal-Dual Optimization with Randomized Proximal Updates) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>RandProx (Primal-Dual Optimization with Randomized Proximal Updates)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">RandProx (Primal-Dual Optimization with Randomized Proximal Updates)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RandProxPrimalDualOptimizationWithRandomizedProximalUpdates</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RandProx, Randomized Primal-Dual Proximal Splitting, RandProx-Minibatch, RandProx-FL
+    </div>
+
+  <div class="detail-desc">
+    A variance-reduced randomized primal-dual proximal splitting algorithm (Condat &amp; Richtarik 2023, Sections 2-3, Equations 4-11, Algorithm 1) for composite monotone inclusion and convex optimization min_x {f(x) + g(x) + h(K x)} that generalizes Primal-Dual Davis-Yin (PDDY) by replacing the deterministic dual proximity step hat_u^{t+1} = prox_{tau h*}(u^t + tau K hat_x^t) with an underrelaxed unbiased randomized operator update u^{t+1} = u^t + (1 / (1 + omega)) R^t(hat_u^{t+1} - u^t) satisfying E[R^t(r)] = r and E[||R^t(r) - r||^2] &lt;= omega ||r||^2, followed by the primal correction x^{t+1} = hat_x^t - gamma (1 + omega) K*(u^{t+1} - u^t).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from ProxSkip / Scaffnew (AIMech:ProxSkipLocalGradientStepsWithAcceleratedCommunicationSkipping, Mishchenko et al. 2022), which is recovered as the special case of RandProx where g = 0, K = I, h is a single indicator/regularization function, and R^t is a Bernoulli coin flip, whereas RandProx handles a third composite term g(x), arbitrary bounded linear operators K, multi-block separable sum structures h_m(K_m x), and general unbiased stochastic compression/sampling operators R^t.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r451-randomized-dual-proximal-update-and-variance-reduction-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the randomized operator R^t is applied to the dual difference hat_u^{t+1} - u^t, which converges to zero as (x^t, u^t) -&gt; (x*, u*) where u* in partial h(K x*) and 0 in nabla f(x*) + partial g(x*) + K* u*, the variance E[||R^t(hat_u^{t+1} - u^t) - (hat_u^{t+1} - u^t)||^2] &lt;= omega ||hat_u^{t+1} - u^t||^2 vanishes automatically at the solution without external control variates, achieving linear convergence E[Psi^t] &lt;= c^t Psi^0 for strongly convex f (Theorems 1-3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r451-primary-pdf">RandProx: Primal-Dual Optimization Algorithms with Randomized Proximal Updates</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Presentation of RandProx &amp; Section 3.2 Linear Convergence (Theorems 1-3, Equations 5-11), pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r451-unification-of-point-saga-proxskip-splitskip-and-randprox-fl</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Varying the operator R^t (Bernoulli skip, coordinate/block sampling, unbiased vector quantization/sparsification) and problem splitting (f, g, h, K) unifies Point-SAGA, Stochastic Decoupling Method (SDM), ProxSkip, SplitSkip, and communication-skipped + compressed federated learning (RandProx-FL and RandProx-Minibatch, Section 5, Algorithms 3-4, Theorems 10-11).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r451-primary-pdf">RandProx: Primal-Dual Optimization Algorithms with Randomized Proximal Updates</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Special Cases of RandProx &amp; Section 5 Application to Federated Learning (Algorithms 3-4, Theorems 10-11), pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r451-primal-dual-step-size-coupling-and-operator-norm-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Linear convergence requires step sizes gamma in (0, 2/L_f) and tau &gt; 0 to satisfy the coupled stability bound gamma * tau * (1 + omega) * ||K||^2 &lt;= 1 (or block-weighted norms under coordinate sampling), requiring knowledge of the variance factor omega and operator norm ||K||.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r451-primary-pdf">RandProx: Primal-Dual Optimization Algorithms with Randomized Proximal Updates</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Theorem 1 &amp; Theorem 2 Step-Size Conditions, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r451-composite-splitting-and-compressed-federated-optimization-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to composite convex splitting with costly proximal or linear operators and to federated learning combining local training steps, partial client participation, and uplink communication compression.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r451-primary-pdf">RandProx: Primal-Dual Optimization Algorithms with Randomized Proximal Updates</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Application to Federated Learning &amp; Appendix Experiments, pp. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires step sizes gamma and tau to satisfy the coupled operator-norm and randomization-variance inequality gamma * tau * (1 + omega) * ||K||^2 &lt;= 1.</li>
+      <li>Exact linear convergence guarantees require strong convexity of f (and/or smooth h* / dual strong convexity).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            RandProx is a primal-dual optimization framework with randomized proximal updates that directly yields communication-skipping and compressed federated learning algorithms (RandProx-FL, RandProx-Minibatch).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r451-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r451-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2207.12891" target="_blank" rel="noopener">RandProx: Primal-Dual Optimization Algorithms with Randomized Proximal Updates</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Laurent Condat, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=332bf12183</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5e7df8fc76bf…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r451-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r451-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2207.12891" target="_blank" rel="noopener">RandProx: Primal-Dual Optimization Algorithms with Randomized Proximal Updates (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Laurent Condat, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2207.12891</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2a65d00c2f11…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r451-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r451-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=332bf12183" target="_blank" rel="noopener">RandProx: Primal-Dual Optimization Algorithms with Randomized Proximal Updates (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Laurent Condat, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=332bf12183</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:66f6328c3fdc…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:54:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:54:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RandProxPrimalDualOptimizationWithRandomizedProximalUpdates.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RandProxPrimalDualOptimizationWithRandomizedProximalUpdates.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
