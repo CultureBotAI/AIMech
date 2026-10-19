@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">469 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">470 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">469</span> of <span id="totalCount">469</span>
+      Showing <span id="matchCount">470</span> of <span id="totalCount">470</span>
     </div>
   </div>
 </div>
@@ -9857,6 +9857,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:SieveStreamingAndSieveStreamingPlusPlusForSubmodularMaximization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="signsgd and majority-vote compressed non-convex optimization signsgdandmajorityvotecompressednonconvexoptimization aimech:signsgdandmajorityvotecompressednonconvexoptimization algorithms algorithm a 1-bit gradient-compression and non-convex stochastic optimization framework (bernstein, wang, azizzadenesheli, &amp; anandkumar 2018) that updates model parameters using only the coordinate-wise sign of the stochastic minibatch gradient, x_{k+1} = x_k - delta_k * sign(gtilde_k) (signsgd, algorithm 1), or the sign of an exponential moving-average momentum buffer, x_{k+1} = x_k - delta_k * sign(m_k) where m_k = beta * m_{k-1} + (1 - beta) * gtilde_k (signum, algorithm 3), and in m-worker distributed data-parallel training aggregates 1-bit worker signs at the parameter server via a 1-bit majority vote x_{k+1} = x_k - delta * sign(sum_{m=1}^m sign(gtilde_{m,k})) (algorithm 2), establishing non-convex stationarity in the l_1-norm e||g_k||_1 at rate o(1 / k^{1/4}) (or o(1 / n^{1/4}) total samples with large minibatch n_k = k) under coordinate-wise smoothness vector lvec and coordinate-wise noise vector sigmavec. distinct from randomized unbiased multi-level l_2-norm quantization qsgd (alistarh et al. 2017, round 378), which preserves unbiasedness e[q_s(v)] = v via stochastic rounding and transmits ||v||_2 plus elias-coded integer levels; from deterministic rprop (riedmiller &amp; braun 1993), which adapts per-coordinate step sizes heuristic-ally across epochs based on consecutive sign agreement without stochastic minibatch convergence guarantees or m-worker majority voting; and from adam (kingma &amp; ba 2015), which divides momentum by the root-mean-square gradient second moment rather than transmitting pure 1-bit signs. signsgd majority-vote signsgd signum sign-based stochastic gradient descent under coordinate-wise smoothness |f(y) - f(x) - g(x)^t (y - x)| &lt;= 1/2 * sum_{i=1}^d l_i (y_i - x_i)^2 (assumption 2) and coordinate-wise variance e[(gtilde_i - g_i)^2] &lt;= sigma_i^2 (assumption 3), a sign step x_{k+1} = x_k - delta * sign(gtilde_k) satisfies e[f(x_{k+1}) - f(x_k) | x_k] &lt;= -delta * ||g_k||_1 + 2 * delta * sum_{i=1}^d |g_{k,i}| * p(sign(gtilde_{k,i}) != sign(g_{k,i})) + (delta^2 / 2) * ||lvec||_1; bounding the sign flip probability via cantelli&#39;s inequality p(sign(gtilde_{k,i}) != sign(g_{k,i})) &lt;= 1 / (1 + s_i^2) (or 2 / (9 * s_i^2) for unimodal symmetric noise by gauss&#39;s inequality) where s_i = |g_{k,i}| / (sigma_i / n_k^{1/2}) proves |g_{k,i}| * p(sign(gtilde_{k,i}) != sign(g_{k,i})) &lt;= sigma_i / n_k^{1/2} and yields (1/k) sum_{k=0}^{k-1} e||g_k||_1 &lt;= o((||lvec||_1 * delta_f)^{1/2} / n^{1/4} + ||sigmavec||_1 / n^{1/4}) when n_k = k = n^{1/2} (lemma 1, theorem 1). in m-worker parameter-server training where each worker transmits only the 1-bit vector sign(gtilde_{m,k}) and the server broadcasts back only the 1-bit aggregated majority vote sign(sum_{m=1}^m sign(gtilde_{m,k})) (algorithm 2), whenever single-worker noise is unimodal and symmetric (so single-worker sign accuracy 1 - p_i &gt; 1/2), the m-worker majority vote drives the sign-error term down by o(1 / m^{1/2}), achieving (1/k) sum_{k=0}^{k-1} e||g_k||_1 &lt;= o((||lvec||_1 * delta_f + ||sigmavec||_1 / m^{1/2}) / k^{1/2}) with 32x less bidirectional communication than 32-bit distributed sgd and zero floating-point parameter server traffic (theorem 2). signum (algorithm 3), which takes the sign of the exponential moving-average momentum m_k = beta * m_{k-1} + (1 - beta) * gtilde_k (equivalent to adam with beta_2 -&gt; 1), achieves non-convex stationarity min_{0 &lt;= k &lt;= k} e||g_k||_1^2 &lt;= o(1 / n^{1/2}) under increasing minibatch schedule n_k = k^2 via a martingale difference variance decomposition and taylor hessian-sign bias bound (theorem 3, lemmas f.1-f.3), and matches sgd/adam test accuracy on cifar-10 and imagenet resnet-50 while compressing gradients to 1 bit. signsgd: compressed optimisation for non-convex problems signsgd: compressed optimisation for non-convex problems (arxiv abstract) signsgd: compressed optimisation for non-convex problems (crossref metadata) jeremy bernstein yu-xiang wang kamyar azizzadenesheli animashree anandkumar jeremy bernstein yu-xiang wang kamyar azizzadenesheli animashree anandkumar jeremy bernstein yu-xiang wang kamyar azizzadenesheli animashree anandkumar">
+        <td>
+          <a href="../curated/SignSgdAndMajorityVoteCompressedNonconvexOptimization.html" style="font-weight: 600; font-size: 1rem;">signSGD and Majority-Vote Compressed Non-Convex Optimization</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> signSGD, Majority-Vote signSGD…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A 1-bit gradient-compression and non-convex stochastic optimization framework (Bernstein, Wang, Azizzadenesheli, &amp; Anandkumar 2018) that upd…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>

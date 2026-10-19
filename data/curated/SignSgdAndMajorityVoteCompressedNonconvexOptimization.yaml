@@ -1,0 +1,94 @@
+id: AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+name: signSGD and Majority-Vote Compressed Non-Convex Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A 1-bit gradient-compression and non-convex stochastic optimization framework (Bernstein, Wang, Azizzadenesheli, & Anandkumar 2018) that updates model parameters using only the coordinate-wise sign of the stochastic minibatch gradient, x_{k+1} = x_k - delta_k * sign(gtilde_k) (signSGD, Algorithm 1), or the sign of an exponential moving-average momentum buffer, x_{k+1} = x_k - delta_k * sign(m_k) where m_k = beta * m_{k-1} + (1 - beta) * gtilde_k (Signum, Algorithm 3), and in M-worker distributed data-parallel training aggregates 1-bit worker signs at the parameter server via a 1-bit majority vote x_{k+1} = x_k - delta * sign(sum_{m=1}^M sign(gtilde_{m,k})) (Algorithm 2), establishing non-convex stationarity in the l_1-norm E||g_k||_1 at rate O(1 / K^{1/4}) (or O(1 / N^{1/4}) total samples with large minibatch n_k = K) under coordinate-wise smoothness vector Lvec and coordinate-wise noise vector sigmavec.
+identity_notes: Distinct from randomized unbiased multi-level l_2-norm quantization QSGD (Alistarh et al. 2017, Round 378), which preserves unbiasedness E[Q_s(v)] = v via stochastic rounding and transmits ||v||_2 plus Elias-coded integer levels; from deterministic Rprop (Riedmiller & Braun 1993), which adapts per-coordinate step sizes heuristic-ally across epochs based on consecutive sign agreement without stochastic minibatch convergence guarantees or M-worker majority voting; and from Adam (Kingma & Ba 2015), which divides momentum by the root-mean-square gradient second moment rather than transmitting pure 1-bit signs.
+aliases:
+- signSGD
+- Majority-Vote signSGD
+- Signum
+- Sign-Based Stochastic Gradient Descent
+definition_evidence:
+- source_id: r377-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r377-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r377-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r377-claim-l1-geometry-descent-and-sign-error-probability-bound
+  kind: mechanism
+  statement: Under coordinate-wise smoothness |f(y) - f(x) - g(x)^T (y - x)| <= 1/2 * sum_{i=1}^d L_i (y_i - x_i)^2 (Assumption 2) and coordinate-wise variance E[(gtilde_i - g_i)^2] <= sigma_i^2 (Assumption 3), a sign step x_{k+1} = x_k - delta * sign(gtilde_k) satisfies E[f(x_{k+1}) - f(x_k) | x_k] <= -delta * ||g_k||_1 + 2 * delta * sum_{i=1}^d |g_{k,i}| * P(sign(gtilde_{k,i}) != sign(g_{k,i})) + (delta^2 / 2) * ||Lvec||_1; bounding the sign flip probability via Cantelli's inequality P(sign(gtilde_{k,i}) != sign(g_{k,i})) <= 1 / (1 + S_i^2) (or 2 / (9 * S_i^2) for unimodal symmetric noise by Gauss's inequality) where S_i = |g_{k,i}| / (sigma_i / n_k^{1/2}) proves |g_{k,i}| * P(sign(gtilde_{k,i}) != sign(g_{k,i})) <= sigma_i / n_k^{1/2} and yields (1/K) sum_{k=0}^{K-1} E||g_k||_1 <= O((||Lvec||_1 * Delta_f)^{1/2} / N^{1/4} + ||sigmavec||_1 / N^{1/4}) when n_k = K = N^{1/2} (Lemma 1, Theorem 1).
+  evidence:
+  - source_id: r377-primary-pdf
+    locator: Section 2-3, Assumptions 1-3, Lemma 1, Theorem 1; Appendix B-C, Proof of Lemma 1 and Theorem 1
+    relation: supports
+- claim_id: r377-claim-distributed-1bit-majority-vote-variance-reduction
+  kind: mechanism
+  statement: In M-worker parameter-server training where each worker transmits only the 1-bit vector sign(gtilde_{m,k}) and the server broadcasts back only the 1-bit aggregated majority vote sign(sum_{m=1}^M sign(gtilde_{m,k})) (Algorithm 2), whenever single-worker noise is unimodal and symmetric (so single-worker sign accuracy 1 - p_i > 1/2), the M-worker majority vote drives the sign-error term down by O(1 / M^{1/2}), achieving (1/K) sum_{k=0}^{K-1} E||g_k||_1 <= O((||Lvec||_1 * Delta_f + ||sigmavec||_1 / M^{1/2}) / K^{1/2}) with 32x less bidirectional communication than 32-bit distributed SGD and zero floating-point parameter server traffic (Theorem 2).
+  evidence:
+  - source_id: r377-primary-pdf
+    locator: Section 3.2, Algorithm 2, Theorem 2; Appendix D, Proof of Theorem 2
+    relation: supports
+- claim_id: r377-claim-signum-momentum-convergence-and-adam-connection
+  kind: application
+  statement: Signum (Algorithm 3), which takes the sign of the exponential moving-average momentum m_k = beta * m_{k-1} + (1 - beta) * gtilde_k (equivalent to Adam with beta_2 -> 1), achieves non-convex stationarity min_{0 <= k <= K} E||g_k||_1^2 <= O(1 / N^{1/2}) under increasing minibatch schedule n_k = k^2 via a Martingale difference variance decomposition and Taylor Hessian-sign bias bound (Theorem 3, Lemmas F.1-F.3), and matches SGD/Adam test accuracy on CIFAR-10 and ImageNet ResNet-50 while compressing gradients to 1 bit.
+  evidence:
+  - source_id: r377-primary-pdf
+    locator: Section 4-5, Algorithm 3, Theorem 3, Figures 2-4; Appendix E-F, Lemmas E.1 and F.1-F.3
+    relation: supports
+evidence_sources:
+- source_id: r377-primary-pdf
+  title: 'signSGD: Compressed Optimisation for Non-Convex Problems'
+  authors: &id001
+  - Jeremy Bernstein
+  - Yu-Xiang Wang
+  - Kamyar Azizzadenesheli
+  - Animashree Anandkumar
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1802.04434
+  persistent_id: https://proceedings.mlr.press/v80/bernstein18a.html
+  version: Proceedings of the 35th International Conference on Machine Learning (ICML 2018), PMLR 80:560-569 (arXiv:1802.04434v3) (2018) (69796 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:40:00Z'
+  sha256: 2f74bb4a0c4b59ad424f09ae45ed7d74bc093cd57becf43900440b896140716b
+- source_id: r377-arxiv-abs
+  title: 'signSGD: Compressed Optimisation for Non-Convex Problems (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1802.04434
+  persistent_id: https://arxiv.org/abs/1802.04434
+  version: arXiv abstract page (7286 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:40:00Z'
+  sha256: 8d6f4a6272910b7bf9f6d92eb74e1670a89b8c7f29bc0491d7a56c90ee8261c3
+- source_id: r377-metadata-cr
+  title: 'signSGD: Compressed Optimisation for Non-Convex Problems (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v80/bernstein18a.html
+  persistent_id: https://proceedings.mlr.press/v80/bernstein18a.html
+  version: Crossref API work record (4142 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:40:00Z'
+  sha256: ff7386f4aa10c432427f0248c43a1e0623e0bcb9231653edb915ff73aa503ce5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Optimizes empirical risk and multi-class cross-entropy classification losses via 1-bit sign-compressed gradients.
+limitations:
+- Because the sign operator sign(gtilde) is biased in general (E[sign(gtilde)] != sign(E[gtilde]) for asymmetric zero-mean noise with O(1) batch size), Theorems 1-3 require either large minibatches n_k = O(K) to drive the noise below the gradient signal or symmetric unimodal noise for majority voting, and without error-feedback memory 1-bit signSGD can fail to converge on small-batch counterexamples with skewed stochastic noise (Section 2-3, Assumptions 3-4).
+curation:
+  created_at: '2026-10-19T07:40:00Z'
+  updated_at: '2026-10-19T07:40:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>signSGD and Majority-Vote Compressed Non-Convex Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>signSGD and Majority-Vote Compressed Non-Convex Optimization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">signSGD and Majority-Vote Compressed Non-Convex Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> signSGD, Majority-Vote signSGD, Signum, Sign-Based Stochastic Gradient Descent
+    </div>
+
+  <div class="detail-desc">
+    A 1-bit gradient-compression and non-convex stochastic optimization framework (Bernstein, Wang, Azizzadenesheli, &amp; Anandkumar 2018) that updates model parameters using only the coordinate-wise sign of the stochastic minibatch gradient, x_{k+1} = x_k - delta_k * sign(gtilde_k) (signSGD, Algorithm 1), or the sign of an exponential moving-average momentum buffer, x_{k+1} = x_k - delta_k * sign(m_k) where m_k = beta * m_{k-1} + (1 - beta) * gtilde_k (Signum, Algorithm 3), and in M-worker distributed data-parallel training aggregates 1-bit worker signs at the parameter server via a 1-bit majority vote x_{k+1} = x_k - delta * sign(sum_{m=1}^M sign(gtilde_{m,k})) (Algorithm 2), establishing non-convex stationarity in the l_1-norm E||g_k||_1 at rate O(1 / K^{1/4}) (or O(1 / N^{1/4}) total samples with large minibatch n_k = K) under coordinate-wise smoothness vector Lvec and coordinate-wise noise vector sigmavec.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from randomized unbiased multi-level l_2-norm quantization QSGD (Alistarh et al. 2017, Round 378), which preserves unbiasedness E[Q_s(v)] = v via stochastic rounding and transmits ||v||_2 plus Elias-coded integer levels; from deterministic Rprop (Riedmiller &amp; Braun 1993), which adapts per-coordinate step sizes heuristic-ally across epochs based on consecutive sign agreement without stochastic minibatch convergence guarantees or M-worker majority voting; and from Adam (Kingma &amp; Ba 2015), which divides momentum by the root-mean-square gradient second moment rather than transmitting pure 1-bit signs.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r377-claim-l1-geometry-descent-and-sign-error-probability-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under coordinate-wise smoothness |f(y) - f(x) - g(x)^T (y - x)| &lt;= 1/2 * sum_{i=1}^d L_i (y_i - x_i)^2 (Assumption 2) and coordinate-wise variance E[(gtilde_i - g_i)^2] &lt;= sigma_i^2 (Assumption 3), a sign step x_{k+1} = x_k - delta * sign(gtilde_k) satisfies E[f(x_{k+1}) - f(x_k) | x_k] &lt;= -delta * ||g_k||_1 + 2 * delta * sum_{i=1}^d |g_{k,i}| * P(sign(gtilde_{k,i}) != sign(g_{k,i})) + (delta^2 / 2) * ||Lvec||_1; bounding the sign flip probability via Cantelli&#39;s inequality P(sign(gtilde_{k,i}) != sign(g_{k,i})) &lt;= 1 / (1 + S_i^2) (or 2 / (9 * S_i^2) for unimodal symmetric noise by Gauss&#39;s inequality) where S_i = |g_{k,i}| / (sigma_i / n_k^{1/2}) proves |g_{k,i}| * P(sign(gtilde_{k,i}) != sign(g_{k,i})) &lt;= sigma_i / n_k^{1/2} and yields (1/K) sum_{k=0}^{K-1} E||g_k||_1 &lt;= O((||Lvec||_1 * Delta_f)^{1/2} / N^{1/4} + ||sigmavec||_1 / N^{1/4}) when n_k = K = N^{1/2} (Lemma 1, Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r377-primary-pdf">signSGD: Compressed Optimisation for Non-Convex Problems</a></span>
+        <span>· <strong>Locator:</strong> Section 2-3, Assumptions 1-3, Lemma 1, Theorem 1; Appendix B-C, Proof of Lemma 1 and Theorem 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r377-claim-distributed-1bit-majority-vote-variance-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In M-worker parameter-server training where each worker transmits only the 1-bit vector sign(gtilde_{m,k}) and the server broadcasts back only the 1-bit aggregated majority vote sign(sum_{m=1}^M sign(gtilde_{m,k})) (Algorithm 2), whenever single-worker noise is unimodal and symmetric (so single-worker sign accuracy 1 - p_i &gt; 1/2), the M-worker majority vote drives the sign-error term down by O(1 / M^{1/2}), achieving (1/K) sum_{k=0}^{K-1} E||g_k||_1 &lt;= O((||Lvec||_1 * Delta_f + ||sigmavec||_1 / M^{1/2}) / K^{1/2}) with 32x less bidirectional communication than 32-bit distributed SGD and zero floating-point parameter server traffic (Theorem 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r377-primary-pdf">signSGD: Compressed Optimisation for Non-Convex Problems</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Algorithm 2, Theorem 2; Appendix D, Proof of Theorem 2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r377-claim-signum-momentum-convergence-and-adam-connection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Signum (Algorithm 3), which takes the sign of the exponential moving-average momentum m_k = beta * m_{k-1} + (1 - beta) * gtilde_k (equivalent to Adam with beta_2 -&gt; 1), achieves non-convex stationarity min_{0 &lt;= k &lt;= K} E||g_k||_1^2 &lt;= O(1 / N^{1/2}) under increasing minibatch schedule n_k = k^2 via a Martingale difference variance decomposition and Taylor Hessian-sign bias bound (Theorem 3, Lemmas F.1-F.3), and matches SGD/Adam test accuracy on CIFAR-10 and ImageNet ResNet-50 while compressing gradients to 1 bit.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r377-primary-pdf">signSGD: Compressed Optimisation for Non-Convex Problems</a></span>
+        <span>· <strong>Locator:</strong> Section 4-5, Algorithm 3, Theorem 3, Figures 2-4; Appendix E-F, Lemmas E.1 and F.1-F.3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Because the sign operator sign(gtilde) is biased in general (E[sign(gtilde)] != sign(E[gtilde]) for asymmetric zero-mean noise with O(1) batch size), Theorems 1-3 require either large minibatches n_k = O(K) to drive the noise below the gradient signal or symmetric unimodal noise for majority voting, and without error-feedback memory 1-bit signSGD can fail to converge on small-batch counterexamples with skewed stochastic noise (Section 2-3, Assumptions 3-4).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Optimizes empirical risk and multi-class cross-entropy classification losses via 1-bit sign-compressed gradients.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r377-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r377-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1802.04434" target="_blank" rel="noopener">signSGD: Compressed Optimisation for Non-Convex Problems</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jeremy Bernstein, Yu-Xiang Wang, Kamyar Azizzadenesheli, Animashree Anandkumar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v80/bernstein18a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2f74bb4a0c4b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r377-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r377-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1802.04434" target="_blank" rel="noopener">signSGD: Compressed Optimisation for Non-Convex Problems (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jeremy Bernstein, Yu-Xiang Wang, Kamyar Azizzadenesheli, Animashree Anandkumar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1802.04434</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8d6f4a627291…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r377-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r377-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v80/bernstein18a.html" target="_blank" rel="noopener">signSGD: Compressed Optimisation for Non-Convex Problems (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jeremy Bernstein, Yu-Xiang Wang, Kamyar Azizzadenesheli, Animashree Anandkumar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v80/bernstein18a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ff7386f4aa10…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:40:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:40:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SignSgdAndMajorityVoteCompressedNonconvexOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SignSgdAndMajorityVoteCompressedNonconvexOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
