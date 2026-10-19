@@ -1,0 +1,86 @@
+id: AIMech:EscapeThroughAMeshNullSpacePhaseTransitionThresholdsForNuclearNormAndPSDTraceMinimization
+name: Escape-Through-a-Mesh Null-Space Phase Transition Thresholds for Nuclear Norm and PSD Trace Minimization
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: "A high-dimensional random-matrix and Grassmannian escape-through-a-mesh phase-transition methodology (introduced by Samet Oymak and Babak Hassibi in 2010) that derives explicit asymptotic sampling thresholds $\\mu = m / n^2$ (and $\\mu = m / (n(n+1)/2)$ for symmetric positive semidefinite matrices) as a function of normalized rank $\\beta = r / n \\in (0, 1)$ for exact recovery of rank-$r$ matrices $X_0 \\in \\mathbb{R}^{n \\times n}$ from i.i.d. Gaussian linear measurements $y_0 = \\mathcal{A}(X_0) \\in \\mathbb{R}^m$ via convex nuclear norm minimization $\\min_X \\|X\\|_\\star \\text{ s.t. } \\mathcal{A}(X) = \\mathcal{A}(X_0)$ (Equation 2) and positive semidefinite (PSD) trace minimization $\\min_X \\operatorname{trace}(X) \\text{ s.t. } \\mathcal{A}(X) = \\mathcal{A}(X_0),\\, X \\succeq 0$ (Equation 113). Combining exact Strong ($2\\|W\\|_r < \\|W\\|_\\star$, Lemma 6), Sectional ($\\|(I - P)W(I - Q^\\top)\\|_\\star > \\|PWQ^\\top\\|_\\star$, Lemma 10), and Weak ($\\operatorname{trace}(U^\\top WV) + \\|\\bar{U}^\\top W\\bar{V}\\|_\\star > 0$, Lemma 13) null-space characterizations with Gordon's Escape-Through-a-Mesh theorem (Theorem 1), Stojnic's tail-thresholding variational bound (Lemmas 7, 11, 14), and the incomplete moments $\\gamma(\\beta) = \\int_{F^{-1}(1 - \\beta)}^2 x\\phi(x)\\,dx$ and $\\gamma_2(\\beta) = \\int_{F^{-1}(1 - \\beta)}^2 x^2\\phi(x)\\,dx$ of the Marchenko\u2013Pastur quarter-circle singular-value law $\\phi(x) = \\frac{\\sqrt{4 - x^2}}{\\pi}$ (and Wigner semicircle law $\\phi_s(x) = \\frac{\\sqrt{4 - x^2}}{2\\pi}$ for the Gaussian Orthogonal/Unitary Ensemble $\\mathcal{D}(n)$), Theorems 2\u20136 yield closed-form fixed-point curves $\\mu_{\\mathrm{strong}}(\\beta)$, $\\mu_{\\mathrm{sec}}(\\beta)$, $\\mu_{\\mathrm{weak}}(\\beta)$, $\\mu_{\\mathrm{PSD,weak}}(\\beta)$, and $\\mu_{\\mathrm{PSD,strong}}(\\beta)$ that overcome the $\\beta \\to 0$ floor $1 - \\frac{64}{9\\pi^2} \\approx 0.2795$ of earlier null-space bounds and demonstrate that weak recovery requires at most $3\\times$ the degrees-of-freedom complexity $\\theta(\\beta) = \\beta(2 - \\beta)$."
+identity_notes: Resolved against all 442 pinned AIO concepts and 663 maintained AIMech concepts. Distinct from `AIMech:GordonEscapeThroughAMeshAndGaussianWidthSubspaceRecoveryBounds` (Gordon 1988, which proves the foundational Gaussian-width Grassmannian subspace-avoidance inequality $\mathbb{P}(Y \cap S = \emptyset) > 1 - 3.5\exp(-(\sqrt{m} - \frac{1}{4\sqrt{m}} - \omega(S))^2/18)$ on $S^{n-1}$ without nuclear-norm strong/sectional/weak null-space cones, quarter-circle/semicircle incomplete moment fixed-point equations, or PSD trace minimization vs. PSD uniqueness thresholds), distinct from `AIMech:CandesPlanTightOracleBoundsForLowRankMatrixRecoveryFromMinimalLinearMeasurements` (Candes & Plan 2011, which establishes order-wise $m \gtrsim nr$ matrix RIP and golfing-scheme dual-certificate oracle inequalities under noise rather than explicit asymptotic $(\beta, \mu)$ phase transition curves via quarter-circle tail thresholding), distinct from `AIMech:StatisticalDimensionPhaseTransitionsForConvexRegularizedLinearInverseProblems` (Amelunxen, Lotz, McCoy, & Tropp 2014, which characterizes weak phase transitions via the conic statistical dimension of descent cones rather than strong and sectional Grassmannian null-space curves $\delta_s, \delta_{\mathrm{sec}}$ and PSD inertia conditions $\eta_-(\bar{U}^\top W\bar{U}) > 0$), and distinct from `AIMech:DonohoTannerNeighborlinessPhaseTransitionsForL1SparseRecovery` (Donoho & Tanner 2005, centrosymmetric polytope neighborliness for vector $\ell_1$ minimization).
+aliases:
+- Oymak-Hassibi Nuclear Norm Recovery Thresholds
+- Escape-Through-a-Mesh Matrix Rank Minimization Thresholds
+- Strong Sectional and Weak Null-Space Thresholds for Nuclear Norm Minimization
+- PSD Trace Minimization vs PSD Uniqueness Phase Transitions
+definition_evidence:
+- source_id: oh2010-nnm-pdf
+  locator: Section 2, pp. 2-3, Equations (3)-(8); Section 3, pp. 3-5, Lemmas 1-5, Theorem 1; Section 4, pp. 5-16, Lemmas 6-15, Theorems 2-4, Equations (20)-(96); Section 5, pp. 17-26, Lemmas 16-31, Theorems 5-6, Equations (97)-(154); Section 6, pp. 26-27, Figures 1-2
+  relation: supports
+- source_id: oh2010-nnm-abs
+  locator: arXiv:1011.6326 abstract
+  relation: supports
+claims:
+- claim_id: strong-sectional-weak-null-space-conditions-and-quarter-circle-threshold-equations
+  kind: mechanism
+  statement: 'For an $n \times n$ matrix $X$ of rank $r = \beta n$ and a linear operator $\mathcal{A} : \mathbb{R}^{n \times n} \to \mathbb{R}^m$ ($m = \mu n^2$), exact recovery via nuclear norm minimization $\min \|X\|_\star$ is characterized by three progressively weaker null-space conditions on $W \in \mathcal{N}(\mathcal{A}) \setminus \{0\}$: (1) Strong recovery of all rank-$r$ matrices iff $2\|W\|_r < \|W\|_\star$ (Lemma 6, Eq. 20); (2) Sectional recovery of all matrices sharing support $\{P, Q\}$ iff $\|(I - P)W(I - Q^\top)\|_\star > \|PWQ^\top\|_\star$ (Lemma 10, Eq. 46); and (3) Weak recovery of a fixed $X = U\Sigma V^\top$ iff $\operatorname{trace}(U^\top WV) + \|\bar{U}^\top W\bar{V}\|_\star > 0$ (Lemma 13, Eq. 78). Combining Gordon''s Escape-Through-a-Mesh theorem (Theorem 1) with quarter-circle tail moments $\gamma(\beta) = \int_{F^{-1}(1 - \beta)}^2 x\frac{\sqrt{4 - x^2}}{\pi}\,dx$ and $\gamma_2(\beta) = \int_{F^{-1}(1 - \beta)}^2 x^2\frac{\sqrt{4 - x^2}}{\pi}\,dx$ yields the sufficient sampling thresholds: (i) Theorem 2 (Eqs. 44-45): $\mu_{\mathrm{strong}}(\beta) = \gamma_2(1 - \delta_s) - \frac{(\gamma(1 - \delta_s) - 2\gamma(\beta))^2}{1 - \delta_s}$ where $\frac{\gamma(1 - \delta_s) - 2\gamma(\beta)}{1 - \delta_s} = F^{-1}(\delta_s)$; (ii) Theorem 3 (Eqs. 76-77): $\mu_{\mathrm{sec}}(\beta) = 1 - (1 - \beta)^2(1 - \gamma_2(1 - \delta_{\mathrm{sec}})) - \frac{((1 - \beta)^{3/2}\gamma(1 - \delta_{\mathrm{sec}}) - \beta^{3/2}\gamma(1))^2}{1 - \delta_{\mathrm{sec}}(1 - \beta)}$ where $\frac{(1 - \beta)^{3/2}\gamma(1 - \delta_{\mathrm{sec}}) - \beta^{3/2}\gamma(1)}{\sqrt{1 - \beta}(1 - \delta_{\mathrm{sec}}(1 - \beta))} = F^{-1}(\delta_{\mathrm{sec}})$; and (iii) Theorem 4 (Eqs. 95-96): $\mu_{\mathrm{weak}}(\beta) = 1 - (1 - \beta)^2(1 - \gamma_2(1 - \delta_w)) - \frac{(1 - \beta)^3\gamma(1 - \delta_w)^2}{1 - \delta_w(1 - \beta)}$ where $\frac{(1 - \beta)\gamma(1 - \delta_w)}{1 - \delta_w(1 - \beta)} = F^{-1}(\delta_w)$.'
+  evidence:
+  - source_id: oh2010-nnm-pdf
+    locator: Section 2, pp. 2-3, Equations (4)-(8); Section 4, pp. 5-16, Lemmas 6-15, Theorems 2-4, Equations (20)-(96)
+    relation: supports
+- claim_id: elimination-of-suboptimal-low-rank-sampling-floor-and-three-times-weak-oversampling
+  kind: mechanism
+  statement: As noted in Section 1 (p. 2) and Section 6 (p. 26), setting the tail-thresholding fractions $\delta_s, \delta_{\mathrm{sec}}, \delta_w$ to $0$ in Lemmas 8, 11, and 15 reproduces the suboptimal thresholds of Recht, Xu, & Hassibi [4] and Oymak, Khajehnejad, & Hassibi [12], which require at least $\mu > 1 - \gamma(1)^2 = 1 - \frac{64}{9\pi^2} \approx 0.2795$ even as $\beta \to 0$. Optimizing $\delta_s, \delta_{\mathrm{sec}}, \delta_w \in (0, 1)$ via Equations (45), (77), and (96) drives all three thresholds to $0$ as $\beta \to 0$ and ensures that the weak threshold $\mu_{\mathrm{weak}}(\beta)$ requires at most $3\times$ the normalized model complexity $\theta(\beta) = \beta(2 - \beta)$ across all $\beta \in (0, 1)$.
+  evidence:
+  - source_id: oh2010-nnm-pdf
+    locator: Section 1, p. 2; Section 6, pp. 26-27, Figure 1
+    relation: supports
+- claim_id: psd-inertia-null-space-conditions-trace-minimization-thresholds-and-uniqueness-gap
+  kind: mechanism
+  statement: For symmetric positive semidefinite matrices $X \in \mathbb{S}_+^n$ of rank $r = \beta n$ measured by $m = \mu n(n+1)/2$ Gaussian observations, Lemmas 20 and 21 (pp. 19-20) prove that both weak and sectional recovery via trace minimization (Eq. 113) hold if every Hermitian $W \in \mathcal{N}_s(\mathcal{A}) \setminus \{0\}$ satisfies $\operatorname{trace}(W) > 0$ or $\eta_-(\bar{U}^\top W\bar{U}) > 0$, yielding the Lemma 25 / Theorem 5 threshold (Eqs. 137-138) $\mu_{\mathrm{PSD,weak}}(\beta) = 1 - (1 - \beta)^2\left(1 - \frac{\gamma_2(1 - \delta_{wp})}{2}\right) - \frac{(1 - \beta)^3\gamma(1 - \delta_{wp})^2}{2(1 + \beta - (1 - \beta)\delta_{wp})}$ where $\frac{(1 - \beta)\gamma(1 - \delta_{wp})}{1 + \beta - (1 - \beta)\delta_{wp}} = F^{-1}(\delta_{wp})$. Strong PSD recovery holds iff $\operatorname{trace}(W) > 0$ or $\eta_-(W) > r$ (Lemma 26, p. 24), yielding Theorem 6 (Eqs. 150-151) $\mu_{\mathrm{PSD,strong}}(\beta) = \frac{1}{2}\left[\gamma_2(1 - \delta_{sp}) + \gamma_2(2\beta) - \frac{(\gamma(1 - \delta_{sp}) - \gamma(2\beta))^2}{2\beta + 1 - \delta_{sp}}\right]$ for $\beta < 1/2$ with $\frac{\gamma(1 - \delta_{sp}) - \gamma(2\beta)}{2\beta + 1 - \delta_{sp}} = F^{-1}(\delta_{sp})$. By contrast, uniqueness of a PSD solution without trace minimization (Eq. 115) requires $\eta_-(\bar{U}^\top W\bar{U}) > 0$ (weak, Lemma 28) or $\eta_-(W) \ge r + 1$ (strong, Lemma 30), yielding $\mu_{\mathrm{uniq,weak}}(\beta) = 1 - \frac{(1 - \beta)^2}{2} > \frac{1}{2}$ (Lemma 29, Eq. 152) and $\mu_{\mathrm{uniq,strong}}(\beta) = \frac{1 + \gamma_2(2\beta)}{2}$ (Lemma 31, Eq. 154), proving that trace minimization dramatically reduces required sampling below the $50\%$ uniqueness barrier.
+  evidence:
+  - source_id: oh2010-nnm-pdf
+    locator: Section 5, pp. 17-26, Lemmas 16-31, Theorems 5-6, Equations (97)-(154); Section 6, p. 27, Figure 2
+    relation: supports
+evidence_sources:
+- source_id: oh2010-nnm-pdf
+  title: New Null Space Results and Recovery Thresholds for Matrix Rank Minimization
+  authors:
+  - Samet Oymak
+  - Babak Hassibi
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1011.6326.pdf
+  persistent_id: https://arxiv.org/abs/1011.6326
+  version: arXiv:1011.6326v1 full-text PDF (28 pages, 607368 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T04:52:00Z'
+  sha256: 7124ec7ebf3f3884918ec3bc8bbfb7b94ae188a76d997fc85016d003145a60d7
+- source_id: oh2010-nnm-abs
+  title: New Null Space Results and Recovery Thresholds for Matrix Rank Minimization
+  authors:
+  - Samet Oymak
+  - Babak Hassibi
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1011.6326
+  persistent_id: https://arxiv.org/abs/1011.6326
+  version: arXiv:1011.6326 abstract page (6098 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T04:52:00Z'
+  sha256: 8b8228f85a061e6001163f42947aaefec8eedd732e61cbc492ccdb7fd4aa0b1f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Characterizes exact low-rank matrix recovery thresholds for convex nuclear norm and PSD trace minimization.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Reconstructs low-rank matrices from underdetermined Gaussian linear measurement operators y = A(X_0).
+limitations:
+- "The phase-transition thresholds in Theorems 2\u20136 are derived in the proportional asymptotic regime $r = \\beta n$ and $m = \\mu n^2$ (or $m = \\mu n(n+1)/2$) as $n \\to \\infty$ under i.i.d. Gaussian measurement operators $\\mathcal{A}$ whose null spaces are Haar-uniform on the Grassmannian; structured non-Gaussian measurements (such as entrywise matrix completion) do not possess Haar-uniform null spaces and require incoherence conditions."
+- "Theorems 2\u20136 provide sufficient recovery thresholds via upper bounds on the Gaussian width $\\omega(S)$ in Gordon's Escape-Through-a-Mesh inequality; while empirical $40 \\times 40$ SDP simulations match the weak thresholds $\\mu_{\\mathrm{weak}}(\\beta)$ and $\\mu_{\\mathrm{PSD,weak}}(\\beta)$ closely (Figures 1 and 2), formal converse tightness proofs require lower-bounding the Gaussian width on the mesh."
+- 'Primary-source typographical audit of `arXiv:1011.6326v1`: (1) Section 4.1 Proof of Lemma 6 line 4 (p. 5) writes ''$\|X + W\| = \sum_{i=r+1}^n \sigma_i(W)$'' omitting the nuclear-norm subscript ''$\star$''; (2) Section 4.2 Eq. (57) (p. 11) writes ''$\sum_{i=1}^c h_{2i}$'' without the comma subscript used in ''$h_{2,i}$'' on the same line; (3) Section 4.2.1 Eqs. (72) and (74) (p. 13) write ''$\|H\|_F - \sum_{i=1}^{c_{\mathrm{sec}}} h_{2,i}^2$'' inside the square root, omitting the exponent ''$2$'' on ''$\|H\|_F^2$'' (compare Eq. 59 and Eq. 93); (4) Figure 1 legend (p. 17) spells ''Sectional threhold''; and (5) Section 5.5.1 Lemma 28 line 1 (p. 26) writes ''$\Lambda \in \mathbb{R}^{r \times t}$'' instead of ''$\Lambda \in \mathbb{R}^{r \times r}$''.'
+curation:
+  created_at: '2026-10-19T04:52:00Z'
+  updated_at: '2026-10-19T04:52:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
