@@ -1,0 +1,103 @@
+id: AIMech:StochasticGreedyLinearTimeMonotoneSubmodularMaximization
+name: Stochastic-Greedy Linear-Time Monotone Submodular Maximization
+concept_kind: algorithm
+review_status: DRAFT
+definition: "Stochastic-Greedy Linear-Time Monotone Submodular Maximization is a randomized combinatorial optimization algorithm introduced by Mirzasoleiman, Badanidiyuru, Karbasi, Vondrak, and Krause (2015) for maximizing a non-negative monotone submodular set function f: 2^V -> R_+ over a ground set V of size n subject to a cardinality constraint |A| <= k. Whereas the classical Nemhauser-Wolsey-Fisher greedy algorithm evaluates all n - |A_{i-1}| remaining elements at each of the k steps (requiring O(n k) function evaluations) and Minoux's Lazy-Greedy maintains priority-queue upper bounds rho(e) with worst-case O(n k) cost, `Stochastic-Greedy` (Algorithm 1) starts with A_0 = empty and in each iteration i = 1, ..., k draws a uniformly random subset R subseteq V \\ A_{i-1} of size s = (n/k) log(1/epsilon) and adds the element a_i = argmax_{a in R} Delta(a | A_{i-1}) maximizing marginal gain Delta(a | A) = f(A union {a}) - f(A) within R (optionally accelerated further via lazy upper-bound evaluations on R). Lemma 2 proves that R overlaps the residual optimal set A^* \\ A_{i-1} with probability Pr[R cap (A^* \\ A_{i-1}) != empty] >= (1 - epsilon)|A^* \\ A_{i-1}| / k, yielding expected one-step marginal gain E[Delta(a_i | A_{i-1}) | A_{i-1}] >= ((1 - epsilon)/k) * sum_{a in A^* \\ A_{i-1}} Delta(a | A_{i-1}) >= ((1 - epsilon)/k)*(f(A^*) - f(A_{i-1})), and Theorem 1 proves that `Stochastic-Greedy` achieves E[f(A_k)] >= (1 - 1/e - epsilon) f(A^*) in at most k * (n/k) log(1/epsilon) = n log(1/epsilon) function evaluations\u2014linear in n and completely independent of the cardinality constraint k."
+identity_notes: Distinct from K-Determinantal Point Processes for Fixed-Size Subset Selection (`AIMech:KDeterminantalPointProcessesForFixedSizeSubsetSelection`), which samples fixed-size subsets with probability proportional to principal minor determinants det(L_Y) using elementary symmetric polynomials rather than maximizing general monotone submodular set functions, and from classical Greedy (Nemhauser, Wolsey, & Fisher 1978) or Lazy-Greedy (Minoux 1978), whose oracle complexity scales with k as O(n k). Specifically captures the per-step random candidate sub-sampling s = (n/k) log(1/epsilon) (Algorithm 1), the concavity-based overlap probability bound Pr[R cap (A^* \ A) != empty] >= (1 - epsilon)|A^* \ A|/k (Lemma 2), the cardinality-independent O(n log(1/epsilon)) complexity and (1 - 1/e - epsilon) approximation guarantee (Theorem 1), and its combination with lazy upper-bound evaluations.
+aliases:
+- Lazier Than Lazy Greedy (Stochastic-Greedy)
+- Mirzasoleiman-Badanidiyuru-Karbasi-Vondrak-Krause Stochastic-Greedy Algorithm
+- Linear-Time Cardinality-Constrained Submodular Maximization
+definition_evidence:
+- source_id: r348-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r348-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r348-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-stochastic-greedy-overlap-probability-and-marginal-gain-lemma
+  kind: mechanism
+  statement: When sampling s = (n/k) log(1/epsilon) elements uniformly at random from V \ A, the probability that the random sample R intersects the residual optimal set A^* \ A satisfies Pr[R cap (A^* \ A) != empty] >= 1 - exp(-(s/n)|A^* \ A|) >= (1 - exp(-s k / n)) * (|A^* \ A| / k) = (1 - epsilon) * (|A^* \ A| / k) by concavity of 1 - exp(-(s/n)x) on x = |A^* \ A| in [0, k] (Equation 3); since the greedy choice a in R has marginal gain at least that of a uniformly random element of R cap (A^* \ A), the expected single-step gain satisfies E[Delta(a | A)] >= ((1 - epsilon)/k) * sum_{a in A^* \ A} Delta(a | A) (Lemma 2).
+  evidence:
+  - source_id: r348-primary-pdf
+    locator: Appendix 'Analysis', Lemma 2 and Equation 3, p. 5
+    relation: supports
+  - source_id: r348-arxiv-abs
+    locator: 'Abstract: randomized algorithm STOCHASTIC-GREEDY achieving (1 - 1/e - epsilon) approximation in expectation'
+    relation: supports
+- claim_id: claim-stochastic-greedy-linear-time-approximation-guarantee
+  kind: mechanism
+  statement: 'For any non-negative monotone submodular function f: 2^V -> R_+, combining Lemma 2 with monotonicity and submodularity (sum_{a in A^* \ A_i} Delta(a | A_i) >= f(A^*) - f(A_i)) yields E[f(A_{i+1}) - f(A_i)] >= ((1 - epsilon)/k) * E[f(A^*) - f(A_i)], which by induction over k steps proves E[f(A_k)] >= (1 - (1 - (1 - epsilon)/k)^k) f(A^*) >= (1 - exp(-(1 - epsilon))) f(A^*) >= (1 - 1/e - epsilon) f(A^*) using at most k * (n/k) log(1/epsilon) = n log(1/epsilon) function evaluations, independent of the cardinality constraint k (Theorem 1).'
+  evidence:
+  - source_id: r348-primary-pdf
+    locator: Section 'STOCHASTIC-GREEDY Algorithm', Algorithm 1 and Theorem 1, p. 3; Appendix 'Analysis', Proof of Theorem 1, p. 5
+    relation: supports
+  - source_id: r348-metadata-cr
+    locator: AAAI 2015 bibliographic record, pp. 1812-1818
+    relation: supports
+- claim_id: claim-stochastic-greedy-monotonicity-and-cardinality-constraint-scope
+  kind: limitation
+  statement: The (1 - 1/e - epsilon) approximation proof of Theorem 1 relies critically on monotonicity of f (so that f(A^* union A_i) >= f(A^*) and therefore sum_{a in A^* \ A_i} Delta(a | A_i) >= f(A^*) - f(A_i)) and on a simple cardinality constraint |A| <= k (where any element of R can be added without violating independence constraints), and holds in expectation over the random subsets R rather than deterministically on every sample path.
+  evidence:
+  - source_id: r348-primary-pdf
+    locator: Section 'STOCHASTIC-GREEDY Algorithm', Theorem 1, p. 3; Appendix 'Analysis', Proof of Theorem 1 (submodularity and monotonicity step), p. 5
+    relation: supports
+evidence_sources:
+- source_id: r348-primary-pdf
+  title: Lazier Than Lazy Greedy
+  authors: &id001
+  - Baharan Mirzasoleiman
+  - Ashwinkumar Badanidiyuru
+  - Amin Karbasi
+  - Jan Vondrak
+  - Andreas Krause
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1409.7938.pdf
+  persistent_id: https://doi.org/10.1609/aaai.v29i1.9486
+  version: Proceedings of the Twenty-Ninth AAAI Conference on Artificial Intelligence (AAAI 2015), pp. 1812-1818 (2015) (394505 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:10:00Z'
+  sha256: ad10595b737ccc27a6d4d3f7d0e58c8f97feffbd46ae393965dbaeb537a653e9
+- source_id: r348-arxiv-abs
+  title: Lazier Than Lazy Greedy (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1409.7938
+  persistent_id: https://arxiv.org/abs/1409.7938
+  version: arXiv abstract page (7261 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:10:00Z'
+  sha256: 4a7bcfd8e9fc6cbcad19f811e03e5700a8a1a8df8cd9652b7685a18a85446840
+- source_id: r348-metadata-cr
+  title: Lazier Than Lazy Greedy (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1609/aaai.v29i1.9486
+  persistent_id: https://doi.org/10.1609/aaai.v29i1.9486
+  version: Crossref API work record (1640 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:10:00Z'
+  sha256: 9e988e58ce21c9f8c54d547c110a443d79a0907b5ff613eee02c8fe008f1d17a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Applied to exemplar-based k-medoid clustering by maximizing the monotone submodular utility f(A) = L({e_0}) - L(A union {e_0}) (Section 'Exemplar-based clustering', p. 4).
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Selects compact active data summaries of size k for Informative Vector Machine Gaussian Process regression and large-scale kernel methods (Section 'Nonparametric Learning', p. 4).
+limitations:
+- Guarantees the (1 - 1/e - epsilon) approximation ratio in expectation for non-negative monotone submodular functions under a cardinality constraint |A| <= k, and does not directly apply to non-monotone submodular objectives or general matroid/knapsack constraints without algorithmic modification.
+curation:
+  created_at: '2026-10-19T07:10:00Z'
+  updated_at: '2026-10-19T07:10:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

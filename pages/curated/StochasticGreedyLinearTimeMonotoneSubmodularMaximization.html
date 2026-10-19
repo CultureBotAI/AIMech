@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stochastic-Greedy Linear-Time Monotone Submodular Maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Stochastic-Greedy Linear-Time Monotone Submodular Maximization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Stochastic-Greedy Linear-Time Monotone Submodular Maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:StochasticGreedyLinearTimeMonotoneSubmodularMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Lazier Than Lazy Greedy (Stochastic-Greedy), Mirzasoleiman-Badanidiyuru-Karbasi-Vondrak-Krause Stochastic-Greedy Algorithm, Linear-Time Cardinality-Constrained Submodular Maximization
+    </div>
+
+  <div class="detail-desc">
+    Stochastic-Greedy Linear-Time Monotone Submodular Maximization is a randomized combinatorial optimization algorithm introduced by Mirzasoleiman, Badanidiyuru, Karbasi, Vondrak, and Krause (2015) for maximizing a non-negative monotone submodular set function f: 2^V -&gt; R_+ over a ground set V of size n subject to a cardinality constraint |A| &lt;= k. Whereas the classical Nemhauser-Wolsey-Fisher greedy algorithm evaluates all n - |A_{i-1}| remaining elements at each of the k steps (requiring O(n k) function evaluations) and Minoux&#39;s Lazy-Greedy maintains priority-queue upper bounds rho(e) with worst-case O(n k) cost, `Stochastic-Greedy` (Algorithm 1) starts with A_0 = empty and in each iteration i = 1, ..., k draws a uniformly random subset R subseteq V \ A_{i-1} of size s = (n/k) log(1/epsilon) and adds the element a_i = argmax_{a in R} Delta(a | A_{i-1}) maximizing marginal gain Delta(a | A) = f(A union {a}) - f(A) within R (optionally accelerated further via lazy upper-bound evaluations on R). Lemma 2 proves that R overlaps the residual optimal set A^* \ A_{i-1} with probability Pr[R cap (A^* \ A_{i-1}) != empty] &gt;= (1 - epsilon)|A^* \ A_{i-1}| / k, yielding expected one-step marginal gain E[Delta(a_i | A_{i-1}) | A_{i-1}] &gt;= ((1 - epsilon)/k) * sum_{a in A^* \ A_{i-1}} Delta(a | A_{i-1}) &gt;= ((1 - epsilon)/k)*(f(A^*) - f(A_{i-1})), and Theorem 1 proves that `Stochastic-Greedy` achieves E[f(A_k)] &gt;= (1 - 1/e - epsilon) f(A^*) in at most k * (n/k) log(1/epsilon) = n log(1/epsilon) function evaluations—linear in n and completely independent of the cardinality constraint k.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from K-Determinantal Point Processes for Fixed-Size Subset Selection (`AIMech:KDeterminantalPointProcessesForFixedSizeSubsetSelection`), which samples fixed-size subsets with probability proportional to principal minor determinants det(L_Y) using elementary symmetric polynomials rather than maximizing general monotone submodular set functions, and from classical Greedy (Nemhauser, Wolsey, &amp; Fisher 1978) or Lazy-Greedy (Minoux 1978), whose oracle complexity scales with k as O(n k). Specifically captures the per-step random candidate sub-sampling s = (n/k) log(1/epsilon) (Algorithm 1), the concavity-based overlap probability bound Pr[R cap (A^* \ A) != empty] &gt;= (1 - epsilon)|A^* \ A|/k (Lemma 2), the cardinality-independent O(n log(1/epsilon)) complexity and (1 - 1/e - epsilon) approximation guarantee (Theorem 1), and its combination with lazy upper-bound evaluations.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-stochastic-greedy-overlap-probability-and-marginal-gain-lemma</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When sampling s = (n/k) log(1/epsilon) elements uniformly at random from V \ A, the probability that the random sample R intersects the residual optimal set A^* \ A satisfies Pr[R cap (A^* \ A) != empty] &gt;= 1 - exp(-(s/n)|A^* \ A|) &gt;= (1 - exp(-s k / n)) * (|A^* \ A| / k) = (1 - epsilon) * (|A^* \ A| / k) by concavity of 1 - exp(-(s/n)x) on x = |A^* \ A| in [0, k] (Equation 3); since the greedy choice a in R has marginal gain at least that of a uniformly random element of R cap (A^* \ A), the expected single-step gain satisfies E[Delta(a | A)] &gt;= ((1 - epsilon)/k) * sum_{a in A^* \ A} Delta(a | A) (Lemma 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r348-primary-pdf">Lazier Than Lazy Greedy</a></span>
+        <span>· <strong>Locator:</strong> Appendix &#39;Analysis&#39;, Lemma 2 and Equation 3, p. 5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r348-arxiv-abs">Lazier Than Lazy Greedy (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract: randomized algorithm STOCHASTIC-GREEDY achieving (1 - 1/e - epsilon) approximation in expectation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-stochastic-greedy-linear-time-approximation-guarantee</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any non-negative monotone submodular function f: 2^V -&gt; R_+, combining Lemma 2 with monotonicity and submodularity (sum_{a in A^* \ A_i} Delta(a | A_i) &gt;= f(A^*) - f(A_i)) yields E[f(A_{i+1}) - f(A_i)] &gt;= ((1 - epsilon)/k) * E[f(A^*) - f(A_i)], which by induction over k steps proves E[f(A_k)] &gt;= (1 - (1 - (1 - epsilon)/k)^k) f(A^*) &gt;= (1 - exp(-(1 - epsilon))) f(A^*) &gt;= (1 - 1/e - epsilon) f(A^*) using at most k * (n/k) log(1/epsilon) = n log(1/epsilon) function evaluations, independent of the cardinality constraint k (Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r348-primary-pdf">Lazier Than Lazy Greedy</a></span>
+        <span>· <strong>Locator:</strong> Section &#39;STOCHASTIC-GREEDY Algorithm&#39;, Algorithm 1 and Theorem 1, p. 3; Appendix &#39;Analysis&#39;, Proof of Theorem 1, p. 5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r348-metadata-cr">Lazier Than Lazy Greedy (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> AAAI 2015 bibliographic record, pp. 1812-1818</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-stochastic-greedy-monotonicity-and-cardinality-constraint-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The (1 - 1/e - epsilon) approximation proof of Theorem 1 relies critically on monotonicity of f (so that f(A^* union A_i) &gt;= f(A^*) and therefore sum_{a in A^* \ A_i} Delta(a | A_i) &gt;= f(A^*) - f(A_i)) and on a simple cardinality constraint |A| &lt;= k (where any element of R can be added without violating independence constraints), and holds in expectation over the random subsets R rather than deterministically on every sample path.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r348-primary-pdf">Lazier Than Lazy Greedy</a></span>
+        <span>· <strong>Locator:</strong> Section &#39;STOCHASTIC-GREEDY Algorithm&#39;, Theorem 1, p. 3; Appendix &#39;Analysis&#39;, Proof of Theorem 1 (submodularity and monotonicity step), p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Guarantees the (1 - 1/e - epsilon) approximation ratio in expectation for non-negative monotone submodular functions under a cardinality constraint |A| &lt;= k, and does not directly apply to non-monotone submodular objectives or general matroid/knapsack constraints without algorithmic modification.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Applied to exemplar-based k-medoid clustering by maximizing the monotone submodular utility f(A) = L({e_0}) - L(A union {e_0}) (Section &#39;Exemplar-based clustering&#39;, p. 4).
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Selects compact active data summaries of size k for Informative Vector Machine Gaussian Process regression and large-scale kernel methods (Section &#39;Nonparametric Learning&#39;, p. 4).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r348-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r348-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1409.7938.pdf" target="_blank" rel="noopener">Lazier Than Lazy Greedy</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Baharan Mirzasoleiman, Ashwinkumar Badanidiyuru, Amin Karbasi, Jan Vondrak, Andreas Krause
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1609/aaai.v29i1.9486</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ad10595b737c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r348-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r348-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1409.7938" target="_blank" rel="noopener">Lazier Than Lazy Greedy (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Baharan Mirzasoleiman, Ashwinkumar Badanidiyuru, Amin Karbasi, Jan Vondrak, Andreas Krause
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1409.7938</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4a7bcfd8e9fc…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r348-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r348-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1609/aaai.v29i1.9486" target="_blank" rel="noopener">Lazier Than Lazy Greedy (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Baharan Mirzasoleiman, Ashwinkumar Badanidiyuru, Amin Karbasi, Jan Vondrak, Andreas Krause
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1609/aaai.v29i1.9486</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9e988e58ce21…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:10:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:10:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/StochasticGreedyLinearTimeMonotoneSubmodularMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/StochasticGreedyLinearTimeMonotoneSubmodularMaximization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
