@@ -1,0 +1,97 @@
+id: AIMech:StreamingPCANearOptimalFiniteSampleOjaAlgorithm
+name: Oja's Streaming PCA Algorithm with Matrix-Bernstein-Matching Finite-Sample Guarantees
+concept_kind: algorithm
+review_status: DRAFT
+definition: Oja's Streaming PCA Algorithm with Matrix-Bernstein-Matching Finite-Sample Guarantees is a single-pass O(d)-space, linear-time streaming eigenvector estimation procedure and operator-theoretic convergence analysis established by Jain, Jin, Kakade, Netrapalli, and Sidford (2016) that initializes w_0 uniformly at random on the unit sphere in R^d and applies the normalized rank-1/matrix update w_i <- (w_{i-1} + eta_i A_i w_{i-1}) / ||w_{i-1} + eta_i A_i w_{i-1}||_2 over independent streaming samples A_1, ..., A_n satisfying E[A_i] = Sigma, ||A_i - Sigma||_2 <= M, and max{||E[(A_i-Sigma)(A_i-Sigma)^T]||_2, ||E[(A_i-Sigma)^T(A_i-Sigma)]||_2} <= V, using a shifted inverse-linear step size sequence eta_i = alpha / ((lambda_1 - lambda_2)(beta + i)) to match (and asymptotically improve by O(log d) upon) the batch Matrix Bernstein + Wedin sample complexity without warm-start initialization.
+identity_notes: Distinct from generic PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis) and DimensionalityReduction (AIO:DimensionalityReduction), which do not specify O(d)-space single-pass Oja updates or cumulative matrix-product operator moment bounds. Distinct from AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA (Round 356), which groups samples into L blocks for block power iteration and incurs an extra O(lambda_1/(lambda_1 - lambda_2) * log n) sample-complexity factor (Table 1, p. 5). Also distinct from AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation (Round 354), which requires an O(gap)-close warm-start vector x_0 in the streaming setting, whereas Jain et al. (2016) prove global convergence from a uniform random unit vector w_0.
+aliases:
+- Jain-Jin-Kakade-Netrapalli-Sidford Oja Streaming PCA Analysis
+- Matrix-Product Operator Analysis of Oja's Streaming PCA Algorithm
+- Single-Pass O(d)-Space Oja Eigenvector Estimator
+definition_evidence:
+- source_id: r357-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r357-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r357-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r357-claim-cumulative-operator-representation-and-one-step-power-lemma
+  kind: mechanism
+  statement: Oja's streaming update w_i = (w_{i-1} + eta_i A_i w_{i-1}) / ||w_{i-1} + eta_i A_i w_{i-1}||_2 initialized from a uniform random unit vector w_0 is algebraically identical to one step of the power method w_n = B_n w_0 / ||B_n w_0||_2 applied to the cumulative matrix product B_n = (I + eta_n A_n)(I + eta_{n-1} A_{n-1})...(I + eta_1 A_1) (Section 3, Equations 3-4), and with probability at least 1 - delta over w_0, the sine-squared alignment error with the top eigenvector v_1 of Sigma satisfies sin^2(v_1, w_n) = 1 - (v_1^T B_n w_0 / ||B_n w_0||_2)^2 <= (C log(1/delta) / delta) * Tr(V_perp^T B_n B_n^T V_perp) / (v_1^T B_n B_n^T v_1) (Lemma 3.1).
+  evidence:
+  - source_id: r357-primary-pdf
+    locator: Section 1, Algorithm 1, p. 3; Section 3, Equations 3-4 and Lemma 3.1, pp. 7-8
+    relation: supports
+- claim_id: r357-claim-second-and-fourth-moment-operator-recurrences
+  kind: mechanism
+  statement: Under the streaming matrix Bernstein conditions (Definition 1) with V_bar = V + lambda_1^2 and step sizes eta_i <= 1 / (4 max{M, lambda_1}), the operator B_t satisfies (1) ||E[B_t B_t^T]||_2 <= exp(sum_{i=1}^t (2 eta_i lambda_1 + eta_i^2 V_bar)) (Lemma 5.1), (2) E[Tr(V_perp^T B_t B_t^T V_perp)] <= exp(sum_{j=1}^t (2 eta_j lambda_2 + eta_j^2 V_bar)) * (d + V sum_{i=1}^t eta_i^2 exp(sum_{j=1}^i 2 eta_j (lambda_1 - lambda_2))) (Lemma 5.2), (3) E[v_1^T B_t B_t^T v_1] >= exp(sum_{i=1}^t (2 eta_i lambda_1 - 4 eta_i^2 lambda_1^2)) (Lemma 5.3), and (4) E[(v_1^T B_t B_t^T v_1)^2] <= exp(sum_{i=1}^t (4 eta_i lambda_1 + 10 eta_i^2 V_bar)) (Lemma 5.4), which combine via Markov's and Chebyshev's inequalities to yield the general finite-sample error bound of Theorem 3.1.
+  evidence:
+  - source_id: r357-primary-pdf
+    locator: Section 3, Theorem 3.1, pp. 8-9; Section 5, Lemmas 5.1, 5.2, 5.3, and 5.4, and Proof of Theorem 3.1, pp. 10-14
+    relation: supports
+- claim_id: r357-claim-shifted-inverse-linear-stepsize-finite-sample-bound
+  kind: mechanism
+  statement: Setting the step size sequence eta_t = alpha / ((lambda_1 - lambda_2)(beta + t)) for alpha > 1/2 and beta = 20 max(M*alpha/(lambda_1 - lambda_2), (V + lambda_1^2)alpha^2 / ((lambda_1 - lambda_2)^2 log(1 + delta/100))) guarantees that for n > beta, with probability at least 1 - delta, Oja's algorithm achieves sin^2(w_n, v_1) <= (C log(1/delta) / delta^2) * (d*(beta/n)^{2*alpha} + (alpha^2 V) / ((2*alpha - 1)(lambda_1 - lambda_2)^2 n)) (Theorem 4.1), matching the batch Matrix Bernstein + Wedin bound O(V log(d) / ((lambda_1 - lambda_2)^2 n) + (2*beta/n)^{2 log d}) for alpha = log d (Theorem 1.2) and improving the asymptotic leading term by O(log d) to O(V / ((lambda_1 - lambda_2)^2 n) + 1/n^2) for alpha = 6 when n > beta^{1.2} d^{0.1} (Theorem 1.3).
+  evidence:
+  - source_id: r357-primary-pdf
+    locator: Section 1, Theorems 1.1, 1.2, and 1.3, and Table 1, pp. 2-5; Section 4, Theorem 4.1, pp. 9-10
+    relation: supports
+evidence_sources:
+- source_id: r357-primary-pdf
+  title: 'Streaming PCA: Matching Matrix Bernstein and Near-Optimal Finite Sample Guarantees for Oja''s Algorithm'
+  authors: &id001
+  - Prateek Jain
+  - Chi Jin
+  - Sham M. Kakade
+  - Praneeth Netrapalli
+  - Aaron Sidford
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1602.06929.pdf
+  persistent_id: https://proceedings.mlr.press/v49/jain16.html
+  version: Proceedings of the 29th Annual Conference on Learning Theory (COLT), PMLR 49:1147-1164 (2016) (191663 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:20:00Z'
+  sha256: 888933897fd00de87dc3c40e45b169e11c94c9b4fa4526e979356366488202df
+- source_id: r357-arxiv-abs
+  title: 'Streaming PCA: Matching Matrix Bernstein and Near-Optimal Finite Sample Guarantees for Oja''s Algorithm (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1602.06929
+  persistent_id: https://arxiv.org/abs/1602.06929
+  version: arXiv abstract page (7722 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:20:00Z'
+  sha256: 16603792d540b9594e2782dd78bc2cc81c3311fcda53613da7def35a64d4c4ae
+- source_id: r357-metadata-cr
+  title: 'Streaming PCA: Matching Matrix Bernstein and Near-Optimal Finite Sample Guarantees for Oja''s Algorithm (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v49/jain16.html
+  persistent_id: https://proceedings.mlr.press/v49/jain16.html
+  version: Crossref API work record (4505 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:20:00Z'
+  sha256: d6ea23c3d883f5811803c55752bb55a3f3ce43a20a9d12ce422e6c953f28c66f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Analyzes Oja's classical single-pass streaming algorithm for top-1 principal component estimation.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Computes the leading spectral projection direction of a covariance matrix in O(d) memory.
+limitations:
+- Applies only to top-1 eigenvector estimation (k = 1), requires knowledge or estimation of the eigengap lambda_1 - lambda_2 and variance parameters (M, V) to set the step-size schedule eta_t, and achieves sub-exponential O(1/n) error decay on finite datasets (Section 1, p. 4; Section 6, p. 15).
+curation:
+  created_at: '2026-10-19T07:20:00Z'
+  updated_at: '2026-10-19T07:20:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
