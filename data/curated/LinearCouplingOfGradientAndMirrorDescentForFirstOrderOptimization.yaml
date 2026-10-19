@@ -1,0 +1,94 @@
+id: AIMech:LinearCouplingOfGradientAndMirrorDescentForFirstOrderOptimization
+name: Linear Coupling of Gradient and Mirror Descent for First-Order Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: Linear Coupling of Gradient and Mirror Descent for First-Order Optimization is a primal-dual first-order algorithmic design and analysis framework introduced by Allen-Zhu and Orecchia (2014, 2017) that unifies and reconstructs Nesterov's accelerated gradient method (and extends acceleration to arbitrary norms, non-Euclidean Bregman divergences, positive linear programs, and coordinate/stochastic settings) by linearly coupling a primal gradient descent sequence {y_k} with a dual mirror descent sequence {z_k}. Observing that gradient descent y_{k+1} = Grad(x_{k+1}) = argmin_{y in Q} {(L/2)||y - x_{k+1}||^2 + <grad f(x_{k+1}), y - x_{k+1}>} achieves primal objective decrease Prog(x_{k+1}) (>= ||grad f(x_{k+1})||_*^2 / (2L) in R^n) proportional to the squared dual gradient norm while mirror descent z_{k+1} = Mirr_{z_k}(alpha_{k+1} grad f(x_{k+1})) = argmin_{z in Q} {V_{z_k}(z) + <alpha_{k+1} grad f(x_{k+1}), z - z_k>} (with 1-strongly convex distance generating function w and Bregman divergence V_x(y)) incurs a dual regret error (alpha_{k+1}^2 / 2)||grad f(x_{k+1})||_*^2 proportional to the same quantity (Lemma 3.1, Lemma 4.2), Algorithm 1 (AGM) queries the gradient at the convex combination x_{k+1} = tau_k z_k + (1 - tau_k) y_k with alpha_{k+1} = (k + 2) / (2L) and tau_k = 1 / (alpha_{k+1} L) = 2 / (k + 2). This exact coupling ratio cancels the mirror descent regret error against the primal gradient descent progress to yield the telescoping inequality (alpha_{k+1}^2 L) f(y_{k+1}) - (alpha_{k+1}^2 L - alpha_{k+1}) f(y_k) + (V_{z_{k+1}}(u) - V_{z_k}(u)) <= alpha_{k+1} f(u) (Lemma 4.3), proving f(y_T) - f(x^*) <= 4 Theta L / (T + 1)^2 for any L-smooth convex objective over Q with V_{x_0}(x^*) <= Theta (Theorem 4.1).
+identity_notes: Distinct from Katyusha Direct Negative-Momentum Acceleration for Stochastic Variance-Reduced Optimization (`AIMech:KatyushaDirectNegativeNegativeMomentumAccelerationForStochasticVarianceReducedOptimization` / `AIMech:KatyushaDirectNegativeMomentumAccelerationForStochasticVarianceReducedOptimization`), which introduces a three-point coupling with a SVRG reference snapshot tilde{x} (Katyusha momentum) specifically to stabilize variance-reduced stochastic gradients, and from Catalyst Universal Acceleration for First-Order Optimization (`AIMech:CatalystUniversalAccelerationForFirstOrderOptimization`), which is an outer-loop inexact proximal-point wrapper rather than a direct single-loop linear coupling of gradient descent and Bregman mirror descent steps.
+aliases:
+- Allen-Zhu and Orecchia Linear Coupling Framework
+- Primal-Dual Linear Coupling Accelerated Gradient Method (AGM)
+- Gradient Descent and Mirror Descent Linear Coupling
+definition_evidence:
+- source_id: r351-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r351-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r351-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r351-claim-complementary-primal-gradient-and-dual-mirror-regret
+  kind: mechanism
+  statement: For any convex function f that is L-smooth with respect to a general norm ||.|| on Q and any 1-strongly convex distance generating function w with Bregman divergence V_x(y), the gradient step y_{k+1} = Grad(x_{k+1}) guarantees primal descent f(x_{k+1}) - f(y_{k+1}) >= Prog(x_{k+1}) (= ||grad f(x_{k+1})||_*^2 / (2L) when Q = R^n, Equation 2.1), while the mirror step z_{k+1} = Mirr_{z_k}(alpha_{k+1} grad f(x_{k+1})) guarantees under coupling ratio tau_k = 1 / (alpha_{k+1} L) that alpha_{k+1} <grad f(x_{k+1}), z_k - u> <= alpha_{k+1}^2 L (f(x_{k+1}) - f(y_{k+1})) + V_{z_k}(u) - V_{z_{k+1}}(u) for all u in Q (Lemma 3.1 and Lemma 4.2).
+  evidence:
+  - source_id: r351-primary-pdf
+    locator: Section 2.1-2.2, Equations 2.1-2.2, pp. 5-7; Section 3, Lemma 3.1, p. 8; Section 4, Lemma 4.2 and Appendix C, pp. 10, 18
+    relation: supports
+- claim_id: r351-claim-linear-coupling-telescoping-and-accelerated-convergence
+  kind: mechanism
+  statement: Choosing x_{k+1} = tau_k z_k + (1 - tau_k) y_k with tau_k = 1 / (alpha_{k+1} L) = 2 / (k + 2) and alpha_{k+1} = (k + 2) / (2L) satisfies tau_k (x_{k+1} - z_k) = (1 - tau_k)(y_k - x_{k+1}) and yields the exact per-iteration coupling inequality (alpha_{k+1}^2 L) f(y_{k+1}) - (alpha_{k+1}^2 L - alpha_{k+1}) f(y_k) + (V_{z_{k+1}}(u) - V_{z_k}(u)) <= alpha_{k+1} f(u) (Lemma 4.3), which telescopes over k = 0, ..., T - 1 to prove f(y_T) - f(x^*) <= 4 Theta L / (T + 1)^2 for any arbitrary norm ||.|| and constrained convex set Q (Theorem 4.1).
+  evidence:
+  - source_id: r351-primary-pdf
+    locator: Section 4, Theorem 4.1, Algorithm 1, and Lemma 4.3, pp. 9-10; Appendix C, pp. 18-19
+    relation: supports
+- claim_id: r351-claim-strong-convexity-restarts-and-non-euclidean-simplex-coupling
+  kind: application
+  statement: When f is both sigma-strongly convex and L-smooth with respect to ||.||_2, recursively restarting AGM(f, w, x_0, T_0) every T_0 = sqrt(8 L / sigma) iterations halves ||y_T - x^*||_2^2 each epoch and achieves f(x) - f(x^*) <= varepsilon in O(sqrt(L / sigma) log(||x_0 - x^*||_2^2 sigma / varepsilon)) iterations (Appendix D, Corollary D.1), while on the unit simplex Delta_n under the non-Euclidean l_1 norm, Linear Coupling combines l_1 quadratic steepest descent with multiplicative-weights / entropy mirror descent to accelerate saddle-point and packing/covering LP solvers (Appendix A.1-A.2).
+  evidence:
+  - source_id: r351-primary-pdf
+    locator: Section 5, pp. 11-12; Appendix A.1-A.2, pp. 13-14; Appendix D, Corollary D.1, p. 19
+    relation: supports
+evidence_sources:
+- source_id: r351-primary-pdf
+  title: 'Linear Coupling: An Ultimate Unification of Gradient and Mirror Descent'
+  authors: &id001
+  - Zeyuan Allen-Zhu
+  - Lorenzo Orecchia
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1407.1537.pdf
+  persistent_id: https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITCS.2017.3
+  version: 8th Innovations in Theoretical Computer Science Conference (ITCS 2017), LIPIcs 67:3:1-3:22 (arXiv:1407.1537) (2017) (594243 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:14:00Z'
+  sha256: 86454a12e12601635f70a8c4c9219ddda2bf269dc87073da40ea59883808da13
+- source_id: r351-arxiv-abs
+  title: 'Linear Coupling: An Ultimate Unification of Gradient and Mirror Descent (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1407.1537
+  persistent_id: https://arxiv.org/abs/1407.1537
+  version: arXiv abstract page (6954 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:14:00Z'
+  sha256: 2b9e522fe81e2c5e9a06c828a384e9fe886dd7e2f05583d51ce3f6ca2aba9b66
+- source_id: r351-metadata-cr
+  title: 'Linear Coupling: An Ultimate Unification of Gradient and Mirror Descent (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITCS.2017.3
+  persistent_id: https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITCS.2017.3
+  version: Crossref API work record (22145 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:14:00Z'
+  sha256: cb08f6424cac07ec2db08ce21dda4e48e0249c691ff3ae0b6e76406a84c9f433
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Accelerates smooth convex optimization and empirical risk minimization problems including linear and generalized linear regression.
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Directly applies to smooth log-sum-exp and logistic losses under both Euclidean and non-Euclidean norms.
+limitations:
+- Standard two-point Linear Coupling requires knowledge of the smoothness constant L and a distance generating function w that is 1-strongly convex with respect to the chosen norm ||.||, and loses direct acceleration under high-variance stochastic gradients unless extended to three-point variance-reduced coupling (Section 5, Extension 2).
+curation:
+  created_at: '2026-10-19T07:14:00Z'
+  updated_at: '2026-10-19T07:14:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
