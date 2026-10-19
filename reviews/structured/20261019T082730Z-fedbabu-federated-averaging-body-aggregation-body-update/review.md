@@ -1,0 +1,353 @@
+# Scientific author self-review of FedBABU (Federated Averaging with Body Aggregation and Body Update)
+
+- Review: 20261019T082730Z-fedbabu-federated-averaging-body-aggregation-body-update
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T08:27:00Z
+- Finished UTC: 2026-10-19T08:27:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain FedBABU (Federated Averaging with Body Aggregation and Body Update) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base fb8dd48efa5743873be4be725f4995d016b0dcf8.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate | data/curated/FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate.yaml | maintained | FedBABU (Federated Averaging with Body Aggregation and Body Update) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate | Validated history sidecar files. |
+| python3 fedbabu-federated-averaging-body-aggregation-body-update-boundaries.py | passed | True | AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate | [PASS] Round 424 FedBABU (Oh et al. 2022): orthogonal_head_dot=0.0, margin_fedbabu=5.8679 &gt; margin_fedavg=4.4917 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate.
+
+FedBABU (Federated Averaging with Body Aggregation and Body Update) is a distinct concept.
+
+Distinct from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which actively updates each client's local linear head theta_{i,cls} via local gradient steps before updating the shared body in every round, whereas FedBABU keeps a single shared random orthogonal head completely frozen (alpha_cls = 0) during federated representation learning so all clients share identical fixed class decision boundaries.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in fedbabu-federated-averaging-body-aggregation-body-update-boundaries.py passed with exit code 0: [PASS] Round 424 FedBABU (Oh et al. 2022): orthogonal_head_dot=0.0, margin_fedbabu=5.8679 &gt; margin_fedavg=4.4917
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T082700Z-fedbabu-federated-averaging-body-aggregation-body-update.json | supports | No normalized identity match for AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/fedbabu-federated-averaging-body-aggregation-body-update-boundaries.py | supports | All constructed boundary assertions in fedbabu-federated-averaging-body-aggregation-body-update-boundaries.py passed with exit code 0: [PASS] Round 424 FedBABU (Oh et al. 2022): orthogonal_head_dot=0.0, margin_fedbabu=5.8679 &gt; margin_fedavg=4.4917 |
+| r424-primary-pdf | https://ar5iv.labs.arxiv.org/html/2106.06042; Full-text PDF | supports | Full-text PDF (International Conference on Learning Representations (ICLR 2022) (2022)) read and verified. |
+| r424-arxiv-abs | https://arxiv.org/abs/2106.06042; arXiv abstract | supports | arXiv abstract read and verified. |
+| r424-metadata-cr | https://openreview.net/forum?id=HuaYQfggn5u; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate in Round 424.
+- All pages of International Conference on Learning Representations (ICLR 2022) (2022) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T082730Z-fedbabu-federated-averaging-body-aggregation-body-update
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of FedBABU (Federated Averaging with Body Aggregation
+  and Body Update)
+started_at: '2026-10-19T08:27:00Z'
+finished_at: '2026-10-19T08:27:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+    against existing AIMech and AIO records and verified all claims against International
+    Conference on Learning Representations (ICLR 2022) (2022) and pure-Python boundary
+    checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain FedBABU (Federated Averaging with Body Aggregation and Body Update)
+  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
+source:
+  git_revision: fb8dd48efa5743873be4be725f4995d016b0dcf8
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate.yaml
+    sha256: a0bd6590e4ffb41d86dbdeb0db0a7def81a0bcfe6dc15aa2e740d4317caebc81
+    role: target
+  - path: research/discovery/20261019T082700Z-fedbabu-federated-averaging-body-aggregation-body-update.json
+    sha256: 2c8eaa6897df4ba1f8ea933d6ff625f23a1bfe9104e97b48b21ffaa104b01009
+    role: context
+  - path: research/discovery/fedbabu-federated-averaging-body-aggregation-body-update-boundaries.py
+    sha256: bef759f50955d939293f7fc4a3bbf6f5d143dde2c023bc26acdca4a7b91b45fc
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+  path: data/curated/FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate.yaml
+  label: FedBABU (Federated Averaging with Body Aggregation and Body Update)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 fedbabu-federated-averaging-body-aggregation-body-update-boundaries.py
+  command: python3 research/discovery/fedbabu-federated-averaging-body-aggregation-body-update-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 424 FedBABU (Oh et al. 2022): orthogonal_head_dot=0.0, margin_fedbabu=5.8679
+    > margin_fedavg=4.4917'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T082700Z-fedbabu-federated-averaging-body-aggregation-body-update.json
+  accessed_at: '2026-10-19T08:27:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T08:27:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/fedbabu-federated-averaging-body-aggregation-body-update-boundaries.py
+  accessed_at: '2026-10-19T08:27:00Z'
+  snapshot_sha256: bef759f50955d939293f7fc4a3bbf6f5d143dde2c023bc26acdca4a7b91b45fc
+  support: supports
+  summary: 'All constructed boundary assertions in fedbabu-federated-averaging-body-aggregation-body-update-boundaries.py
+    passed with exit code 0: [PASS] Round 424 FedBABU (Oh et al. 2022): orthogonal_head_dot=0.0,
+    margin_fedbabu=5.8679 > margin_fedavg=4.4917'
+- evidence_id: r424-primary-pdf
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/2106.06042
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T08:27:00Z'
+  snapshot_sha256: 02f54062a558ef942573e36757f9f40e543b5edf150bb24f148f385d552598b5
+  support: supports
+  summary: Full-text PDF (International Conference on Learning Representations (ICLR
+    2022) (2022)) read and verified.
+- evidence_id: r424-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2106.06042
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T08:27:00Z'
+  snapshot_sha256: dfea86449d924f1e4660fcf5e06bad8d2525e74d2ecbddbe22ca5322c18ddb2b
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r424-metadata-cr
+  kind: primary_source
+  reference: https://openreview.net/forum?id=HuaYQfggn5u
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T08:27:00Z'
+  snapshot_sha256: b0442817d33f9cce94fe6f264fb48e4f25129cda52d6c40593cc9f447bfd1e96
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+  evidence_ids:
+  - identity
+  - r424-primary-pdf
+  - r424-arxiv-abs
+  - r424-metadata-cr
+  summary: FedBABU (Federated Averaging with Body Aggregation and Body Update) is
+    a distinct concept.
+  details: Distinct from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning,
+    Collins et al. 2021), which actively updates each client's local linear head theta_{i,cls}
+    via local gradient steps before updating the shared body in every round, whereas
+    FedBABU keeps a single shared random orthogonal head completely frozen (alpha_cls
+    = 0) during federated representation learning so all clients share identical fixed
+    class decision boundaries.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+  evidence_ids:
+  - mapping
+  - r424-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+  evidence_ids:
+  - r424-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in fedbabu-federated-averaging-body-aggregation-body-update-boundaries.py
+    passed with exit code 0: [PASS] Round 424 FedBABU (Oh et al. 2022): orthogonal_head_dot=0.0,
+    margin_fedbabu=5.8679 > margin_fedavg=4.4917'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+  evidence_ids:
+  - identity
+  - mapping
+  - r424-primary-pdf
+  - r424-arxiv-abs
+  - r424-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+  in Round 424.
+- All pages of International Conference on Learning Representations (ICLR 2022) (2022)
+  were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
