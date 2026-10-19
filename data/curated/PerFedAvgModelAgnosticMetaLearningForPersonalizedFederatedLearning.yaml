@@ -1,0 +1,101 @@
+id: AIMech:PerFedAvgModelAgnosticMetaLearningForPersonalizedFederatedLearning
+name: Per-FedAvg Model-Agnostic Meta-Learning for Personalized Federated Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A personalized federated learning algorithm (Per-FedAvg) grounded in Model-Agnostic Meta-Learning (MAML) that seeks a shared global initialization w in R^d minimizing the average post-adaptation loss F(w) = (1/n) sum_{i=1}^n F_i(w) with F_i(w) = f_i(w - alpha * nabla f_i(w)) for local adaptation step size alpha >= 0. During each communication round, selected clients execute tau local meta-SGD steps using three independent mini-batches (D_i, D'_i, D''_i) to form the stochastic meta-gradient nabla_tilde F_i(w) = (I - alpha * nabla_tilde^2 f_i(w, D''_i)) nabla_tilde f_i(w - alpha * nabla_tilde f_i(w, D_i), D'_i), supported by practical First-Order (Per-FedAvg FO) and finite-difference Hessian-Free (Per-FedAvg HF) approximations.
+identity_notes: Distinct from classical centralized MAML (AIMech:ModelAgnosticMetaLearning, which performs single-step centralized meta-updates across tasks rather than tau multi-step local client updates with bounded client drift and compositional inner-batch bias analysis in federated networks) and from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, which optimizes proximal Moreau envelopes min_{theta_i} {f_i(theta_i) + (lambda/2)||theta_i - w||^2} instead of one-step gradient adaptation f_i(w - alpha nabla f_i(w))).
+aliases:
+- Per-FedAvg
+- Personalized FedAvg
+- Per-FedAvg (FO)
+- Per-FedAvg (HF)
+definition_evidence:
+- source_id: r396-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r396-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r396-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r396-meta-objective-smoothness-and-compositional-stochastic-bias
+  kind: mechanism
+  statement: Under L-smooth, B-bounded-gradient, rho-Hessian-Lipschitz nonconvex client losses f_i, Lemma 4.2 proves that each meta-function F_i(w) = f_i(w - alpha nabla f_i(w)) is L_F-smooth with L_F = 4L + alpha * rho * B for alpha in [0, 1/L], while Lemma 4.3 proves that evaluating nabla_tilde f_i at the stochastic inner point w - alpha nabla_tilde f_i(w, D) induces a non-vanishing compositional bias ||E[nabla_tilde F_i(w)] - nabla F_i(w)|| <= alpha * L * sigma_G / sqrt(D) coupled with bounded variance sigma_F^2.
+  evidence:
+  - source_id: r396-primary-pdf
+    locator: Section 4.1 Assumptions 1-3 and Section 4.2 Lemmas 4.1, 4.2, 4.3, and 4.4, pp. 5-7
+    relation: supports
+- claim_id: r396-nonconvex-stationarity-and-hessian-free-approximation
+  kind: mechanism
+  statement: Theorem 4.5 and Corollary 4.6 prove that Per-FedAvg attains an O(eps + alpha^2 sigma_G^2 / D)-first-order stationary point of F(w) in K = O(eps^{-3/2}) communication rounds with tau = O(eps^{-1/2}) local steps per round; furthermore, Section 5 replaces the exact Hessian-vector product with the two-point finite difference d_i^k = (nabla f_i(w + delta g_adapt) - nabla f_i(w - delta g_adapt)) / (2 delta) with error O(rho delta^2).
+  evidence:
+  - source_id: r396-primary-pdf
+    locator: Section 4.2 Theorem 4.5 & Corollary 4.6 and Section 5 Practical Implementation, pp. 7-8
+    relation: supports
+- claim_id: r396-second-order-derivatives-and-inner-batch-bias-limitation
+  kind: limitation
+  statement: Exact Per-FedAvg requires computing Hessian-vector products across three separate mini-batches per local step, and its stochastic meta-gradient estimator retains an O(alpha^2 sigma_G^2 / D) stationarity floor unless the inner adaptation batch size D scales as O(alpha^2 / eps) or alpha scales as O(sqrt(eps)).
+  evidence:
+  - source_id: r396-primary-pdf
+    locator: Section 4.2 Lemma 4.3, Theorem 4.5, and Corollary 4.6, pp. 6-8
+    relation: supports
+- claim_id: r396-heterogeneous-mnist-and-cifar10-personalization-application
+  kind: application
+  statement: Applied to personalized neural network classification on heterogeneous MNIST and CIFAR-10 client partitions, showing that Per-FedAvg (HF) and Per-FedAvg (FO) achieve higher post-adaptation test accuracy than standard FedAvg + one-step fine-tuning.
+  evidence:
+  - source_id: r396-primary-pdf
+    locator: Section 5 Numerical Experiments (Table 1, Figure 1), pp. 8-9
+    relation: supports
+evidence_sources:
+- source_id: r396-primary-pdf
+  title: 'Personalized Federated Learning with Theoretical Guarantees: A Model-Agnostic Meta-Learning Approach'
+  authors: &id001
+  - Alireza Fallah
+  - Aryan Mokhtari
+  - Asuman Ozdaglar
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2020/hash/24389bfe4fe2eba8bf9aa9203a44cdad-Abstract.html
+  persistent_id: https://doi.org/10.48550/arXiv.2002.07948
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020), pp. 3557-3568 (2020) (89261 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:59:00Z'
+  sha256: d2310ea804441207b04d84a56772aa2213cd98f81e866c71ebe3aeec0606807c
+- source_id: r396-arxiv-abs
+  title: 'Personalized Federated Learning with Theoretical Guarantees: A Model-Agnostic Meta-Learning Approach (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2002.07948
+  persistent_id: https://arxiv.org/abs/2002.07948
+  version: arXiv abstract page (7449 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:59:00Z'
+  sha256: a5117167c5f2ab3ae52fec3748a6aeeec7214b21ec76a030536cf0feec5c47b3
+- source_id: r396-metadata-cr
+  title: 'Personalized Federated Learning with Theoretical Guarantees: A Model-Agnostic Meta-Learning Approach (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.48550/arXiv.2002.07948
+  persistent_id: https://doi.org/10.48550/arXiv.2002.07948
+  version: Crossref API work record (450 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:59:00Z'
+  sha256: 68a2bd1c9eeaa603a2022993e12606e86a41ca4f19e20c56b8a69f60a48a4c71
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: Per-FedAvg is a MAML-based personalized federated learning algorithm within FederatedLearning.
+limitations:
+- Requires three mini-batches per local meta-step and either Hessian-vector products or finite-difference approximations.
+- Stochastic inner gradient evaluation creates an O(alpha^2 sigma_G^2 / D) compositional bias unless inner batch size D is large.
+curation:
+  created_at: '2026-10-19T07:59:00Z'
+  updated_at: '2026-10-19T07:59:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

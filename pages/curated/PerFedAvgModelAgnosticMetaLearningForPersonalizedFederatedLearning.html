@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Per-FedAvg Model-Agnostic Meta-Learning for Personalized Federated Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Per-FedAvg Model-Agnostic Meta-Learning for Personalized Federated Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Per-FedAvg Model-Agnostic Meta-Learning for Personalized Federated Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PerFedAvgModelAgnosticMetaLearningForPersonalizedFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Per-FedAvg, Personalized FedAvg, Per-FedAvg (FO), Per-FedAvg (HF)
+    </div>
+
+  <div class="detail-desc">
+    A personalized federated learning algorithm (Per-FedAvg) grounded in Model-Agnostic Meta-Learning (MAML) that seeks a shared global initialization w in R^d minimizing the average post-adaptation loss F(w) = (1/n) sum_{i=1}^n F_i(w) with F_i(w) = f_i(w - alpha * nabla f_i(w)) for local adaptation step size alpha &gt;= 0. During each communication round, selected clients execute tau local meta-SGD steps using three independent mini-batches (D_i, D&#39;_i, D&#39;&#39;_i) to form the stochastic meta-gradient nabla_tilde F_i(w) = (I - alpha * nabla_tilde^2 f_i(w, D&#39;&#39;_i)) nabla_tilde f_i(w - alpha * nabla_tilde f_i(w, D_i), D&#39;_i), supported by practical First-Order (Per-FedAvg FO) and finite-difference Hessian-Free (Per-FedAvg HF) approximations.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from classical centralized MAML (AIMech:ModelAgnosticMetaLearning, which performs single-step centralized meta-updates across tasks rather than tau multi-step local client updates with bounded client drift and compositional inner-batch bias analysis in federated networks) and from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, which optimizes proximal Moreau envelopes min_{theta_i} {f_i(theta_i) + (lambda/2)||theta_i - w||^2} instead of one-step gradient adaptation f_i(w - alpha nabla f_i(w))).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r396-meta-objective-smoothness-and-compositional-stochastic-bias</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L-smooth, B-bounded-gradient, rho-Hessian-Lipschitz nonconvex client losses f_i, Lemma 4.2 proves that each meta-function F_i(w) = f_i(w - alpha nabla f_i(w)) is L_F-smooth with L_F = 4L + alpha * rho * B for alpha in [0, 1/L], while Lemma 4.3 proves that evaluating nabla_tilde f_i at the stochastic inner point w - alpha nabla_tilde f_i(w, D) induces a non-vanishing compositional bias ||E[nabla_tilde F_i(w)] - nabla F_i(w)|| &lt;= alpha * L * sigma_G / sqrt(D) coupled with bounded variance sigma_F^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r396-primary-pdf">Personalized Federated Learning with Theoretical Guarantees: A Model-Agnostic Meta-Learning Approach</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 Assumptions 1-3 and Section 4.2 Lemmas 4.1, 4.2, 4.3, and 4.4, pp. 5-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r396-nonconvex-stationarity-and-hessian-free-approximation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 4.5 and Corollary 4.6 prove that Per-FedAvg attains an O(eps + alpha^2 sigma_G^2 / D)-first-order stationary point of F(w) in K = O(eps^{-3/2}) communication rounds with tau = O(eps^{-1/2}) local steps per round; furthermore, Section 5 replaces the exact Hessian-vector product with the two-point finite difference d_i^k = (nabla f_i(w + delta g_adapt) - nabla f_i(w - delta g_adapt)) / (2 delta) with error O(rho delta^2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r396-primary-pdf">Personalized Federated Learning with Theoretical Guarantees: A Model-Agnostic Meta-Learning Approach</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Theorem 4.5 &amp; Corollary 4.6 and Section 5 Practical Implementation, pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r396-second-order-derivatives-and-inner-batch-bias-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Exact Per-FedAvg requires computing Hessian-vector products across three separate mini-batches per local step, and its stochastic meta-gradient estimator retains an O(alpha^2 sigma_G^2 / D) stationarity floor unless the inner adaptation batch size D scales as O(alpha^2 / eps) or alpha scales as O(sqrt(eps)).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r396-primary-pdf">Personalized Federated Learning with Theoretical Guarantees: A Model-Agnostic Meta-Learning Approach</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Lemma 4.3, Theorem 4.5, and Corollary 4.6, pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r396-heterogeneous-mnist-and-cifar10-personalization-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to personalized neural network classification on heterogeneous MNIST and CIFAR-10 client partitions, showing that Per-FedAvg (HF) and Per-FedAvg (FO) achieve higher post-adaptation test accuracy than standard FedAvg + one-step fine-tuning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r396-primary-pdf">Personalized Federated Learning with Theoretical Guarantees: A Model-Agnostic Meta-Learning Approach</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Numerical Experiments (Table 1, Figure 1), pp. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires three mini-batches per local meta-step and either Hessian-vector products or finite-difference approximations.</li>
+      <li>Stochastic inner gradient evaluation creates an O(alpha^2 sigma_G^2 / D) compositional bias unless inner batch size D is large.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Per-FedAvg is a MAML-based personalized federated learning algorithm within FederatedLearning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r396-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r396-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/2020/hash/24389bfe4fe2eba8bf9aa9203a44cdad-Abstract.html" target="_blank" rel="noopener">Personalized Federated Learning with Theoretical Guarantees: A Model-Agnostic Meta-Learning Approach</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alireza Fallah, Aryan Mokhtari, Asuman Ozdaglar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.2002.07948</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d2310ea80444…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r396-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r396-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2002.07948" target="_blank" rel="noopener">Personalized Federated Learning with Theoretical Guarantees: A Model-Agnostic Meta-Learning Approach (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alireza Fallah, Aryan Mokhtari, Asuman Ozdaglar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2002.07948</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a5117167c5f2…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r396-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r396-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.48550/arXiv.2002.07948" target="_blank" rel="noopener">Personalized Federated Learning with Theoretical Guarantees: A Model-Agnostic Meta-Learning Approach (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alireza Fallah, Aryan Mokhtari, Asuman Ozdaglar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.2002.07948</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:68a2bd1c9eea…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:59:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:59:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PerFedAvgModelAgnosticMetaLearningForPersonalizedFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PerFedAvgModelAgnosticMetaLearningForPersonalizedFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
