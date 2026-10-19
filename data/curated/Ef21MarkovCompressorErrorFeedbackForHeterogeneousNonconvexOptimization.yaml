@@ -1,0 +1,104 @@
+id: AIMech:Ef21MarkovCompressorErrorFeedbackForHeterogeneousNonconvexOptimization
+name: EF21 Markov-Compressor Error Feedback for Heterogeneous Nonconvex Distributed Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A communication-compressed distributed optimization algorithm (EF21) in which each worker i in [n] maintains a local gradient estimator g_i^t, applies a biased contractive compressor C in B(alpha) satisfying E ||C(x) - x||^2 <= (1 - alpha) ||x||^2 directly to the gradient difference c_i^t = C_i(grad f_i(x^{t+1}) - g_i^t), and updates g_i^{t+1} = g_i^t + c_i^t while the server updates the global gradient estimate g^{t+1} = g^t + (1/n) sum_{i=1}^n c_i^t = (1/n) sum_{i=1}^n g_i^{t+1} and steps x^{t+1} = x^t - gamma * g^t, achieving O(1 / (alpha * T)) nonconvex stationarity and linear Polyak-Lojasiewicz convergence under standard smoothness alone without bounded gradients or bounded client dissimilarity.
+identity_notes: Distinct from classical error-compensated SGD (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression, which compresses step-scaled gradients plus residual memory m_t + eta_t * g_t, requires bounded gradient norms, and suffers an O(1/alpha^2) dependence in heterogeneous distributed settings), from unbiased stochastic quantization (AIMech:QsgdQuantizedStochasticGradientDescentWithEliasCoding), and from uncompressed variance-reduced nonconvex optimizers (AIMech:PageProbabilisticGradientEstimatorForNonconvexOptimization). No pinned AIO class covers EF21 or Markov gradient-difference error feedback.
+aliases:
+- EF21
+- Error Feedback 2021
+- Markov Compressor Error Feedback
+- Gradient-Difference Contractive Error Feedback
+definition_evidence:
+- source_id: r380-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r380-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r380-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r380-markov-compressor-distortion-contraction-lemma
+  kind: mechanism
+  statement: By compressing the increment grad f_i(x^{t+1}) - g_i^t via c_i^t = C_i(grad f_i(x^{t+1}) - g_i^t) with C_i in B(alpha), Lemma 2 and Lemma 3 establish the distortion recursion E[||g_i^{t+1} - grad f_i(x^{t+1})||^2 | W^t] <= (1 - theta) ||g_i^t - grad f_i(x^t)||^2 + beta ||grad f_i(x^{t+1}) - grad f_i(x^t)||^2 where optimizing Young's parameter at s* = 1/sqrt(1 - alpha) - 1 yields theta* = 1 - sqrt(1 - alpha), beta* = (1 - alpha)/(1 - sqrt(1 - alpha)), and sqrt(beta*/theta*) = sqrt(1 - alpha)/(1 - sqrt(1 - alpha)) <= 2/alpha - 1.
+  evidence:
+  - source_id: r380-primary-pdf
+    locator: Section 3.4 Lemma 1, Section 4.1 Lemma 2, and Section 4.2 Lemma 3, pp. 5-7
+    relation: supports
+- claim_id: r380-nonconvex-and-pl-convergence-without-bounded-gradients
+  kind: mechanism
+  statement: Under L_i-smoothness alone (with L_tilde = sqrt((1/n) sum_{i=1}^n L_i^2)) and stepsize 0 < gamma <= 1 / (L + L_tilde * sqrt(beta / theta)), Theorem 1 proves that the Lyapunov functional Psi^t = f(x^t) - f^inf + (gamma / (2 * theta)) G^t decreases monotonically to yield E ||grad f(x_hat^T)||^2 <= (2 * Psi^0) / (gamma * T) = O(L_tilde / (alpha * T)), and Theorem 2 proves linear convergence at rate (1 - min(gamma * mu, theta / 2))^T under the mu-Polyak-Lojasiewicz inequality without bounded gradient or data-similarity assumptions.
+  evidence:
+  - source_id: r380-primary-pdf
+    locator: Section 4.2 Theorem 1, Theorem 2, and Corollary 1, pp. 6-8
+    relation: supports
+- claim_id: r380-full-worker-gradient-and-state-memory-limitation
+  kind: limitation
+  statement: Baseline EF21 requires each worker i to maintain a d-dimensional gradient state vector g_i^t and evaluate exact local gradients grad f_i(x^{t+1}) unless extended with stochastic variance reduction or momentum (such as EF21-SGD or EF21-PAGE in Appendix F).
+  evidence:
+  - source_id: r380-primary-pdf
+    locator: Algorithm 1, Section 4.3 Table 2, and Appendix F, pp. 4, 8, 25-32
+    relation: supports
+- claim_id: r380-heterogeneous-distributed-nonconvex-training-application
+  kind: application
+  statement: Applied to heterogeneous distributed optimization of nonconvex logistic regression with nonconvex regularizers and deep learning models using biased Top-k sparsification.
+  evidence:
+  - source_id: r380-primary-pdf
+    locator: Section 5 Experiments, Figures 1-2, pp. 8-9
+    relation: supports
+evidence_sources:
+- source_id: r380-primary-pdf
+  title: 'EF21: A New, Simpler, Theoretically Better, and Practically Faster Error Feedback'
+  authors: &id001
+  - Peter Richtarik
+  - Igor Sokolov
+  - Ilyas Fatkhullin
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.05203.pdf
+  persistent_id: https://proceedings.neurips.cc/paper/2021/hash/231141b34c82aa95e48810a9d1b33a79-Abstract.html
+  version: Advances in Neural Information Processing Systems 34 (NeurIPS 2021), pp. 4384-4396 (2021) (104206 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:43:00Z'
+  sha256: 4a8299182fbc20b8f83dc34c3b05236087c3b2bdfd67ccbe120e7dce7dc0d6ab
+- source_id: r380-arxiv-abs
+  title: 'EF21: A New, Simpler, Theoretically Better, and Practically Faster Error Feedback (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.05203
+  persistent_id: https://arxiv.org/abs/2106.05203
+  version: arXiv abstract page (7379 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:43:00Z'
+  sha256: df89d3c20c42fe93cab517504d84987b0e97e72fbe9a41707f4dec932d632881
+- source_id: r380-metadata-cr
+  title: 'EF21: A New, Simpler, Theoretically Better, and Practically Faster Error Feedback (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2021/hash/231141b34c82aa95e48810a9d1b33a79-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2021/hash/231141b34c82aa95e48810a9d1b33a79-Abstract.html
+  version: Crossref API work record (331 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:43:00Z'
+  sha256: 95e6f36d31c1bfe16bac121d402771e140e12b1567ddb2b7f331b7958959ae97
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: EF21 is a communication-compressed distributed optimization method designed for arbitrarily heterogeneous client data distributions in federated and distributed learning.
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: EF21 operates with biased contractive sparsification operators such as deterministic Top-k.
+limitations:
+- Each worker must store a d-dimensional gradient estimator g_i^t in memory across iterations.
+- Under stochastic mini-batch gradients without variance reduction, compression of noisy gradient differences introduces an asymptotic noise floor unless combined with PAGE-style variance reduction.
+curation:
+  created_at: '2026-10-19T07:43:00Z'
+  updated_at: '2026-10-19T07:43:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
