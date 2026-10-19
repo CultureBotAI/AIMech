@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">407 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">408 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">407</span> of <span id="totalCount">407</span>
+      Showing <span id="matchCount">408</span> of <span id="totalCount">408</span>
     </div>
   </div>
 </div>
@@ -617,6 +617,32 @@
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="altminphase and sparsealtminphase (resampled alternating minimization for phase retrieval) altminphaseandsparsealtminphasealternatingminimizationphaseretrieval aimech:altminphaseandsparsealtminphasealternatingminimizationphaseretrieval algorithms algorithm the first non-convex alternating minimization algorithm with provable global geometric convergence for phase retrieval and sparse phase retrieval (introduced by praneeth netrapalli, prateek jain, and sujay sanghavi in 2013/2015). given magnitude measurements $y_i = |\langle a_i,x^*\rangle|$ ($i=1,\dots,m$), reformulating the measurement model with a diagonal unit-modulus phase matrix $c^* = \mathrm{diag}(\mathrm{ph}(a x^*))$ yields $\min_{|c_{ii}|=1, x\in\mathbb{c}^n}\|a x - c y\|_2$ (equation 1). *altminphase* (algorithm 1) initializes $x^0$ as the scaled leading eigenvector of the weighted covariance matrix $y = \frac{1}{m}\sum_{\ell=1}^m y_\ell^2 a_\ell a_\ell^*$ (whose expectation $\mathbb{e}[y] = \|x^*\|_2^2(i + 2\frac{x^*(x^*)^*}{\|x^*\|_2^2})$ has spectral gap 3 vs. 1), and at each iteration $t=0,\dots,t-1$ alternates between exact phase projection $c^{t+1} = \mathrm{diag}(\mathrm{ph}(a^{(t+1)} x^t))$ and least-squares signal estimation $x^{t+1} = \arg\min_{x\in\mathbb{c}^n}\|a^{(t+1)} x - c^{t+1} y^{(t+1)}\|_2$ on a fresh sample batch $(a^{(t+1)},y^{(t+1)})$. by decomposing the true measurements as $y_i = c_i^*(a_i^\top x^*) = c_i^*(\alpha_t a_i^\top x^t - a_i^\top w^t)$ ($\langle x^t,w^t\rangle = 0$, $\|w^t\|_2 = \sqrt{1-\alpha_t^2}$), lemma 4.3 proves that the phase-error vector $v_i^t = (c_i^t - c_i^*)y_i$ satisfies $\frac{1}{m}\|(a^{(t+1)})^* v^t\|_2 \le \frac{1}{2}\|w^t\|_2$ when $\mathrm{dist}(x^t,x^*) \le 1/6$, establishing per-step contraction $\mathrm{dist}(x^{t+1},x^*) \le \frac{3}{4}\mathrm{dist}(x^t,x^*)$ (theorem 2.1) with $m = o(n\log^3 n(\log n + \log(1/\epsilon)))$ measurements. for $k$-sparse signals $x^*$, *sparsealtminphase* (algorithm 2) selects support $\hat{s}$ from the top-$k$ marginal energy coordinates $\sum_{\ell=1}^m y_\ell^2 |a_{\ell j}|^2$ (whose gap separates $j\in s$ from $j\notin s$ whenever $|x_j^*| \ge \frac{c}{\sqrt{k}}\|x^*\|_2$, lemma 5.1) or replaces least squares by cosamp, achieving $o((k^2\log n + k\log n\log(1/\epsilon)))$ sample complexity (theorems 2.2–2.3). resolved against all 442 pinned aio concepts and 700 maintained aimech concepts. distinct from `aimech:phaseliftconvexsemidefiniteprogrammingphaseretrieval` (candes, strohmer, &amp; voroninski 2013, which lifts $x^*\in\mathbb{c}^n$ to an $n\times n$ psd matrix $x = x x^*$ solved by convex sdp in $o(n^3)$ per-step cost) and `aimech:truncatedamplitudeflowandorthogonalitypromotinginitializationforquadraticequations` (wang, giannakis, &amp; eldar 2018, which performs single-pool truncated subgradient steps on amplitude loss rather than alternating exact phase projection $c^{t+1}$ and exact least-squares/cosamp minimization across resampled batches). altminphase (alternating minimization for phase retrieval) sparsealtminphase (sparse phase retrieval via alternating minimization and cosamp) netrapalli-jain-sanghavi alternating minimization phase retrieval for gaussian measurements $a_\ell\sim\mathcal{n}(0,i)$, the weighted covariance matrix $y = \frac{1}{m}\sum_{\ell=1}^m y_\ell^2 a_\ell a_\ell^*$ has expectation $\mathbb{e}[y] = \|x^*\|_2^2(i + 2\frac{x^*(x^*)^*}{\|x^*\|_2^2})$ so its top eigenvector $x^0$ achieves $\mathrm{dist}(x^0,x^*) \le c_0 &lt; 1/6$ with $m_0 = o(n\log^3 n)$ samples (lemma 4.1); from any iterate with $\|w^t\|_2 = \sqrt{1 - |\langle x^t,x^*\rangle|^2} \le 1/6$, the exact least-squares update $x^{t+1} = ((a^{(t+1)})^* a^{(t+1)})^{-1}(a^{(t+1)})^* c^{t+1} y^{(t+1)}$ satisfies $x^{t+1} = \alpha_t x^* - w^t + ((a^{(t+1)})^* a^{(t+1)})^{-1}(a^{(t+1)})^* v^t$ where the phase-disagreement indicator $\mathbf{1}_{c_i^t c_i^* = -1}$ occurs only when $|a_i^\top w^t| \ge \alpha_t|a_i^\top x^t|$, bounding $\frac{1}{m}\|(a^{(t+1)})^* v^t\|_2 \le \frac{1}{2}\|w^t\|_2$ (lemma 4.3) and proving $\mathrm{dist}(x^{t+1},x^*) \le \frac{3}{4}\mathrm{dist}(x^t,x^*)$ (theorem 2.1 &amp; lemma 4.2). for a $k$-sparse vector $x^*\in\mathbb{r}^n$ with support $s = \mathrm{supp}(x^*)$, the marginal fourth-moment statistics $z_j = \frac{1}{m}\sum_{\ell=1}^m y_\ell^2 |a_{\ell j}|^2$ satisfy $\mathbb{e}[z_j] = \|x^*\|_2^2 + 2|x_j^*|^2$, so selecting the $k$ largest $z_j$ exactly recovers $s$ using $m = o(k^2\log n)$ samples when $\min_{j\in s}|x_j^*| \ge \frac{c}{\sqrt{k}}\|x^*\|_2$ (theorem 2.2 &amp; lemma 5.1); for arbitrary $k$-sparse signals without a minimum non-zero entry bound, *sparsealtminphase* (algorithm 2) initializes on the active support of high-magnitude coordinates and replaces the least-squares step by $x^{t+1} = \mathrm{cosamp}(a^{(t+1)}/\sqrt{m}, c^{t+1} y^{(t+1)}/\sqrt{m}, k)$, achieving $\|x^t - c x^*\|_2 \le \epsilon\|x^*\|_2$ with $m = o(k^2\log n + k\log n\log(1/\epsilon))$ samples (theorem 2.3 &amp; lemma 5.3). under noisy magnitude measurements $y = |a x^* + \eta|$ with $\|\eta\|_\infty \le \frac{\|x^*\|_2}{100\sqrt{n}}$ and $\|\eta\|_2 \le \frac{\sqrt{m}\|x^*\|_2}{100}$, theorem 4.4 proves that altminphase achieves $\mathrm{dist}(x^t,x^*) \le \epsilon + \frac{4\|\eta\|_2}{\sqrt{m}\|x^*\|_2}$ in $o(n^2\log^3 n(\log n + \log^2(1/\epsilon)))$ total arithmetic operations — quadratically faster in dimension $n$ than the $o(n^3/\epsilon^2)$ interior-point/first-order complexity of semidefinite programming relaxations such as phaselift. the theoretical proof of altminphase relies on fresh independent measurement batches $(a^{(t+1)},y^{(t+1)})$ at each iteration to decouple $x^t$ from $a^{(t+1)}$, incurring an extra $o(\log^3 n\log(1/\epsilon))$ sample factor over the information-theoretic $o(n)$ threshold, while sparsealtminphase requires $m = \omega(k^2\log n)$ samples for fourth-moment support identification rather than the information-theoretic $o(k\log(n/k))$ limit. phase retrieval using alternating minimization phase retrieval using alternating minimization (arxiv abstract) phase retrieval using alternating minimization (crossref metadata) praneeth netrapalli prateek jain sujay sanghavi praneeth netrapalli prateek jain sujay sanghavi praneeth netrapalli prateek jain sujay sanghavi">
+        <td>
+          <a href="../curated/AltMinPhaseAndSparseAltMinPhaseAlternatingMinimizationPhaseRetrieval.html" style="font-weight: 600; font-size: 1rem;">AltMinPhase and SparseAltMinPhase (Resampled Alternating Minimization for Phase Retrieval)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> AltMinPhase (Alternating Minimization for Phase Retrieval), SparseAltMinPhase (Sparse Phase Retrieval via Alternating Minimization and CoSaMP)…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            The first non-convex alternating minimization algorithm with provable global geometric convergence for phase retrieval and sparse phase retr…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:AltMinPhaseAndSparseAltMinPhaseAlternatingMinimizationPhaseRetrieval</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
