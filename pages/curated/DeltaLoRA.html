@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delta-LoRA · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Delta-LoRA</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Delta-LoRA</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DeltaLoRA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Delta Low-Rank Adaptation, Delta-LoRA High-Rank Parameter Fine-Tuning
+    </div>
+
+  <div class="detail-desc">
+    A parameter-efficient fine-tuning algorithm that simultaneously optimizes a pair of low-rank adapter matrices with an adaptive optimizer and updates the full pretrained weight matrix at each post-warmup step using a scaled difference of consecutive low-rank matrix products, while omitting dropout inside the low-rank branch so the gradient with respect to the base weights equals the gradient with respect to the adapter product.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:LowRankAdaptation (LoRA), which keeps the pretrained matrix W frozen throughout training and restricts the cumulative weight update to a rank-r subspace, and from AIMech:ReLoRA, which periodically merges A B into W and reinitializes the low-rank factors with partial optimizer resets. Delta-LoRA (Bojia Zi, Xianbiao Qi, Lingzhi Wang, Jianan Wang, Kam-Fai Wong, and Lei Zhang, arXiv:2309.02411) observes that when the Dropout layer inside the LoRA branch is removed, the forward transformation h_{i+1} = W h_i + (alpha/r) A B h_i yields identical partial derivatives g_W = dL/dW = (dL/dh_{i+1}) h_i^T = dL/d(AB) = g_{AB}. Rather than allocating O(c d) gradient and first/second-moment optimizer buffers for W, Delta-LoRA updates A and B via AdamW and uses the consecutive step difference Delta_AB = A^{(t+1)} B^{(t+1)} - A^{(t)} B^{(t)} as a memory-free surrogate update direction for W after K warm-up steps: W^{(t+1)} = W^{(t)} + lambda * (alpha/r) * (A^{(t+1)} B^{(t+1)} - A^{(t)} B^{(t)}).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#deltalora-consecutive-low-rank-product-delta-weight-propagation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After K initial warm-up iterations, Delta-LoRA updates the pretrained weight matrix W^{(t)} at each step via W^{(t+1)} = W^{(t)} + lambda * (alpha/r) * (A^{(t+1)} B^{(t+1)} - A^{(t)} B^{(t)}), propagating low-rank adapter updates into W without computing or storing dense gradients or AdamW momentum buffers for W.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r665-primary-pdf">Delta-LoRA: Fine-Tuning High-Rank Parameters with the Delta of Low-Rank Matrices</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 (Update the Delta of Low-Rank Matrices on Pre-Trained Weights), pp. 4-5, Equations (4)-(6) &amp; Algorithm 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#deltalora-dropout-removal-gradient-alignment</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because placing a Dropout operator Drop(h_i) before A B yields g_{AB} = (dL/dh_{i+1}) Drop(h_i)^T != (dL/dh_{i+1}) h_i^T = g_W, Delta-LoRA removes the Dropout layer from the low-rank branch so that g_{AB} and g_W share the exact same outer-product structure and also eliminates intermediate dropout activation storage.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r665-primary-pdf">Delta-LoRA: Fine-Tuning High-Rank Parameters with the Delta of Low-Rank Matrices</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 (The Structure of Our Delta-LoRA), p. 6, Equation (7)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#deltalora-application-nlg-and-glue-nlu-benchmarks</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across E2E NLG, WebNLG 2017, XSum summarization with GPT-2 and BART, and eight GLUE natural language understanding tasks with RoBERTa-base, Delta-LoRA consistently outperforms LoRA, AdaLoRA, and DyLoRA at matched trainable parameter counts and memory footprints.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r665-primary-pdf">Delta-LoRA: Fine-Tuning High-Rank Parameters with the Delta of Low-Rank Matrices</a></span>
+        <span>· <strong>Locator:</strong> Section 5 (Experiments), Tables 1-6, pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#deltalora-limitation-in-place-mutation-of-pretrained-weights</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because Delta-LoRA mutates the base weight matrix W^{(t)} in place during training rather than keeping W_0 frozen, multiple task adaptations cannot share an unmodified in-memory base weight tensor during training, and the surrogate update Delta_AB is only a first-order approximation (-eta A^{(t)} g_hat_B - eta g_hat_A B^{(t)}) rather than the exact AdamW-normalized full-matrix gradient.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r665-primary-pdf">Delta-LoRA: Fine-Tuning High-Rank Parameters with the Delta of Low-Rank Matrices</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 &amp; Appendix A.1 (The Expansion of Delta AB), pp. 5, 14, Equation (8)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Mutating the pretrained weight matrix W^{(t)} in place prevents storing a single frozen base weight copy across concurrent multi-task training runs.</li>
+      <li>The surrogate step Delta_AB = A^{(t+1)} B^{(t+1)} - A^{(t)} B^{(t)} approximates the full-matrix update within the instantaneous column/row spaces of A^{(t)} and B^{(t)} and requires tuning both the warm-up step threshold K and update ratio lambda.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Delta-LoRA fine-tunes linear weight matrices in deep artificial neural networks by propagating consecutive low-rank product deltas.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r665-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r665-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2309.02411" target="_blank" rel="noopener">Delta-LoRA: Fine-Tuning High-Rank Parameters with the Delta of Low-Rank Matrices</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bojia Zi, Xianbiao Qi, Lingzhi Wang, Jianan Wang, Kam-Fai Wong, Lei Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Delta-LoRA+Fine-Tuning+High-Rank+Parameters&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:363150916d54…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r665-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r665-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2309.02411" target="_blank" rel="noopener">Delta-LoRA: Fine-Tuning High-Rank Parameters with the Delta of Low-Rank Matrices (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bojia Zi, Xianbiao Qi, Lingzhi Wang, Jianan Wang, Kam-Fai Wong, Lei Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2309.02411</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8860a15060d9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r665-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r665-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Delta-LoRA+Fine-Tuning+High-Rank+Parameters&amp;format=xml" target="_blank" rel="noopener">Delta-LoRA: Fine-Tuning High-Rank Parameters with the Delta of Low-Rank Matrices (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bojia Zi, Xianbiao Qi, Lingzhi Wang, Jianan Wang, Kam-Fai Wong, Lei Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Delta-LoRA+Fine-Tuning+High-Rank+Parameters&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e06155072a4f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:28:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:28:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DeltaLoRA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DeltaLoRA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

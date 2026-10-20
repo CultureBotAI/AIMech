@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1501</strong> artificial intelligence concepts, comprising <strong>1059</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1502</strong> artificial intelligence concepts, comprising <strong>1060</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1501)</option>
-        <option value="curated">Curated AIMech (1059)</option>
+        <option value="all">All Origins (1502)</option>
+        <option value="curated">Curated AIMech (1060)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (755)</option>
+          <option value="algorithm">Algorithms (756)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1501</span> of <span id="totalCount">1501</span>
+      Showing <span id="matchCount">1502</span> of <span id="totalCount">1502</span>
     </div>
   </div>
 </div>
@@ -8359,6 +8359,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="delta-lora deltalora aimech:deltalora algorithms algorithm a parameter-efficient fine-tuning algorithm that simultaneously optimizes a pair of low-rank adapter matrices with an adaptive optimizer and updates the full pretrained weight matrix at each post-warmup step using a scaled difference of consecutive low-rank matrix products, while omitting dropout inside the low-rank branch so the gradient with respect to the base weights equals the gradient with respect to the adapter product. distinct from aimech:lowrankadaptation (lora), which keeps the pretrained matrix w frozen throughout training and restricts the cumulative weight update to a rank-r subspace, and from aimech:relora, which periodically merges a b into w and reinitializes the low-rank factors with partial optimizer resets. delta-lora (bojia zi, xianbiao qi, lingzhi wang, jianan wang, kam-fai wong, and lei zhang, arxiv:2309.02411) observes that when the dropout layer inside the lora branch is removed, the forward transformation h_{i+1} = w h_i + (alpha/r) a b h_i yields identical partial derivatives g_w = dl/dw = (dl/dh_{i+1}) h_i^t = dl/d(ab) = g_{ab}. rather than allocating o(c d) gradient and first/second-moment optimizer buffers for w, delta-lora updates a and b via adamw and uses the consecutive step difference delta_ab = a^{(t+1)} b^{(t+1)} - a^{(t)} b^{(t)} as a memory-free surrogate update direction for w after k warm-up steps: w^{(t+1)} = w^{(t)} + lambda * (alpha/r) * (a^{(t+1)} b^{(t+1)} - a^{(t)} b^{(t)}). delta low-rank adaptation delta-lora high-rank parameter fine-tuning after k initial warm-up iterations, delta-lora updates the pretrained weight matrix w^{(t)} at each step via w^{(t+1)} = w^{(t)} + lambda * (alpha/r) * (a^{(t+1)} b^{(t+1)} - a^{(t)} b^{(t)}), propagating low-rank adapter updates into w without computing or storing dense gradients or adamw momentum buffers for w. because placing a dropout operator drop(h_i) before a b yields g_{ab} = (dl/dh_{i+1}) drop(h_i)^t != (dl/dh_{i+1}) h_i^t = g_w, delta-lora removes the dropout layer from the low-rank branch so that g_{ab} and g_w share the exact same outer-product structure and also eliminates intermediate dropout activation storage. across e2e nlg, webnlg 2017, xsum summarization with gpt-2 and bart, and eight glue natural language understanding tasks with roberta-base, delta-lora consistently outperforms lora, adalora, and dylora at matched trainable parameter counts and memory footprints. because delta-lora mutates the base weight matrix w^{(t)} in place during training rather than keeping w_0 frozen, multiple task adaptations cannot share an unmodified in-memory base weight tensor during training, and the surrogate update delta_ab is only a first-order approximation (-eta a^{(t)} g_hat_b - eta g_hat_a b^{(t)}) rather than the exact adamw-normalized full-matrix gradient. delta-lora: fine-tuning high-rank parameters with the delta of low-rank matrices delta-lora: fine-tuning high-rank parameters with the delta of low-rank matrices (arxiv abstract) delta-lora: fine-tuning high-rank parameters with the delta of low-rank matrices (crossref metadata) bojia zi xianbiao qi lingzhi wang jianan wang kam-fai wong lei zhang bojia zi xianbiao qi lingzhi wang jianan wang kam-fai wong lei zhang bojia zi xianbiao qi lingzhi wang jianan wang kam-fai wong lei zhang">
+        <td>
+          <a href="curated/DeltaLoRA.html" style="font-weight: 600; font-size: 1rem;">Delta-LoRA</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Delta Low-Rank Adaptation, Delta-LoRA High-Rank Parameter Fine-Tuning            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A parameter-efficient fine-tuning algorithm that simultaneously optimizes a pair of low-rank adapter matrices with an adaptive optimizer and…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:DeltaLoRA</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

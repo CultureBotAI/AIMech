@@ -1,0 +1,251 @@
+schema_version: 1.0.0
+review_id: 20261019T122830Z-delta-lora-high-rank-delta-updating
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Delta-LoRA
+started_at: '2026-10-19T12:28:00Z'
+finished_at: '2026-10-19T12:28:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:DeltaLoRA
+    against existing AIMech and AIO records and verified all claims against arXiv
+    Computing Research Repository (CoRR) (2023) and pure-Python boundary checks. This
+    is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Delta-LoRA as a distinct DRAFT algorithm. All three claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 7b882aae853bd68ce5c4199591699d45876f74cf
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/DeltaLoRA.yaml
+    sha256: 9d65978edf784583a40d62eed008ce28f633f2367f6124d65e8c5db82ed3cbd6
+    role: target
+  - path: research/discovery/20261019T122800Z-delta-lora-high-rank-delta-updating.json
+    sha256: 6f8550071df9a6b07fdfad5d527e17adcfde292b6330ac0ecbbd96f42e0e9966
+    role: context
+  - path: research/discovery/delta-lora-high-rank-delta-updating-boundaries.py
+    sha256: bbcfec7f1421f45cd101f9128def48a324b1bfa86ad5651211319409985d8c43
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DeltaLoRA
+  path: data/curated/DeltaLoRA.yaml
+  label: Delta-LoRA
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeltaLoRA.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/DeltaLoRA.yaml and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:DeltaLoRA'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DeltaLoRA
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeltaLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeltaLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeltaLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeltaLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 delta-lora-high-rank-delta-updating-boundaries.py
+  command: python3 research/discovery/delta-lora-high-rank-delta-updating-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeltaLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 665 Delta-LoRA (Zi et al. 2023): drop_disparity=12.9720>0,
+    eq8_err=4.06e-16, loss_delta_lora=5.0129<loss_lora=5.4239'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T122800Z-delta-lora-high-rank-delta-updating.json
+  accessed_at: '2026-10-19T12:28:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:DeltaLoRA across AIO and curated
+    corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T12:28:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/delta-lora-high-rank-delta-updating-boundaries.py
+  accessed_at: '2026-10-19T12:28:00Z'
+  snapshot_sha256: bbcfec7f1421f45cd101f9128def48a324b1bfa86ad5651211319409985d8c43
+  support: supports
+  summary: 'All constructed boundary assertions in delta-lora-high-rank-delta-updating-boundaries.py
+    passed with exit code 0: [PASS] Round 665 Delta-LoRA (Zi et al. 2023): drop_disparity=12.9720>0,
+    eq8_err=4.06e-16, loss_delta_lora=5.0129<loss_lora=5.4239'
+- evidence_id: r665-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2309.02411
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T12:28:00Z'
+  snapshot_sha256: 363150916d540c5302aa99dd1b5d505ef2cd77919348783050fbc0e5177d39f1
+  support: supports
+  summary: Full-text PDF (arXiv Computing Research Repository (CoRR) (2023)) read
+    and verified.
+- evidence_id: r665-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2309.02411
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T12:28:00Z'
+  snapshot_sha256: 8860a15060d99d4e8a26a52dbeeae34cc54e68a24122b4729619528f741356e9
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r665-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/search/publ/api?q=Delta-LoRA+Fine-Tuning+High-Rank+Parameters&format=xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T12:28:00Z'
+  snapshot_sha256: e06155072a4fcd77f0675f6618c5860fd671208ed075fccb517ddece535bfdba
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:DeltaLoRA
+  evidence_ids:
+  - identity
+  - r665-primary-pdf
+  - r665-arxiv-abs
+  - r665-metadata-cr
+  summary: Delta-LoRA is a distinct concept.
+  details: 'Distinct from AIMech:LowRankAdaptation (LoRA), which keeps the pretrained
+    matrix W frozen throughout training and restricts the cumulative weight update
+    to a rank-r subspace, and from AIMech:ReLoRA, which periodically merges A B into
+    W and reinitializes the low-rank factors with partial optimizer resets. Delta-LoRA
+    (Bojia Zi, Xianbiao Qi, Lingzhi Wang, Jianan Wang, Kam-Fai Wong, and Lei Zhang,
+    arXiv:2309.02411) observes that when the Dropout layer inside the LoRA branch
+    is removed, the forward transformation h_{i+1} = W h_i + (alpha/r) A B h_i yields
+    identical partial derivatives g_W = dL/dW = (dL/dh_{i+1}) h_i^T = dL/d(AB) = g_{AB}.
+    Rather than allocating O(c d) gradient and first/second-moment optimizer buffers
+    for W, Delta-LoRA updates A and B via AdamW and uses the consecutive step difference
+    Delta_AB = A^{(t+1)} B^{(t+1)} - A^{(t)} B^{(t)} as a memory-free surrogate update
+    direction for W after K warm-up steps: W^{(t+1)} = W^{(t)} + lambda * (alpha/r)
+    * (A^{(t+1)} B^{(t+1)} - A^{(t)} B^{(t)}).'
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:DeltaLoRA
+  evidence_ids:
+  - mapping
+  - r665-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:DeltaLoRA
+  evidence_ids:
+  - r665-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in delta-lora-high-rank-delta-updating-boundaries.py
+    passed with exit code 0: [PASS] Round 665 Delta-LoRA (Zi et al. 2023): drop_disparity=12.9720>0,
+    eq8_err=4.06e-16, loss_delta_lora=5.0129<loss_lora=5.4239'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:DeltaLoRA
+  evidence_ids:
+  - identity
+  - mapping
+  - r665-primary-pdf
+  - r665-arxiv-abs
+  - r665-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DeltaLoRA in Round 665.
+- All pages of arXiv Computing Research Repository (CoRR) (2023) were read in full
+  text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
