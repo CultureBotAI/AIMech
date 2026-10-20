@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">721 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">722 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">721</span> of <span id="totalCount">721</span>
+      Showing <span id="matchCount">722</span> of <span id="totalCount">722</span>
     </div>
   </div>
 </div>
@@ -61,6 +61,32 @@
       </tr>
     </thead>
     <tbody>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="0/1 adam (linearized adaptive-freezing and local-step compressed adam) zerooneadamlinearizedlocalstepcompressedadam aimech:zerooneadamlinearizedlocalstepcompressedadam algorithms algorithm a single-stage communication-efficient distributed adam optimization algorithm that linearizes adam updates to support simultaneous 1-bit error-compensated compression and periodic local steps (reducing average communication volume to between 0 and 1 bit per parameter) via two coupled schedules: (1) an adaptive variance-freezing step index set t_v subseteq {0, ..., t-1} (with exponentially growing intervals k_{j+1} - k_j = 2^{floor(j/kappa)}) on which workers perform full-precision gradient allreduce to update v_{t+1} = beta_2 v_t + (1 - beta_2)(g_bar_t)^2 while reusing the stale v_{t+1} = v_t for all t not in t_v, and (2) a synchronization step index set t_u with bounded local-step horizon max_j (t_{j+1} - t_j) &lt;= h on which workers accumulate local steps in an auxiliary buffer u_{t+1/2}^{(i)} = u_t^{(i)} + gamma_t m_t^{(i)}, execute two-pass error-compensated 1bit-allreduce(u_{t+1/2}^{(i)}) to obtain u_bar_{t+1/2}, and simultaneously synchronize model parameters x_{t+1}^{(i)} = x_{t&#39;}^{(i)} - u_bar_{t+1/2} / sqrt(v_t + eps) and linearly reconstruct local momentum m_{t+1}^{(i)} = u_bar_{t+1/2} / sum_{h=t&#39;}^t gamma_h without additional optimizer-state communication. distinct from 1-bit adam (aimech:onebitadamerrorcompensatedpreconditionedmomentum, tang et al. 2021), which is a special case of algorithm 4 with t_v = {0, ..., t_0 - 1} and t_u = {0, ..., t - 1} (requiring a long continuous full-precision warmup stage that can take &gt;50% of wall-clock training time and disallowing local steps). distinct from qsparse-local-sgd (basu et al. 2019) and local sgd (stich 2018), which apply local steps to linear sgd without adaptive second-moment preconditioning or linear momentum state reconstruction from compressed trajectory buffers. 0/1 adam zero-one adam linearized local-step compressed adam 0/1 adam optimizer because adjacent adam variance updates ||v_t - v_{t-1}|| decay smoothly and roughly exponentially while local and global optimizer states ||v_t^{(0)} - v_t|| and ||m_t^{(0)} - m_t|| remain separated by a constant gap without synchronization (figure 1), 0/1 adam freezes v_t between scheduled variance updates k_j in t_v (with k_{j+1} - k_j = 2^{floor(j/kappa)}, kappa = 16) so that all workers share an identical denominator sqrt(v_t + eps); over local steps between synchronizations t&#39; and t in t_u, the model displacement x_t^{(i)} - x_{t&#39;}^{(i)} is strictly linear in the accumulated buffer u_{t+1/2}^{(i)} = sum_{k=t&#39;}^t gamma_k m_k^{(i)}, allowing a single error-compensated 1bit-allreduce(u_{t+1/2}^{(i)}) to both synchronize parameters x_{t+1}^{(i)} = x_{t&#39;}^{(i)} - u_bar_{t+1/2} / sqrt(v_t + eps) and linearly reconstruct synchronized momentum m_{t+1}^{(i)} = u_bar_{t+1/2} / sum_{h=t&#39;}^t gamma_h (algorithm 1 lines 5-11). under l-lipschitz gradients, bounded stochastic variance sigma^2, bounded gradient infinity norm ||g_t||_inf &lt;= g_inf (eliminating 1-bit adam&#39;s restrictive uniform coordinate variance lower bound v_min &gt; 0 via lemma 2: beta_2^{m/2} sqrt(v_1 + eps) &lt;= sqrt(v_t + eps) &lt;= sqrt(g_inf^2 + eps)), bounded compressor error delta^2, and maximum local-step interval h (assumptions 1-5), if m = |t_v| &lt;= log(1 - beta_1) / log(beta_2) and gamma_t = min{sqrt(n / (sigma^2 t)), 1 / (4 l sqrt(g_inf^2 + eps)), 2 sqrt(g_inf^2 + eps) / l, 1/6}, theorem 1 proves (1/t) sum_{t=0}^{t-1} e||grad f(x_tilde_t)||^2 &lt;= o(sigma / sqrt(n t) + h^2 delta^2 (m + n) / t + 1 / t), where compression (delta) and local steps (h) affect only non-dominating o(1/t) terms. on up to 128 v100 gpus across bert-base, bert-large, gpt-2 (117m parameters, 48 layers), and resnet-18 on imagenet, 0/1 adam reduces average per-parameter communication volume to 0.42 bits on bert-large and 0.48 bits on gpt-2 (up to 87% data volume reduction and 54% fewer communication rounds compared to 1-bit adam&#39;s 3.27 and 3.8 bits/parameter, figure 4) and achieves up to 2x higher training throughput and wall-clock time reduction over 1-bit adam while matching glue average accuracy (81.6 on bert-base, 83.6 on bert-large), imagenet top-1 accuracy (69.88% vs 69.93%), and gpt-2 zero-shot wikitext-103 perplexity (28.07 vs 28.37) and lambada accuracy (33.51% vs 33.21%). 0/1 adam&#39;s convergence guarantee requires the total number of full-precision variance updates m = |t_v| to satisfy m &lt;= log(1 - beta_1) / log(beta_2) so that beta_2^m &gt;= 1 - beta_1 in lemmas 2, 9, and 10, and requires stopping variance updates whenever the local-step synchronization interval exceeds 1 (t_{j+1} - t_j &gt; 1) because local momentum approximation noise scales with the learning rate and requires a frozen variance denominator across local steps. maximizing communication efficiency for large-scale training via 0/1 adam maximizing communication efficiency for large-scale training via 0/1 adam (arxiv abstract) maximizing communication efficiency for large-scale training via 0/1 adam (crossref metadata) yucheng lu conglong li minjia zhang christopher de sa yuxiong he yucheng lu conglong li minjia zhang christopher de sa yuxiong he yucheng lu conglong li minjia zhang christopher de sa yuxiong he">
+        <td>
+          <a href="../curated/ZeroOneAdamLinearizedLocalStepCompressedAdam.html" style="font-weight: 600; font-size: 1rem;">0/1 Adam (Linearized Adaptive-Freezing and Local-Step Compressed Adam)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> 0/1 Adam, Zero-One Adam…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A single-stage communication-efficient distributed Adam optimization algorithm that linearizes Adam updates to support simultaneous 1-bit er…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:ZeroOneAdamLinearizedLocalStepCompressedAdam</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
       <tr data-origin="curated"
           data-kind="algorithm"
           data-branch=""
