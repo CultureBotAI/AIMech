@@ -1,0 +1,101 @@
+id: AIMech:SM3SquareRootMinimaSumsMaximaSquaredGradientsOptimization
+name: SM3 (Square-root of Minima of Sums of Maxima of Squared-gradients Method)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A memory-efficient adaptive gradient optimization algorithm (Algorithms SM3-I and SM3-II) that covers the d model parameters with k nonempty sets {S_r}_{r=1}^k (bigcup_{r=1}^k S_r = [d]), maintains a single running accumulator mu_t(r) per covering set r in [k], estimates each parameter''s cumulative squared gradient via the minimum over its covering sets (nu_t(i) = min_{r: S_r ni i} mu_t(r) with mu_t(r) = mu_{t-1}(r) + max_{j in S_r} g_t^2(j) in SM3-I, or the tighter recursion nu''_t(i) = min_{r: S_r ni i} mu''_{t-1}(r) + g_t^2(i) and mu''_t(r) = max_{j in S_r} nu''_t(j) in SM3-II), and updates parameters via w_{t+1}(i) = w_t(i) - eta g_t(i) / sqrt(nu_t(i)).'
+identity_notes: Distinct from Adafactor and CAME (Round 598), which factorize matrix second moments via rank-1 non-negative matrix factorization and act as fixed-learning-rate Adam variants, SM3 applies to arbitrary-order tensors (or any parameter cover) by maintaining O(k) set-level upper-bound accumulators that Sandwich AdaGrad's cumulative squared gradients (sum_{s=1}^t g_s^2(i) <= nu'_t(i) <= nu_t(i)) and enjoy provable online convex regret guarantees.
+aliases:
+- SM3 Optimizer
+- Square-root of Minima of Sums of Maxima of Squared-gradients Method
+- SM3-I and SM3-II Memory-Efficient Adaptive Optimization
+definition_evidence:
+- source_id: r601-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r601-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r601-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r601-online-convex-regret-and-tighter-sm3-ii-sandwich-bound
+  kind: mechanism
+  statement: 'For convex loss functions l_1, ..., l_T with max_t ||w_t - w^*||_inf <= D and eta = D, SM3-I guarantees online regret sum_{t=1}^T (l_t(w_t) - l_t(w^*)) <= 2 D sum_{i=1}^d sqrt(min_{r: S_r ni i} sum_{t=1}^T max_{j in S_r} g_t^2(j)) (Proposition 1, p. 4), while SM3-II''s sequence nu''_t(i) is monotonically increasing and satisfies the tighter sandwich bound sum_{s=1}^t g_s^2(i) <= nu''_t(i) <= nu_t(i) for all t, i (Claim 2 & Proposition 3, pp. 4, 6, 13).'
+  evidence:
+  - source_id: r601-primary-pdf
+    locator: Section 3-3.1, Proposition 1, Claim 2, & Proposition 3, pp. 4-6; Appendix A.1-A.2, p. 13
+    relation: supports
+- claim_id: c-r601-codimension-one-slice-cover-memory-and-activation-pattern-fidelity
+  kind: mechanism
+  statement: Using co-dimension 1 tensor slices as the parameter cover reduces auxiliary second-moment memory for a p-order tensor of shape n_1 x ... x n_p from Theta(prod_{i=1}^p n_i) to Theta(sum_{i=1}^p n_i), and whenever stochastic gradients exhibit row- or column-tied activation patterns (g_s(j) approx g_s(i) for all j in some covering slice S_r ni i), SM3's accumulators and regret bound tightly match full per-parameter AdaGrad (Section 4 & Appendix B.1, pp. 6-7, 14).
+  evidence:
+  - source_id: r601-primary-pdf
+    locator: Section 4, Figure 1, pp. 6-7; Appendix B.1, Figure 5, p. 14
+    relation: supports
+- claim_id: c-r601-transformer-bert-large-and-amoebanet-scaling
+  kind: application
+  statement: By eliminating per-parameter second-moment storage, SM3 doubles feasible TPU batch sizes on WMT'14 en->fr Transformer-Big (reaching 40.50 BLEU vs Adafactor 39.65 at batch size 768 with ~2x faster convergence), scales BERT-Large Masked-LM training linearly up to batch size 2^{16} (reducing wall-time to 70% accuracy by ~35%), and achieves 78.71% top-1 / 94.31% top-5 accuracy with AmoebaNet-D on ImageNet (Section 5.1-5.3, Tables 1-2 & Figures 2-4, pp. 8-10).
+  evidence:
+  - source_id: r601-primary-pdf
+    locator: Section 5.1-5.3, Tables 1-2 & Figures 2-4, pp. 8-10
+    relation: supports
+- claim_id: c-r601-worst-case-cover-looseness-and-uncompressed-momentum
+  kind: limitation
+  statement: Because nu_t(i) >= sum_{s=1}^t g_s^2(i), SM3's worst-case regret bound is never smaller than AdaGrad's and can degrade when gradients lack correlated activation patterns across the chosen cover sets, and SM3 only compresses second-order statistics while leaving first-order momentum buffers at O(d) memory when momentum (beta_1 > 0) is enabled.
+  evidence:
+  - source_id: r601-primary-pdf
+    locator: Section 3-4, pp. 4, 6; Section 6 & Appendix C, Table 3, pp. 10, 15
+    relation: supports
+evidence_sources:
+- source_id: r601-primary-pdf
+  title: Memory-Efficient Adaptive Optimization
+  authors: &id001
+  - Rohan Anil
+  - Vineet Gupta
+  - Tomer Koren
+  - Yoram Singer
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1901.11150.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/Anil0KS19
+  version: Advances in Neural Information Processing Systems 32 (NeurIPS 2019), pp. 9746-9755 (arXiv:1901.11150) (2019) (7715288 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:24:00Z'
+  sha256: ea397ae5a4c0bbd5a5ba02815519d5c57885fc7448557cd8c434c7705c371480
+- source_id: r601-arxiv-abs
+  title: Memory-Efficient Adaptive Optimization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1901.11150
+  persistent_id: https://arxiv.org/abs/1901.11150
+  version: arXiv abstract page (6705 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:24:00Z'
+  sha256: 0c5096460fa3323259fe05144678fd969d572180dd1af9a6e988731da6a5026b
+- source_id: r601-metadata-cr
+  title: Memory-Efficient Adaptive Optimization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/Anil0KS19
+  persistent_id: https://dblp.org/rec/conf/nips/Anil0KS19
+  version: Crossref API work record (1856 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:24:00Z'
+  sha256: d54b6711efa31de4439dbd894c686ccef183b05530a2027acef23ca24a201a5b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: SM3 is a memory-efficient adaptive gradient optimizer for training large neural machine translation Transformers, BERT language models, and convolutional image classifiers.
+limitations:
+- When stochastic gradients do not share correlated magnitudes along the chosen cover sets, SM3's upper-bound accumulators can overestimate squared gradients compared to exact per-parameter AdaGrad.
+- SM3 reduces only the second-moment accumulator memory to O(k); when combined with heavy-ball momentum (beta_1 > 0), the first-moment buffer still requires O(d) memory.
+curation:
+  created_at: '2026-10-19T11:24:00Z'
+  updated_at: '2026-10-19T11:24:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

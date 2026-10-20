@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SM3 (Square-root of Minima of Sums of Maxima of Squared-gradients Method) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>SM3 (Square-root of Minima of Sums of Maxima of Squared-gradients Method)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SM3 (Square-root of Minima of Sums of Maxima of Squared-gradients Method)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SM3SquareRootMinimaSumsMaximaSquaredGradientsOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SM3 Optimizer, Square-root of Minima of Sums of Maxima of Squared-gradients Method, SM3-I and SM3-II Memory-Efficient Adaptive Optimization
+    </div>
+
+  <div class="detail-desc">
+    A memory-efficient adaptive gradient optimization algorithm (Algorithms SM3-I and SM3-II) that covers the d model parameters with k nonempty sets {S_r}_{r=1}^k (bigcup_{r=1}^k S_r = [d]), maintains a single running accumulator mu_t(r) per covering set r in [k], estimates each parameter&#39;s cumulative squared gradient via the minimum over its covering sets (nu_t(i) = min_{r: S_r ni i} mu_t(r) with mu_t(r) = mu_{t-1}(r) + max_{j in S_r} g_t^2(j) in SM3-I, or the tighter recursion nu&#39;_t(i) = min_{r: S_r ni i} mu&#39;_{t-1}(r) + g_t^2(i) and mu&#39;_t(r) = max_{j in S_r} nu&#39;_t(j) in SM3-II), and updates parameters via w_{t+1}(i) = w_t(i) - eta g_t(i) / sqrt(nu_t(i)).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Adafactor and CAME (Round 598), which factorize matrix second moments via rank-1 non-negative matrix factorization and act as fixed-learning-rate Adam variants, SM3 applies to arbitrary-order tensors (or any parameter cover) by maintaining O(k) set-level upper-bound accumulators that Sandwich AdaGrad&#39;s cumulative squared gradients (sum_{s=1}^t g_s^2(i) &lt;= nu&#39;_t(i) &lt;= nu_t(i)) and enjoy provable online convex regret guarantees.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r601-online-convex-regret-and-tighter-sm3-ii-sandwich-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For convex loss functions l_1, ..., l_T with max_t ||w_t - w^*||_inf &lt;= D and eta = D, SM3-I guarantees online regret sum_{t=1}^T (l_t(w_t) - l_t(w^*)) &lt;= 2 D sum_{i=1}^d sqrt(min_{r: S_r ni i} sum_{t=1}^T max_{j in S_r} g_t^2(j)) (Proposition 1, p. 4), while SM3-II&#39;s sequence nu&#39;_t(i) is monotonically increasing and satisfies the tighter sandwich bound sum_{s=1}^t g_s^2(i) &lt;= nu&#39;_t(i) &lt;= nu_t(i) for all t, i (Claim 2 &amp; Proposition 3, pp. 4, 6, 13).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r601-primary-pdf">Memory-Efficient Adaptive Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3-3.1, Proposition 1, Claim 2, &amp; Proposition 3, pp. 4-6; Appendix A.1-A.2, p. 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r601-codimension-one-slice-cover-memory-and-activation-pattern-fidelity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Using co-dimension 1 tensor slices as the parameter cover reduces auxiliary second-moment memory for a p-order tensor of shape n_1 x ... x n_p from Theta(prod_{i=1}^p n_i) to Theta(sum_{i=1}^p n_i), and whenever stochastic gradients exhibit row- or column-tied activation patterns (g_s(j) approx g_s(i) for all j in some covering slice S_r ni i), SM3&#39;s accumulators and regret bound tightly match full per-parameter AdaGrad (Section 4 &amp; Appendix B.1, pp. 6-7, 14).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r601-primary-pdf">Memory-Efficient Adaptive Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Figure 1, pp. 6-7; Appendix B.1, Figure 5, p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r601-transformer-bert-large-and-amoebanet-scaling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By eliminating per-parameter second-moment storage, SM3 doubles feasible TPU batch sizes on WMT&#39;14 en-&gt;fr Transformer-Big (reaching 40.50 BLEU vs Adafactor 39.65 at batch size 768 with ~2x faster convergence), scales BERT-Large Masked-LM training linearly up to batch size 2^{16} (reducing wall-time to 70% accuracy by ~35%), and achieves 78.71% top-1 / 94.31% top-5 accuracy with AmoebaNet-D on ImageNet (Section 5.1-5.3, Tables 1-2 &amp; Figures 2-4, pp. 8-10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r601-primary-pdf">Memory-Efficient Adaptive Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.3, Tables 1-2 &amp; Figures 2-4, pp. 8-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r601-worst-case-cover-looseness-and-uncompressed-momentum</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because nu_t(i) &gt;= sum_{s=1}^t g_s^2(i), SM3&#39;s worst-case regret bound is never smaller than AdaGrad&#39;s and can degrade when gradients lack correlated activation patterns across the chosen cover sets, and SM3 only compresses second-order statistics while leaving first-order momentum buffers at O(d) memory when momentum (beta_1 &gt; 0) is enabled.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r601-primary-pdf">Memory-Efficient Adaptive Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3-4, pp. 4, 6; Section 6 &amp; Appendix C, Table 3, pp. 10, 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>When stochastic gradients do not share correlated magnitudes along the chosen cover sets, SM3&#39;s upper-bound accumulators can overestimate squared gradients compared to exact per-parameter AdaGrad.</li>
+      <li>SM3 reduces only the second-moment accumulator memory to O(k); when combined with heavy-ball momentum (beta_1 &gt; 0), the first-moment buffer still requires O(d) memory.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SM3 is a memory-efficient adaptive gradient optimizer for training large neural machine translation Transformers, BERT language models, and convolutional image classifiers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r601-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r601-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1901.11150.pdf" target="_blank" rel="noopener">Memory-Efficient Adaptive Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rohan Anil, Vineet Gupta, Tomer Koren, Yoram Singer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/Anil0KS19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ea397ae5a4c0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r601-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r601-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1901.11150" target="_blank" rel="noopener">Memory-Efficient Adaptive Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rohan Anil, Vineet Gupta, Tomer Koren, Yoram Singer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1901.11150</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0c5096460fa3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r601-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r601-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/Anil0KS19" target="_blank" rel="noopener">Memory-Efficient Adaptive Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rohan Anil, Vineet Gupta, Tomer Koren, Yoram Singer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/Anil0KS19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d54b6711efa3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:24:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:24:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SM3SquareRootMinimaSumsMaximaSquaredGradientsOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SM3SquareRootMinimaSumsMaximaSquaredGradientsOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
