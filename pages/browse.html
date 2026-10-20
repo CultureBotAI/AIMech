@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1330</strong> artificial intelligence concepts, comprising <strong>888</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1331</strong> artificial intelligence concepts, comprising <strong>889</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1330)</option>
-        <option value="curated">Curated AIMech (888)</option>
+        <option value="all">All Origins (1331)</option>
+        <option value="curated">Curated AIMech (889)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (586)</option>
+          <option value="algorithm">Algorithms (587)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1330</span> of <span id="totalCount">1330</span>
+      Showing <span id="matchCount">1331</span> of <span id="totalCount">1331</span>
     </div>
   </div>
 </div>
@@ -10713,6 +10713,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:FedFtgDataFreeGlobalModelFineTuningViaHardSampleMiningKnowledgeDistillation</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fedfv (federated fair averaging via loss-ordered internal and historical external gradient projection) fedfvfederatedfairaveragingvialossorderedandhistoricalgradientprojection aimech:fedfvfederatedfairaveragingvialossorderedandhistoricalgradientprojection algorithms algorithm a fair federated optimization algorithm (wang, fan, qi, wen, wang, &amp; yu 2021, section 3, definitions 1-3, algorithms 1-3, theorems 1-4) that mitigates performance unfairness caused by conflicting client gradients (g_i . g_j &lt; 0) with large magnitude disparities by sequentially eliminating internal conflicts among selected clients s_t and external conflicts against unselected clients h not in s_t before server model updates. in round t, after receiving pseudo-gradients g_k^t = theta^t - theta_k^t and local losses l_k^t from k in s_t (|s_t| = m), the server updates its global gradient history gh = [g_1^{t_1}, ..., g_k^{t_k}] and sorts s_t in ascending order of training loss l_{i_1}^t &lt;= ... &lt;= l_{i_m}^t to form the projection target order list po_t = [g_{i_1}^t, ..., g_{i_m}^t]. in mitigateinternalconflict (algorithm 2), the top (1 - alpha)m lowest-loss clients k in s_t^alpha iteratively project their gradient g_k^{pc} onto the normal plane of each conflicting target g_{i_j}^t in po_t (when g_k^{pc} . g_{i_j}^t &lt; 0 and k != i_j) via g_k^{pc} &lt;- g_k^{pc} - ((g_{i_j}^t . g_k^{pc}) / ||g_{i_j}^t||^2) g_{i_j}^t, while the alpha m highest-loss clients retain their original gradients, producing g^t = (1/m) sum_{k=1}^m g_k^{pc}. for t &gt;= tau, mitigateexternalconflict (algorithm 3) iterates over past rounds t - i (for i = tau, ..., 1), sums historical gradients g_con = sum_{k : t_k = t-i, g^t . g_k^{t_k} &lt; 0} g_k^{t_k}, and when g^t . g_con &lt; 0 projects g^t &lt;- g^t - ((g^t . g_con) / ||g_con||^2) g_con, before rescaling g^t &lt;- (g^t / ||g^t||) ||(1/m) sum_{k in s_t} g_k^t|| and updating theta^{t+1} = theta^t - g^t. distinct from fedmgda+ (aimech:fedmgdaplusmultiobjectiveparetostationaryfederatedoptimization, hu et al. 2022), which normalizes local pseudo-gradients to unit l2 norm and solves a box-constrained simplex quadratic program min_{lambda in delta_m, ||lambda - p||_inf &lt;= eps} ||sum_i lambda_i g_i||^2 without normal-plane gradient projection or historical external-conflict buffers; and distinct from q-ffl (aimech:qfairfederatedlearningalphafairresourceallocation, li et al. 2020), which reweights client losses by (1/(q+1)) f_k^{q+1}(w) using a lipschitz upper-bound step size without detecting negative cosine similarities g_i . g_j &lt; 0 or projecting conflicting gradients onto normal hyperplanes. fedfv federated fair averaging federated learning with fair averaging under pairwise cosine bounds eps_1 &lt;= |cos(g_i^{(t_i)}, g_j^{(t_j)})| &lt;= eps_2 (0 &lt; eps_1 &lt;= eps_2 &lt;= 1), iteratively projecting client gradients onto the normal plane of g_k in ascending index order k = 1, ..., m bounds the residual conflict with the projected average g_bar&#39; by |g_k . g_bar&#39;| &lt;= ((m - 1) / m) (max_i ||g_i||)^2 f(m, k, eps_1, eps_2) where f(m, k, eps_1, eps_2) = eps_2^2 (1 - eps_1^2)^{1/2} (1 - (1 - eps_1^2)^{(m-k)/2}) / (1 - (1 - eps_1^2)^{1/2}), which decreases monotonically with k so that placing higher-loss clients later in po_t guarantees them smaller upper-bounded conflict with g_bar&#39; (theorems 1-2, appendix a.1-a.2). to mitigate external conflicts against unselected or dropped-out clients h not in s_t, fedfv maintains a server trace gh of each client&#39;s most recent update g_k^{t_k} and sequentially projects g^t onto the normal plane of the sum g_con of conflicting historical gradients from round t - i in chronological order i = tau, tau - 1, ..., 1 before rescaling ||g^t|| to ||(1/m) sum_{k in s_t} g_k^t|| (definition 3, algorithm 3, algorithm 1 line 10). setting alpha = 0 (forcing all selected clients, including highest-loss clients, to project their gradients) can increase test accuracy variance when all clients participate (e.g., variance 13.76 on 3-client fashion-mnist versus 1.77 at alpha = 2/3), and theorem 4&#39;s multi-client pareto stationarity guarantee on l-smooth convex objectives requires cos(g_bar, g_bar&#39;) &gt;= 1/2 and ||g_bar|| &gt;= ||g_bar&#39;|| with step size eta &lt;= 1 / l. evaluated on non-iid shard-partitioned cifar-10 (100 clients, 10% participation), mnist (200 clients), and class-partitioned fashion-mnist (3 clients), outperforming fedavg, q-fedavg, fedmgda+, and fedfa in average accuracy, worst-5% accuracy (32.24% vs. 19.84% for fedavg on cifar-10 at alpha = 0.1, tau = 10), and convergence speed. federated learning with fair averaging federated learning with fair averaging (arxiv abstract) federated learning with fair averaging (crossref metadata) zheng wang xiaoliang fan jianzhong qi chenglu wen cheng wang rongshan yu zheng wang xiaoliang fan jianzhong qi chenglu wen cheng wang rongshan yu zheng wang xiaoliang fan jianzhong qi chenglu wen cheng wang rongshan yu">
+        <td>
+          <a href="curated/FedFvFederatedFairAveragingViaLossOrderedAndHistoricalGradientProjection.html" style="font-weight: 600; font-size: 1rem;">FedFV (Federated Fair Averaging via Loss-Ordered Internal and Historical External Gradient Projection)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedFV, Federated Fair Averaging…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A fair federated optimization algorithm (Wang, Fan, Qi, Wen, Wang, &amp; Yu 2021, Section 3, Definitions 1-3, Algorithms 1-3, Theorems 1-4) that…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedFvFederatedFairAveragingViaLossOrderedAndHistoricalGradientProjection</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
