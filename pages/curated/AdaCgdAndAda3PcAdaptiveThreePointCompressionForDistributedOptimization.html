@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AdaCGD and Ada3PC Adaptive Three-Point Compression for Distributed Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>AdaCGD and Ada3PC Adaptive Three-Point Compression for Distributed Optimization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AdaCGD and Ada3PC Adaptive Three-Point Compression for Distributed Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AdaCgdAndAda3PcAdaptiveThreePointCompressionForDistributedOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Ada3PC, AdaCGD, 3PC-BD, Adaptive Three Point Compressor, Adaptive Compressed Gradient Descent
+    </div>
+
+  <div class="detail-desc">
+    An adaptive communication compression framework and family of distributed optimization methods introduced by Makarenko, Gasanov, Islamov, Sadiev, and Richtárik (2022) that dynamically select the compression operator or compression level at every iteration and worker. Given a bank of m Three Point Compressors (3PC) {C_{h,y}^j}_{j=1}^m with parameters {(A_j, B_j)}_{j=1}^m and arbitrary user-specified trigger predicates {P_j(h, y, x)}_{j=1}^{m-1}, the Adaptive Three Point Compressor (Ada3PC, Definition 3) selects C_{h,y}^{ad}(x) = C_{h,y}^j(x) for the first index j where P_j(h, y, x) holds (or C_{h,y}^m(x) otherwise), and Adaptive Compressed Gradient Descent (AdaCGD, Definition 4) instantiates Ada3PC with m sorted EF21 contractive compressors (alpha_1 &lt;= ... &lt;= alpha_m) and lazy relative-variation predicates ||x - C_{h,y}^{EF,j}(x)||^2 &lt;= zeta ||x - y||^2 to adaptively adjust the transmitted message size.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from fixed-parameter Three Point Compressors (3PC, Richtárik et al. 2022, which use a single static 3PC operator or a single binary lazy-aggregation threshold) and distinct from heuristic adaptive gradient compression schemes lacking error-feedback convergence guarantees: Ada3PC proves closure of the 3PC class under arbitrary data-dependent switching among m distinct 3PC compressors with worst-case constants A_min = min_j A_j and B_max = max_j B_j (Lemma 2), and further extends 3PC to convex objectives (Theorem 5) and bidirectional server-and-worker 3PC compression (3PC-BD, Algorithm 2, Theorem 6).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ada3pc-closure-under-arbitrary-predicate-switching</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given m Three Point Compressors {C_{h,y}^j}_{j=1}^m satisfying E[||C_{h,y}^j(x) - x||^2] &lt;= (1 - A_j)||h - y||^2 + B_j||x - y||^2 with A_j in (0, 1] and B_j &gt;= 0, Lemma 2 proves that the adaptive selector C_{h,y}^{ad}(x) (Definition 3) is itself a valid Three Point Compressor for any choice of switching predicates {P_j(h, y, x)}_{j=1}^{m-1}, with parameters A_min = min_{j in [m]} A_j and B_max = max_{j in [m]} B_j.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r568-primary-pdf">Adaptive Compression for Communication-Efficient Distributed Training</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Definition 3 &amp; Lemma 2, p. 5; Appendix B.2, Proof of Lemma 2, p. 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#adacgd-multi-level-ef21-lazy-variation-trigger-design</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AdaCGD (Definition 4) orders m contractive compressors {C_j}_{j=1}^m by increasing contractivity 0 &lt; alpha_1 &lt;= alpha_2 &lt;= ... &lt;= alpha_m &lt;= 1, wraps each into an EF21 compressor C_{h,y}^{EF,j}(x) = h + C_j(x - h), first tests the zero-communication skip condition ||x - h||^2 &lt;= zeta ||x - y||^2, and otherwise selects the most aggressive (smallest j) compressor satisfying ||x - C_{h,y}^{EF,j}(x)||^2 &lt;= zeta ||x - y||^2 (defaulting to C_{h,y}^{EF,m}(x) if none satisfies the threshold), which by Corollary 1 is a 3PC compressor with A_min = 1 - sqrt(1 - alpha_1) and B_max = max(zeta, (1 - alpha_1)/(1 - sqrt(1 - alpha_1))).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r568-primary-pdf">Adaptive Compression for Communication-Efficient Distributed Training</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Definition 4 &amp; Corollary 1, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#three-pc-convex-and-bidirectional-nonconvex-convergence-theorems</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 5 establishes the first general convex convergence rate E[f(x^T) - f(x*)] = O(1/T) for 3PC methods under L_i-smooth convex functions with step size gamma in (0, 1/(L + L_max sqrt(B/A))), while Algorithm 2 (3PC-BD) applies 3PC compressors C^w on workers (A_w, B_w) and C^M on the master broadcast (A_M, B_M), achieving O(1/T) nonconvex stationarity E[||nabla f(hat{x}^T)||^2] = O(1/T) under Theorem 6.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r568-primary-pdf">Adaptive Compression for Communication-Efficient Distributed Training</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1, Theorem 5, p. 7; Section 5.2, Algorithm 2 (3PC-BD) &amp; Theorem 6, pp. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#adacgd-trial-compression-overhead-and-worst-case-step-size-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluating the AdaCGD trigger condition ||x - C_{h,y}^{EF,j}(x)||^2 &lt;= zeta ||x - y||^2 requires computing candidate compressed vectors across up to m compression levels locally on each worker (though for Top-k families a single coordinate-magnitude sort suffices for all k_1 &lt; ... &lt; k_m), and the theoretical step-size bound in Lemma 2 depends on the worst-case constants A_min = min_j A_j and B_max = max_j B_j across the compressor bank.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r568-primary-pdf">Adaptive Compression for Communication-Efficient Distributed Training</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Lemma 2, Corollary 1 &amp; discussion of Top-k / Sparsified-k implementation, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Theoretical step-size and complexity bounds via Lemma 2 depend on the worst-case constants A_min = min_j A_j and B_max = max_j B_j of the compressor bank.</li>
+      <li>Evaluating the adaptive predicate P_j(h, y, x) across m general compressors can incur up to m local compression evaluations per step unless the bank shares a common sorting/quantization structure such as Top-k.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Ada3PC, AdaCGD, and 3PC-BD provide adaptive uplink and bidirectional gradient compression for distributed and federated optimization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r568-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r568-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2211.00188.pdf" target="_blank" rel="noopener">Adaptive Compression for Communication-Efficient Distributed Training</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Maksim Makarenko, Elnur Gasanov, Rustem Islamov, Abdurakhmon Sadiev, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/W4308015852</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5adbb553c5bb…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r568-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r568-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2211.00188" target="_blank" rel="noopener">Adaptive Compression for Communication-Efficient Distributed Training (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Maksim Makarenko, Elnur Gasanov, Rustem Islamov, Abdurakhmon Sadiev, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2211.00188</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5986f6b1517a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r568-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r568-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.openalex.org/works/W4308015852" target="_blank" rel="noopener">Adaptive Compression for Communication-Efficient Distributed Training (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Maksim Makarenko, Elnur Gasanov, Rustem Islamov, Abdurakhmon Sadiev, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/W4308015852</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:db15676a0493…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:51:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:51:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdaCgdAndAda3PcAdaptiveThreePointCompressionForDistributedOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdaCgdAndAda3PcAdaptiveThreePointCompressionForDistributedOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
