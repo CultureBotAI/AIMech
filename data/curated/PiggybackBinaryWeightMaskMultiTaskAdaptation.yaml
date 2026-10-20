@@ -1,0 +1,101 @@
+id: AIMech:PiggybackBinaryWeightMaskMultiTaskAdaptation
+name: Piggyback Binary Weight-Mask Multi-Task Adaptation
+concept_kind: algorithm
+review_status: DRAFT
+definition: A multi-task and continual neural network adaptation algorithm that freezes all weight matrices W of a pretrained backbone network, associates each weight w_{ji} with a trainable real-valued mask variable m^r_{ji} passed through a hard deterministic binary threshold m_{ji} = 1[m^r_{ji} >= tau] during the forward pass y = (W odot m) x, updates m^r via the straight-through gradient estimator delta_m = (delta_y . x^T) odot W during backpropagation, and discards m^r after training to retain only a 1-bit-per-parameter binary mask m per task.
+identity_notes: Distinct from PackNet (Mallya & Lazebnik, CVPR 2018, AIMech:PackNetIterativePruningContinualLearning), which prunes and modifies network weights sequentially and degrades as tasks are added, from Edge-Popup (Ramanujan et al., CVPR 2020, AIMech:EdgePopupUntrainedSubnetworkScoreOptimization) and SupSup (AIMech:SupSupSupermasksInSuperposition), which discover fixed-sparsity top-k% subnetworks in randomly initialized networks without task-specific classification heads, and from Residual Adapters (Rebuffi et al., NeurIPS 2017), which insert additional trainable convolutional filter banks.
+aliases:
+- Piggyback
+- Piggyback Weight Masking
+- Piggyback Binary Mask Multi-Task Adaptation
+- Differentiable Binary Weight Masking for Fixed Backbones
+definition_evidence:
+- source_id: r720-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r720-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r720-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r720-claim-straight-through-binary-mask
+  kind: mechanism
+  statement: Piggyback maintains real-valued mask weights m^r initialized uniformly above the binarizer threshold (e.g., m^r = 1e-2, tau = 5e-3 so all weights are initially active) and updates them with Adam using the straight-through gradient of the thresholded mask delta_m_{ji} = delta_y_j w_{ji} x_i, which scales proportionally to |W|; after training, discarding m^r leaves a binary mask requiring only 1 bit per 32-bit parameter (~3.12% storage overhead per task).
+  evidence:
+  - source_id: r720-primary-pdf
+    locator: Section 3, Equations 4-7, pp. 5-6
+    relation: supports
+- claim_id: r720-claim-task-order-agnostic-continual
+  kind: mechanism
+  statement: Because Piggyback never alters the underlying backbone weights W and learns an independent binary mask per task, it is completely immune to catastrophic forgetting, agnostic to task ordering (unlike PackNet, whose error increases by 4-7% when a task is added fifth instead of first), and imposes no upper bound on the number of tasks that can piggyback onto the backbone.
+  evidence:
+  - source_id: r720-primary-pdf
+    locator: Section 2 & Section 4, Table 2, pp. 3, 7-8
+    relation: supports
+- claim_id: r720-claim-visual-decathlon-and-fcn-application
+  kind: application
+  statement: Across VGG-16, ResNet-50, DenseNet-121, and Wide ResNet-28-4 backbones, Piggyback matches or outperforms dedicated per-task fine-tuned networks on CUBS, Stanford Cars, Flowers, WikiArt, Sketch, and Places365, achieves a 2838 cumulative score on the 10-task Visual Decathlon challenge with only a 1.28x total parameter ratio, and reaches 61.41 mIOU vs. 61.08 mIOU for full fine-tuning on PASCAL VOC FCN semantic segmentation.
+  evidence:
+  - source_id: r720-primary-pdf
+    locator: Section 4 & Section 6, Tables 2, 3, 4, and 8, Figure 4, pp. 7-10, 13-14
+    relation: supports
+- claim_id: r720-claim-no-cross-task-sharing-and-bn-limitation
+  kind: limitation
+  statement: Because each task's binary mask operates independently on the fixed initial backbone, tasks added later cannot transfer or share newly learned features with one another, and on deep batch-normalized backbones (ResNet-50, DenseNet-121) under large domain shifts such as WikiArt, keeping batch-normalization parameters fixed leaves a 4-5% error gap unless task-specific batch-normalization parameters (~1 MB overhead) are also trained.
+  evidence:
+  - source_id: r720-primary-pdf
+    locator: Section 4, Section 5.3, and Section 7, Tables 4 and 7, pp. 9-10, 12-13, 15
+    relation: supports
+evidence_sources:
+- source_id: r720-primary-pdf
+  title: 'Piggyback: Adapting a Single Network to Multiple Tasks by Learning to Mask Weights'
+  authors: &id001
+  - Arun Mallya
+  - Dillon Davis
+  - Svetlana Lazebnik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1801.06519.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Piggyback+Adapting+a+Single+Network+to+Multiple+Tasks+Mallya&format=xml
+  version: Proceedings of the European Conference on Computer Vision (ECCV 2018), LNCS vol. 11208, pp. 67-82 (2018) (897530 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:23:00Z'
+  sha256: 126b04aaaf45cc8fd4b45b915d7cd554fce8f434362d7e4f79e17131fe5f5bd2
+- source_id: r720-arxiv-abs
+  title: 'Piggyback: Adapting a Single Network to Multiple Tasks by Learning to Mask Weights (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1801.06519
+  persistent_id: https://arxiv.org/abs/1801.06519
+  version: arXiv abstract page (6653 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:23:00Z'
+  sha256: 276ce469d4b8be6081816e6e305cd0f4958724a07ba535d507e0953b7ea6dab7
+- source_id: r720-metadata-cr
+  title: 'Piggyback: Adapting a Single Network to Multiple Tasks by Learning to Mask Weights (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Piggyback+Adapting+a+Single+Network+to+Multiple+Tasks+Mallya&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Piggyback+Adapting+a+Single+Network+to+Multiple+Tasks+Mallya&format=xml
+  version: Crossref API work record (746 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:23:00Z'
+  sha256: ff67204e4eb26a0e33fdf7e2ec849bbf37ef3126493de79eabe56e6e9b02ec27
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Piggyback adapts a single fixed deep neural network backbone to arbitrary sequences of new tasks by learning per-task elementwise binary weight masks.
+limitations:
+- Added tasks cannot benefit from features learned on other added tasks because all tasks only mask the fixed initial backbone weights.
+- Performance depends heavily on the diversity of the initial backbone pretraining (e.g., ImageNet initialization strongly outperforms Places365 or random initialization), and deep networks with Batch Normalization suffer a 4-5% accuracy gap on large domain shifts (such as WikiArt) unless task-specific Batch Normalization statistics and parameters are also updated.
+curation:
+  created_at: '2026-10-19T13:23:00Z'
+  updated_at: '2026-10-19T13:23:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
