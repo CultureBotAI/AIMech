@@ -1,0 +1,103 @@
+id: AIMech:LSvrgAndLKatyushaLooplessVarianceReducedGradientMethods
+name: L-SVRG and L-Katyusha (Loopless Variance-Reduced Gradient Methods)
+concept_kind: algorithm
+review_status: DRAFT
+definition: L-SVRG (Loopless Stochastic Variance-Reduced Gradient) and L-Katyusha (Loopless Katyusha) are single-loop stochastic variance-reduced optimization algorithms for finite-sum empirical risk minimization min_{x in R^d} f(x) = (1/n) sum_{i=1}^n f_i(x) that eliminate the deterministic outer epoch loop of SVRG and Katyusha and replace it with an independent biased coin flip performed at every iteration. At step k, both methods construct the unbiased variance-reduced estimator g^k = grad f_i(x^k) - grad f_i(w^k) + grad f(w^k) for i ~ Unif({1,...,n}) and update the reference point w^{k+1} to the current iterate (x^k in L-SVRG or y^k in L-Katyusha) with probability p in (0, 1] and keep w^{k+1} = w^k with probability 1 - p, achieving O((n + L/mu) log(1/epsilon)) and accelerated O((n + sqrt(nL/mu)) log(1/epsilon)) oracle complexities via a single-iteration Lyapunov contraction without requiring knowledge of the strong convexity constant mu to tune the epoch length in L-SVRG.
+identity_notes: Distinct from standard double-loop SVRG (Johnson and Zhang, 2013) and Katyusha (Allen-Zhu, 2017; AIMech:KatyushaDirectNegativeMomentumAccelerationForStochasticVarianceReducedOptimization), which require a fixed deterministic inner-loop length m (where standard SVRG theory requires m = Theta(L/mu) depending on the unknown strong convexity parameter mu). Also distinct from ANITA (Li, 2021; Round 570), which uses a decaying step-size schedule to attain O(n + sqrt(nL/epsilon)) on general convex problems, and from ProxSkip-L-SVRG (Malinovsky et al., 2022; Round 571), which embeds L-SVRG inside probabilistic proximal/communication skipping.
+aliases:
+- L-SVRG
+- Loopless SVRG
+- Loopless Stochastic Variance-Reduced Gradient
+- L-Katyusha
+- Loopless Katyusha
+definition_evidence:
+- source_id: r572-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r572-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r572-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: l-svrg-single-step-lyapunov-and-mu-free-probability-interval
+  kind: mechanism
+  statement: For L-smooth component functions f_i and mu-strongly convex average f, L-SVRG with step size eta <= 1/(6L) and reference update probability p in (0, 1] satisfies the single-step Lyapunov recursion E[Phi^{k+1}] <= (1 - eta*mu)||x^k - x^*||^2 + (1 - p/2)D^k for Phi^k = ||x^k - x^*||^2 + D^k where D^k = (4*eta^2 / (p*n)) sum_{i=1}^n ||grad f_i(w^k) - grad f_i(x^*)||^2; choosing eta = 1/(6L) and any p in [min{c/n, c*mu/L}, max{c/n, c*mu/L}] (including p = 1/n independent of mu) yields the optimal O((n + L/mu) log(1/epsilon)) total stochastic gradient complexity.
+  evidence:
+  - source_id: r572-primary-pdf
+    locator: Section 2 Eqs. (5)-(6), p. 3; Section 3 Lemmas 3.1-3.4 and Theorem 3.5, pp. 4-5; Appendix B, pp. 11-12
+    relation: supports
+- claim_id: l-katyusha-negative-momentum-accelerated-rate
+  kind: mechanism
+  statement: L-Katyusha couples the loopless reference update (w^{k+1} = y^k with probability p = 1/n) with Nesterov momentum z^{k+1} and negative momentum interpolation x^k = theta_1 z^k + theta_2 w^k + (1 - theta_1 - theta_2) y^k using sigma = mu/L, theta_1 = min{sqrt(2*sigma*n/3), 1/2}, theta_2 = 1/2, and eta = theta_2 / ((1 + theta_2)*theta_1), contracting the potential Psi^k = Z^k + Y^k + W^k by 1 - min{sigma/(6*theta_1), theta_1/(2*n)} per step and achieving the accelerated O((n + sqrt(nL/mu)) log(1/epsilon)) complexity.
+  evidence:
+  - source_id: r572-primary-pdf
+    locator: Section 4 Algorithm 2, Lemmas 4.1-4.5, and Theorem 4.6, pp. 5-6; Appendix C, pp. 12-14
+    relation: supports
+- claim_id: l-svrg-and-l-katyusha-empirical-risk-minimization-application
+  kind: application
+  statement: Applied to L2-regularized logistic regression on LIBSVM benchmark datasets (a9a, w8a, mushrooms, phishing, cod-rna), L-SVRG and L-Katyusha avoid the O(n*d) gradient-table memory overhead of SAGA while consistently outperforming looped SVRG and Katyusha across condition numbers kappa = L/mu.
+  evidence:
+  - source_id: r572-primary-pdf
+    locator: Section 5 Numerical Experiments, Figures 1-4, pp. 7-8
+    relation: supports
+- claim_id: l-svrg-and-l-katyusha-limitations
+  kind: limitation
+  statement: While L-SVRG achieves adaptive linear convergence with p = 1/n and eta = 1/(6L) without knowing mu, the accelerated L-Katyusha variant still requires knowledge of the strong convexity parameter mu (via sigma = mu/L) to set its coupling weight theta_1 = min{sqrt(2*sigma*n/3), 1/2} and mirror step z^{k+1}, and the analysis in Kovalev et al. (2020) is restricted to L-smooth, mu-strongly convex finite-sum objectives.
+  evidence:
+  - source_id: r572-primary-pdf
+    locator: Section 1, p. 2; Section 4 Algorithm 2 and Theorem 4.6, pp. 5-6
+    relation: supports
+evidence_sources:
+- source_id: r572-primary-pdf
+  title: 'Don''t Jump Through Hoops and Remove Those Loops: SVRG and Katyusha are Better Without the Outer Loop'
+  authors: &id001
+  - Dmitry Kovalev
+  - Samuel Horvath
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1901.08689.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Remove+Those+Loops+Kovalev+Horvath&format=json
+  version: Proceedings of the 31st International Conference on Algorithmic Learning Theory (ALT 2020, PMLR 117:451-467) (2020) (1134639 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:55:00Z'
+  sha256: 75b3db591e87c2f1ba23f2cca5256a91a0bab5a96a66cf74a445de359067b971
+- source_id: r572-arxiv-abs
+  title: 'Don''t Jump Through Hoops and Remove Those Loops: SVRG and Katyusha are Better Without the Outer Loop (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1901.08689
+  persistent_id: https://arxiv.org/abs/1901.08689
+  version: arXiv abstract page (7026 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:55:00Z'
+  sha256: 5954c29799f3fb60f84864a83e534c5d7017eb16ebf095d9ab38acd3fa29c0bf
+- source_id: r572-metadata-cr
+  title: 'Don''t Jump Through Hoops and Remove Those Loops: SVRG and Katyusha are Better Without the Outer Loop (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Remove+Those+Loops+Kovalev+Horvath&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=Remove+Those+Loops+Kovalev+Horvath&format=json
+  version: Crossref API work record (1854 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:55:00Z'
+  sha256: 563fcb1f15e6f30aad81f6ed0a585a53ccfbf5f9426e30b5202a81731aa54cba
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: L-SVRG and L-Katyusha are finite-sum variance-reduced optimization algorithms evaluated primarily on regularized logistic regression problems.
+limitations:
+- L-Katyusha requires knowledge of the strong convexity parameter mu (via sigma = mu/L) to set the momentum weight theta_1 = min{sqrt(2*sigma*n/3), 1/2}.
+- Each coin-flip success (occurring with probability p = 1/n) triggers a full O(n) pass over the dataset, introducing random per-iteration compute spikes.
+- Theoretical guarantees in Kovalev et al. (2020) require L-smoothness of all components f_i and mu-strong convexity of the average objective f.
+curation:
+  created_at: '2026-10-19T10:55:00Z'
+  updated_at: '2026-10-19T10:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

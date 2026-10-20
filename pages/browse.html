@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1408</strong> artificial intelligence concepts, comprising <strong>966</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1409</strong> artificial intelligence concepts, comprising <strong>967</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1408)</option>
-        <option value="curated">Curated AIMech (966)</option>
+        <option value="all">All Origins (1409)</option>
+        <option value="curated">Curated AIMech (967)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (663)</option>
+          <option value="algorithm">Algorithms (664)</option>
           <option value="mathematical_method">Mathematical Methods (153)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1408</span> of <span id="totalCount">1408</span>
+      Showing <span id="matchCount">1409</span> of <span id="totalCount">1409</span>
     </div>
   </div>
 </div>
@@ -17962,6 +17962,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="l-svrg and l-katyusha (loopless variance-reduced gradient methods) lsvrgandlkatyushalooplessvariancereducedgradientmethods aimech:lsvrgandlkatyushalooplessvariancereducedgradientmethods algorithms algorithm l-svrg (loopless stochastic variance-reduced gradient) and l-katyusha (loopless katyusha) are single-loop stochastic variance-reduced optimization algorithms for finite-sum empirical risk minimization min_{x in r^d} f(x) = (1/n) sum_{i=1}^n f_i(x) that eliminate the deterministic outer epoch loop of svrg and katyusha and replace it with an independent biased coin flip performed at every iteration. at step k, both methods construct the unbiased variance-reduced estimator g^k = grad f_i(x^k) - grad f_i(w^k) + grad f(w^k) for i ~ unif({1,...,n}) and update the reference point w^{k+1} to the current iterate (x^k in l-svrg or y^k in l-katyusha) with probability p in (0, 1] and keep w^{k+1} = w^k with probability 1 - p, achieving o((n + l/mu) log(1/epsilon)) and accelerated o((n + sqrt(nl/mu)) log(1/epsilon)) oracle complexities via a single-iteration lyapunov contraction without requiring knowledge of the strong convexity constant mu to tune the epoch length in l-svrg. distinct from standard double-loop svrg (johnson and zhang, 2013) and katyusha (allen-zhu, 2017; aimech:katyushadirectnegativemomentumaccelerationforstochasticvariancereducedoptimization), which require a fixed deterministic inner-loop length m (where standard svrg theory requires m = theta(l/mu) depending on the unknown strong convexity parameter mu). also distinct from anita (li, 2021; round 570), which uses a decaying step-size schedule to attain o(n + sqrt(nl/epsilon)) on general convex problems, and from proxskip-l-svrg (malinovsky et al., 2022; round 571), which embeds l-svrg inside probabilistic proximal/communication skipping. l-svrg loopless svrg loopless stochastic variance-reduced gradient l-katyusha loopless katyusha for l-smooth component functions f_i and mu-strongly convex average f, l-svrg with step size eta &lt;= 1/(6l) and reference update probability p in (0, 1] satisfies the single-step lyapunov recursion e[phi^{k+1}] &lt;= (1 - eta*mu)||x^k - x^*||^2 + (1 - p/2)d^k for phi^k = ||x^k - x^*||^2 + d^k where d^k = (4*eta^2 / (p*n)) sum_{i=1}^n ||grad f_i(w^k) - grad f_i(x^*)||^2; choosing eta = 1/(6l) and any p in [min{c/n, c*mu/l}, max{c/n, c*mu/l}] (including p = 1/n independent of mu) yields the optimal o((n + l/mu) log(1/epsilon)) total stochastic gradient complexity. l-katyusha couples the loopless reference update (w^{k+1} = y^k with probability p = 1/n) with nesterov momentum z^{k+1} and negative momentum interpolation x^k = theta_1 z^k + theta_2 w^k + (1 - theta_1 - theta_2) y^k using sigma = mu/l, theta_1 = min{sqrt(2*sigma*n/3), 1/2}, theta_2 = 1/2, and eta = theta_2 / ((1 + theta_2)*theta_1), contracting the potential psi^k = z^k + y^k + w^k by 1 - min{sigma/(6*theta_1), theta_1/(2*n)} per step and achieving the accelerated o((n + sqrt(nl/mu)) log(1/epsilon)) complexity. applied to l2-regularized logistic regression on libsvm benchmark datasets (a9a, w8a, mushrooms, phishing, cod-rna), l-svrg and l-katyusha avoid the o(n*d) gradient-table memory overhead of saga while consistently outperforming looped svrg and katyusha across condition numbers kappa = l/mu. while l-svrg achieves adaptive linear convergence with p = 1/n and eta = 1/(6l) without knowing mu, the accelerated l-katyusha variant still requires knowledge of the strong convexity parameter mu (via sigma = mu/l) to set its coupling weight theta_1 = min{sqrt(2*sigma*n/3), 1/2} and mirror step z^{k+1}, and the analysis in kovalev et al. (2020) is restricted to l-smooth, mu-strongly convex finite-sum objectives. don&#39;t jump through hoops and remove those loops: svrg and katyusha are better without the outer loop don&#39;t jump through hoops and remove those loops: svrg and katyusha are better without the outer loop (arxiv abstract) don&#39;t jump through hoops and remove those loops: svrg and katyusha are better without the outer loop (crossref metadata) dmitry kovalev samuel horvath peter richtarik dmitry kovalev samuel horvath peter richtarik dmitry kovalev samuel horvath peter richtarik">
+        <td>
+          <a href="curated/LSvrgAndLKatyushaLooplessVarianceReducedGradientMethods.html" style="font-weight: 600; font-size: 1rem;">L-SVRG and L-Katyusha (Loopless Variance-Reduced Gradient Methods)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> L-SVRG, Loopless SVRG…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            L-SVRG (Loopless Stochastic Variance-Reduced Gradient) and L-Katyusha (Loopless Katyusha) are single-loop stochastic variance-reduced optimi…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:LSvrgAndLKatyushaLooplessVarianceReducedGradientMethods</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
