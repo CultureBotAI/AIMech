@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MPT (Multitask Prompt Tuning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>MPT (Multitask Prompt Tuning)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MPT (Multitask Prompt Tuning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MPTMultitaskPromptTuning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Multitask Prompt Tuning, MPT Prompt Decomposition and Distillation, MPT* Multitask Target Prompt Tuning
+    </div>
+
+  <div class="detail-desc">
+    A parameter-efficient multitask prompt transfer methodology for frozen pre-trained language models that decomposes each task&#39;s soft prompt matrix into the Hadamard product of a single task-shared prompt matrix P^* and a rank-one task-specific matrix W_k = u_k (x) v_k^T, learns this decomposition during source training via logit and hidden-state knowledge distillation from independently trained teacher prompts, and adapts P^* to downstream target tasks via two-speed low-rank multiplicative updates.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Zhen Wang, Rameswar Panda, Leonid Karlinsky, Rogerio Feris, Huan Sun, and Yoon Kim (ICLR 2023, arXiv:2303.02861). Distinct from SPoT (Vu et al., ACL 2022; AIMech Round 698), which trains a single unfactorized prompt on a source mixture or retrieves top-k source prompts by cosine similarity without multiplicative rank-one prompt decomposition or knowledge distillation from per-task teacher prompts. Both single-target adaptation (MPT, tuning (l x d) + (l + d) parameters per task) and multitask target group adaptation (MPT*, sharing P^* across tau target tasks for (l x d)/tau + (l + d) parameters per task) are covered within this record.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#mpt-hadamard-rank-one-prompt-decomposition-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    MPT decomposes the soft prompt P_hat_k in R^{l x d} for task k into the Hadamard product of a slow task-shared prompt matrix P^* in R^{l x d} and a fast rank-one task-specific matrix W_k = u_k (x) v_k^T formed by outer product of vectors u_k in R^l and v_k in R^d: P_hat_k = P^* o (u_k (x) v_k^T) (Eq. 2), requiring only (l x d) + (l + d) = 77.6K tunable parameters per single target task (0.035% of T5-Base&#39;s 220M parameters, collapsible into an l x d matrix after training) and (l x d)/tau + (l + d) = 10.5K parameters per task for multitask target adaptation across tau = 8 GLUE tasks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r702-primary-pdf">Multitask Prompt Tuning Enables Parameter-Efficient Transfer Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Prompt decomposition, Eq. 2 &amp; Figure 3, p. 4; Section 3.2 Parameter-efficiency, p. 5; Section 4.2 Table 1, p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#mpt-logit-and-hidden-state-prompt-distillation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To prevent the shared component P^* from overfitting to large source datasets during stochastic multitask training, MPT trains student prompts P_hat_k = P^* o (u_k (x) v_k^T) against separately trained per-task teacher prompts P_k^(teacher) by minimizing L_Total = L_PLM + lambda (L_Logits + L_Hidden) (Eq. 5), combining temperature-scaled output probability KL divergence L_Logits (Eq. 3) and encoder/decoder intermediate hidden state mean squared error L_Hidden = sum (H_{k,i} - H_{k,i}^(teacher))^2 (Eq. 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r702-primary-pdf">Multitask Prompt Tuning Enables Parameter-Efficient Transfer Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Prompt distillation, Eqs. 3-5, p. 4; Section 3.2 Source Training and Target Adaptation, p. 5; Section 4.3 Ablation Studies, Table 6, pp. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#mpt-nlu-and-nlg-benchmarks-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated on 23 NLP datasets across GLUE (85.6 average with 77.6K params and 85.8 for MPT* with 10.5K params on T5-Base, outperforming 220M full finetuning at 84.9), SuperGLUE (74.1 single-task and 76.1 multitask, +16.3% over vanilla Prompt Tuning), MRQA, Others (WinoGrande, Yelp-2, SciTail, PAWS), 4/16/32-shot adaptation, and NLU-to-NLG transfer on E2E and WebNLG.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r702-primary-pdf">Multitask Prompt Tuning Enables Parameter-Efficient Transfer Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2, Tables 1-5 &amp; Figure 4, pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#mpt-mrqa-gap-and-long-prompt-overfitting-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    MPT requires a two-step source pretraining pipeline (training separate teacher prompts for every source task before joint multitask distillation), still trails full model finetuning and 1.9M-parameter Adapters on extractive reading comprehension (MRQA: 72.2 vs. 74.7), and suffers a 1.8% SuperGLUE accuracy drop when prompt length l is increased from 300 to 400 due to overfitting.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r702-primary-pdf">Multitask Prompt Tuning Enables Parameter-Efficient Transfer Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Source Training and Target Adaptation, p. 5; Section 4.2 Results and Analysis, Table 2, pp. 6-7; Section 4.3 Prompt length, Figure 5, p. 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Source training requires first training individual teacher soft prompts on every source dataset before running joint multitask knowledge distillation.</li>
+      <li>On complex question answering benchmarks (MRQA), a noticeable accuracy gap remains between 77.6K-parameter MPT (72.2 F1) and 220M-parameter full finetuning (74.7 F1).</li>
+      <li>Increasing the prompt length l beyond 300 tokens (e.g., to l = 400) degrades downstream SuperGLUE accuracy by 1.8% due to overfitting, and freezing either P^* or (u_t, v_t) during target adaptation substantially degrades accuracy (to 71.3% or 62.5%).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MPT adapts frozen pre-trained Transformer language models across multiple tasks by decomposing and distilling continuous soft prompt matrices.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r702-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r702-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2303.02861.pdf" target="_blank" rel="noopener">Multitask Prompt Tuning Enables Parameter-Efficient Transfer Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhen Wang, Rameswar Panda, Leonid Karlinsky, Rogerio Feris, Huan Sun, Yoon Kim
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Multitask+Prompt+Tuning+Enables+Parameter-Efficient+Transfer+Learning&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a7e832564edd…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r702-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r702-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2303.02861" target="_blank" rel="noopener">Multitask Prompt Tuning Enables Parameter-Efficient Transfer Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhen Wang, Rameswar Panda, Leonid Karlinsky, Rogerio Feris, Huan Sun, Yoon Kim
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2303.02861</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9198d0496877…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r702-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r702-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Multitask+Prompt+Tuning+Enables+Parameter-Efficient+Transfer+Learning&amp;format=xml" target="_blank" rel="noopener">Multitask Prompt Tuning Enables Parameter-Efficient Transfer Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhen Wang, Rameswar Panda, Leonid Karlinsky, Rogerio Feris, Huan Sun, Yoon Kim
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Multitask+Prompt+Tuning+Enables+Parameter-Efficient+Transfer+Learning&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9c040a78ddb5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:05:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:05:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MPTMultitaskPromptTuning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MPTMultitaskPromptTuning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
