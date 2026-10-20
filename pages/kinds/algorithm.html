@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">724 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">725 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">724</span> of <span id="totalCount">724</span>
+      Showing <span id="matchCount">725</span> of <span id="totalCount">725</span>
     </div>
   </div>
 </div>
@@ -1850,6 +1850,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="badam (block coordinate descent with adam&#39;s update rule) badamblockcoordinateadamfullparameteroptimization aimech:badamblockcoordinateadamfullparameteroptimization algorithms algorithm a memory-efficient full-parameter optimization algorithm for large language models that partitions model parameters theta in r^d into d ordered blocks pi = {pi_1, ..., pi_d} (such as d transformer modules in random-reshuffling, ascending, or descending order) and executes block coordinate descent (bcd) where each active block theta_{pi_i} is updated for k inner adam steps from zero-initialized block momentum and second-moment states (m_{pi_i}^{t,0} = 0, v_{pi_i}^{t,0} = 0) while all d - 1 inactive blocks remain frozen at their most recent fp16 values, followed by deallocating the active block&#39;s fp32 gradient and optimizer states ((g_{pi_i}, m_{pi_i}, v_{pi_i}) &lt;- none) before activating the next block. distinct from parameter-efficient fine-tuning methods such as lora (aimech:lowrankadaptation, hu et al. 2021), which restrict weight updates to low-rank adapter subspaces rather than learning full-rank perturbations across all model parameters. distinct from lomo (aimech:lomolowmemoryoptimization, lv et al. 2023), which performs stateless on-the-fly fp16 sgd updates during backpropagation without adam moments or gradient accumulation, and from galore (aimech:galoregradientlowrankprojection, zhao et al. 2024), which projects gradients of all layers into svd subspaces simultaneously rather than performing block coordinate adam updates with per-block state clearing. badam badam optimizer block coordinate adam block coordinate descent with adam update rule for an m-billion-parameter model partitioned into d equal-sized blocks, storing up-to-date parameters in fp16 (2m gb) and allocating fp32 master parameters, fp32 gradients, fp32 momentum, and fp32 second moments only for the single active block theta_{pi_i} reduces parameter/gradient/optimizer memory from 18m gb in mixed-precision adam to 2m + 16m/d gb (eq. 5, table 1); furthermore, when blocks correspond to d consecutive transformer modules, updating only one active block at depth i requires only i unit-backward-passes per batch and avoids computing parameter gradients d z_l / d theta_l for intermediate modules, reducing total unit-backward-passes over kd batches from k d^2 in adam/lora to k d(d + 1) / 2 (eq. 6). under global l-smoothness, block l_i-smoothness (l_bar = max_i l_i), and bounded block partial derivatives ||g_i^{t,k}|| &lt;= g (assumptions d.1-d.2), the coordinate adaptive step matrix h_i^{t,k} = diag(1 / (sqrt(v_hat_i^{t,k}) + lambda)) satisfies (1 / (2g)) i &lt;= h_i^{t,k} &lt;= (1 / lambda) i (corollary d.3), the inner adam-vs-gd deviation is bounded by ||e_i^t|| &lt;= (2 l_i alpha k / lambda^2) ||g_i^{t,1}|| (lemma d.7), each block update satisfies l(theta_i^t) - l(theta_{i-1}^t) &lt;= -(alpha k / (8g)) ||grad_i l(theta_i^t)||^2 (corollary d.8), and with step size alpha = (lambda / (4 l_bar k d^{1/4})) min{1 / (k d^{1/4}), lambda / (6g)} one block-epoch achieves l(theta^{t+1}) - l(theta^t) &lt;= -(alpha k / (32g)) ||grad l(theta^t)||^2, reaching a delta-stationary point in at most o(delta^{-2}) gradient evaluations (theorem d.4, corollary d.5). finetuning llama 3-8b (d = 32) on a single rtx3090-24gb gpu (consuming 23.5 gb total memory vs 144.8 gb+ for adam and cutting per-epoch backward time from 3.20 hours in lora and 3.70 hours in lomo to 1.74 hours, tables 2-3) and llama 3-70b (d = 80) on 4xa100-80gb gpus, badam learns full-parameter weight perturbations delta w = w_k - w_0 whose effective rank min{r : cvar(r) &gt;= 0.9} matches full adam (up to ~2000-2500 across layers, figure 2), outperforming lora, lomo, and galore on alpaca-gpt4 mt-bench (6.65 vs 6.27 lora and 6.23 adam on llama 3-8b, table 5) and mathinstruct zero-shot math benchmarks (44.4 vs 43.3 lora and 44.1 adam on llama 3-8b; 62.7 vs 59.0 lora on llama 3-70b, table 6). badam requires selecting the inner adam step count k per block (guided by k = min{max{n / (b d), 50}, 100} in eq. 7, since too small k yields insufficient adam adaptation after zeroing states and too large k over-optimizes a single block before switching), and the formal o(delta^{-2}) convergence proof in theorem d.4 is established for deterministic block gradients rather than stochastic mini-batch gradients. badam: a memory efficient full parameter optimization method for large language models badam: a memory efficient full parameter optimization method for large language models (arxiv abstract) badam: a memory efficient full parameter optimization method for large language models (crossref metadata) qijun luo hengxu yu xiao li qijun luo hengxu yu xiao li qijun luo hengxu yu xiao li">
+        <td>
+          <a href="../curated/BAdamBlockCoordinateAdamFullParameterOptimization.html" style="font-weight: 600; font-size: 1rem;">BAdam (Block Coordinate Descent with Adam&#39;s Update Rule)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> BAdam, BAdam Optimizer…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A memory-efficient full-parameter optimization algorithm for large language models that partitions model parameters theta in R^d into D orde…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:BAdamBlockCoordinateAdamFullParameterOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>

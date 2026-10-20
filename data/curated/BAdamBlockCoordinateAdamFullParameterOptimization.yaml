@@ -1,0 +1,105 @@
+id: AIMech:BAdamBlockCoordinateAdamFullParameterOptimization
+name: BAdam (Block Coordinate Descent with Adam's Update Rule)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A memory-efficient full-parameter optimization algorithm for large language models that partitions model parameters theta in R^d into D ordered blocks pi = {pi_1, ..., pi_D} (such as D transformer modules in random-reshuffling, ascending, or descending order) and executes block coordinate descent (BCD) where each active block theta_{pi_i} is updated for K inner Adam steps from zero-initialized block momentum and second-moment states (m_{pi_i}^{t,0} = 0, v_{pi_i}^{t,0} = 0) while all D - 1 inactive blocks remain frozen at their most recent FP16 values, followed by deallocating the active block's FP32 gradient and optimizer states ((g_{pi_i}, m_{pi_i}, v_{pi_i}) <- None) before activating the next block.
+identity_notes: Distinct from parameter-efficient fine-tuning methods such as LoRA (AIMech:LowRankAdaptation, Hu et al. 2021), which restrict weight updates to low-rank adapter subspaces rather than learning full-rank perturbations across all model parameters. Distinct from LOMO (AIMech:LOMOLowMemoryOptimization, Lv et al. 2023), which performs stateless on-the-fly FP16 SGD updates during backpropagation without Adam moments or gradient accumulation, and from GaLore (AIMech:GaLoreGradientLowRankProjection, Zhao et al. 2024), which projects gradients of all layers into SVD subspaces simultaneously rather than performing block coordinate Adam updates with per-block state clearing.
+aliases:
+- BAdam
+- BAdam Optimizer
+- Block Coordinate Adam
+- Block Coordinate Descent with Adam Update Rule
+definition_evidence:
+- source_id: r634-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r634-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r634-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r634-memory-complexity-and-consecutive-module-backward-pass-reduction
+  kind: mechanism
+  statement: For an M-billion-parameter model partitioned into D equal-sized blocks, storing up-to-date parameters in FP16 (2M GB) and allocating FP32 master parameters, FP32 gradients, FP32 momentum, and FP32 second moments only for the single active block theta_{pi_i} reduces parameter/gradient/optimizer memory from 18M GB in mixed-precision Adam to 2M + 16M/D GB (Eq. 5, Table 1); furthermore, when blocks correspond to D consecutive transformer modules, updating only one active block at depth i requires only i unit-backward-passes per batch and avoids computing parameter gradients d z_l / d theta_l for intermediate modules, reducing total unit-backward-passes over KD batches from K D^2 in Adam/LoRA to K D(D + 1) / 2 (Eq. 6).
+  evidence:
+  - source_id: r634-primary-pdf
+    locator: Section 1 Table 1 & Section 2.2.1-2.2.2 Eqs. (5)-(6), Tables 2-4, pp. 2, 5-7
+    relation: supports
+- claim_id: r634-deterministic-block-descent-and-stationary-point-complexity
+  kind: scope
+  statement: Under global L-smoothness, block L_i-smoothness (L_bar = max_i L_i), and bounded block partial derivatives ||g_i^{t,k}|| <= G (Assumptions D.1-D.2), the coordinate adaptive step matrix H_i^{t,k} = diag(1 / (sqrt(v_hat_i^{t,k}) + lambda)) satisfies (1 / (2G)) I <= H_i^{t,k} <= (1 / lambda) I (Corollary D.3), the inner Adam-vs-GD deviation is bounded by ||e_i^t|| <= (2 L_i alpha K / lambda^2) ||g_i^{t,1}|| (Lemma D.7), each block update satisfies L(theta_i^t) - L(theta_{i-1}^t) <= -(alpha K / (8G)) ||grad_i L(theta_i^t)||^2 (Corollary D.8), and with step size alpha = (lambda / (4 L_bar K D^{1/4})) min{1 / (K D^{1/4}), lambda / (6G)} one block-epoch achieves L(theta^{t+1}) - L(theta^t) <= -(alpha K / (32G)) ||grad L(theta^t)||^2, reaching a delta-stationary point in at most O(delta^{-2}) gradient evaluations (Theorem D.4, Corollary D.5).
+  evidence:
+  - source_id: r634-primary-pdf
+    locator: Section 2.1 Theorem 2.1 & Appendix D Corollary D.3, Theorem D.4, Corollary D.5, Lemmas D.6-D.8, pp. 4-5, 23-26
+    relation: supports
+- claim_id: r634-high-effective-rank-and-llama3-finetuning-performance
+  kind: application
+  statement: 'Finetuning Llama 3-8B (D = 32) on a single RTX3090-24GB GPU (consuming 23.5 GB total memory vs 144.8 GB+ for Adam and cutting per-epoch backward time from 3.20 hours in LoRA and 3.70 hours in LOMO to 1.74 hours, Tables 2-3) and Llama 3-70B (D = 80) on 4xA100-80GB GPUs, BAdam learns full-parameter weight perturbations Delta W = W_K - W_0 whose effective rank min{r : cvar(r) >= 0.9} matches full Adam (up to ~2000-2500 across layers, Figure 2), outperforming LoRA, LOMO, and GaLore on Alpaca-GPT4 MT-bench (6.65 vs 6.27 LoRA and 6.23 Adam on Llama 3-8B, Table 5) and MathInstruct zero-shot math benchmarks (44.4 vs 43.3 LoRA and 44.1 Adam on Llama 3-8B; 62.7 vs 59.0 LoRA on Llama 3-70B, Table 6).'
+  evidence:
+  - source_id: r634-primary-pdf
+    locator: Sections 3.1-3.3 Tables 2-6 & Figure 2, pp. 6-9
+    relation: supports
+  - source_id: r634-metadata-cr
+    locator: NeurIPS 2024 bibliographic record (conf/nips/LuoYL24)
+    relation: supports
+- claim_id: r634-inner-step-budget-k-selection-and-deterministic-theory-scope
+  kind: limitation
+  statement: BAdam requires selecting the inner Adam step count K per block (guided by K = min{max{n / (B D), 50}, 100} in Eq. 7, since too small K yields insufficient Adam adaptation after zeroing states and too large K over-optimizes a single block before switching), and the formal O(delta^{-2}) convergence proof in Theorem D.4 is established for deterministic block gradients rather than stochastic mini-batch gradients.
+  evidence:
+  - source_id: r634-primary-pdf
+    locator: Section 2.1, Section 5, Appendix B.2 Eq. (7) & Appendix D, pp. 4-5, 10, 19, 23
+    relation: supports
+evidence_sources:
+- source_id: r634-primary-pdf
+  title: 'BAdam: A Memory Efficient Full Parameter Optimization Method for Large Language Models'
+  authors: &id001
+  - Qijun Luo
+  - Hengxu Yu
+  - Xiao Li
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2404.02827.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/LuoYL24
+  version: 38th Conference on Neural Information Processing Systems (NeurIPS 2024) (2024) (1294305 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:57:00Z'
+  sha256: 9920fa7fc1c1ce1f5315e321f90a758001790f4acba8ba379360e2a45290bdf8
+- source_id: r634-arxiv-abs
+  title: 'BAdam: A Memory Efficient Full Parameter Optimization Method for Large Language Models (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2404.02827
+  persistent_id: https://arxiv.org/abs/2404.02827
+  version: arXiv abstract page (6283 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:57:00Z'
+  sha256: af2bab439fcaeeb3f9355b2babbd536e63b0a33c7bedc11cb2740148d6a29d75
+- source_id: r634-metadata-cr
+  title: 'BAdam: A Memory Efficient Full Parameter Optimization Method for Large Language Models (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/LuoYL24
+  persistent_id: https://dblp.org/rec/conf/nips/LuoYL24
+  version: Crossref API work record (1173 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:57:00Z'
+  sha256: 2b09c8a4a91d87fb83bcbb28d3c69e29fdf9723bd9b67523199b6919d7a854da
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: BAdam is a memory-efficient full-parameter optimizer for fine-tuning and continual pre-training of deep transformer neural networks.
+limitations:
+- Requires discarding and re-initializing the block momentum and second-moment states to zero at every block switch (Lines 6 and 15 of Algorithm 1), so inner step count K must be large enough (typically K in [50, 100]) to warm up Adam's moments on the active block without over-optimizing it.
+- Theoretical descent and O(delta^{-2}) complexity guarantees (Theorem 2.1 / Theorem D.4) are proved for deterministic block gradients, leaving stochastic-gradient BCD-Adam convergence analysis as future work.
+- When gradient checkpointing is enabled across all transformer layers to fit activations in GPU memory, the required re-forward pass during backpropagation reduces BAdam's wall-clock backward-pass speedup relative to the theoretical 2x unit-backward-pass reduction.
+curation:
+  created_at: '2026-10-19T11:57:00Z'
+  updated_at: '2026-10-19T11:57:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

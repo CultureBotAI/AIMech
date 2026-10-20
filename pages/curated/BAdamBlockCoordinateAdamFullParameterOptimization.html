@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BAdam (Block Coordinate Descent with Adam&#39;s Update Rule) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>BAdam (Block Coordinate Descent with Adam&#39;s Update Rule)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">BAdam (Block Coordinate Descent with Adam&#39;s Update Rule)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BAdamBlockCoordinateAdamFullParameterOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> BAdam, BAdam Optimizer, Block Coordinate Adam, Block Coordinate Descent with Adam Update Rule
+    </div>
+
+  <div class="detail-desc">
+    A memory-efficient full-parameter optimization algorithm for large language models that partitions model parameters theta in R^d into D ordered blocks pi = {pi_1, ..., pi_D} (such as D transformer modules in random-reshuffling, ascending, or descending order) and executes block coordinate descent (BCD) where each active block theta_{pi_i} is updated for K inner Adam steps from zero-initialized block momentum and second-moment states (m_{pi_i}^{t,0} = 0, v_{pi_i}^{t,0} = 0) while all D - 1 inactive blocks remain frozen at their most recent FP16 values, followed by deallocating the active block&#39;s FP32 gradient and optimizer states ((g_{pi_i}, m_{pi_i}, v_{pi_i}) &lt;- None) before activating the next block.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from parameter-efficient fine-tuning methods such as LoRA (AIMech:LowRankAdaptation, Hu et al. 2021), which restrict weight updates to low-rank adapter subspaces rather than learning full-rank perturbations across all model parameters. Distinct from LOMO (AIMech:LOMOLowMemoryOptimization, Lv et al. 2023), which performs stateless on-the-fly FP16 SGD updates during backpropagation without Adam moments or gradient accumulation, and from GaLore (AIMech:GaLoreGradientLowRankProjection, Zhao et al. 2024), which projects gradients of all layers into SVD subspaces simultaneously rather than performing block coordinate Adam updates with per-block state clearing.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r634-memory-complexity-and-consecutive-module-backward-pass-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For an M-billion-parameter model partitioned into D equal-sized blocks, storing up-to-date parameters in FP16 (2M GB) and allocating FP32 master parameters, FP32 gradients, FP32 momentum, and FP32 second moments only for the single active block theta_{pi_i} reduces parameter/gradient/optimizer memory from 18M GB in mixed-precision Adam to 2M + 16M/D GB (Eq. 5, Table 1); furthermore, when blocks correspond to D consecutive transformer modules, updating only one active block at depth i requires only i unit-backward-passes per batch and avoids computing parameter gradients d z_l / d theta_l for intermediate modules, reducing total unit-backward-passes over KD batches from K D^2 in Adam/LoRA to K D(D + 1) / 2 (Eq. 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r634-primary-pdf">BAdam: A Memory Efficient Full Parameter Optimization Method for Large Language Models</a></span>
+        <span>· <strong>Locator:</strong> Section 1 Table 1 &amp; Section 2.2.1-2.2.2 Eqs. (5)-(6), Tables 2-4, pp. 2, 5-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r634-deterministic-block-descent-and-stationary-point-complexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under global L-smoothness, block L_i-smoothness (L_bar = max_i L_i), and bounded block partial derivatives ||g_i^{t,k}|| &lt;= G (Assumptions D.1-D.2), the coordinate adaptive step matrix H_i^{t,k} = diag(1 / (sqrt(v_hat_i^{t,k}) + lambda)) satisfies (1 / (2G)) I &lt;= H_i^{t,k} &lt;= (1 / lambda) I (Corollary D.3), the inner Adam-vs-GD deviation is bounded by ||e_i^t|| &lt;= (2 L_i alpha K / lambda^2) ||g_i^{t,1}|| (Lemma D.7), each block update satisfies L(theta_i^t) - L(theta_{i-1}^t) &lt;= -(alpha K / (8G)) ||grad_i L(theta_i^t)||^2 (Corollary D.8), and with step size alpha = (lambda / (4 L_bar K D^{1/4})) min{1 / (K D^{1/4}), lambda / (6G)} one block-epoch achieves L(theta^{t+1}) - L(theta^t) &lt;= -(alpha K / (32G)) ||grad L(theta^t)||^2, reaching a delta-stationary point in at most O(delta^{-2}) gradient evaluations (Theorem D.4, Corollary D.5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r634-primary-pdf">BAdam: A Memory Efficient Full Parameter Optimization Method for Large Language Models</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1 Theorem 2.1 &amp; Appendix D Corollary D.3, Theorem D.4, Corollary D.5, Lemmas D.6-D.8, pp. 4-5, 23-26</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r634-high-effective-rank-and-llama3-finetuning-performance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Finetuning Llama 3-8B (D = 32) on a single RTX3090-24GB GPU (consuming 23.5 GB total memory vs 144.8 GB+ for Adam and cutting per-epoch backward time from 3.20 hours in LoRA and 3.70 hours in LOMO to 1.74 hours, Tables 2-3) and Llama 3-70B (D = 80) on 4xA100-80GB GPUs, BAdam learns full-parameter weight perturbations Delta W = W_K - W_0 whose effective rank min{r : cvar(r) &gt;= 0.9} matches full Adam (up to ~2000-2500 across layers, Figure 2), outperforming LoRA, LOMO, and GaLore on Alpaca-GPT4 MT-bench (6.65 vs 6.27 LoRA and 6.23 Adam on Llama 3-8B, Table 5) and MathInstruct zero-shot math benchmarks (44.4 vs 43.3 LoRA and 44.1 Adam on Llama 3-8B; 62.7 vs 59.0 LoRA on Llama 3-70B, Table 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r634-primary-pdf">BAdam: A Memory Efficient Full Parameter Optimization Method for Large Language Models</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1-3.3 Tables 2-6 &amp; Figure 2, pp. 6-9</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r634-metadata-cr">BAdam: A Memory Efficient Full Parameter Optimization Method for Large Language Models (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> NeurIPS 2024 bibliographic record (conf/nips/LuoYL24)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r634-inner-step-budget-k-selection-and-deterministic-theory-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    BAdam requires selecting the inner Adam step count K per block (guided by K = min{max{n / (B D), 50}, 100} in Eq. 7, since too small K yields insufficient Adam adaptation after zeroing states and too large K over-optimizes a single block before switching), and the formal O(delta^{-2}) convergence proof in Theorem D.4 is established for deterministic block gradients rather than stochastic mini-batch gradients.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r634-primary-pdf">BAdam: A Memory Efficient Full Parameter Optimization Method for Large Language Models</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Section 5, Appendix B.2 Eq. (7) &amp; Appendix D, pp. 4-5, 10, 19, 23</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires discarding and re-initializing the block momentum and second-moment states to zero at every block switch (Lines 6 and 15 of Algorithm 1), so inner step count K must be large enough (typically K in [50, 100]) to warm up Adam&#39;s moments on the active block without over-optimizing it.</li>
+      <li>Theoretical descent and O(delta^{-2}) complexity guarantees (Theorem 2.1 / Theorem D.4) are proved for deterministic block gradients, leaving stochastic-gradient BCD-Adam convergence analysis as future work.</li>
+      <li>When gradient checkpointing is enabled across all transformer layers to fit activations in GPU memory, the required re-forward pass during backpropagation reduces BAdam&#39;s wall-clock backward-pass speedup relative to the theoretical 2x unit-backward-pass reduction.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            BAdam is a memory-efficient full-parameter optimizer for fine-tuning and continual pre-training of deep transformer neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r634-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r634-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2404.02827.pdf" target="_blank" rel="noopener">BAdam: A Memory Efficient Full Parameter Optimization Method for Large Language Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Qijun Luo, Hengxu Yu, Xiao Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/LuoYL24</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9920fa7fc1c1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r634-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r634-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2404.02827" target="_blank" rel="noopener">BAdam: A Memory Efficient Full Parameter Optimization Method for Large Language Models (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Qijun Luo, Hengxu Yu, Xiao Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2404.02827</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:af2bab439fca…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r634-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r634-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/LuoYL24" target="_blank" rel="noopener">BAdam: A Memory Efficient Full Parameter Optimization Method for Large Language Models (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Qijun Luo, Hengxu Yu, Xiao Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/LuoYL24</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2b09c8a4a91d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:57:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:57:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BAdamBlockCoordinateAdamFullParameterOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BAdamBlockCoordinateAdamFullParameterOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
