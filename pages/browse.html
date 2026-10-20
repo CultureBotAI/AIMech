@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1456</strong> artificial intelligence concepts, comprising <strong>1014</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1457</strong> artificial intelligence concepts, comprising <strong>1015</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1456)</option>
-        <option value="curated">Curated AIMech (1014)</option>
+        <option value="all">All Origins (1457)</option>
+        <option value="curated">Curated AIMech (1015)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (710)</option>
+          <option value="algorithm">Algorithms (711)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1456</span> of <span id="totalCount">1456</span>
+      Showing <span id="matchCount">1457</span> of <span id="totalCount">1457</span>
     </div>
   </div>
 </div>
@@ -36154,6 +36154,32 @@
         </td>
         <td>
             <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="yellowfin automatic momentum and learning rate tuner yellowfinautomaticmomentumandlearningratetuner aimech:yellowfinautomaticmomentumandlearningratetuner algorithms algorithm an automatic hyperparameter tuning algorithm for polyak heavy-ball momentum stochastic gradient descent (x_{t+1} = x_t - alpha_t grad f_{s_t}(x_t) + mu_t (x_t - x_{t-1})) that estimates extremal generalized curvatures (h_max, h_min) over a sliding window of squared gradient norms h_t = ||g_t||^2, total coordinate-wise gradient variance c = 1^t (g^2_bar - (g_bar)^2), and local quadratic distance to optimum d from exponential moving averages of ||g_t|| / ||g_t||^2, and at each iteration solves the singlestep noisy-quadratic surrogate minimization min_{mu_t, alpha_t} (mu_t d^2 + alpha_t^2 c) subject to mu_t &gt;= ((sqrt(h_max / h_min) - 1) / (sqrt(h_max / h_min) + 1))^2 and alpha_t = (1 - sqrt(mu_t))^2 / h_min in closed form via vieta&#39;s cubic substitution, optionally adjusting algorithmic momentum via a negative-feedback control loop in asynchronous settings. distinct from per-coordinate adaptive learning-rate methods (adagrad, rmsprop, adam) and from lookahead or swats: yellowfin tunes a single global learning rate alpha_t and a single global polyak momentum parameter mu_t at every step by enforcing the momentum operator&#39;s robust-region invariants (1 - sqrt(mu_t))^2 &lt;= alpha_t h &lt;= (1 + sqrt(mu_t))^2 across the dynamic range nu = h_max / h_min of generalized curvatures so that the bias operator a_t has homogeneous spectral radius sqrt(mu_t) and the variance operator b_t has spectral radius mu_t. yellowfin yellowfin optimizer yellowfin momentum tuner closed-loop yellowfin for any scalar or multidimensional objective whose generalized curvature eigenvalues h satisfy the robust-region inequality (1 - sqrt(mu))^2 &lt;= alpha h &lt;= (1 + sqrt(mu))^2, the polyak momentum bias operator a_t has complex-conjugate eigenvalues of magnitude sqrt(mu) so its spectral radius is rho(a_t) = sqrt(mu) independent of alpha and h (lemmas 3 and 7), and under the exact same condition the 3x3 stochastic variance operator b has spectral radius rho(b) = mu (lemmas 6 and 10), reducing the expected squared distance surrogate to mu^t ||x_0 - x*||^2 + (1 - mu^t) alpha^2 c / (1 - mu). substituting x = sqrt(mu) in [0, 1) and alpha = (1 - x)^2 / h_min into singlestep (eq. 15) yields the unimodal quartic objective p(x) = x^2 d^2 + (1 - x)^4 c / h_min^2, whose unique stationary point x_p in (0, 1) solves the cubic equation 2 x d^2 - (4 c / h_min^2)(1 - x)^3 = 0 in closed form via vieta&#39;s substitution, giving the exact constrained optimizer sqrt(mu_t) = max(x_p, (sqrt(h_max / h_min) - 1) / (sqrt(h_max / h_min) + 1)) from o(d) gradient-only measurement oracles curvaturerange, variance, and distance. in asynchronous-parallel training with staleness tau, stale gradients induce extra implicit momentum so total system momentum mu_t exceeds algorithmic momentum mu; closed-loop yellowfin (algorithm 5) estimates mu_hat_t = median((x_{t-tau} - x_{t-tau-1} + alpha grad f_{s_{t-tau-1}}(x_{t-tau-1})) / (x_{t-tau-1} - x_{t-tau-2})) and applies negative feedback mu &lt;- mu + gamma (mu* - mu_hat_t), achieving up to 2.69x speedup over adam on 16-worker asynchronous resnet training. because yellowfin approximates directional hessian curvature by squared stochastic gradient norms h_t = ||g_t||^2 under a negative log-likelihood fisher assumption, abrupt steep slopes and exploding gradients in non-stationary recurrent or sequence-to-sequence landscapes can corrupt the upper curvature envelope h_max unless stabilized by capping envelope growth at 100 * h_max and clipping gradients at threshold sqrt(h_max). yellowfin and the art of momentum tuning yellowfin and the art of momentum tuning (arxiv abstract) yellowfin and the art of momentum tuning (crossref metadata) jian zhang ioannis mitliagkas christopher ré jian zhang ioannis mitliagkas christopher ré jian zhang ioannis mitliagkas christopher ré">
+        <td>
+          <a href="curated/YellowFinAutomaticMomentumAndLearningRateTuner.html" style="font-weight: 600; font-size: 1rem;">YellowFin Automatic Momentum and Learning Rate Tuner</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> YellowFin, YellowFin Optimizer…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An automatic hyperparameter tuning algorithm for Polyak heavy-ball momentum stochastic gradient descent (x_{t+1} = x_t - alpha_t grad f_{S_t…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:YellowFinAutomaticMomentumAndLearningRateTuner</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

@@ -1,0 +1,101 @@
+id: AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+name: YellowFin Automatic Momentum and Learning Rate Tuner
+concept_kind: algorithm
+review_status: DRAFT
+definition: An automatic hyperparameter tuning algorithm for Polyak heavy-ball momentum stochastic gradient descent (x_{t+1} = x_t - alpha_t grad f_{S_t}(x_t) + mu_t (x_t - x_{t-1})) that estimates extremal generalized curvatures (h_max, h_min) over a sliding window of squared gradient norms h_t = ||g_t||^2, total coordinate-wise gradient variance C = 1^T (g^2_bar - (g_bar)^2), and local quadratic distance to optimum D from exponential moving averages of ||g_t|| / ||g_t||^2, and at each iteration solves the SingleStep noisy-quadratic surrogate minimization min_{mu_t, alpha_t} (mu_t D^2 + alpha_t^2 C) subject to mu_t >= ((sqrt(h_max / h_min) - 1) / (sqrt(h_max / h_min) + 1))^2 and alpha_t = (1 - sqrt(mu_t))^2 / h_min in closed form via Vieta's cubic substitution, optionally adjusting algorithmic momentum via a negative-feedback control loop in asynchronous settings.
+identity_notes: 'Distinct from per-coordinate adaptive learning-rate methods (AdaGrad, RMSProp, Adam) and from Lookahead or SWATS: YellowFin tunes a single global learning rate alpha_t and a single global Polyak momentum parameter mu_t at every step by enforcing the momentum operator''s robust-region invariants (1 - sqrt(mu_t))^2 <= alpha_t h <= (1 + sqrt(mu_t))^2 across the dynamic range nu = h_max / h_min of generalized curvatures so that the bias operator A_t has homogeneous spectral radius sqrt(mu_t) and the variance operator B_t has spectral radius mu_t.'
+aliases:
+- YellowFin
+- YellowFin Optimizer
+- YellowFin Momentum Tuner
+- Closed-Loop YellowFin
+definition_evidence:
+- source_id: r620-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r620-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r620-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r620-robust-region-homogeneous-spectral-radii
+  kind: mechanism
+  statement: For any scalar or multidimensional objective whose generalized curvature eigenvalues h satisfy the robust-region inequality (1 - sqrt(mu))^2 <= alpha h <= (1 + sqrt(mu))^2, the Polyak momentum bias operator A_t has complex-conjugate eigenvalues of magnitude sqrt(mu) so its spectral radius is rho(A_t) = sqrt(mu) independent of alpha and h (Lemmas 3 and 7), and under the exact same condition the 3x3 stochastic variance operator B has spectral radius rho(B) = mu (Lemmas 6 and 10), reducing the expected squared distance surrogate to mu^t ||x_0 - x*||^2 + (1 - mu^t) alpha^2 C / (1 - mu).
+  evidence:
+  - source_id: r620-primary-pdf
+    locator: Section 2.2 Lemma 3, Eq. (5)-(9), p. 4-6; Section 3 Lemmas 5-6, Eq. (11)-(14), p. 7; Appendices A-C, p. 17-20
+    relation: supports
+- claim_id: c-r620-singlestep-cubic-closed-form-and-oracles
+  kind: mechanism
+  statement: Substituting x = sqrt(mu) in [0, 1) and alpha = (1 - x)^2 / h_min into SingleStep (Eq. 15) yields the unimodal quartic objective p(x) = x^2 D^2 + (1 - x)^4 C / h_min^2, whose unique stationary point x_p in (0, 1) solves the cubic equation 2 x D^2 - (4 C / h_min^2)(1 - x)^3 = 0 in closed form via Vieta's substitution, giving the exact constrained optimizer sqrt(mu_t) = max(x_p, (sqrt(h_max / h_min) - 1) / (sqrt(h_max / h_min) + 1)) from O(d) gradient-only measurement oracles CurvatureRange, Variance, and Distance.
+  evidence:
+  - source_id: r620-primary-pdf
+    locator: Section 3.1-3.2, Eq. (15), Algorithms 1-4, p. 8-9; Appendix D, p. 20
+    relation: supports
+- claim_id: c-r620-closed-loop-asynchronous-momentum-control
+  kind: application
+  statement: In asynchronous-parallel training with staleness tau, stale gradients induce extra implicit momentum so total system momentum mu_T exceeds algorithmic momentum mu; Closed-loop YellowFin (Algorithm 5) estimates mu_hat_T = median((x_{t-tau} - x_{t-tau-1} + alpha grad f_{S_{t-tau-1}}(x_{t-tau-1})) / (x_{t-tau-1} - x_{t-tau-2})) and applies negative feedback mu <- mu + gamma (mu* - mu_hat_T), achieving up to 2.69x speedup over Adam on 16-worker asynchronous ResNet training.
+  evidence:
+  - source_id: r620-primary-pdf
+    locator: Section 4 Eq. (16) & Figure 4, p. 10; Section 5.2, p. 12; Appendix G Eq. (36)-(37) & Algorithm 5, p. 22-23
+    relation: supports
+- claim_id: c-r620-non-smooth-exploding-gradient-limitation
+  kind: limitation
+  statement: Because YellowFin approximates directional Hessian curvature by squared stochastic gradient norms h_t = ||g_t||^2 under a negative log-likelihood Fisher assumption, abrupt steep slopes and exploding gradients in non-stationary recurrent or sequence-to-sequence landscapes can corrupt the upper curvature envelope h_max unless stabilized by capping envelope growth at 100 * h_max and clipping gradients at threshold sqrt(h_max).
+  evidence:
+  - source_id: r620-primary-pdf
+    locator: Section 3.2-3.3, Table 1, p. 8-10; Appendix E-F, Eq. (35) & Figure 6, p. 20-21
+    relation: supports
+evidence_sources:
+- source_id: r620-primary-pdf
+  title: YellowFin and the Art of Momentum Tuning
+  authors: &id001
+  - Jian Zhang
+  - Ioannis Mitliagkas
+  - "Christopher R\xE9"
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1706.03471.pdf
+  persistent_id: https://dblp.org/rec/conf/mlsys/ZhangM19
+  version: Proceedings of Machine Learning and Systems (MLSys 2019) / arXiv:1706.03471v2 (2019) (2155325 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:43:00Z'
+  sha256: 7b021293dbb746745e92cf64ec16904f90998b2187799b06980de785ff1eeba6
+- source_id: r620-arxiv-abs
+  title: YellowFin and the Art of Momentum Tuning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1706.03471
+  persistent_id: https://arxiv.org/abs/1706.03471
+  version: arXiv abstract page (6231 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:43:00Z'
+  sha256: 6555d1d8fa28baff3df7733264e7f72e20c4ec9c965d4dafd0ddc4815b11ab49
+- source_id: r620-metadata-cr
+  title: YellowFin and the Art of Momentum Tuning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/mlsys/ZhangM19
+  persistent_id: https://dblp.org/rec/conf/mlsys/ZhangM19
+  version: Crossref API work record (1647 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:43:00Z'
+  sha256: 217454ab562139edf20f7b7bbdf71e578f5f70b5577377d895373ebac7cf8bfe
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: YellowFin is an automatic momentum and learning-rate tuning algorithm for training deep artificial neural networks in synchronous and asynchronous regimes.
+limitations:
+- Relies on the negative log-probability Fisher approximation h_t = ||g_t||^2 to estimate directional curvature over a sliding window of width w = 20, which is not guaranteed to be an accurate Hessian eigenvalue estimate on general objectives.
+- Requires zero-debiasing on log-extremal curvatures, a 10w-step slow-start learning-rate discount, and adaptive gradient clipping at sqrt(h_max) with a 100x envelope growth cap to avoid divergence on non-smooth objectives with exploding gradients.
+curation:
+  created_at: '2026-10-19T11:43:00Z'
+  updated_at: '2026-10-19T11:43:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

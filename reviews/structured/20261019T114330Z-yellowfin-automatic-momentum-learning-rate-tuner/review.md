@@ -1,0 +1,355 @@
+# Scientific author self-review of YellowFin Automatic Momentum and Learning Rate Tuner
+
+- Review: 20261019T114330Z-yellowfin-automatic-momentum-learning-rate-tuner
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T11:43:00Z
+- Finished UTC: 2026-10-19T11:43:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain YellowFin Automatic Momentum and Learning Rate Tuner as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/YellowFinAutomaticMomentumAndLearningRateTuner.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 71ec1cd69bd5f1e83f24518bc0d1f2eeb19a0c82.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:YellowFinAutomaticMomentumAndLearningRateTuner | data/curated/YellowFinAutomaticMomentumAndLearningRateTuner.yaml | maintained | YellowFin Automatic Momentum and Learning Rate Tuner |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:YellowFinAutomaticMomentumAndLearningRateTuner | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:YellowFinAutomaticMomentumAndLearningRateTuner | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:YellowFinAutomaticMomentumAndLearningRateTuner | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:YellowFinAutomaticMomentumAndLearningRateTuner | Validated history sidecar files. |
+| python3 yellowfin-automatic-momentum-learning-rate-tuner-boundaries.py | passed | True | AIMech:YellowFinAutomaticMomentumAndLearningRateTuner | [PASS] Round 620 YellowFin verified: rhoA_err=1.11e-16, rhoB_err=5.55e-17, mse_rec_err=0.00e+00, cubic_res=1.33e-15, mu_opt=0.5102, alpha_opt=0.1633, closed_loop_err_ratio=3.51e-05 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:YellowFinAutomaticMomentumAndLearningRateTuner.
+
+YellowFin Automatic Momentum and Learning Rate Tuner is a distinct concept.
+
+Distinct from per-coordinate adaptive learning-rate methods (AdaGrad, RMSProp, Adam) and from Lookahead or SWATS: YellowFin tunes a single global learning rate alpha_t and a single global Polyak momentum parameter mu_t at every step by enforcing the momentum operator's robust-region invariants (1 - sqrt(mu_t))^2 &lt;= alpha_t h &lt;= (1 + sqrt(mu_t))^2 across the dynamic range nu = h_max / h_min of generalized curvatures so that the bias operator A_t has homogeneous spectral radius sqrt(mu_t) and the variance operator B_t has spectral radius mu_t.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:YellowFinAutomaticMomentumAndLearningRateTuner.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:YellowFinAutomaticMomentumAndLearningRateTuner.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in yellowfin-automatic-momentum-learning-rate-tuner-boundaries.py passed with exit code 0: [PASS] Round 620 YellowFin verified: rhoA_err=1.11e-16, rhoB_err=5.55e-17, mse_rec_err=0.00e+00, cubic_res=1.33e-15, mu_opt=0.5102, alpha_opt=0.1633, closed_loop_err_ratio=3.51e-05
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:YellowFinAutomaticMomentumAndLearningRateTuner.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T114300Z-yellowfin-automatic-momentum-learning-rate-tuner.json | supports | No normalized identity match for AIMech:YellowFinAutomaticMomentumAndLearningRateTuner across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/yellowfin-automatic-momentum-learning-rate-tuner-boundaries.py | supports | All constructed boundary assertions in yellowfin-automatic-momentum-learning-rate-tuner-boundaries.py passed with exit code 0: [PASS] Round 620 YellowFin verified: rhoA_err=1.11e-16, rhoB_err=5.55e-17, mse_rec_err=0.00e+00, cubic_res=1.33e-15, mu_opt=0.5102, alpha_opt=0.1633, closed_loop_err_ratio=3.51e-05 |
+| r620-primary-pdf | https://arxiv.org/pdf/1706.03471.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of Machine Learning and Systems (MLSys 2019) / arXiv:1706.03471v2 (2019)) read and verified. |
+| r620-arxiv-abs | https://arxiv.org/abs/1706.03471; arXiv abstract | supports | arXiv abstract read and verified. |
+| r620-metadata-cr | https://dblp.org/rec/conf/mlsys/ZhangM19; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:YellowFinAutomaticMomentumAndLearningRateTuner in Round 620.
+- All pages of Proceedings of Machine Learning and Systems (MLSys 2019) / arXiv:1706.03471v2 (2019) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T114330Z-yellowfin-automatic-momentum-learning-rate-tuner
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of YellowFin Automatic Momentum and Learning
+  Rate Tuner
+started_at: '2026-10-19T11:43:00Z'
+finished_at: '2026-10-19T11:43:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of Machine Learning and Systems (MLSys 2019) / arXiv:1706.03471v2 (2019) and pure-Python
+    boundary checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain YellowFin Automatic Momentum and Learning Rate Tuner as a distinct
+  DRAFT algorithm. All three claims are supported by full-text primary evidence and
+  pure-Python boundary verification.
+source:
+  git_revision: 71ec1cd69bd5f1e83f24518bc0d1f2eeb19a0c82
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/YellowFinAutomaticMomentumAndLearningRateTuner.yaml
+    sha256: 4b874ec98e924ef39179d95184af46a56b111774207438024d36ac7752d56288
+    role: target
+  - path: research/discovery/20261019T114300Z-yellowfin-automatic-momentum-learning-rate-tuner.json
+    sha256: aa979eb3f49ad3274fa4101b54d07a6daaaa32e4de3650c4f26db471ad7c882e
+    role: context
+  - path: research/discovery/yellowfin-automatic-momentum-learning-rate-tuner-boundaries.py
+    sha256: b5fa13b3c63f1c27f8a9b6e38763fb4e0c08c59a41c347b48e52322283755c4b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+  path: data/curated/YellowFinAutomaticMomentumAndLearningRateTuner.yaml
+  label: YellowFin Automatic Momentum and Learning Rate Tuner
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/YellowFinAutomaticMomentumAndLearningRateTuner.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/YellowFinAutomaticMomentumAndLearningRateTuner.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:YellowFinAutomaticMomentumAndLearningRateTuner'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 yellowfin-automatic-momentum-learning-rate-tuner-boundaries.py
+  command: python3 research/discovery/yellowfin-automatic-momentum-learning-rate-tuner-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 620 YellowFin verified: rhoA_err=1.11e-16, rhoB_err=5.55e-17,
+    mse_rec_err=0.00e+00, cubic_res=1.33e-15, mu_opt=0.5102, alpha_opt=0.1633, closed_loop_err_ratio=3.51e-05'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T114300Z-yellowfin-automatic-momentum-learning-rate-tuner.json
+  accessed_at: '2026-10-19T11:43:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T11:43:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/yellowfin-automatic-momentum-learning-rate-tuner-boundaries.py
+  accessed_at: '2026-10-19T11:43:00Z'
+  snapshot_sha256: b5fa13b3c63f1c27f8a9b6e38763fb4e0c08c59a41c347b48e52322283755c4b
+  support: supports
+  summary: 'All constructed boundary assertions in yellowfin-automatic-momentum-learning-rate-tuner-boundaries.py
+    passed with exit code 0: [PASS] Round 620 YellowFin verified: rhoA_err=1.11e-16,
+    rhoB_err=5.55e-17, mse_rec_err=0.00e+00, cubic_res=1.33e-15, mu_opt=0.5102, alpha_opt=0.1633,
+    closed_loop_err_ratio=3.51e-05'
+- evidence_id: r620-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1706.03471.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T11:43:00Z'
+  snapshot_sha256: 7b021293dbb746745e92cf64ec16904f90998b2187799b06980de785ff1eeba6
+  support: supports
+  summary: Full-text PDF (Proceedings of Machine Learning and Systems (MLSys 2019)
+    / arXiv:1706.03471v2 (2019)) read and verified.
+- evidence_id: r620-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1706.03471
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T11:43:00Z'
+  snapshot_sha256: 6555d1d8fa28baff3df7733264e7f72e20c4ec9c965d4dafd0ddc4815b11ab49
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r620-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/mlsys/ZhangM19
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T11:43:00Z'
+  snapshot_sha256: 217454ab562139edf20f7b7bbdf71e578f5f70b5577377d895373ebac7cf8bfe
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+  evidence_ids:
+  - identity
+  - r620-primary-pdf
+  - r620-arxiv-abs
+  - r620-metadata-cr
+  summary: YellowFin Automatic Momentum and Learning Rate Tuner is a distinct concept.
+  details: 'Distinct from per-coordinate adaptive learning-rate methods (AdaGrad,
+    RMSProp, Adam) and from Lookahead or SWATS: YellowFin tunes a single global learning
+    rate alpha_t and a single global Polyak momentum parameter mu_t at every step
+    by enforcing the momentum operator''s robust-region invariants (1 - sqrt(mu_t))^2
+    <= alpha_t h <= (1 + sqrt(mu_t))^2 across the dynamic range nu = h_max / h_min
+    of generalized curvatures so that the bias operator A_t has homogeneous spectral
+    radius sqrt(mu_t) and the variance operator B_t has spectral radius mu_t.'
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+  evidence_ids:
+  - mapping
+  - r620-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+  evidence_ids:
+  - r620-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in yellowfin-automatic-momentum-learning-rate-tuner-boundaries.py
+    passed with exit code 0: [PASS] Round 620 YellowFin verified: rhoA_err=1.11e-16,
+    rhoB_err=5.55e-17, mse_rec_err=0.00e+00, cubic_res=1.33e-15, mu_opt=0.5102, alpha_opt=0.1633,
+    closed_loop_err_ratio=3.51e-05'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:YellowFinAutomaticMomentumAndLearningRateTuner
+  evidence_ids:
+  - identity
+  - mapping
+  - r620-primary-pdf
+  - r620-arxiv-abs
+  - r620-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:YellowFinAutomaticMomentumAndLearningRateTuner in Round
+  620.
+- All pages of Proceedings of Machine Learning and Systems (MLSys 2019) / arXiv:1706.03471v2
+  (2019) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

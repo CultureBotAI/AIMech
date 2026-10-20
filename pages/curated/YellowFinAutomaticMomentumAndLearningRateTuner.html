@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YellowFin Automatic Momentum and Learning Rate Tuner · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>YellowFin Automatic Momentum and Learning Rate Tuner</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">YellowFin Automatic Momentum and Learning Rate Tuner</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:YellowFinAutomaticMomentumAndLearningRateTuner</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> YellowFin, YellowFin Optimizer, YellowFin Momentum Tuner, Closed-Loop YellowFin
+    </div>
+
+  <div class="detail-desc">
+    An automatic hyperparameter tuning algorithm for Polyak heavy-ball momentum stochastic gradient descent (x_{t+1} = x_t - alpha_t grad f_{S_t}(x_t) + mu_t (x_t - x_{t-1})) that estimates extremal generalized curvatures (h_max, h_min) over a sliding window of squared gradient norms h_t = ||g_t||^2, total coordinate-wise gradient variance C = 1^T (g^2_bar - (g_bar)^2), and local quadratic distance to optimum D from exponential moving averages of ||g_t|| / ||g_t||^2, and at each iteration solves the SingleStep noisy-quadratic surrogate minimization min_{mu_t, alpha_t} (mu_t D^2 + alpha_t^2 C) subject to mu_t &gt;= ((sqrt(h_max / h_min) - 1) / (sqrt(h_max / h_min) + 1))^2 and alpha_t = (1 - sqrt(mu_t))^2 / h_min in closed form via Vieta&#39;s cubic substitution, optionally adjusting algorithmic momentum via a negative-feedback control loop in asynchronous settings.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from per-coordinate adaptive learning-rate methods (AdaGrad, RMSProp, Adam) and from Lookahead or SWATS: YellowFin tunes a single global learning rate alpha_t and a single global Polyak momentum parameter mu_t at every step by enforcing the momentum operator&#39;s robust-region invariants (1 - sqrt(mu_t))^2 &lt;= alpha_t h &lt;= (1 + sqrt(mu_t))^2 across the dynamic range nu = h_max / h_min of generalized curvatures so that the bias operator A_t has homogeneous spectral radius sqrt(mu_t) and the variance operator B_t has spectral radius mu_t.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r620-robust-region-homogeneous-spectral-radii</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any scalar or multidimensional objective whose generalized curvature eigenvalues h satisfy the robust-region inequality (1 - sqrt(mu))^2 &lt;= alpha h &lt;= (1 + sqrt(mu))^2, the Polyak momentum bias operator A_t has complex-conjugate eigenvalues of magnitude sqrt(mu) so its spectral radius is rho(A_t) = sqrt(mu) independent of alpha and h (Lemmas 3 and 7), and under the exact same condition the 3x3 stochastic variance operator B has spectral radius rho(B) = mu (Lemmas 6 and 10), reducing the expected squared distance surrogate to mu^t ||x_0 - x*||^2 + (1 - mu^t) alpha^2 C / (1 - mu).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r620-primary-pdf">YellowFin and the Art of Momentum Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 Lemma 3, Eq. (5)-(9), p. 4-6; Section 3 Lemmas 5-6, Eq. (11)-(14), p. 7; Appendices A-C, p. 17-20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r620-singlestep-cubic-closed-form-and-oracles</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Substituting x = sqrt(mu) in [0, 1) and alpha = (1 - x)^2 / h_min into SingleStep (Eq. 15) yields the unimodal quartic objective p(x) = x^2 D^2 + (1 - x)^4 C / h_min^2, whose unique stationary point x_p in (0, 1) solves the cubic equation 2 x D^2 - (4 C / h_min^2)(1 - x)^3 = 0 in closed form via Vieta&#39;s substitution, giving the exact constrained optimizer sqrt(mu_t) = max(x_p, (sqrt(h_max / h_min) - 1) / (sqrt(h_max / h_min) + 1)) from O(d) gradient-only measurement oracles CurvatureRange, Variance, and Distance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r620-primary-pdf">YellowFin and the Art of Momentum Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2, Eq. (15), Algorithms 1-4, p. 8-9; Appendix D, p. 20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r620-closed-loop-asynchronous-momentum-control</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In asynchronous-parallel training with staleness tau, stale gradients induce extra implicit momentum so total system momentum mu_T exceeds algorithmic momentum mu; Closed-loop YellowFin (Algorithm 5) estimates mu_hat_T = median((x_{t-tau} - x_{t-tau-1} + alpha grad f_{S_{t-tau-1}}(x_{t-tau-1})) / (x_{t-tau-1} - x_{t-tau-2})) and applies negative feedback mu &lt;- mu + gamma (mu* - mu_hat_T), achieving up to 2.69x speedup over Adam on 16-worker asynchronous ResNet training.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r620-primary-pdf">YellowFin and the Art of Momentum Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Eq. (16) &amp; Figure 4, p. 10; Section 5.2, p. 12; Appendix G Eq. (36)-(37) &amp; Algorithm 5, p. 22-23</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r620-non-smooth-exploding-gradient-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because YellowFin approximates directional Hessian curvature by squared stochastic gradient norms h_t = ||g_t||^2 under a negative log-likelihood Fisher assumption, abrupt steep slopes and exploding gradients in non-stationary recurrent or sequence-to-sequence landscapes can corrupt the upper curvature envelope h_max unless stabilized by capping envelope growth at 100 * h_max and clipping gradients at threshold sqrt(h_max).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r620-primary-pdf">YellowFin and the Art of Momentum Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3, Table 1, p. 8-10; Appendix E-F, Eq. (35) &amp; Figure 6, p. 20-21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Relies on the negative log-probability Fisher approximation h_t = ||g_t||^2 to estimate directional curvature over a sliding window of width w = 20, which is not guaranteed to be an accurate Hessian eigenvalue estimate on general objectives.</li>
+      <li>Requires zero-debiasing on log-extremal curvatures, a 10w-step slow-start learning-rate discount, and adaptive gradient clipping at sqrt(h_max) with a 100x envelope growth cap to avoid divergence on non-smooth objectives with exploding gradients.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            YellowFin is an automatic momentum and learning-rate tuning algorithm for training deep artificial neural networks in synchronous and asynchronous regimes.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r620-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r620-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1706.03471.pdf" target="_blank" rel="noopener">YellowFin and the Art of Momentum Tuning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jian Zhang, Ioannis Mitliagkas, Christopher Ré
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/mlsys/ZhangM19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7b021293dbb7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r620-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r620-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1706.03471" target="_blank" rel="noopener">YellowFin and the Art of Momentum Tuning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jian Zhang, Ioannis Mitliagkas, Christopher Ré
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1706.03471</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6555d1d8fa28…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r620-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r620-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/mlsys/ZhangM19" target="_blank" rel="noopener">YellowFin and the Art of Momentum Tuning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jian Zhang, Ioannis Mitliagkas, Christopher Ré
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/mlsys/ZhangM19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:217454ab5621…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:43:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:43:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/YellowFinAutomaticMomentumAndLearningRateTuner.yaml" target="_blank" rel="noopener">
+      <code>data/curated/YellowFinAutomaticMomentumAndLearningRateTuner.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
