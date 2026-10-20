@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep Kernel Shaping for Normalizer-Free and Skip-Free Deep Neural Networks · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Deep Kernel Shaping for Normalizer-Free and Skip-Free Deep Neural Networks</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Deep Kernel Shaping for Normalizer-Free and Skip-Free Deep Neural Networks</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:DeepKernelShapingForNormalizerFreeAndSkipFreeDeepNeuralNetworks</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Deep Kernel Shaping, DKS, Q/C Map Deep Kernel Shaping, Maximal Slope Function Activation Transformation for Deep Kernel Shaping
+    </div>
+
+  <div class="detail-desc">
+    A model-class-preserving neural network initialization and activation-function transformation method introduced by Martens et al. (2021) that controls the initialization-time approximate paired-location kernel function (APKF) and Neural Tangent Kernel (NTK) of deep networks via local and extended Q and C maps so that deep networks can be rapidly trained without normalization layers or skip connections. Combining Orthogonal or Gaussian Delta weight initialization, optional Per-Location Normalization (PLN) of inputs, normalized weighted sums sum_i w_i Y_i with sum_i w_i^2 = 1, and a network-level maximal slope function mu(psi) = max_f p_f(psi), Deep Kernel Shaping (DKS) replaces each element-wise activation function phi(u) with a static four-parameter affine-transformed activation phi_hat(u) = gamma (phi(alpha u + beta) + delta) chosen to enforce the four local map conditions Q_f(1) = 1, Q_f&#39;(1) = 1, C_f(0) = 0, and C_f&#39;(1) = mu^{-1}(zeta) for a global slope bound zeta &gt; 1.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Edge of Chaos (EOC / dynamical isometry) initialization (Schoenholz et al. 2017; Xiao et al. 2018, which only tunes weight and bias variances to satisfy a single asymptotic condition C&#39;(1) = 1 without enforcing C(0) = 0, Q&#39;(1) = 1, or calibrating C&#39;(1) = mu^{-1}(zeta) to finite network depth and topology), distinct from SELU self-normalizing networks (Klambauer et al. 2017, which use a fixed activation with C&#39;(1) approx 1.0716 that explodes at large depths), and distinct from Fixup / ReZero / NFNets (which rely on residual skip connections with zero-initialized or down-weighted residual branches): DKS enforces four exact local Q/C map conditions for arbitrary smooth activation functions via four static activation transformation parameters (alpha, beta, gamma, delta) calibrated through the inverse maximal slope function mu^{-1}(zeta).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dks-positive-definite-c-map-identity-deviation-bounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under uniform q values (enforced by Per-Location Normalization so that q = 1 at the input and Q_f(1) = 1 across layers), every subnetwork&#39;s extended C map C_f(c) is a positive definite function on [-1, 1] with C_f(1) = 1 and C_f^{(i)}(0) &gt;= 0, and by Theorem 13 its uniform deviation from the identity map satisfies (1/4)(1 - C_f&#39;(0)) &lt;= max_{c in [-1,1]} |C_f(c) - c| &lt;= 2(1 - C_f&#39;(0)) and, when C_f(0) = 0, max_{c in [-1,1]} |C_f(c) - c| &lt;= 2(C_f&#39;(1) - 1) and max_{c in [-1,1]} |C_f&#39;(c) - 1| &lt;= 3(C_f&#39;(1) - 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r569-primary-pdf">Rapid training of deep neural networks without skip connections or normalization layers using Deep Kernel Shaping</a></span>
+        <span>· <strong>Locator:</strong> Section 11, Equation (14), pp. 28-29; Section 13.2, Theorem 13, pp. 37-38; Appendix D.1, pp. 132-133</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dks-maximal-slope-function-and-four-parameter-activation-solution</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To bound C_g&#39;(1) &lt;= zeta across all subnetworks g while preventing individual layers from becoming too affine (Proposition 18: na(phi)^2 = 1 - C_f&#39;(0)/C_f&#39;(1) &gt;= 1 - 1/C_f&#39;(1)), DKS defines the network maximal slope function mu(psi) = max_g p_g(psi) from subnetwork slope polynomials (where composition multiplies polynomials and normalized sums sum_i w_i Y_i with sum_i w_i^2 = 1 form weighted averages sum_i w_i^2 p_{g_i}(psi)), sets psi = mu^{-1}(zeta), and transforms each activation phi(u) into phi_hat(u) = gamma(phi(alpha u + beta) + delta) with delta = -E[phi(alpha x + beta)], gamma = Var[phi(alpha x + beta)]^{-1/2}, and (alpha, beta) solved numerically so E[phi_hat(x) phi_hat&#39;(x) x] = Q_f&#39;(1) = 1 and E[phi_hat&#39;(x)^2] = C_f&#39;(1) = mu^{-1}(zeta).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r569-primary-pdf">Rapid training of deep neural networks without skip connections or normalization layers using Deep Kernel Shaping</a></span>
+        <span>· <strong>Locator:</strong> Section 13.4, Proposition 18, p. 39; Section 17, pp. 48-50; Section 18.4, Equation (16), pp. 52-53; Section 21.3, pp. 63-64</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dks-per-layer-ntk-gram-matrix-approximation-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a D-layer feed-forward network in the infinite-width NTK regime, Equation (23) expresses the i-th per-layer Neural Tangent Kernel as Theta_i(x, x&#39;) = q_D C_{g_i}(c_0) C_{h_i}&#39;(C_{g_i}(c_0)) where c_0 = x^T x&#39; / d_0, and Theorem 27 proves that under DKS with global slope bound zeta &gt; 1 every layer&#39;s NTK satisfies |Theta_i(x, x&#39;) - (1/d_0) x^T x&#39;| &lt;= 11(zeta - 1), preventing both collapsing (rank-1) and exploding layer-wise NTK pathologies.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r569-primary-pdf">Rapid training of deep neural networks without skip connections or normalization layers using Deep Kernel Shaping</a></span>
+        <span>· <strong>Locator:</strong> Section 24.4, Equation (23), p. 75; Section 24.6, Theorem 27, p. 78; Appendix H.3, p. 143</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#dks-positively-homogeneous-activation-and-multiplicative-layer-limitations</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Positively homogeneous activations phi(lambda u) = lambda^k phi(u) such as ReLU yield only three effective continuous degrees of freedom under phi_hat(u) = gamma(phi(alpha u + beta) + delta) and therefore cannot simultaneously enforce Q_f&#39;(1) = 1 alongside the other three local map conditions (Section 18.6); in addition, DKS does not support multiplicative attention layers, Batch Normalization, or inter-step weight sharing in recurrent networks, and requires second-order optimizers such as K-FAC or Shampoo to match standard ResNet training speeds when skip connections are completely removed.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r569-primary-pdf">Rapid training of deep neural networks without skip connections or normalization layers using Deep Kernel Shaping</a></span>
+        <span>· <strong>Locator:</strong> Section 18.6, pp. 53-54; Section 21.1, p. 62; Section 30 (Limitations and future directions), pp. 121-123</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Positively homogeneous activations such as ReLU provide only three effective degrees of freedom under input/output affine transformation and must drop the Q_f&#39;(1) = 1 condition.</li>
+      <li>Does not support multiplicative interactions (such as self-attention), Batch Normalization, or weight sharing across time steps in recurrent networks.</li>
+      <li>Training skip-connection-free networks at standard ResNet speeds on ImageNet requires curvature-aware optimizers such as K-FAC or Shampoo rather than vanilla SGD.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Deep Kernel Shaping is a mathematical initialization and activation-shaping framework for constructing and training deep artificial neural networks.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ActivationLayer.html" style="font-weight: 600;"><code>AIO:ActivationLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Activation Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DKS enforces local Q/C map conditions by applying static input/output scale and shift transformations phi_hat(u) = gamma(phi(alpha u + beta) + delta) to every nonlinear activation layer.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r569-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r569-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2110.01765.pdf" target="_blank" rel="noopener">Rapid training of deep neural networks without skip connections or normalization layers using Deep Kernel Shaping</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            James Martens, Andy Ballard, Guillaume Desjardins, Grzegorz Swirszcz, Valentin Dalibard, Jascha Sohl-Dickstein, Samuel S. Schoenholz
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/W3202557661</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:01080f65b135…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r569-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r569-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2110.01765" target="_blank" rel="noopener">Rapid training of deep neural networks without skip connections or normalization layers using Deep Kernel Shaping (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            James Martens, Andy Ballard, Guillaume Desjardins, Grzegorz Swirszcz, Valentin Dalibard, Jascha Sohl-Dickstein, Samuel S. Schoenholz
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2110.01765</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2629ee59450b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r569-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r569-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.openalex.org/works/W3202557661" target="_blank" rel="noopener">Rapid training of deep neural networks without skip connections or normalization layers using Deep Kernel Shaping (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            James Martens, Andy Ballard, Guillaume Desjardins, Grzegorz Swirszcz, Valentin Dalibard, Jascha Sohl-Dickstein, Samuel S. Schoenholz
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/W3202557661</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0f0a3e5f363b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:52:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:52:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DeepKernelShapingForNormalizerFreeAndSkipFreeDeepNeuralNetworks.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DeepKernelShapingForNormalizerFreeAndSkipFreeDeepNeuralNetworks.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
