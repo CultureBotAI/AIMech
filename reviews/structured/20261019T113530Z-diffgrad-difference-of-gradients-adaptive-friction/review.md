@@ -1,0 +1,349 @@
+# Scientific author self-review of diffGrad
+
+- Review: 20261019T113530Z-diffgrad-difference-of-gradients-adaptive-friction
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T11:35:00Z
+- Finished UTC: 2026-10-19T11:35:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain diffGrad as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/DiffGrad.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:DiffGrad
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 74907ab0ca6a2d01ae1dc0c7c7a8a4ba75d01c5c.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DiffGrad | data/curated/DiffGrad.yaml | maintained | diffGrad |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:DiffGrad | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:DiffGrad | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:DiffGrad | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:DiffGrad | Validated history sidecar files. |
+| python3 diffgrad-difference-of-gradients-adaptive-friction-boundaries.py | passed | True | AIMech:DiffGrad | [PASS] Round 612 diffGrad verified: F1_Adam=(x=0.2001, loss=0.0500), F1_diffGrad=(x=-0.3000, loss=6.87e-10), regret=4.7420&lt;=thm1_rhs=4128.6455 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:DiffGrad.
+
+diffGrad is a distinct concept.
+
+Distinct from Adam and AMSGrad (which rely solely on exponential moving averages of past gradients m_t and squared gradients v_t without immediate short-term gradient-difference friction) and from AdaBelief (AIMech:AdaBelief, which replaces v_t in the denominator with the EMA of (g_t - m_t)^2). diffGrad retains Adam's bias-corrected moments m_hat_t and v_hat_t and multiplies the step size by the bounded logistic friction factor xi_t = 1 / (1 + exp(-&#124;g_{t-1} - g_t&#124;)) in [0.5, 1).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:DiffGrad.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:DiffGrad.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in diffgrad-difference-of-gradients-adaptive-friction-boundaries.py passed with exit code 0: [PASS] Round 612 diffGrad verified: F1_Adam=(x=0.2001, loss=0.0500), F1_diffGrad=(x=-0.3000, loss=6.87e-10), regret=4.7420&lt;=thm1_rhs=4128.6455
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:DiffGrad.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T113500Z-diffgrad-difference-of-gradients-adaptive-friction.json | supports | No normalized identity match for AIMech:DiffGrad across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/diffgrad-difference-of-gradients-adaptive-friction-boundaries.py | supports | All constructed boundary assertions in diffgrad-difference-of-gradients-adaptive-friction-boundaries.py passed with exit code 0: [PASS] Round 612 diffGrad verified: F1_Adam=(x=0.2001, loss=0.0500), F1_diffGrad=(x=-0.3000, loss=6.87e-10), regret=4.7420&lt;=thm1_rhs=4128.6455 |
+| r612-primary-pdf | https://arxiv.org/pdf/1909.11015.pdf; Full-text PDF | supports | Full-text PDF (IEEE Transactions on Neural Networks and Learning Systems (2020)) read and verified. |
+| r612-arxiv-abs | https://arxiv.org/abs/1909.11015; arXiv abstract | supports | arXiv abstract read and verified. |
+| r612-metadata-cr | https://dblp.org/rec/journals/tnn/DubeyCRMSC20.xml; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DiffGrad in Round 612.
+- All pages of IEEE Transactions on Neural Networks and Learning Systems (2020) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T113530Z-diffgrad-difference-of-gradients-adaptive-friction
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of diffGrad
+started_at: '2026-10-19T11:35:00Z'
+finished_at: '2026-10-19T11:35:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:DiffGrad
+    against existing AIMech and AIO records and verified all claims against IEEE Transactions
+    on Neural Networks and Learning Systems (2020) and pure-Python boundary checks.
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain diffGrad as a distinct DRAFT algorithm. All three claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 74907ab0ca6a2d01ae1dc0c7c7a8a4ba75d01c5c
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/DiffGrad.yaml
+    sha256: 8deca2beba96fc31507da6b40fef3f9b2e8f45f3f86ba8e95502524da81fa6be
+    role: target
+  - path: research/discovery/20261019T113500Z-diffgrad-difference-of-gradients-adaptive-friction.json
+    sha256: e68d97c9398d3396dea0dac8abd6b22c09d784c20456cbc99c43c5efeb2655d4
+    role: context
+  - path: research/discovery/diffgrad-difference-of-gradients-adaptive-friction-boundaries.py
+    sha256: 1dbe162b839bc1aed1bc392908f017941737ed6449dfb835a176723cb3ca8b5e
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DiffGrad
+  path: data/curated/DiffGrad.yaml
+  label: diffGrad
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DiffGrad.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/DiffGrad.yaml and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:DiffGrad'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DiffGrad
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiffGrad
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiffGrad
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiffGrad
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiffGrad
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 diffgrad-difference-of-gradients-adaptive-friction-boundaries.py
+  command: python3 research/discovery/diffgrad-difference-of-gradients-adaptive-friction-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiffGrad
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 612 diffGrad verified: F1_Adam=(x=0.2001, loss=0.0500), F1_diffGrad=(x=-0.3000,
+    loss=6.87e-10), regret=4.7420<=thm1_rhs=4128.6455'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T113500Z-diffgrad-difference-of-gradients-adaptive-friction.json
+  accessed_at: '2026-10-19T11:35:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:DiffGrad across AIO and curated
+    corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T11:35:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/diffgrad-difference-of-gradients-adaptive-friction-boundaries.py
+  accessed_at: '2026-10-19T11:35:00Z'
+  snapshot_sha256: 1dbe162b839bc1aed1bc392908f017941737ed6449dfb835a176723cb3ca8b5e
+  support: supports
+  summary: 'All constructed boundary assertions in diffgrad-difference-of-gradients-adaptive-friction-boundaries.py
+    passed with exit code 0: [PASS] Round 612 diffGrad verified: F1_Adam=(x=0.2001,
+    loss=0.0500), F1_diffGrad=(x=-0.3000, loss=6.87e-10), regret=4.7420<=thm1_rhs=4128.6455'
+- evidence_id: r612-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1909.11015.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T11:35:00Z'
+  snapshot_sha256: 40ce33e0a43674cea7d343269217a97afaac3da6bf3cbaad9b6b71ca9a7ef73d
+  support: supports
+  summary: Full-text PDF (IEEE Transactions on Neural Networks and Learning Systems
+    (2020)) read and verified.
+- evidence_id: r612-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1909.11015
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T11:35:00Z'
+  snapshot_sha256: 51619a5bab6f9641d893a9a0eb1c68f37a4b424c27a30db20b76dab575291d7a
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r612-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/journals/tnn/DubeyCRMSC20.xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T11:35:00Z'
+  snapshot_sha256: dbb392a2df04aa5d34c17048c68b927fdf706139dba377b8b035fa59c714d259
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:DiffGrad
+  evidence_ids:
+  - identity
+  - r612-primary-pdf
+  - r612-arxiv-abs
+  - r612-metadata-cr
+  summary: diffGrad is a distinct concept.
+  details: Distinct from Adam and AMSGrad (which rely solely on exponential moving
+    averages of past gradients m_t and squared gradients v_t without immediate short-term
+    gradient-difference friction) and from AdaBelief (AIMech:AdaBelief, which replaces
+    v_t in the denominator with the EMA of (g_t - m_t)^2). diffGrad retains Adam's
+    bias-corrected moments m_hat_t and v_hat_t and multiplies the step size by the
+    bounded logistic friction factor xi_t = 1 / (1 + exp(-|g_{t-1} - g_t|)) in [0.5,
+    1).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:DiffGrad
+  evidence_ids:
+  - mapping
+  - r612-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:DiffGrad
+  evidence_ids:
+  - r612-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in diffgrad-difference-of-gradients-adaptive-friction-boundaries.py
+    passed with exit code 0: [PASS] Round 612 diffGrad verified: F1_Adam=(x=0.2001,
+    loss=0.0500), F1_diffGrad=(x=-0.3000, loss=6.87e-10), regret=4.7420<=thm1_rhs=4128.6455'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:DiffGrad
+  evidence_ids:
+  - identity
+  - mapping
+  - r612-primary-pdf
+  - r612-arxiv-abs
+  - r612-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DiffGrad in Round 612.
+- All pages of IEEE Transactions on Neural Networks and Learning Systems (2020) were
+  read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

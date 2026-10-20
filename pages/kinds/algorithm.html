@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">702 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">703 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">702</span> of <span id="totalCount">702</span>
+      Showing <span id="matchCount">703</span> of <span id="totalCount">703</span>
     </div>
   </div>
 </div>
@@ -4321,6 +4321,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="diffgrad diffgrad aimech:diffgrad algorithms algorithm a first-order adaptive stochastic gradient optimization algorithm that modulates adam&#39;s bias-corrected parameter update by an element-wise diffgrad friction coefficient (dfc) xi_{t,i} = 1 / (1 + exp(-|delta g_{t,i}|)) in [0.5, 1) driven by the first-order backward difference of consecutive gradients delta g_{t,i} = g_{t-1,i} - g_{t,i}, updating parameters via theta_{t,i} = theta_{t-1,i} - (alpha_t * xi_{t,i} / (sqrt(v_hat_{t,i}) + epsilon)) * m_hat_{t,i} so that rapid gradient changes incur low friction (xi_{t,i} -&gt; 1) and vanishing gradient changes near optima incur high friction (xi_{t,i} -&gt; 0.5) to prevent overshooting. distinct from adam and amsgrad (which rely solely on exponential moving averages of past gradients m_t and squared gradients v_t without immediate short-term gradient-difference friction) and from adabelief (aimech:adabelief, which replaces v_t in the denominator with the ema of (g_t - m_t)^2). diffgrad retains adam&#39;s bias-corrected moments m_hat_t and v_hat_t and multiplies the step size by the bounded logistic friction factor xi_t = 1 / (1 + exp(-|g_{t-1} - g_t|)) in [0.5, 1). difference of gradients adaptive optimization dynamic friction sigmoid adaptive moment estimation short-term gradient-change clamped adam at step t, diffgrad computes the element-wise absolute difference between consecutive gradients |delta g_{t,i}| = |g_{t-1,i} - g_{t,i}|, passes it through the abs-sigmoid diffgrad friction coefficient xi_{t,i} = 1 / (1 + exp(-|g_{t-1,i} - g_{t,i}|)) bounded strictly in [0.5, 1), and updates parameters via theta_{t,i} = theta_{t-1,i} - (alpha_t * xi_{t,i} / (sqrt(v_hat_{t,i}) + epsilon)) * m_hat_{t,i}. under theorem 1 of dubey et al. (2020), for convex online functions f_t with ||nabla f_t(theta)||_2 &lt;= g, ||nabla f_t(theta)||_inf &lt;= g_inf, and diameter ||theta_n - theta_m||_2 &lt;= d, diffgrad with alpha_t = alpha / sqrt(t) and beta_{1,t} = beta_1 * lambda^{t-1} achieves o(sqrt(t)) regret bounded by r(t) &lt;= (d^2 / (alpha * (1 - beta_1))) * sum_{i=1}^d sqrt(t * v_hat_{t,i}) + (alpha * (1 + beta_1) * g_inf / ((1 - beta_1) * sqrt(1 - beta_2) * (1 - gamma)^2)) * sum_{i=1}^d ||g_{1:t,i}||_2 + sum_{i=1}^d (d_inf^2 * g_inf * beta_1) / ((1 - beta_1) * (1 - lambda)^2 * alpha). diffgrad prevents adam&#39;s momentum-induced overshooting out of narrow global valleys on non-convex synthetic objectives (f1-f3) and improves top-1 validation accuracy over adam, amsgrad, adagrad, and rmsprop on cifar-10 and cifar-100 across resnet-18, resnet-50, resnet-101, densenet-121, mobilenet, senet, shufflenet, vgg16, and googlenet. diffgrad must store the previous step&#39;s full gradient tensor g_{t-1} in memory (increasing optimizer state from 2p to 3p floats), and under high mini-batch gradient variance the instantaneous difference |g_{t-1,i} - g_{t,i}| can remain large even near a stationary point, keeping xi_{t,i} close to 1. diffgrad: an optimization method for convolutional neural networks diffgrad: an optimization method for convolutional neural networks (arxiv abstract) diffgrad: an optimization method for convolutional neural networks (crossref metadata) shiv ram dubey soumendu chakraborty swalpa kumar roy snehasis mukherjee satish kumar singh bidyut baran chaudhuri shiv ram dubey soumendu chakraborty swalpa kumar roy snehasis mukherjee satish kumar singh bidyut baran chaudhuri shiv ram dubey soumendu chakraborty swalpa kumar roy snehasis mukherjee satish kumar singh bidyut baran chaudhuri">
+        <td>
+          <a href="../curated/DiffGrad.html" style="font-weight: 600; font-size: 1rem;">diffGrad</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Difference of Gradients Adaptive Optimization, Dynamic Friction Sigmoid Adaptive Moment Estimation…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A first-order adaptive stochastic gradient optimization algorithm that modulates Adam&#39;s bias-corrected parameter update by an element-wise d…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:DiffGrad</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
