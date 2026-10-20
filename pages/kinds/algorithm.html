@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">687 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">688 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">687</span> of <span id="totalCount">687</span>
+      Showing <span id="matchCount">688</span> of <span id="totalCount">688</span>
     </div>
   </div>
 </div>
@@ -799,6 +799,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="ademamix (adaptive ema mixture optimizer) ademamixadaptiveemamixtureoptimization aimech:ademamixadaptiveemamixtureoptimization algorithms algorithm an adamw-based adaptive optimization algorithm (algorithm 1) that replaces the single first-moment exponential moving average with a linear combination of a bias-corrected fast-changing ema m_hat_1^(t) = m_1^(t) / (1 - beta_1^t) (typically beta_1 = 0.9, half-life t_half approx 6 steps) and an uncorrected slow-changing ema m_2^(t) = beta_3^(t) m_2^(t-1) + (1 - beta_3^(t)) g^(t) (typically beta_3 = 0.9999, half-life t_half approx 6930 steps), updating parameters via theta^(t) = theta^(t-1) - eta^(t) [(m_hat_1^(t) + alpha^(t) m_2^(t)) / (sqrt(nu_hat^(t)) + epsilon) + lambda theta^(t-1)] with warmup schedulers f_alpha and f_{beta_3} that increase alpha^(t) and the ema half-life t_half(beta_3^(t)) = ln(0.5)/ln(beta_3^(t)) - 1 linearly over t_{alpha,beta_3} steps. distinct from standard adamw in that a single ema cannot simultaneously assign high weight to recent gradients and non-negligible weight to gradients thousands of steps old; ademamix maintains two separate first-moment buffers m_1 and m_2 (or sets beta_1 = 0 so m_hat_1^(t) = g^(t) without extra memory) and schedules beta_3^(t) = exp(ln(beta_start) ln(beta_3) / ((1 - t/t) ln(beta_3) + (t/t) ln(beta_start))). distinct from nested-ema methods (dema, admeta) which attenuate rather than preserve very old gradients. ademamix optimizer adaptive exponential moving average mixture optimizer dual-ema adamw (ademamix) because an ema with parameter beta has cumulative half-weight horizon t_half(beta) = ln(0.5)/ln(beta) - 1 (approx 6 steps for beta = 0.9 vs 6930 steps for beta = 0.9999), ademamix combines a fast ema m_hat_1^(t) with a slow ema alpha^(t) m_2^(t) and schedules beta_3^(t) = f^{-1}((1 - mu) f(beta_start) + mu f(beta_3)) (eq. f_{beta_3}, appendix a.1) so that t_half increases linearly with mu = t / t_{beta_3}, preventing early training divergence while damped orthogonal updates accelerate progress along narrow nonconvex valleys (figures 2, 13-14, 18, 27). on redpajama transformer language models (110m, 330m, 1.3b parameters), mamba (168m on fineweb), and imagenet-21k vits (24m, 86m), ademamix consistently outperforms tuned adamw — matching a 1.3b adamw model trained on 197b tokens using only 101b tokens (a 49% token reduction) — and exhibits significantly slower forgetting of held-out injected training batches over tens of thousands of steps (figures 1, 3-4, 6, 9-10). when beta_1 != 0, ademamix allocates a third parameter-sized optimizer buffer m_2 (33% more optimizer state memory than adamw unless beta_1 = 0 is used at the cost of noisier loss spikes), and retaining very old gradients is less effective in short-horizon or high-epoch overfitting regimes (such as 320-epoch imagenet-1k vit) or under sudden distribution shifts. the ademamix optimizer: better, faster, older the ademamix optimizer: better, faster, older (arxiv abstract) the ademamix optimizer: better, faster, older (crossref metadata) matteo pagliardini pierre ablin david grangier matteo pagliardini pierre ablin david grangier matteo pagliardini pierre ablin david grangier">
+        <td>
+          <a href="../curated/AdEMAMixAdaptiveEMAMixtureOptimization.html" style="font-weight: 600; font-size: 1rem;">AdEMAMix (Adaptive EMA Mixture Optimizer)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> AdEMAMix Optimizer, Adaptive Exponential Moving Average Mixture Optimizer…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An AdamW-based adaptive optimization algorithm (Algorithm 1) that replaces the single first-moment exponential moving average with a linear…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:AdEMAMixAdaptiveEMAMixtureOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
