@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">697 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">698 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">697</span> of <span id="totalCount">697</span>
+      Showing <span id="matchCount">698</span> of <span id="totalCount">698</span>
     </div>
   </div>
 </div>
@@ -1464,6 +1464,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="apollo (adaptive parameter-wise diagonal quasi-newton optimizer) apolloadaptiveparameterwisediagonalquasinewtonoptimization aimech:apolloadaptiveparameterwisediagonalquasinewtonoptimization algorithms algorithm a diagonal quasi-newton algorithm for nonconvex stochastic optimization that approximates the hessian diagonally for each decoupled parameter tensor theta^(l) using only first-order gradients in o(d) time and memory. at iteration t, apollo updates the bias-corrected gradient ema m_{t+1} = (beta(1 - beta^t)/(1 - beta^{t+1})) m_t + ((1 - beta)/(1 - beta^{t+1})) g_{t+1}, computes the stepsize-bias-corrected weak-secant coefficient alpha = (d_t^t (m_{t+1} - m_t) + d_t^t b_t d_t) / (||d_t||_4 + eps)^4, updates the diagonal hessian b_{t+1} = b_t - alpha diag(d_t^2), rectifies negative or near-zero curvature via d_{t+1} = rectify(b_{t+1}, sigma) = max(|b_{t+1}|, sigma), and updates d_{t+1} = d_{t+1}^{-1} m_{t+1} and theta_{t+1} = theta_t - eta_{t+1} d_{t+1}. distinct from l-bfgs, sdlbfgs (wang et al. 2017), adahessian (aimech:adahessianadaptivesecondorderoptimizer), and sophia (aimech:sophiasecondorderclippedstochasticoptimization): apollo requires zero hessian-vector products or multi-step secant history buffers; instead it solves the minimum-frobenius-norm diagonal update min_b ||b - b_t||_f subject to the parameter-wise weak secant equation s_t^t b_{t+1} s_t = s_t^t y_t (eqs. 6-7), applies stepsize bias correction y&#39;_t = eta_t y_t so b_{t+1} is invariant to eta_t (eq. 8), and enforces positive definiteness via elementwise rectified absolute values max(|b_{t+1}|, sigma) (eq. 11). apollo optimizer apollow adaptive parameter-wise diagonal quasi-newton method solving the variational problem b_{t+1} = argmin_{b diag} ||b - b_t||_f subject to the weak secant condition s_t^t b_{t+1} s_t = s_t^t y_t independently for each decoupled parameter tensor theta^(l) yields lambda = b_{t+1} - b_t = ((s_t^t y_t - s_t^t b_t s_t) / ||s_t||_4^4) diag(s_t^2) (section 3.1, eqs. 6-7, p. 5), and applying stepsize bias correction g&#39;_t = eta_t g_t, y&#39;_t = eta_t (m_{t+1} - m_t) with d_t = -s_t / eta_t produces the stepsize-independent update lambda&#39; = -((d_t^t y_t + d_t^t b_t d_t) / ||d_t||_4^4) diag(d_t^2) (section 3.2, eq. 8, p. 5). to handle negative curvature and zero-curvature inflection points in nonconvex objectives without line search, apollo preconditions m_{t+1} by the rectified absolute diagonal hessian d_{t+1} = rectify(b_{t+1}, sigma) = max(|b_{t+1}|, sigma) (section 3.3, eqs. 10-11, p. 6-7); theorem 1 (section 3.4, eq. 12, p. 7; appendix a, eq. 16, p. 19) proves that under zero initialization m_0 = d_0 = b_0 = 0, any two hyperparameter pairs (eta, sigma) and (eta&#39;, sigma&#39;) with identical ratio eta / sigma = eta&#39; / sigma&#39; generate identical parameter trajectories theta_t = theta&#39;_t for all t &gt;= 1, eliminating sigma as a tunable hyperparameter. under online convex optimization with stepsize eta_t = eta / sqrt(t), bounded gradients ||g_t||_2 &lt;= g, bounded domain diameter d, and non-decreasing ||d_t||_1 / eta_t, theorem 2 and corollary 2.1 (section 3.5, eqs. 13-14, p. 8; appendix b.1, p. 20-22) prove o(sqrt(t)) regret, while for l-smooth nonconvex stochastic optimization theorem 3 (eq. 15, p. 8; appendix b.2, p. 22-24) establishes min_{t in [t]} e[||nabla f(theta_t)||_2^2] = o(log t / sqrt(t)). across cifar-10 resnet-110, imagenet resnext-50, one billion words two-layer lstm language modeling, and wmt 2014 english-german transformer neural machine translation, apollo and its decoupled weight decay variant apollow outperform sgd, adam, radam, adabelief, and adahessian in test accuracy, perplexity (31.94 vs. 32.65 for sgd and 32.83 for adabelief), and bleu score (28.34) while running at ~1.2-1.5x sgd cost compared to 3.5-11.8x for adahessian. because b_0, d_0, and m_0 are initialized to zero and closed-form bias correction is unavailable for d_t and b_t, apollo requires a linear learning-rate warmup heuristic during early iterations (section 3.4, p. 8); furthermore, standard apollo is not invariant to rescaling the objective function unless modified with the gradient-difference threshold d_t = max(|b_t|, sigma ||g_{t+1} - g_t||_infty) of scale-invariant apollo (section 6, p. 13; appendix g, eq. 31, p. 31). apollo: an adaptive parameter-wise diagonal quasi-newton method for nonconvex stochastic optimization apollo: an adaptive parameter-wise diagonal quasi-newton method for nonconvex stochastic optimization (arxiv abstract) apollo: an adaptive parameter-wise diagonal quasi-newton method for nonconvex stochastic optimization (crossref metadata) xuezhe ma xuezhe ma xuezhe ma">
+        <td>
+          <a href="../curated/ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization.html" style="font-weight: 600; font-size: 1rem;">Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton Optimizer)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Apollo Optimizer, ApolloW…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A diagonal quasi-Newton algorithm for nonconvex stochastic optimization that approximates the Hessian diagonally for each decoupled paramete…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="5 claims curated">5 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>

@@ -1,0 +1,105 @@
+id: AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+name: Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton Optimizer)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A diagonal quasi-Newton algorithm for nonconvex stochastic optimization that approximates the Hessian diagonally for each decoupled parameter tensor theta^(l) using only first-order gradients in O(d) time and memory. At iteration t, Apollo updates the bias-corrected gradient EMA m_{t+1} = (beta(1 - beta^t)/(1 - beta^{t+1})) m_t + ((1 - beta)/(1 - beta^{t+1})) g_{t+1}, computes the stepsize-bias-corrected weak-secant coefficient alpha = (d_t^T (m_{t+1} - m_t) + d_t^T B_t d_t) / (||d_t||_4 + eps)^4, updates the diagonal Hessian B_{t+1} = B_t - alpha Diag(d_t^2), rectifies negative or near-zero curvature via D_{t+1} = rectify(B_{t+1}, sigma) = max(|B_{t+1}|, sigma), and updates d_{t+1} = D_{t+1}^{-1} m_{t+1} and theta_{t+1} = theta_t - eta_{t+1} d_{t+1}.
+identity_notes: 'Distinct from L-BFGS, SdLBFGS (Wang et al. 2017), AdaHessian (AIMech:AdaHessianAdaptiveSecondOrderOptimizer), and Sophia (AIMech:SophiaSecondOrderClippedStochasticOptimization): Apollo requires zero Hessian-vector products or multi-step secant history buffers; instead it solves the minimum-Frobenius-norm diagonal update min_B ||B - B_t||_F subject to the parameter-wise weak secant equation s_t^T B_{t+1} s_t = s_t^T y_t (Eqs. 6-7), applies stepsize bias correction y''_t = eta_t y_t so B_{t+1} is invariant to eta_t (Eq. 8), and enforces positive definiteness via elementwise rectified absolute values max(|B_{t+1}|, sigma) (Eq. 11).'
+aliases:
+- Apollo Optimizer
+- ApolloW
+- Adaptive Parameter-wise Diagonal Quasi-Newton Method
+definition_evidence:
+- source_id: r607-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r607-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r607-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: parameter-wise-weak-secant-variational-update-and-stepsize-bias-correction
+  kind: mechanism
+  statement: Solving the variational problem B_{t+1} = argmin_{B diag} ||B - B_t||_F subject to the weak secant condition s_t^T B_{t+1} s_t = s_t^T y_t independently for each decoupled parameter tensor theta^(l) yields Lambda = B_{t+1} - B_t = ((s_t^T y_t - s_t^T B_t s_t) / ||s_t||_4^4) Diag(s_t^2) (Section 3.1, Eqs. 6-7, p. 5), and applying stepsize bias correction g'_t = eta_t g_t, y'_t = eta_t (m_{t+1} - m_t) with d_t = -s_t / eta_t produces the stepsize-independent update Lambda' = -((d_t^T y_t + d_t^T B_t d_t) / ||d_t||_4^4) Diag(d_t^2) (Section 3.2, Eq. 8, p. 5).
+  evidence:
+  - source_id: r607-primary-pdf
+    locator: Section 3.1-3.2, Eqs. 6-9 and Algorithm 1, p. 4-6
+    relation: supports
+- claim_id: rectified-absolute-hessian-and-theorem-1-coupled-stepsize-convexity-invariance
+  kind: mechanism
+  statement: To handle negative curvature and zero-curvature inflection points in nonconvex objectives without line search, Apollo preconditions m_{t+1} by the rectified absolute diagonal Hessian D_{t+1} = rectify(B_{t+1}, sigma) = max(|B_{t+1}|, sigma) (Section 3.3, Eqs. 10-11, p. 6-7); Theorem 1 (Section 3.4, Eq. 12, p. 7; Appendix A, Eq. 16, p. 19) proves that under zero initialization m_0 = d_0 = B_0 = 0, any two hyperparameter pairs (eta, sigma) and (eta', sigma') with identical ratio eta / sigma = eta' / sigma' generate identical parameter trajectories theta_t = theta'_t for all t >= 1, eliminating sigma as a tunable hyperparameter.
+  evidence:
+  - source_id: r607-primary-pdf
+    locator: Section 3.3-3.4, Eqs. 10-12 and Theorem 1, p. 6-7; Appendix A, Eq. 16, p. 19
+    relation: supports
+- claim_id: convex-regret-and-nonconvex-stationary-point-convergence-theorems-2-and-3
+  kind: scope
+  statement: Under online convex optimization with stepsize eta_t = eta / sqrt(t), bounded gradients ||g_t||_2 <= G, bounded domain diameter D, and non-decreasing ||D_t||_1 / eta_t, Theorem 2 and Corollary 2.1 (Section 3.5, Eqs. 13-14, p. 8; Appendix B.1, p. 20-22) prove O(sqrt(T)) regret, while for L-smooth nonconvex stochastic optimization Theorem 3 (Eq. 15, p. 8; Appendix B.2, p. 22-24) establishes min_{t in [T]} E[||nabla f(theta_t)||_2^2] = O(log T / sqrt(T)).
+  evidence:
+  - source_id: r607-primary-pdf
+    locator: Section 3.5, Theorems 2-3 and Corollary 2.1, p. 8; Appendix B.1-B.2, Eqs. 17-30, p. 20-24
+    relation: supports
+- claim_id: vision-language-modeling-and-machine-translation-generalization
+  kind: application
+  statement: Across CIFAR-10 ResNet-110, ImageNet ResNeXt-50, One Billion Words two-layer LSTM language modeling, and WMT 2014 English-German Transformer neural machine translation, Apollo and its decoupled weight decay variant ApolloW outperform SGD, Adam, RAdam, AdaBelief, and AdaHessian in test accuracy, perplexity (31.94 vs. 32.65 for SGD and 32.83 for AdaBelief), and BLEU score (28.34) while running at ~1.2-1.5x SGD cost compared to 3.5-11.8x for AdaHessian.
+  evidence:
+  - source_id: r607-primary-pdf
+    locator: Section 4.1-4.3, Tables 1-3 and Figures 1-3, p. 9-11; Appendix E, Tables 5-6, p. 28-30
+    relation: supports
+- claim_id: lack-of-objective-scale-invariance-and-warmup-requirement
+  kind: limitation
+  statement: Because B_0, d_0, and m_0 are initialized to zero and closed-form bias correction is unavailable for d_t and B_t, Apollo requires a linear learning-rate warmup heuristic during early iterations (Section 3.4, p. 8); furthermore, standard Apollo is not invariant to rescaling the objective function unless modified with the gradient-difference threshold D_t = max(|B_t|, sigma ||g_{t+1} - g_t||_infty) of Scale-Invariant Apollo (Section 6, p. 13; Appendix G, Eq. 31, p. 31).
+  evidence:
+  - source_id: r607-primary-pdf
+    locator: Section 3.4, p. 8; Section 6, p. 13; Appendix G, Eq. 31, p. 31
+    relation: supports
+evidence_sources:
+- source_id: r607-primary-pdf
+  title: 'Apollo: An Adaptive Parameter-wise Diagonal Quasi-Newton Method for Nonconvex Stochastic Optimization'
+  authors: &id001
+  - Xuezhe Ma
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2009.13586
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2009-13586
+  version: arXiv:2009.13586 (2020) (5474607 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:30:00Z'
+  sha256: 8182f065212d442bb773a77bbae7dcded09cf2b142f98f79921ce1ff7be9a830
+- source_id: r607-arxiv-abs
+  title: 'Apollo: An Adaptive Parameter-wise Diagonal Quasi-Newton Method for Nonconvex Stochastic Optimization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2009.13586
+  persistent_id: https://arxiv.org/abs/2009.13586
+  version: arXiv abstract page (6668 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:30:00Z'
+  sha256: ebfa0abc804ccabb433fd7991de6a634a69960a53a357469e10599e35fb87b6a
+- source_id: r607-metadata-cr
+  title: 'Apollo: An Adaptive Parameter-wise Diagonal Quasi-Newton Method for Nonconvex Stochastic Optimization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-2009-13586
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2009-13586
+  version: Crossref API work record (1121 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:30:00Z'
+  sha256: cbb896a923aad3a7d2a65326c61554f58f1b71b451efe8ed683ec23877ccc840
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Apollo is a diagonal quasi-Newton stochastic optimizer for training deep convolutional, recurrent, and transformer neural networks.
+limitations:
+- Cannot analytically bias-correct the zero-initialized diagonal Hessian B_t and update direction d_t, requiring a linear learning-rate warmup schedule at the start of training.
+- Standard Apollo with constant rectification threshold sigma is not invariant to linear rescaling of the loss function unless replaced by the gradient-difference rectification threshold sigma ||g_{t+1} - g_t||_infty of Scale-Invariant Apollo (Appendix G).
+curation:
+  created_at: '2026-10-19T11:30:00Z'
+  updated_at: '2026-10-19T11:30:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

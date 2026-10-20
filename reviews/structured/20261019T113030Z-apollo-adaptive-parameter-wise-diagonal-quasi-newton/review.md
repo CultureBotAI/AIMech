@@ -1,0 +1,355 @@
+# Scientific author self-review of Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton Optimizer)
+
+- Review: 20261019T113030Z-apollo-adaptive-parameter-wise-diagonal-quasi-newton
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T11:30:00Z
+- Finished UTC: 2026-10-19T11:30:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton Optimizer) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 14fbd7a963a2aed6dba7d45595441f95a8e73904.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization | data/curated/ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization.yaml | maintained | Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton Optimizer) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization | Validated history sidecar files. |
+| python3 apollo-adaptive-parameter-wise-diagonal-quasi-newton-boundaries.py | passed | True | AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization | [PASS] Round 607 Apollo verified: secant_err=0.00e+00, frob_gain=7.9768e-02&gt;0, eq8_err=4.44e-16, thm1_th_err=5.55e-14, thm1_B_err=2.06e-13, scale_inv_err=1.25e-15 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization.
+
+Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton Optimizer) is a distinct concept.
+
+Distinct from L-BFGS, SdLBFGS (Wang et al. 2017), AdaHessian (AIMech:AdaHessianAdaptiveSecondOrderOptimizer), and Sophia (AIMech:SophiaSecondOrderClippedStochasticOptimization): Apollo requires zero Hessian-vector products or multi-step secant history buffers; instead it solves the minimum-Frobenius-norm diagonal update min_B &#124;&#124;B - B_t&#124;&#124;_F subject to the parameter-wise weak secant equation s_t^T B_{t+1} s_t = s_t^T y_t (Eqs. 6-7), applies stepsize bias correction y'_t = eta_t y_t so B_{t+1} is invariant to eta_t (Eq. 8), and enforces positive definiteness via elementwise rectified absolute values max(&#124;B_{t+1}&#124;, sigma) (Eq. 11).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in apollo-adaptive-parameter-wise-diagonal-quasi-newton-boundaries.py passed with exit code 0: [PASS] Round 607 Apollo verified: secant_err=0.00e+00, frob_gain=7.9768e-02&gt;0, eq8_err=4.44e-16, thm1_th_err=5.55e-14, thm1_B_err=2.06e-13, scale_inv_err=1.25e-15
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T113000Z-apollo-adaptive-parameter-wise-diagonal-quasi-newton.json | supports | No normalized identity match for AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/apollo-adaptive-parameter-wise-diagonal-quasi-newton-boundaries.py | supports | All constructed boundary assertions in apollo-adaptive-parameter-wise-diagonal-quasi-newton-boundaries.py passed with exit code 0: [PASS] Round 607 Apollo verified: secant_err=0.00e+00, frob_gain=7.9768e-02&gt;0, eq8_err=4.44e-16, thm1_th_err=5.55e-14, thm1_B_err=2.06e-13, scale_inv_err=1.25e-15 |
+| r607-primary-pdf | https://arxiv.org/pdf/2009.13586; Full-text PDF | supports | Full-text PDF (arXiv:2009.13586 (2020)) read and verified. |
+| r607-arxiv-abs | https://arxiv.org/abs/2009.13586; arXiv abstract | supports | arXiv abstract read and verified. |
+| r607-metadata-cr | https://dblp.org/rec/journals/corr/abs-2009-13586; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization in Round 607.
+- All pages of arXiv:2009.13586 (2020) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T113030Z-apollo-adaptive-parameter-wise-diagonal-quasi-newton
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton
+  Optimizer)
+started_at: '2026-10-19T11:30:00Z'
+finished_at: '2026-10-19T11:30:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+    against existing AIMech and AIO records and verified all claims against arXiv:2009.13586
+    (2020) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton Optimizer) as
+  a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
+source:
+  git_revision: 14fbd7a963a2aed6dba7d45595441f95a8e73904
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization.yaml
+    sha256: 71eaa0d428d490778eab0ebeb4a3ee884880969ac50d7e02e670123f8f6ac970
+    role: target
+  - path: research/discovery/20261019T113000Z-apollo-adaptive-parameter-wise-diagonal-quasi-newton.json
+    sha256: 56acd4ce61de43a376cb07b5ebb838e01f6f1ad38a1526369653c22ac9d0e39c
+    role: context
+  - path: research/discovery/apollo-adaptive-parameter-wise-diagonal-quasi-newton-boundaries.py
+    sha256: 526232f7b443ba8051630cdf4ea82214d23a13ca1e166ace37c105eaed25d910
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+  path: data/curated/ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization.yaml
+  label: Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton Optimizer)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 apollo-adaptive-parameter-wise-diagonal-quasi-newton-boundaries.py
+  command: python3 research/discovery/apollo-adaptive-parameter-wise-diagonal-quasi-newton-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 607 Apollo verified: secant_err=0.00e+00, frob_gain=7.9768e-02>0,
+    eq8_err=4.44e-16, thm1_th_err=5.55e-14, thm1_B_err=2.06e-13, scale_inv_err=1.25e-15'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T113000Z-apollo-adaptive-parameter-wise-diagonal-quasi-newton.json
+  accessed_at: '2026-10-19T11:30:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T11:30:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/apollo-adaptive-parameter-wise-diagonal-quasi-newton-boundaries.py
+  accessed_at: '2026-10-19T11:30:00Z'
+  snapshot_sha256: 526232f7b443ba8051630cdf4ea82214d23a13ca1e166ace37c105eaed25d910
+  support: supports
+  summary: 'All constructed boundary assertions in apollo-adaptive-parameter-wise-diagonal-quasi-newton-boundaries.py
+    passed with exit code 0: [PASS] Round 607 Apollo verified: secant_err=0.00e+00,
+    frob_gain=7.9768e-02>0, eq8_err=4.44e-16, thm1_th_err=5.55e-14, thm1_B_err=2.06e-13,
+    scale_inv_err=1.25e-15'
+- evidence_id: r607-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2009.13586
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T11:30:00Z'
+  snapshot_sha256: 8182f065212d442bb773a77bbae7dcded09cf2b142f98f79921ce1ff7be9a830
+  support: supports
+  summary: Full-text PDF (arXiv:2009.13586 (2020)) read and verified.
+- evidence_id: r607-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2009.13586
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T11:30:00Z'
+  snapshot_sha256: ebfa0abc804ccabb433fd7991de6a634a69960a53a357469e10599e35fb87b6a
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r607-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/journals/corr/abs-2009-13586
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T11:30:00Z'
+  snapshot_sha256: cbb896a923aad3a7d2a65326c61554f58f1b71b451efe8ed683ec23877ccc840
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+  evidence_ids:
+  - identity
+  - r607-primary-pdf
+  - r607-arxiv-abs
+  - r607-metadata-cr
+  summary: Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton Optimizer) is a distinct
+    concept.
+  details: 'Distinct from L-BFGS, SdLBFGS (Wang et al. 2017), AdaHessian (AIMech:AdaHessianAdaptiveSecondOrderOptimizer),
+    and Sophia (AIMech:SophiaSecondOrderClippedStochasticOptimization): Apollo requires
+    zero Hessian-vector products or multi-step secant history buffers; instead it
+    solves the minimum-Frobenius-norm diagonal update min_B ||B - B_t||_F subject
+    to the parameter-wise weak secant equation s_t^T B_{t+1} s_t = s_t^T y_t (Eqs.
+    6-7), applies stepsize bias correction y''_t = eta_t y_t so B_{t+1} is invariant
+    to eta_t (Eq. 8), and enforces positive definiteness via elementwise rectified
+    absolute values max(|B_{t+1}|, sigma) (Eq. 11).'
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+  evidence_ids:
+  - mapping
+  - r607-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+  evidence_ids:
+  - r607-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in apollo-adaptive-parameter-wise-diagonal-quasi-newton-boundaries.py
+    passed with exit code 0: [PASS] Round 607 Apollo verified: secant_err=0.00e+00,
+    frob_gain=7.9768e-02>0, eq8_err=4.44e-16, thm1_th_err=5.55e-14, thm1_B_err=2.06e-13,
+    scale_inv_err=1.25e-15'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+  evidence_ids:
+  - identity
+  - mapping
+  - r607-primary-pdf
+  - r607-arxiv-abs
+  - r607-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization
+  in Round 607.
+- All pages of arXiv:2009.13586 (2020) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
