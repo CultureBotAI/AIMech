@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">54 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">55 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">54</span> of <span id="totalCount">54</span>
+      Showing <span id="matchCount">55</span> of <span id="totalCount">55</span>
     </div>
   </div>
 </div>
@@ -137,6 +137,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="coil contextualized inverted list coilcontextualizedinvertedlist aimech:coilcontextualizedinvertedlist architectures architecture a contextualized exact lexical match retrieval architecture and inverted-list index structure that encodes document tokens offline with a pretrained transformer language model into low-dimensional contextualized vectors v_j^d = w_tok lm(d, j) + b_tok in r^{n_t} grouped by surface token t in v into contextualized inverted lists i^t = {v_j^d | d_j = t, d in c}, and at query time encodes query tokens into v_i^q = w_tok lm(q, i) + b_tok to traverse only the inverted lists j = {i^t | t in q} of overlapping terms and compute the contextualized exact token match score s_tok(q, d) = sum_{q_i in q cap d} max_{d_j = q_i} (v_i^q)^t v_j^d (coil-tok), optionally augmented with a projected [cls] dot-product score s_full(q, d) = s_tok(q, d) + (v_cls^q)^t v_cls^d (coil-full) to mitigate vocabulary mismatch. distinct from classical bag-of-words inverted-list retrievers such as bm25 and scalar lm term-weighting methods such as deepct (dai &amp; callan, sigir 2019, equivalent to n_t = 1 scalar term importance without context-dependent vector similarity); distinct from single-vector dense retrievers such as dpr (aimech:densepassageretrieval), which rely solely on global [cls] matching without token-level exact match; and distinct from colbert (khattab &amp; zaharia, sigir 2020, aimech:colbertcontextualizedlateinteraction), which computes cartesian all-to-all soft maxsim across all query and document token vectors rather than traversing inverted lists of exact overlapping surface tokens. coil contextualized inverted list coil-tok and coil-full coil contextualized exact lexical match architecture coil projects transformer token states of dimension n_lm = 768 down to n_t (e.g., n_t = 32 or 8) via v_i^q = w_tok lm(q, i) + b_tok and v_j^d = w_tok lm(d, j) + b_tok, scoring only overlapping surface tokens q_i in q cap d via max-pooled dot products s_tok(q, d) = sum_{q_i in q cap d} max_{d_j = q_i} (v_i^q)^t v_j^d so polysemous mentions (such as &#39;cabinet&#39; in government vs. kitchen cupboard contexts, scoring 16.75 vs. 7.23) are disambiguated in token-specific embedding spaces. coil stacks the contextualized mention vectors in each token&#39;s inverted list i^t = {v_j^d | d_j = t, d in c} into a contiguous matrix m in r^{n_t x |i^t|} so query-time traversal of j = {i^t | t in q} (|j| &lt;&lt; |i|) executes as parallel blas matrix-vector products followed by max-scatter and sort, while coil-full adds a projected [cls] inner product (v_cls^q)^t v_cls^d (with n_c = 768 or 128) to bridge vocabulary mismatch. on ms marco passage retrieval, coil-tok (n_t = 32) achieves 0.341 dev mrr@10 and 0.660 trec dl 2019 ndcg@10 (outperforming bm25 at 0.184, deepct at 0.243, doct5query at 0.278, and dense at 0.304), while coil-full (n_c = 768, n_t = 32) reaches 0.355 dev mrr@10, 0.963 recall@1k, and 0.704 dl2019 ndcg@10 (and 0.397 dev mrr@10 / 0.636 dl2019 ndcg@10 on ms marco document ranking), with compressed coil-full (n_c = 128, n_t = 8) running in 113ms cpu / 21ms gpu and coil-tok (n_t = 8) in 55ms cpu / 16ms gpu. pure exact-match coil-tok (n_c = 0) cannot match query and document terms that have no surface lexical overlap (scoring 0.341 mrr@10 and 0.949 recall@1k vs. 0.355 mrr@10 and 0.963 recall@1k for coil-full), and storing multi-dimensional vector postings for every token mention in the corpus (~500m token mentions in ms marco passage) increases index memory compared to scalar bm25 inverted lists. coil: revisit exact lexical match in information retrieval with contextualized inverted list coil: revisit exact lexical match in information retrieval with contextualized inverted list (arxiv abstract) coil: revisit exact lexical match in information retrieval with contextualized inverted list (crossref metadata) luyu gao zhuyun dai jamie callan luyu gao zhuyun dai jamie callan luyu gao zhuyun dai jamie callan">
+        <td>
+          <a href="../curated/COILContextualizedInvertedList.html" style="font-weight: 600; font-size: 1rem;">COIL Contextualized Inverted List</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> COIL, Contextualized Inverted List…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A contextualized exact lexical match retrieval architecture and inverted-list index structure that encodes document tokens offline with a pr…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:COILContextualizedInvertedList</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

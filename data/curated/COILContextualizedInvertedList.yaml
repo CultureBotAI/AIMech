@@ -1,0 +1,101 @@
+id: AIMech:COILContextualizedInvertedList
+name: COIL Contextualized Inverted List
+concept_kind: architecture
+review_status: DRAFT
+definition: A contextualized exact lexical match retrieval architecture and inverted-list index structure that encodes document tokens offline with a pretrained Transformer language model into low-dimensional contextualized vectors v_j^d = W_tok LM(d, j) + b_tok in R^{n_t} grouped by surface token t in V into contextualized inverted lists I^t = {v_j^d | d_j = t, d in C}, and at query time encodes query tokens into v_i^q = W_tok LM(q, i) + b_tok to traverse only the inverted lists J = {I^t | t in q} of overlapping terms and compute the contextualized exact token match score s_tok(q, d) = sum_{q_i in q cap d} max_{d_j = q_i} (v_i^q)^T v_j^d (COIL-tok), optionally augmented with a projected [CLS] dot-product score s_full(q, d) = s_tok(q, d) + (v_cls^q)^T v_cls^d (COIL-full) to mitigate vocabulary mismatch.
+identity_notes: Distinct from classical bag-of-words inverted-list retrievers such as BM25 and scalar LM term-weighting methods such as DeepCT (Dai & Callan, SIGIR 2019, equivalent to n_t = 1 scalar term importance without context-dependent vector similarity); distinct from single-vector dense retrievers such as DPR (AIMech:DensePassageRetrieval), which rely solely on global [CLS] matching without token-level exact match; and distinct from ColBERT (Khattab & Zaharia, SIGIR 2020, AIMech:ColBERTContextualizedLateInteraction), which computes Cartesian all-to-all soft MaxSim across all query and document token vectors rather than traversing inverted lists of exact overlapping surface tokens.
+aliases:
+- COIL
+- Contextualized Inverted List
+- COIL-tok and COIL-full
+- COIL Contextualized Exact Lexical Match Architecture
+definition_evidence:
+- source_id: r743-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r743-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r743-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r743-claim-contextualized-exact-match-scoring
+  kind: mechanism
+  statement: COIL projects Transformer token states of dimension n_lm = 768 down to n_t (e.g., n_t = 32 or 8) via v_i^q = W_tok LM(q, i) + b_tok and v_j^d = W_tok LM(d, j) + b_tok, scoring only overlapping surface tokens q_i in q cap d via max-pooled dot products s_tok(q, d) = sum_{q_i in q cap d} max_{d_j = q_i} (v_i^q)^T v_j^d so polysemous mentions (such as 'cabinet' in government vs. kitchen cupboard contexts, scoring 16.75 vs. 7.23) are disambiguated in token-specific embedding spaces.
+  evidence:
+  - source_id: r743-primary-pdf
+    locator: Section 3.2 & Section 5.3, Equations 3-5, Table 4, pp. 4, 8-9
+    relation: supports
+- claim_id: r743-claim-blas-inverted-list-and-cls-hybrid
+  kind: mechanism
+  statement: COIL stacks the contextualized mention vectors in each token's inverted list I^t = {v_j^d | d_j = t, d in C} into a contiguous matrix M in R^{n_t x |I^t|} so query-time traversal of J = {I^t | t in q} (|J| << |I|) executes as parallel BLAS matrix-vector products followed by max-scatter and sort, while COIL-full adds a projected [CLS] inner product (v_cls^q)^T v_cls^d (with n_c = 768 or 128) to bridge vocabulary mismatch.
+  evidence:
+  - source_id: r743-primary-pdf
+    locator: Section 3.2-3.3 & Appendix A.1-A.2, Equations 6-9, Figures 3-5, pp. 3-5, 12-13
+    relation: supports
+- claim_id: r743-claim-msmarco-trec-dl-application
+  kind: application
+  statement: On MS MARCO Passage retrieval, COIL-tok (n_t = 32) achieves 0.341 Dev MRR@10 and 0.660 TREC DL 2019 NDCG@10 (outperforming BM25 at 0.184, DeepCT at 0.243, DocT5Query at 0.278, and Dense at 0.304), while COIL-full (n_c = 768, n_t = 32) reaches 0.355 Dev MRR@10, 0.963 Recall@1K, and 0.704 DL2019 NDCG@10 (and 0.397 Dev MRR@10 / 0.636 DL2019 NDCG@10 on MS MARCO Document ranking), with compressed COIL-full (n_c = 128, n_t = 8) running in 113ms CPU / 21ms GPU and COIL-tok (n_t = 8) in 55ms CPU / 16ms GPU.
+  evidence:
+  - source_id: r743-primary-pdf
+    locator: Section 5.1-5.2, Tables 1-3, pp. 6-8
+    relation: supports
+- claim_id: r743-claim-vocabulary-mismatch-and-index-limitation
+  kind: limitation
+  statement: Pure exact-match COIL-tok (n_c = 0) cannot match query and document terms that have no surface lexical overlap (scoring 0.341 MRR@10 and 0.949 Recall@1K vs. 0.355 MRR@10 and 0.963 Recall@1K for COIL-full), and storing multi-dimensional vector postings for every token mention in the corpus (~500M token mentions in MS MARCO passage) increases index memory compared to scalar BM25 inverted lists.
+  evidence:
+  - source_id: r743-primary-pdf
+    locator: Section 3.2, Section 5.1, & Section 5.2, Tables 1 and 3, pp. 4, 6-8
+    relation: supports
+evidence_sources:
+- source_id: r743-primary-pdf
+  title: 'COIL: Revisit Exact Lexical Match in Information Retrieval with Contextualized Inverted List'
+  authors: &id001
+  - Luyu Gao
+  - Zhuyun Dai
+  - Jamie Callan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2104.07186.pdf
+  persistent_id: https://dblp.org/rec/conf/naacl/GaoDC21.xml
+  version: 'Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT 2021), pp. 3030-3042 (2021) (698180 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:46:00Z'
+  sha256: 8fb9cdd8aa651c26bbc193d1f7aebc444fe6c4cd358d0f6ad61224e5365f75ec
+- source_id: r743-arxiv-abs
+  title: 'COIL: Revisit Exact Lexical Match in Information Retrieval with Contextualized Inverted List (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2104.07186
+  persistent_id: https://arxiv.org/abs/2104.07186
+  version: arXiv abstract page (6301 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:46:00Z'
+  sha256: e330336cce63230950644885b91406fe0183b8f39bc821571eb24d2a8f3453db
+- source_id: r743-metadata-cr
+  title: 'COIL: Revisit Exact Lexical Match in Information Retrieval with Contextualized Inverted List (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/naacl/GaoDC21.xml
+  persistent_id: https://dblp.org/rec/conf/naacl/GaoDC21.xml
+  version: Crossref API work record (528 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:46:00Z'
+  sha256: e3b4d8e2ab5ab1b2b6aaf2697541884c1ef7a45fa39bfdf137559847d66ae41c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: COIL projects contextualized token and [CLS] representations from a deep Transformer neural network into inverted lists for exact-match vector dot-product scoring.
+limitations:
+- Without the auxiliary [CLS] dense matching component (COIL-tok), exact lexical matching cannot score non-overlapping synonymous terms between query and document.
+- Requires storing an n_t-dimensional vector for every token occurrence across the corpus (roughly 500M token mentions on MS MARCO passages) rather than a single scalar term-frequency posting.
+curation:
+  created_at: '2026-10-19T13:46:00Z'
+  updated_at: '2026-10-19T13:46:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
