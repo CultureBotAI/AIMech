@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1587</strong> artificial intelligence concepts, comprising <strong>1145</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1588</strong> artificial intelligence concepts, comprising <strong>1146</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1587)</option>
-        <option value="curated">Curated AIMech (1145)</option>
+        <option value="all">All Origins (1588)</option>
+        <option value="curated">Curated AIMech (1146)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -53,7 +53,7 @@
           <option value="algorithm">Algorithms (820)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
-          <option value="architecture">Architectures (56)</option>
+          <option value="architecture">Architectures (57)</option>
           <option value="layer">Layers &amp; Modules (12)</option>
           <option value="evaluation_criterion">Evaluation Criteria (5)</option>
           <option value="evaluation_method">Evaluation Methods (4)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1587</span> of <span id="totalCount">1587</span>
+      Showing <span id="matchCount">1588</span> of <span id="totalCount">1588</span>
     </div>
   </div>
 </div>
@@ -6049,6 +6049,32 @@
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="condenser (pre-training architecture for dense retrieval) condenserpretrainingarchitecturefordenseretrieval aimech:condenserpretrainingarchitecturefordenseretrieval architectures architecture a transformer pre-training architecture for dense bi-encoder representation learning that partitions the encoder backbone into l^e early layers and l^l late layers—computing [h_cls^early; h^early] = encoder_early([h_cls^0; h^0]) and [h_cls^late; h^late] = encoder_late([h_cls^early; h^early])—and introduces a short-circuit from the early token states h^early combined with the late [cls] vector h_cls^late into a temporary l^h-layer condenser head [h_cls^cd; h^cd] = condenser_head([h_cls^late; h^early]) trained with joint masked language modeling loss l = l_mlm(w h_i^cd, x_i) + l_mlm^c(w h_i^late, x_i) before discarding the head during fine-tuning. introduced by gao and callan (emnlp 2021, pp. 981-993, arxiv:2104.08253). distinguished from standard bert mlm/nsp pre-training (devlin et al., 2019), where the [cls] token remains dormant in middle layers and lacks structural readiness for dense aggregation, from retromae (xiao et al., 2022), which uses dual independent asymmetric masks (30% encoder, 50-70% decoder) and two-stream position-specific enhanced decoding without an early-layer skip connection, and from funnel transformer (dai et al., 2020), which pools sequence length by 4x for compute speedup rather than routing global semantics through a single [cls] vector. condenser transformer pre-training architecture condition on dense representation architecture condenser late-early short-circuit encoder by feeding the l^h-layer condenser head with [h_cls^late; h^early] (where l^e = 6 early layers and l^l = 6 late layers in bert-base), condenser allows local syntactic information to bypass the late layers via h^early while forcing all higher-level contextual information refined in encoder_late to pass exclusively through the single dense vector h_cls^late to minimize l_mlm = sum_{i in masked} crossentropy(w h_i^cd, x_i), regularized by the backbone semantic constraint l_mlm^c = sum_{i in masked} crossentropy(w h_i^late, x_i) with shared projection matrix w. after discarding the 2-layer condenser head, the resulting 12-layer backbone exhibits high late-layer [cls] attention entropy prior to fine-tuning (structural readiness) and achieves 0.366 mrr@10 and 0.974 recall@1000 on ms marco passage dev (with batch size 64 and a single round of hard negatives, outperforming ance&#39;s 0.330 and matching rocketqa without external data at 0.364) as well as 83.2% top-20 accuracy on natural questions and 81.9% on triviaqa. condenser requires 8 epochs of continued mlm pre-training with an extra 2-layer head (~20m additional parameters during pre-training), still relies on single-vector [cls] compression that has limited capacity on long documents (trailing ance on trec dl 2019 document ranking, 0.597 vs. 0.615 ndcg@10), and trains only with instance-level mlm loss without corpus-level contrastive supervision. condenser: a pre-training architecture for dense retrieval condenser: a pre-training architecture for dense retrieval (arxiv abstract) condenser: a pre-training architecture for dense retrieval (crossref metadata) luyu gao jamie callan luyu gao jamie callan luyu gao jamie callan">
+        <td>
+          <a href="curated/CondenserPreTrainingArchitectureForDenseRetrieval.html" style="font-weight: 600; font-size: 1rem;">Condenser (Pre-Training Architecture for Dense Retrieval)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Condenser Transformer Pre-Training Architecture, CONdition on DENSE Representation Architecture…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A transformer pre-training architecture for dense bi-encoder representation learning that partitions the encoder backbone into L^e early lay…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:CondenserPreTrainingArchitectureForDenseRetrieval</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

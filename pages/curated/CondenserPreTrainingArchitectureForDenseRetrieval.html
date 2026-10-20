@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Condenser (Pre-Training Architecture for Dense Retrieval) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Condenser (Pre-Training Architecture for Dense Retrieval)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Condenser (Pre-Training Architecture for Dense Retrieval)</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:CondenserPreTrainingArchitectureForDenseRetrieval</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Condenser Transformer Pre-Training Architecture, CONdition on DENSE Representation Architecture, Condenser Late-Early Short-Circuit Encoder
+    </div>
+
+  <div class="detail-desc">
+    A transformer pre-training architecture for dense bi-encoder representation learning that partitions the encoder backbone into L^e early layers and L^l late layers—computing [h_cls^early; h^early] = Encoder_early([h_cls^0; h^0]) and [h_cls^late; h^late] = Encoder_late([h_cls^early; h^early])—and introduces a short-circuit from the early token states h^early combined with the late [CLS] vector h_cls^late into a temporary L^h-layer Condenser Head [h_cls^cd; h^cd] = Condenser_head([h_cls^late; h^early]) trained with joint Masked Language Modeling loss L = L_mlm(W h_i^cd, x_i) + L_mlm^c(W h_i^late, x_i) before discarding the head during fine-tuning.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Gao and Callan (EMNLP 2021, pp. 981-993, arXiv:2104.08253). Distinguished from standard BERT MLM/NSP pre-training (Devlin et al., 2019), where the [CLS] token remains dormant in middle layers and lacks structural readiness for dense aggregation, from RetroMAE (Xiao et al., 2022), which uses dual independent asymmetric masks (30% encoder, 50-70% decoder) and two-stream position-specific enhanced decoding without an early-layer skip connection, and from Funnel Transformer (Dai et al., 2020), which pools sequence length by 4x for compute speedup rather than routing global semantics through a single [CLS] vector.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#condenser-late-early-short-circuit-bottleneck-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By feeding the L^h-layer Condenser Head with [h_cls^late; h^early] (where L^e = 6 early layers and L^l = 6 late layers in BERT-base), Condenser allows local syntactic information to bypass the late layers via h^early while forcing all higher-level contextual information refined in Encoder_late to pass exclusively through the single dense vector h_cls^late to minimize L_mlm = sum_{i in masked} CrossEntropy(W h_i^cd, x_i), regularized by the backbone semantic constraint L_mlm^c = sum_{i in masked} CrossEntropy(W h_i^late, x_i) with shared projection matrix W.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r751-primary-pdf">Condenser: a Pre-training Architecture for Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3-3.4 (Equations 6-11) &amp; Section 4.1, pp. 3-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r751-primary-pdf">Condenser: a Pre-training Architecture for Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> condenser_head_forward, mlm_cross_entropy &amp; main</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#condenser-structural-readiness-and-retrieval-effectiveness</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After discarding the 2-layer Condenser Head, the resulting 12-layer backbone exhibits high late-layer [CLS] attention entropy prior to fine-tuning (structural readiness) and achieves 0.366 MRR@10 and 0.974 Recall@1000 on MS MARCO Passage Dev (with batch size 64 and a single round of hard negatives, outperforming ANCE&#39;s 0.330 and matching RocketQA without external data at 0.364) as well as 83.2% Top-20 accuracy on Natural Questions and 81.9% on TriviaQA.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r751-primary-pdf">Condenser: a Pre-training Architecture for Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 (Tables 3-4), Section 4.4 (Tables 5-7), &amp; Section 5 (Figure 2), pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#condenser-single-vector-capacity-and-corpus-contrast-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Condenser requires 8 epochs of continued MLM pre-training with an extra 2-layer head (~20M additional parameters during pre-training), still relies on single-vector [CLS] compression that has limited capacity on long documents (trailing ANCE on TREC DL 2019 Document Ranking, 0.597 vs. 0.615 nDCG@10), and trains only with instance-level MLM loss without corpus-level contrastive supervision.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r751-primary-pdf">Condenser: a Pre-training Architecture for Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 2, p. 2; Section 4.1, p. 4; Appendix A.2 &amp; A.4 (Table 8), pp. 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires continued MLM pre-training (8 epochs on Wikipedia + BookCorpus) with an auxiliary 2-layer Condenser Head (~20M extra parameters during pre-training).</li>
+      <li>Instance-level MLM bottleneck lacks corpus-level contrastive shaping of the global embedding space and faces single-vector capacity limits on long documents.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Modifies the internal skip-connection and head topology of deep bidirectional transformer neural networks during MLM pre-training.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r751-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r751-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2104.08253" target="_blank" rel="noopener">Condenser: a Pre-training Architecture for Dense Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Luyu Gao, Jamie Callan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Condenser+a+Pre-training+Architecture+for+Dense+Retrieval+Gao&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:93415419fc21…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r751-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r751-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2104.08253" target="_blank" rel="noopener">Condenser: a Pre-training Architecture for Dense Retrieval (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Luyu Gao, Jamie Callan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2104.08253</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f02dc240a676…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r751-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r751-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Condenser+a+Pre-training+Architecture+for+Dense+Retrieval+Gao&amp;h=5&amp;format=xml" target="_blank" rel="noopener">Condenser: a Pre-training Architecture for Dense Retrieval (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Luyu Gao, Jamie Callan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Condenser+a+Pre-training+Architecture+for+Dense+Retrieval+Gao&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b186fa72eabf…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:54:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:54:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CondenserPreTrainingArchitectureForDenseRetrieval.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CondenserPreTrainingArchitectureForDenseRetrieval.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
