@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMITH: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>SMITH: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SMITH: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:SMITHSiameseMultiDepthTransformerBasedHierarchicalEncoder</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SMITH Hierarchical Document Matching Encoder, Siamese Multi-depth Transformer-based Hierarchical Encoder, SMITH Dual-Encoder for Long-Form Document Matching
+    </div>
+
+  <div class="detail-desc">
+    A two-tower Siamese (&#39;Dual-Encoder&#39;) hierarchical Transformer architecture for long-to-long document semantic matching (Yang, Zhang, Li, Bendersky, &amp; Najork, CIKM 2020) that packs natural sentences into L_d sentence blocks {S_1, ..., S_{L_d}} of max length L_s via greedy sentence filling, encodes tokens within each block using an L_1-layer sentence-level Transformer to extract L2-normalized block [CLS] embeddings h_i in R^H, contextualizes {h_1, ..., h_{L_d}} with an L_2-layer document-level Transformer to produce L2-normalized document embeddings E(d_s), E(d_c) scored by cosine similarity cos(E(d_s), E(d_c)), and pre-trains jointly with masked word prediction and dynamic in-batch masked sentence block contrastive prediction L_pretrain = L_sp + L_wp.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from cross-encoder passage aggregation rankers such as PARADE (AIMech:PARADEPassageRepresentationAggregationForDocumentReranking, which jointly encodes query-passage pairs) and from RNN-based hierarchical document matchers such as HAN and SMASH RNN. SMITH is a representation-focused Siamese dual encoder supporting offline vector indexing up to 2,048 tokens, reducing self-attention memory complexity from O(b * A * L * N^2) to O(b * A * L * (L_s * N + (N / L_s)^2)) via greedy sentence filling and two-level Transformers.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#smith-greedy-sentence-filling-and-two-level-transformer-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    SMITH splits a document of length N into L_d = N / L_s blocks of max length L_s by greedily packing complete natural sentences into each block until adding the next sentence would exceed L_s, encodes each block with an L_1-layer sentence-level Transformer, and feeds the L2-normalized block representations plus block position embeddings into an L_2-layer document-level Transformer, reducing attention memory complexity from O(b * A * L * N^2) to O(b * A * L * (L_s * N + (N / L_s)^2)) (Eq. 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r790-primary-pdf">Beyond 512 Tokens: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1.1-4.1.3, Equations (1)-(3), Figures 2-3, pp. 4-6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r790-primary-pdf">Beyond 512 Tokens: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching</a></span>
+        <span>· <strong>Locator:</strong> greedy_sentence_filling, count_padding_tokens, and smith_attention_memory_ops verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#smith-dynamic-masked-sentence-block-pretraining-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    During unsupervised pre-training, SMITH dynamically masks m randomly sampled sentence block vectors h_k per document with a learned mask vector h_hat, predicts contextual block vectors S_hat_j from the document-level Transformer, and minimizes the in-batch softmax cross-entropy L_sp = -(1/B) sum_{i=1}^B log(exp(S_hat_i h_i^T) / sum_{r=1}^B exp(S_hat_i h_r^T)) over all B = b * m masked blocks jointly with masked word prediction L_pretrain = L_sp + L_wp (Eqs. 4-7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r790-primary-pdf">Beyond 512 Tokens: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2.1-4.2.2, Equations (4)-(7), p. 6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r790-primary-pdf">Beyond 512 Tokens: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching</a></span>
+        <span>· <strong>Locator:</strong> masked_sentence_block_loss verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#smith-siamese-no-early-cross-document-token-interaction-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because SMITH is a representation-focused Siamese dual encoder that encodes source and candidate documents independently into single vectors for offline ANN indexing, it cannot perform early token-by-token cross-attention between the two documents and requires tuning sentence-level Transformer depth L_1 against intermediate activation memory costs.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r790-primary-pdf">Beyond 512 Tokens: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching</a></span>
+        <span>· <strong>Locator:</strong> Section 2, p. 3; Section 5.2.1, p. 8; Section 5.5, Table 6, p. 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>As a Siamese dual-encoder architecture that compresses each document into a single dense vector before cosine similarity, SMITH cannot capture fine-grained cross-document token interactions prior to final pooling.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SMITH is a Siamese hierarchical Transformer neural network architecture for long-form document representation learning and semantic matching.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r790-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r790-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2004.12297.pdf" target="_blank" rel="noopener">Beyond 512 Tokens: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liu Yang, Mingyang Zhang, Cheng Li, Michael Bendersky, Marc Najork
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2004.12297</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b9608127f1ee…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r790-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r790-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2004.12297" target="_blank" rel="noopener">Beyond 512 Tokens: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liu Yang, Mingyang Zhang, Cheng Li, Michael Bendersky, Marc Najork
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2004.12297</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:61741c16b448…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r790-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r790-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2004.12297" target="_blank" rel="noopener">Beyond 512 Tokens: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liu Yang, Mingyang Zhang, Cheng Li, Michael Bendersky, Marc Najork
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2004.12297</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d8711a695cf8…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:33:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:33:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SMITHSiameseMultiDepthTransformerBasedHierarchicalEncoder.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SMITHSiameseMultiDepthTransformerBasedHierarchicalEncoder.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

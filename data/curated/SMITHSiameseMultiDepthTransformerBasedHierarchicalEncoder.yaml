@@ -1,0 +1,100 @@
+id: AIMech:SMITHSiameseMultiDepthTransformerBasedHierarchicalEncoder
+name: 'SMITH: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching'
+concept_kind: architecture
+review_status: DRAFT
+definition: A two-tower Siamese ('Dual-Encoder') hierarchical Transformer architecture for long-to-long document semantic matching (Yang, Zhang, Li, Bendersky, & Najork, CIKM 2020) that packs natural sentences into L_d sentence blocks {S_1, ..., S_{L_d}} of max length L_s via greedy sentence filling, encodes tokens within each block using an L_1-layer sentence-level Transformer to extract L2-normalized block [CLS] embeddings h_i in R^H, contextualizes {h_1, ..., h_{L_d}} with an L_2-layer document-level Transformer to produce L2-normalized document embeddings E(d_s), E(d_c) scored by cosine similarity cos(E(d_s), E(d_c)), and pre-trains jointly with masked word prediction and dynamic in-batch masked sentence block contrastive prediction L_pretrain = L_sp + L_wp.
+identity_notes: Distinct from cross-encoder passage aggregation rankers such as PARADE (AIMech:PARADEPassageRepresentationAggregationForDocumentReranking, which jointly encodes query-passage pairs) and from RNN-based hierarchical document matchers such as HAN and SMASH RNN. SMITH is a representation-focused Siamese dual encoder supporting offline vector indexing up to 2,048 tokens, reducing self-attention memory complexity from O(b * A * L * N^2) to O(b * A * L * (L_s * N + (N / L_s)^2)) via greedy sentence filling and two-level Transformers.
+aliases:
+- SMITH Hierarchical Document Matching Encoder
+- Siamese Multi-depth Transformer-based Hierarchical Encoder
+- SMITH Dual-Encoder for Long-Form Document Matching
+definition_evidence:
+- source_id: r790-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r790-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r790-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: smith-greedy-sentence-filling-and-two-level-transformer-mechanism
+  kind: mechanism
+  statement: SMITH splits a document of length N into L_d = N / L_s blocks of max length L_s by greedily packing complete natural sentences into each block until adding the next sentence would exceed L_s, encodes each block with an L_1-layer sentence-level Transformer, and feeds the L2-normalized block representations plus block position embeddings into an L_2-layer document-level Transformer, reducing attention memory complexity from O(b * A * L * N^2) to O(b * A * L * (L_s * N + (N / L_s)^2)) (Eq. 3).
+  evidence:
+  - source_id: r790-primary-pdf
+    locator: Section 4.1.1-4.1.3, Equations (1)-(3), Figures 2-3, pp. 4-6
+    relation: supports
+  - source_id: r790-primary-pdf
+    locator: greedy_sentence_filling, count_padding_tokens, and smith_attention_memory_ops verification
+    relation: supports
+- claim_id: smith-dynamic-masked-sentence-block-pretraining-mechanism
+  kind: mechanism
+  statement: During unsupervised pre-training, SMITH dynamically masks m randomly sampled sentence block vectors h_k per document with a learned mask vector h_hat, predicts contextual block vectors S_hat_j from the document-level Transformer, and minimizes the in-batch softmax cross-entropy L_sp = -(1/B) sum_{i=1}^B log(exp(S_hat_i h_i^T) / sum_{r=1}^B exp(S_hat_i h_r^T)) over all B = b * m masked blocks jointly with masked word prediction L_pretrain = L_sp + L_wp (Eqs. 4-7).
+  evidence:
+  - source_id: r790-primary-pdf
+    locator: Section 4.2.1-4.2.2, Equations (4)-(7), p. 6
+    relation: supports
+  - source_id: r790-primary-pdf
+    locator: masked_sentence_block_loss verification
+    relation: supports
+- claim_id: smith-siamese-no-early-cross-document-token-interaction-limitation
+  kind: limitation
+  statement: Because SMITH is a representation-focused Siamese dual encoder that encodes source and candidate documents independently into single vectors for offline ANN indexing, it cannot perform early token-by-token cross-attention between the two documents and requires tuning sentence-level Transformer depth L_1 against intermediate activation memory costs.
+  evidence:
+  - source_id: r790-primary-pdf
+    locator: Section 2, p. 3; Section 5.2.1, p. 8; Section 5.5, Table 6, p. 9
+    relation: supports
+evidence_sources:
+- source_id: r790-primary-pdf
+  title: 'Beyond 512 Tokens: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching'
+  authors: &id001
+  - Liu Yang
+  - Mingyang Zhang
+  - Cheng Li
+  - Michael Bendersky
+  - Marc Najork
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.12297.pdf
+  persistent_id: https://arxiv.org/bibtex/2004.12297
+  version: Proceedings of the 29th ACM International Conference on Information and Knowledge Management (CIKM 2020) (2020) (971593 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:33:00Z'
+  sha256: b9608127f1ee1576c542028468149cc24430c405383488efcfa94fc544d45c17
+- source_id: r790-arxiv-abs
+  title: 'Beyond 512 Tokens: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.12297
+  persistent_id: https://arxiv.org/abs/2004.12297
+  version: arXiv abstract page (8082 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:33:00Z'
+  sha256: 61741c16b4484fbd6b1bbad9c84687d20ed948fac41d5c768b3d610a12d96708
+- source_id: r790-metadata-cr
+  title: 'Beyond 512 Tokens: Siamese Multi-depth Transformer-based Hierarchical Encoder for Long-Form Document Matching (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2004.12297
+  persistent_id: https://arxiv.org/bibtex/2004.12297
+  version: Crossref API work record (519 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:33:00Z'
+  sha256: d8711a695cf84f8e61fb11785389adb7e048edac855218fed79fa0735b3272e7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: SMITH is a Siamese hierarchical Transformer neural network architecture for long-form document representation learning and semantic matching.
+limitations:
+- As a Siamese dual-encoder architecture that compresses each document into a single dense vector before cosine similarity, SMITH cannot capture fine-grained cross-document token interactions prior to final pooling.
+curation:
+  created_at: '2026-10-19T14:33:00Z'
+  updated_at: '2026-10-19T14:33:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
