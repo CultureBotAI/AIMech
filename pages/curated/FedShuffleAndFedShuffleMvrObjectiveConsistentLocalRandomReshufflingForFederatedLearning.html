@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedShuffle and FedShuffleMVR Objective-Consistent Local Random Reshuffling for Federated Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedShuffle and FedShuffleMVR Objective-Consistent Local Random Reshuffling for Federated Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedShuffle and FedShuffleMVR Objective-Consistent Local Random Reshuffling for Federated Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedShuffleAndFedShuffleMvrObjectiveConsistentLocalRandomReshufflingForFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedShuffle, FedShuffleMVR, FedShuffleGen, Federated Random Reshuffling with Step-Size Scaling and Unbiased Aggregation
+    </div>
+
+  <div class="detail-desc">
+    A family of federated local-epoch optimization algorithms with without-replacement Random Reshuffling (FedShuffle in Algorithm 1/3, its Momentum Variance Reduction extension FedShuffleMVR in Section 5.1, and the unifying parametrization FedShuffleGen in Algorithm 4) that eliminates objective inconsistency under heterogeneous client dataset sizes |D_i| and arbitrary proper client sampling S^r ~ S (with inclusion probabilities p_i = Pr[i in S]) by scaling each client i&#39;s local learning rate inversely by its dataset size (eta_{l,i}^r = eta_l^r / (E_i |D_i|)) and aggregating client updates with unbiased Horvitz-Thompson weights Delta^r = sum_{i in S^r} (w_i / p_i) Delta_i^r.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedAvg with Random Reshuffling (FedAvgRR, which uses unscaled local step sizes and biased Sum-One aggregation w_i / sum_{j in S^r} w_j and converges to a mismatched objective), FedNova (Wang et al., NeurIPS 2020; which rescales aggregation weights rather than local step sizes, forcing a smaller worst-case local step size and not analyzing random reshuffling), and FedRR / LocalRR (which assume full client participation and identical dataset sizes).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fedshuffle-inverse-dataset-step-size-scaling-and-horvitz-thompson-aggregation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In each communication round r (Algorithm 1 &amp; Algorithm 4), each sampled client i in S^r ~ S executes E_i local epochs over random permutations Pi_{i,e}^r of its local dataset D_i using scaled local step size eta_{l,i}^r = eta_l^r / (E_i |D_i|) (update y_{i,e,j}^r = y_{i,e,j-1}^r - (eta_l^r / |D_i|) nabla f_{i, Pi_{i,e,j-1}^r}(y_{i,e,j-1}^r)), and the server aggregates Delta_i^r = y_{i,E_i,|D_i|}^r - x^r via Delta^r = sum_{i in S^r} (w_i / p_i) Delta_i^r so that the effective optimized objective hat{f}(x) = sum_i hat{w}_i f_i(x) in Theorem E.1 Eq. (31) satisfies hat{w}_i = w_i exactly while permitting larger local step sizes than FedNova (Remark E.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r565-primary-pdf">FedShuffle: Recipes for Better Use of Local Work in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2 pp. 6-8 &amp; Appendix E.1-E.2 Theorem E.1 / Remark E.2 pp. 34-36</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#fedshuffle-and-fedshufflemvr-reshuffling-variance-and-hessian-similarity-convergence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L-smoothness and (sigma_i, P_i)-bounded variance (Theorem 5.1), FedShuffle reduces the local stochastic variance term to O(sigma^2 / (R^2 eta_g^2 E^2)) in strongly convex and O(sigma^{2/3} / (R^{2/3} eta_g^{2/3} E^{2/3})) in general convex and nonconvex regimes; furthermore, under delta-Hessian similarity (Assumption 3.5), FedShuffleMVR (Theorem 5.2) incorporates server momentum variance reduction Eq. (13)-(14) to achieve O((delta^{2/3} F^{2/3} (G^2 + sigma^2)^{1/3}) / R^{2/3} + (delta F + G^2) / R) nonconvex stationarity with E &gt;= L / delta.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r565-primary-pdf">FedShuffle: Recipes for Better Use of Local Work in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Theorem 5.1 &amp; Section 5.1 Theorem 5.2 pp. 8-10</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r565-arxiv-abs">FedShuffle: Recipes for Better Use of Local Work in Federated Learning (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fedshuffle-uninterrupted-epoch-completion-or-hybrid-update-rescaling-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Pure step-size scaling in FedShuffle assumes that participating clients complete their predefined number of local epochs E_i; if system timeouts truncate local epochs mid-round, hybrid post-hoc update rescaling via FedShuffleGen (Section 4.3 &amp; Appendix F.1) is required to restore objective consistency.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r565-primary-pdf">FedShuffle: Recipes for Better Use of Local Work in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 p. 8 &amp; Appendix F.1 Figure 4 pp. 43-44</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#fedshuffle-heterogeneous-cross-device-language-and-vision-training-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to heterogeneous cross-device federated training of LSTM character models on Shakespeare and ResNet18 classifiers on CIFAR-100 with imbalanced local datasets and without-replacement epoch shuffling.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r565-primary-pdf">FedShuffle: Recipes for Better Use of Local Work in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 6.2 Tables 2-3 &amp; Figure 2 pp. 11-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Pure local step-size scaling requires clients to finish their scheduled local epochs E_i; mid-epoch client timeouts require hybrid FedShuffleGen update rescaling.</li>
+      <li>Unbiased aggregation w_i / p_i requires knowing each participating client&#39;s sampling probability p_i.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedShuffle and FedShuffleMVR are federated learning algorithms incorporating local random reshuffling, dataset-size step scaling, and unbiased client-sampling aggregation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r565-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r565-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2204.13169.pdf" target="_blank" rel="noopener">FedShuffle: Recipes for Better Use of Local Work in Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Samuel Horvath, Maziar Sanjabi, Lin Xiao, Peter Richtarik, Michael Rabbat
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2204.13169</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8fc921fcd2da…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r565-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r565-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2204.13169" target="_blank" rel="noopener">FedShuffle: Recipes for Better Use of Local Work in Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Samuel Horvath, Maziar Sanjabi, Lin Xiao, Peter Richtarik, Michael Rabbat
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2204.13169</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9c1edf8ae2f4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r565-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r565-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2204.13169" target="_blank" rel="noopener">FedShuffle: Recipes for Better Use of Local Work in Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Samuel Horvath, Maziar Sanjabi, Lin Xiao, Peter Richtarik, Michael Rabbat
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2204.13169</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1871336b7685…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:48:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:48:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedShuffleAndFedShuffleMvrObjectiveConsistentLocalRandomReshufflingForFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedShuffleAndFedShuffleMvrObjectiveConsistentLocalRandomReshufflingForFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
