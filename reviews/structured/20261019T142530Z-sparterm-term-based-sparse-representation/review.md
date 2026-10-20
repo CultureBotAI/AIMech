@@ -1,0 +1,352 @@
+# Scientific author self-review of SparTerm Learning Term-Based Sparse Representation for Fast Text Retrieval
+
+- Review: 20261019T142530Z-sparterm-term-based-sparse-representation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T14:25:00Z
+- Finished UTC: 2026-10-19T14:25:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain SparTerm Learning Term-Based Sparse Representation for Fast Text Retrieval as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/SparTermLearningTermBasedSparseRepresentation.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:SparTermLearningTermBasedSparseRepresentation
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base ad357daf426fe7663646a99f0c801b77cbfb60a5.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SparTermLearningTermBasedSparseRepresentation | data/curated/SparTermLearningTermBasedSparseRepresentation.yaml | maintained | SparTerm Learning Term-Based Sparse Representation for Fast Text Retrieval |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:SparTermLearningTermBasedSparseRepresentation | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:SparTermLearningTermBasedSparseRepresentation | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:SparTermLearningTermBasedSparseRepresentation | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:SparTermLearningTermBasedSparseRepresentation | Validated history sidecar files. |
+| python3 sparterm-term-based-sparse-representation-boundaries.py | passed | True | AIMech:SparTermLearningTermBasedSparseRepresentation | [PASS] SparTerm boundaries verified: score_literal=6.0360 &lt; score_expanded=10.0710 (&gt; score_neg=0.0000), L_rank=0.000042, L_exp=0.1986 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:SparTermLearningTermBasedSparseRepresentation.
+
+SparTerm Learning Term-Based Sparse Representation for Fast Text Retrieval is a distinct concept.
+
+Distinct from SPLADE (AIMech:SPLADESparseLexicalAndExpansionModel), which eliminates the separate binary gating network G(p) and achieves sparsity by applying log(1 + ReLU(.)) to MLM logits under differentiable FLOPS regularization; and distinct from EPIC (AIMech:EPICExpansionViaPredictionOfImportanceWithContextualization), which produces dense &#124;V&#124;-dimensional document vectors scaled by softplus token weights and a sigmoid [CLS] quality gate without binary gating or inverted-index full-ranking execution.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:SparTermLearningTermBasedSparseRepresentation.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:SparTermLearningTermBasedSparseRepresentation.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in sparterm-term-based-sparse-representation-boundaries.py passed with exit code 0: [PASS] SparTerm boundaries verified: score_literal=6.0360 &lt; score_expanded=10.0710 (&gt; score_neg=0.0000), L_rank=0.000042, L_exp=0.1986
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:SparTermLearningTermBasedSparseRepresentation.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T142500Z-sparterm-term-based-sparse-representation.json | supports | No normalized identity match for AIMech:SparTermLearningTermBasedSparseRepresentation across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/sparterm-term-based-sparse-representation-boundaries.py | supports | All constructed boundary assertions in sparterm-term-based-sparse-representation-boundaries.py passed with exit code 0: [PASS] SparTerm boundaries verified: score_literal=6.0360 &lt; score_expanded=10.0710 (&gt; score_neg=0.0000), L_rank=0.000042, L_exp=0.1986 |
+| r782-primary-pdf | https://arxiv.org/pdf/2010.00768.pdf; Full-text PDF | supports | Full-text PDF (arXiv (2020)) read and verified. |
+| r782-arxiv-abs | https://arxiv.org/abs/2010.00768; arXiv abstract | supports | arXiv abstract read and verified. |
+| r782-metadata-cr | https://arxiv.org/bibtex/2010.00768; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:SparTermLearningTermBasedSparseRepresentation in Round 782.
+- All pages of arXiv (2020) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T142530Z-sparterm-term-based-sparse-representation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of SparTerm Learning Term-Based Sparse Representation
+  for Fast Text Retrieval
+started_at: '2026-10-19T14:25:00Z'
+finished_at: '2026-10-19T14:25:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:SparTermLearningTermBasedSparseRepresentation
+    against existing AIMech and AIO records and verified all claims against arXiv
+    (2020) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain SparTerm Learning Term-Based Sparse Representation for Fast Text Retrieval
+  as a distinct DRAFT architecture. All three claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
+source:
+  git_revision: ad357daf426fe7663646a99f0c801b77cbfb60a5
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/SparTermLearningTermBasedSparseRepresentation.yaml
+    sha256: fc961a76effa79293bfdf8abb7f47ebfd285b8d85f3c6cb80f2f53e19b5e023d
+    role: target
+  - path: research/discovery/20261019T142500Z-sparterm-term-based-sparse-representation.json
+    sha256: c376d4a3b866a65c4b2fc8913753137cf2ed675e2619287239c1cb0a60fdb591
+    role: context
+  - path: research/discovery/sparterm-term-based-sparse-representation-boundaries.py
+    sha256: 0ceb1f51cdda8f20520c6aa4555370bb85aaa26e943df81192750b6033c16e7c
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SparTermLearningTermBasedSparseRepresentation
+  path: data/curated/SparTermLearningTermBasedSparseRepresentation.yaml
+  label: SparTerm Learning Term-Based Sparse Representation for Fast Text Retrieval
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SparTermLearningTermBasedSparseRepresentation.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/SparTermLearningTermBasedSparseRepresentation.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:SparTermLearningTermBasedSparseRepresentation'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:SparTermLearningTermBasedSparseRepresentation
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SparTermLearningTermBasedSparseRepresentation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SparTermLearningTermBasedSparseRepresentation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SparTermLearningTermBasedSparseRepresentation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SparTermLearningTermBasedSparseRepresentation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 sparterm-term-based-sparse-representation-boundaries.py
+  command: python3 research/discovery/sparterm-term-based-sparse-representation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SparTermLearningTermBasedSparseRepresentation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] SparTerm boundaries verified: score_literal=6.0360 < score_expanded=10.0710
+    (> score_neg=0.0000), L_rank=0.000042, L_exp=0.1986'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T142500Z-sparterm-term-based-sparse-representation.json
+  accessed_at: '2026-10-19T14:25:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:SparTermLearningTermBasedSparseRepresentation
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T14:25:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/sparterm-term-based-sparse-representation-boundaries.py
+  accessed_at: '2026-10-19T14:25:00Z'
+  snapshot_sha256: 0ceb1f51cdda8f20520c6aa4555370bb85aaa26e943df81192750b6033c16e7c
+  support: supports
+  summary: 'All constructed boundary assertions in sparterm-term-based-sparse-representation-boundaries.py
+    passed with exit code 0: [PASS] SparTerm boundaries verified: score_literal=6.0360
+    < score_expanded=10.0710 (> score_neg=0.0000), L_rank=0.000042, L_exp=0.1986'
+- evidence_id: r782-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2010.00768.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T14:25:00Z'
+  snapshot_sha256: 37e706096680aca9ec971ff15d87a25c3c9fb4a8b5e0f4306ecfabdbb8e84644
+  support: supports
+  summary: Full-text PDF (arXiv (2020)) read and verified.
+- evidence_id: r782-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2010.00768
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T14:25:00Z'
+  snapshot_sha256: 0c7d625eb398808e345c81a2f4b0229c10efe54d2a747121a5d37d5cce894f86
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r782-metadata-cr
+  kind: primary_source
+  reference: https://arxiv.org/bibtex/2010.00768
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T14:25:00Z'
+  snapshot_sha256: be3c0f8b3200be47b47b6f58fd07462f3154442268248524855dc6103747e1f5
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:SparTermLearningTermBasedSparseRepresentation
+  evidence_ids:
+  - identity
+  - r782-primary-pdf
+  - r782-arxiv-abs
+  - r782-metadata-cr
+  summary: SparTerm Learning Term-Based Sparse Representation for Fast Text Retrieval
+    is a distinct concept.
+  details: Distinct from SPLADE (AIMech:SPLADESparseLexicalAndExpansionModel), which
+    eliminates the separate binary gating network G(p) and achieves sparsity by applying
+    log(1 + ReLU(.)) to MLM logits under differentiable FLOPS regularization; and
+    distinct from EPIC (AIMech:EPICExpansionViaPredictionOfImportanceWithContextualization),
+    which produces dense |V|-dimensional document vectors scaled by softplus token
+    weights and a sigmoid [CLS] quality gate without binary gating or inverted-index
+    full-ranking execution.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:SparTermLearningTermBasedSparseRepresentation
+  evidence_ids:
+  - mapping
+  - r782-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:SparTermLearningTermBasedSparseRepresentation
+  evidence_ids:
+  - r782-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in sparterm-term-based-sparse-representation-boundaries.py
+    passed with exit code 0: [PASS] SparTerm boundaries verified: score_literal=6.0360
+    < score_expanded=10.0710 (> score_neg=0.0000), L_rank=0.000042, L_exp=0.1986'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:SparTermLearningTermBasedSparseRepresentation
+  evidence_ids:
+  - identity
+  - mapping
+  - r782-primary-pdf
+  - r782-arxiv-abs
+  - r782-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:SparTermLearningTermBasedSparseRepresentation in Round
+  782.
+- All pages of arXiv (2020) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

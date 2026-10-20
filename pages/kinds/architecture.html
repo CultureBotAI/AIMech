@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">67 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">68 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">67</span> of <span id="totalCount">67</span>
+      Showing <span id="matchCount">68</span> of <span id="totalCount">68</span>
     </div>
   </div>
 </div>
@@ -1595,6 +1595,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:SPARTASparseTransformerMatchingForRetrieval</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="sparterm learning term-based sparse representation for fast text retrieval spartermlearningtermbasedsparserepresentation aimech:spartermlearningtermbasedsparserepresentation architectures architecture a term-based sparse retrieval representation framework that maps an input text p into a vocabulary-sized sparse vector p&#39; = f(p) odot g(p) in r^v by taking the element-wise product of (1) a dense semantic importance predictor f(p) = sum_{i=0}^l relu(transform(h_i) e^t + b) initialized from a pre-trained masked language model (mlm) head and summed over token positions, and (2) a sparse binary gating controller g(p) in {0, 1}^v that activates either literal bag-of-words terms only (g(p) = bow(p)) or literal terms plus non-overlapping threshold-binarized expansion terms (g_{le} = (binarizer(g) odot ~bow(p)) + bow(p)). distinct from splade (aimech:spladesparselexicalandexpansionmodel), which eliminates the separate binary gating network g(p) and achieves sparsity by applying log(1 + relu(.)) to mlm logits under differentiable flops regularization; and distinct from epic (aimech:epicexpansionviapredictionofimportancewithcontextualization), which produces dense |v|-dimensional document vectors scaled by softplus token weights and a sigmoid [cls] quality gate without binary gating or inverted-index full-ranking execution. sparterm sparterm sparse representation framework learning term-based sparse representation for fast text retrieval sparterm&#39;s importance predictor f(p) encodes each token w_i of passage p with bert into contextualized hidden state h_i, projects h_i to a vocabulary-sized logit vector i_i = transform(h_i) e^t + b in r^v using a gelu + layernorm linear transformation and shared word embedding matrix e initialized from bert&#39;s pre-trained mlm head (equation 2), and sums non-negative activations across all l passage tokens via i = sum_{i=0}^l relu(i_i) (equation 3). to enforce sparsity (||g(p)|| &lt; lambda, g(p) in {0, 1}^v) while preserving natural-language input to bert, sparterm&#39;s gating controller operates in either literal-only mode g(p) = bow(p) or expansion-enhanced mode g_{le} = g_e + bow(p) where g_e = binarizer(g) odot (~bow(p)) (with binarization threshold 0.7, equations 4-6 &amp; section 4.2), pre-training the gating distribution g via asymmetric binary cross-entropy loss l_exp = -lambda_1 sum_{t_j=0} log(1 - g_j) - lambda_2 sum_{t_k=1} log(g_k) (lambda_1 = 1e-3, lambda_2 = 1.0, equation 8) before end-to-end ranking optimization with l_rank (equations 7 &amp; 9). on ms marco passage full ranking, sparterm (expansion-enhanced) achieves 27.94 dev mrr@10 and 92.45% recall@1000—outperforming bm25 (18.6 / 85.71%), deepct (24.3 / 91.0%), doc2query (21.5 / 89.1%), and doc2query-t5 on mrr@10 (27.7, table 2)—while on ms marco document ranking with passageretrievalmax it reaches 29.0 mrr@10, surpassing bm25 (24.5) and hdct(decay) (28.7, table 3). because the step-function binarizer(g) in equation 4 is non-differentiable and the gating controller uses an independent 110m-parameter bert_base network that does not share weights with the importance predictor, the gating controller must be pre-trained separately for 50k steps and then frozen during the subsequent 100k ranking fine-tuning steps (section 4.2). sparterm: learning term-based sparse representation for fast text retrieval sparterm: learning term-based sparse representation for fast text retrieval (arxiv abstract) sparterm: learning term-based sparse representation for fast text retrieval (crossref metadata) yang bai xiaoguang li gang wang chaoliang zhang lifeng shang jun xu zhaowei wang fangshan wang qun liu yang bai xiaoguang li gang wang chaoliang zhang lifeng shang jun xu zhaowei wang fangshan wang qun liu yang bai xiaoguang li gang wang chaoliang zhang lifeng shang jun xu zhaowei wang fangshan wang qun liu">
+        <td>
+          <a href="../curated/SparTermLearningTermBasedSparseRepresentation.html" style="font-weight: 600; font-size: 1rem;">SparTerm Learning Term-Based Sparse Representation for Fast Text Retrieval</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> SparTerm, SparTerm Sparse Representation Framework…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A term-based sparse retrieval representation framework that maps an input text p into a vocabulary-sized sparse vector p&#39; = F(p) odot G(p) i…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:SparTermLearningTermBasedSparseRepresentation</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
