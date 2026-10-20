@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kardam Lipschitz- and Frequency-Filtered Asynchronous Byzantine Stochastic Gradient Descent · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Kardam Lipschitz- and Frequency-Filtered Asynchronous Byzantine Stochastic Gradient Descent</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Kardam Lipschitz- and Frequency-Filtered Asynchronous Byzantine Stochastic Gradient Descent</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:KardamLipschitzAndFrequencyFilteredAsynchronousByzantineStochasticGradientDescent</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Kardam, Kardam Asynchronous Byzantine SGD, Kardam Empirical Lipschitz and Frequency Filtered SGD
+    </div>
+
+  <div class="detail-desc">
+    A Byzantine-resilient asynchronous stochastic gradient descent algorithm proposed by Damaskinos, El Mhamdi, Guerraoui, Patra, and Taziki (ICML 2018) that decouples gradient verification from synchronous communication barriers by combining a staleness-aware gradient dampening rule with a two-stage server filter consisting of an empirical Lipschitz continuity check against the (n-f)/n worker quantile and a sliding-window worker frequency filter that guarantees at least f+1 honest updates in every 2f+1 consecutive model transitions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Zeno++ (AIMech:ZenoPlusPlusRobustFullyAsynchronousStochasticGradientDescent, which scores candidate asynchronous updates using a server validation mini-batch loss descent test without worker frequency bounds or empirical Lipschitz quantiles) and from synchronous Byzantine aggregators such as Krum (AIMech:KrumAndMultiKrumByzantineResilientGradientAggregation), Bulyan (AIMech:BulyanTwoStageMetaAggregationForByzantineResilientDistributedLearning), and Geometric Median / RFA (AIMech:RobustFederatedAggregationViaSmoothedWeiszfeldGeometricMedian). Kardam (Damaskinos et al., ICML 2018, PMLR 80:1153-1162, Section 3.1-3.2, Definitions 3-5, pp. 3-6) comprises two coupled components on the parameter server: (1) the Dampening component scales any accepted gradient g_{tl} computed on stale model x_l (with staleness tau_{tl} = t - l) by a strictly decreasing bijective staleness decay function Lambda(tau_{tl}) satisfying Lambda(0) = 1 (such as exponential dampening Lambda(tau) = exp(-alpha * tau^(1/beta))) with adaptive step size gamma_t = gamma * M / sum_{lambda in Lambda_t} lambda |G_{t,lambda}|; and (2) the Filtering component accepts a candidate gradient g_p from worker p only if it simultaneously passes the Frequency Filter—which maintains the list L of workers for the last 2f accepted gradients and rejects worker q if the top-f most frequent workers in (L; q) appear more than f times in total (Definition 4, Lemma 1)—and the Empirical Lipschitz Filter—which checks whether the server-side empirical Lipschitz ratio hat{K}_t^p = ||g_p - g_q||_2 / ||x_t - x_{t-1}||_2 is at most the (n-f)/n quantile hat{K}_t of all workers&#39; local empirical Lipschitz coefficients hat{K}_p = ||g_p - g_p^{prev}||_2 / ||x_{l_p} - x_{l_p}^{prev}||_2 (Definition 5).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#kardam-frequency-filter-and-empirical-lipschitz-quantile-test</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Kardam filters each incoming asynchronous gradient g_p at step t using two checks: the Frequency Filter (Definition 4) tracks the worker IDs L of the last 2f accepted updates and rejects worker p if the sum of occurrences of the f most frequent workers in (L; p) exceeds f (guaranteeing at least f+1 honest updates in every 2f+1 accepted transitions by Lemma 1), and the Empirical Lipschitz Filter (Definition 5) accepts g_p only if hat{K}_t^p = ||g_p - g_q||_2 / ||x_t - x_{t-1}||_2 &lt;= hat{K}_t, where hat{K}_t is the (n-f)/n quantile of per-worker empirical Lipschitz coefficients {hat{K}_w}_{w=1}^n.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r534-primary-pdf">Asynchronous Byzantine Machine Learning (the case of SGD)</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Definitions 4-5 and Lemma 1, pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#kardam-staleness-dampening-convergence-and-tight-slowdown-bounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under n &gt;= 2f + 1 workers, Theorem 1 proves that Kardam achieves a tight optimal Byzantine slowdown factor bounded by (n - 2f)/(n - f) &lt;= SL &lt;= (n - f)/n, and Theorems 2-5 prove almost-sure convergence of the staleness-dampened asynchronous updates (Equations 1-2) to a neighborhood of a stationary point under bounded variance and Lipschitz-smooth non-convex objectives.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r534-primary-pdf">Asynchronous Byzantine Machine Learning (the case of SGD)</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Equations (1)-(2), p. 3; Section 3.2.2, Theorem 1, p. 5; Section 4, Theorems 2-5, p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#kardam-two-f-plus-one-worker-bound-and-staleness-horizon-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Kardam requires a strict honest majority n &gt; 2f so that the (n-f)/n empirical Lipschitz quantile and the 2f-window frequency filter do not permanently stall training, and its convergence rate degrades as the maximum worker staleness tau_max increases.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r534-primary-pdf">Asynchronous Byzantine Machine Learning (the case of SGD)</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.2, Theorem 1 &amp; Proof sketch, p. 5; Section 4, Theorem 5, p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#kardam-asynchronous-distributed-deep-learning-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to asynchronous distributed training of deep neural networks on CIFAR-10 (ResNet-18) and ImageNet across heterogeneous worker clusters under Byzantine gradient corruption and straggler delays.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r534-primary-pdf">Asynchronous Byzantine Machine Learning (the case of SGD)</a></span>
+        <span>· <strong>Locator:</strong> Section 5, Figures 1-6, pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an honest majority n &gt;= 2f + 1 so that the 2f-window frequency filter can always admit honest workers without deadlocking.</li>
+      <li>Relies on estimating empirical Lipschitz ratios between consecutive parameter states, which can exhibit high variance under small mini-batch sizes or non-IID local data distributions.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:FederatedLearning is the closely related distributed learning paradigm; Kardam provides asynchronous Byzantine-resilient stochastic gradient descent via empirical Lipschitz and frequency filtering.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r534-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r534-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1802.07928.pdf" target="_blank" rel="noopener">Asynchronous Byzantine Machine Learning (the case of SGD)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Georgios Damaskinos, El Mahdi El Mhamdi, Rachid Guerraoui, Rhicheek Patra, Mahsa Taziki
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/DamaskinosMGPT18.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:05e654b5160d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r534-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r534-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1802.07928" target="_blank" rel="noopener">Asynchronous Byzantine Machine Learning (the case of SGD) (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Georgios Damaskinos, El Mahdi El Mhamdi, Rachid Guerraoui, Rhicheek Patra, Mahsa Taziki
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1802.07928</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:759e3f892368…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r534-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r534-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/DamaskinosMGPT18.xml" target="_blank" rel="noopener">Asynchronous Byzantine Machine Learning (the case of SGD) (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Georgios Damaskinos, El Mahdi El Mhamdi, Rachid Guerraoui, Rhicheek Patra, Mahsa Taziki
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/DamaskinosMGPT18.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9b07062e6bb2…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:17:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:17:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/KardamLipschitzAndFrequencyFilteredAsynchronousByzantineStochasticGradientDescent.yaml" target="_blank" rel="noopener">
+      <code>data/curated/KardamLipschitzAndFrequencyFilteredAsynchronousByzantineStochasticGradientDescent.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
