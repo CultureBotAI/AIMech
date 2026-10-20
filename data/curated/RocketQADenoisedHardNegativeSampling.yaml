@@ -1,0 +1,105 @@
+id: AIMech:RocketQADenoisedHardNegativeSampling
+name: RocketQA (Cross-Batch and Denoised Hard Negative Dense Passage Retrieval Training)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A four-step multi-stage training algorithm for dual-encoder dense passage retrieval that (1) trains an initial dual-encoder M_D^(0) on labeled data D_L using differentiable all-gather cross-batch negatives across A GPUs (yielding A*B - 1 negatives per question for per-GPU batch size B), (2) trains a cross-encoder M_C on top-k candidates retrieved by M_D^(0), (3) trains a second dual-encoder M_D^(1) using denoised hard negatives mined from M_D^(0)'s top ranks that M_C predicts as negative with high confidence (score < 0.1), and (4) trains a final dual-encoder M_D^(2) on D_L plus pseudo-labeled external questions D_U filtered by M_C (< 0.1 for negatives, > 0.9 for positives).
+identity_notes: Introduced by Qu, Ding, Liu, Liu, Ren, Zhao, Dong, Wu, and Wang (NAACL-HLT 2021, pp. 5835-5847, arXiv:2010.08191). Distinguished from DPR (Karpukhin et al., 2020), which uses single-GPU in-batch negatives and BM25 hard negatives, from ANCE (Xiong et al., 2021), which asynchronously mines top-k dense negatives without cross-encoder denoising (suffering from ~70% false negatives among unannotated top retrieved MS MARCO passages), and from GPL (Wang et al., 2022), which uses synthetic T5 query generation and MarginMSE soft-label distillation for unsupervised target domain adaptation.
+aliases:
+- RocketQA Dense Passage Retrieval Training
+- RocketQA Denoised Hard Negative Pipeline
+- RocketQA Multi-Stage Dual-Encoder Training
+definition_evidence:
+- source_id: r750-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r750-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r750-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: rocketqa-cross-batch-and-denoised-hard-negative-mechanism
+  kind: mechanism
+  statement: RocketQA shares passage embeddings across A GPUs via a differentiable all-gather operator to expand the negative pool from B - 1 to A*B - 1 negatives per question (e.g., 8 * 512 - 1 = 4095 on MS MARCO), trains a cross-encoder M_C on M_D^(0)'s top-k retrieval distribution, and removes false negatives (which account for ~70% of top unannotated passages retrieved on MS MARCO, including 75% at rank 5 and 52% at rank 10) by retaining only top-retrieved passages with M_C(q, p) < 0.1 as denoised hard negatives and labeling unlabeled queries Q_U with M_C(q, p) > 0.9 as positives.
+  evidence:
+  - source_id: r750-primary-pdf
+    locator: Section 3.3-3.4 (Figures 2-3), Section 4.1.3, & Section 4.2.2 (Figure 5), pp. 4-6, 8
+    relation: supports
+  - source_id: r750-primary-pdf
+    locator: count_negatives_per_question, filter_rocketqa_candidates & main
+    relation: supports
+- claim_id: rocketqa-msmarco-and-nq-progressive-stage-gains
+  kind: scope
+  statement: On MS MARCO Passage Ranking, RocketQA's consecutive stages improve Dev MRR@10 from 32.39 (in-batch negatives) to 33.32 (Step 1 cross-batch negatives), whereas un-denoised hard negatives collapse MRR@10 to 26.03; cross-encoder hard-negative denoising (Step 3) raises MRR@10 to 36.38 and cross-encoder data augmentation (Step 4) reaches 37.02 MRR@10 (and 82.7% Recall@20 on Natural Questions).
+  evidence:
+  - source_id: r750-primary-pdf
+    locator: Section 4.2.1 (Table 2) & Section 4.2.2 (Table 3), pp. 7-8
+    relation: supports
+  - source_id: r750-primary-pdf
+    locator: dual_encoder_nll_loss & main
+    relation: supports
+- claim_id: rocketqa-large-batch-and-sequential-pipeline-limitation
+  kind: limitation
+  statement: RocketQA requires a costly four-stage sequential training and re-indexing pipeline (three dual-encoder training stages totaling 60 epochs on MS MARCO plus an ERNIE-large cross-encoder training and inference pass over millions of pairs), and increasing the random negative batch size beyond an optimal threshold (e.g., > 4096) degrades optimization performance on fixed-size datasets.
+  evidence:
+  - source_id: r750-primary-pdf
+    locator: Section 3.4, p. 5; Section 4.1.3, pp. 6-7; Section 4.2.2 (Figure 4), p. 8
+    relation: supports
+evidence_sources:
+- source_id: r750-primary-pdf
+  title: 'RocketQA: An Optimized Training Approach to Dense Passage Retrieval for Open-Domain Question Answering'
+  authors: &id001
+  - Yingqi Qu
+  - Yuchen Ding
+  - Jing Liu
+  - Kai Liu
+  - Ruiyang Ren
+  - Wayne Xin Zhao
+  - Daxiang Dong
+  - Hua Wu
+  - Haifeng Wang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2010.08191
+  persistent_id: https://dblp.org/search/publ/api?q=RocketQA+An+Optimized+Training+Approach+to+Dense+Passage+Retrieval+Qu&h=5&format=xml
+  version: 'Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT 2021) (2021) (998004 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:53:00Z'
+  sha256: df8feee3c22dd392cc17130235b3ccb73f2c7fd4c2ce51a5c5ed36445baa7ca5
+- source_id: r750-arxiv-abs
+  title: 'RocketQA: An Optimized Training Approach to Dense Passage Retrieval for Open-Domain Question Answering (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2010.08191
+  persistent_id: https://arxiv.org/abs/2010.08191
+  version: arXiv abstract page (7307 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:53:00Z'
+  sha256: e0a43b0fc2357a50a8c2855ff9577cbdbde8cc9a2c201e0439218d885729e0d8
+- source_id: r750-metadata-cr
+  title: 'RocketQA: An Optimized Training Approach to Dense Passage Retrieval for Open-Domain Question Answering (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=RocketQA+An+Optimized+Training+Approach+to+Dense+Passage+Retrieval+Qu&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=RocketQA+An+Optimized+Training+Approach+to+Dense+Passage+Retrieval+Qu&h=5&format=xml
+  version: Crossref API work record (1037 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:53:00Z'
+  sha256: e49b8ac4f092e241860e2a1b7534f74de10df12d4e72b9031d030019306cde52
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Optimizes neural transformer dual-encoder and cross-encoder retrieval architectures.
+limitations:
+- Requires four sequential training and corpus-indexing stages (M_D^(0) -> M_C -> M_D^(1) -> M_D^(2)) and multi-GPU large-batch hardware (e.g., 8 V100 GPUs with batch size 4096).
+- Excessively large random-negative batch sizes degrade dual-encoder optimization on datasets of limited size.
+curation:
+  created_at: '2026-10-19T13:53:00Z'
+  updated_at: '2026-10-19T13:53:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
