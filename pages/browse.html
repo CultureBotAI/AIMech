@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1616</strong> artificial intelligence concepts, comprising <strong>1174</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1617</strong> artificial intelligence concepts, comprising <strong>1175</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1616)</option>
-        <option value="curated">Curated AIMech (1174)</option>
+        <option value="all">All Origins (1617)</option>
+        <option value="curated">Curated AIMech (1175)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -53,7 +53,7 @@
           <option value="algorithm">Algorithms (839)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
-          <option value="architecture">Architectures (65)</option>
+          <option value="architecture">Architectures (66)</option>
           <option value="layer">Layers &amp; Modules (12)</option>
           <option value="evaluation_criterion">Evaluation Criteria (5)</option>
           <option value="preprocessing_method">Preprocessing Methods (5)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1616</span> of <span id="totalCount">1616</span>
+      Showing <span id="matchCount">1617</span> of <span id="totalCount">1617</span>
     </div>
   </div>
 </div>
@@ -29181,6 +29181,32 @@
         </td>
         <td>
             <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="prettr precomputing transformer term representations prettrprecomputingtermrepresentationsforreranking aimech:prettrprecomputingtermrepresentationsforreranking architectures architecture a decoupled-layer transformer document re-ranking architecture and token-representation compression method that applies a cross-segment attention mask in the first l layers l_1, ..., l_l of an n-layer transformer during training—preventing query tokens ([cls]; q; [sep]) from attending to document tokens (d; [sep]) and vice versa—so that layer-l document token representations s_l in r^{m x d} can be precomputed offline at index time, compressed to dimension e &lt; d via a gelu bottleneck encoder-decoder pre-trained to minimize mean squared error on the attention score matrices of the remaining n - l layers, and concatenated at query time with the layer-l query representations to execute only layers l_{l+1}, ..., l_n (computing only the [cls] token in the final layer l_n). distinct from colbert (aimech:colbertcontextualizedlateinteraction), which encodes queries and documents completely independently through all transformer layers and interacts only via a parameter-free sum-of-maxsim dot-product operator at the output; and distinct from standard cross-encoder transformer distillation (such as tinybert or distilbert), which reduces total layer count for both query and document at query time rather than precomputing the first l document layers at index time and executing only the upper n - l interaction layers online. prettr precomputing transformer term representations prettr split-layer transformer re-ranking prettr masks cross-segment attention in layers l_1, ..., l_l so query tokens ([cls]; q; [sep]) and document tokens (d; [sep]) attend only within their own segments, while removing the mask in layers l_{l+1}, ..., l_n (section 4.1, figures 1-2): this makes index-time document encoding through layers 1..l mathematically independent of the query, reduces query-time transformer layer traversal cost by approximately (n - l) / n, and further accelerates layer l_n by computing only the [cls] output representation used by w_combine (equation 1 &amp; section 6.3). to compress the layer-l token representations s_l in r^{m x d} before disk storage, prettr inserts a bottleneck encoder r = gelu(s_l w_comp + b_comp) in r^{m x e} (e &lt; d) and linear batch-normalized decoder s_hat_l in r^{m x d} between layers l_l and l_{l+1}, pre-training the compression parameters on unlabeled text to minimize the average mean squared error of the upper-layer attention score tensors l(a_{l+1}, ..., a_n, a_hat_{l+1}, ..., a_hat_n) = (1 / (n - l)) * sum_{i=l+1}^n mse(a_i, a_hat_i) (equation 2) prior to end-to-end relevance fine-tuning (section 4.2). on trec webtrack 2012 and trec robust 2004, prettr accelerates vanilla bert top-100 document re-ranking by up to 42.2x at l = 11 on webtrack (0.046s vs. 1.941s per query with no statistically significant loss in p@20: 0.3380 vs. 0.3460, tables 3 &amp; 5) and 9.2x at l = 10 on robust04 (0.266s vs. 2.437s), generalizes to roberta (up to 56.3x speedup) and distilbert (up to 24.1x speedup, table 6), and reduces clueweb09-b token storage by up to 97.5% (from 112 tb to 2.8 tb) when combining spam filtering, e = 128 compression, and 16-bit floats (section 6.2, p. 7). even with e = 128 compression and 16-bit floating-point storage, storing per-token representations for web-scale corpora requires multiple terabytes (2.8 tb on clueweb09-b and 195 gb at e = 256 on robust04, section 6.2), and deferring query-document interaction until the final layer (l = 11) significantly degrades graded relevance metrics (err@20 on webtrack and both p@20 and ndcg@20 on longer robust04 queries, table 3 &amp; section 6.4). efficient document re-ranking for transformers by precomputing term representations efficient document re-ranking for transformers by precomputing term representations (arxiv abstract) efficient document re-ranking for transformers by precomputing term representations (crossref metadata) sean macavaney franco maria nardini raffaele perego nicola tonellotto nazli goharian ophir frieder sean macavaney franco maria nardini raffaele perego nicola tonellotto nazli goharian ophir frieder sean macavaney franco maria nardini raffaele perego nicola tonellotto nazli goharian ophir frieder">
+        <td>
+          <a href="curated/PreTTRPrecomputingTermRepresentationsForReranking.html" style="font-weight: 600; font-size: 1rem;">PreTTR Precomputing Transformer Term Representations</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> PreTTR, Precomputing Transformer Term Representations…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A decoupled-layer Transformer document re-ranking architecture and token-representation compression method that applies a cross-segment atte…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PreTTRPrecomputingTermRepresentationsForReranking</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
