@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TK Transformer-Kernel Neural Re-Ranking Model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>TK Transformer-Kernel Neural Re-Ranking Model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">TK Transformer-Kernel Neural Re-Ranking Model</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:TKTransformerKernelModelForReRanking</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> TK Model, Transformer-Kernel Re-Ranking Model, TK Interpretable Time-Budget-Constrained Re-Ranking
+    </div>
+
+  <div class="detail-desc">
+    An interpretable, time-budget-constrained neural re-ranking architecture that independently contextualizes query and document sequences by blending lookup word embeddings t_i with l-layer (l in {1, 2, 3}) sinusoidal-positional Transformer outputs via a learned interpolation weight alpha (hat{t}_i = t_i * alpha + context(t_{1:n})_i * (1 - alpha)), computes a single pairwise cosine interaction match-matrix M_{i,j} = cos(hat{q}_i, hat{d}_j), transforms M_{i,j} with Gaussian RBF kernels K_{i,j}^k = exp(-(M_{i,j} - mu_k)^2 / (2 * sigma^2)), and combines log-normalized kernel pooling (s_log^k = sum_i log_b(sum_j K_{i,j}^k)) with document-length-normalized kernel pooling (s_len^k = sum_i (sum_j K_{i,j}^k) / d_len) into a weighted relevance score s = s_log * beta + s_len * gamma.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from CEDR-KNRM (AIMech:CEDRContextualizedEmbeddingsForDocumentRanking), which jointly encodes concatenated query-document pairs through 12-layer BERT and pools across L layer-wise similarity matrices with only log-normalized KNRM kernels plus BERT&#39;s [CLS] vector; and distinct from standard KNRM and Conv-KNRM, which use uncontextualized word embeddings or fixed-width local CNN n-gram filters without global sequence-wide self-attention or parallel document-length-normalized kernel pooling.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#tk-hybrid-alpha-contextualized-term-representation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    TK processes query sequence q_{1:m} and document sequence d_{1:n} independently with shared parameters, fusing 300-dimensional pre-trained GloVe word embeddings t_i with positional encodings p_{1:n} through l lightweight Transformer layers (l in {1, 2, 3}, 16 heads of size 32, feed-forward dimension 100) and computing the hybrid-contextualized term representation hat{t}_i = t_i * alpha + context(t_{1:n})_i * (1 - alpha) regulated by an end-to-end learned scalar alpha (Sections 3.1 &amp; 4.3, Equations 1-3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r784-primary-pdf">Interpretable &amp; Time-Budget-Constrained Contextualization for Re-Ranking</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 &amp; Section 4.3, Figure 1 &amp; Equations 1-3, pp. 2-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r784-primary-pdf">Interpretable &amp; Time-Budget-Constrained Contextualization for Re-Ranking</a></span>
+        <span>· <strong>Locator:</strong> hybrid_contextualize() verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#tk-single-match-matrix-and-dual-log-and-length-normalized-rbf-kernels</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    TK distills all query-document term interactions through a single cosine similarity bottleneck matrix M_{i,j} = cos(hat{q}_i, hat{d}_j) (Equation 4), applies 11 Gaussian RBF kernels K_{i,j}^k = exp(-(M_{i,j} - mu_k)^2 / (2 * sigma^2)) with mu_k in [-1, 1] and sigma = 0.1 (omitting KNRM&#39;s exact-match kernel since contextualized vectors do not produce exact 1.0 matches, Equation 5), sums across document positions K_i^k = sum_j K_{i,j}^k (Equation 6), splits into parallel log-normalized (s_log^k = sum_i log_2(K_i^k), Equation 7) and document-length-normalized (s_len^k = sum_i K_i^k / d_len, Equation 8) paths, and combines their linear projections via s = s_log * beta + s_len * gamma (Equations 9-10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r784-primary-pdf">Interpretable &amp; Time-Budget-Constrained Contextualization for Re-Ranking</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 &amp; Section 4.3, Figure 1 &amp; Equations 4-10, pp. 3-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r784-primary-pdf">Interpretable &amp; Time-Budget-Constrained Contextualization for Re-Ranking</a></span>
+        <span>· <strong>Locator:</strong> tk_dual_kernel_score() and main() verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#tk-time-budget-constrained-reranking-and-interpretability-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With 2 Transformer layers, TK re-ranks 4 documents/ms (40x faster than BERT-Base at 0.1 docs/ms, Table 2) and achieves the highest effectiveness of all evaluated models across MSMARCO-Passage, MSMARCO-Document, and TREC CAR under any query time budget up to 200 ms for MRR@10, 480-600 ms for Recall@10, and 250-300 ms for nDCG@10 (at a 100 ms budget on MSMARCO-Passage, TK&#39;s MRR@10 is 10% higher, Recall@10 is 40% higher, and nDCG@10 is 19% higher than BERT-Base, Section 5.2 &amp; Figure 2), while enabling word-by-kernel attribution of ranking decisions (Section 6, Figure 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r784-primary-pdf">Interpretable &amp; Time-Budget-Constrained Contextualization for Re-Ranking</a></span>
+        <span>· <strong>Locator:</strong> Sections 5-6, Tables 2-3 &amp; Figures 2-3, pp. 4-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#tk-unconstrained-bert-ceiling-and-200-token-document-cap-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When query latency is unconstrained, 12-layer BERT-Base and 24-layer BERT-Large achieve higher peak effectiveness than TK across all three collections (e.g., 0.376 vs. 0.314 MRR@10 on MSMARCO-Passage and on complex queries exceeding 8 words, Table 2 &amp; Section 5.3), and TK caps document length at 200 tokens, truncating the majority of documents in MSMARCO-Document (Section 4.3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r784-primary-pdf">Interpretable &amp; Time-Budget-Constrained Contextualization for Re-Ranking</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 &amp; Sections 5.1, 5.3, Tables 2-3, pp. 4-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Under unconstrained query time budgets, full cross-encoder BERT-Base and BERT-Large outperform TK in peak ranking accuracy, particularly on complex queries longer than 8 words.</li>
+      <li>Caps document input length at 200 tokens for computational efficiency, truncating the majority of full-length web documents in MSMARCO-Document.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            TK combines shallow multi-head self-attention Transformer layers with radial-basis-function (RBF) kernel-pooling layers and linear scoring heads.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r784-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r784-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2002.01854.pdf" target="_blank" rel="noopener">Interpretable &amp; Time-Budget-Constrained Contextualization for Re-Ranking</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sebastian Hofstätter, Markus Zlabinger, Allan Hanbury
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2002.01854</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:511866804207…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r784-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r784-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2002.01854" target="_blank" rel="noopener">Interpretable &amp; Time-Budget-Constrained Contextualization for Re-Ranking (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sebastian Hofstätter, Markus Zlabinger, Allan Hanbury
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2002.01854</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5a872ffc051f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r784-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r784-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2002.01854" target="_blank" rel="noopener">Interpretable &amp; Time-Budget-Constrained Contextualization for Re-Ranking (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sebastian Hofstätter, Markus Zlabinger, Allan Hanbury
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2002.01854</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dfc199b45966…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:27:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:27:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TKTransformerKernelModelForReRanking.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TKTransformerKernelModelForReRanking.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
