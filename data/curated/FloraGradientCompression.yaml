@@ -1,0 +1,100 @@
+id: AIMech:FloraGradientCompression
+name: Flora Gradient Compression
+concept_kind: algorithm
+review_status: DRAFT
+definition: A memory-efficient neural network optimization algorithm that compresses gradient accumulation and momentum states into an O(n r) sublinear space using on-the-fly seed-generated Gaussian random down-projection matrices A_{t,W} ~ N(0, 1/r), decompresses updates directly into the full weight matrix W in R^{n x m}, and periodically resamples the random projection matrix with inter-subspace momentum transfer to achieve high-rank weight updates.
+identity_notes: Distinct from standard LoRA (AIMech:LoRA, which maintains two explicit adapter matrices B and A whose total weight change is confined to a fixed rank-r subspace), from federated FLoRA (AIMech:FloraStackingBasedFederatedHeterogeneousLowRankAdaptation, which stacks heterogeneous-rank client LoRA adapters on a federated server), from GaLore (AIMech:GaLoreGradientLowRankProjection, which computes costly singular value decompositions of gradients and stores explicit projection matrices rather than regenerating Gaussian random projections on the fly from scalar random seeds and transferring momentum via M_{t,W} A_{t,W} (A'_W)^T), and from ReLoRA (AIMech:ReLoRA, which requires an initial full-rank warm-start phase and periodic LoRA merge-and-reinit restarts). Formulated by Hao, Cao, and Mou (ICML 2024, PMLR 235:17554-17571, arXiv:2402.03293).
+aliases:
+- FLORA (From LoRA to High-Rank Updates)
+- Flora Resampled Random-Projection Gradient Compression
+- Flora Sublinear-Memory Random Projection Optimizer
+definition_evidence:
+- source_id: r684-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r684-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r684-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: flora-lora-random-projection-dynamics-theorem
+  kind: mechanism
+  statement: Flora proves (Theorem 2.1) that under SGD with learning rate eta and bounded cumulative gradient ||sum_{t=0}^T grad_W L_t||_F <= L, LoRA's factors evolve as A_T = A_0 + eta A_0 f_A(T) and B_T = eta f_B(T) A_0^T with ||f_A(t)||_2 <= eta L^2 (1 - (eta^2 L^2)^t) / (1 - eta^2 L^2), so for small eta << 1/L the LoRA update is dominated by random gradient down-projection by A_0^T and up-projection by A_0 satisfying E[A_0^T A_0] = I_m when A_0 ~ N(0, 1/r).
+  evidence:
+  - source_id: r684-primary-pdf
+    locator: Section 2.1-2.3, Theorem 2.1, Observation 2.2, and Theorem 2.4, p. 2-3
+    relation: supports
+- claim_id: flora-sublinear-accumulation-and-momentum-subspace-transfer
+  kind: mechanism
+  statement: For each weight matrix W in R^{n x m}, Flora stores only a compressed state C_W or M_{t,W} in R^{n x r} (O(n r) memory) and a scalar random seed s_{t,W} used to regenerate A_{t,W} ~ N_{s_{t,W}}(0, 1/r) in R^{r x m} on the fly; every kappa steps, Flora resamples a new seed s_{t+1,W}, transfers compressed momentum across subspaces via M' <- M_{t,W} A_{t,W} (A'_W)^T, updates M_{t+1,W} <- beta M' + (1 - beta) G_{t,W} (A'_W)^T, and decompresses the high-rank step M_{t+1,W} A'_W directly onto W.
+  evidence:
+  - source_id: r684-primary-pdf
+    locator: 'Section 2.4 Our method: FLORA, Algorithms 1 and 2, p. 4-5'
+    relation: supports
+- claim_id: flora-transformer-training-and-finetuning-application
+  kind: application
+  statement: Flora is applied to fine-tuning and training from scratch of T5 (up to 3B), GPT-2 (up to 1.5B), Vision Transformers, and Llama-2 architectures up to 7B on summarization (XSum), translation (IWSLT17), image classification (CIFAR-100), and C4 language modeling, matching full-matrix optimization quality while reducing optimizer state memory overhead by up to 70%.
+  evidence:
+  - source_id: r684-primary-pdf
+    locator: Section 3 Experiments, Tables 1-4 & Appendix C Tables 5-6, p. 5-8, 16-17
+    relation: supports
+- claim_id: flora-resampling-interval-distortion-and-backprop-activation-memory
+  kind: limitation
+  statement: Flora compresses only optimizer states (gradient accumulation and momentum) rather than backpropagation activations unless paired with activation checkpointing and layer-by-layer updates, and resampling the random projection matrix too frequently (e.g., kappa = 1) accumulates projection transfer distortion that degrades momentum convergence.
+  evidence:
+  - source_id: r684-primary-pdf
+    locator: Section 2.4 Memory analysis & Section 3.3 The effect of kappa in momentum, Table 3, p. 5, 7-8
+    relation: supports
+evidence_sources:
+- source_id: r684-primary-pdf
+  title: 'Flora: Low-Rank Adapters Are Secretly Gradient Compressors'
+  authors: &id001
+  - Yongchang Hao
+  - Yanshuai Cao
+  - Lili Mou
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2402.03293
+  persistent_id: https://dblp.org/rec/conf/icml/HaoCM24.xml
+  version: Proceedings of the 41st International Conference on Machine Learning (ICML 2024, PMLR 235) (2024) (1363802 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:47:00Z'
+  sha256: 71e3ee9907079ae0860abcb41248705bcb01196c1327f9be74bbe28a3c594a13
+- source_id: r684-arxiv-abs
+  title: 'Flora: Low-Rank Adapters Are Secretly Gradient Compressors (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2402.03293
+  persistent_id: https://arxiv.org/abs/2402.03293
+  version: arXiv abstract page (6206 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:47:00Z'
+  sha256: edc224c6022ca6725ed96f3810cc6b969dc041390980688e1c2a21f7b010521d
+- source_id: r684-metadata-cr
+  title: 'Flora: Low-Rank Adapters Are Secretly Gradient Compressors (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/HaoCM24.xml
+  persistent_id: https://dblp.org/rec/conf/icml/HaoCM24.xml
+  version: Crossref API work record (477 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:47:00Z'
+  sha256: 0f3fcb5f6dde3b37560620c35f21eae575375db5eddd6c7bc9c412314bebf742
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Flora optimizes neural network weight matrices with sublinear-memory random-projection gradient accumulation and momentum.
+limitations:
+- Compresses optimizer states (gradient accumulation and momentum) from O(nm) to O(nr) but still requires full-weight storage W and standard backpropagation activation memory unless combined with activation checkpointing and layer-wise updates.
+- Resampling the random projection matrix at every single step (kappa = 1) introduces repeated projection-transfer distortion M_{t,W} A_{t,W} (A'_W)^T that degrades momentum training.
+curation:
+  created_at: '2026-10-19T12:47:00Z'
+  updated_at: '2026-10-19T12:47:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
