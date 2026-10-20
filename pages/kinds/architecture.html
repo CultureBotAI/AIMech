@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">68 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">69 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">68</span> of <span id="totalCount">68</span>
+      Showing <span id="matchCount">69</span> of <span id="totalCount">69</span>
     </div>
   </div>
 </div>
@@ -1085,6 +1085,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:MoLEMixtureOfLoRAExperts</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="monobert and duobert multi-stage document ranking duobertmultistagedocumentrankingwithbert aimech:duobertmultistagedocumentrankingwithbert architectures architecture a three-stage cascading document ranking architecture (h_0 -&gt; h_1 -&gt; h_2) in which a bag-of-words bm25 stage h_0 retrieves top-k_0 candidates r_0 from an inverted index, a pointwise bert binary relevance classifier stage h_1 (monobert) scores each (q, d_i) pair independently via [cls] cross-entropy classification to retain the top-k_1 &lt;= k_0 candidates r_1, and a pairwise bert stage h_2 (duobert) jointly encodes triples (query q as sentence a, candidate d_i as sentence b, candidate d_j as sentence c with three distinct segment embeddings) to predict the probability p_{i,j} that d_i is more relevant than d_j across all k_1(k_1 - 1) ordered pairs, aggregating the pairwise probabilities via sum or condorcet binary voting to produce the final ranking r_2. distinct from listwise cross-encoder fusion architectures such as hlatr (aimech:hlatrhybridlistawaretransformerreranking), which model cross-document interactions over pre-computed pointwise [cls] vectors in a single listwise transformer pass rather than running k_1(k_1 - 1) full bert forward passes over concatenated (q, d_i, d_j) token triples; and distinct from cedr (aimech:cedrcontextualizedembeddingsfordocumentranking), which is a single-stage pointwise re-ranker fusing multi-layer token similarity matrices with [cls]. duobert monobert and duobert multi-stage document ranking with bert following stage h_0 (bm25 retrieving k_0 candidates r_0) and stage h_1 (monobert scoring [cls] q [sep] d_i [sep] trained with pointwise cross-entropy loss l_mono = -sum_{j in j_pos} log(s_j) - sum_{j in j_neg} log(1 - s_j), equation 1, to select top-k_1 candidates r_1), stage h_2 (duobert) takes query q as sentence a (truncated to 62 tokens), candidate d_i as sentence b (223 tokens), and candidate d_j as sentence c (223 tokens)—each with its own learned segment type embedding a, b, c so total length &lt;= 512—and projects the [cls] vector to pairwise preference probability p_{i,j} trained via l_duo = -sum_{i in j_pos, j in j_neg} log(p_{i,j}) - sum_{i in j_neg, j in j_pos} log(1 - p_{i,j}) (section 3.3, equation 2). at inference time, duobert evaluates k_1(k_1 - 1) ordered candidate pairs in r_1 and aggregates p_{i,j} over competitor set j_i = {0 &lt;= j &lt; |r_1|, j != i} into a per-document score s_i via sum (s_i = sum_{j in j_i} p_{i,j}, equation 3), condorcet-inspired binary (s_i = sum_{j in j_i} 1_{p_{i,j} &gt; 0.5}, equation 4), min (equation 5), max (equation 6), or m-sample sample (equation 7), where sum and binary consistently achieve the highest effectiveness while max severely degrades monobert accuracy (section 3.3 &amp; section 5, tables 1-2). on ms marco passage ranking and trec 2017 car, the bm25 (k_0 = 1000) -&gt; monobert (k_1 = 50) -&gt; duobert pipeline improves ms marco dev / eval mrr@10 from 18.7 / 19.0 (bm25) to 37.2 / 36.5 (+monobert), 38.2 / 37.0 (+duobert_sum), 38.3 dev (+duobert_binary), and 39.0 / 37.9 with target corpus pre-training (tcp, table 1), while on trec car it raises map from 15.3 (bm25) to 34.8 (+monobert) and 36.9 (+duobert_sum or duobert_binary, table 2), with k_1 = 20 capturing nearly the full gain at only 40% extra latency over monobert (section 5.2, figure 3). because duobert executes k_1(k_1 - 1) full bert forward passes per query (e.g., 50 x 49 = 2,450 additional bert inferences on top of k_0 = 1000 monobert inferences, totaling 3,450 bert passes per query at k_1 = 50), inference cost grows quadratically in k_1 (sections 3.3 &amp; 5.2, figures 3-4), and fitting two candidate documents alongside the query within bert&#39;s 512-token window requires truncating each candidate to at most 223 tokens (section 3.3). multi-stage document ranking with bert multi-stage document ranking with bert (arxiv abstract) multi-stage document ranking with bert (crossref metadata) rodrigo nogueira wei yang kyunghyun cho jimmy lin rodrigo nogueira wei yang kyunghyun cho jimmy lin rodrigo nogueira wei yang kyunghyun cho jimmy lin">
+        <td>
+          <a href="../curated/DuoBERTMultiStageDocumentRankingWithBERT.html" style="font-weight: 600; font-size: 1rem;">monoBERT and duoBERT Multi-Stage Document Ranking</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> duoBERT, monoBERT and duoBERT…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A three-stage cascading document ranking architecture (H_0 -&gt; H_1 -&gt; H_2) in which a bag-of-words BM25 stage H_0 retrieves top-k_0 candidate…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:DuoBERTMultiStageDocumentRankingWithBERT</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

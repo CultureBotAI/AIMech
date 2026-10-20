@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>monoBERT and duoBERT Multi-Stage Document Ranking · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>monoBERT and duoBERT Multi-Stage Document Ranking</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">monoBERT and duoBERT Multi-Stage Document Ranking</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:DuoBERTMultiStageDocumentRankingWithBERT</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> duoBERT, monoBERT and duoBERT, Multi-Stage Document Ranking with BERT
+    </div>
+
+  <div class="detail-desc">
+    A three-stage cascading document ranking architecture (H_0 -&gt; H_1 -&gt; H_2) in which a bag-of-words BM25 stage H_0 retrieves top-k_0 candidates R_0 from an inverted index, a pointwise BERT binary relevance classifier stage H_1 (monoBERT) scores each (q, d_i) pair independently via [CLS] cross-entropy classification to retain the top-k_1 &lt;= k_0 candidates R_1, and a pairwise BERT stage H_2 (duoBERT) jointly encodes triples (query q as sentence A, candidate d_i as sentence B, candidate d_j as sentence C with three distinct segment embeddings) to predict the probability p_{i,j} that d_i is more relevant than d_j across all k_1(k_1 - 1) ordered pairs, aggregating the pairwise probabilities via SUM or Condorcet BINARY voting to produce the final ranking R_2.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from listwise cross-encoder fusion architectures such as HLATR (AIMech:HLATRHybridListAwareTransformerReranking), which model cross-document interactions over pre-computed pointwise [CLS] vectors in a single listwise Transformer pass rather than running k_1(k_1 - 1) full BERT forward passes over concatenated (q, d_i, d_j) token triples; and distinct from CEDR (AIMech:CEDRContextualizedEmbeddingsForDocumentRanking), which is a single-stage pointwise re-ranker fusing multi-layer token similarity matrices with [CLS].
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#duobert-three-segment-pairwise-bert-classification-and-loss</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Following stage H_0 (BM25 retrieving k_0 candidates R_0) and stage H_1 (monoBERT scoring [CLS] q [SEP] d_i [SEP] trained with pointwise cross-entropy loss L_mono = -sum_{j in J_pos} log(s_j) - sum_{j in J_neg} log(1 - s_j), Equation 1, to select top-k_1 candidates R_1), stage H_2 (duoBERT) takes query q as sentence A (truncated to 62 tokens), candidate d_i as sentence B (223 tokens), and candidate d_j as sentence C (223 tokens)—each with its own learned segment type embedding A, B, C so total length &lt;= 512—and projects the [CLS] vector to pairwise preference probability p_{i,j} trained via L_duo = -sum_{i in J_pos, j in J_neg} log(p_{i,j}) - sum_{i in J_neg, j in J_pos} log(1 - p_{i,j}) (Section 3.3, Equation 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r783-primary-pdf">Multi-Stage Document Ranking with BERT</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1-3.3, Figure 1 &amp; Equations 1-2, pp. 3-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r783-primary-pdf">Multi-Stage Document Ranking with BERT</a></span>
+        <span>· <strong>Locator:</strong> mono_bert_loss() and duo_bert_loss() verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#duobert-pairwise-probability-aggregation-operators</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At inference time, duoBERT evaluates k_1(k_1 - 1) ordered candidate pairs in R_1 and aggregates p_{i,j} over competitor set J_i = {0 &lt;= j &lt; |R_1|, j != i} into a per-document score s_i via SUM (s_i = sum_{j in J_i} p_{i,j}, Equation 3), Condorcet-inspired BINARY (s_i = sum_{j in J_i} 1_{p_{i,j} &gt; 0.5}, Equation 4), MIN (Equation 5), MAX (Equation 6), or m-sample SAMPLE (Equation 7), where SUM and BINARY consistently achieve the highest effectiveness while MAX severely degrades monoBERT accuracy (Section 3.3 &amp; Section 5, Tables 1-2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r783-primary-pdf">Multi-Stage Document Ranking with BERT</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 &amp; Section 5, Equations 3-7 &amp; Tables 1-2, pp. 4, 6-8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r783-primary-pdf">Multi-Stage Document Ranking with BERT</a></span>
+        <span>· <strong>Locator:</strong> aggregate_duobert_scores() and main() verification of SUM/BINARY/MIN vs MAX failure</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#duobert-msmarco-and-treccar-cascading-ranking-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On MS MARCO passage ranking and TREC 2017 CAR, the BM25 (k_0 = 1000) -&gt; monoBERT (k_1 = 50) -&gt; duoBERT pipeline improves MS MARCO Dev / Eval MRR@10 from 18.7 / 19.0 (BM25) to 37.2 / 36.5 (+monoBERT), 38.2 / 37.0 (+duoBERT_SUM), 38.3 Dev (+duoBERT_BINARY), and 39.0 / 37.9 with Target Corpus Pre-training (TCP, Table 1), while on TREC CAR it raises MAP from 15.3 (BM25) to 34.8 (+monoBERT) and 36.9 (+duoBERT_SUM or duoBERT_BINARY, Table 2), with k_1 = 20 capturing nearly the full gain at only 40% extra latency over monoBERT (Section 5.2, Figure 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r783-primary-pdf">Multi-Stage Document Ranking with BERT</a></span>
+        <span>· <strong>Locator:</strong> Section 5, Tables 1-3 &amp; Figures 2-4, pp. 6-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#duobert-quadratic-pairwise-inference-cost-and-length-truncation-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because duoBERT executes k_1(k_1 - 1) full BERT forward passes per query (e.g., 50 x 49 = 2,450 additional BERT inferences on top of k_0 = 1000 monoBERT inferences, totaling 3,450 BERT passes per query at k_1 = 50), inference cost grows quadratically in k_1 (Sections 3.3 &amp; 5.2, Figures 3-4), and fitting two candidate documents alongside the query within BERT&#39;s 512-token window requires truncating each candidate to at most 223 tokens (Section 3.3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r783-primary-pdf">Multi-Stage Document Ranking with BERT</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 &amp; Sections 5.2-5.3, Figures 3-4, pp. 4, 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires k_1(k_1 - 1) pairwise BERT forward passes per query in stage H_2 (e.g., 2,450 extra BERT inferences for k_1 = 50), causing latency to scale quadratically with candidate pool size k_1.</li>
+      <li>Concatenating the query and two candidate documents into a single 512-token BERT input restricts each candidate document to at most 223 tokens.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            monoBERT and duoBERT fine-tune 24-layer BERT-large neural networks with two-segment pointwise and three-segment pairwise [CLS] classification heads.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r783-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r783-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1910.14424.pdf" target="_blank" rel="noopener">Multi-Stage Document Ranking with BERT</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rodrigo Nogueira, Wei Yang, Kyunghyun Cho, Jimmy Lin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1910.14424</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:965b33b6ae39…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r783-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r783-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1910.14424" target="_blank" rel="noopener">Multi-Stage Document Ranking with BERT (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rodrigo Nogueira, Wei Yang, Kyunghyun Cho, Jimmy Lin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1910.14424</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:91d4ee9ea339…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r783-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r783-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/1910.14424" target="_blank" rel="noopener">Multi-Stage Document Ranking with BERT (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rodrigo Nogueira, Wei Yang, Kyunghyun Cho, Jimmy Lin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1910.14424</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2d876ff427bc…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:26:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:26:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DuoBERTMultiStageDocumentRankingWithBERT.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DuoBERTMultiStageDocumentRankingWithBERT.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
