@@ -1,0 +1,103 @@
+id: AIMech:FedDiscoFederatedLearningWithDiscrepancyAwareCollaboration
+name: FedDisco (Federated Learning with Discrepancy-Aware Collaboration)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A federated aggregation algorithm for category-imbalanced and non-IID client datasets (Ye et al. 2023, Sections 3.2-5.2, Proposition 4.1, Theorems 4.4-4.5, Equation 7, Algorithm 1) in which each client k computes the L2 discrepancy d_k = ||r_k - u||_2 (or KL/cosine discrepancy) between its local category distribution r_k in Delta^{C-1} and a target global category distribution u (such as the uniform distribution u_c = 1/C) and the server replaces standard dataset-size aggregation weights n_k = |D_k| / sum_m |D_m| with discrepancy-aware collaboration weights p_k = ReLU(n_k - a d_k + b) / sum_{m=1}^K ReLU(n_m - a d_m + b) (Equation 7) when updating w^{(t+1)} = w^{(t)} - eta sum_{k in S_t} p_k Delta_k^{(t)}, where the one-time privacy-preserving auxiliary transmission of D^{aux}_k = R r_k using a random orthogonal matrix R in R^{C x C} (R^T R = I) preserves exact Euclidean norms ||D^{aux}_k - D^{aux}_u||_2 = ||r_k - u||_2 without revealing raw class counts (Section 5.1, Equation 8).
+identity_notes: Distinct from FedNova (AIMech:FedNovaNormalizedAveragingForHeterogeneousFederatedOptimization, Wang et al. 2020), which normalizes client updates by their effective number of local SGD steps tau_eff rather than category-distribution discrepancy d_k = ||r_k - u||_2; and distinct from Agnostic Federated Learning (AIMech:AgnosticFederatedLearning, Mohri et al. 2019), which solves a minimax saddle-point problem max_lambda min_w sum_k lambda_k F_k(w) assigning larger weights to high-loss clients rather than down-weighting category-skewed clients via ReLU(n_k - a d_k + b).
+aliases:
+- FedDisco
+- Federated Learning with Discrepancy-Aware Collaboration
+- Discrepancy-Aware Federated Aggregation
+definition_evidence:
+- source_id: r469-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r469-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r469-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r469-gradient-diversity-bound-and-convergence-theorem-mechanism
+  kind: mechanism
+  statement: Proves that the weighted gradient-to-global discrepancy satisfies ||sum_{k=1}^K p_k nabla F_k(w) - nabla F(w)|| <= A sum_{k=1}^K p_k d_k under class-wise gradient bound ||nabla F_{k,c}(w)|| <= A (Proposition 4.1, Equation 2) and bounds weighted gradient diversity Lambda(w, p) in Theorem 4.4 (Equation 3), yielding the non-convex convergence upper bound of Theorem 4.5 (Equation 4) whose discrepancy terms T_3, T_5 are strictly reduced by shifting simplex mass from high-d_k to low-d_k clients via p_k propto ReLU(n_k - a d_k + b) (Equation 7 & Appendix C.4).
+  evidence:
+  - source_id: r469-primary-pdf
+    locator: Section 4 Theoretical Analysis (Proposition 4.1, Theorems 4.4-4.5, Equations 2-5), pp. 3-5, and Appendix C.1-C.4, pp. 14-21
+    relation: supports
+- claim_id: r469-orthogonal-projection-privacy-preserving-discrepancy-scope
+  kind: scope
+  statement: Computes client discrepancy scores in a single pre-training step without revealing local class histograms r_k to the server by having clients multiply r_k by a shared random orthogonal matrix R in R^{C x C} (R^T R = I) and upload D^{aux}_k = R r_k, preserving exact L2 discrepancy ||D^{aux}_k - D^{aux}_u||_2 = sqrt((r_k - u)^T R^T R (r_k - u)) = ||r_k - u||_2 (Section 5.1, Equation 8), and combines modularly with FedAvg, FedProx, FedNova, MOON, and FedDyn.
+  evidence:
+  - source_id: r469-primary-pdf
+    locator: Section 5.1 Discrepancy Estimation (Equation 8) & Section 5.2 Algorithm 1, pp. 5-6
+    relation: supports
+- claim_id: r469-asymptotic-bias-weight-divergence-tradeoff-limitation
+  kind: limitation
+  statement: Introduces a non-vanishing O(W_D(n)) asymptotic bias term T_4 = (4 A^2 C / mu) W_D(n)^2 in Theorem 4.5 whenever p != n (W_D(n) = ||p - n||_1 > 0), creating a finite-horizon trade-off between reducing discrepancy drift sum_k p_k d_k and bounding weight divergence ||p - n||_1 controlled by hyperparameters (a, b).
+  evidence:
+  - source_id: r469-primary-pdf
+    locator: Section 4.2 Theorem 4.5 & Practical Guidance (Equations 4-6), pp. 4-5, and Appendix C.4 Equation 54, p. 21
+    relation: supports
+- claim_id: r469-quantity-and-dirichlet-skewed-federated-benchmarks-application
+  kind: application
+  statement: Applied to federated image classification under Dirichlet and pathological category-skewed + quantity-skewed partitions on CIFAR-10, CIFAR-100, TinyImageNet, FMNIST, and CINIC-10, consistently improving FedAvg, FedProx, MOON, and FedDyn.
+  evidence:
+  - source_id: r469-primary-pdf
+    locator: Section 6 Experiments (Tables 1-5, Figures 4-6), pp. 6-9
+    relation: supports
+evidence_sources:
+- source_id: r469-primary-pdf
+  title: 'FedDisco: Federated Learning with Discrepancy-Aware Collaboration'
+  authors: &id001
+  - Rui Ye
+  - Mingkai Xu
+  - Jianyu Wang
+  - Chenxin Xu
+  - Siheng Chen
+  - Yanfeng Wang
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v202/ye23b/ye23b.pdf
+  persistent_id: https://proceedings.mlr.press/v202/ye23b.html
+  version: Conference Proceedings (2023) (2338 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:12:00Z'
+  sha256: 88f4ab6a5f98d3f9d81e328746b0c8c4b9dc2c0aedb2258a8dc8784312829389
+- source_id: r469-arxiv-abs
+  title: 'FedDisco: Federated Learning with Discrepancy-Aware Collaboration (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2305.19229
+  persistent_id: https://arxiv.org/abs/2305.19229
+  version: arXiv abstract page (1470 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:12:00Z'
+  sha256: b23db4f0b6057540c9a7eb73e0a49556ea0ea06424fcfb11d70481db845ac4b5
+- source_id: r469-metadata-cr
+  title: 'FedDisco: Federated Learning with Discrepancy-Aware Collaboration (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v202/ye23b.html
+  persistent_id: https://proceedings.mlr.press/v202/ye23b.html
+  version: Crossref API work record (431 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:12:00Z'
+  sha256: e10d41fceb7b4fee1f4f8dfe3625448190b0714bbc2775f1fc38327cecdf8f89
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedDisco is a federated aggregation algorithm that weights client updates by both dataset size and category-distribution discrepancy to the global target distribution.
+limitations:
+- Applies specifically to classification tasks with discrete category distributions r_k in Delta^{C-1} and requires choosing hyperparameters (a, b).
+- Introduces a non-zero weight-divergence bias term W_D(n) = ||p - n||_1 in the asymptotic regime T -> infty.
+curation:
+  created_at: '2026-10-19T09:12:00Z'
+  updated_at: '2026-10-19T09:12:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
