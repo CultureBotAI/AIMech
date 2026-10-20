@@ -1,0 +1,102 @@
+id: AIMech:SWATS
+name: SWATS
+concept_kind: algorithm
+review_status: DRAFT
+definition: A hyperparameter-free hybrid stochastic optimization strategy (Switching from Adam to SGD) that begins training in an Adam phase, estimates a scalar SGD step size gamma_k = (p_k^T p_k) / (-p_k^T g_k) at each step k by solving the projection equation proj_{-gamma_k g_k} p_k = p_k between the Adam step p_k and negative stochastic gradient -g_k, tracks an exponential moving average lambda_k = beta_2 lambda_{k-1} + (1 - beta_2) gamma_k reusing Adam's second-moment decay rate beta_2, and permanently switches to SGD (or SGDM with momentum beta_1 and scale (1 - beta_1) Lambda) with scalar learning rate Lambda = lambda_k / (1 - beta_2^k) as soon as |lambda_k / (1 - beta_2^k) - gamma_k| < epsilon.
+identity_notes: Distinct from AdaBound/AMSBound (AIMech:AdaBoundAndAMSBound, which smoothly pinches coordinate-wise step sizes via scheduled upper and lower bounds parameterized by gamma) and from Padam (AIMech:Padam, which maintains a constant partial-adaptivity power p in (0, 1/2] throughout training). SWATS executes a discrete phase switch from Adam to uniform-step-size SGD(M) where both the switchover iteration and the post-switch SGD learning rate Lambda are inferred automatically from the projection of -gamma_k g_k onto p_k.
+aliases:
+- Switching from Adam to SGD Optimization Strategy
+- Gradient-Subspace Projected Adam-to-SGD Hybrid Optimizer
+- Automated Adam-to-SGD Switchover Optimization
+definition_evidence:
+- source_id: r615-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r615-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r615-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: swats-non-orthogonal-projection-and-rayleigh-quotient-identity
+  kind: mechanism
+  statement: Given stochastic gradient g_k and Adam step p_k != 0 with p_k^T g_k < 0, SWATS solves proj_{-gamma_k g_k} p_k = -gamma_k ((g_k^T p_k) / (p_k^T p_k)) p_k = p_k in closed form to obtain gamma_k = (p_k^T p_k) / (-p_k^T g_k); when beta_1 = 0 so p_k = -H_k g_k with diagonal preconditioner H_k > 0, gamma_k > 0 equals the reciprocal of the Rayleigh quotient of H_k^{-1} with respect to p_k and avoids the systematic step-size underestimation of the orthogonal projection proj_{p_k}(-g_k).
+  evidence:
+  - source_id: r615-primary-pdf
+    locator: Section 2.1 (Learning rate for SGD after the switch) and Figure 3, p. 3-5
+    relation: supports
+  - source_id: r615-metadata-cr
+    locator: Bibliographic metadata for Keskar & Socher 2017
+    relation: supports
+- claim_id: swats-bias-corrected-ema-switchover-and-column-space-scope
+  kind: scope
+  statement: SWATS smooths gamma_k via lambda_k = beta_2 lambda_{k-1} + (1 - beta_2) gamma_k and triggers a permanent switch to SGD(M) with learning rate Lambda = lambda_k / (1 - beta_2^k) and momentum update v_k = beta_1 v_{k-1} + g_k, w_k = w_{k-1} - (1 - beta_1) Lambda v_k when |lambda_k / (1 - beta_2^k) - gamma_k| < epsilon (k > 1), transitioning from non-uniform diagonal scaling to isotropic updates that remain within the gradient column space.
+  evidence:
+  - source_id: r615-primary-pdf
+    locator: Section 2.2 (Switchover Point, Equation 4), Algorithm 1, and Section 4, p. 4-5, 8
+    relation: supports
+- claim_id: swats-vision-and-language-modeling-generalization-applications
+  kind: application
+  statement: SWATS closes the test-error generalization gap between Adam and tuned SGD(M) on CIFAR-10 and CIFAR-100 across ResNet-32, DenseNet, PyramidNet, and SENet as well as ResNet-18 on Tiny-ImageNet, while matching Adam's validation perplexity on Penn Treebank and WikiText-2 word-level language modeling with AWD-LSTM and AWD-QRNN.
+  evidence:
+  - source_id: r615-primary-pdf
+    locator: Section 3 (Numerical Results), Table 1 and Figures 4-7, p. 5-9
+    relation: supports
+- claim_id: swats-hard-switch-transient-degradation-and-irreversibility-limitation
+  kind: limitation
+  statement: Because SWATS executes an abrupt one-way hard switch from per-coordinate adaptive scaling to a single scalar SGD learning rate and resets the momentum buffer v_k = 0 at switchover, it can induce a sharp temporary drop in test accuracy immediately after the switch (such as dropping from 80% to 52% on Tiny-ImageNet before recovering) and cannot switch back if gradient scales later become ill-conditioned.
+  evidence:
+  - source_id: r615-primary-pdf
+    locator: Section 3 (p. 6, Figure 5) and Section 4 (Discussion and Conclusion, p. 8)
+    relation: supports
+evidence_sources:
+- source_id: r615-primary-pdf
+  title: Improving Generalization Performance by Switching from Adam to SGD
+  authors: &id001
+  - Nitish Shirish Keskar
+  - Richard Socher
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1712.07628.pdf
+  persistent_id: https://dblp.org/rec/journals/corr/abs-1712-07628.xml
+  version: arXiv (2017) (917110 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:38:00Z'
+  sha256: a5c0875c1c614755cc69a4b4fe4d970c7770574bfcc6e25ebe363837546e97d1
+- source_id: r615-arxiv-abs
+  title: Improving Generalization Performance by Switching from Adam to SGD (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1712.07628
+  persistent_id: https://arxiv.org/abs/1712.07628
+  version: arXiv abstract page (6718 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:38:00Z'
+  sha256: 9e92c3a4b805bb23f0b09595d42a93c5df700837113b99f1ac4c35745e0bfc68
+- source_id: r615-metadata-cr
+  title: Improving Generalization Performance by Switching from Adam to SGD (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-1712-07628.xml
+  persistent_id: https://dblp.org/rec/journals/corr/abs-1712-07628.xml
+  version: Crossref API work record (461 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:38:00Z'
+  sha256: 7311fb071ea7490e66bc9edd149561ace1dbc8201dc09c6a24ed243ee8c92d51
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: SWATS is a hybrid optimization method designed to combine Adam's fast initial progress with SGD's generalization performance when training deep neural networks.
+limitations:
+- Executes a hard one-way switch with momentum buffer reset v_k = 0, which can cause a significant temporary drop in accuracy immediately after the switchover epoch.
+- Relies on an unnormalized scalar convergence criterion |lambda_k / (1 - beta_2^k) - gamma_k| < epsilon that may trigger late on high-variance recurrent language modeling tasks.
+curation:
+  created_at: '2026-10-19T11:38:00Z'
+  updated_at: '2026-10-19T11:38:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SWATS · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>SWATS</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SWATS</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SWATS</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Switching from Adam to SGD Optimization Strategy, Gradient-Subspace Projected Adam-to-SGD Hybrid Optimizer, Automated Adam-to-SGD Switchover Optimization
+    </div>
+
+  <div class="detail-desc">
+    A hyperparameter-free hybrid stochastic optimization strategy (Switching from Adam to SGD) that begins training in an Adam phase, estimates a scalar SGD step size gamma_k = (p_k^T p_k) / (-p_k^T g_k) at each step k by solving the projection equation proj_{-gamma_k g_k} p_k = p_k between the Adam step p_k and negative stochastic gradient -g_k, tracks an exponential moving average lambda_k = beta_2 lambda_{k-1} + (1 - beta_2) gamma_k reusing Adam&#39;s second-moment decay rate beta_2, and permanently switches to SGD (or SGDM with momentum beta_1 and scale (1 - beta_1) Lambda) with scalar learning rate Lambda = lambda_k / (1 - beta_2^k) as soon as |lambda_k / (1 - beta_2^k) - gamma_k| &lt; epsilon.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AdaBound/AMSBound (AIMech:AdaBoundAndAMSBound, which smoothly pinches coordinate-wise step sizes via scheduled upper and lower bounds parameterized by gamma) and from Padam (AIMech:Padam, which maintains a constant partial-adaptivity power p in (0, 1/2] throughout training). SWATS executes a discrete phase switch from Adam to uniform-step-size SGD(M) where both the switchover iteration and the post-switch SGD learning rate Lambda are inferred automatically from the projection of -gamma_k g_k onto p_k.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#swats-non-orthogonal-projection-and-rayleigh-quotient-identity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given stochastic gradient g_k and Adam step p_k != 0 with p_k^T g_k &lt; 0, SWATS solves proj_{-gamma_k g_k} p_k = -gamma_k ((g_k^T p_k) / (p_k^T p_k)) p_k = p_k in closed form to obtain gamma_k = (p_k^T p_k) / (-p_k^T g_k); when beta_1 = 0 so p_k = -H_k g_k with diagonal preconditioner H_k &gt; 0, gamma_k &gt; 0 equals the reciprocal of the Rayleigh quotient of H_k^{-1} with respect to p_k and avoids the systematic step-size underestimation of the orthogonal projection proj_{p_k}(-g_k).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r615-primary-pdf">Improving Generalization Performance by Switching from Adam to SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1 (Learning rate for SGD after the switch) and Figure 3, p. 3-5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r615-metadata-cr">Improving Generalization Performance by Switching from Adam to SGD (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata for Keskar &amp; Socher 2017</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#swats-bias-corrected-ema-switchover-and-column-space-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    SWATS smooths gamma_k via lambda_k = beta_2 lambda_{k-1} + (1 - beta_2) gamma_k and triggers a permanent switch to SGD(M) with learning rate Lambda = lambda_k / (1 - beta_2^k) and momentum update v_k = beta_1 v_{k-1} + g_k, w_k = w_{k-1} - (1 - beta_1) Lambda v_k when |lambda_k / (1 - beta_2^k) - gamma_k| &lt; epsilon (k &gt; 1), transitioning from non-uniform diagonal scaling to isotropic updates that remain within the gradient column space.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r615-primary-pdf">Improving Generalization Performance by Switching from Adam to SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 (Switchover Point, Equation 4), Algorithm 1, and Section 4, p. 4-5, 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#swats-vision-and-language-modeling-generalization-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    SWATS closes the test-error generalization gap between Adam and tuned SGD(M) on CIFAR-10 and CIFAR-100 across ResNet-32, DenseNet, PyramidNet, and SENet as well as ResNet-18 on Tiny-ImageNet, while matching Adam&#39;s validation perplexity on Penn Treebank and WikiText-2 word-level language modeling with AWD-LSTM and AWD-QRNN.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r615-primary-pdf">Improving Generalization Performance by Switching from Adam to SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Numerical Results), Table 1 and Figures 4-7, p. 5-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#swats-hard-switch-transient-degradation-and-irreversibility-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because SWATS executes an abrupt one-way hard switch from per-coordinate adaptive scaling to a single scalar SGD learning rate and resets the momentum buffer v_k = 0 at switchover, it can induce a sharp temporary drop in test accuracy immediately after the switch (such as dropping from 80% to 52% on Tiny-ImageNet before recovering) and cannot switch back if gradient scales later become ill-conditioned.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r615-primary-pdf">Improving Generalization Performance by Switching from Adam to SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (p. 6, Figure 5) and Section 4 (Discussion and Conclusion, p. 8)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Executes a hard one-way switch with momentum buffer reset v_k = 0, which can cause a significant temporary drop in accuracy immediately after the switchover epoch.</li>
+      <li>Relies on an unnormalized scalar convergence criterion |lambda_k / (1 - beta_2^k) - gamma_k| &lt; epsilon that may trigger late on high-variance recurrent language modeling tasks.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SWATS is a hybrid optimization method designed to combine Adam&#39;s fast initial progress with SGD&#39;s generalization performance when training deep neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r615-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r615-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1712.07628.pdf" target="_blank" rel="noopener">Improving Generalization Performance by Switching from Adam to SGD</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nitish Shirish Keskar, Richard Socher
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-1712-07628.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a5c0875c1c61…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r615-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r615-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1712.07628" target="_blank" rel="noopener">Improving Generalization Performance by Switching from Adam to SGD (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nitish Shirish Keskar, Richard Socher
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1712.07628</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9e92c3a4b805…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r615-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r615-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/corr/abs-1712-07628.xml" target="_blank" rel="noopener">Improving Generalization Performance by Switching from Adam to SGD (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nitish Shirish Keskar, Richard Socher
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-1712-07628.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7311fb071ea7…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:38:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:38:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SWATS.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SWATS.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
