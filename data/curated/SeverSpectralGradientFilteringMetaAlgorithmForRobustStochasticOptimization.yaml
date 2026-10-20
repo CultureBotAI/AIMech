@@ -1,0 +1,103 @@
+id: AIMech:SeverSpectralGradientFilteringMetaAlgorithmForRobustStochasticOptimization
+name: Sever Spectral Gradient Filtering Meta-Algorithm for Robust Stochastic Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: An outlier-robust stochastic optimization meta-algorithm that iteratively invokes a black-box gamma-approximate learner L on the current active sample subset S subseteq {1, ..., n} to obtain parameters w = L({f_i}_{i in S}), forms the |S| x d matrix of centered sample gradients G = [nabla f_i(w) - nabla_hat]_{i in S} where nabla_hat = (1/|S|) sum_{i in S} nabla f_i(w), computes the top right singular vector v of G, scores each sample by its squared spectral projection tau_i = ((nabla f_i(w) - nabla_hat) . v)^2, and filters out high-scoring outliers whenever the total spectral variance exceeds a threshold before re-running the base learner until convergence.
+identity_notes: Introduced by Diakonikolas, Kamath, Kane, Li, Steinhardt, and Stewart (ICML 2019, PMLR 97:1596-1606, arXiv:1803.02815). Distinct from every-iteration robust-mean-estimation projected gradient descent (Appendix D; Prasad et al. 2018), which calls a robust mean estimator at every gradient step rather than only at approximate critical points of a black-box learner. Also distinct from client-update Byzantine federated aggregation rules such as DnC (AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation), Multi-Krum (AIMech:KrumAndMultiKrumByzantineResilientGradientAggregation), and Bulyan (AIMech:BulyanByzantineResilientGradientAggregation), which aggregate distributed worker updates in a single communication round rather than iteratively filtering training examples around a black-box empirical risk minimizer.
+aliases:
+- Sever Robust Meta-Algorithm for Stochastic Optimization
+- Sever Spectral Outlier Gradient Filtering
+- Sever SVD Gradient Filtering Meta-Algorithm
+definition_evidence:
+- source_id: r527-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r527-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r527-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c1-mechanism-svd-centered-gradient-outlier-filtering
+  kind: mechanism
+  statement: 'At each outer iteration on active index set S subseteq {1, ..., n}, Sever runs the gamma-approximate learner w <- L({f_i}_{i in S}), computes the empirical mean gradient nabla_hat = (1/|S|) sum_{i in S} nabla f_i(w) and centered gradient matrix G = [nabla f_i(w) - nabla_hat]_{i in S} in R^{|S| x d}, extracts the top right singular vector v of G, computes outlier scores tau_i = ((nabla f_i(w) - nabla_hat) . v)^2, and if sum_{i in S} tau_i > c * sigma, draws T ~ Unif[0, max_i tau_i] (or removes the top p fraction of scores) to update S <- {i in S : tau_i < T} until no points are removed.'
+  evidence:
+  - source_id: r527-primary-pdf
+    locator: Section 2.2, Algorithm 1-2 and Practical Considerations, pp. 5-6
+    relation: supports
+- claim_id: c2-scope-dimension-independent-approximate-critical-point
+  kind: scope
+  statement: Under the epsilon-contamination model (Definition 2.1), if the uncorrupted sample set I_good subseteq [n] (|I_good| >= (1 - epsilon)n) satisfies bounded gradient covariance Cov_{I_good}[nabla f_i(w)] <= sigma^2 I and bounded empirical mean gradient deviation ||nabla f_hat(w) - nabla f_bar(w)||_2 <= sigma * sqrt(epsilon), Sever terminates in at most n iterations and returns with probability at least 9/10 a (gamma + O(sigma * sqrt(epsilon)))-approximate critical point of the true population objective f_bar(w), achieving an error guarantee independent of the ambient dimension d.
+  evidence:
+  - source_id: r527-primary-pdf
+    locator: Section 2.2 Theorem 2.1, Corollary 2.3, and Appendix B.1 Lemma B.6-B.7, pp. 6, 18-21
+    relation: supports
+- claim_id: c3-application-poisoning-resilient-regression-and-svm
+  kind: application
+  statement: Sever hardens ridge regression on high-dimensional ChEMBL drug-discovery data (410 dimensions) and hinge-loss support vector machines on Enron spam classification (5116 dimensions) against correlated data poisoning attacks that fool loss-based, l2-distance, centered-gradient l2-norm, and RANSAC outlier detectors.
+  evidence:
+  - source_id: r527-primary-pdf
+    locator: Section 3, Figures 2-6, pp. 8-12
+    relation: supports
+- claim_id: c4-limitation-multiple-large-singular-values-and-sqrt-epsilon-rate
+  kind: limitation
+  statement: Sever's theoretical guarantee incurs an O(sigma * sqrt(epsilon)) error dependence on the corruption fraction epsilon without stronger distributional assumptions, and its single-top-singular-vector filter assumes the clean gradient covariance has small spectral norm in all directions, requiring multiple filtering rounds when subsets of outliers are initially hidden with zero hinge-loss gradient.
+  evidence:
+  - source_id: r527-primary-pdf
+    locator: Section 3.2 Figure 6 and Section 4 Discussion, pp. 12-13
+    relation: supports
+evidence_sources:
+- source_id: r527-primary-pdf
+  title: 'Sever: A Robust Meta-Algorithm for Stochastic Optimization'
+  authors: &id001
+  - Ilias Diakonikolas
+  - Gautam Kamath
+  - Daniel M. Kane
+  - Jerry Li
+  - Jacob Steinhardt
+  - Alistair Stewart
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1803.02815.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/DiakonikolasKK019
+  version: Proceedings of the 36th International Conference on Machine Learning (ICML 2019), PMLR 97:1596-1606 (2019) (813567 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:10:00Z'
+  sha256: 7679bd56f3814041d1173ebd87dda25d6dc066e0918cac92556d7a4abd46add4
+- source_id: r527-arxiv-abs
+  title: 'Sever: A Robust Meta-Algorithm for Stochastic Optimization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1803.02815
+  persistent_id: https://arxiv.org/abs/1803.02815
+  version: arXiv abstract page (7281 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:10:00Z'
+  sha256: 8496c250bca8e676c425370da70e102eff39d296ba610e8e23e86e513a78677c
+- source_id: r527-metadata-cr
+  title: 'Sever: A Robust Meta-Algorithm for Stochastic Optimization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/DiakonikolasKK019
+  persistent_id: https://dblp.org/rec/conf/icml/DiakonikolasKK019
+  version: Crossref API work record (2052 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:10:00Z'
+  sha256: cc991a9a2c201f4dff47133599c2be5f65ab738dbb11af6723981618e686192d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: Sever is an outlier-robust stochastic optimization meta-algorithm evaluated on ridge regression, generalized linear models, and support vector classification under epsilon-corruption.
+limitations:
+- Without stronger distributional assumptions on inliers, the theoretical optimization error scales as O(sigma * sqrt(epsilon)) in the outlier fraction epsilon rather than O(epsilon).
+- Filtering along a single top singular vector per outer iteration requires multiple outer re-training rounds when subsets of poisoning points initially have zero gradient (e.g., correctly classified hinge-loss points).
+curation:
+  created_at: '2026-10-19T10:10:00Z'
+  updated_at: '2026-10-19T10:10:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

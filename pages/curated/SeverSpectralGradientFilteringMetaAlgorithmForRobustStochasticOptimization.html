@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sever Spectral Gradient Filtering Meta-Algorithm for Robust Stochastic Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Sever Spectral Gradient Filtering Meta-Algorithm for Robust Stochastic Optimization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Sever Spectral Gradient Filtering Meta-Algorithm for Robust Stochastic Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SeverSpectralGradientFilteringMetaAlgorithmForRobustStochasticOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Sever Robust Meta-Algorithm for Stochastic Optimization, Sever Spectral Outlier Gradient Filtering, Sever SVD Gradient Filtering Meta-Algorithm
+    </div>
+
+  <div class="detail-desc">
+    An outlier-robust stochastic optimization meta-algorithm that iteratively invokes a black-box gamma-approximate learner L on the current active sample subset S subseteq {1, ..., n} to obtain parameters w = L({f_i}_{i in S}), forms the |S| x d matrix of centered sample gradients G = [nabla f_i(w) - nabla_hat]_{i in S} where nabla_hat = (1/|S|) sum_{i in S} nabla f_i(w), computes the top right singular vector v of G, scores each sample by its squared spectral projection tau_i = ((nabla f_i(w) - nabla_hat) . v)^2, and filters out high-scoring outliers whenever the total spectral variance exceeds a threshold before re-running the base learner until convergence.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Diakonikolas, Kamath, Kane, Li, Steinhardt, and Stewart (ICML 2019, PMLR 97:1596-1606, arXiv:1803.02815). Distinct from every-iteration robust-mean-estimation projected gradient descent (Appendix D; Prasad et al. 2018), which calls a robust mean estimator at every gradient step rather than only at approximate critical points of a black-box learner. Also distinct from client-update Byzantine federated aggregation rules such as DnC (AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation), Multi-Krum (AIMech:KrumAndMultiKrumByzantineResilientGradientAggregation), and Bulyan (AIMech:BulyanByzantineResilientGradientAggregation), which aggregate distributed worker updates in a single communication round rather than iteratively filtering training examples around a black-box empirical risk minimizer.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c1-mechanism-svd-centered-gradient-outlier-filtering</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each outer iteration on active index set S subseteq {1, ..., n}, Sever runs the gamma-approximate learner w &lt;- L({f_i}_{i in S}), computes the empirical mean gradient nabla_hat = (1/|S|) sum_{i in S} nabla f_i(w) and centered gradient matrix G = [nabla f_i(w) - nabla_hat]_{i in S} in R^{|S| x d}, extracts the top right singular vector v of G, computes outlier scores tau_i = ((nabla f_i(w) - nabla_hat) . v)^2, and if sum_{i in S} tau_i &gt; c * sigma, draws T ~ Unif[0, max_i tau_i] (or removes the top p fraction of scores) to update S &lt;- {i in S : tau_i &lt; T} until no points are removed.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r527-primary-pdf">Sever: A Robust Meta-Algorithm for Stochastic Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Algorithm 1-2 and Practical Considerations, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#c2-scope-dimension-independent-approximate-critical-point</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the epsilon-contamination model (Definition 2.1), if the uncorrupted sample set I_good subseteq [n] (|I_good| &gt;= (1 - epsilon)n) satisfies bounded gradient covariance Cov_{I_good}[nabla f_i(w)] &lt;= sigma^2 I and bounded empirical mean gradient deviation ||nabla f_hat(w) - nabla f_bar(w)||_2 &lt;= sigma * sqrt(epsilon), Sever terminates in at most n iterations and returns with probability at least 9/10 a (gamma + O(sigma * sqrt(epsilon)))-approximate critical point of the true population objective f_bar(w), achieving an error guarantee independent of the ambient dimension d.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r527-primary-pdf">Sever: A Robust Meta-Algorithm for Stochastic Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 Theorem 2.1, Corollary 2.3, and Appendix B.1 Lemma B.6-B.7, pp. 6, 18-21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c3-application-poisoning-resilient-regression-and-svm</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Sever hardens ridge regression on high-dimensional ChEMBL drug-discovery data (410 dimensions) and hinge-loss support vector machines on Enron spam classification (5116 dimensions) against correlated data poisoning attacks that fool loss-based, l2-distance, centered-gradient l2-norm, and RANSAC outlier detectors.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r527-primary-pdf">Sever: A Robust Meta-Algorithm for Stochastic Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Figures 2-6, pp. 8-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c4-limitation-multiple-large-singular-values-and-sqrt-epsilon-rate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Sever&#39;s theoretical guarantee incurs an O(sigma * sqrt(epsilon)) error dependence on the corruption fraction epsilon without stronger distributional assumptions, and its single-top-singular-vector filter assumes the clean gradient covariance has small spectral norm in all directions, requiring multiple filtering rounds when subsets of outliers are initially hidden with zero hinge-loss gradient.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r527-primary-pdf">Sever: A Robust Meta-Algorithm for Stochastic Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Figure 6 and Section 4 Discussion, pp. 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Without stronger distributional assumptions on inliers, the theoretical optimization error scales as O(sigma * sqrt(epsilon)) in the outlier fraction epsilon rather than O(epsilon).</li>
+      <li>Filtering along a single top singular vector per outer iteration requires multiple outer re-training rounds when subsets of poisoning points initially have zero gradient (e.g., correctly classified hinge-loss points).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RegressionAnalysis.html" style="font-weight: 600;"><code>AIO:RegressionAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Regression Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Sever is an outlier-robust stochastic optimization meta-algorithm evaluated on ridge regression, generalized linear models, and support vector classification under epsilon-corruption.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r527-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r527-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1803.02815.pdf" target="_blank" rel="noopener">Sever: A Robust Meta-Algorithm for Stochastic Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ilias Diakonikolas, Gautam Kamath, Daniel M. Kane, Jerry Li, Jacob Steinhardt, Alistair Stewart
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/DiakonikolasKK019</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7679bd56f381…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r527-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r527-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1803.02815" target="_blank" rel="noopener">Sever: A Robust Meta-Algorithm for Stochastic Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ilias Diakonikolas, Gautam Kamath, Daniel M. Kane, Jerry Li, Jacob Steinhardt, Alistair Stewart
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1803.02815</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8496c250bca8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r527-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r527-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/DiakonikolasKK019" target="_blank" rel="noopener">Sever: A Robust Meta-Algorithm for Stochastic Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ilias Diakonikolas, Gautam Kamath, Daniel M. Kane, Jerry Li, Jacob Steinhardt, Alistair Stewart
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/DiakonikolasKK019</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cc991a9a2c20…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:10:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:10:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SeverSpectralGradientFilteringMetaAlgorithmForRobustStochasticOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SeverSpectralGradientFilteringMetaAlgorithmForRobustStochasticOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
