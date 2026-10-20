@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GrIPS Gradient-Free Edit-Based Instruction Search · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>GrIPS Gradient-Free Edit-Based Instruction Search</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">GrIPS Gradient-Free Edit-Based Instruction Search</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GrIPSGradientFreeEditBasedInstructionSearch</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GrIPS, Gradient-free Edit-based Instruction Search, Phrase-Level Edit-Based Instruction Search
+    </div>
+
+  <div class="detail-desc">
+    A gradient-free discrete prompt optimization algorithm that segments a natural language task instruction into constituent syntactic phrases and iteratively searches for higher-performing instructions by applying phrase-level edit operations—deletion, swapping, paraphrase substitution, and re-addition of deleted phrases—scored on a small labeled evaluation set using balanced accuracy regularized by label-prediction entropy.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from gradient-guided discrete trigger search (AIMech:AutoPromptGradientGuidedDiscretePromptSearch), which requires first-order embedding gradients to rank vocabulary token replacements, and from reinforcement-learning token generation (AIMech:RLPromptReinforcementLearningDiscretePromptOptimization), which trains a continuous policy head over token sequences. Also distinct from derivative-free continuous subspace prompt optimization (AIMech:BBTBlackBoxTuningForLanguageModelAsAService), which optimizes continuous vectors via CMA-ES rather than human-interpretable phrase-level text edits.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#grips-phrase-level-edit-space</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    GrIPS segments a base instruction into constituent phrases using a constituency parser and generates candidate instructions at each search step via four phrase-level edit operations: phrase deletion, phrase swapping, phrase substitution (via a paraphrase model), and phrase addition from previously deleted phrases.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r732-primary-pdf">GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, pp. 3829-3830, Figure 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#grips-entropy-regularized-scoring-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To break accuracy ties on small few-shot score sets and penalize degenerate single-class biases, GrIPS evaluates candidate instructions with a composite objective that adds an entropy bonus over the empirical distribution of predicted labels to balanced classification accuracy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r732-primary-pdf">GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, pp. 3830-3831</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#grips-black-box-instruction-tuning-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    GrIPS optimizes task instructions for instruction-tuned and black-box language models including InstructGPT, GPT-3, and T0 across Natural-Instructions benchmarks without requiring access to model weights or gradients.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r732-primary-pdf">GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models</a></span>
+        <span>· <strong>Locator:</strong> Section 4 &amp; Section 5, pp. 3831-3836, Tables 1-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r732-metadata-cr">GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> DBLP bibliographic record conf/eacl/PrasadHZB23</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#grips-initial-instruction-dependency-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because GrIPS performs local edit search around a seed instruction, its reachable search space is constrained by the structure and content of the initial manual instruction and can overfit when the validation score set is extremely small.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r732-primary-pdf">GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models</a></span>
+        <span>· <strong>Locator:</strong> Section 5 &amp; Limitations, pp. 3835-3839</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires multiple forward inference evaluations of the language model per search iteration across candidate phrase edits and score-set examples.</li>
+      <li>Cannot synthesize entirely new task instructions from scratch when no initial manual seed instruction is available.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GrIPS optimizes natural language instructions for prompting pretrained neural language models via gradient-free local search.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r732-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r732-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2203.07281.pdf" target="_blank" rel="noopener">GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Archiki Prasad, Peter Hase, Xiang Zhou, Mohit Bansal
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/eacl/PrasadHZB23.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:51570662994e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r732-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r732-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2203.07281" target="_blank" rel="noopener">GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Archiki Prasad, Peter Hase, Xiang Zhou, Mohit Bansal
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2203.07281</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:30f5657fb37f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r732-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r732-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/eacl/PrasadHZB23.xml" target="_blank" rel="noopener">GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Archiki Prasad, Peter Hase, Xiang Zhou, Mohit Bansal
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/eacl/PrasadHZB23.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b96ecb4710c8…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:35:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:35:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GrIPSGradientFreeEditBasedInstructionSearch.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GrIPSGradientFreeEditBasedInstructionSearch.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,104 @@
+id: AIMech:GrIPSGradientFreeEditBasedInstructionSearch
+name: GrIPS Gradient-Free Edit-Based Instruction Search
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A gradient-free discrete prompt optimization algorithm that segments a natural language task instruction into constituent syntactic phrases and iteratively searches for higher-performing instructions by applying phrase-level edit operations\u2014deletion, swapping, paraphrase substitution, and re-addition of deleted phrases\u2014scored on a small labeled evaluation set using balanced accuracy regularized by label-prediction entropy."
+identity_notes: Distinct from gradient-guided discrete trigger search (AIMech:AutoPromptGradientGuidedDiscretePromptSearch), which requires first-order embedding gradients to rank vocabulary token replacements, and from reinforcement-learning token generation (AIMech:RLPromptReinforcementLearningDiscretePromptOptimization), which trains a continuous policy head over token sequences. Also distinct from derivative-free continuous subspace prompt optimization (AIMech:BBTBlackBoxTuningForLanguageModelAsAService), which optimizes continuous vectors via CMA-ES rather than human-interpretable phrase-level text edits.
+aliases:
+- GrIPS
+- Gradient-free Edit-based Instruction Search
+- Phrase-Level Edit-Based Instruction Search
+definition_evidence:
+- source_id: r732-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r732-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r732-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: grips-phrase-level-edit-space
+  kind: mechanism
+  statement: 'GrIPS segments a base instruction into constituent phrases using a constituency parser and generates candidate instructions at each search step via four phrase-level edit operations: phrase deletion, phrase swapping, phrase substitution (via a paraphrase model), and phrase addition from previously deleted phrases.'
+  evidence:
+  - source_id: r732-primary-pdf
+    locator: Section 3.1, pp. 3829-3830, Figure 1
+    relation: supports
+- claim_id: grips-entropy-regularized-scoring-mechanism
+  kind: mechanism
+  statement: To break accuracy ties on small few-shot score sets and penalize degenerate single-class biases, GrIPS evaluates candidate instructions with a composite objective that adds an entropy bonus over the empirical distribution of predicted labels to balanced classification accuracy.
+  evidence:
+  - source_id: r732-primary-pdf
+    locator: Section 3.2, pp. 3830-3831
+    relation: supports
+- claim_id: grips-black-box-instruction-tuning-application
+  kind: application
+  statement: GrIPS optimizes task instructions for instruction-tuned and black-box language models including InstructGPT, GPT-3, and T0 across Natural-Instructions benchmarks without requiring access to model weights or gradients.
+  evidence:
+  - source_id: r732-primary-pdf
+    locator: Section 4 & Section 5, pp. 3831-3836, Tables 1-4
+    relation: supports
+  - source_id: r732-metadata-cr
+    locator: DBLP bibliographic record conf/eacl/PrasadHZB23
+    relation: supports
+- claim_id: grips-initial-instruction-dependency-limitation
+  kind: limitation
+  statement: Because GrIPS performs local edit search around a seed instruction, its reachable search space is constrained by the structure and content of the initial manual instruction and can overfit when the validation score set is extremely small.
+  evidence:
+  - source_id: r732-primary-pdf
+    locator: Section 5 & Limitations, pp. 3835-3839
+    relation: supports
+evidence_sources:
+- source_id: r732-primary-pdf
+  title: 'GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models'
+  authors: &id001
+  - Archiki Prasad
+  - Peter Hase
+  - Xiang Zhou
+  - Mohit Bansal
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2203.07281.pdf
+  persistent_id: https://dblp.org/rec/conf/eacl/PrasadHZB23.xml
+  version: Proceedings of the 17th Conference of the European Chapter of the Association for Computational Linguistics (EACL 2023) (2023) (778191 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:35:00Z'
+  sha256: 51570662994e142f8aec131c239af95d4537a500f1e7d65117d47714792561d5
+- source_id: r732-arxiv-abs
+  title: 'GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2203.07281
+  persistent_id: https://arxiv.org/abs/2203.07281
+  version: arXiv abstract page (6866 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:35:00Z'
+  sha256: 30f5657fb37fb01513101c3d2c6bfcb6cc1e0ddbf418a87f96b729d6541fd0d3
+- source_id: r732-metadata-cr
+  title: 'GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/eacl/PrasadHZB23.xml
+  persistent_id: https://dblp.org/rec/conf/eacl/PrasadHZB23.xml
+  version: Crossref API work record (909 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:35:00Z'
+  sha256: b96ecb4710c81fbce5c832e7e0a47ad7bae0cc8e78fd03a45f43e97bbe1bf31c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: GrIPS optimizes natural language instructions for prompting pretrained neural language models via gradient-free local search.
+limitations:
+- Requires multiple forward inference evaluations of the language model per search iteration across candidate phrase edits and score-set examples.
+- Cannot synthesize entirely new task instructions from scratch when no initial manual seed instruction is available.
+curation:
+  created_at: '2026-10-19T13:35:00Z'
+  updated_at: '2026-10-19T13:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
