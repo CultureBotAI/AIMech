@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FastBERT: Self-Distilling BERT with Adaptive Inference Time · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>FastBERT: Self-Distilling BERT with Adaptive Inference Time</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FastBERT: Self-Distilling BERT with Adaptive Inference Time</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:FastBERTSelfDistillingBERTWithAdaptiveInferenceTime</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FastBERT, FastBERT Self-Distilling Adaptive-Inference Transformer, Self-Distilling BERT with Normalized-Entropy Early Exit
+    </div>
+
+  <div class="detail-desc">
+    A sample-wise adaptive Transformer architecture and three-stage training paradigm that appends a teacher classifier to the final layer L-1 and lightweight student branch classifiers (each comprising a 768-&gt;128 projection, 128-dim self-attention, 128-&gt;128 dense layer, and N-class softmax) to intermediate layers 0..L-2, fine-tunes the backbone and teacher classifier on task labels with branches disabled, freezes the backbone and teacher to self-distill all L-1 student classifiers by minimizing sum_{i=0}^{L-2} D_KL(p_{s_i}, p_t), and terminates inference for any input sample at layer i when its normalized prediction entropy Uncertainty = (sum_{c=1}^N p_{s_i}(c) log p_{s_i}(c)) / log(1/N) falls below a tunable threshold Speed in [0, 1].
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Weijie Liu, Peng Zhou, Zhe Zhao, Zhiruo Wang, Haotang Deng, and Qi Ju (ACL 2020, pp. 6035-6044, arXiv:2004.02178, doi:10.18653/v1/2020.acl-main.537). Distinct from cross-model knowledge distillation methods (DistilBERT Round 803, TinyBERT Round 800, MobileBERT Round 804) that execute a fixed number of layers for every input, and from Patience-Based Early Exit (PABEE, Round 808), which jointly trains linear internal classifiers and exits based on cross-layer prediction agreement patience rather than frozen-backbone branch self-distillation and single-layer normalized entropy thresholding.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r807-claim-decoupled-branch-self-distillation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To prevent intermediate exit branches from corrupting backbone representations during supervised fine-tuning, FastBERT first fine-tunes the L-layer Transformer backbone and top-layer teacher classifier p_t = Teacher_Classifier(h_{L-1}) (Eq. 3) with all student branches disabled, and then freezes the backbone and teacher classifier while training the L-1 student branch classifiers p_{s_i} = Student_Classifier_i(h_i) (Eq. 4) on labeled or unlabeled data by minimizing the total KL-divergence self-distillation loss Loss(p_{s_0}, ..., p_{s_{L-2}}, p_t) = sum_{i=0}^{L-2} D_KL(p_{s_i}, p_t) (Eqs. 5-6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r807-primary-pdf">FastBERT: a Self-distilling BERT with Adaptive Inference Time</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2.3 (Equations 1-6), Pages 2-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r807-primary-pdf">FastBERT: a Self-distilling BERT with Adaptive Inference Time</a></span>
+        <span>· <strong>Locator:</strong> self_distillation_loss verification in main()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r807-claim-normalized-entropy-uncertainty-and-luha-exit</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    During adaptive inference, FastBERT evaluates the normalized Shannon entropy Uncertainty = (sum_{i=1}^N p_s(i) log p_s(i)) / log(1/N) in [0, 1] (Eq. 7) at each executed layer&#39;s student classifier and halts inference immediately whenever Uncertainty &lt; Speed (Hypothesis 1, LUHA: &#39;the Lower the Uncertainty, the Higher the Accuracy&#39;), incurring only 46.1M FLOPs per student classifier evaluation compared to 1809.9M FLOPs per Transformer block.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r807-primary-pdf">FastBERT: a Self-distilling BERT with Adaptive Inference Time</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Adaptive inference, Equation 7 &amp; Table 1), Page 4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r807-primary-pdf">FastBERT: a Self-distilling BERT with Adaptive Inference Time</a></span>
+        <span>· <strong>Locator:</strong> normalized_entropy_uncertainty and sample_adaptive_flops verification in main()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r807-claim-tunable-speedup-across-twelve-datasets</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated across six Chinese datasets (ChnSentiCorp, Book review, Shopping review, LCQMC, Weibo, THUCNews) and six English datasets (AG News, Amazon Full, DBpedia, Yahoo Answers, Yelp Full, Yelp Polarity), FastBERT achieves a continuously tunable 1x to 12x FLOPs speedup over 12-layer BERT by varying Speed in [0.1, 0.8], delivering 2x to 5x speedup without accuracy loss at Speed = 0.1 and outperforming 6-layer, 3-layer, and 1-layer DistilBERT models at matched speedup ratios.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r807-primary-pdf">FastBERT: a Self-distilling BERT with Adaptive Inference Time</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Experimental results, Tables 2-3 &amp; Figures 3-7), Pages 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r807-claim-classification-entropy-and-nonlinear-speed-curve-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because FastBERT&#39;s Uncertainty criterion (Eq. 7) is defined as Shannon entropy normalized by log(1/N) over N discrete class probabilities, it applies directly only to classification tasks with N &gt;= 2 classes (not continuous regression), and the relationship between the threshold Speed and the realized computational Speedup ratio is non-linear and dataset-dependent.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r807-primary-pdf">FastBERT: a Self-distilling BERT with Adaptive Inference Time</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Equation 7), Figure 3(b)/(e), and Section 6 (Future work: &#39;linearizing the Speed-Speedup curve&#39;), Pages 4, 6, &amp; 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The normalized entropy Uncertainty criterion requires a discrete N-class probability distribution (N &gt;= 2) and does not directly support continuous regression tasks.</li>
+      <li>The mapping from the user-specified threshold Speed in [0, 1] to the actual FLOPs speedup factor is non-linear and varies with dataset complexity.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Distillation.html" style="font-weight: 600;"><code>AIO:Distillation</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Distillation</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FastBERT introduces an in-model branch self-distillation stage that minimizes the sum of KL divergences from the frozen top-layer teacher classifier to L-1 intermediate student branch classifiers.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Augments a multi-layer Transformer neural network with per-layer bottleneck self-attention branch classifiers for sample-wise adaptive early exit.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r807-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r807-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2004.02178.pdf" target="_blank" rel="noopener">FastBERT: a Self-distilling BERT with Adaptive Inference Time</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Weijie Liu, Peng Zhou, Zhe Zhao, Zhiruo Wang, Haotang Deng, Qi Ju
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2004.02178</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9e86dbcb4a98…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r807-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r807-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2004.02178" target="_blank" rel="noopener">FastBERT: a Self-distilling BERT with Adaptive Inference Time (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Weijie Liu, Peng Zhou, Zhe Zhao, Zhiruo Wang, Haotang Deng, Qi Ju
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2004.02178</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:589beceeeeaf…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r807-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r807-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2004.02178" target="_blank" rel="noopener">FastBERT: a Self-distilling BERT with Adaptive Inference Time (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Weijie Liu, Peng Zhou, Zhe Zhao, Zhiruo Wang, Haotang Deng, Qi Ju
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2004.02178</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:900374299d44…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:50:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:50:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FastBERTSelfDistillingBERTWithAdaptiveInferenceTime.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FastBERTSelfDistillingBERTWithAdaptiveInferenceTime.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
