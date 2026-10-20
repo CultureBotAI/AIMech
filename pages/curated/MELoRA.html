@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MELoRA · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>MELoRA</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MELoRA</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MELoRA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Mini-Ensemble Low-Rank Adapters, Block-Diagonal Mini-Ensemble LoRA, MELoRA Parameter-Efficient Fine-Tuning
+    </div>
+
+  <div class="detail-desc">
+    A parameter-efficient fine-tuning algorithm that partitions the input and output feature dimensions of a frozen linear layer into n disjoint sub-vectors and trains n mini-LoRA adapters arranged as a block-diagonal weight update matrix, preserving a cumulative matrix rank of r while reducing trainable parameters and adapter FLOPs by a factor of n relative to a single rank-r LoRA adapter.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:LowRankAdaptation (LoRA), which applies a single dense low-rank update B A in R^{d_{out} x d_{in}} of rank r using r(d_{in} + d_{out}) parameters, and from multi-head or mixture-of-LoRA architectures that sum multiple full-dimension low-rank matrices across the entire feature space. MELoRA (Pengjie Ren, Chengshun Shi, Shiguang Wu, Mengqi Zhang, Zhaochun Ren, Maarten de Rijke, Zhumin Chen, and Jiahuan Pei, ACL 2024, pp. 3052-3064, arXiv:2402.17263) splits the input vector x in R^{d_{in}} into n contiguous segments x_i in R^{d_{in}/n} and applies an independent mini-LoRA module B_i A_i of inner rank r/n (with A_i in R^{(r/n) x (d_{in}/n)} and B_i in R^{(d_{out}/n) x (r/n)}) to each segment, concatenating the outputs. Equivalently, the overall weight update is the block-diagonal matrix Delta_W = diag(B_1 A_1, ..., B_n A_n) in R^{d_{out} x d_{in}}. Because the rank of a block-diagonal matrix equals the sum of the ranks of its diagonal blocks, rank(Delta_W) = sum_{i=1}^n rank(B_i A_i) &lt;= n * (r/n) = r, while the total number of trainable parameters is n * (r/n) * (d_{in}/n + d_{out}/n) = r(d_{in} + d_{out}) / n.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#melora-block-diagonal-mini-adapter-concatenation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    MELoRA partitions input activations x in R^{d_{in}} into n sub-vectors x_i in R^{d_{in}/n}, passes each sub-vector through a distinct mini-LoRA adapter B_i A_i with inner dimension r/n, and concatenates the resulting n sub-vectors of dimension d_{out}/n, which is algebraically equivalent to adding a block-diagonal update Delta_W = diag(B_1 A_1, ..., B_n A_n) to the frozen weight matrix W_0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r664-primary-pdf">MELoRA: Mini-Ensemble Low-Rank Adapters for Parameter-Efficient Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 (MELoRA Architecture) &amp; Equations (2)-(4), pp. 3054-3055</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#melora-additive-block-rank-with-one-over-n-parameter-cost</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the rank of a block-diagonal matrix is the sum of the ranks of its diagonal blocks, n mini-LoRA blocks of rank r/n achieve a total update rank up to r using only r(d_{in} + d_{out}) / n trainable parameters—or equivalently achieve an n-fold higher rank n r under the same parameter budget as a rank-r LoRA adapter.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r664-primary-pdf">MELoRA: Mini-Ensemble Low-Rank Adapters for Parameter-Efficient Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Theoretical Analysis: Rank, Parameters, and Complexity), p. 3055, Table 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#melora-application-glue-and-llm-instruction-tuning</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated on RoBERTa-base across GLUE tasks and LLaMA-2-7B across instruction-following, commonsense reasoning, and mathematical reasoning benchmarks, MELoRA consistently outperforms LoRA while using 8x fewer trainable parameters on GLUE and 2x to 4x fewer parameters on LLM instruction tuning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r664-primary-pdf">MELoRA: Mini-Ensemble Low-Rank Adapters for Parameter-Efficient Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Experiments), Tables 2-4, pp. 3056-3058</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#melora-limitation-zero-off-diagonal-cross-block-feature-coupling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because Delta_W = diag(B_1 A_1, ..., B_n A_n) is strictly block-diagonal, the adapter update cannot directly couple an input feature in block i with an output feature in block j != i within a single linear layer, relying instead on the frozen dense base matrix W_0 and subsequent layers for cross-block mixing.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r664-primary-pdf">MELoRA: Mini-Ensemble Low-Rank Adapters for Parameter-Efficient Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 &amp; Limitations section, pp. 3054, 3061</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The block-diagonal structure zeroes out off-diagonal adapter entries between distinct feature slices (i != j), preventing direct cross-slice adaptation within a single linear projection.</li>
+      <li>The input dimension d_{in}, output dimension d_{out}, and cumulative rank r must all be divisible by the number of mini-LoRA blocks n (or require uneven block partitioning).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MELoRA adapts linear layers in deep artificial neural networks using block-diagonal mini-ensemble low-rank updates.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r664-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r664-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2402.17263" target="_blank" rel="noopener">MELoRA: Mini-Ensemble Low-Rank Adapters for Parameter-Efficient Fine-Tuning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Pengjie Ren, Chengshun Shi, Shiguang Wu, Mengqi Zhang, Zhaochun Ren, Maarten de Rijke, Zhumin Chen, Jiahuan Pei
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/acl/RenSWZRCP24.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:783067d6b000…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r664-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r664-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2402.17263" target="_blank" rel="noopener">MELoRA: Mini-Ensemble Low-Rank Adapters for Parameter-Efficient Fine-Tuning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Pengjie Ren, Chengshun Shi, Shiguang Wu, Mengqi Zhang, Zhaochun Ren, Maarten de Rijke, Zhumin Chen, Jiahuan Pei
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2402.17263</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4e196ebe44a0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r664-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r664-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/acl/RenSWZRCP24.xml" target="_blank" rel="noopener">MELoRA: Mini-Ensemble Low-Rank Adapters for Parameter-Efficient Fine-Tuning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Pengjie Ren, Chengshun Shi, Shiguang Wu, Mengqi Zhang, Zhaochun Ren, Maarten de Rijke, Zhumin Chen, Jiahuan Pei
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/acl/RenSWZRCP24.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ecab95c1f935…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:27:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:27:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MELoRA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MELoRA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
