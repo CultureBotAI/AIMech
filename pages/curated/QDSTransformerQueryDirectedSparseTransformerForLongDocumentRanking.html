@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QDS-Transformer: Query-Directed Sparse Transformer for Long Document Ranking · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>QDS-Transformer: Query-Directed Sparse Transformer for Long Document Ranking</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">QDS-Transformer: Query-Directed Sparse Transformer for Long Document Ranking</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:QDSTransformerQueryDirectedSparseTransformerForLongDocumentRanking</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Query-Directed Sparse Transformer, QDS-Transformer Long Document Ranker, Query-Directed Sparse Attention Transformer
+    </div>
+
+  <div class="detail-desc">
+    A long-document ranking Transformer architecture (Jiang, Xiong, Lee, &amp; Wang, Findings of EMNLP 2020) that replaces the dense n x n self-attention adjacency matrix A = 1 in H_hat^l = A * M * V^T with a Query-Directed Sparse adjacency matrix A_QDS = A_local U A_sent U A_query U A_[CLS] over the concatenated query-document sequence (up to n = 2,048 tokens), combining local sliding-window attention (A_local[i, j] = 1 iff |i - j| &lt;= w/2), hierarchical sentence-boundary attention on prepended start-of-sentence tokens (A_sent[i, j] = 1 iff t_j = [SOS]), query-directed global attention on query tokens (A_query[i, j] = 1 iff t_i in q), and global [CLS] attention, reducing per-layer self-attention complexity from O(n^2 * dim) to O(n * dim * (w + |q| + |s|)).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from general-purpose sparse Transformers such as Sparse Transformer (local/strided attention only) and Longformer-QA (which places global attention only on two task tokens without sentence-level [SOS] hierarchy or full query-directed paths), and from passage-splitting rankers such as BERT-MaxP or PARADE. QDS-Transformer encodes the entire long document up to 2,048 tokens in a unified cross-encoder with IR-axiomatic sparse attention compiled via TVM CUDA kernels.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#qds-transformer-sparse-adjacency-union-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    QDS-Transformer prepends a special [SOS] token to every sentence in the document and defines sparse self-attention adjacency A_QDS = A_local U A_sent U A_query U A_[CLS] (Eq. 10), where A_local[i, j] = 1 iff |i - j| &lt;= w/2 (Eq. 7, e.g., w = 128), A_sent[i, j] = 1 iff t_j = [SOS] (Eq. 8), and A_query[i, j] = 1 iff t_i in q (Eq. 9), reducing self-attention complexity from O(n^2 * dim) to O(n * dim * (w + |q| + |s|)).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r789-primary-pdf">Long Document Ranking with Query-Directed Sparse Transformer</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.3, Equations (7)-(10), p. 4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r789-primary-pdf">Long Document Ranking with Query-Directed Sparse Transformer</a></span>
+        <span>· <strong>Locator:</strong> build_qds_adjacency vs build_local_only_adjacency sparsity and reachability verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#qds-transformer-long-document-ranking-and-ablation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On TREC 2019 Deep Learning Track document ranking and few-shot TREC benchmarks (Robust04, ClueWeb09-B, ClueWeb12-B13), QDS-Transformer outperforms RoBERTa-MaxP, TKL, Sparse-Transformer, Longformer-QA, and Transformer-XH while achieving over 2x speedup compared to dense 2,048-token RoBERTa when compiled with TVM custom CUDA kernels.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r789-primary-pdf">Long Document Ranking with Query-Directed Sparse Transformer</a></span>
+        <span>· <strong>Locator:</strong> Section 6.1-6.3, Tables 2-5, Figure 3, pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#qds-transformer-irregular-sparsity-cuda-kernel-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Realizing actual wall-clock GPU speedups from A_QDS requires custom Tensor Virtual Machine (TVM) CUDA kernel compilation (as naive masking is slower than dense self-attention), and irregular sentence-boundary skipping patterns in A_sent and A_query achieve lower hardware utilization than purely diagonal local windows while token-wise feed-forward layers O(dim^2 * n) remain unpruned.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r789-primary-pdf">Long Document Ranking with Query-Directed Sparse Transformer</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3, pp. 4-5; Section 6.3, Table 5, p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires custom TVM CUDA kernels to avoid naive masking overhead, and O(dim^2 * n) feed-forward layers remain a computational bottleneck even when attention is sparse.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            QDS-Transformer is a sparse-attention Transformer neural network architecture tailored for long document ranking.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r789-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r789-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2010.12683.pdf" target="_blank" rel="noopener">Long Document Ranking with Query-Directed Sparse Transformer</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jyun-Yu Jiang, Chenyan Xiong, Chia-Jung Lee, Wei Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2010.12683</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b4c4785bdb9c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r789-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r789-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2010.12683" target="_blank" rel="noopener">Long Document Ranking with Query-Directed Sparse Transformer (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jyun-Yu Jiang, Chenyan Xiong, Chia-Jung Lee, Wei Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2010.12683</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e94fcd4fb163…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r789-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r789-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2010.12683" target="_blank" rel="noopener">Long Document Ranking with Query-Directed Sparse Transformer (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jyun-Yu Jiang, Chenyan Xiong, Chia-Jung Lee, Wei Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2010.12683</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a06a3c682232…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:32:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:32:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/QDSTransformerQueryDirectedSparseTransformerForLongDocumentRanking.yaml" target="_blank" rel="noopener">
+      <code>data/curated/QDSTransformerQueryDirectedSparseTransformerForLongDocumentRanking.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
