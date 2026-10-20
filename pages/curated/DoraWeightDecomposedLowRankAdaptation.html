@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weight-Decomposed Low-Rank Adaptation (DoRA) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Weight-Decomposed Low-Rank Adaptation (DoRA)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Weight-Decomposed Low-Rank Adaptation (DoRA)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DoraWeightDecomposedLowRankAdaptation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DoRA, Weight-Decomposed Low-Rank Adaptation, DoRA PEFT, Magnitude-Direction Decomposed Low-Rank Adaptation
+    </div>
+
+  <div class="detail-desc">
+    Weight-Decomposed Low-Rank Adaptation (DoRA) is a parameter-efficient fine-tuning (PEFT) method that decomposes a pretrained weight matrix W_0 in R^{d x k} into a trainable 1 x k column-wise magnitude vector m = ||W_0||_c and a directional matrix V = W_0, and applies Low-Rank Adaptation (LoRA) exclusively to the directional component: W&#39; = m * (V + Delta V) / ||V + Delta V||_c = m * (W_0 + B A) / ||W_0 + B A||_c, where B in R^{d x r} and A in R^{r x k} with rank r &lt;&lt; min(d, k) while W_0 remains frozen. By decoupling magnitude and direction updates, DoRA reproduces the negative-slope magnitude-direction update correlation characteristic of full fine-tuning (FT) while merging W&#39; back into a single d x k matrix prior to deployment with zero additional inference latency.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard Low-Rank Adaptation (LoRA, Hu et al., 2022), which updates W&#39; = W_0 + B A directly without column-wise directional normalization ||W_0 + B A||_c or an independent magnitude vector m, causing LoRA to exhibit a positive coupling between magnitude and directional changes that struggles to make fine-grained directional adjustments without simultaneous large magnitude shifts. Also distinct from Weight Normalization (Salimans &amp; Kingma, 2016), which trains full weight matrices V from random initialization rather than freezing W_0 and adapting V via a low-rank increment Delta V = B A.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r651-claim-magnitude-direction-decomposition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    DoRA initializes the trainable magnitude vector m = ||W_0||_c in R^{1 x k} and frozen directional base V = W_0 so that W&#39; = m * (W_0 + B A) / ||W_0 + B A||_c exactly equals W_0 at initialization (when B = 0), and during fine-tuning updates only m (k parameters) and the low-rank factors B and A, adding just k / (d * k) = 1/d fractional parameter overhead over LoRA.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r651-primary-pdf">DoRA: Weight-Decomposed Low-Rank Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Equation (5) and Figure 2, p. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r651-claim-gradient-stabilization-and-detached-norm</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under DoRA&#39;s reparameterization V&#39; = V + Delta V, the gradients with respect to magnitude m and directional increment Delta V are scaled by 1 / ||V&#39;||_c, and detaching ||V + Delta V||_c from backpropagation (treating ||V&#39;||_c as a constant C during the backward pass) leaves the magnitude gradient nabla_m L unchanged while eliminating computational graph overhead for the column norm.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r651-primary-pdf">DoRA: Weight-Decomposed Low-Rank Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Gradient Analysis of DoRA), Equations (6)-(9) and Table 2, p. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r651-claim-llm-vlm-finetuning-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    DoRA consistently outperforms LoRA across commonsense reasoning fine-tuning on LLaMA-7B/13B, LLaMA2-7B, and LLaMA3-8B, visual instruction tuning on LLaVA-1.5-7B, and image/video-text understanding on VL-BART, and retains its accuracy advantage even at very low ranks (r = 4 to 8) while merging into W_0 with zero inference overhead.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r651-primary-pdf">DoRA: Weight-Decomposed Low-Rank Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.3, Tables 3, 4, 5 &amp; Figure 4, p. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r651-claim-training-memory-and-norm-compute-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Although detaching ||V + Delta V||_c substantially reduces backward-pass memory compared to full backpropagation through the column norm, DoRA still requires materializing or computing the column-wise norms ||W_0 + B A||_c during each forward pass of training, incurring a modest training-time memory and compute overhead relative to vanilla LoRA.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r651-primary-pdf">DoRA: Weight-Decomposed Low-Rank Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, Table 2 (Training memory savings of detaching ||V + Delta V||_c), p. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Computing the column-wise Euclidean norm ||W_0 + B A||_c during every training step adds a modest forward-pass compute and activation-memory overhead compared to standard LoRA.</li>
+      <li>When combined with quantized base weights (e.g., QDoRA / 4-bit NF4), computing ||W_0 + B A||_c requires dequantizing W_0 or maintaining precomputed norm approximations.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DoRA is a parameter-efficient fine-tuning algorithm for adapting linear projection layers in pretrained deep neural networks and large language models.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r651-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r651-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2402.09353.pdf" target="_blank" rel="noopener">DoRA: Weight-Decomposed Low-Rank Adaptation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shih-Yang Liu, Chien-Yi Wang, Hongxu Yin, Pavlo Molchanov, Yu-Chiang Frank Wang, KT Cheng, Min-Hung Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/LiuWY0WCC24.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f048986e4d0b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r651-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r651-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2402.09353" target="_blank" rel="noopener">DoRA: Weight-Decomposed Low-Rank Adaptation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shih-Yang Liu, Chien-Yi Wang, Hongxu Yin, Pavlo Molchanov, Yu-Chiang Frank Wang, KT Cheng, Min-Hung Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2402.09353</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6e7d6de337ee…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r651-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r651-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/LiuWY0WCC24.html" target="_blank" rel="noopener">DoRA: Weight-Decomposed Low-Rank Adaptation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shih-Yang Liu, Chien-Yi Wang, Hongxu Yin, Pavlo Molchanov, Yu-Chiang Frank Wang, KT Cheng, Min-Hung Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/LiuWY0WCC24.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:851fa6217aa4…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:14:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:14:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DoraWeightDecomposedLowRankAdaptation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DoraWeightDecomposedLowRankAdaptation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
