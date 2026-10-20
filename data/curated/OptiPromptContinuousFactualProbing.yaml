@@ -1,0 +1,103 @@
+id: AIMech:OptiPromptContinuousFactualProbing
+name: OptiPrompt Continuous Factual Probing
+concept_kind: algorithm
+review_status: DRAFT
+definition: A continuous prompt optimization and factual probing method for pretrained language models that replaces discrete template tokens with dense trainable vectors directly in the model's input embedding space, optimizing those continuous vectors via gradient ascent on the log-likelihood of gold object entities over relational fact triples while holding all pretrained language model parameters frozen.
+identity_notes: Distinct from discrete prompt search methods such as AutoPrompt (AIMech:AutoPromptGradientGuidedDiscretePromptSearch) and mining/paraphrasing relational prompts (LPAQA) because OptiPrompt optimizes unconstrained continuous vectors v_i in R^d directly in the input embedding layer of a frozen masked language model, optionally initialized from the embeddings of manual prompt tokens. Also distinct from multi-layer deep continuous prefix tuning (AIMech:PTuningV2DeepContinuousPromptTuning), which injects trainable key-value prefixes across every transformer layer for downstream NLU supervision rather than probing factual relational knowledge and analyzing spurious target-distribution exploitation in masked language models.
+aliases:
+- OptiPrompt
+- OptiPrompt Continuous Prompt Factual Probing
+- Continuous Input-Embedding Factual Probing
+definition_evidence:
+- source_id: r731-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r731-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r731-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: optiprompt-continuous-input-embedding-formulation
+  kind: mechanism
+  statement: OptiPrompt represents a relational prompt as a sequence of dense continuous vectors [v]_1, ..., [v]_m Surrounding the subject entity placeholder [X] and masked object token [MASK] in the input embedding space R^d, and optimizes only those vectors by maximizing the conditional log-likelihood P([MASK] = o | [x]) over relational fact pairs while keeping all pretrained language model weights fixed.
+  evidence:
+  - source_id: r731-primary-pdf
+    locator: Section 3.1, pp. 5019-5020, Equation 3
+    relation: supports
+- claim_id: optiprompt-manual-template-embedding-initialization
+  kind: mechanism
+  statement: To incorporate linguistic prior structure while permitting continuous gradient optimization, OptiPrompt can initialize the number and values of its continuous vectors [v]_i directly from the pretrained input word embeddings of a manual relational prompt template.
+  evidence:
+  - source_id: r731-primary-pdf
+    locator: Section 3.1 & Section 3.3, pp. 5019-5021, Table 1
+    relation: supports
+- claim_id: optiprompt-factual-knowledge-probing-application
+  kind: application
+  statement: OptiPrompt is applied to factual knowledge probing on the LAMA and LAMA-UHN relational benchmarks across BERT, RoBERTa, and ALBERT models, substantially increasing Precision@1 over manual prompts and discrete AutoPrompt triggers.
+  evidence:
+  - source_id: r731-primary-pdf
+    locator: Section 3.2 & Section 3.3, pp. 5020-5022, Tables 1-2
+    relation: supports
+  - source_id: r731-metadata-cr
+    locator: DBLP bibliographic record conf/naacl/ZhongFC21
+    relation: supports
+- claim_id: optiprompt-spurious-regularity-exploitation-limitation
+  kind: limitation
+  statement: Optimizing prompts on supervised relational fact splits can exploit dataset-specific object distribution priors and surface lexical regularities of subject entities to predict answers that were never stored during pretraining, confounding estimates of genuine pretrained factual recall.
+  evidence:
+  - source_id: r731-primary-pdf
+    locator: Section 4 & Section 5, pp. 5022-5026, Tables 3-5 & Figures 2-4
+    relation: supports
+evidence_sources:
+- source_id: r731-primary-pdf
+  title: 'Factual Probing Is [MASK]: Learning vs. Learning to Recall'
+  authors: &id001
+  - Zexuan Zhong
+  - Dan Friedman
+  - Danqi Chen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2104.05240.pdf
+  persistent_id: https://dblp.org/rec/conf/naacl/ZhongFC21.xml
+  version: 'Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT 2021) (2021) (929895 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:34:00Z'
+  sha256: 75b6a70cd92d85c2b9a6970f0c4fd131c79b7462083800a544b36f55a92314cb
+- source_id: r731-arxiv-abs
+  title: 'Factual Probing Is [MASK]: Learning vs. Learning to Recall (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2104.05240
+  persistent_id: https://arxiv.org/abs/2104.05240
+  version: arXiv abstract page (7083 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:34:00Z'
+  sha256: c9b189066be693d9a4d64f63a3d41cc24b3bb9eff2319d46a3004aa536f8c153
+- source_id: r731-metadata-cr
+  title: 'Factual Probing Is [MASK]: Learning vs. Learning to Recall (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/naacl/ZhongFC21.xml
+  persistent_id: https://dblp.org/rec/conf/naacl/ZhongFC21.xml
+  version: Crossref API work record (873 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:34:00Z'
+  sha256: 92c7472bb7f67bcfc904e91a84c52d0d1425017fd6d5bc459cd6f38d0836f7c7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: OptiPrompt optimizes continuous prompt embeddings within a frozen pretrained neural language model.
+limitations:
+- Learned continuous vectors do not correspond to human-readable vocabulary tokens and cannot be directly interpreted as natural language relational templates.
+- Because continuous prompt parameters are fit on supervised relational triples, they can memorize target object priors and shallow subject-surface correlations, inflating apparent factual recall.
+curation:
+  created_at: '2026-10-19T13:34:00Z'
+  updated_at: '2026-10-19T13:34:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

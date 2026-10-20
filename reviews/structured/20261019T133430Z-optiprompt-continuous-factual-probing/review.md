@@ -1,0 +1,356 @@
+# Scientific author self-review of OptiPrompt Continuous Factual Probing
+
+- Review: 20261019T133430Z-optiprompt-continuous-factual-probing
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T13:34:00Z
+- Finished UTC: 2026-10-19T13:34:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain OptiPrompt Continuous Factual Probing as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/OptiPromptContinuousFactualProbing.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:OptiPromptContinuousFactualProbing
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 24e4f48d1730c9eb068abe2c83ef25bbe6c5f761.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:OptiPromptContinuousFactualProbing | data/curated/OptiPromptContinuousFactualProbing.yaml | maintained | OptiPrompt Continuous Factual Probing |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:OptiPromptContinuousFactualProbing | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:OptiPromptContinuousFactualProbing | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:OptiPromptContinuousFactualProbing | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:OptiPromptContinuousFactualProbing | Validated history sidecar files. |
+| python3 optiprompt-continuous-factual-probing-boundaries.py | passed | True | AIMech:OptiPromptContinuousFactualProbing | OptiPrompt verification passed: loss_manual=1.1815 -&gt; loss_opt=0.1227, P@1=1.00 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:OptiPromptContinuousFactualProbing.
+
+OptiPrompt Continuous Factual Probing is a distinct concept.
+
+Distinct from discrete prompt search methods such as AutoPrompt (AIMech:AutoPromptGradientGuidedDiscretePromptSearch) and mining/paraphrasing relational prompts (LPAQA) because OptiPrompt optimizes unconstrained continuous vectors v_i in R^d directly in the input embedding layer of a frozen masked language model, optionally initialized from the embeddings of manual prompt tokens. Also distinct from multi-layer deep continuous prefix tuning (AIMech:PTuningV2DeepContinuousPromptTuning), which injects trainable key-value prefixes across every transformer layer for downstream NLU supervision rather than probing factual relational knowledge and analyzing spurious target-distribution exploitation in masked language models.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:OptiPromptContinuousFactualProbing.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:OptiPromptContinuousFactualProbing.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in optiprompt-continuous-factual-probing-boundaries.py passed with exit code 0: OptiPrompt verification passed: loss_manual=1.1815 -&gt; loss_opt=0.1227, P@1=1.00
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:OptiPromptContinuousFactualProbing.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T133400Z-optiprompt-continuous-factual-probing.json | supports | No normalized identity match for AIMech:OptiPromptContinuousFactualProbing across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/optiprompt-continuous-factual-probing-boundaries.py | supports | All constructed boundary assertions in optiprompt-continuous-factual-probing-boundaries.py passed with exit code 0: OptiPrompt verification passed: loss_manual=1.1815 -&gt; loss_opt=0.1227, P@1=1.00 |
+| r731-primary-pdf | https://arxiv.org/pdf/2104.05240.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT 2021) (2021)) read and verified. |
+| r731-arxiv-abs | https://arxiv.org/abs/2104.05240; arXiv abstract | supports | arXiv abstract read and verified. |
+| r731-metadata-cr | https://dblp.org/rec/conf/naacl/ZhongFC21.xml; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:OptiPromptContinuousFactualProbing in Round 731.
+- All pages of Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT 2021) (2021) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T133430Z-optiprompt-continuous-factual-probing
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of OptiPrompt Continuous Factual Probing
+started_at: '2026-10-19T13:34:00Z'
+finished_at: '2026-10-19T13:34:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: 'The author challenged definition distinctness of AIMech:OptiPromptContinuousFactualProbing
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 2021 Conference of the North American Chapter of the Association for Computational
+    Linguistics: Human Language Technologies (NAACL-HLT 2021) (2021) and pure-Python
+    boundary checks. This is adversarial author self-review, not independent approval.'
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain OptiPrompt Continuous Factual Probing as a distinct DRAFT algorithm.
+  All three claims are supported by full-text primary evidence and pure-Python boundary
+  verification.
+source:
+  git_revision: 24e4f48d1730c9eb068abe2c83ef25bbe6c5f761
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/OptiPromptContinuousFactualProbing.yaml
+    sha256: 31ae46a4a6785a8cd2173a74a940168323e39199dec58ec79ed3c7ed973e1eb1
+    role: target
+  - path: research/discovery/20261019T133400Z-optiprompt-continuous-factual-probing.json
+    sha256: b4789b2ed6d045a97fc5fbc5e8e5e2e1d2825c054403d27ce0e73f2f2d867cbf
+    role: context
+  - path: research/discovery/optiprompt-continuous-factual-probing-boundaries.py
+    sha256: ea4528e49d1f7cb5edb7ae3cbaf03dfe3d0c5031ecf23baf65b3ee06b7125e2b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:OptiPromptContinuousFactualProbing
+  path: data/curated/OptiPromptContinuousFactualProbing.yaml
+  label: OptiPrompt Continuous Factual Probing
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/OptiPromptContinuousFactualProbing.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/OptiPromptContinuousFactualProbing.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:OptiPromptContinuousFactualProbing'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:OptiPromptContinuousFactualProbing
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptiPromptContinuousFactualProbing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptiPromptContinuousFactualProbing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptiPromptContinuousFactualProbing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptiPromptContinuousFactualProbing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 optiprompt-continuous-factual-probing-boundaries.py
+  command: python3 research/discovery/optiprompt-continuous-factual-probing-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptiPromptContinuousFactualProbing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OptiPrompt verification passed: loss_manual=1.1815 -> loss_opt=0.1227,
+    P@1=1.00'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T133400Z-optiprompt-continuous-factual-probing.json
+  accessed_at: '2026-10-19T13:34:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:OptiPromptContinuousFactualProbing
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T13:34:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/optiprompt-continuous-factual-probing-boundaries.py
+  accessed_at: '2026-10-19T13:34:00Z'
+  snapshot_sha256: ea4528e49d1f7cb5edb7ae3cbaf03dfe3d0c5031ecf23baf65b3ee06b7125e2b
+  support: supports
+  summary: 'All constructed boundary assertions in optiprompt-continuous-factual-probing-boundaries.py
+    passed with exit code 0: OptiPrompt verification passed: loss_manual=1.1815 ->
+    loss_opt=0.1227, P@1=1.00'
+- evidence_id: r731-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2104.05240.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T13:34:00Z'
+  snapshot_sha256: 75b6a70cd92d85c2b9a6970f0c4fd131c79b7462083800a544b36f55a92314cb
+  support: supports
+  summary: 'Full-text PDF (Proceedings of the 2021 Conference of the North American
+    Chapter of the Association for Computational Linguistics: Human Language Technologies
+    (NAACL-HLT 2021) (2021)) read and verified.'
+- evidence_id: r731-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2104.05240
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T13:34:00Z'
+  snapshot_sha256: c9b189066be693d9a4d64f63a3d41cc24b3bb9eff2319d46a3004aa536f8c153
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r731-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/naacl/ZhongFC21.xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T13:34:00Z'
+  snapshot_sha256: 92c7472bb7f67bcfc904e91a84c52d0d1425017fd6d5bc459cd6f38d0836f7c7
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:OptiPromptContinuousFactualProbing
+  evidence_ids:
+  - identity
+  - r731-primary-pdf
+  - r731-arxiv-abs
+  - r731-metadata-cr
+  summary: OptiPrompt Continuous Factual Probing is a distinct concept.
+  details: Distinct from discrete prompt search methods such as AutoPrompt (AIMech:AutoPromptGradientGuidedDiscretePromptSearch)
+    and mining/paraphrasing relational prompts (LPAQA) because OptiPrompt optimizes
+    unconstrained continuous vectors v_i in R^d directly in the input embedding layer
+    of a frozen masked language model, optionally initialized from the embeddings
+    of manual prompt tokens. Also distinct from multi-layer deep continuous prefix
+    tuning (AIMech:PTuningV2DeepContinuousPromptTuning), which injects trainable key-value
+    prefixes across every transformer layer for downstream NLU supervision rather
+    than probing factual relational knowledge and analyzing spurious target-distribution
+    exploitation in masked language models.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:OptiPromptContinuousFactualProbing
+  evidence_ids:
+  - mapping
+  - r731-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:OptiPromptContinuousFactualProbing
+  evidence_ids:
+  - r731-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in optiprompt-continuous-factual-probing-boundaries.py
+    passed with exit code 0: OptiPrompt verification passed: loss_manual=1.1815 ->
+    loss_opt=0.1227, P@1=1.00'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:OptiPromptContinuousFactualProbing
+  evidence_ids:
+  - identity
+  - mapping
+  - r731-primary-pdf
+  - r731-arxiv-abs
+  - r731-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:OptiPromptContinuousFactualProbing in Round 731.
+- 'All pages of Proceedings of the 2021 Conference of the North American Chapter of
+  the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT
+  2021) (2021) were read in full text.'
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
