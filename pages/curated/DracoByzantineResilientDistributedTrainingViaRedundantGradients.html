@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DRACO Byzantine-Resilient Distributed Training via Redundant Gradients · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>DRACO Byzantine-Resilient Distributed Training via Redundant Gradients</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DRACO Byzantine-Resilient Distributed Training via Redundant Gradients</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DracoByzantineResilientDistributedTrainingViaRedundantGradients</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DRACO, DRACO Coded Gradient Aggregation, DRACO Fractional Repetition and Cyclic Gradient Coding
+    </div>
+
+  <div class="detail-desc">
+    A coding-theoretic Byzantine-resilient distributed optimization framework determined by an allocation matrix A, local node encoding functions E, and a parameter-server decoding function D that assigns each of P compute nodes a redundant subset of r = (1/P)||A||_0 = 2s + 1 sample gradients and decodes the exact adversary-free gradient sum D(Z^{A,E,G} + N) = G * 1_P in linear O(P d) server time under up to s worst-case Byzantine compute nodes via either a Fractional Repetition Code with Boyer-Moore streaming majority voting or a Cyclic MDS Code with inverse-DFT Vandermonde encoding and Toeplitz error-locator syndrome decoding.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from approximate statistical robust aggregators (Krum, Bulyan, Coordinate-Wise Median, Trimmed-Mean, Geometric Median) that do not use algorithmic gradient redundancy and do not recover the exact adversary-free gradient sum, and distinct from DETOX (which uses logarithmic or small odd redundancy r to filter most Byzantine nodes via majority vote before applying approximate hierarchical robust aggregation rather than exact coding recovery with r = 2s + 1). Specifically denotes the DRACO framework of Chen, Wang, Charles, &amp; Papailiopoulos (ICML 2018, PMLR 80:903-912, Definitions 1-2, Theorems 1, 2, 5, Lemmas 3-4, Algorithms 1-2).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r524-tight-redundancy-lower-bound-for-exact-recovery</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 1 and Corollary 6 prove that any gradient allocation, encoding, and decoding mechanism (A, E, D) that exactly recovers the true gradient sum D(Z^{A,E,G} + N) = G * 1_P against any s worst-case Byzantine compute nodes must replicate every data sample at least 2s + 1 times (||A_{.,i}||_0 &gt;= 2s + 1), requiring redundancy ratio r = (1/P)||A||_0 &gt;= 2s + 1 and s &lt;= (P - 1)/2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r524-primary-pdf">DRACO: Byzantine-resilient Distributed Training via Redundant Gradients</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Definition 2 and Theorem 1, p. 6; Appendix A.1 Corollary 6, pp. 17-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r524-fractional-repetition-and-cyclic-fourier-decoders</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    DRACO achieves the optimal r = 2s + 1 redundancy bound with O((2s+1)d) per-node encoding and O(P d) server decoding via two schemes: (1) the Fractional Repetition Code (A^Rep, E^Rep, D^Rep), which partitions P nodes into P/r groups of size r = 2s + 1 and sums the P/r groupwise Boyer-Moore streaming majority votes (Theorem 2, Algorithm 2); and (2) the Cyclic Code (A^Cyc, E^Cyc, D^Cyc), which encodes via W = [Q  1_P] C_L using the first P - 2s rows of the P x P IDFT matrix C, locates the adversarial index set V = phi(R^Cyc) with probability 1 by solving an s x s Toeplitz error-locator system from the syndrome projection f R^Cyc C_R^dagger = f N C_R^dagger (Lemma 4), and recovers u^Cyc = R_{.,U} b = G * 1_P (Lemma 3, Theorem 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r524-primary-pdf">DRACO: Byzantine-resilient Distributed Training via Redundant Gradients</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Theorem 2, Algorithm 1, Lemmas 3-4, Theorem 5, pp. 6-8; Appendices A.2-A.5 and B, pp. 18-23</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r524-linear-redundancy-scaling-and-centralized-allocation-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because DRACO guarantees exact recovery of the adversary-free gradient sum, its computational redundancy r = 2s + 1 grows linearly with the number of Byzantine nodes s and requires the parameter server to redundantly allocate overlapping data batches across compute nodes.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r524-primary-pdf">DRACO: Byzantine-resilient Distributed Training via Redundant Gradients</a></span>
+        <span>· <strong>Locator:</strong> Section 1, p. 2; Section 3 Theorem 1, p. 6; Section 5, pp. 13-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires computational redundancy r = 2s + 1 per compute node that scales linearly with the maximum number of tolerated Byzantine nodes s.</li>
+      <li>Assumes the parameter server can assign overlapping data partitions across compute nodes, which is suited to shared-data cluster training rather than privacy-isolated cross-device federated data.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DRACO is a Byzantine-resilient distributed gradient aggregation framework for parameter-server stochastic optimization related to federated and distributed learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r524-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r524-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1803.09877.pdf" target="_blank" rel="noopener">DRACO: Byzantine-resilient Distributed Training via Redundant Gradients</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lingjiao Chen, Hongyi Wang, Zachary Charles, Dimitris Papailiopoulos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v80/chen18l.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f499c28680af…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r524-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r524-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1803.09877" target="_blank" rel="noopener">DRACO: Byzantine-resilient Distributed Training via Redundant Gradients (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lingjiao Chen, Hongyi Wang, Zachary Charles, Dimitris Papailiopoulos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1803.09877</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9199919d58b9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r524-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r524-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v80/chen18l.html" target="_blank" rel="noopener">DRACO: Byzantine-resilient Distributed Training via Redundant Gradients (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lingjiao Chen, Hongyi Wang, Zachary Charles, Dimitris Papailiopoulos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v80/chen18l.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:02bb05f82787…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:07:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:07:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DracoByzantineResilientDistributedTrainingViaRedundantGradients.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DracoByzantineResilientDistributedTrainingViaRedundantGradients.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

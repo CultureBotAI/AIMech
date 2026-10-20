@@ -1,0 +1,94 @@
+id: AIMech:DracoByzantineResilientDistributedTrainingViaRedundantGradients
+name: DRACO Byzantine-Resilient Distributed Training via Redundant Gradients
+concept_kind: algorithm
+review_status: DRAFT
+definition: A coding-theoretic Byzantine-resilient distributed optimization framework determined by an allocation matrix A, local node encoding functions E, and a parameter-server decoding function D that assigns each of P compute nodes a redundant subset of r = (1/P)||A||_0 = 2s + 1 sample gradients and decodes the exact adversary-free gradient sum D(Z^{A,E,G} + N) = G * 1_P in linear O(P d) server time under up to s worst-case Byzantine compute nodes via either a Fractional Repetition Code with Boyer-Moore streaming majority voting or a Cyclic MDS Code with inverse-DFT Vandermonde encoding and Toeplitz error-locator syndrome decoding.
+identity_notes: Distinct from approximate statistical robust aggregators (Krum, Bulyan, Coordinate-Wise Median, Trimmed-Mean, Geometric Median) that do not use algorithmic gradient redundancy and do not recover the exact adversary-free gradient sum, and distinct from DETOX (which uses logarithmic or small odd redundancy r to filter most Byzantine nodes via majority vote before applying approximate hierarchical robust aggregation rather than exact coding recovery with r = 2s + 1). Specifically denotes the DRACO framework of Chen, Wang, Charles, & Papailiopoulos (ICML 2018, PMLR 80:903-912, Definitions 1-2, Theorems 1, 2, 5, Lemmas 3-4, Algorithms 1-2).
+aliases:
+- DRACO
+- DRACO Coded Gradient Aggregation
+- DRACO Fractional Repetition and Cyclic Gradient Coding
+definition_evidence:
+- source_id: r524-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r524-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r524-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r524-tight-redundancy-lower-bound-for-exact-recovery
+  kind: scope
+  statement: Theorem 1 and Corollary 6 prove that any gradient allocation, encoding, and decoding mechanism (A, E, D) that exactly recovers the true gradient sum D(Z^{A,E,G} + N) = G * 1_P against any s worst-case Byzantine compute nodes must replicate every data sample at least 2s + 1 times (||A_{.,i}||_0 >= 2s + 1), requiring redundancy ratio r = (1/P)||A||_0 >= 2s + 1 and s <= (P - 1)/2.
+  evidence:
+  - source_id: r524-primary-pdf
+    locator: Section 3 Definition 2 and Theorem 1, p. 6; Appendix A.1 Corollary 6, pp. 17-18
+    relation: supports
+- claim_id: r524-fractional-repetition-and-cyclic-fourier-decoders
+  kind: mechanism
+  statement: 'DRACO achieves the optimal r = 2s + 1 redundancy bound with O((2s+1)d) per-node encoding and O(P d) server decoding via two schemes: (1) the Fractional Repetition Code (A^Rep, E^Rep, D^Rep), which partitions P nodes into P/r groups of size r = 2s + 1 and sums the P/r groupwise Boyer-Moore streaming majority votes (Theorem 2, Algorithm 2); and (2) the Cyclic Code (A^Cyc, E^Cyc, D^Cyc), which encodes via W = [Q  1_P] C_L using the first P - 2s rows of the P x P IDFT matrix C, locates the adversarial index set V = phi(R^Cyc) with probability 1 by solving an s x s Toeplitz error-locator system from the syndrome projection f R^Cyc C_R^dagger = f N C_R^dagger (Lemma 4), and recovers u^Cyc = R_{.,U} b = G * 1_P (Lemma 3, Theorem 5).'
+  evidence:
+  - source_id: r524-primary-pdf
+    locator: Section 3 Theorem 2, Algorithm 1, Lemmas 3-4, Theorem 5, pp. 6-8; Appendices A.2-A.5 and B, pp. 18-23
+    relation: supports
+- claim_id: r524-linear-redundancy-scaling-and-centralized-allocation-limitation
+  kind: limitation
+  statement: Because DRACO guarantees exact recovery of the adversary-free gradient sum, its computational redundancy r = 2s + 1 grows linearly with the number of Byzantine nodes s and requires the parameter server to redundantly allocate overlapping data batches across compute nodes.
+  evidence:
+  - source_id: r524-primary-pdf
+    locator: Section 1, p. 2; Section 3 Theorem 1, p. 6; Section 5, pp. 13-14
+    relation: supports
+evidence_sources:
+- source_id: r524-primary-pdf
+  title: 'DRACO: Byzantine-resilient Distributed Training via Redundant Gradients'
+  authors: &id001
+  - Lingjiao Chen
+  - Hongyi Wang
+  - Zachary Charles
+  - Dimitris Papailiopoulos
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1803.09877.pdf
+  persistent_id: https://proceedings.mlr.press/v80/chen18l.html
+  version: Proceedings of the 35th International Conference on Machine Learning (ICML 2018), PMLR 80:903-912 (2018) (6515365 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:07:00Z'
+  sha256: f499c28680af4aadadfd3deb702cbe2dcac99d5832c3292a7dd4cfa789a11fd0
+- source_id: r524-arxiv-abs
+  title: 'DRACO: Byzantine-resilient Distributed Training via Redundant Gradients (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1803.09877
+  persistent_id: https://arxiv.org/abs/1803.09877
+  version: arXiv abstract page (6818 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:07:00Z'
+  sha256: 9199919d58b975fc9b35b96b1526bcbd69b4fbece1ed2273af9a826ee37aef5e
+- source_id: r524-metadata-cr
+  title: 'DRACO: Byzantine-resilient Distributed Training via Redundant Gradients (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v80/chen18l.html
+  persistent_id: https://proceedings.mlr.press/v80/chen18l.html
+  version: Crossref API work record (4110 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:07:00Z'
+  sha256: 02bb05f827874925ec120a5cfffbd321631db07d1b8e5bd30aa13f59dc2fc7ff
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: DRACO is a Byzantine-resilient distributed gradient aggregation framework for parameter-server stochastic optimization related to federated and distributed learning.
+limitations:
+- Requires computational redundancy r = 2s + 1 per compute node that scales linearly with the maximum number of tolerated Byzantine nodes s.
+- Assumes the parameter server can assign overlapping data partitions across compute nodes, which is suited to shared-data cluster training rather than privacy-isolated cross-device federated data.
+curation:
+  created_at: '2026-10-19T10:07:00Z'
+  updated_at: '2026-10-19T10:07:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
