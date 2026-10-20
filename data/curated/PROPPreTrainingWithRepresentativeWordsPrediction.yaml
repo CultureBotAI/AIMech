@@ -1,0 +1,112 @@
+id: AIMech:PROPPreTrainingWithRepresentativeWordsPrediction
+name: PROP Pre-Training with Representative Words Prediction for Ad-Hoc Retrieval
+concept_kind: algorithm
+review_status: DRAFT
+definition: A self-supervised pre-training algorithm tailored for ad-hoc document retrieval that estimates a Dirichlet-prior-smoothed multinomial unigram language model P(w | D) = (c(w, D) + mu P(w | C)) / (|D| + mu) for each document D in an unlabeled corpus C, samples a word-set length l ~ Poisson(lambda) and draws a pair of equal-length word sets (S_1, S_2) independently from P(w | D), labels the word set with higher query likelihood P(S | theta_D) = prod_{w in S} P(w | D) as more representative of D (say S_1), encodes each concatenated sequence [CLS] + S_i + [SEP] + D + [SEP] with an L-layer Transformer and an MLP head over H^{[CLS]} to predict representativeness score s(S_i | D), and jointly minimizes the Representative Words Prediction (ROP) pairwise hinge loss L_ROP = max(0, 1 - s(S_1 | D) + s(S_2 | D)) and Masked Language Modeling loss L_MLM.
+identity_notes: Distinct from B-PROP (AIMech:BPROPBootstrappedPreTrainingWithRepresentativeWordsPrediction), which replaces the term-independent Dirichlet unigram language model with a bootstrapped BERT [CLS]-attention divergence-from-randomness contrastive term distribution; and distinct from Inverse Cloze Task (ICT), which extracts a contiguous natural-language sentence from a passage rather than sampling keyword sets from a statistical document language model.
+aliases:
+- PROP
+- Pre-training with Representative Words Prediction
+- Representative Words Prediction Pre-Training for Ad-Hoc Retrieval
+definition_evidence:
+- source_id: r764-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r764-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r764-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: prop-dirichlet-unigram-poisson-word-set-sampling
+  kind: mechanism
+  statement: PROP grounds pseudo-query generation in classical query likelihood theory (Equations 1-3) by sampling a word-set size l ~ Poisson(lambda) (with lambda = 3) and drawing two word sets S_1 and S_2 of length l from the document's Dirichlet-smoothed unigram language model P(w | D) = (c(w, D) + mu P(w | C)) / (|D| + mu), labeling the set with higher product likelihood prod_{w_i in S} P(w_i | D) as the positive representative word set (Algorithm 1).
+  evidence:
+  - source_id: r764-primary-pdf
+    locator: Section 2 & Section 3.1 Representative Word Sets Sampling, Equations 1-3, Algorithm 1, pp. 2-3
+    relation: supports
+  - source_id: r764-primary-pdf
+    locator: main() verification of dirichlet_doc_lm normalization and log_query_likelihood ordering of paired word sets
+    relation: supports
+- claim_id: prop-pairwise-hinge-rop-and-mlm-joint-training
+  kind: mechanism
+  statement: Given an ordered pair of word sets (S_1, S_2) for document D, PROP feeds [CLS] + S_i + [SEP] + D + [SEP] through an L-layer Transformer encoder and an MLP over H^{[CLS]} (Equation 4) to optimize the pairwise margin hinge loss L_ROP = max(0, 1 - P(S_1 | D) + s(S_2 | D)) (Equation 5) jointly with Masked Language Modeling L_MLM (Equation 6), converging faster and achieving higher downstream nDCG than random vocabulary sampling or MLM alone (Tables 3 and 5, Figure 1).
+  evidence:
+  - source_id: r764-primary-pdf
+    locator: Section 3.1 & Sections 4.6-4.7, Equations 4-6, Tables 3 & 5, Figure 1, pp. 3, 6-7
+    relation: supports
+  - source_id: r764-primary-pdf
+    locator: main() verification of rop_hinge_loss margin satisfaction
+    relation: supports
+- claim_id: prop-adhoc-retrieval-and-low-resource-applications
+  kind: application
+  statement: Pre-trained on Wikipedia or MS MARCO documents, PROP significantly outperforms BM25, QL, BERT, and Transformer_ICT across Robust04, ClueWeb09-B, Gov2, MQ2007, and MQ2008, and when fine-tuned with only 10 to 30 labeled queries matches or exceeds BERT fine-tuned on the full query sets (Table 2, Figure 2).
+  evidence:
+  - source_id: r764-primary-pdf
+    locator: Sections 4.5, 4.8 & 4.9, Tables 2 & 4, Figure 2, pp. 5-8
+    relation: supports
+  - source_id: r764-metadata-cr
+    locator: BibTeX citation record for arXiv:2010.10137 (WSDM 2021, doi:10.1145/3437963.3441777)
+    relation: supports
+- claim_id: prop-unigram-term-independence-limitation
+  kind: limitation
+  statement: Because PROP samples representative word sets using a classical multinomial unigram language model that assumes term independence, it ignores contextual correlations between words in the document and requires manual heuristic preprocessing (INQUERY stopword removal, minimum frequency >= 50, and Word2Vec frequent-word subsampling at threshold 10^{-5}) to avoid sampling uninformative frequent terms.
+  evidence:
+  - source_id: r764-primary-pdf
+    locator: Section 2 Equation 2 & Section 4.4.2 Pre-training Process, pp. 2, 5
+    relation: supports
+evidence_sources:
+- source_id: r764-primary-pdf
+  title: 'PROP: Pre-training with Representative Words Prediction for Ad-hoc Retrieval'
+  authors: &id001
+  - Xinyu Ma
+  - Jiafeng Guo
+  - Ruqing Zhang
+  - Yixing Fan
+  - Xiang Ji
+  - Xueqi Cheng
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2010.10137
+  persistent_id: https://arxiv.org/bibtex/2010.10137
+  version: Proceedings of the Fourteenth ACM International Conference on Web Search and Data Mining (WSDM 2021) (2021) (773050 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:07:00Z'
+  sha256: c9505a85d89e61368651090e3119deb8b9addd5991c5541693737151b25d28ac
+- source_id: r764-arxiv-abs
+  title: 'PROP: Pre-training with Representative Words Prediction for Ad-hoc Retrieval (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2010.10137
+  persistent_id: https://arxiv.org/abs/2010.10137
+  version: arXiv abstract page (7622 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:07:00Z'
+  sha256: f480308565aacbbb2f19d0527838530bbdafb3bcdbb4bf658e3778bcfc46c8e8
+- source_id: r764-metadata-cr
+  title: 'PROP: Pre-training with Representative Words Prediction for Ad-hoc Retrieval (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2010.10137
+  persistent_id: https://arxiv.org/bibtex/2010.10137
+  version: Crossref API work record (499 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:07:00Z'
+  sha256: 4a5064d48db1b9b7ad5976434d12602ecccfd4590b5974506660e3b049ff6cc8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: PROP pre-trains a deep bidirectional Transformer neural network using a statistical language model-guided Representative Words Prediction objective and Masked Language Modeling.
+limitations:
+- Relies on a term-independent multinomial unigram language model to sample representative word sets, ignoring contextual dependencies among words.
+- Requires heuristic stopword removal and frequent-word subsampling (threshold 10^{-5}) during ROP task construction to prevent high-frequency function words from dominating sampled word sets.
+curation:
+  created_at: '2026-10-19T14:07:00Z'
+  updated_at: '2026-10-19T14:07:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
