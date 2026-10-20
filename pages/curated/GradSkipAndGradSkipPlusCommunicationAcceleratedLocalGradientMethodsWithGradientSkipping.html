@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GradSkip and GradSkip+ Communication-Accelerated Local Gradient Methods with Gradient Skipping · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>GradSkip and GradSkip+ Communication-Accelerated Local Gradient Methods with Gradient Skipping</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">GradSkip and GradSkip+ Communication-Accelerated Local Gradient Methods with Gradient Skipping</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GradSkipAndGradSkipPlusCommunicationAcceleratedLocalGradientMethodsWithGradientSkipping</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GradSkip, GradSkip+, GradSkip Local Gradient Skipping Algorithm, Communication-Accelerated Local Gradient Method with Gradient Skipping
+    </div>
+
+  <div class="detail-desc">
+    A family of communication-accelerated distributed local gradient methods (GradSkip in Algorithm 2 and its generalized compression-operator formulation GradSkip+ in Algorithm 3) that augment ProxSkip/Scaffnew&#39;s randomized consensus-skipping probability p with client-specific local gradient skipping probabilities q_i in (0, 1], whereby client i skips computing its true local gradient nabla f_i(x_i^t) with probability 1 - q_i (substituting its local shift control variate h_i^t for a fake local step hat{x}_i^{t+1} = x_i^t) and reduces expected per-client local gradient evaluations per communication round from 1/p to min{1/p, 1/(1 - q_i)} without degrading the accelerated O(sqrt(kappa_max) log(1/eps)) communication complexity.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from ProxSkip / Scaffnew (Mishchenko et al., ICML 2022; which sets q_i = 1 for all clients and forces every client to compute 1/p local gradients per communication round regardless of local condition number kappa_i = L_i / mu). GradSkip and GradSkip+ (Maranjyan, Safaryan, &amp; Richtarik, arXiv:2210.16402) decouple local gradient computation frequency q_i from communication frequency p.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#gradskip-coupled-bernoulli-communication-and-local-gradient-skipping-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In GradSkip (Algorithm 2), at each iteration t the server flips a global coin theta_t ~ Bernoulli(p); when theta_t = 1 (communication round), every client i sets lambda_i^t = 1, evaluates nabla f_i(x_i^t), takes step hat{x}_i^{t+1} = x_i^t - gamma (nabla f_i(x_i^t) - h_i^t), averages x_i^{t+1} = (1/n) sum_j (hat{x}_j^{t+1} - (gamma/p) h_j^t), and updates its control variate h_i^{t+1} = h_i^t + (p/gamma)(x_i^{t+1} - hat{x}_i^{t+1}); when theta_t = 0 (local round), each client independently flips eta_i^t ~ Bernoulli(q_i) and skips computing nabla f_i(x_i^t) whenever eta_i^t = 0 by substituting tilde{g}_i^t = h_i^t so hat{x}_i^{t+1} = x_i^t.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r562-primary-pdf">GradSkip: Communication-Accelerated Local Gradient Methods with Better Computational Complexity</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Algorithm 2 &amp; Lemma 4.1 pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#gradskip-heterogeneous-condition-number-computational-reduction-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For L_i-smooth mu-strongly convex local objectives with condition numbers kappa_i = L_i / mu and kappa_max = max_i kappa_i (Theorem 4.3 &amp; Section 4.3 Equations 11-13), choosing gamma = 1 / L_max, p = 1 / sqrt(kappa_max), and q_i = (1 - 1/kappa_max)(kappa_i / kappa_max) contracts the Lyapunov function Psi^t at rate (1 - 1/kappa_max), preserving Scaffnew&#39;s accelerated O(sqrt(kappa_max) log(1/eps)) communication rounds while reducing client i&#39;s expected local gradient computations per communication round to E[tau_i] = (1 - p(1 - q_i)) / (p + q_i - p q_i) &lt;= min{1/p, 1/(1 - q_i)} (Lemma B.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r562-primary-pdf">GradSkip: Communication-Accelerated Local Gradient Methods with Better Computational Complexity</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Theorem 4.3, Section 4.3 Equations (11)-(13) pp. 6-7 &amp; Appendix B Lemma B.1 p. 14</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r562-arxiv-abs">GradSkip: Communication-Accelerated Local Gradient Methods with Better Computational Complexity (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#gradskip-strong-convexity-and-synchronized-communication-trigger-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The linear convergence rate O(sqrt(kappa_max) log(1/eps)) and condition-number-matched skipping schedule q_i require mu-strong convexity (Assumption 3.2) and a shared global Bernoulli communication coin theta_t ~ Bernoulli(p) across participating clients.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r562-primary-pdf">GradSkip: Communication-Accelerated Local Gradient Methods with Better Computational Complexity</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Assumptions 3.1-3.2 p. 4 &amp; Algorithm 2 Line 4 p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#gradskip-heterogeneous-federated-optimization-with-unequal-client-compute-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to federated regularized logistic regression across clients with heterogeneous data smoothness constants L_i and unequal local computational speeds.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r562-primary-pdf">GradSkip: Communication-Accelerated Local Gradient Methods with Better Computational Complexity</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Experiments pp. 9-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires mu-strong convexity for the accelerated linear convergence rate and condition-number-matched local gradient skipping probabilities.</li>
+      <li>Relies on a shared global Bernoulli communication coin across participating clients.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GradSkip and GradSkip+ are communication-accelerated federated local gradient methods with client-adaptive local gradient skipping.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r562-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r562-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2210.16402.pdf" target="_blank" rel="noopener">GradSkip: Communication-Accelerated Local Gradient Methods with Better Computational Complexity</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Artavazd Maranjyan, Mher Safaryan, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2210.16402</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:561cb129942c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r562-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r562-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2210.16402" target="_blank" rel="noopener">GradSkip: Communication-Accelerated Local Gradient Methods with Better Computational Complexity (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Artavazd Maranjyan, Mher Safaryan, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2210.16402</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bcc259afcad4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r562-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r562-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2210.16402" target="_blank" rel="noopener">GradSkip: Communication-Accelerated Local Gradient Methods with Better Computational Complexity (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Artavazd Maranjyan, Mher Safaryan, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2210.16402</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:36b3eceb98a7…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:45:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:45:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GradSkipAndGradSkipPlusCommunicationAcceleratedLocalGradientMethodsWithGradientSkipping.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GradSkipAndGradSkipPlusCommunicationAcceleratedLocalGradientMethodsWithGradientSkipping.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
