@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1502</strong> artificial intelligence concepts, comprising <strong>1060</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1503</strong> artificial intelligence concepts, comprising <strong>1061</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1502)</option>
-        <option value="curated">Curated AIMech (1060)</option>
+        <option value="all">All Origins (1503)</option>
+        <option value="curated">Curated AIMech (1061)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (756)</option>
+          <option value="algorithm">Algorithms (757)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1502</span> of <span id="totalCount">1502</span>
+      Showing <span id="matchCount">1503</span> of <span id="totalCount">1503</span>
     </div>
   </div>
 </div>
@@ -20781,6 +20781,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:LoraPlusEfficientLowRankAdaptationWithAsymmetricLearningRates</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="lora-fa lorafa aimech:lorafa algorithms algorithm a memory-efficient low-rank adaptation algorithm that freezes the randomly initialized down-projection matrix a and updates only the zero-initialized up-projection matrix b using a precomputed gram-inverse gradient correction (r/alpha)^2 (a^t a)^{-1} g^b_{lora-fa}, eliminating the need to cache full-dimension layer input activations x during the forward pass. distinct from aimech:lowrankadaptation (lora), which updates both a in r^{d_{in} x r} and b in r^{r x d_{out}} and must retain the full input activation tensor x in r^{b x s x d_{in}} in gpu memory to compute dl/da = (alpha/r) x^t (dl/dy) b^t during backpropagation, and from aimech:loraplusefficientlowrankadaptationwithasymmetriclearningrates (lora+), which still updates both a and b with asymmetric learning rates. lora-fa (longteng zhang, lin zhang, shaohuai shi, xiaowen chu, and bo li, arxiv:2308.03303) proves that stacked linear low-rank updates collapse to single-layer linear regression within the column space of a_0 (theorem 3.1) and derives the closed-form gradient correction g^b = (r/alpha)^2 (a^t a)^{-1} g^b_{lora-fa} (theorem 4.1) that minimizes the frobenius norm discrepancy ||(alpha/r) a g^b - g||_f^2 against the full-fine-tuning gradient g while guaranteeing dl &lt;= 0. because a is frozen, only the r-dimensional intermediate activation x a in r^{b x s x r} (2bsr bytes instead of 2bsd + 2bsr bytes) is stored for backpropagation, and k = (a^t a)^{-1} in r^{r x r} is precomputed once at initialization. lora with frozen-a memory-efficient low-rank adaptation with frozen projection-down matrix lora-fa parameter-efficient fine-tuning by freezing the base weights w_0 and the down-projection matrix a in r^{d_{in} x r}, lora-fa avoids computing gradients with respect to a and therefore discards the full input activation tensor x in r^{b x s x d_{in}}, caching only the low-rank intermediate activation x a in r^{b x s x r} (reducing adapter activation memory from 2bsd + 2bsr bytes to 2bsr bytes per linear layer). to minimize the frobenius discrepancy ||(alpha/r) a g^b - g||_f^2 between the induced low-rank weight gradient and the full gradient g while ensuring non-increasing loss dl &lt;= 0, lora-fa precomputes k = (a^t a)^{-1} in r^{r x r} once at initialization and transforms the raw gradient g^b_{lora-fa} into g^b = (r/alpha)^2 (a^t a)^{-1} g^b_{lora-fa} before updating adamw moments. evaluated on roberta-base/large (glue), llama2-7b, llama3-8b, qwen3-8b, and deepseek-v2-lite across gsm8k, humaneval, and mt-bench, lora-fa matches or outperforms lora, dora, and lora-pro while cutting peak training memory by over 27 gb on llama2-7b and sustaining higher model flops utilization (mfu). because the induced weight update delta_w = -(alpha/r) p_a g is orthogonally projected onto the fixed r-dimensional column space of the frozen initial matrix a, any gradient component orthogonal to col(a) is lost ( capturing r/m of gradient energy in expectation under gaussian initialization and suffering zero update energy in orthogonal directions under truncated-svd initialization). lora-fa: memory-efficient low-rank adaptation for large language models fine-tuning lora-fa: memory-efficient low-rank adaptation for large language models fine-tuning (arxiv abstract) lora-fa: memory-efficient low-rank adaptation for large language models fine-tuning (crossref metadata) longteng zhang lin zhang shaohuai shi xiaowen chu bo li longteng zhang lin zhang shaohuai shi xiaowen chu bo li longteng zhang lin zhang shaohuai shi xiaowen chu bo li">
+        <td>
+          <a href="curated/LoRAFA.html" style="font-weight: 600; font-size: 1rem;">LoRA-FA</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> LoRA with Frozen-A, Memory-Efficient Low-Rank Adaptation with Frozen Projection-Down Matrix…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A memory-efficient low-rank adaptation algorithm that freezes the randomly initialized down-projection matrix A and updates only the zero-in…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:LoRAFA</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LoRA-FA · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>LoRA-FA</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">LoRA-FA</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LoRAFA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LoRA with Frozen-A, Memory-Efficient Low-Rank Adaptation with Frozen Projection-Down Matrix, LoRA-FA Parameter-Efficient Fine-Tuning
+    </div>
+
+  <div class="detail-desc">
+    A memory-efficient low-rank adaptation algorithm that freezes the randomly initialized down-projection matrix A and updates only the zero-initialized up-projection matrix B using a precomputed Gram-inverse gradient correction (r/alpha)^2 (A^T A)^{-1} g^B_{LoRA-FA}, eliminating the need to cache full-dimension layer input activations X during the forward pass.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:LowRankAdaptation (LoRA), which updates both A in R^{d_{in} x r} and B in R^{r x d_{out}} and must retain the full input activation tensor X in R^{b x s x d_{in}} in GPU memory to compute dL/dA = (alpha/r) X^T (dL/dY) B^T during backpropagation, and from AIMech:LoraPlusEfficientLowRankAdaptationWithAsymmetricLearningRates (LoRA+), which still updates both A and B with asymmetric learning rates. LoRA-FA (Longteng Zhang, Lin Zhang, Shaohuai Shi, Xiaowen Chu, and Bo Li, arXiv:2308.03303) proves that stacked linear low-rank updates collapse to single-layer linear regression within the column space of A_0 (Theorem 3.1) and derives the closed-form gradient correction g^B = (r/alpha)^2 (A^T A)^{-1} g^B_{LoRA-FA} (Theorem 4.1) that minimizes the Frobenius norm discrepancy ||(alpha/r) A g^B - g||_F^2 against the full-fine-tuning gradient g while guaranteeing dL &lt;= 0. Because A is frozen, only the r-dimensional intermediate activation X A in R^{b x s x r} (2bsr bytes instead of 2bsd + 2bsr bytes) is stored for backpropagation, and K = (A^T A)^{-1} in R^{r x r} is precomputed once at initialization.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#lorafa-frozen-down-projection-activation-memory-elimination</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By freezing the base weights W_0 and the down-projection matrix A in R^{d_{in} x r}, LoRA-FA avoids computing gradients with respect to A and therefore discards the full input activation tensor X in R^{b x s x d_{in}}, caching only the low-rank intermediate activation X A in R^{b x s x r} (reducing adapter activation memory from 2bsd + 2bsr bytes to 2bsr bytes per linear layer).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r666-primary-pdf">LoRA-FA: Memory-Efficient Low-Rank Adaptation for Large Language Models Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Table 1, Section 5 (LoRA-FA is more memory efficient) &amp; Appendix C.3, pp. 3, 5, 20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#lorafa-closed-form-gram-inverse-gradient-correction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To minimize the Frobenius discrepancy ||(alpha/r) A g^B - g||_F^2 between the induced low-rank weight gradient and the full gradient g while ensuring non-increasing loss dL &lt;= 0, LoRA-FA precomputes K = (A^T A)^{-1} in R^{r x r} once at initialization and transforms the raw gradient g^B_{LoRA-FA} into g^B = (r/alpha)^2 (A^T A)^{-1} g^B_{LoRA-FA} before updating AdamW moments.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r666-primary-pdf">LoRA-FA: Memory-Efficient Low-Rank Adaptation for Large Language Models Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Theorem 4.1), Appendix A.2 (Equations 15-27) &amp; Appendix B (Algorithm 1), pp. 4, 16-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#lorafa-application-glue-gsm8k-humaneval-and-long-context-sft</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated on RoBERTa-base/large (GLUE), LLaMA2-7B, LLaMA3-8B, Qwen3-8B, and DeepSeek-V2-Lite across GSM8K, HumanEval, and MT-Bench, LoRA-FA matches or outperforms LoRA, DoRA, and LoRA-Pro while cutting peak training memory by over 27 GB on LLaMA2-7B and sustaining higher Model FLOPs Utilization (MFU).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r666-primary-pdf">LoRA-FA: Memory-Efficient Low-Rank Adaptation for Large Language Models Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 6 (Experiments), Tables 2-4 &amp; Figure 2, pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#lorafa-limitation-fixed-column-subspace-and-svd-init-blind-spot</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the induced weight update Delta_W = -(alpha/r) P_A g is orthogonally projected onto the fixed r-dimensional column space of the frozen initial matrix A, any gradient component orthogonal to col(A) is lost ( capturing r/m of gradient energy in expectation under Gaussian initialization and suffering zero update energy in orthogonal directions under truncated-SVD initialization).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r666-primary-pdf">LoRA-FA: Memory-Efficient Low-Rank Adaptation for Large Language Models Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Appendix E.3 (Initialization of A) &amp; Appendix E.5 (Limitations), pp. 23-25</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Freezing A restricts all weight updates to the fixed r-dimensional column subspace col(A_0) throughout training, capturing only an r/m fraction of arbitrary gradient energy in expectation.</li>
+      <li>LoRA-FA eliminates the input activation cache of the adapter branch but does not remove non-adapter Transformer activations such as attention scores, LayerNorm, or GeLU intermediates unless paired with FlashAttention or selective activation checkpointing.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LoRA-FA fine-tunes linear layers in deep artificial neural networks with reduced activation memory and closed-form gradient preconditioning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r666-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r666-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2308.03303" target="_blank" rel="noopener">LoRA-FA: Memory-Efficient Low-Rank Adaptation for Large Language Models Fine-Tuning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Longteng Zhang, Lin Zhang, Shaohuai Shi, Xiaowen Chu, Bo Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=LoRA-FA+Longteng+Zhang&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:92cbd65b03a4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r666-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r666-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2308.03303" target="_blank" rel="noopener">LoRA-FA: Memory-Efficient Low-Rank Adaptation for Large Language Models Fine-Tuning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Longteng Zhang, Lin Zhang, Shaohuai Shi, Xiaowen Chu, Bo Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2308.03303</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:71875b5a677f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r666-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r666-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=LoRA-FA+Longteng+Zhang&amp;format=xml" target="_blank" rel="noopener">LoRA-FA: Memory-Efficient Low-Rank Adaptation for Large Language Models Fine-Tuning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Longteng Zhang, Lin Zhang, Shaohuai Shi, Xiaowen Chu, Bo Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=LoRA-FA+Longteng+Zhang&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7d58a9788804…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:29:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:29:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LoRAFA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LoRAFA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
