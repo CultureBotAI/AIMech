@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedFomo (Personalized Federated Learning with First-Order Model Optimization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedFomo (Personalized Federated Learning with First-Order Model Optimization)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedFomo (Personalized Federated Learning with First-Order Model Optimization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedFomoFirstOrderModelOptimizationForPersonalizedFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedFomo, First-Order Model Optimization for Personalized Federated Learning, FOMO Personalized Federated Model Aggregation
+    </div>
+
+  <div class="detail-desc">
+    A personalized federated learning algorithm (Zhang et al. 2021, Section 3.1 &amp; Appendix A.1, Equations 1-13, Algorithm 1) in which each client c_i maintains a personalized model theta_i^{l(t)} and computes client-specific model aggregation weights w = &lt;w_1, ..., w_N&gt; over M downloaded peer models {theta_n^{l(t)}}_{n=1}^N by taking a first-order Taylor expansion along the convex interpolation path phi_n(w_n) = w_n theta_n^{l(t)} + (1 - w_n) theta_i^{l(t-1)} on a local validation split D_i^{val} to obtain closed-form directional improvement scores w_n = (L_i(theta_i^{l(t-1)}) - L_i(theta_n^{l(t)})) / ||theta_n^{l(t)} - theta_i^{l(t-1)}|| (Equations 3 &amp; 12), ReLU-clipping and normalizing w_n^* = max(w_n, 0) / sum_{m=1}^N max(w_m, 0) (Equation 13) to update theta_i^{l(t)} &lt;- theta_i^{l(t-1)} + sum_{n in [N]} w_n^* (theta_n^{l(t)} - theta_i^{l(t-1)}), and updating a server-side K x K client-to-client affinity matrix P via p_{i,n} &lt;- p_{i,n} + w_n for epsilon-greedy peer model selection.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, T. Dinh et al. 2020) and Ditto (AIMech:DittoFairAndRobustFederatedLearningThroughPersonalization, Li et al. 2021), which regularize personalized models toward a single shared global model via proximal Moreau envelopes; and distinct from FedAMP (AIMech:FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning, Huang et al. 2021), which computes server-side pairwise attention weights from parameter-space distances A&#39;(||w_i - w_j||^2) without downloading M candidate models to evaluate local validation-loss differences L_i(theta_i) - L_i(theta_n).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r464-first-order-validation-slope-and-relu-simplex-weights-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Approximates the gradient of client c_i&#39;s validation loss L_i with respect to model combination weight w_n along phi_n(w_n) = w_n theta_n^{l(t)} + (1 - w_n) theta_i^{l(t-1)} via the finite-difference secant slope w_n = (L_i(theta_i^{l(t-1)}) - L_i(theta_n^{l(t)})) / ||theta_n^{l(t)} - theta_i^{l(t-1)}|| (Equations 3, 10-12) and normalizes positive weights w_n^* = max(w_n, 0) / sum_{m=1}^N max(w_m, 0) (Equation 13), defaulting to theta_i^{l(t-1)} whenever all candidate models increase validation loss.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r464-primary-pdf">Personalized Federated Learning with First Order Model Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Equations 3-4, p. 4, and Appendix A.1 Equations 5-13, pp. 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r464-affinity-matrix-epsilon-greedy-and-loo-privacy-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintains a server-side K x K client affinity matrix P updated by signed validation improvements p_{i,n} &lt;- p_{i,n} + w_n to sample M high-affinity peer models per round via epsilon-greedy exploration (Section 3.1, p. 5), and extends to a privacy-preserving leave-one-out average variant w_n propto L_i((1/(N-1)) sum_{j != n} theta_j) - L_i((1/N) sum_j theta_j) so clients only receive aggregated models (Appendix A.4, Equation 14, p. 13).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r464-primary-pdf">Personalized Federated Learning with First Order Model Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Sampling Relevant Models, p. 5, and Appendix A.4 Preserving Client Privacy with FOMO (Equation 14), p. 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r464-downlink-bandwidth-and-validation-split-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires each active client to download M peer models per communication round (increasing server-to-client downlink bandwidth by a factor of M) and perform M forward passes on a held-out local validation split D_i^{val}, which can be noisy when local datasets are very small.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r464-primary-pdf">Personalized Federated Learning with First Order Model Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Local Validation Split &amp; Sampling Relevant Models, pp. 4-5, and Appendix B.1 Effect of Validation Split Size, p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r464-personalized-non-iid-and-out-of-client-distribution-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to personalized non-IID image classification on MNIST, CIFAR-10, and CIFAR-100 across 15 to 100 clients, as well as out-of-client target validation distributions where a client&#39;s target task differs from its local training split.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r464-primary-pdf">Personalized Federated Learning with First Order Model Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Experiments (Tables 1-2, Figures 2-4), pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Increases server-to-client downlink communication by a factor of M models per round and requires M local validation forward passes.</li>
+      <li>Requires holding out a local validation dataset D_i^{val} on each client, which reduces training sample size on data-scarce clients.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedFomo is a personalized federated learning algorithm that replaces static global averaging with client-specific first-order validation weighted model combinations.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r464-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r464-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2012.08565.pdf" target="_blank" rel="noopener">Personalized Federated Learning with First Order Model Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Michael Zhang, Karan Sapra, Sanja Fidler, Serena Yeung, Jose M. Alvarez
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=ehJqJQk9cw</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:25762d37b977…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r464-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r464-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2012.08565" target="_blank" rel="noopener">Personalized Federated Learning with First Order Model Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Michael Zhang, Karan Sapra, Sanja Fidler, Serena Yeung, Jose M. Alvarez
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2012.08565</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:769984463455…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r464-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r464-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=ehJqJQk9cw" target="_blank" rel="noopener">Personalized Federated Learning with First Order Model Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Michael Zhang, Karan Sapra, Sanja Fidler, Serena Yeung, Jose M. Alvarez
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=ehJqJQk9cw</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5f78c05e70d0…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:07:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:07:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedFomoFirstOrderModelOptimizationForPersonalizedFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedFomoFirstOrderModelOptimizationForPersonalizedFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
