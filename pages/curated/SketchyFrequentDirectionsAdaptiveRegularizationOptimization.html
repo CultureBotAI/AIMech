@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sketchy (Frequent-Directions Sketched Adaptive Regularization / S-AdaGrad and S-Shampoo) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Sketchy (Frequent-Directions Sketched Adaptive Regularization / S-AdaGrad and S-Shampoo)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Sketchy (Frequent-Directions Sketched Adaptive Regularization / S-AdaGrad and S-Shampoo)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SketchyFrequentDirectionsAdaptiveRegularizationOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Sketchy Optimizer, S-AdaGrad, S-Shampoo, Sketchy AdaGrad and Sketchy Shampoo, Frequent-Directions Sketched Matrix Preconditioning
+    </div>
+
+  <div class="detail-desc">
+    A memory-efficient matrix-preconditioned adaptive optimization framework—instantiated as Sketchy AdaGrad (S-AdaGrad) for vector parameters and Sketchy Shampoo (S-Shampoo) for tensor parameters—that tracks a rank-ell Frequent Directions (FD) sketch of the gradient covariance (or its left and right Kronecker factors) and adds dynamic isotropic regularization equal to the cumulative deflated ell-th eigenvalue mass rho_{1:t} I, sandwiching the true covariance (G_bar_t &lt;= G_t &lt;= G_bar_t + rho_{1:t} I) in sublinear O(m ell + n ell) accumulator memory.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Shampoo (AIMech:ShampooPreconditionedStochasticTensorOptimization), which materializes full m x m and n x n left and right Kronecker covariance factors in O(m^2 + n^2) memory. Distinct from GGT (AIMech:GgtEfficientFullMatrixAdaptiveRegularization), which stores a sliding window of r full-model gradient copies in O(m n r) superlinear memory. Distinct from Ada-FD and FD-SON, which add a static diagonal perturbation delta I rather than the dynamic cumulative escaped spectral mass rho_{1:t} I and suffer Omega(T^{3/4}) or Omega(T) worst-case regret on general online convex problems.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#sketchy-escaped-mass-loewner-sandwich-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each step t, Frequent Directions (Algorithm 1) eigendecomposes G_bar_{t-1} + M_t, retains the top ell - 1 eigendirections deflated by the ell-th eigenvalue rho_t = lambda_ell^{(t)}, and accumulates the cumulative escaped mass rho_{1:t} = sum_{s=1}^t rho_s; Lemma 10 and Remark 11 prove that G_tilde_t = G_bar_t + rho_{1:t} I = G_t + sum_{s=1}^t rho_s N_s satisfies the two-sided Loewner sandwich G_bar_t &lt;= G_t &lt;= G_tilde_t.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r645-primary-pdf">Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Algorithm 1, Section 4.1 Algorithm 2, and Appendix B.4.1 Lemma 10 and Remark 11, pages 2-3, 6, 19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#sketchy-shampoo-sublinear-kronecker-sketch-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For an m x n matrix parameter X_t, Sketchy Shampoo (Algorithm 3) maintains rank-ell Frequent Directions sketches L_bar_t and R_bar_t of the exponentially weighted left and right gradient outer products G_t G_t^T and G_t^T G_t together with escaped masses rho_{1:t}^L and rho_{1:t}^R, updating X_{t+1} = X_t - eta * (L_bar_t + rho_{1:t}^L I_m)^{-1/4} G_t (R_bar_t + rho_{1:t}^R I_n)^{-1/4} in sublinear O(m ell + n ell) accumulator memory.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r645-primary-pdf">Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4 Figure 1 and Section 4.2-4.3 Algorithm 3 and Observation 6, pages 5, 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#sketchy-additive-tail-spectrum-regret-bound-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 3 and Corollary 4 prove that without exp-concavity or low-rank curvature assumptions, S-AdaGrad achieves Regret_T &lt;= D (sqrt(2) tr(G_T^{1/2}) + sqrt(d (d - ell) Omega_ell / 2)) using O(d ell) memory, where Omega_ell = min_{k &lt; ell} (ell - k)^{-1} sum_{i=k+1}^d lambda_i(G_T) &lt;= sum_{i=ell}^d lambda_i(G_T), matching full-matrix AdaGrad regret up to an additive tail-eigenvalue term.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r645-primary-pdf">Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 Table 1, Section 4.1 Theorem 3 and Corollary 4, and Appendix B.4, pages 4, 6, 19-21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#sketchy-resnet-conformer-gnn-training-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With sketch rank ell = 256 (a 4x accumulator memory reduction on 1024-dimensional blocks), S-Shampoo outperforms Adam and nearly matches full Shampoo on ImageNet ResNet-50 (77.18% vs 76.76% validation accuracy) and LibriSpeech 16-layer Conformer while avoiding Shampoo&#39;s overfitting on OGBG-MolPCBA graph neural networks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r645-primary-pdf">Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.2 Figures 2-3, pages 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#sketchy-exponential-moving-average-and-svd-update-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applying Frequent Directions to unweighted cumulative gradient sums in deep learning causes the escaped mass rho_{1:T} to exceed ||G_T|| due to rotating eigenspaces and lack of unweighted spectral decay, requiring exponential moving average decay beta_2 &lt; 1 and periodic rank-ell SVD updates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r645-primary-pdf">Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 Exponentially Weighted FD and Section 6 Discussion, pages 7, 9-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires exponential moving average decay (beta_2 &lt; 1) in non-convex deep learning so that Kronecker covariance factors maintain low intrinsic dimension and fast spectral decay.</li>
+      <li>Each Frequent Directions update requires a factored SVD of [beta_2^{1/2} B_t; G_t], motivating step-skipping (e.g., updating every 10 steps) to amortize compute overhead.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Sketchy (S-Shampoo and S-AdaGrad) is a sublinear-memory second-order adaptive optimizer for training deep neural networks including ResNet-50, Conformer, and graph neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r645-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r645-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2302.03764.pdf" target="_blank" rel="noopener">Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Vladimir Feinberg, Xinyi Chen, Y. Jennifer Sun, Rohan Anil, Elad Hazan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/FeinbergCSAH23</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2fa3e0b340d9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r645-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r645-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2302.03764" target="_blank" rel="noopener">Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Vladimir Feinberg, Xinyi Chen, Y. Jennifer Sun, Rohan Anil, Elad Hazan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2302.03764</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:17cf9610b6c4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r645-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r645-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/FeinbergCSAH23" target="_blank" rel="noopener">Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Vladimir Feinberg, Xinyi Chen, Y. Jennifer Sun, Rohan Anil, Elad Hazan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/FeinbergCSAH23</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:69e5d9d4030c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:08:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:08:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SketchyFrequentDirectionsAdaptiveRegularizationOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SketchyFrequentDirectionsAdaptiveRegularizationOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
