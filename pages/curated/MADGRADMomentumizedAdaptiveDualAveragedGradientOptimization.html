@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MADGRAD (Momentumized, Adaptive, Dual Averaged Gradient Method) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>MADGRAD (Momentumized, Adaptive, Dual Averaged Gradient Method)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MADGRAD (Momentumized, Adaptive, Dual Averaged Gradient Method)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MADGRADMomentumizedAdaptiveDualAveragedGradientOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MADGRAD Optimizer, Momentumized Adaptive Dual Averaged Gradient, Cube-Root Dual Averaged AdaGrad (MADGRAD)
+    </div>
+
+  <div class="detail-desc">
+    An AdaGrad-family stochastic optimization algorithm (Algorithm 1) built on Nesterov dual averaging with double averaging that centers the quadratic proximity function at the initial iterate x_0, accumulates forward-weighted gradients s_{k+1} = s_k + lambda_k g_k and squared gradients nu_{k+1} = nu_k + lambda_k (g_k circ g_k) using weights lambda_k = gamma_k sqrt(k + 1), forms the dual-averaged step z_{k+1} = x_0 - (nu_{k+1}^{1/3} + epsilon)^{-1} circ s_{k+1} via a cube-root denominator, and updates iterates via inline momentum averaging x_{k+1} = (1 - c_{k+1}) x_k + c_{k+1} z_{k+1}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard mirror-descent AdaGrad and DA-AdaGrad in four ways: (1) centering the dual-averaging proximity function at x_0 rather than the origin 0 (inducing an implicit decaying regularizer (1 / (4 sqrt(k))) ||x_k - x_0||^2), (2) weighting gradients by lambda_k = gamma_k sqrt(k + 1) so the leading gradient weight remains constant during flat learning-rate phases, (3) replacing the square-root denominator with a cube-root denominator nu_{k+1}^{1/3} derived from an L2-norm hindsight penalty ||s||_2^2 &lt;= c, and (4) incorporating momentum via inline iterate interpolation x_{k+1} = (1 - c_{k+1}) x_k + c_{k+1} z_{k+1}.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r596-cuberoot-denominator-and-last-iterate-convex-rate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Replacing the L1 hindsight constraint &lt;1, s&gt; &lt;= c in Duchi et al. (2011) with an L2 norm constraint ||s||_2^2 &lt;= c yields the cube-root scaling s_d propto (sum_{i=0}^k g_{i,d}^2)^{1/3} (Section 5.5.4 &amp; Appendix C, pp. 10-11, 32-33), which cancels the (k + 1)^{3/2} growth of sum_{i=0}^k sqrt(i + 1) to preserve a sqrt(k + 1) denominator and guarantees last-iterate convex convergence E[f(x_k) - f(x_*)] &lt;= (6 / k^{1/2}) ||x_0 - x_*||_2 G D^{1/2} for c_k = (3/2) / (k + 3/2) (Theorem 1 &amp; Theorem 6, pp. 12, 28-31).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r596-primary-pdf">Adaptivity without Compromise: A Momentumized, Adaptive, Dual Averaged Gradient Method for Stochastic Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 5.5.4-6, Eq. (5)-(6), Algorithm 1, &amp; Theorem 1, pp. 10-12; Appendix B-C, Lemma 2-4 &amp; Theorem 5-6, pp. 24-33</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r596-outlier-gradient-decay-and-implicit-x0-regularization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Centering dual averaging at x_0 induces an implicit step-dependent regularizer (1 / (4 sqrt(k))) ||x_k - x_0||^2 that decays during training (Section 5.2, p. 5), while forward weighting lambda_i = gamma sqrt(i + 1) causes early outlier gradient bounds G_i to decay at rate O((k + 1)^{-5/4}) rather than O((k + 1)^{-1}) in momentum AdaGrad (Section 6.1 &amp; Appendix B.5, pp. 13, 31).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r596-primary-pdf">Adaptivity without Compromise: A Momentumized, Adaptive, Dual Averaged Gradient Method for Stochastic Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, p. 5; Section 6.1, p. 13; Appendix B.5, pp. 31-32</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r596-vision-mri-and-nlp-generalization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across CIFAR-10 PreAct-ResNet152 (95.38% vs SGD+M 95.22% and Adam 94.69%), ImageNet ResNet-50 (76.22% vs SGD+M 76.09% and Adam 73.03%), fastMRI VarNet 2.0 (0.9119 SSIM vs Adam 0.9111), IWSLT14 LSTM (4.33 test loss vs Adam 4.35), and BookWiki RoBERTa MLM (2.07 test loss vs Adam 2.09), MADGRAD matches or outperforms both SGD+M and Adam on test-set performance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r596-primary-pdf">Adaptivity without Compromise: A Momentumized, Adaptive, Dual Averaged Gradient Method for Stochastic Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 7.1-7.5, Figures 3-4, pp. 14-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r596-lr-scale-weight-decay-and-sparse-buffer-limitations</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    MADGRAD learning rates are not directly comparable to SGD or Adam (requiring a power-of-2 sweep and substantially smaller weight decay), its global step-size bound is not scale-free with respect to gradient norms, and supporting sparse parameter updates requires disabling the dense iterate moving-average buffer by setting c = 1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r596-primary-pdf">Adaptivity without Compromise: A Momentumized, Adaptive, Dual Averaged Gradient Method for Stochastic Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 5.5.4, p. 11; Section 8.1 &amp; 8.3, pp. 18-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires storing the initial parameter vector x_0 (or reconstructing it algebraically) in addition to the dual gradient buffer s_k and second-moment accumulator nu_k, and requires c = 1 (no momentum) for sparse gradient updates.</li>
+      <li>Optimal learning-rate and weight-decay values differ by orders of magnitude from standard SGD and Adam defaults, requiring dedicated hyperparameter tuning.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MADGRAD is a dual-averaged adaptive stochastic optimization algorithm for training deep convolutional, recurrent, and Transformer artificial neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r596-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r596-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2101.11075.pdf" target="_blank" rel="noopener">Adaptivity without Compromise: A Momentumized, Adaptive, Dual Averaged Gradient Method for Stochastic Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aaron Defazio, Samy Jelassi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-2101-11075</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:134beabf3e46…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r596-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r596-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2101.11075" target="_blank" rel="noopener">Adaptivity without Compromise: A Momentumized, Adaptive, Dual Averaged Gradient Method for Stochastic Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aaron Defazio, Samy Jelassi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2101.11075</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6872689885b2…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r596-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r596-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/corr/abs-2101-11075" target="_blank" rel="noopener">Adaptivity without Compromise: A Momentumized, Adaptive, Dual Averaged Gradient Method for Stochastic Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aaron Defazio, Samy Jelassi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-2101-11075</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1c629ef1e235…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:19:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:19:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MADGRADMomentumizedAdaptiveDualAveragedGradientOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MADGRADMomentumizedAdaptiveDualAveragedGradientOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

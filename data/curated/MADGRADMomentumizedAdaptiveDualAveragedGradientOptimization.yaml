@@ -1,0 +1,99 @@
+id: AIMech:MADGRADMomentumizedAdaptiveDualAveragedGradientOptimization
+name: MADGRAD (Momentumized, Adaptive, Dual Averaged Gradient Method)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An AdaGrad-family stochastic optimization algorithm (Algorithm 1) built on Nesterov dual averaging with double averaging that centers the quadratic proximity function at the initial iterate x_0, accumulates forward-weighted gradients s_{k+1} = s_k + lambda_k g_k and squared gradients nu_{k+1} = nu_k + lambda_k (g_k circ g_k) using weights lambda_k = gamma_k sqrt(k + 1), forms the dual-averaged step z_{k+1} = x_0 - (nu_{k+1}^{1/3} + epsilon)^{-1} circ s_{k+1} via a cube-root denominator, and updates iterates via inline momentum averaging x_{k+1} = (1 - c_{k+1}) x_k + c_{k+1} z_{k+1}.
+identity_notes: 'Distinct from standard mirror-descent AdaGrad and DA-AdaGrad in four ways: (1) centering the dual-averaging proximity function at x_0 rather than the origin 0 (inducing an implicit decaying regularizer (1 / (4 sqrt(k))) ||x_k - x_0||^2), (2) weighting gradients by lambda_k = gamma_k sqrt(k + 1) so the leading gradient weight remains constant during flat learning-rate phases, (3) replacing the square-root denominator with a cube-root denominator nu_{k+1}^{1/3} derived from an L2-norm hindsight penalty ||s||_2^2 <= c, and (4) incorporating momentum via inline iterate interpolation x_{k+1} = (1 - c_{k+1}) x_k + c_{k+1} z_{k+1}.'
+aliases:
+- MADGRAD Optimizer
+- Momentumized Adaptive Dual Averaged Gradient
+- Cube-Root Dual Averaged AdaGrad (MADGRAD)
+definition_evidence:
+- source_id: r596-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r596-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r596-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r596-cuberoot-denominator-and-last-iterate-convex-rate
+  kind: mechanism
+  statement: Replacing the L1 hindsight constraint <1, s> <= c in Duchi et al. (2011) with an L2 norm constraint ||s||_2^2 <= c yields the cube-root scaling s_d propto (sum_{i=0}^k g_{i,d}^2)^{1/3} (Section 5.5.4 & Appendix C, pp. 10-11, 32-33), which cancels the (k + 1)^{3/2} growth of sum_{i=0}^k sqrt(i + 1) to preserve a sqrt(k + 1) denominator and guarantees last-iterate convex convergence E[f(x_k) - f(x_*)] <= (6 / k^{1/2}) ||x_0 - x_*||_2 G D^{1/2} for c_k = (3/2) / (k + 3/2) (Theorem 1 & Theorem 6, pp. 12, 28-31).
+  evidence:
+  - source_id: r596-primary-pdf
+    locator: Section 5.5.4-6, Eq. (5)-(6), Algorithm 1, & Theorem 1, pp. 10-12; Appendix B-C, Lemma 2-4 & Theorem 5-6, pp. 24-33
+    relation: supports
+- claim_id: c-r596-outlier-gradient-decay-and-implicit-x0-regularization
+  kind: mechanism
+  statement: Centering dual averaging at x_0 induces an implicit step-dependent regularizer (1 / (4 sqrt(k))) ||x_k - x_0||^2 that decays during training (Section 5.2, p. 5), while forward weighting lambda_i = gamma sqrt(i + 1) causes early outlier gradient bounds G_i to decay at rate O((k + 1)^{-5/4}) rather than O((k + 1)^{-1}) in momentum AdaGrad (Section 6.1 & Appendix B.5, pp. 13, 31).
+  evidence:
+  - source_id: r596-primary-pdf
+    locator: Section 5.2, p. 5; Section 6.1, p. 13; Appendix B.5, pp. 31-32
+    relation: supports
+- claim_id: c-r596-vision-mri-and-nlp-generalization
+  kind: application
+  statement: Across CIFAR-10 PreAct-ResNet152 (95.38% vs SGD+M 95.22% and Adam 94.69%), ImageNet ResNet-50 (76.22% vs SGD+M 76.09% and Adam 73.03%), fastMRI VarNet 2.0 (0.9119 SSIM vs Adam 0.9111), IWSLT14 LSTM (4.33 test loss vs Adam 4.35), and BookWiki RoBERTa MLM (2.07 test loss vs Adam 2.09), MADGRAD matches or outperforms both SGD+M and Adam on test-set performance.
+  evidence:
+  - source_id: r596-primary-pdf
+    locator: Section 7.1-7.5, Figures 3-4, pp. 14-18
+    relation: supports
+- claim_id: c-r596-lr-scale-weight-decay-and-sparse-buffer-limitations
+  kind: limitation
+  statement: MADGRAD learning rates are not directly comparable to SGD or Adam (requiring a power-of-2 sweep and substantially smaller weight decay), its global step-size bound is not scale-free with respect to gradient norms, and supporting sparse parameter updates requires disabling the dense iterate moving-average buffer by setting c = 1.
+  evidence:
+  - source_id: r596-primary-pdf
+    locator: Section 5.5.4, p. 11; Section 8.1 & 8.3, pp. 18-19
+    relation: supports
+evidence_sources:
+- source_id: r596-primary-pdf
+  title: 'Adaptivity without Compromise: A Momentumized, Adaptive, Dual Averaged Gradient Method for Stochastic Optimization'
+  authors: &id001
+  - Aaron Defazio
+  - Samy Jelassi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2101.11075.pdf
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2101-11075
+  version: Journal of Machine Learning Research (JMLR), 23(144):1-34 (arXiv:2101.11075) (2022) (2400988 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:19:00Z'
+  sha256: 134beabf3e467d7fad336c8f2b075ef0de1a8ac4d6deb0a24873aa28e5aac06f
+- source_id: r596-arxiv-abs
+  title: 'Adaptivity without Compromise: A Momentumized, Adaptive, Dual Averaged Gradient Method for Stochastic Optimization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2101.11075
+  persistent_id: https://arxiv.org/abs/2101.11075
+  version: arXiv abstract page (6245 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:19:00Z'
+  sha256: 6872689885b270c6be10dd8bc5059d98ff559ea113d9940f21966ba67d20604d
+- source_id: r596-metadata-cr
+  title: 'Adaptivity without Compromise: A Momentumized, Adaptive, Dual Averaged Gradient Method for Stochastic Optimization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-2101-11075
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2101-11075
+  version: Crossref API work record (1165 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:19:00Z'
+  sha256: 1c629ef1e23588d395d4810878e0701eb89daa56aa8d95b67289491db89f215a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: MADGRAD is a dual-averaged adaptive stochastic optimization algorithm for training deep convolutional, recurrent, and Transformer artificial neural networks.
+limitations:
+- Requires storing the initial parameter vector x_0 (or reconstructing it algebraically) in addition to the dual gradient buffer s_k and second-moment accumulator nu_k, and requires c = 1 (no momentum) for sparse gradient updates.
+- Optimal learning-rate and weight-decay values differ by orders of magnitude from standard SGD and Adam defaults, requiring dedicated hyperparameter tuning.
+curation:
+  created_at: '2026-10-19T11:19:00Z'
+  updated_at: '2026-10-19T11:19:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
