@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LoRA-XS · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>LoRA-XS</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">LoRA-XS</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LoRAXS</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Low-Rank Adaptation with Extremely Small Number of Parameters, Frozen-SVD Latent r-by-r Low-Rank Adaptation, SVD-Subspace Latent Matrix Low-Rank Adaptation
+    </div>
+
+  <div class="detail-desc">
+    An ultra-parameter-efficient low-rank adaptation algorithm that initializes and freezes each module&#39;s low-rank projection matrices from the rank-r truncated SVD of the pre-trained weights (A = U_r Sigma_r, B = V_r^T) and optimizes only a small r x r latent matrix R inserted between them (W&#39; = W + U_r Sigma_r R V_r^T), making the trainable parameter count r^2 per module independent of the model&#39;s hidden dimensions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:LowRankAdaptation (which trains A in R^{m x r} and B in R^{r x n} requiring (m+n)r parameters per module), AIMech:VeraVectorBasedRandomMatrixAdaptation (which shares frozen random matrices and learns diagonal scaling vectors of size n + r per module that still grow linearly with hidden dimension n), and AIMech:PissaPrincipalSingularValuesAndSingularVectorsAdaptation (which initializes A and B with the top-r SVD of W but updates all (m+n)r entries of A and B during training). LoRA-XS (Low-Rank Adaptation with eXtremely Small number of parameters; Klaudia Balazy, Mohammadreza Banaei, Karl Aberer, &amp; Jacek Tabor, ECAI 2025, arXiv:2405.17604) proves (Section 3.2, Theorem 1 &amp; Appendix B) that for fixed orthonormal U_r, V_r, the mapping p_{U_r, V_r}(X) = U_r (U_r^T X V_r) V_r^T is the Frobenius-orthogonal projection onto the r^2-dimensional subspace S^r_{U_r, V_r} = {U_r R V_r^T : R in R^{r x r}}, and that the top-r SVD factors of W minimize the Frobenius approximation distance under the pre-training gradient alignment assumption W ~ (1/k) sum_i G_i. By freezing A = U_r Sigma_r and B = V_r^T and training only R ~ N(0, sigma^2) in R^{r x r}, LoRA-XS reduces trainable parameters by a factor of 2n/r relative to LoRA and (n+r)/r^2 relative to VeRA while merging into W post-training with zero inference latency.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#loraxs-frob-orthogonal-projection-and-truncated-svd-optimality</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For orthonormal U_r in R^{m x r} and V_r in R^{n x r}, the operator p_{U_r, V_r}(X) = U_r [U_r^T X V_r] V_r^T is an idempotent, self-adjoint Frobenius orthogonal projection onto the r^2-dimensional subspace S^r_{U_r, V_r} = {U_r R V_r^T : R in R^{r x r}}, and by the Eckart-Young-Mirsky theorem the top-r singular vectors of the mean gradient G minimize d(G; S^r_{A, B}) (Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r676-primary-pdf">LoRA-XS: Low-Rank Adaptation with Extremely Small Number of Parameters</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Theorem 1, Observation 3.1, Equations 3-4) &amp; Appendix B (Equations 5-6), pp. 3-4, 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#loraxs-hidden-dimension-independent-r-squared-parameter-scaling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By freezing A = U_r Sigma_r and B = V_r^T and optimizing only R in R^{r x r} (initialized as N(0, (10^{-5})^2)), LoRA-XS requires L * q * r^2 trainable parameters across L layers and q modules—independent of hidden dimension n—achieving a 2n/r parameter reduction over LoRA and an (n+r)/r^2 reduction over VeRA with &lt; 1% one-time SVD initialization overhead.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r676-primary-pdf">LoRA-XS: Low-Rank Adaptation with Extremely Small Number of Parameters</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (p. 5) &amp; Appendix C.1-C.3 (Equations 7-12, Tables 5-6, p. 11)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#loraxs-application-glue-commonsense-and-math-reasoning-efficiency</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    LoRA-XS outperforms or matches LoRA and VeRA on RoBERTa-large GLUE (88.03 average at rank 16 with 24.6K parameters vs. 87.83 for VeRA with 61K and 87.82 for LoRA with 800K), improves LLaMA2-7B and LLaMA3-8B commonsense reasoning (+2.9% and +4.5% over LoRA while cutting parameters from 56M-57M to 3.67M), and surpasses 168M-200M LoRA on Mistral-7B and Gemma-7B GSM8K using 3.21M-3.67M parameters.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r676-primary-pdf">LoRA-XS: Low-Rank Adaptation with Extremely Small Number of Parameters</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2-4.3 (Tables 1-3, Figure 1), pp. 2, 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#loraxs-limitation-pretraining-alignment-assumption-and-output-dense-sensitivity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because LoRA-XS restricts updates to the fixed span of the top-r singular vectors of W, its weight-SVD initialization advantage diminishes on downstream tasks whose gradient distribution diverges from pre-training (such as SST-2 sentiment classification, where random-matrix SVD slightly outperforms SVD of W), and output dense layers suffer larger accuracy drops under small r than self-attention projections.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r676-primary-pdf">LoRA-XS: Low-Rank Adaptation with Extremely Small Number of Parameters</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (p. 4), Section 5 (Table 4, p. 7), Appendix F.2 (Table 11, p. 18) &amp; Appendix G.1 (Table 12, p. 19-20)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Constrains weight updates strictly to the r^2-dimensional subspace spanned by the frozen top-r singular vectors of the pre-trained weight matrix W.</li>
+      <li>Relies on the assumption that downstream fine-tuning gradients align with the pre-trained weight spectrum; on tasks less aligned with language modeling pre-training (e.g., SST-2), SVD of W offers no gain over random orthonormal projections.</li>
+      <li>Output dense feedforward layers are significantly more sensitive to low-rank SVD subspace truncation than self-attention query/key/value projections.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LoRA-XS adapts linear layers in pre-trained transformer neural networks via a trainable r x r matrix between frozen SVD factors.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LoRA-XS uses truncated singular value decomposition to extract the frozen top-r principal singular vectors and values of each weight matrix.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r676-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r676-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2405.17604.pdf" target="_blank" rel="noopener">LoRA-XS: Low-Rank Adaptation with Extremely Small Number of Parameters</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Klaudia Balazy, Mohammadreza Banaei, Karl Aberer, Jacek Tabor
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=LoRA-XS+Low-Rank+Adaptation+Extremely+Small&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:daae7df48df3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r676-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r676-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2405.17604" target="_blank" rel="noopener">LoRA-XS: Low-Rank Adaptation with Extremely Small Number of Parameters (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Klaudia Balazy, Mohammadreza Banaei, Karl Aberer, Jacek Tabor
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2405.17604</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:506fc2500e95…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r676-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r676-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=LoRA-XS+Low-Rank+Adaptation+Extremely+Small&amp;format=xml" target="_blank" rel="noopener">LoRA-XS: Low-Rank Adaptation with Extremely Small Number of Parameters (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Klaudia Balazy, Mohammadreza Banaei, Karl Aberer, Jacek Tabor
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=LoRA-XS+Low-Rank+Adaptation+Extremely+Small&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b02a2e787ddd…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:39:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:39:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LoRAXS.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LoRAXS.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

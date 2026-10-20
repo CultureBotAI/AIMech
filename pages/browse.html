@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1512</strong> artificial intelligence concepts, comprising <strong>1070</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1513</strong> artificial intelligence concepts, comprising <strong>1071</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1512)</option>
-        <option value="curated">Curated AIMech (1070)</option>
+        <option value="all">All Origins (1513)</option>
+        <option value="curated">Curated AIMech (1071)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (764)</option>
+          <option value="algorithm">Algorithms (765)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (40)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1512</span> of <span id="totalCount">1512</span>
+      Showing <span id="matchCount">1513</span> of <span id="totalCount">1513</span>
     </div>
   </div>
 </div>
@@ -20885,6 +20885,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:LoRAGA</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="lora-xs loraxs aimech:loraxs algorithms algorithm an ultra-parameter-efficient low-rank adaptation algorithm that initializes and freezes each module&#39;s low-rank projection matrices from the rank-r truncated svd of the pre-trained weights (a = u_r sigma_r, b = v_r^t) and optimizes only a small r x r latent matrix r inserted between them (w&#39; = w + u_r sigma_r r v_r^t), making the trainable parameter count r^2 per module independent of the model&#39;s hidden dimensions. distinct from aimech:lowrankadaptation (which trains a in r^{m x r} and b in r^{r x n} requiring (m+n)r parameters per module), aimech:veravectorbasedrandommatrixadaptation (which shares frozen random matrices and learns diagonal scaling vectors of size n + r per module that still grow linearly with hidden dimension n), and aimech:pissaprincipalsingularvaluesandsingularvectorsadaptation (which initializes a and b with the top-r svd of w but updates all (m+n)r entries of a and b during training). lora-xs (low-rank adaptation with extremely small number of parameters; klaudia balazy, mohammadreza banaei, karl aberer, &amp; jacek tabor, ecai 2025, arxiv:2405.17604) proves (section 3.2, theorem 1 &amp; appendix b) that for fixed orthonormal u_r, v_r, the mapping p_{u_r, v_r}(x) = u_r (u_r^t x v_r) v_r^t is the frobenius-orthogonal projection onto the r^2-dimensional subspace s^r_{u_r, v_r} = {u_r r v_r^t : r in r^{r x r}}, and that the top-r svd factors of w minimize the frobenius approximation distance under the pre-training gradient alignment assumption w ~ (1/k) sum_i g_i. by freezing a = u_r sigma_r and b = v_r^t and training only r ~ n(0, sigma^2) in r^{r x r}, lora-xs reduces trainable parameters by a factor of 2n/r relative to lora and (n+r)/r^2 relative to vera while merging into w post-training with zero inference latency. low-rank adaptation with extremely small number of parameters frozen-svd latent r-by-r low-rank adaptation svd-subspace latent matrix low-rank adaptation for orthonormal u_r in r^{m x r} and v_r in r^{n x r}, the operator p_{u_r, v_r}(x) = u_r [u_r^t x v_r] v_r^t is an idempotent, self-adjoint frobenius orthogonal projection onto the r^2-dimensional subspace s^r_{u_r, v_r} = {u_r r v_r^t : r in r^{r x r}}, and by the eckart-young-mirsky theorem the top-r singular vectors of the mean gradient g minimize d(g; s^r_{a, b}) (theorem 1). by freezing a = u_r sigma_r and b = v_r^t and optimizing only r in r^{r x r} (initialized as n(0, (10^{-5})^2)), lora-xs requires l * q * r^2 trainable parameters across l layers and q modules—independent of hidden dimension n—achieving a 2n/r parameter reduction over lora and an (n+r)/r^2 reduction over vera with &lt; 1% one-time svd initialization overhead. lora-xs outperforms or matches lora and vera on roberta-large glue (88.03 average at rank 16 with 24.6k parameters vs. 87.83 for vera with 61k and 87.82 for lora with 800k), improves llama2-7b and llama3-8b commonsense reasoning (+2.9% and +4.5% over lora while cutting parameters from 56m-57m to 3.67m), and surpasses 168m-200m lora on mistral-7b and gemma-7b gsm8k using 3.21m-3.67m parameters. because lora-xs restricts updates to the fixed span of the top-r singular vectors of w, its weight-svd initialization advantage diminishes on downstream tasks whose gradient distribution diverges from pre-training (such as sst-2 sentiment classification, where random-matrix svd slightly outperforms svd of w), and output dense layers suffer larger accuracy drops under small r than self-attention projections. lora-xs: low-rank adaptation with extremely small number of parameters lora-xs: low-rank adaptation with extremely small number of parameters (arxiv abstract) lora-xs: low-rank adaptation with extremely small number of parameters (crossref metadata) klaudia balazy mohammadreza banaei karl aberer jacek tabor klaudia balazy mohammadreza banaei karl aberer jacek tabor klaudia balazy mohammadreza banaei karl aberer jacek tabor">
+        <td>
+          <a href="curated/LoRAXS.html" style="font-weight: 600; font-size: 1rem;">LoRA-XS</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Low-Rank Adaptation with Extremely Small Number of Parameters, Frozen-SVD Latent r-by-r Low-Rank Adaptation…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An ultra-parameter-efficient low-rank adaptation algorithm that initializes and freezes each module&#39;s low-rank projection matrices from the…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:LoRAXS</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

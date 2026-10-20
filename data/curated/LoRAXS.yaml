@@ -1,0 +1,105 @@
+id: AIMech:LoRAXS
+name: LoRA-XS
+concept_kind: algorithm
+review_status: DRAFT
+definition: An ultra-parameter-efficient low-rank adaptation algorithm that initializes and freezes each module's low-rank projection matrices from the rank-r truncated SVD of the pre-trained weights (A = U_r Sigma_r, B = V_r^T) and optimizes only a small r x r latent matrix R inserted between them (W' = W + U_r Sigma_r R V_r^T), making the trainable parameter count r^2 per module independent of the model's hidden dimensions.
+identity_notes: 'Distinct from AIMech:LowRankAdaptation (which trains A in R^{m x r} and B in R^{r x n} requiring (m+n)r parameters per module), AIMech:VeraVectorBasedRandomMatrixAdaptation (which shares frozen random matrices and learns diagonal scaling vectors of size n + r per module that still grow linearly with hidden dimension n), and AIMech:PissaPrincipalSingularValuesAndSingularVectorsAdaptation (which initializes A and B with the top-r SVD of W but updates all (m+n)r entries of A and B during training). LoRA-XS (Low-Rank Adaptation with eXtremely Small number of parameters; Klaudia Balazy, Mohammadreza Banaei, Karl Aberer, & Jacek Tabor, ECAI 2025, arXiv:2405.17604) proves (Section 3.2, Theorem 1 & Appendix B) that for fixed orthonormal U_r, V_r, the mapping p_{U_r, V_r}(X) = U_r (U_r^T X V_r) V_r^T is the Frobenius-orthogonal projection onto the r^2-dimensional subspace S^r_{U_r, V_r} = {U_r R V_r^T : R in R^{r x r}}, and that the top-r SVD factors of W minimize the Frobenius approximation distance under the pre-training gradient alignment assumption W ~ (1/k) sum_i G_i. By freezing A = U_r Sigma_r and B = V_r^T and training only R ~ N(0, sigma^2) in R^{r x r}, LoRA-XS reduces trainable parameters by a factor of 2n/r relative to LoRA and (n+r)/r^2 relative to VeRA while merging into W post-training with zero inference latency.'
+aliases:
+- Low-Rank Adaptation with Extremely Small Number of Parameters
+- Frozen-SVD Latent r-by-r Low-Rank Adaptation
+- SVD-Subspace Latent Matrix Low-Rank Adaptation
+definition_evidence:
+- source_id: r676-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r676-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r676-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: loraxs-frob-orthogonal-projection-and-truncated-svd-optimality
+  kind: mechanism
+  statement: 'For orthonormal U_r in R^{m x r} and V_r in R^{n x r}, the operator p_{U_r, V_r}(X) = U_r [U_r^T X V_r] V_r^T is an idempotent, self-adjoint Frobenius orthogonal projection onto the r^2-dimensional subspace S^r_{U_r, V_r} = {U_r R V_r^T : R in R^{r x r}}, and by the Eckart-Young-Mirsky theorem the top-r singular vectors of the mean gradient G minimize d(G; S^r_{A, B}) (Theorem 1).'
+  evidence:
+  - source_id: r676-primary-pdf
+    locator: Section 3.2 (Theorem 1, Observation 3.1, Equations 3-4) & Appendix B (Equations 5-6), pp. 3-4, 10
+    relation: supports
+- claim_id: loraxs-hidden-dimension-independent-r-squared-parameter-scaling
+  kind: mechanism
+  statement: "By freezing A = U_r Sigma_r and B = V_r^T and optimizing only R in R^{r x r} (initialized as N(0, (10^{-5})^2)), LoRA-XS requires L * q * r^2 trainable parameters across L layers and q modules\u2014independent of hidden dimension n\u2014achieving a 2n/r parameter reduction over LoRA and an (n+r)/r^2 reduction over VeRA with < 1% one-time SVD initialization overhead."
+  evidence:
+  - source_id: r676-primary-pdf
+    locator: Section 3.3 (p. 5) & Appendix C.1-C.3 (Equations 7-12, Tables 5-6, p. 11)
+    relation: supports
+- claim_id: loraxs-application-glue-commonsense-and-math-reasoning-efficiency
+  kind: application
+  statement: LoRA-XS outperforms or matches LoRA and VeRA on RoBERTa-large GLUE (88.03 average at rank 16 with 24.6K parameters vs. 87.83 for VeRA with 61K and 87.82 for LoRA with 800K), improves LLaMA2-7B and LLaMA3-8B commonsense reasoning (+2.9% and +4.5% over LoRA while cutting parameters from 56M-57M to 3.67M), and surpasses 168M-200M LoRA on Mistral-7B and Gemma-7B GSM8K using 3.21M-3.67M parameters.
+  evidence:
+  - source_id: r676-primary-pdf
+    locator: Section 4.2-4.3 (Tables 1-3, Figure 1), pp. 2, 6-7
+    relation: supports
+- claim_id: loraxs-limitation-pretraining-alignment-assumption-and-output-dense-sensitivity
+  kind: limitation
+  statement: Because LoRA-XS restricts updates to the fixed span of the top-r singular vectors of W, its weight-SVD initialization advantage diminishes on downstream tasks whose gradient distribution diverges from pre-training (such as SST-2 sentiment classification, where random-matrix SVD slightly outperforms SVD of W), and output dense layers suffer larger accuracy drops under small r than self-attention projections.
+  evidence:
+  - source_id: r676-primary-pdf
+    locator: Section 3.2 (p. 4), Section 5 (Table 4, p. 7), Appendix F.2 (Table 11, p. 18) & Appendix G.1 (Table 12, p. 19-20)
+    relation: supports
+evidence_sources:
+- source_id: r676-primary-pdf
+  title: 'LoRA-XS: Low-Rank Adaptation with Extremely Small Number of Parameters'
+  authors: &id001
+  - Klaudia Balazy
+  - Mohammadreza Banaei
+  - Karl Aberer
+  - Jacek Tabor
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2405.17604.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=LoRA-XS+Low-Rank+Adaptation+Extremely+Small&format=xml
+  version: Proceedings of the 28th European Conference on Artificial Intelligence (ECAI 2025) (2025) (502577 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:39:00Z'
+  sha256: daae7df48df3171d6ffdeb9410e1724a2037b16eed3738fad92a5fe86011506a
+- source_id: r676-arxiv-abs
+  title: 'LoRA-XS: Low-Rank Adaptation with Extremely Small Number of Parameters (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2405.17604
+  persistent_id: https://arxiv.org/abs/2405.17604
+  version: arXiv abstract page (6769 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:39:00Z'
+  sha256: 506fc2500e95a1e38d1eb452573f1e5914b66fd7e359a48ed3caa0aff82edf1f
+- source_id: r676-metadata-cr
+  title: 'LoRA-XS: Low-Rank Adaptation with Extremely Small Number of Parameters (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=LoRA-XS+Low-Rank+Adaptation+Extremely+Small&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=LoRA-XS+Low-Rank+Adaptation+Extremely+Small&format=xml
+  version: Crossref API work record (864 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:39:00Z'
+  sha256: b02a2e787ddd5aa850d06c42a4d906ed3a7c3e586b820a7fd77a5f8b7e68037f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LoRA-XS adapts linear layers in pre-trained transformer neural networks via a trainable r x r matrix between frozen SVD factors.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: LoRA-XS uses truncated singular value decomposition to extract the frozen top-r principal singular vectors and values of each weight matrix.
+limitations:
+- Constrains weight updates strictly to the r^2-dimensional subspace spanned by the frozen top-r singular vectors of the pre-trained weight matrix W.
+- Relies on the assumption that downstream fine-tuning gradients align with the pre-trained weight spectrum; on tasks less aligned with language modeling pre-training (e.g., SST-2), SVD of W offers no gain over random orthonormal projections.
+- Output dense feedforward layers are significantly more sensitive to low-rank SVD subspace truncation than self-attention query/key/value projections.
+curation:
+  created_at: '2026-10-19T12:39:00Z'
+  updated_at: '2026-10-19T12:39:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
