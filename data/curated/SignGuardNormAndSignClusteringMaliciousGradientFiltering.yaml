@@ -1,0 +1,102 @@
+id: AIMech:SignGuardNormAndSignClusteringMaliciousGradientFiltering
+name: SignGuard Norm-Based and Sign-Clustering Malicious Gradient Filtering
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Byzantine-robust federated gradient aggregation algorithm proposed by Xu, Huang, Song, and Lan (2022) that defends distributed learning against both large-magnitude and stealthy inner-product manipulation attacks by combining element-wise sign-aware gradient norm filtering with unsupervised clustering on random-subset coordinate sign statistics, followed by median-norm-clipped averaging over the intersection of the two benign candidate sets.
+identity_notes: 'Distinct from SignSGD with majority vote (AIMech:SignSgdCompressedOptimisationWithMajorityVote, which transmits 1-bit gradient signs without full-precision norm filtering or clustering), from Robust Learning Rate / RLR (AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning, which flips coordinate-wise server learning rates based on a sign-sum threshold theta), from Centered Clipping (AIMech:CenteredClippingIterativeByzantineRobustAggregationWithMomentum), and from FLAME (AIMech:FlameDynamicClusteringAndAdaptiveClippingNoisingBackdoorDefense, which applies HDBSCAN to pairwise cosine distances and adds differential-privacy noise). SignGuard (Xu et al., ICDCS 2022 / arXiv:2109.05872, Algorithm 2, p. 5) operates in three stages: (1) Norm-based Filtering computes the median Euclidean norm M = med({||g_t^(i)||_2}_{i=1}^n) and admits the candidate set S_1 = {i in [n] : L <= ||g_t^(i)||_2 / M <= R} (with default bounds L = 0.1, R = 3.0) to eliminate extreme high-norm and near-zero gradient outliers; (2) Sign-based Clustering samples a random subset of gradient coordinates to form a low-dimensional normalized sign-proportion feature vector v_i = [p_i^+, p_i^0, p_i^-] counting positive, zero, and negative gradient entries (augmented in SignGuard-Sim and SignGuard-Dist with cosine or Euclidean similarity to a reference gradient), and partitions clients via Mean-Shift or K-Means clustering to select the largest cluster S_2; and (3) Median-Clipped Intersection Aggregation forms the trusted set S_t'' = S_1 cap S_2 and outputs tilde{g}_t = (1 / |S_t''|) sum_{i in S_t''} g_t^(i) * min(1, M / ||g_t^(i)||_2).'
+aliases:
+- SignGuard
+- SignGuard Collaborative Malicious Gradient Filtering
+- SignGuard-Sim
+- SignGuard-Dist
+definition_evidence:
+- source_id: r533-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r533-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r533-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: signguard-collaborative-norm-threshold-and-sign-clustering-intersection
+  kind: mechanism
+  statement: 'In each communication round t, SignGuard computes the median client gradient norm M = med({||g_t^(i)||_2}_{i=1}^n) to form a norm-filtered candidate set S_1 = {i : L <= ||g_t^(i)||_2 / M <= R} and independently clusters clients using normalized coordinate sign-proportion vectors (p_i^+, p_i^0, p_i^-) via Mean-Shift or 2-cluster K-Means to identify the majority cluster S_2, then aggregates only the intersection S_t'' = S_1 cap S_2 with median-norm clipping tilde{g}_t = (1 / |S_t''|) sum_{i in S_t''} g_t^(i) min(1, M / ||g_t^(i)||_2).'
+  evidence:
+  - source_id: r533-primary-pdf
+    locator: Section IV-B, Algorithm 2, Lines 1-11 and pp. 4-5
+    relation: supports
+- claim_id: signguard-convergence-and-byzmean-resilience-under-non-iid-data
+  kind: scope
+  statement: Under L-smooth objectives and bounded honest gradient variance with fraction alpha < 1/2 of Byzantine workers, Lemma 1 and Theorem 1 prove that SignGuard bounds the expected squared deviation E||tilde{g}_t - bar{g}_t||^2 between the filtered aggregate and the true honest mean gradient and achieves O(1/sqrt(T)) stationarity convergence while resisting the hybrid ByzMean attack (Equation 8) that simultaneously manipulates gradient norms and inner products.
+  evidence:
+  - source_id: r533-primary-pdf
+    locator: Section III-C, Equation (8), p. 3; Section IV-C, Lemma 1 & Theorem 1, Equation (12), p. 6
+    relation: supports
+- claim_id: signguard-honest-majority-and-clustering-hyperparameter-limitation
+  kind: limitation
+  statement: SignGuard requires an honest majority (alpha < 0.5) so that both the median gradient norm M and the largest sign-feature cluster S_2 reflect benign gradients, and its filtering sensitivity depends on tuning the norm thresholds (L, R) and Mean-Shift bandwidth on non-IID client distributions.
+  evidence:
+  - source_id: r533-primary-pdf
+    locator: Section II-B, p. 2; Section IV-B, p. 5; Section V-E, pp. 8-9
+    relation: supports
+- claim_id: signguard-byzantine-resilient-deep-federated-classification-application
+  kind: application
+  statement: Applied to Byzantine-robust federated training of deep neural networks on MNIST, Fashion-MNIST, and CIFAR-10 against random, noise, sign-flipping, ALIE, Inner Product Manipulation (IPM), and ByzMean attacks.
+  evidence:
+  - source_id: r533-primary-pdf
+    locator: Section V, Tables I-III and Figures 4-8, pp. 6-9
+    relation: supports
+evidence_sources:
+- source_id: r533-primary-pdf
+  title: Byzantine-robust Federated Learning through Collaborative Malicious Gradient Filtering
+  authors: &id001
+  - Jian Xu
+  - Shao-Lun Huang
+  - Linqi Song
+  - Tian Lan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2109.05872.pdf
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2109-05872.xml
+  version: 2022 IEEE 42nd International Conference on Distributed Computing Systems (ICDCS) (2022) (985041 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:16:00Z'
+  sha256: 2643410a96729e274816465fe3325a136ec358adaf427f9062b8d44416068a3a
+- source_id: r533-arxiv-abs
+  title: Byzantine-robust Federated Learning through Collaborative Malicious Gradient Filtering (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2109.05872
+  persistent_id: https://arxiv.org/abs/2109.05872
+  version: arXiv abstract page (7629 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:16:00Z'
+  sha256: 6bbd83d9d22138991a0c5712d6a96512388583e661f7f0ec46d9afc6939e7856
+- source_id: r533-metadata-cr
+  title: Byzantine-robust Federated Learning through Collaborative Malicious Gradient Filtering (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-2109-05872.xml
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2109-05872.xml
+  version: Crossref API work record (1342 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:16:00Z'
+  sha256: 12eac3f6628202f2c867110f8bbd0b8fce6ae3b58f3933f6cb7ad34adf7c7a54
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: AIO:FederatedLearning is the broad distributed learning paradigm within which SignGuard provides collaborative norm-and-sign-clustering malicious gradient filtering.
+limitations:
+- Requires an honest majority (Byzantine fraction alpha < 0.5) so that the median gradient norm M and the largest sign-statistics cluster S_2 remain dominated by benign updates.
+- Under extreme non-IID label skew where honest clients exhibit highly heterogeneous gradient sign distributions, sign-based clustering may over-filter benign minority-distribution clients unless similarity-augmented variants or tuned clustering bandwidths are used.
+curation:
+  created_at: '2026-10-19T10:16:00Z'
+  updated_at: '2026-10-19T10:16:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
