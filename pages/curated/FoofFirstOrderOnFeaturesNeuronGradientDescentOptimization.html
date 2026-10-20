@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOOF (Fast First-Order Optimizer / First-Order Gradient Descent on Neurons) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FOOF (Fast First-Order Optimizer / First-Order Gradient Descent on Neurons)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FOOF (Fast First-Order Optimizer / First-Order Gradient Descent on Neurons)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FoofFirstOrderOnFeaturesNeuronGradientDescentOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FOOF, Fast First-Order Optimizer, First-Order-On-Features, Gradient Descent on Neurons
+    </div>
+
+  <div class="detail-desc">
+    A layer-wise neural network optimization algorithm that performs gradient descent in neuron activation space rather than weight space by solving a ridge-regularized least-squares problem for the weight update Delta_W that moves layer pre-activations B = W A along their loss gradient E = dL/dB, resulting in the update (Delta_W)^T = eta * (lambda * I + A A^T)^{-1} A E^T that preconditions standard weight gradients solely by the inverse damped input-activation covariance (lambda * I + A A^T)^{-1} without any second-order loss or output-gradient curvature factor.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from K-FAC (AIMech:KfacKroneckerFactoredApproximateCurvature), which preconditions weight gradients from both sides using both the input-activation covariance factor (A A^T + lambda_A I)^{-1} and the Monte-Carlo Fisher output-gradient factor (E_F E_F^T + lambda_E I)^{-1}; FOOF completely omits the second Kronecker factor (and its extra Fisher backward pass), relying strictly on zero-th order input activations A A^T and first-order gradients A E^T. Distinct from Natural Neural Networks (Desjardins et al., 2015), which reparameterize layers via explicit singular value decompositions of centered activations rather than amortizing direct damped matrix inversions (Sigma_l + lambda I)^{-1}.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#foof-neuron-space-proximal-least-squares-update-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a layer with weight matrix W in R^{n x m}, input activations A in R^{m x D}, pre-activations B = W A in R^{n x D}, and backpropagated output derivatives E = dL/dB in R^{n x D}, FOOF minimizes min_{Delta_W} || (Delta_W) A - eta * E ||_F^2 + (lambda / 2) || Delta_W ||_F^2 to obtain the closed-form update (Delta_W)^T = eta * (lambda * I + A A^T)^{-1} A E^T, resolving conflicting per-datapoint gradients in neuron output space.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r643-primary-pdf">Gradient Descent on Neurons and its Link to Approximate Second-Order Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Equations (5)-(6) and Appendix F Toy Example, pages 5-6, 19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#foof-amortized-input-covariance-inversion-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In stochastic mini-batch training (Algorithm 1), FOOF maintains an exponential moving average Sigma_l &lt;- m * Sigma_l + (1 - m) A_l A_l^T of the input-activation second moment during the S steps preceding every T-th step, and recomputes the damped inverse P_l = (Sigma_l + lambda I)^{-1} only once every T steps, eliminating K-FAC&#39;s extra Fisher backward pass and second matrix inversion.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r643-primary-pdf">Gradient Descent on Neurons and its Link to Approximate Second-Order Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Appendix D.1, and Appendix K Algorithm 1, pages 6, 15, 33</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#foof-heuristic-damping-kfac-alignment-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Controlled ablations against exact subsampled and full-batch natural gradients demonstrate that K-FAC with theoretically standard damping (A A^T (x) E_F E_F^T + lambda I) performs no better than SGD, whereas factored heuristic damping (A A^T + lambda_A I) (x) (E_F E_F^T + lambda_E I) drives the second Kronecker factor toward a scalar multiple of the identity and increases cosine similarity between K-FAC and FOOF toward 1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r643-primary-pdf">Gradient Descent on Neurons and its Link to Approximate Second-Order Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2 Figures 1-3 and Section 4.2 Figures 3B-4C, pages 2-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#foof-mlp-and-wideresnet-speedup-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across MLPs on Fashion-MNIST and MNIST, VGG11 on SVHN, and Wide ResNet-18 on CIFAR-10 and CIFAR-100, FOOF achieves lower or comparable training loss and faster per-update progress than K-FAC, Adam, and SGD with momentum while running approximately 1.5x faster than K-FAC in wall-clock time.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r643-primary-pdf">Gradient Descent on Neurons and its Link to Approximate Second-Order Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Figures 4-5 and Appendix J.5 Figures J.16-J.18, pages 6-7, 30</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#foof-deep-autoencoder-trajectory-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On deep bottleneck autoencoder benchmarks (MNIST, CURVES, and FACES), although a single FOOF update along K-FAC&#39;s trajectory achieves greater immediate mini-batch loss reduction than K-FAC, training along FOOF&#39;s own full trajectory reaches slightly higher final reconstruction loss than K-FAC.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r643-primary-pdf">Gradient Descent on Neurons and its Link to Approximate Second-Order Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Limitations and Appendix J.1 Figures J.19-J.21, pages 7-8, 26, 31</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires storing and periodically inverting an m x m input-activation covariance matrix (Sigma_l + lambda I) for each layer (costing O(m^3) every T steps), and extracting unfolded patches for convolutional layers.</li>
+      <li>Slightly underperforms K-FAC on full-trajectory deep autoencoder reconstruction benchmarks despite making larger single-step local loss reductions along K-FAC&#39;s trajectory.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FOOF is a layer-wise neuron-space optimization algorithm for training feedforward and convolutional neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r643-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r643-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2201.12250.pdf" target="_blank" rel="noopener">Gradient Descent on Neurons and its Link to Approximate Second-Order Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Frederik Benzing
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/Benzing22</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1053cdde369d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r643-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r643-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2201.12250" target="_blank" rel="noopener">Gradient Descent on Neurons and its Link to Approximate Second-Order Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Frederik Benzing
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2201.12250</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:10fcecb430ab…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r643-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r643-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/Benzing22" target="_blank" rel="noopener">Gradient Descent on Neurons and its Link to Approximate Second-Order Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Frederik Benzing
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/Benzing22</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ced043708213…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:06:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:06:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FoofFirstOrderOnFeaturesNeuronGradientDescentOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FoofFirstOrderOnFeaturesNeuronGradientDescentOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
