@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1494</strong> artificial intelligence concepts, comprising <strong>1052</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1495</strong> artificial intelligence concepts, comprising <strong>1053</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1494)</option>
-        <option value="curated">Curated AIMech (1052)</option>
+        <option value="all">All Origins (1495)</option>
+        <option value="curated">Curated AIMech (1053)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (748)</option>
+          <option value="algorithm">Algorithms (749)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1494</span> of <span id="totalCount">1494</span>
+      Showing <span id="matchCount">1495</span> of <span id="totalCount">1495</span>
     </div>
   </div>
 </div>
@@ -20680,6 +20680,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="lora-fine-tuning-aware quantization (loftq) loftqlorafinetuningawarequantization aimech:loftqlorafinetuningawarequantization algorithms algorithm lora-fine-tuning-aware quantization (loftq) is a joint quantization and low-rank adapter initialization framework for quantized parameter-efficient fine-tuning of large language models that minimizes the frobenius norm discrepancy min_{q, a, b} ||w - q - a b^t||_f between each full-precision pretrained weight matrix w in r^{d_1 x d_2} and the sum of its n-bit quantized backbone q in r^{d_1 x d_2}_n and rank-r low-rank factors a in r^{d_1 x r}, b in r^{d_2 x r}. initializing a_0 = 0, b_0 = 0, loftq alternates for t = 1, ..., t steps between (1) quantizing the residual q_t = q_n(w - a_{t-1} b_{t-1}^t) using an n-bit lookup-table quantizer q_n(.) (such as nf4 or uniform quantization) and (2) setting a_t, b_t via the exact rank-r truncated singular value decomposition (svd) of the quantization error w - q_t = sum_{i=1}^d sigma_{t,i} u_{t,i} v_{t,i}^t with a_t = [sqrt(sigma_{t,1}) u_{t,1}, ..., sqrt(sigma_{t,r}) u_{t,r}] and b_t = [sqrt(sigma_{t,1}) v_{t,1}, ..., sqrt(sigma_{t,r}) v_{t,r}]. during subsequent fine-tuning, q_t is frozen in n-bit precision while a and b are updated from (a_t, b_t). distinct from qlora (dettmers et al., 2023; aimech:qloraquantizedlowrankadaptation), which quantizes w once without regard to lora (q = q_n(w)) and initializes a b^t = 0 with gaussian a and zero b, causing severe starting-point discrepancy ||w - q||_f in the 2-bit to 4-bit regime. also distinct from pissa (meng et al., 2024; aimech:pissaprincipalsingularvaluesandsingularvectorsadaptation), which performs svd directly on the full-precision weight w rather than alternating quantization and svd on the quantization residual w - q_t. loftq lora-fine-tuning-aware quantization alternating quantization and svd low-rank initialization even a single step (t = 1) of loftq exactly captures the top-r singular components of the quantization error w - q_n(w) via eckart-young-mirsky truncated svd, and alternating for t &gt;= 2 steps further adjusts the quantization grid inputs w - a_{t-1} b_{t-1}^t so outliers are absorbed into the low-rank branch a_t b_t^t, monotonically reducing the frobenius and spectral norm approximation errors ||w - q_t - a_t b_t^t||_f and ||w - q_t - a_t b_t^t||_2 compared to qlora. on debertav3-base (glue), bart-large (xsum/cnn-dailymail summarization), and llama-2-7b/13b/70b (gsm8k and wikitext-2), loftq consistently outperforms qlora across 4-bit, 3-bit, 2.5-bit, and 2-bit nf4 and uniform quantization regimes, recovering downstream fine-tuning accuracy in 2-bit quantization where standard qlora fails to converge. because q_t is stored in low-bit quantized format while a and b are stored and updated in high precision (fp16/bf16), the low-rank adapter a b^t cannot be folded into q_t without dequantizing q_t to full precision, and running t alternating steps requires t truncated svds per weight matrix during one-time model initialization. loftq: lora-fine-tuning-aware quantization for large language models loftq: lora-fine-tuning-aware quantization for large language models (arxiv abstract) loftq: lora-fine-tuning-aware quantization for large language models (crossref metadata) yixiao li yifan yu chen liang pengcheng he nikos karampatziakis weizhu chen tuo zhao yixiao li yifan yu chen liang pengcheng he nikos karampatziakis weizhu chen tuo zhao yixiao li yifan yu chen liang pengcheng he nikos karampatziakis weizhu chen tuo zhao">
+        <td>
+          <a href="curated/LoftqLoraFineTuningAwareQuantization.html" style="font-weight: 600; font-size: 1rem;">LoRA-Fine-Tuning-Aware Quantization (LoftQ)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> LoftQ, LoRA-Fine-Tuning-Aware Quantization…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            LoRA-Fine-Tuning-Aware Quantization (LoftQ) is a joint quantization and low-rank adapter initialization framework for quantized parameter-ef…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:LoftqLoraFineTuningAwareQuantization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
