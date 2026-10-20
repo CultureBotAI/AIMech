@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1320</strong> artificial intelligence concepts, comprising <strong>878</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1321</strong> artificial intelligence concepts, comprising <strong>879</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1320)</option>
-        <option value="curated">Curated AIMech (878)</option>
+        <option value="all">All Origins (1321)</option>
+        <option value="curated">Curated AIMech (879)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (576)</option>
+          <option value="algorithm">Algorithms (577)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1320</span> of <span id="totalCount">1320</span>
+      Showing <span id="matchCount">1321</span> of <span id="totalCount">1321</span>
     </div>
   </div>
 </div>
@@ -10095,6 +10095,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fedaux (certainty-weighted unsupervised auxiliary ensemble distillation for federated learning) fedauxcertaintyweightedunsupervisedauxiliaryensembledistillationforfederatedlearning aimech:fedauxcertaintyweightedunsupervisedauxiliaryensembledistillationforfederatedlearning algorithms algorithm an unlabeled-auxiliary-data federated learning and ensemble distillation framework (sattler, korjakow, rischke, &amp; samek 2021, sections 3.2-3.5, equations 1-10, algorithm 1, theorems 1-2) that leverages an unlabeled auxiliary dataset d_aux = d_train u d_distill u d^- in two stages: (1) self-supervised contrastive feature extractor pretraining of h_0 on d_train to initialize client feature extractors in a common representation basin, and (2) certainty-weighted server ensemble distillation on d_distill where each client i solves a strongly convex l2-regularized logistic regression problem j(w, h_0, d_i, d^-) = (1/(|d_i| + |d^-|)) sum_{x in d_i u d^-} log(1 + exp(-t_x &lt;w, h_tilde_0(x)&gt;)) + (lambda/2) ||w||_2^2 separating its private data d_i (t_x = +1) from negative auxiliary data d^- (t_x = -1) (equation 4), perturbs w_i^* with calibrated gaussian noise n(0, sigma^2 i) for (epsilon, delta)-differential privacy (equations 5 &amp; 10, theorem 2), and weights each client&#39;s teacher logits f_i(x) on x in d_distill by its certainty score s_i(x) = (1 + exp(-&lt;w_i^* + rho, h_tilde_0(x)&gt;))^{-1} + xi via a_s(x) = softmax(sum_{i in s_t} s_i(x) f_i(x) / sum_{i in s_t} s_i(x)) (equations 3 &amp; 6). distinct from feddf (aimech:feddfensembledistillationforrobustmodelfusioninfederatedlearning, lin et al. 2020), which averages client teacher logits with uniform weights a_mean(x) = softmax((1/|s_t|) sum_{i in s_t} f_i(x)) (equation 2) and degrades under extreme non-iid domain/label skew where most clients are out-of-distribution on x; and distinct from fedmd (aimech:fedmdheterogeneousfederatedlearningviapublicdatasetmodeldistillation, li &amp; wang 2019), which requires a labeled public dataset for transfer pretraining and uses unweighted logit averaging without differentially private out-of-distribution certainty scoring. fedaux federated auxiliary data distillation certainty-weighted federated ensemble distillation with unlabeled auxiliary data instead of weighting all active client teachers equally on unlabeled distillation sample x in d_distill, fedaux trains a one-vs-auxiliary logistic certainty scorer w_i^* on normalized frozen-extractor features h_tilde_0(x) separating private client samples d_i from negative auxiliary samples d^- (equation 4), evaluates certainty s_i(x) = (1 + exp(-&lt;w_i^* + rho, h_tilde_0(x)&gt;))^{-1} + xi (equation 6), and distills the certainty-weighted soft label a_s(x) = softmax(sum_{i in s_t} s_i(x) f_i(x) / sum_{i in s_t} s_i(x)) into the server prototype model (sattler et al. 2021, section 3.4, equations 3-6, algorithm 1, p. 4). theorem 1 proves that the l2 sensitivity of the lambda-regularized logistic certainty classifier w_i^* over unit-norm features ||h_tilde_0(x)||_2 &lt;= 1 is bounded by 2 / (lambda (|d_i| + |d^-|)) (equation 8), and theorem 2 establishes that adding gaussian noise rho ~ n(0, sigma^2 i) with variance sigma^2 &gt;= 8 ln(1.25 / delta) / (epsilon^2 lambda^2 (|d_i| + |d^-|)^2) (equation 10) guarantees (epsilon, delta)-differential privacy for the published certainty scoring mechanism (sattler et al. 2021, section 3.5 &amp; appendix j, theorems 1-2, pp. 5 &amp; 18-21). applied to homogeneous and heterogeneous neural network ensembles under severe dirichlet label skew on cifar-10, stl-10, office-home domain shift, and chestx-ray14 medical imaging benchmarks using unlabeled imagenet / cifar-100 auxiliary data (sattler et al. 2021, section 4, tables 1-6, figures 2-6). requires the server and clients to have access to an unlabeled auxiliary dataset d_aux whose input modality is compatible with the target task for contrastive pretraining, negative scoring, and ensemble distillation (sattler et al. 2021, section 3.1-3.4, pp. 3-4). fedaux: leveraging unlabeled auxiliary data in federated learning fedaux: leveraging unlabeled auxiliary data in federated learning (arxiv abstract) fedaux: leveraging unlabeled auxiliary data in federated learning (crossref metadata) felix sattler tim korjakow roman rischke wojciech samek felix sattler tim korjakow roman rischke wojciech samek felix sattler tim korjakow roman rischke wojciech samek">
+        <td>
+          <a href="curated/FedAuxCertaintyWeightedUnsupervisedAuxiliaryEnsembleDistillationForFederatedLearning.html" style="font-weight: 600; font-size: 1rem;">FedAUX (Certainty-Weighted Unsupervised Auxiliary Ensemble Distillation for Federated Learning)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedAUX, Federated Auxiliary Data Distillation…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An unlabeled-auxiliary-data federated learning and ensemble distillation framework (Sattler, Korjakow, Rischke, &amp; Samek 2021, Sections 3.2-3…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedAuxCertaintyWeightedUnsupervisedAuxiliaryEnsembleDistillationForFederatedLearning</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
