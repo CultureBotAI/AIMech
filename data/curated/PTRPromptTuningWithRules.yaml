@@ -1,0 +1,103 @@
+id: AIMech:PTRPromptTuningWithRules
+name: PTR Prompt Tuning with Rules
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A prompt-tuning method for many-class text and relation classification that decomposes each target class y in Y into a conjunctive normal form (CNF) combination of first-order logic conditional functions f in F (such as unary entity-type predicates f_{e_s}(x, type), f_{e_o}(y, type) and binary relational predicates f_{e_s, e_o}(x, rel, y)), aggregates their sub-prompt templates into a multi-mask prompt T(x) = [T_{f_1}(x); ...; T_{f_n}(x)] optionally augmented with learnable continuous tokens, and optimizes the joint log-likelihood across all n masked positions: (1/|X|) sum_{x in X} log prod_{j=1}^n p([MASK]_j = phi_j(y) | T(x)).'
+identity_notes: Distinct from single-mask prompt tuning methods such as PET (AIMech:PatternExploitingTraining), LM-BFF (AIMech:LMBFFBetterFewShotFineTuning), and KPT (AIMech:KPTKnowledgeablePromptTuningVerbalizer), which predict a single [MASK] position and cannot factorize many-class relation labels into composable entity-type and relational sub-prompts, and from TYP MARKER fine-tuning (Zhou & Chen, 2021), which requires gold human entity-type annotations and an extra task-specific classification layer.
+aliases:
+- PTR
+- Prompt Tuning with Rules
+- Rule-Based Sub-Prompt Composition for Prompt Tuning
+- Conjunctive Normal Form Sub-Prompt Tuning
+definition_evidence:
+- source_id: r724-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r724-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r724-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r724-claim-cnf-subprompt-composition
+  kind: mechanism
+  statement: "PTR formalizes many-class classification as a conjunction of unary and binary conditional functions\u2014for example, decomposing 'person:parent' vs. 'organization:parent' into f_{e_s}(e_s, person/organization) AND f_{e_s,e_o}(e_s, 's parent was, e_o) AND f_{e_o}(e_o, person/organization)\u2014and concatenates their sub-prompts into a template with n = 3 [MASK] tokens whose position-specific verbalizer probabilities phi_j(y) are multiplied: p(y|x) = prod_{j=1}^n p([MASK]_j = phi_j(y) | T(x))."
+  evidence:
+  - source_id: r724-primary-pdf
+    locator: Section 3.1-3.3, Equations 1-6, Figure 2, Table 2, pp. 3-6
+    relation: supports
+- claim_id: r724-claim-zero-extra-layer-or-type-annotation
+  kind: mechanism
+  statement: Unlike entity-marker and typed-marker fine-tuning baselines that require gold human entity-type annotations and additional classification head parameters, PTR stimulates latent entity-type and relational knowledge directly through the pretrained MLM head using only PLM vocabulary label words and a small number of learnable continuous template tokens.
+  evidence:
+  - source_id: r724-primary-pdf
+    locator: Section 3.3 & Section 4.4, Table 5, pp. 5, 7-8
+    relation: supports
+- claim_id: r724-claim-relation-extraction-application
+  kind: application
+  statement: On four many-class relation classification benchmarks (42-class TACRED, 42-class TACREV, 40-class ReTACRED, and 19-class SemEval 2010 Task 8) with RoBERTa-large, PTR achieves 72.4% (75.9% reversed), 81.4% (83.9% reversed), 90.9% (91.9% reversed), and 89.9% F1 respectively, outperforming knowledge-enhanced PLMs (SpanBERT, KnowBERT, MTB, LUKE) without external pre-training data and surpassing Typed Marker baselines in few-shot (K=8, 16, 32) regimes.
+  evidence:
+  - source_id: r724-primary-pdf
+    locator: Section 4.3-4.4, Tables 4-6, Figure 3, pp. 6-9
+    relation: supports
+- claim_id: r724-claim-direction-sensitivity-limitation
+  kind: limitation
+  statement: "PTR performance is highly sensitive to relation directionality and surface phrasing in sub-prompts\u2014reversing inverse relations (such as converting (e_s, org:member_of, e_o) to (e_o, org:member, e_s)) changes TACRED F1 by 3.5 percentage points (from 72.4% to 75.9%) because pretrained language models do not encode bidirectional relations symmetrically\u2014and requires manual domain decomposition of classes into logical predicates."
+  evidence:
+  - source_id: r724-primary-pdf
+    locator: Section 4.2, Section 4.5, and Section 6, Table 7, pp. 6, 9-10
+    relation: supports
+evidence_sources:
+- source_id: r724-primary-pdf
+  title: 'PTR: Prompt Tuning with Rules for Text Classification'
+  authors: &id001
+  - Xu Han
+  - Weilin Zhao
+  - Ning Ding
+  - Zhiyuan Liu
+  - Maosong Sun
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2105.11259.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=PTR+Prompt+Tuning+with+Rules+for+Text+Classification+Han&format=xml
+  version: AI Open, vol. 3, pp. 182-192 (2022) (2022) (803964 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:27:00Z'
+  sha256: 72edbfb645ebe1c578b6b6ccde76723e1c4acbf7da03fe8047b8b801e92f46fa
+- source_id: r724-arxiv-abs
+  title: 'PTR: Prompt Tuning with Rules for Text Classification (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2105.11259
+  persistent_id: https://arxiv.org/abs/2105.11259
+  version: arXiv abstract page (7205 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:27:00Z'
+  sha256: 608a94549a605a8f1697a658f6528794a3c9bab4b086234f2c6c0c30b0a15146
+- source_id: r724-metadata-cr
+  title: 'PTR: Prompt Tuning with Rules for Text Classification (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=PTR+Prompt+Tuning+with+Rules+for+Text+Classification+Han&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=PTR+Prompt+Tuning+with+Rules+for+Text+Classification+Han&format=xml
+  version: Crossref API work record (889 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:27:00Z'
+  sha256: 861b8dcf913f9f668e8190392c162769c80b6e73d2633760d51ab2e565fae42d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: PTR adapts pretrained masked language model neural networks to many-class relation classification by composing rule-based multi-mask sub-prompts.
+limitations:
+- 'Sensitive to directional asymmetry in pretrained language model representations: without manually reversing inverse relations (e.g., org:member_of), TACRED F1 is 3.5 points lower (72.4% vs. 75.9%), slightly trailing full-data Typed Marker fine-tuning (74.6%) when gold entity types are available.'
+- Requires human domain knowledge to decompose target classes into conjunctive normal form predicates and sub-prompt label words.
+curation:
+  created_at: '2026-10-19T13:27:00Z'
+  updated_at: '2026-10-19T13:27:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
