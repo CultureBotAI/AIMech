@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedBE (Federated Bayesian Model Ensemble via Stochastic Weight Average Distillation) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedBE (Federated Bayesian Model Ensemble via Stochastic Weight Average Distillation)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedBE (Federated Bayesian Model Ensemble via Stochastic Weight Average Distillation)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedBeFederatedBayesianModelEnsembleViaStochasticWeightAverageDistillation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedBE, Federated Bayesian Ensemble, Bayesian Model Ensemble for Federated Learning
+    </div>
+
+  <div class="detail-desc">
+    A Bayesian server-side model aggregation algorithm for multi-round federated learning (Chen &amp; Chao 2021, Sections 3-4, Equations 3-9, Algorithm 1) that treats client-updated models {w_i; i in S} as stochastic gradient trajectories to construct an approximate global model posterior p(w | D) on the server — either by fitting a SWAG-style diagonal Gaussian N(mu, Sigma_diag) with mu = sum_i (|D_i|/|D|) w_i and Sigma_diag = diag(sum_i (|D_i|/|D|) (w_i - mu)^2) (Equation 5) or a Dirichlet simplex convex-combination distribution w^{(m)} = sum_i (gamma_i^{(m)} |D_i| / sum_{i&#39;} gamma_{i&#39;}^{(m)} |D_{i&#39;}|) w_i with gamma^{(m)} ~ Dir(alpha) (Equations 6-7) — samples M global models {w^{(m)} ~ p(w | D)}_{m=1}^M to form a Bayesian model ensemble {w_bar} U {w_i} U {w^{(m)}} that generates ensemble pseudo-labels p_hat_j = (1/M&#39;) sum_{m&#39;=1}^{M&#39;} p(y | x_j; w^{(m&#39;)}) (Equation 4) on an unlabeled server dataset U = {x_j}_{j=1}^J, and distills the pseudo-labeled set T = {(x_j, p_hat_j)}_{j=1}^J into a single student global model w using Stochastic Weight Averaging (SWA) with a cyclical learning rate schedule eta_SWA (Algorithm 1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning, Lin et al. 2020), which distills only the direct average of client logits without fitting a Gaussian or Dirichlet global parameter posterior p(w | D), sampling additional higher-quality global models w^{(m)} ~ p(w | D), or applying cyclical Stochastic Weight Averaging (SWA) during server distillation; and distinct from FedPA (AIMech:FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance, Al-Shedivat et al. 2021), which estimates local client posteriors via MCMC and shrinkage covariance on clients rather than server-side Bayesian ensemble distillation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r475-gaussian-and-dirichlet-posterior-ensemble-curvature-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FedBE constructs p(w | D) from uploaded client weights {w_i} via either a diagonal Gaussian N(mu, Sigma_diag) (Equation 5) or a Dirichlet simplex distribution over convex client combinations (Equations 6-7), and shows via second-order linearization around w_bar (Equations 8-9) that the Bayesian ensemble prediction (1/M) sum_m p(y | x; w^{(m)}) differs from p(y | x; w_bar) by O(Omega^2) where Omega = max_m ||w^{(m)} - w_bar||, improving calibration and accuracy under non-IID client drift (Chen &amp; Chao 2021, Section 3.3, Figure 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r475-primary-pdf">FedBE: Making Bayesian Model Ensemble Applicable to Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Equations 5-9, Figure 1), pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r475-swa-ensemble-knowledge-distillation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To summarize the Bayesian model ensemble {w_bar} U {w_i; i in S} U {w^{(m)}}_{m=1}^M into a single global model w for multi-round communication without overfitting to noisy early-round ensemble pseudo-labels p_hat_j on unlabeled server data U, FedBE minimizes the cross-entropy distillation loss -(1/J) sum_j p_hat_j^T log p(y | x_j; w) using Stochastic Weight Averaging (SWA) with a cyclical learning rate schedule eta_SWA and averages traversed student checkpoints (Chen &amp; Chao 2021, Section 4, Algorithm 1, &amp; Appendix C.4 Figure 11).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r475-primary-pdf">FedBE: Making Bayesian Model Ensemble Applicable to Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Algorithm 1), pp. 5-6, and Appendix C.4 (Figure 11), p. 19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r475-deep-network-non-iid-federated-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to non-IID and partial-participation federated image classification with deeper neural networks (ConvNet, ResNet-20/32/44/56, MobileNetV2) on CIFAR-10, CIFAR-100, and Tiny-ImageNet, including out-of-domain unlabeled server datasets and compatibility with FedProx, FedAvgM, and SCAFFOLD (Chen &amp; Chao 2021, Section 5, Tables 1-6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r475-primary-pdf">FedBE: Making Bayesian Model Ensemble Applicable to Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5 (Experiments, Tables 1-6, Figures 2-5), pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r475-unlabeled-server-data-and-server-distillation-compute-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires access to an unlabeled dataset U at the server and incurs extra server-side forward inference passes across M&#39; ensemble models plus SWA knowledge distillation epochs at every communication round (Chen &amp; Chao 2021, Sections 4, 6, &amp; Appendix D.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r475-primary-pdf">FedBE: Making Bayesian Model Ensemble Applicable to Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4, p. 5, Section 6, p. 9, and Appendix D.1, p. 20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an unlabeled proxy dataset U on the server to perform ensemble knowledge distillation.</li>
+      <li>Constructing diagonal Gaussian or Dirichlet posteriors in weight space assumes client models share a homogeneous neural network architecture.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedBE is a Bayesian model ensemble aggregation algorithm for federated learning within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r475-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r475-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2009.01974.pdf" target="_blank" rel="noopener">FedBE: Making Bayesian Model Ensemble Applicable to Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hong-You Chen, Wei-Lun Chao
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2009.01974</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:836b0245c888…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r475-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r475-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2009.01974" target="_blank" rel="noopener">FedBE: Making Bayesian Model Ensemble Applicable to Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hong-You Chen, Wei-Lun Chao
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2009.01974</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:059b29ee3d71…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r475-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r475-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2009.01974" target="_blank" rel="noopener">FedBE: Making Bayesian Model Ensemble Applicable to Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hong-You Chen, Wei-Lun Chao
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2009.01974</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a48d58d95f16…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:18:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:18:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedBeFederatedBayesianModelEnsembleViaStochasticWeightAverageDistillation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedBeFederatedBayesianModelEnsembleViaStochasticWeightAverageDistillation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
