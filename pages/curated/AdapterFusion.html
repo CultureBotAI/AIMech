@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AdapterFusion · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>AdapterFusion</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AdapterFusion</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:AdapterFusion</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> AdapterFusion Non-Destructive Task Composition, Two-Stage Adapter Knowledge Extraction and Composition, Contextual Attention Adapter Mixer
+    </div>
+
+  <div class="detail-desc">
+    A two-stage multi-task transfer learning architecture and algorithm that first extracts task-specific knowledge into N bottleneck adapters {Phi_1, ..., Phi_N} while keeping the pretrained Transformer backbone Theta fixed, and second composes those frozen adapters for a target task m by learning layer-wise Query, Key, and Value matrices (Q_l, K_l, V_l) that compute contextual attention weights s_{l,t} = softmax(h_{l,t}^T Q_l dot z_{l,t,n}^T K_l) between the feed-forward sub-layer representation h_{l,t} and each adapter output z_{l,t,n} to form o_{l,t} = sum_{n=1}^N s_{l,t,n} (z_{l,t,n}^T V_l).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from sequential fine-tuning (which overwrites model parameters and suffers catastrophic forgetting), from joint multi-task adapter training (MT-A, which requires simultaneous access to all datasets and suffers inter-task gradient interference), and from LoRA composition methods such as LoraHub (AIMech:LoraHub) and MoLE (AIMech:MoLEMixtureOfLoRAExperts). Formulated by Pfeiffer, Kamath, Ruckle, Cho, and Gurevych (EACL 2021, pp. 487-503, arXiv:2005.00247).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#adapterfusion-two-stage-non-destructive-learning-algorithm</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AdapterFusion separates transfer learning into Stage 1 (Knowledge Extraction), which trains task-specific adapter parameters Phi_n = argmin_Phi L_n(D_n; Theta_0, Phi) independently for each task n in {1, ..., N}, and Stage 2 (Knowledge Composition), which freezes both Theta_0 and {Phi_1, ..., Phi_N} while optimizing target-task fusion parameters Psi_m = argmin_Psi L_m(D_m; Theta_0, Phi_1, ..., Phi_N, Psi), guaranteeing zero catastrophic forgetting of source-task representations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r690-primary-pdf">AdapterFusion: Non-Destructive Task Composition for Transfer Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2.1 &amp; Section 3.1 Learning algorithm, p. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#adapterfusion-query-key-value-contextual-mixer-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each Transformer layer l and token step t, AdapterFusion projects the feed-forward sub-layer output h_{l,t} as the query h_{l,t}^T Q_l and each adapter&#39;s output z_{l,t,n} as both key z_{l,t,n}^T K_l and value z&#39;_{l,t,n} = z_{l,t,n}^T V_l (with V_l initialized near the identity diag(1) + N(0, 10^-6) and l2-regularized), computing o_{l,t} = s_{l,t}^T [z&#39;_{l,t,1}, ..., z&#39;_{l,t,N}] where s_{l,t} = softmax(h_{l,t}^T Q_l dot z_{l,t,n}^T K_l).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r690-primary-pdf">AdapterFusion: Non-Destructive Task Composition for Transfer Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Components &amp; Section 4.1 Experimental Setup, Figure 2, p. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#adapterfusion-nlu-transfer-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AdapterFusion is evaluated across 16 NLU datasets spanning commonsense reasoning, sentiment analysis, natural language inference, sentence relatedness, argument mining, and reading comprehension on BERT-base and RoBERTa-base, outperforming full fine-tuning, Single-Task Adapters (ST-A), and Multi-Task Adapters (MT-A), with gains of +6.5% on RTE and +5.64% on MRPC by dynamically attending to high-resource MNLI and QQP adapters.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r690-primary-pdf">AdapterFusion: Non-Destructive Task Composition for Transfer Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5-6, Tables 1-2 &amp; Figures 3-4, p. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#adapterfusion-linear-adapter-pool-scaling-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because AdapterFusion evaluates all N task adapters in parallel at every layer before applying the fusion attention mixer, both training and inference computational cost scale linearly with the number of composed tasks N unless inactive adapters are pruned post-training.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r690-primary-pdf">AdapterFusion: Non-Destructive Task Composition for Transfer Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 7 Contemporary Work &amp; Section 8.2 Outlook, p. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Evaluating N parallel task adapters at every Transformer layer increases forward and backward computational cost linearly with N unless inactive adapters are pruned.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AdapterFusion is a modular neural network composition layer that combines multiple task-specific bottleneck adapter sub-networks via contextual attention.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r690-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r690-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2005.00247.pdf" target="_blank" rel="noopener">AdapterFusion: Non-Destructive Task Composition for Transfer Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jonas Pfeiffer, Aishwarya Kamath, Andreas Ruckle, Kyunghyun Cho, Iryna Gurevych
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=2005.00247&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bf3db697845f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r690-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r690-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2005.00247" target="_blank" rel="noopener">AdapterFusion: Non-Destructive Task Composition for Transfer Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jonas Pfeiffer, Aishwarya Kamath, Andreas Ruckle, Kyunghyun Cho, Iryna Gurevych
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2005.00247</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9168694a0773…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r690-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r690-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=2005.00247&amp;format=xml" target="_blank" rel="noopener">AdapterFusion: Non-Destructive Task Composition for Transfer Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jonas Pfeiffer, Aishwarya Kamath, Andreas Ruckle, Kyunghyun Cho, Iryna Gurevych
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=2005.00247&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:49019c80d148…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:53:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:53:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdapterFusion.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdapterFusion.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
