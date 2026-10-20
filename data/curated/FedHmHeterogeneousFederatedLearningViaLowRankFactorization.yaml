@@ -1,0 +1,105 @@
+id: AIMech:FedHmHeterogeneousFederatedLearningViaLowRankFactorization
+name: 'FedHM: Efficient Federated Learning for Heterogeneous Models via Low-Rank Factorization'
+concept_kind: algorithm
+review_status: DRAFT
+definition: A model-heterogeneous federated learning framework (FedHM; Yao, Pan, O'Neill, Dai, Wan, Jin, and Sun, 2021) that compresses an L-layer global server network into client-specific [rho, L, gamma_p] hybrid low-rank networks w^{gamma_p} = {W_1, ..., W_rho, U_{rho+1}, V_{rho+1}^T, ..., U_L, V_L^T} by keeping the first rho layers unfactorized and decomposing each later layer l in {rho + 1, ..., L} via truncated SVD at rank r = gamma_p rank(W_l) (unrolling 4D convolution tensors of shape (m, n, k, k) into (m k, n k) matrices and reshaping the rank-r factors into sequential (m, r, k, 1) and (r, n, 1, k) filters with spectral initialization U_t^l sqrt(Sigma_{r,t}^l), V_t^l sqrt(Sigma_{r,t}^l)). Participating clients train their assigned hybrid models for E local epochs with Frobenius decay regularization (lambda / 2) ||U V^T||_F^2, after which the server recovers full-rank shapes via w_{p,t+1} = {W_1, ..., W_rho, U_{rho+1} V_{rho+1}^T, ..., U_L V_L^T} and aggregates them using softmax rank-ratio weights alpha_p = exp(gamma_p / tau) / sum_{q=1}^P exp(gamma_q / tau).
+identity_notes: Distinct from channel width-slimming heterogeneous FL methods such as HeteroFL (AIMech:HeteroFlWidthScaledSubnetworkAggregationForHeterogeneousFederatedLearning; Diao et al., ICLR 2021), FjORD (AIMech:FjordOrderedDropoutAndSelfDistillationForHeterogeneousFederatedLearning; Horvath et al., NeurIPS 2021), and FedRolex (AIMech:FedRolexModelHeterogeneousFederatedLearningWithRollingSubModelExtraction; Alam et al., NeurIPS 2022), which extract subset channels along width rather than factorizing layers via truncated SVD and recovering full matrices U V^T prior to aggregation. Distinct from FedPara (AIMech:FedParaAndPFedParaLowRankHadamardProductParameterization; Hyeon-Woo et al., ICLR 2022), which parameterizes homogeneous client layers via a Hadamard product of two low-rank matrices (W = (X_1 Y_1^T) odot (X_2 Y_2^T)) without server-side SVD redistributions across heterogeneous client ranks.
+aliases:
+- FedHM
+- Federated Learning for Heterogeneous Models via Low-Rank Factorization
+- Hybrid Low-Rank Factorized Federated Learning
+definition_evidence:
+- source_id: r505-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r505-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r505-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fedhm-unrolled-conv-svd-and-shape-aligned-softmax-aggregation-mechanism
+  kind: mechanism
+  statement: For each factorized layer l in {rho + 1, ..., L}, the server unrolls a 4D convolution tensor of shape (m, n, k, k) into a 2D matrix of shape (m k, n k), computes truncated SVD at rank r = gamma_p rank(W_l) with spectral initialization U_t^l sqrt(Sigma_{r,t}^l) and V_t^l sqrt(Sigma_{r,t}^l), and reshapes the factors into two sequential convolution layers of shapes (m, r, k, 1) and (r, n, 1, k) reducing parameters from m n k^2 to r k (m + n) and MACs from m n k^2 H W to r k H W (m + n); after E local epochs with Frobenius decay (lambda / 2) ||U V^T||_F^2, the server reconstructs full-rank matrices U_l V_l^T (Eq. 1) and aggregates w_{t+1} = sum_{p=1}^P alpha_p w_{p,t+1} with alpha_p = exp(gamma_p / tau) / sum_{q=1}^P exp(gamma_q / tau) (Eq. 2).
+  evidence:
+  - source_id: r505-primary-pdf
+    locator: Sections 2.2-2.3, Algorithm 1, Eqs. (1)-(2), Table 1, pp. 3-5; Appendix B.1 Eq. (18), p. 15
+    relation: supports
+- claim_id: fedhm-nonconvex-convergence-with-rank-truncation-error-scope
+  kind: scope
+  statement: Under L_{nabla f}-smooth client objectives, unbiased stochastic gradients with bounded second moment kappa_f, bounded factor Frobenius norms ||U_{p,t}^l||_F, ||V_{p,t}^l||_F <= kappa_UV, and bounded SVD rank-truncation discrepancies kappa_{sigma_1} and kappa_{sigma_2} across heterogeneous client ranks (Assumptions 3-5), Theorem 3 (and Theorem 1) proves that the factorized iterates h_hat_t satisfy (1/T) sum_{t=0}^{T-1} E[||nabla g(h_hat_t)||^2] <= (2/(T eta))(f(w_0) - f_low) + 2 L_f (L - rho) kappa_{sigma_1} / (E eta) + 6 eta kappa_g E (eta L_{nabla g}^2 E + 2 L_f kappa_UV^2) + eta L_{nabla g} M_g / P + 6 (L - rho) kappa_{sigma_2} (L_{nabla g}^2 + 2 L_f kappa_UV^2 / (E eta)), where the kappa_{sigma_2} term vanishes when all clients use full-rank models.
+  evidence:
+  - source_id: r505-primary-pdf
+    locator: Section 3.2 Theorem 1, pp. 5-6; Appendix B.2-B.3 Assumptions 3-5, Lemmas 1-3, Theorems 2-3, pp. 15-25
+    relation: supports
+- claim_id: fedhm-server-svd-overhead-and-early-layer-factorization-limitation
+  kind: limitation
+  statement: Performing truncated SVD on the global model at the server at every communication round incurs high server-side matrix decomposition overhead (Section 6, p. 9), and factorizing all early convolution layers (rho = 0) at severe compression (2% parameter ratio) causes cumulative approximation error propagation that drops accuracy from over 90% to below 80% on CIFAR-10 and from 70% to below 55% on CIFAR-100 unless early layers are kept unfactorized (Section 2.2, p. 3; Appendix D.1, Figure 8, p. 27).
+  evidence:
+  - source_id: r505-primary-pdf
+    locator: Section 2.2 Hybrid Network Architecture, p. 3; Section 6 Conclusion and Limitations, p. 9; Appendix D.1, p. 27
+    relation: supports
+- claim_id: fedhm-heterogeneous-device-visual-classification-application
+  kind: application
+  statement: Applied to federated visual classification across dynamic and fixed hardware-capacity client cohorts training hybrid low-rank ResNet-18 and ResNet-34 models (rank ratios gamma in {0.5, 0.25, 0.125, 0.083}) on IID and Dirichlet non-IID partitions of CIFAR-10, CIFAR-100, and Tiny-ImageNet.
+  evidence:
+  - source_id: r505-primary-pdf
+    locator: Section 4 Experiments and Analysis, Tables 2-3, Figures 2-4, pp. 6-9; Appendix C-D, Tables 4-8, pp. 25-28
+    relation: supports
+evidence_sources:
+- source_id: r505-primary-pdf
+  title: 'FedHM: Efficient Federated Learning for Heterogeneous Models via Low-rank Factorization'
+  authors: &id001
+  - Dezhong Yao
+  - Wanning Pan
+  - Michael J. O'Neill
+  - Yutong Dai
+  - Yao Wan
+  - Hai Jin
+  - Lichao Sun
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2111.14655.pdf
+  persistent_id: https://dblp.org/rec/journals/ai/YaoPSODWZJS25
+  version: arXiv:2111.14655 / Artificial Intelligence 344, 104333 (2025) (2022) (1221307 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:48:00Z'
+  sha256: 50564630248978b29deb21740655370add590956a381eabecd2c8c2f8626a1ef
+- source_id: r505-arxiv-abs
+  title: 'FedHM: Efficient Federated Learning for Heterogeneous Models via Low-rank Factorization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2111.14655
+  persistent_id: https://arxiv.org/abs/2111.14655
+  version: arXiv abstract page (7349 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:48:00Z'
+  sha256: 3cfc8e6dd86c6ec56daaac988743dea87fb021efc52ed03f46171104e9de65c0
+- source_id: r505-metadata-cr
+  title: 'FedHM: Efficient Federated Learning for Heterogeneous Models via Low-rank Factorization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/ai/YaoPSODWZJS25
+  persistent_id: https://dblp.org/rec/journals/ai/YaoPSODWZJS25
+  version: Crossref API work record (2254 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:48:00Z'
+  sha256: a6edb86957e82de11aff869fb12b7da70e702c41cbc475eee9203552e7ebdc03
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedHM is a model-heterogeneous federated learning framework using low-rank SVD layer factorization and shape-aligned server aggregation.
+limitations:
+- Re-computing truncated SVD on the global model at the server at every communication round introduces non-trivial server-side matrix decomposition overhead (Section 6, p. 9).
+- Factorizing early network layers (rho = 0) under extreme low-rank compression propagates approximation errors across depth and severely degrades accuracy unless the first rho layers remain unfactorized (Section 2.2, p. 3; Appendix D.1, p. 27).
+- The non-convex stationarity bound in Theorem 3 retains a non-vanishing heterogeneity error floor proportional to (L - rho) kappa_{sigma_1} / (E eta) and (L - rho) kappa_{sigma_2} when clients train rank-truncated sub-models (Appendix B.3, p. 22).
+curation:
+  created_at: '2026-10-19T09:48:00Z'
+  updated_at: '2026-10-19T09:48:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

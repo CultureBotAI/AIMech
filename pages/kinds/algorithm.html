@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">597 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">598 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">597</span> of <span id="totalCount">597</span>
+      Showing <span id="matchCount">598</span> of <span id="totalCount">598</span>
     </div>
   </div>
 </div>
@@ -5400,6 +5400,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fedhm: efficient federated learning for heterogeneous models via low-rank factorization fedhmheterogeneousfederatedlearningvialowrankfactorization aimech:fedhmheterogeneousfederatedlearningvialowrankfactorization algorithms algorithm a model-heterogeneous federated learning framework (fedhm; yao, pan, o&#39;neill, dai, wan, jin, and sun, 2021) that compresses an l-layer global server network into client-specific [rho, l, gamma_p] hybrid low-rank networks w^{gamma_p} = {w_1, ..., w_rho, u_{rho+1}, v_{rho+1}^t, ..., u_l, v_l^t} by keeping the first rho layers unfactorized and decomposing each later layer l in {rho + 1, ..., l} via truncated svd at rank r = gamma_p rank(w_l) (unrolling 4d convolution tensors of shape (m, n, k, k) into (m k, n k) matrices and reshaping the rank-r factors into sequential (m, r, k, 1) and (r, n, 1, k) filters with spectral initialization u_t^l sqrt(sigma_{r,t}^l), v_t^l sqrt(sigma_{r,t}^l)). participating clients train their assigned hybrid models for e local epochs with frobenius decay regularization (lambda / 2) ||u v^t||_f^2, after which the server recovers full-rank shapes via w_{p,t+1} = {w_1, ..., w_rho, u_{rho+1} v_{rho+1}^t, ..., u_l v_l^t} and aggregates them using softmax rank-ratio weights alpha_p = exp(gamma_p / tau) / sum_{q=1}^p exp(gamma_q / tau). distinct from channel width-slimming heterogeneous fl methods such as heterofl (aimech:heteroflwidthscaledsubnetworkaggregationforheterogeneousfederatedlearning; diao et al., iclr 2021), fjord (aimech:fjordordereddropoutandselfdistillationforheterogeneousfederatedlearning; horvath et al., neurips 2021), and fedrolex (aimech:fedrolexmodelheterogeneousfederatedlearningwithrollingsubmodelextraction; alam et al., neurips 2022), which extract subset channels along width rather than factorizing layers via truncated svd and recovering full matrices u v^t prior to aggregation. distinct from fedpara (aimech:fedparaandpfedparalowrankhadamardproductparameterization; hyeon-woo et al., iclr 2022), which parameterizes homogeneous client layers via a hadamard product of two low-rank matrices (w = (x_1 y_1^t) odot (x_2 y_2^t)) without server-side svd redistributions across heterogeneous client ranks. fedhm federated learning for heterogeneous models via low-rank factorization hybrid low-rank factorized federated learning for each factorized layer l in {rho + 1, ..., l}, the server unrolls a 4d convolution tensor of shape (m, n, k, k) into a 2d matrix of shape (m k, n k), computes truncated svd at rank r = gamma_p rank(w_l) with spectral initialization u_t^l sqrt(sigma_{r,t}^l) and v_t^l sqrt(sigma_{r,t}^l), and reshapes the factors into two sequential convolution layers of shapes (m, r, k, 1) and (r, n, 1, k) reducing parameters from m n k^2 to r k (m + n) and macs from m n k^2 h w to r k h w (m + n); after e local epochs with frobenius decay (lambda / 2) ||u v^t||_f^2, the server reconstructs full-rank matrices u_l v_l^t (eq. 1) and aggregates w_{t+1} = sum_{p=1}^p alpha_p w_{p,t+1} with alpha_p = exp(gamma_p / tau) / sum_{q=1}^p exp(gamma_q / tau) (eq. 2). under l_{nabla f}-smooth client objectives, unbiased stochastic gradients with bounded second moment kappa_f, bounded factor frobenius norms ||u_{p,t}^l||_f, ||v_{p,t}^l||_f &lt;= kappa_uv, and bounded svd rank-truncation discrepancies kappa_{sigma_1} and kappa_{sigma_2} across heterogeneous client ranks (assumptions 3-5), theorem 3 (and theorem 1) proves that the factorized iterates h_hat_t satisfy (1/t) sum_{t=0}^{t-1} e[||nabla g(h_hat_t)||^2] &lt;= (2/(t eta))(f(w_0) - f_low) + 2 l_f (l - rho) kappa_{sigma_1} / (e eta) + 6 eta kappa_g e (eta l_{nabla g}^2 e + 2 l_f kappa_uv^2) + eta l_{nabla g} m_g / p + 6 (l - rho) kappa_{sigma_2} (l_{nabla g}^2 + 2 l_f kappa_uv^2 / (e eta)), where the kappa_{sigma_2} term vanishes when all clients use full-rank models. performing truncated svd on the global model at the server at every communication round incurs high server-side matrix decomposition overhead (section 6, p. 9), and factorizing all early convolution layers (rho = 0) at severe compression (2% parameter ratio) causes cumulative approximation error propagation that drops accuracy from over 90% to below 80% on cifar-10 and from 70% to below 55% on cifar-100 unless early layers are kept unfactorized (section 2.2, p. 3; appendix d.1, figure 8, p. 27). applied to federated visual classification across dynamic and fixed hardware-capacity client cohorts training hybrid low-rank resnet-18 and resnet-34 models (rank ratios gamma in {0.5, 0.25, 0.125, 0.083}) on iid and dirichlet non-iid partitions of cifar-10, cifar-100, and tiny-imagenet. fedhm: efficient federated learning for heterogeneous models via low-rank factorization fedhm: efficient federated learning for heterogeneous models via low-rank factorization (arxiv abstract) fedhm: efficient federated learning for heterogeneous models via low-rank factorization (crossref metadata) dezhong yao wanning pan michael j. o&#39;neill yutong dai yao wan hai jin lichao sun dezhong yao wanning pan michael j. o&#39;neill yutong dai yao wan hai jin lichao sun dezhong yao wanning pan michael j. o&#39;neill yutong dai yao wan hai jin lichao sun">
+        <td>
+          <a href="../curated/FedHmHeterogeneousFederatedLearningViaLowRankFactorization.html" style="font-weight: 600; font-size: 1rem;">FedHM: Efficient Federated Learning for Heterogeneous Models via Low-Rank Factorization</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedHM, Federated Learning for Heterogeneous Models via Low-Rank Factorization…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A model-heterogeneous federated learning framework (FedHM; Yao, Pan, O&#39;Neill, Dai, Wan, Jin, and Sun, 2021) that compresses an L-layer globa…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedHmHeterogeneousFederatedLearningViaLowRankFactorization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>

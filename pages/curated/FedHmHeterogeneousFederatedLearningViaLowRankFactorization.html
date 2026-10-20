@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedHM: Efficient Federated Learning for Heterogeneous Models via Low-Rank Factorization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedHM: Efficient Federated Learning for Heterogeneous Models via Low-Rank Factorization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedHM: Efficient Federated Learning for Heterogeneous Models via Low-Rank Factorization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedHmHeterogeneousFederatedLearningViaLowRankFactorization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedHM, Federated Learning for Heterogeneous Models via Low-Rank Factorization, Hybrid Low-Rank Factorized Federated Learning
+    </div>
+
+  <div class="detail-desc">
+    A model-heterogeneous federated learning framework (FedHM; Yao, Pan, O&#39;Neill, Dai, Wan, Jin, and Sun, 2021) that compresses an L-layer global server network into client-specific [rho, L, gamma_p] hybrid low-rank networks w^{gamma_p} = {W_1, ..., W_rho, U_{rho+1}, V_{rho+1}^T, ..., U_L, V_L^T} by keeping the first rho layers unfactorized and decomposing each later layer l in {rho + 1, ..., L} via truncated SVD at rank r = gamma_p rank(W_l) (unrolling 4D convolution tensors of shape (m, n, k, k) into (m k, n k) matrices and reshaping the rank-r factors into sequential (m, r, k, 1) and (r, n, 1, k) filters with spectral initialization U_t^l sqrt(Sigma_{r,t}^l), V_t^l sqrt(Sigma_{r,t}^l)). Participating clients train their assigned hybrid models for E local epochs with Frobenius decay regularization (lambda / 2) ||U V^T||_F^2, after which the server recovers full-rank shapes via w_{p,t+1} = {W_1, ..., W_rho, U_{rho+1} V_{rho+1}^T, ..., U_L V_L^T} and aggregates them using softmax rank-ratio weights alpha_p = exp(gamma_p / tau) / sum_{q=1}^P exp(gamma_q / tau).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from channel width-slimming heterogeneous FL methods such as HeteroFL (AIMech:HeteroFlWidthScaledSubnetworkAggregationForHeterogeneousFederatedLearning; Diao et al., ICLR 2021), FjORD (AIMech:FjordOrderedDropoutAndSelfDistillationForHeterogeneousFederatedLearning; Horvath et al., NeurIPS 2021), and FedRolex (AIMech:FedRolexModelHeterogeneousFederatedLearningWithRollingSubModelExtraction; Alam et al., NeurIPS 2022), which extract subset channels along width rather than factorizing layers via truncated SVD and recovering full matrices U V^T prior to aggregation. Distinct from FedPara (AIMech:FedParaAndPFedParaLowRankHadamardProductParameterization; Hyeon-Woo et al., ICLR 2022), which parameterizes homogeneous client layers via a Hadamard product of two low-rank matrices (W = (X_1 Y_1^T) odot (X_2 Y_2^T)) without server-side SVD redistributions across heterogeneous client ranks.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fedhm-unrolled-conv-svd-and-shape-aligned-softmax-aggregation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each factorized layer l in {rho + 1, ..., L}, the server unrolls a 4D convolution tensor of shape (m, n, k, k) into a 2D matrix of shape (m k, n k), computes truncated SVD at rank r = gamma_p rank(W_l) with spectral initialization U_t^l sqrt(Sigma_{r,t}^l) and V_t^l sqrt(Sigma_{r,t}^l), and reshapes the factors into two sequential convolution layers of shapes (m, r, k, 1) and (r, n, 1, k) reducing parameters from m n k^2 to r k (m + n) and MACs from m n k^2 H W to r k H W (m + n); after E local epochs with Frobenius decay (lambda / 2) ||U V^T||_F^2, the server reconstructs full-rank matrices U_l V_l^T (Eq. 1) and aggregates w_{t+1} = sum_{p=1}^P alpha_p w_{p,t+1} with alpha_p = exp(gamma_p / tau) / sum_{q=1}^P exp(gamma_q / tau) (Eq. 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r505-primary-pdf">FedHM: Efficient Federated Learning for Heterogeneous Models via Low-rank Factorization</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.2-2.3, Algorithm 1, Eqs. (1)-(2), Table 1, pp. 3-5; Appendix B.1 Eq. (18), p. 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#fedhm-nonconvex-convergence-with-rank-truncation-error-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L_{nabla f}-smooth client objectives, unbiased stochastic gradients with bounded second moment kappa_f, bounded factor Frobenius norms ||U_{p,t}^l||_F, ||V_{p,t}^l||_F &lt;= kappa_UV, and bounded SVD rank-truncation discrepancies kappa_{sigma_1} and kappa_{sigma_2} across heterogeneous client ranks (Assumptions 3-5), Theorem 3 (and Theorem 1) proves that the factorized iterates h_hat_t satisfy (1/T) sum_{t=0}^{T-1} E[||nabla g(h_hat_t)||^2] &lt;= (2/(T eta))(f(w_0) - f_low) + 2 L_f (L - rho) kappa_{sigma_1} / (E eta) + 6 eta kappa_g E (eta L_{nabla g}^2 E + 2 L_f kappa_UV^2) + eta L_{nabla g} M_g / P + 6 (L - rho) kappa_{sigma_2} (L_{nabla g}^2 + 2 L_f kappa_UV^2 / (E eta)), where the kappa_{sigma_2} term vanishes when all clients use full-rank models.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r505-primary-pdf">FedHM: Efficient Federated Learning for Heterogeneous Models via Low-rank Factorization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Theorem 1, pp. 5-6; Appendix B.2-B.3 Assumptions 3-5, Lemmas 1-3, Theorems 2-3, pp. 15-25</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fedhm-server-svd-overhead-and-early-layer-factorization-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Performing truncated SVD on the global model at the server at every communication round incurs high server-side matrix decomposition overhead (Section 6, p. 9), and factorizing all early convolution layers (rho = 0) at severe compression (2% parameter ratio) causes cumulative approximation error propagation that drops accuracy from over 90% to below 80% on CIFAR-10 and from 70% to below 55% on CIFAR-100 unless early layers are kept unfactorized (Section 2.2, p. 3; Appendix D.1, Figure 8, p. 27).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r505-primary-pdf">FedHM: Efficient Federated Learning for Heterogeneous Models via Low-rank Factorization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 Hybrid Network Architecture, p. 3; Section 6 Conclusion and Limitations, p. 9; Appendix D.1, p. 27</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#fedhm-heterogeneous-device-visual-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to federated visual classification across dynamic and fixed hardware-capacity client cohorts training hybrid low-rank ResNet-18 and ResNet-34 models (rank ratios gamma in {0.5, 0.25, 0.125, 0.083}) on IID and Dirichlet non-IID partitions of CIFAR-10, CIFAR-100, and Tiny-ImageNet.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r505-primary-pdf">FedHM: Efficient Federated Learning for Heterogeneous Models via Low-rank Factorization</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Experiments and Analysis, Tables 2-3, Figures 2-4, pp. 6-9; Appendix C-D, Tables 4-8, pp. 25-28</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Re-computing truncated SVD on the global model at the server at every communication round introduces non-trivial server-side matrix decomposition overhead (Section 6, p. 9).</li>
+      <li>Factorizing early network layers (rho = 0) under extreme low-rank compression propagates approximation errors across depth and severely degrades accuracy unless the first rho layers remain unfactorized (Section 2.2, p. 3; Appendix D.1, p. 27).</li>
+      <li>The non-convex stationarity bound in Theorem 3 retains a non-vanishing heterogeneity error floor proportional to (L - rho) kappa_{sigma_1} / (E eta) and (L - rho) kappa_{sigma_2} when clients train rank-truncated sub-models (Appendix B.3, p. 22).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedHM is a model-heterogeneous federated learning framework using low-rank SVD layer factorization and shape-aligned server aggregation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r505-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r505-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2111.14655.pdf" target="_blank" rel="noopener">FedHM: Efficient Federated Learning for Heterogeneous Models via Low-rank Factorization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dezhong Yao, Wanning Pan, Michael J. O&#39;Neill, Yutong Dai, Yao Wan, Hai Jin, Lichao Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/ai/YaoPSODWZJS25</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:505646302489…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r505-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r505-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2111.14655" target="_blank" rel="noopener">FedHM: Efficient Federated Learning for Heterogeneous Models via Low-rank Factorization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dezhong Yao, Wanning Pan, Michael J. O&#39;Neill, Yutong Dai, Yao Wan, Hai Jin, Lichao Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2111.14655</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3cfc8e6dd86c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r505-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r505-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/ai/YaoPSODWZJS25" target="_blank" rel="noopener">FedHM: Efficient Federated Learning for Heterogeneous Models via Low-rank Factorization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dezhong Yao, Wanning Pan, Michael J. O&#39;Neill, Yutong Dai, Yao Wan, Hai Jin, Lichao Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/ai/YaoPSODWZJS25</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a6edb86957e8…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:48:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:48:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedHmHeterogeneousFederatedLearningViaLowRankFactorization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedHmHeterogeneousFederatedLearningViaLowRankFactorization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
