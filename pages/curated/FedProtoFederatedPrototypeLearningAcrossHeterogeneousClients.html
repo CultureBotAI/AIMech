@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedProto (Federated Prototype Learning across Heterogeneous Clients) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedProto (Federated Prototype Learning across Heterogeneous Clients)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedProto (Federated Prototype Learning across Heterogeneous Clients)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedProtoFederatedPrototypeLearningAcrossHeterogeneousClients</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedProto, Federated Prototype Learning, FedProto-mh
+    </div>
+
+  <div class="detail-desc">
+    A gradient-free and parameter-free heterogeneous federated learning framework (Tan, Long, Liu, Zhou, Lu, Jiang, &amp; Zhang 2022, Sections Problem Setting &amp; Methodology, Equations 2-8, Algorithm 1, Theorems 1-2) in which each client i with potentially heterogeneous model architecture F_i(phi_i, nu_i) = g_i(nu_i) o f_i(phi_i) computes local class prototypes C_i^{(j)} = (1 / |D_{i,j}|) sum_{(x,y) in D_{i,j}} f_i(phi_i; x) in a shared d_c-dimensional embedding space (Equation 3), transmits only its local prototype set C_i to the central server, receives back global class prototypes C_bar^{(j)} aggregated across the subset of clients N_j holding class j via sample-weighted averaging (Equation 6), and updates its local model parameters omega_i = (phi_i, nu_i) by minimizing the prototype-regularized local objective L(D_i, omega_i) = L_S(F_i(omega_i; x), y) + lambda sum_j d(C_i^{(j)}, C_bar_i^{(j)}) (Equations 7-8).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedPer (AIMech:FedPerFederatedLearningWithPersonalizationLayers, Arivazhagan et al. 2019) and FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which exchange and average homogeneous base-layer weight tensors in parameter space; and distinct from FedGen (AIMech:FedGenDataFreeFederatedKnowledgeDistillationViaServerLatentGenerator, Zhu, Hong, &amp; Zhou 2021), which trains a conditional generator on the server from uploaded classifier heads rather than aggregating mean class feature prototypes C_bar^{(j)} across architecturally heterogeneous encoders.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r474-heterogeneous-architecture-prototype-aggregation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By exchanging only d_c-dimensional class prototype vectors C_i^{(j)} rather than gradients or model weights omega_i, FedProto allows clients with distinct neural architectures F_i (e.g., different convolutional channel widths or strides in FedProto-mh) and partially overlapping class subsets to align their embedding spaces around global class centroids C_bar^{(j)} while reducing communicated parameters by orders of magnitude (Tan et al. 2022, Methodology &amp; Experiments, Equations 3-8, Table 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r474-primary-pdf">FedProto: Federated Prototype Learning across Heterogeneous Clients</a></span>
+        <span>· <strong>Locator:</strong> Methodology (Equations 3-8, Algorithm 1), pp. 3-4, and Experiments (Table 1), pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r474-nonconvex-one-round-deviation-and-convergence-rate-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L_1-Lipschitz smoothness of local objectives, bounded stochastic gradient variance sigma^2 and norm G, and L_2-Lipschitz continuity of local embedding functions f_i(phi_i) (Assumptions 1-4), Theorem 1 bounds the one-round expected loss change by E[L_{(t+1)E+1/2}] &lt;= L_{tE+1/2} - (eta - L_1 eta^2 / 2) sum_{e=1/2}^{E-1} ||nabla L_{tE+e}||_2^2 + (L_1 E eta^2 / 2) sigma^2 + lambda L_2 eta E G, and Theorem 2 establishes non-convex convergence to an epsilon-stationary point in T = 2 Delta / (E epsilon (2 eta - L_1 eta^2) - E eta (L_1 eta sigma^2 + 2 lambda L_2 G)) rounds (Tan et al. 2022, Convergence Analysis, Equations 9-19).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r474-primary-pdf">FedProto: Federated Prototype Learning across Heterogeneous Clients</a></span>
+        <span>· <strong>Locator:</strong> Convergence Analysis (Assumptions 1-4, Theorems 1-2, Corollary 1, Equations 9-19), pp. 4-5, and Supplement pp. 12-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r474-few-shot-non-iid-and-model-heterogeneous-fl-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to n-way k-shot statistically and architecturally heterogeneous federated classification on MNIST, FEMNIST, and CIFAR-10 (Tan et al. 2022, Experiments, Tables 1-4, Figures 2-4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r474-primary-pdf">FedProto: Federated Prototype Learning across Heterogeneous Clients</a></span>
+        <span>· <strong>Locator:</strong> Experiments (Tables 1-4, Figures 2-4), pp. 6-7 &amp; 10-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r474-shared-embedding-dimension-and-lambda-tuning-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires all heterogeneous client encoders f_i to map into a common prototype dimension d_c and requires tuning the prototype regularization weight lambda (Corollary 1 requires lambda &lt; ||nabla L_{tE+1/2}||_2^2 / (L_2 E G) to prevent server prototype aggregation from increasing the local objective) (Tan et al. 2022, Corollary 1, Figure 4, &amp; Supplement p. 12).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r474-primary-pdf">FedProto: Federated Prototype Learning across Heterogeneous Clients</a></span>
+        <span>· <strong>Locator:</strong> Corollary 1 (Equation 17), p. 5, Figure 4, p. 7, and Additional Notation, p. 12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires all clients&#39; representation layers f_i to output embeddings of identical dimension d_c so class prototypes can be averaged on the server.</li>
+      <li>Does not produce a single standalone classifier on the server without pairing global prototypes with a pre-trained or client-side feature extractor.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedProto is a prototype-aggregation federated learning algorithm within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r474-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r474-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2105.00243.pdf" target="_blank" rel="noopener">FedProto: Federated Prototype Learning across Heterogeneous Clients</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yue Tan, Guodong Long, Lu Liu, Tianyi Zhou, Qinghua Lu, Jing Jiang, Chengqi Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2105.00243</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7917a3ebf569…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r474-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r474-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2105.00243" target="_blank" rel="noopener">FedProto: Federated Prototype Learning across Heterogeneous Clients (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yue Tan, Guodong Long, Lu Liu, Tianyi Zhou, Qinghua Lu, Jing Jiang, Chengqi Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2105.00243</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:212623fe822d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r474-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r474-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2105.00243" target="_blank" rel="noopener">FedProto: Federated Prototype Learning across Heterogeneous Clients (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yue Tan, Guodong Long, Lu Liu, Tianyi Zhou, Qinghua Lu, Jing Jiang, Chengqi Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2105.00243</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:80b980e78595…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:17:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:17:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedProtoFederatedPrototypeLearningAcrossHeterogeneousClients.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedProtoFederatedPrototypeLearningAcrossHeterogeneousClients.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
