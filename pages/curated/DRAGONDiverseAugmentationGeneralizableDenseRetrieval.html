@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DRAGON (Diverse Augmentation for Generalizable Dense Retrieval) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>DRAGON (Diverse Augmentation for Generalizable Dense Retrieval)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DRAGON (Diverse Augmentation for Generalizable Dense Retrieval)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DRAGONDiverseAugmentationGeneralizableDenseRetrieval</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Dense Retriever Trained with Diverse Augmentation, DRAGON Progressive Label Augmentation, DRAGON Dense Retrieval Training
+    </div>
+
+  <div class="detail-desc">
+    A contrastive training algorithm for generalizable bi-encoder dense retrieval that combines large-scale diverse query augmentation (mixing corpus-cropped sentences and sequence-to-sequence generated queries) with progressive relevance label augmentation across N heterogeneous teacher retrievers (spanning sparse, dense, and multi-vector architectures ordered from lower to higher generalization capability), uniformly sampling a teacher n ~ U(1, T) at curriculum iteration T &lt;= N and drawing positive passages from ranks 1..k (k = 10) and hard negatives from ranks 46..50 of P_q^n to optimize InfoNCE loss.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Lin, Asai, Li, Oguz, Lin, Mehdad, Yih, and Chen (Findings of EMNLP 2023, pp. 6385-6400, arXiv:2302.07452). Distinguished from single-teacher cross-encoder distillation methods (such as RocketQAv2, CL-DRD, or GPL) which rely on computationally expensive cross-encoder soft labels, and from unsupervised contrastive pre-training (such as Contriever or coCondenser) which assumes the originating document is the sole positive for a cropped span.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dragon-progressive-multi-teacher-label-augmentation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given N heterogeneous teacher retrievers ordered by increasing zero-shot generalization capability (uniCOIL -&gt; Contriever -&gt; GTR-XXL -&gt; ColBERTv2 -&gt; SPLADE++), DRAGON trains an asymmetric BERT-base bi-encoder across N = 5 progressive iterations; at iteration T &lt;= N, for each augmented query q (sampled from 28M cropped MS MARCO sentences and 28M DocT5Query synthetic queries), it uniformly samples a teacher n ~ U(1, T), selects a positive d^+ from the top k = 10 passages and a hard negative d^- from ranks 46..50 of P_q^n (assigning consensus positives retrieved by m &lt;= T teachers sampling probability m / (T*k) without score normalization), and minimizes InfoNCE loss.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r748-primary-pdf">How to Train Your DRAGON: Diverse Augmentation Towards Generalizable Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Progressive Supervision, Figure 2), Section 3.4, &amp; Appendix A.2, pp. 4-6, 14</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r748-primary-pdf">How to Train Your DRAGON: Diverse Augmentation Towards Generalizable Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> progressive_positive_sampling_distribution &amp; main</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#dragon-breaking-supervised-vs-zeroshot-tradeoff</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Without increasing inference model size beyond a 110M-parameter BERT-base bi-encoder or requiring target-domain corpora during training, DRAGON and DRAGON+ (initialized from RetroMAE) achieve 39.3 and 39.0 MRR@10 on supervised MS MARCO Dev, 74.1 and 74.4 nDCG@10 on TREC DL 2019, and 49.4 and 50.2 average nDCG@10 on zero-shot BEIR-13 (matching SPLADE++&#39;s 50.3 and surpassing ColBERTv2&#39;s 49.9 and GTR-XXL&#39;s 49.3), while reversing the progressive teacher trajectory degrades BEIR-13 by 1.6 points.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r748-primary-pdf">How to Train Your DRAGON: Diverse Augmentation Towards Generalizable Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Tables 2-3), Section 4.4 (Table 4), &amp; Section 5 (Tables 5, 7), pp. 5, 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#dragon-offline-indexing-and-curriculum-trajectory-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    DRAGON requires offline batch retrieval over 28M augmented queries across five distinct sparse, dense, and multi-vector teacher indices followed by five 20-epoch training iterations (around 650K total optimization steps on 32 A100 GPUs), is sensitive to the easy-to-hard ordering of teacher retrievers, and still trails late-interaction/sparse teachers (SPLADE++ and ColBERTv2) on specialized science and technology forum queries in LoTTE.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r748-primary-pdf">How to Train Your DRAGON: Diverse Augmentation Towards Generalizable Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Table 3), p. 5; Section 3.4 &amp; Section 4.3, pp. 6-7; Appendix A.6 (Table 11), p. 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires substantial offline compute: indexing and retrieving top-50 lists for 28M queries across five teacher retrievers and running five 20-epoch progressive training stages.</li>
+      <li>Zero-shot accuracy is sensitive to the curriculum ordering of teachers and underperforms token-level late-interaction models (ColBERTv2, SPLADE++) on specialized scientific/technical forum queries in LoTTE.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Trains asymmetric neural transformer bi-encoders via progressive multi-teacher contrastive learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r748-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r748-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2302.07452" target="_blank" rel="noopener">How to Train Your DRAGON: Diverse Augmentation Towards Generalizable Dense Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sheng-Chieh Lin, Akari Asai, Minghan Li, Barlas Oguz, Jimmy Lin, Yashar Mehdad, Wen-tau Yih, Xilun Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=How+to+Train+Your+DRAGON+Diverse+Augmentation+Lin&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f56813d7c943…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r748-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r748-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2302.07452" target="_blank" rel="noopener">How to Train Your DRAGON: Diverse Augmentation Towards Generalizable Dense Retrieval (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sheng-Chieh Lin, Akari Asai, Minghan Li, Barlas Oguz, Jimmy Lin, Yashar Mehdad, Wen-tau Yih, Xilun Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2302.07452</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:170c323dda0b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r748-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r748-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=How+to+Train+Your+DRAGON+Diverse+Augmentation+Lin&amp;h=5&amp;format=xml" target="_blank" rel="noopener">How to Train Your DRAGON: Diverse Augmentation Towards Generalizable Dense Retrieval (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sheng-Chieh Lin, Akari Asai, Minghan Li, Barlas Oguz, Jimmy Lin, Yashar Mehdad, Wen-tau Yih, Xilun Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=How+to+Train+Your+DRAGON+Diverse+Augmentation+Lin&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:07071e3f61df…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:51:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:51:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DRAGONDiverseAugmentationGeneralizableDenseRetrieval.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DRAGONDiverseAugmentationGeneralizableDenseRetrieval.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
