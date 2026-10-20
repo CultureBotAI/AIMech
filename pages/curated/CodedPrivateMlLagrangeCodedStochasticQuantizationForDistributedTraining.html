@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CodedPrivateML Lagrange-Coded Stochastic Quantization for Distributed Training · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>CodedPrivateML Lagrange-Coded Stochastic Quantization for Distributed Training</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">CodedPrivateML Lagrange-Coded Stochastic Quantization for Distributed Training</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CodedPrivateMlLagrangeCodedStochasticQuantizationForDistributedTraining</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CodedPrivateML, Coded Privacy-Preserving Machine Learning, CodedPrivateML Distributed Logistic Regression Protocol
+    </div>
+
+  <div class="detail-desc">
+    A privacy-preserving distributed gradient-descent training protocol (CodedPrivateML) that deterministically quantizes a training dataset X in R^(m x d) into a prime finite field F_p, generates r independent unbiased stochastic quantizations W_bar^(t) = [w_bar^(t),1, ..., w_bar^(t),r] of the model weight vector w^(t) at each iteration t to evaluate a degree-r polynomial approximation of the logistic sigmoid without quantization-product bias, encodes the K dataset partitions and quantized weights with T uniform random finite-field masks via Lagrange interpolation polynomials, and decodes the exact sub-gradient over F_p from any (2*r + 1)*(K + T - 1) + 1 workers while guaranteeing zero mutual-information leakage I(X; X_tilde_T, {W_tilde_T^(t)}) = 0 against any T colluding workers.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Jinhyun So, Basak Guler, and A. Salman Avestimehr (IEEE Journal on Selected Areas in Information Theory, Vol. 2, No. 1, pp. 441-451, 2021; arXiv:1902.00641). Distinct from general Lagrange Coded Computing (Yu et al., AISTATS 2019, Round 536), which is a one-shot finite-field polynomial evaluation primitive that does not include multi-column independent stochastic weight quantization W_bar^(t) = [w_bar^(t),1, ..., w_bar^(t),r] or unbiased polynomial sigmoid gradient updates; and distinct from Analog Lagrange Coded Computing (Soleymani et al., IEEE JSAIT 2021, Round 548), which operates over complex floating-point roots of unity with Gaussian masks rather than prime finite fields F_p with stochastic rounding.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#codedprivateml-independent-stochastic-weight-quantization-and-lagrange-encoding-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each training iteration t, the master generates r independent unbiased stochastic quantizations w_bar^(t),j = Q_j(w^(t); l_w) in F_p^d so that the multilinear polynomial evaluation s_bar(X_bar, W_bar^(t)) = sum_{i=0}^r c_i prod_{j &lt;= i} (X_bar * w_bar^(t),j) is an exact unbiased estimator E[s_bar(X_bar, W_bar^(t))] = s_hat(X_bar * w^(t)) of the degree-r sigmoid polynomial, encodes both the K data blocks X_bar_k and W_bar^(t) with T uniform random masks over F_p via degree-(K + T - 1) Lagrange polynomials, and recovers the exact sub-gradient sum_{k=1}^K X_bar_k^T s_bar(X_bar_k, W_bar^(t)) via polynomial interpolation from any (2*r + 1)*(K + T - 1) + 1 worker evaluations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r550-primary-pdf">CodedPrivateML: A Fast and Privacy-Preserving Framework for Distributed Machine Learning</a></span>
+        <span>· <strong>Locator:</strong> Section III-A..D Equations (3)-(24) &amp; Algorithm 1, pp. 3-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#codedprivateml-information-theoretic-privacy-and-convergence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any N &gt;= (2*r + 1)*(K + T - 1) + 1 workers and constant step size eta = 1/L, CodedPrivateML guarantees strictly zero mutual-information leakage I(X; X_tilde_T, {W_tilde_T^(t)}_{t in [J]}) = 0 against any subset T of at most T colluding workers while converging at rate O(1/J) up to a quantization variance floor eta * sigma^2 &lt;= eta * ||X_bar||_F^2 / (2^(-2*l_w) * m^2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r550-primary-pdf">CodedPrivateML: A Fast and Privacy-Preserving Framework for Distributed Machine Learning</a></span>
+        <span>· <strong>Locator:</strong> Section IV Theoretical Results, Lemma 1-2 &amp; Theorem 1, pp. 6-7, 12-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#codedprivateml-prime-modulus-overflow-and-worker-threshold-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires the prime field modulus p to satisfy d*(p - 1)^2 &lt;= 2^64 - 1 and p &gt;= 2^(l_x + 1 + r*(l_x + l_w)) to prevent modular wrap-around overflow during degree-(2*r + 1) polynomial evaluation, and requires at least N &gt;= (2*r + 1)*(K + T - 1) + 1 workers, which scales linearly with the polynomial approximation degree r.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r550-primary-pdf">CodedPrivateML: A Fast and Privacy-Preserving Framework for Distributed Machine Learning</a></span>
+        <span>· <strong>Locator:</strong> Section III-A Quantization, Section IV Theorem 1, &amp; Section VI Conclusion, pp. 4, 6, 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#codedprivateml-cloud-distributed-logistic-regression-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to privacy-preserving distributed logistic and linear regression training across up to N = 50 cloud workers on CIFAR-10 and GISETTE, achieving 4.4x to 22.5x training speedups over Shamir-secret-sharing MPC protocols (BGW and BH08).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r550-primary-pdf">CodedPrivateML: A Fast and Privacy-Preserving Framework for Distributed Machine Learning</a></span>
+        <span>· <strong>Locator:</strong> Section V Experiments, Table II &amp; Figures 3-5, pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Restricted to polynomial loss gradients or polynomial activation approximations (such as least-squares polynomial approximations of the sigmoid).</li>
+      <li>Quantization precision parameters (l_x, l_w) are constrained by finite-field modulus p to avoid modular wrap-around overflow.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:LogisticRegression denotes the statistical classification model, whereas CodedPrivateML is an information-theoretically private Lagrange-coded distributed gradient-descent protocol with multi-column stochastic weight quantization for training logistic and linear regression models.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:FederatedLearning covers collaborative distributed training, whereas CodedPrivateML offloads Lagrange-coded finite-field sub-gradient computations to untrusted cloud workers with T-colluding information-theoretic privacy.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r550-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r550-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1902.00641.pdf" target="_blank" rel="noopener">CodedPrivateML: A Fast and Privacy-Preserving Framework for Distributed Machine Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jinhyun So, Basak Guler, A. Salman Avestimehr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/jsait/SoGA21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dc9b0e716c31…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r550-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r550-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1902.00641" target="_blank" rel="noopener">CodedPrivateML: A Fast and Privacy-Preserving Framework for Distributed Machine Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jinhyun So, Basak Guler, A. Salman Avestimehr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1902.00641</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e3246b126e16…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r550-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r550-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/jsait/SoGA21" target="_blank" rel="noopener">CodedPrivateML: A Fast and Privacy-Preserving Framework for Distributed Machine Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jinhyun So, Basak Guler, A. Salman Avestimehr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/jsait/SoGA21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2c7a4fc7a240…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:33:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:33:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CodedPrivateMlLagrangeCodedStochasticQuantizationForDistributedTraining.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CodedPrivateMlLagrangeCodedStochasticQuantizationForDistributedTraining.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

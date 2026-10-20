@@ -1,0 +1,103 @@
+id: AIMech:CodedPrivateMlLagrangeCodedStochasticQuantizationForDistributedTraining
+name: CodedPrivateML Lagrange-Coded Stochastic Quantization for Distributed Training
+concept_kind: algorithm
+review_status: DRAFT
+definition: A privacy-preserving distributed gradient-descent training protocol (CodedPrivateML) that deterministically quantizes a training dataset X in R^(m x d) into a prime finite field F_p, generates r independent unbiased stochastic quantizations W_bar^(t) = [w_bar^(t),1, ..., w_bar^(t),r] of the model weight vector w^(t) at each iteration t to evaluate a degree-r polynomial approximation of the logistic sigmoid without quantization-product bias, encodes the K dataset partitions and quantized weights with T uniform random finite-field masks via Lagrange interpolation polynomials, and decodes the exact sub-gradient over F_p from any (2*r + 1)*(K + T - 1) + 1 workers while guaranteeing zero mutual-information leakage I(X; X_tilde_T, {W_tilde_T^(t)}) = 0 against any T colluding workers.
+identity_notes: Introduced by Jinhyun So, Basak Guler, and A. Salman Avestimehr (IEEE Journal on Selected Areas in Information Theory, Vol. 2, No. 1, pp. 441-451, 2021; arXiv:1902.00641). Distinct from general Lagrange Coded Computing (Yu et al., AISTATS 2019, Round 536), which is a one-shot finite-field polynomial evaluation primitive that does not include multi-column independent stochastic weight quantization W_bar^(t) = [w_bar^(t),1, ..., w_bar^(t),r] or unbiased polynomial sigmoid gradient updates; and distinct from Analog Lagrange Coded Computing (Soleymani et al., IEEE JSAIT 2021, Round 548), which operates over complex floating-point roots of unity with Gaussian masks rather than prime finite fields F_p with stochastic rounding.
+aliases:
+- CodedPrivateML
+- Coded Privacy-Preserving Machine Learning
+- CodedPrivateML Distributed Logistic Regression Protocol
+definition_evidence:
+- source_id: r550-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r550-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r550-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: codedprivateml-independent-stochastic-weight-quantization-and-lagrange-encoding-mechanism
+  kind: mechanism
+  statement: At each training iteration t, the master generates r independent unbiased stochastic quantizations w_bar^(t),j = Q_j(w^(t); l_w) in F_p^d so that the multilinear polynomial evaluation s_bar(X_bar, W_bar^(t)) = sum_{i=0}^r c_i prod_{j <= i} (X_bar * w_bar^(t),j) is an exact unbiased estimator E[s_bar(X_bar, W_bar^(t))] = s_hat(X_bar * w^(t)) of the degree-r sigmoid polynomial, encodes both the K data blocks X_bar_k and W_bar^(t) with T uniform random masks over F_p via degree-(K + T - 1) Lagrange polynomials, and recovers the exact sub-gradient sum_{k=1}^K X_bar_k^T s_bar(X_bar_k, W_bar^(t)) via polynomial interpolation from any (2*r + 1)*(K + T - 1) + 1 worker evaluations.
+  evidence:
+  - source_id: r550-primary-pdf
+    locator: Section III-A..D Equations (3)-(24) & Algorithm 1, pp. 3-6
+    relation: supports
+- claim_id: codedprivateml-information-theoretic-privacy-and-convergence-scope
+  kind: scope
+  statement: For any N >= (2*r + 1)*(K + T - 1) + 1 workers and constant step size eta = 1/L, CodedPrivateML guarantees strictly zero mutual-information leakage I(X; X_tilde_T, {W_tilde_T^(t)}_{t in [J]}) = 0 against any subset T of at most T colluding workers while converging at rate O(1/J) up to a quantization variance floor eta * sigma^2 <= eta * ||X_bar||_F^2 / (2^(-2*l_w) * m^2).
+  evidence:
+  - source_id: r550-primary-pdf
+    locator: Section IV Theoretical Results, Lemma 1-2 & Theorem 1, pp. 6-7, 12-14
+    relation: supports
+- claim_id: codedprivateml-prime-modulus-overflow-and-worker-threshold-limitation
+  kind: limitation
+  statement: Requires the prime field modulus p to satisfy d*(p - 1)^2 <= 2^64 - 1 and p >= 2^(l_x + 1 + r*(l_x + l_w)) to prevent modular wrap-around overflow during degree-(2*r + 1) polynomial evaluation, and requires at least N >= (2*r + 1)*(K + T - 1) + 1 workers, which scales linearly with the polynomial approximation degree r.
+  evidence:
+  - source_id: r550-primary-pdf
+    locator: Section III-A Quantization, Section IV Theorem 1, & Section VI Conclusion, pp. 4, 6, 9
+    relation: supports
+- claim_id: codedprivateml-cloud-distributed-logistic-regression-application
+  kind: application
+  statement: Applied to privacy-preserving distributed logistic and linear regression training across up to N = 50 cloud workers on CIFAR-10 and GISETTE, achieving 4.4x to 22.5x training speedups over Shamir-secret-sharing MPC protocols (BGW and BH08).
+  evidence:
+  - source_id: r550-primary-pdf
+    locator: Section V Experiments, Table II & Figures 3-5, pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r550-primary-pdf
+  title: 'CodedPrivateML: A Fast and Privacy-Preserving Framework for Distributed Machine Learning'
+  authors: &id001
+  - Jinhyun So
+  - Basak Guler
+  - A. Salman Avestimehr
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1902.00641.pdf
+  persistent_id: https://dblp.org/rec/journals/jsait/SoGA21
+  version: IEEE Journal on Selected Areas in Information Theory (2021) (687478 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:33:00Z'
+  sha256: dc9b0e716c31acba4c18b244cda2c077129ac12093b5d6c6e8bf6a0422c9fb13
+- source_id: r550-arxiv-abs
+  title: 'CodedPrivateML: A Fast and Privacy-Preserving Framework for Distributed Machine Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1902.00641
+  persistent_id: https://arxiv.org/abs/1902.00641
+  version: arXiv abstract page (6706 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:33:00Z'
+  sha256: e3246b126e16bef8996e287e8498b93ceb50f4e43624368f90395e07d105d454
+- source_id: r550-metadata-cr
+  title: 'CodedPrivateML: A Fast and Privacy-Preserving Framework for Distributed Machine Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/jsait/SoGA21
+  persistent_id: https://dblp.org/rec/journals/jsait/SoGA21
+  version: Crossref API work record (2456 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:33:00Z'
+  sha256: 2c7a4fc7a240ac62295a17b9f695af6cb0e9f0b37a61e14965011caa604264d1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: AIO:LogisticRegression denotes the statistical classification model, whereas CodedPrivateML is an information-theoretically private Lagrange-coded distributed gradient-descent protocol with multi-column stochastic weight quantization for training logistic and linear regression models.
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning covers collaborative distributed training, whereas CodedPrivateML offloads Lagrange-coded finite-field sub-gradient computations to untrusted cloud workers with T-colluding information-theoretic privacy.
+limitations:
+- Restricted to polynomial loss gradients or polynomial activation approximations (such as least-squares polynomial approximations of the sigmoid).
+- Quantization precision parameters (l_x, l_w) are constrained by finite-field modulus p to avoid modular wrap-around overflow.
+curation:
+  created_at: '2026-10-19T10:33:00Z'
+  updated_at: '2026-10-19T10:33:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
