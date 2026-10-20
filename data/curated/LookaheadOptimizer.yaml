@@ -1,0 +1,104 @@
+id: AIMech:LookaheadOptimizer
+name: Lookahead Optimizer
+concept_kind: algorithm
+review_status: DRAFT
+definition: "An orthogonal outer-loop optimization wrapper algorithm that maintains two sets of parameters\u2014slow weights phi and fast weights theta\u2014by synchronizing theta_{t,0} <- phi_{t-1} at each outer step t, executing k inner-loop updates theta_{t,i} <- theta_{t,i-1} + A(L, theta_{t,i-1}, d_i) using any base optimizer A (such as SGD or Adam), and updating the slow weights via linear interpolation in parameter space phi_t <- phi_{t-1} + alpha * (theta_{t,k} - phi_{t-1}) with step size alpha in (0, 1], forming an exponentially decayed moving average of the k-step fast-weight endpoints."
+identity_notes: Distinct from Stochastic Weight Averaging (AIMech:StochasticWeightAveraging, which forms an arithmetic tail average of checkpoints at the end of training without resetting the active optimizer trajectory) and from Reptile (AIMech:Reptile, which samples distinct tasks across outer steps for few-shot meta-learning initialization). Lookahead resets the fast weights to the interpolated slow weights phi_t every k steps during single-task optimization, incurring O((k+1)/k) amortized compute and one extra parameter copy.
+aliases:
+- Lookahead k Steps Forward 1 Step Back Optimization
+- Fast-and-Slow Weights Linear Interpolation Optimizer
+- Lookahead Wrapper Optimization Algorithm
+definition_evidence:
+- source_id: r614-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r614-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r614-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: lookahead-fast-slow-ema-and-quadratic-optimal-step-size
+  kind: mechanism
+  statement: After k inner-loop updates from theta_{t,0} = phi_{t-1} to theta_{t,k}, Lookahead updates slow weights via phi_t = phi_{t-1} + alpha * (theta_{t,k} - phi_{t-1}) = alpha * sum_{j=1}^t (1 - alpha)^{t-j} theta_{j,k} + (1 - alpha)^t phi_0, and on a quadratic objective L(x) = 0.5 x^T A x - b^T x with minimizer theta^* = A^{-1} b, the exact loss-minimizing slow-weight step size is alpha^* = ((theta_{t,0} - theta^*)^T A (theta_{t,0} - theta_{t,k})) / ((theta_{t,0} - theta_{t,k})^T A (theta_{t,0} - theta_{t,k})) (Proposition 1).
+  evidence:
+  - source_id: r614-primary-pdf
+    locator: Section 2, Algorithm 1, Equations 1-3, Proposition 1, and Appendix B.2 (Equations 12-13), p. 2-3, 16
+    relation: supports
+  - source_id: r614-metadata-cr
+    locator: Bibliographic metadata for Zhang, Lucas, Ba, & Hinton (NeurIPS 2019, pp. 9593-9604)
+    relation: supports
+- claim_id: lookahead-noisy-quadratic-steady-state-variance-reduction
+  kind: scope
+  statement: Under Proposition 2 and Lemma 1 on the noisy quadratic model L_hat(x) = 0.5 (x - c)^T A (x - c) with c ~ N(0, Sigma) and inner SGD learning rate 0 < gamma < 2 / max_i a_i, Lookahead's slow weights converge in expectation to 0 and in variance to the fixed point V^*_LA = [alpha^2 (I - (I - gamma A)^{2k}) / (alpha^2 (I - (I - gamma A)^{2k}) + 2 alpha (1 - alpha) (I - (I - gamma A)^k))] V^*_SGD, which is strictly smaller than V^*_SGD = gamma^2 A^2 Sigma (I - (I - gamma A)^2)^{-1} for all alpha in (0, 1).
+  evidence:
+  - source_id: r614-primary-pdf
+    locator: Section 3.1 (Noisy quadratic analysis), Proposition 2 (Equations 4-7), and Appendix A (Lemma 1, Equations 8-11), p. 4, 13-14
+    relation: supports
+- claim_id: lookahead-vision-lm-and-nmt-benchmark-applications
+  kind: application
+  statement: Lookahead wrapped around SGD or Adam accelerates convergence and improves validation performance on CIFAR-10 and CIFAR-100 (ResNet-18, PreResNet-110, Wide-ResNet-28-10), ImageNet (ResNet-50 reaching 75.49% top-1 in 60 epochs and ResNet-152 reaching 77.96% top-1 in 60 epochs), Penn Treebank LSTM language modeling (57.72 test perplexity with LA(Adam) vs 59.33 for Adam), and WMT 2014 English-to-German Transformer translation.
+  evidence:
+  - source_id: r614-primary-pdf
+    locator: Section 5 (Experiments), Tables 1-5 and Figures 5-10, p. 6-9
+    relation: supports
+- claim_id: lookahead-extra-parameter-copy-and-overdamped-regime-limitation
+  kind: limitation
+  statement: Lookahead requires storing one full additional copy of the model's learnable parameters in memory for the slow weights phi and slows deterministic contraction in the over-damped regime where the inner momentum coefficient is set too low and the inner optimizer already converges monotonically without oscillation (1 - alpha + alpha (I - gamma A)^k > (I - gamma A)^k for alpha < 1).
+  evidence:
+  - source_id: r614-primary-pdf
+    locator: Section 2 (Computational complexity), Section 3.2 (Figure 4), and Appendix A, p. 3, 5, 14
+    relation: supports
+evidence_sources:
+- source_id: r614-primary-pdf
+  title: 'Lookahead Optimizer: k steps forward, 1 step back'
+  authors: &id001
+  - Michael R. Zhang
+  - James Lucas
+  - Geoffrey E. Hinton
+  - Jimmy Ba
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1907.08610.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Lookahead+Optimizer+k+steps+forward+1+step+back&format=json
+  version: Advances in Neural Information Processing Systems (NeurIPS 2019) (2019) (1476895 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:37:00Z'
+  sha256: c32e0c6df12b7591a17d8911962c3f1a5b48e84a26d960237227e5f24cf3fc44
+- source_id: r614-arxiv-abs
+  title: 'Lookahead Optimizer: k steps forward, 1 step back (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1907.08610
+  persistent_id: https://arxiv.org/abs/1907.08610
+  version: arXiv abstract page (7112 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:37:00Z'
+  sha256: 4d7e6e85b55a2dd60e60a7bb8f505d58937107d86fd78d8657b2e37ee38c1020
+- source_id: r614-metadata-cr
+  title: 'Lookahead Optimizer: k steps forward, 1 step back (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Lookahead+Optimizer+k+steps+forward+1+step+back&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=Lookahead+Optimizer+k+steps+forward+1+step+back&format=json
+  version: Crossref API work record (1801 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:37:00Z'
+  sha256: ee65ff9dd5aa4c90ad50f696c8d832d6ea2318f7255484510fdb5e4f8ba97625
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Lookahead wraps inner optimizers such as SGD and Adam to accelerate convergence and reduce variance when training deep neural networks.
+limitations:
+- Maintains a full additional copy of the learnable model parameters for the slow weights phi.
+- In over-damped deterministic regimes where the inner optimizer converges monotonically without oscillation, linear interpolation with alpha < 1 slightly slows the expectation contraction rate compared to uninterpolated inner steps.
+curation:
+  created_at: '2026-10-19T11:37:00Z'
+  updated_at: '2026-10-19T11:37:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

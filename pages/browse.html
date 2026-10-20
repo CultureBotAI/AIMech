@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1450</strong> artificial intelligence concepts, comprising <strong>1008</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1451</strong> artificial intelligence concepts, comprising <strong>1009</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1450)</option>
-        <option value="curated">Curated AIMech (1008)</option>
+        <option value="all">All Origins (1451)</option>
+        <option value="curated">Curated AIMech (1009)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (704)</option>
+          <option value="algorithm">Algorithms (705)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1450</span> of <span id="totalCount">1450</span>
+      Showing <span id="matchCount">1451</span> of <span id="totalCount">1451</span>
     </div>
   </div>
 </div>
@@ -20057,6 +20057,32 @@
         </td>
         <td>
             <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="lookahead optimizer lookaheadoptimizer aimech:lookaheadoptimizer algorithms algorithm an orthogonal outer-loop optimization wrapper algorithm that maintains two sets of parameters—slow weights phi and fast weights theta—by synchronizing theta_{t,0} &lt;- phi_{t-1} at each outer step t, executing k inner-loop updates theta_{t,i} &lt;- theta_{t,i-1} + a(l, theta_{t,i-1}, d_i) using any base optimizer a (such as sgd or adam), and updating the slow weights via linear interpolation in parameter space phi_t &lt;- phi_{t-1} + alpha * (theta_{t,k} - phi_{t-1}) with step size alpha in (0, 1], forming an exponentially decayed moving average of the k-step fast-weight endpoints. distinct from stochastic weight averaging (aimech:stochasticweightaveraging, which forms an arithmetic tail average of checkpoints at the end of training without resetting the active optimizer trajectory) and from reptile (aimech:reptile, which samples distinct tasks across outer steps for few-shot meta-learning initialization). lookahead resets the fast weights to the interpolated slow weights phi_t every k steps during single-task optimization, incurring o((k+1)/k) amortized compute and one extra parameter copy. lookahead k steps forward 1 step back optimization fast-and-slow weights linear interpolation optimizer lookahead wrapper optimization algorithm after k inner-loop updates from theta_{t,0} = phi_{t-1} to theta_{t,k}, lookahead updates slow weights via phi_t = phi_{t-1} + alpha * (theta_{t,k} - phi_{t-1}) = alpha * sum_{j=1}^t (1 - alpha)^{t-j} theta_{j,k} + (1 - alpha)^t phi_0, and on a quadratic objective l(x) = 0.5 x^t a x - b^t x with minimizer theta^* = a^{-1} b, the exact loss-minimizing slow-weight step size is alpha^* = ((theta_{t,0} - theta^*)^t a (theta_{t,0} - theta_{t,k})) / ((theta_{t,0} - theta_{t,k})^t a (theta_{t,0} - theta_{t,k})) (proposition 1). under proposition 2 and lemma 1 on the noisy quadratic model l_hat(x) = 0.5 (x - c)^t a (x - c) with c ~ n(0, sigma) and inner sgd learning rate 0 &lt; gamma &lt; 2 / max_i a_i, lookahead&#39;s slow weights converge in expectation to 0 and in variance to the fixed point v^*_la = [alpha^2 (i - (i - gamma a)^{2k}) / (alpha^2 (i - (i - gamma a)^{2k}) + 2 alpha (1 - alpha) (i - (i - gamma a)^k))] v^*_sgd, which is strictly smaller than v^*_sgd = gamma^2 a^2 sigma (i - (i - gamma a)^2)^{-1} for all alpha in (0, 1). lookahead wrapped around sgd or adam accelerates convergence and improves validation performance on cifar-10 and cifar-100 (resnet-18, preresnet-110, wide-resnet-28-10), imagenet (resnet-50 reaching 75.49% top-1 in 60 epochs and resnet-152 reaching 77.96% top-1 in 60 epochs), penn treebank lstm language modeling (57.72 test perplexity with la(adam) vs 59.33 for adam), and wmt 2014 english-to-german transformer translation. lookahead requires storing one full additional copy of the model&#39;s learnable parameters in memory for the slow weights phi and slows deterministic contraction in the over-damped regime where the inner momentum coefficient is set too low and the inner optimizer already converges monotonically without oscillation (1 - alpha + alpha (i - gamma a)^k &gt; (i - gamma a)^k for alpha &lt; 1). lookahead optimizer: k steps forward, 1 step back lookahead optimizer: k steps forward, 1 step back (arxiv abstract) lookahead optimizer: k steps forward, 1 step back (crossref metadata) michael r. zhang james lucas geoffrey e. hinton jimmy ba michael r. zhang james lucas geoffrey e. hinton jimmy ba michael r. zhang james lucas geoffrey e. hinton jimmy ba">
+        <td>
+          <a href="curated/LookaheadOptimizer.html" style="font-weight: 600; font-size: 1rem;">Lookahead Optimizer</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Lookahead k Steps Forward 1 Step Back Optimization, Fast-and-Slow Weights Linear Interpolation Optimizer…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An orthogonal outer-loop optimization wrapper algorithm that maintains two sets of parameters—slow weights phi and fast weights theta—by syn…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:LookaheadOptimizer</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="aio"
