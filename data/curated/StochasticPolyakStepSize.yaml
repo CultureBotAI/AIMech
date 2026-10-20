@@ -1,0 +1,102 @@
+id: AIMech:StochasticPolyakStepSize
+name: Stochastic Polyak Step-Size
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'An adaptive learning-rate selection rule for stochastic gradient descent on finite-sum or streaming objectives min_{x in R^d} f(x) = (1 / n) sum_{i=1}^n f_i(x) that sets the per-iteration step size for sampled component i_k to gamma_k = (f_i(x^k) - f_i^*) / (c ||nabla f_i(x^k)||^2) (or its bounded variant SPS_max: gamma_k = min{(f_i(x^k) - f_i^*) / (c ||nabla f_i(x^k)||^2), gamma_b}), where f_i^* = inf_x f_i(x) is the known component-loss infimum (zero for standard unregularized surrogate losses or closed-form via the r-Lambert W_r function for l_2-regularized binary losses), c > 0 is a curvature scaling factor, and gamma_b > 0 is an optional upper bound or adaptive smoothing cap gamma_b^k = tau^{b/n} gamma^{k-1}.'
+identity_notes: Distinct from classical deterministic Polyak step-size (Polyak, 1987, which requires full objective evaluations f(x^k), full subgradients g^k, and the global minimum f^*), from ALI-G (Berrada et al., 2020, which adds a denominator regularizer delta > 0 that prevents exact convergence under interpolation), from L4 (Rolinek & Martius, 2018, which estimates f_i^* online using three hyperparameters without convergence guarantees), and from Stochastic Armijo Line Search (SLS, Vaswani et al., 2019, which requires expensive backtracking function evaluations).
+aliases:
+- SPS
+- SPS_max
+- Bounded Stochastic Polyak Step-Size
+- Stochastic Polyak Learning Rate
+definition_evidence:
+- source_id: r626-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r626-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r626-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r626-smooth-strong-convexity-sandwich-and-self-bounding-identity
+  kind: mechanism
+  statement: When component functions f_i are mu_i-strongly convex and L_i-smooth with L_max = max_i L_i, the Stochastic Polyak Step-Size is automatically sandwiched in 1 / (2 c L_max) <= 1 / (2 c L_i) <= gamma_k <= 1 / (2 c mu_i) (Eq. 5), and SPS_max satisfies the fundamental self-bounding inequality gamma_k^2 ||nabla f_i(x^k)||^2 <= (gamma_k / c) [f_i(x^k) - f_i^*] (Eq. 17, with equality for unbounded SPS), bounding the squared update norm without bounded-gradient or strong-growth assumptions.
+  evidence:
+  - source_id: r626-primary-pdf
+    locator: Section 3.1 Eq. (5), p. 4; Appendix B Eq. (17), p. 14
+    relation: supports
+- claim_id: c-r626-finite-optimal-objective-difference-and-interpolation-rates
+  kind: mechanism
+  statement: Under finite optimal objective difference sigma^2 := E_i[f_i(x^*) - f_i^*] = f(x^*) - E_i[f_i^*] < infinity (Assumption 2.1, Eq. 4), SGD with SPS_max (c >= 1/2) on L_i-smooth convex f_i and mu-strongly convex f satisfies E||x^k - x^*||^2 <= (1 - mu alpha)^k ||x^0 - x^*||^2 + 2 gamma_b sigma^2 / (mu alpha) where alpha = min{1 / (2 c L_max), gamma_b} (Theorem 3.1); under interpolation (sigma^2 = 0), unbounded SPS with c = 1/2 converges linearly to x^* at rate (1 - mu / L_max)^k (Corollary 3.2), and on consistent linear systems A x = b under sketch-and-project reformulation, SPS with c = 1/2 reduces identically to the optimal Randomized Kaczmarz step size gamma_k = 1 (Section 3.4 & Theorem B.3).
+  evidence:
+  - source_id: r626-primary-pdf
+    locator: Section 2.2 Eq. (4) & Section 3.2-3.4 Theorem 3.1, Corollary 3.2, p. 4-5; Appendix B.1-B.3 Theorem B.3, p. 14-19
+    relation: supports
+- claim_id: c-r626-lambert-w-closed-form-regularized-infima-and-applications
+  kind: application
+  statement: For l_2-regularized binary log-loss f_i(x) = log(1 + exp(-<x, z_i>)) + (lambda / 2) ||x||^2 and binary exponential loss f_i(x) = exp(-<x, z_i>) + (lambda / 2) ||x||^2, the component infimum f_i^* = g(alpha^*) is obtained in closed form prior to training via the r-Lambert and classical Lambert functions as alpha^* = (1 / ||z_i||) W_1(||z_i||^2 / lambda) (Eq. 73) and alpha^* = (1 / ||z_i||) W_0(||z_i||^2 / lambda) (Eq. 77), enabling SPS and SPS_max to train regularized classifiers, RBF kernel machines, deep matrix factorizations, and ResNet/DenseNet models on CIFAR-10 and CIFAR-100.
+  evidence:
+  - source_id: r626-primary-pdf
+    locator: Section 4.1-4.2, p. 7-9; Appendix D Theorem D.3 & Eq. (70)-(77), p. 29-31
+    relation: supports
+- claim_id: c-r626-misspecified-interpolation-fluctuation-limitation
+  kind: limitation
+  statement: When the interpolation condition sigma^2 = 0 is not exactly satisfied, unbounded SPS (gamma_b = infinity) is sensitive to misspecification and exhibits large step-size fluctuations, requiring either a tuned upper bound gamma_b in SPS_max or the iteration-dependent smoothing cap gamma_b^k = tau^{b/n} gamma^{k-1} to stabilize convergence.
+  evidence:
+  - source_id: r626-primary-pdf
+    locator: Section 3.2 Theorem 3.1 Note, p. 4; Section 4.2, p. 7
+    relation: supports
+evidence_sources:
+- source_id: r626-primary-pdf
+  title: 'Stochastic Polyak Step-size for SGD: An Adaptive Learning Rate for Fast Convergence'
+  authors: &id001
+  - Nicolas Loizou
+  - Sharan Vaswani
+  - Issam Hadj Laradji
+  - Simon Lacoste-Julien
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2002.10542.pdf
+  persistent_id: https://dblp.org/rec/conf/aistats/LoizouVLL21
+  version: Proceedings of the 24th International Conference on Artificial Intelligence and Statistics (AISTATS 2021, PMLR 130:1306-1314) (2021) (5797755 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:49:00Z'
+  sha256: 5ef8bbd6a6baaef7749d10d3ad60e170ca22f594a32a4dba9631314f0b08aade
+- source_id: r626-arxiv-abs
+  title: 'Stochastic Polyak Step-size for SGD: An Adaptive Learning Rate for Fast Convergence (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2002.10542
+  persistent_id: https://arxiv.org/abs/2002.10542
+  version: arXiv abstract page (6774 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:49:00Z'
+  sha256: bc23b1ea72d54eef9d06be15e030dc733739400c5d49c957d14231055a11117c
+- source_id: r626-metadata-cr
+  title: 'Stochastic Polyak Step-size for SGD: An Adaptive Learning Rate for Fast Convergence (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/aistats/LoizouVLL21
+  persistent_id: https://dblp.org/rec/conf/aistats/LoizouVLL21
+  version: Crossref API work record (1944 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:49:00Z'
+  sha256: 141d186d70c727073e6e06c767a812f946e5463446d2a56c3c4a78a1c079704f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: SPS is an adaptive stochastic gradient step-size schedule used to train over-parameterized artificial neural networks and convex/PL machine learning models.
+limitations:
+- Requires knowing or pre-computing the component loss infimum f_i^* = inf_x f_i(x) (readily known as 0 for unregularized standard losses or via Lambert W functions for l_2-regularized binary losses, but nontrivial for arbitrary structured objectives).
+- Unbounded SPS (gamma_b = infinity) fluctuates when interpolation (sigma^2 = 0) does not hold, requiring bounded SPS_max or adaptive step-size smoothing gamma_b^k = tau^{b/n} gamma^{k-1}.
+curation:
+  created_at: '2026-10-19T11:49:00Z'
+  updated_at: '2026-10-19T11:49:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
