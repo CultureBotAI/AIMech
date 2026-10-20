@@ -1,0 +1,100 @@
+id: AIMech:PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication
+name: Polynomial Codes for Straggler-Resilient High-Dimensional Coded Matrix Multiplication
+concept_kind: algorithm
+review_status: DRAFT
+definition: "An algebraic coded distributed computation method proposed by Yu, Maddah-Ali, and Avestimehr (NeurIPS 2017) for computing high-dimensional matrix products C = A^T B across N workers\u2014where each worker stores a 1/m fraction of A and a 1/n fraction of B\u2014by partitioning A into m column blocks [A_0, ..., A_{m-1}] and B into n column blocks [B_0, ..., B_{n-1}], encoding worker i's stored submatrices as tilde{A}_i = sum_{j=0}^{m-1} A_j x_i^j and tilde{B}_i = sum_{k=0}^{n-1} B_k x_i^{k m} at distinct evaluation points x_i, and recovering all mn block products A_j^T B_k from any K* = mn responding workers via degree-(mn - 1) polynomial interpolation."
+identity_notes: Distinct from Lagrange Coded Computing (AIMech:LagrangeCodedComputingForResilientSecureAndPrivateDistributedLearning, which encodes a dataset of K separate inputs via Lagrange interpolation polynomials to evaluate a single multivariate polynomial f(X_i) on each batch), from Gradient Coding (AIMech:GradientCodingForStragglerResilientDistributedOptimization, which encodes partial loss gradients over replicated data blocks), and from MatDot and PolyDot Codes (AIMech:MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication, which split A into column blocks and B into row blocks to compute inner-product sums sum_i A_i B_i with recovery threshold 2m - 1 at higher worker-to-master communication cost). Polynomial Codes (Yu, Maddah-Ali, & Avestimehr, NeurIPS 2017, pp. 4403-4413 / arXiv:1705.10464, Section II-IV, Definition 2, Equations 14-18, Theorems 1-5) achieve the information-theoretically minimum recovery threshold K_{poly} = mn = Theta(1) independent of N under minimum worker-to-master communication load L* = r t log_2 q (Theorems 1-3), and extend via the (alpha, beta) = (1, 1) code (Equations 31-33, Theorem 4) to distributed convolution c = a * b with recovery threshold K_{conv-poly} = m + n - 1.
+aliases:
+- Polynomial Codes
+- (alpha, beta)-Polynomial Code
+- (1, m)-Polynomial Code for Coded Matrix Multiplication
+definition_evidence:
+- source_id: r540-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r540-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r540-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: polynomial-codes-outer-product-block-encoding-and-vandermonde-interpolation
+  kind: mechanism
+  statement: Given A = [A_0, ..., A_{m-1}] and B = [B_0, ..., B_{n-1}], the (1, m)-Polynomial Code assigns each worker i in {0, ..., N-1} a distinct scalar x_i in F_q and encoded submatrices tilde{A}_i = sum_{j=0}^{m-1} A_j x_i^j and tilde{B}_i = sum_{k=0}^{n-1} B_k x_i^{km} (Equation 17); worker i returns tilde{C}_i = tilde{A}_i^T tilde{B}_i = sum_{j=0}^{m-1} sum_{k=0}^{n-1} A_j^T B_k x_i^{j + km} (Equation 18), enabling the master to recover all mn block products A_j^T B_k by interpolating a degree-(mn - 1) polynomial from any mn workers in time O(rt log^2(mn) log log(mn)).
+  evidence:
+  - source_id: r540-primary-pdf
+    locator: Section III-A & III-B, Definition 2 and Equations (10)-(18), pp. 5-6
+    relation: supports
+- claim_id: polynomial-codes-optimal-recovery-threshold-latency-communication-and-convolution-theorems
+  kind: scope
+  statement: Theorems 1-3 and Corollary 1 prove that Polynomial Codes achieve the cut-set optimal recovery threshold K* = mn (strictly improving over 1D-MDS K = N - N/n + m and Product Codes K = 2(m-1)sqrt(N) - (m-1)^2 + 1), minimum computation latency T_{poly}, minimum communication load L* = rt log_2 q, and Reed-Solomon error correction of up to floor((N - mn)/2) Byzantine module errors; Theorems 4-5 prove that the (1, 1)-Polynomial Code achieves recovery threshold K_{conv-poly} = m + n - 1 (within a factor of 2 of optimal) for distributed convolution.
+  evidence:
+  - source_id: r540-primary-pdf
+    locator: Section I, Equations (1)-(3), pp. 2-3; Section II-B, Theorem 1 & Remark 6, pp. 4-5; Section III-C & III-D, Theorems 2-3, p. 7; Section IV, Theorems 4-5, p. 8
+    relation: supports
+- claim_id: polynomial-codes-real-valued-vandermonde-conditioning-and-quadratic-threshold-limitation
+  kind: limitation
+  statement: When each worker stores 1/m of both A and B (m = n), Polynomial Codes require K* = m^2 responding workers because they partition A and B into outer-product column blocks, and real-valued Vandermonde interpolation suffers numerical ill-conditioning for large mn unless inputs are quantized and embedded into a finite field F_q.
+  evidence:
+  - source_id: r540-primary-pdf
+    locator: Section III-B, Remark 7, p. 6
+    relation: supports
+- claim_id: polynomial-codes-straggler-resilient-cluster-matrix-multiplication-application
+  kind: application
+  statement: Applied to straggler-resilient distributed large-matrix multiplication and FFT-based Reed-Solomon decoding on MPI/AWS EC2 clusters, reducing tail computation latency by 37% compared to uncoded execution.
+  evidence:
+  - source_id: r540-primary-pdf
+    locator: Section V, Figure 5, p. 8
+    relation: supports
+evidence_sources:
+- source_id: r540-primary-pdf
+  title: 'Polynomial Codes: an Optimal Design for High-Dimensional Coded Matrix Multiplication'
+  authors: &id001
+  - Qian Yu
+  - Mohammad Ali Maddah-Ali
+  - A. Salman Avestimehr
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1705.10464.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/YuMA17.xml
+  version: Advances in Neural Information Processing Systems 30 (NIPS 2017), pp. 4403-4413 (2017) (966970 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:23:00Z'
+  sha256: a29f9a31e95e0c865df7a5ae1a16b97448f3ee3b6efc9aeecb63a8c5d9c2be92
+- source_id: r540-arxiv-abs
+  title: 'Polynomial Codes: an Optimal Design for High-Dimensional Coded Matrix Multiplication (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1705.10464
+  persistent_id: https://arxiv.org/abs/1705.10464
+  version: arXiv abstract page (6999 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:23:00Z'
+  sha256: 8ea1a6d3fdb1c5b1e1a0e10f531c2abeaaf639543d299f80fde63e704d901b37
+- source_id: r540-metadata-cr
+  title: 'Polynomial Codes: an Optimal Design for High-Dimensional Coded Matrix Multiplication (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/YuMA17.xml
+  persistent_id: https://dblp.org/rec/conf/nips/YuMA17.xml
+  version: Crossref API work record (556 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:23:00Z'
+  sha256: b3a0eb0e8e805c49437c40eca22d25dcb627ca4f87749c9e61862e098b21ddaf
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: AIO:LinearRegression and large-scale linear model training rely on distributed high-dimensional matrix multiplication accelerated by Polynomial Codes.
+limitations:
+- Because Polynomial Codes partition A and B to recover all mn outer-product blocks A_j^T B_k, their recovery threshold scales as m^2 when m = n, whereas inner-product MatDot codes reduce the recovery threshold to 2m - 1 at the cost of higher communication.
+- Over real or floating-point numbers, high-degree Vandermonde interpolation matrices become exponentially ill-conditioned as mn grows unless finite-field quantization is applied.
+curation:
+  created_at: '2026-10-19T10:23:00Z'
+  updated_at: '2026-10-19T10:23:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
