@@ -1,0 +1,104 @@
+id: AIMech:LoRAFlow
+name: LoRA-Flow
+concept_kind: algorithm
+review_status: DRAFT
+definition: A dynamic multi-LoRA fusion algorithm for autoregressive language generation that computes token-step and layer-specific fusion weights w^l_t = softmax(W^l_gate x^l_t) + b^l from each transformer layer's input hidden state x^l_t and aggregates the output vectors Delta h_i = B_i A_i x of k frozen pre-trained LoRA modules (including modules with heterogeneous ranks) as h' = h + Delta h w^l_t.
+identity_notes: Distinct from LoraHub (AIMech:LoraHub, which learns static task-level scalar weights shared across all layers and tokens and composes internal factors (sum_i w_i A_i)(sum_i w_i B_i) requiring identical rank r across all modules), from HydraLoRA (AIMech:HydraLoRA, which jointly trains a shared down-projection A and multiple up-projection heads B_i from scratch rather than fusing independently pre-trained, frozen skill and language LoRAs), and from standard LoRA (AIMech:LoRA). Formulated by Wang et al. (ACL 2024, pages 12871-12882; arXiv:2402.11455).
+aliases:
+- LoRA-Flow Dynamic LoRA Fusion
+- Token- and Layer-Level Dynamic LoRA Fusion (LoRA-Flow)
+- LoRA-Flow Context-Gated Multi-LoRA Integration
+definition_evidence:
+- source_id: r685-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r685-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r685-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: loraflow-layerwise-token-conditioned-fusion-gate
+  kind: mechanism
+  statement: At decoding step t and transformer layer l, LoRA-Flow computes a k-dimensional fusion weight vector w^l = softmax(W^l_gate x^l_t) + b^l from the layer input hidden state x^l_t in R^d using learnable gate parameters W^l_gate in R^{k x d} and bias b^l in R^{k x 1} (accounting for roughly 0.2% of the parameters of a rank-64 LoRA), where the additive bias b^l permits negative fusion weights for specific tokens.
+  evidence:
+  - source_id: r685-primary-pdf
+    locator: Section 3.1 Calculating Fusion Weights, Eq. 5 & Section 5.3, p. 3, 6
+    relation: supports
+- claim_id: loraflow-output-level-heterogeneous-rank-integration
+  kind: mechanism
+  statement: Rather than averaging internal A_i and B_i factor matrices, LoRA-Flow treats each of the k frozen LoRAs as a complete module and combines their output vectors Delta h = [Delta h_1; ...; Delta h_k] in R^{d x k} within every adapted linear projection of layer l via h' = h + Delta h w^l, enabling seamless fusion of LoRA modules trained with different middle ranks (such as rank 64 language LoRAs and rank 256 code LoRAs).
+  evidence:
+  - source_id: r685-primary-pdf
+    locator: Section 3.2 Integrating Fusion Weights, Eq. 6 & Section 4.1 Setup, p. 3-4
+    relation: supports
+- claim_id: loraflow-multilingual-math-and-code-generation-application
+  kind: application
+  statement: LoRA-Flow is applied to few-shot cross-lingual mathematical reasoning (MGSM) and code generation (multilingual HumanEval) on Llama-2-7B and Llama-2-13B by dynamically fusing target-language chat LoRAs (Chinese, Russian, Spanish) with English math or code LoRAs using 200 few-shot examples, consistently outperforming static task-level fusion methods including LoraHub and uniform averaging.
+  evidence:
+  - source_id: r685-primary-pdf
+    locator: Section 4.2-4.3 Main Results, Tables 1-2 & Section 6.1-6.2 Tables 3-4, p. 5-7
+    relation: supports
+- claim_id: loraflow-unmerged-multi-lora-inference-and-supervised-gate-training
+  kind: limitation
+  statement: Because fusion weights w^l_t vary dynamically across every generated token, the k LoRA modules cannot be statically merged into the base weight matrix W prior to inference, requiring k parallel low-rank adapter evaluations per adapted module during decoding and gradient-based training of the gate parameters on labeled target-task examples.
+  evidence:
+  - source_id: r685-primary-pdf
+    locator: Section 3.2-3.3, Eq. 5-8 & Figure 2, p. 3-4
+    relation: supports
+evidence_sources:
+- source_id: r685-primary-pdf
+  title: 'LoRA-Flow: Dynamic LoRA Fusion for Large Language Models in Generative Tasks'
+  authors: &id001
+  - Hanqing Wang
+  - Bowen Ping
+  - Shuo Wang
+  - Xu Han
+  - Yun Chen
+  - Zhiyuan Liu
+  - Maosong Sun
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2402.11455
+  persistent_id: https://dblp.org/rec/conf/acl/WangPWH0L024.xml
+  version: Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (ACL 2024) (2024) (720782 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:48:00Z'
+  sha256: 5d4e94276ab5b9b67c2720f1c3e4a174e6e24a50a8a3430f7eaad0550db0984e
+- source_id: r685-arxiv-abs
+  title: 'LoRA-Flow: Dynamic LoRA Fusion for Large Language Models in Generative Tasks (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2402.11455
+  persistent_id: https://arxiv.org/abs/2402.11455
+  version: arXiv abstract page (6382 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:48:00Z'
+  sha256: b5a0e75a3c033abb7f455cc09231ed15321dd4236fe203b26df578f2bf039457
+- source_id: r685-metadata-cr
+  title: 'LoRA-Flow: Dynamic LoRA Fusion for Large Language Models in Generative Tasks (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/acl/WangPWH0L024.xml
+  persistent_id: https://dblp.org/rec/conf/acl/WangPWH0L024.xml
+  version: Crossref API work record (560 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:48:00Z'
+  sha256: 3897ff9201af89029d150a7c32ba0f0c9ef6d62471d112ac027f9932b69243dd
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LoRA-Flow dynamically fuses multiple pre-trained low-rank neural network adapters using layer-wise token-conditioned gating modules.
+limitations:
+- Token-dependent dynamic weights prevent offline merging of the k LoRA modules into the frozen backbone weights, requiring separate low-rank forward computations for each involved LoRA during decoding.
+- Requires gradient-based training of the layer-wise fusion gates on labeled target-task sequences (e.g., 200 examples) through the frozen backbone and LoRA modules.
+curation:
+  created_at: '2026-10-19T12:48:00Z'
+  updated_at: '2026-10-19T12:48:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
