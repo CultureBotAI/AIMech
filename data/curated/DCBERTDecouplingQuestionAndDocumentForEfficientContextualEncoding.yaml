@@ -1,0 +1,108 @@
+id: AIMech:DCBERTDecouplingQuestionAndDocumentForEfficientContextualEncoding
+name: DC-BERT (Decoupling Question and Document for Efficient Contextual Encoding)
+concept_kind: architecture
+review_status: DRAFT
+definition: "A decoupled contextual encoding framework for open-domain question answering document retrieval and reranking (Zhang, Nie, Geng, Ramamurthy, Song, & Jiang, SIGIR 2020) that replaces joint lower-layer question-document concatenation with dual BERT encoders\u2014an online BERT that encodes the incoming question once into T in R^{N x d} and an offline BERT that pre-encodes and caches all candidate documents into T' in R^{M x d}\u2014before adding trainable global position embeddings E_{P_i} and global type embeddings (E_Q, E_D), applying K upper Transformer interaction layers, and predicting relevance via a two-layer tanh MLP classifier over the concatenated question and document [CLS] representations p(Q_i, D_j) = sigma(MLP([o_[CLS]; o'_[CLS]]))."
+identity_notes: Distinct from MORES (AIMech:MORESModularizedTransformerBasedRankingFramework, which uses asymmetric query-to-document cross-attention Interaction Blocks leaving D unchanged) and from TwinBERT (AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels, which pools each tower into a single vector before a cosine or max-residual crossing layer). DC-BERT retains token-level encodings T and T' from the dual BERT encoders, re-indexes their concatenation with trainable global position embeddings E_{P_i} and type embeddings E_Q, E_D initialized from pre-trained BERT, passes the sequence through K configurable upper Transformer layers (initialized from the last K layers of BERT), and concatenates both [CLS] outputs [o_[CLS]; o'_[CLS]] for binary reranking.
+aliases:
+- DC-BERT
+- Decoupled Contextual BERT
+- DC-BERT Decoupled Question-Document Contextual Encoding Framework
+definition_evidence:
+- source_id: r795-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r795-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r795-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: dc-bert-dual-bert-global-embedding-transformer-interaction
+  kind: mechanism
+  statement: "DC-BERT decouples lower-layer BERT contextualization into an online question BERT producing T in R^{N x d} and an offline cached document BERT producing T' in R^{M x d}\u2014reducing lower-layer complexity across N_q questions and N_d candidate documents from O(N_q N_d (L_q + L_d)^2) to O(N_q L_q^2) online\u2014and models cross-segment interactions by adding trainable global position embeddings E_{P_i} in R^d and global type embeddings E_Q, E_D in R^d before feeding the combined sequence into K upper Transformer layers and scoring relevance via p(Q_i, D_j) = sigma(MLP([o_[CLS]; o'_[CLS]])) (Equations 1-2)."
+  evidence:
+  - source_id: r795-primary-pdf
+    locator: Section 2 (Methodology), pp. 2-4, Figure 1, Equations (1)-(2)
+    relation: supports
+  - source_id: r795-primary-pdf
+    locator: inject_global_embeddings and dc_bert_reranker_prob verification
+    relation: supports
+- claim_id: dc-bert-symmetric-pbt-and-ptb-evaluation-metrics
+  kind: mechanism
+  statement: 'To measure a neural reranker''s semantic retrieval capability relative to an initial TF-IDF retriever, DC-BERT introduces two symmetric metrics: PBT@N (the percentage of questions for which at least one top-N reranked document containing the answer span is not in the TF-IDF top-N documents, higher is better) and PTB@N (the percentage of questions for which at least one TF-IDF top-N document containing the answer span is not in the reranker''s top-N documents, lower is better).'
+  evidence:
+  - source_id: r795-primary-pdf
+    locator: Section 3 (Evaluation metrics & Table 2), pp. 4-5
+    relation: supports
+  - source_id: r795-primary-pdf
+    locator: compute_pbt_and_ptb_at_n verification
+    relation: supports
+- claim_id: dc-bert-squad-open-and-nq-open-10x-speedup
+  kind: application
+  statement: With K = 1 interaction Transformer layer, DC-BERT achieves a 10.3x retrieval speedup over BERT-base on both SQuAD Open and Natural Questions Open while retaining 98% of downstream QA Exact Match accuracy (39.2 vs. 40.1 EM on SQuAD Open; 27.4 vs. 28.0 EM on Natural Questions Open) and substantially outperforming 2-layer DistilBERT (34.6 and 25.1 EM, Table 1).
+  evidence:
+  - source_id: r795-primary-pdf
+    locator: "Section 3 (Experiments \u2014 Table 1 & Table 3), pp. 4-6"
+    relation: supports
+- claim_id: dc-bert-token-level-cache-storage-and-full-upper-attention
+  kind: limitation
+  statement: Because DC-BERT feeds all M document token vectors into K upper Transformer self-attention layers at query time, its online interaction still scales as O(K (L_q + L_d)^2) per candidate document and requires caching full token-level document matrices T' in R^{M x d} rather than a single pooled document vector.
+  evidence:
+  - source_id: r795-primary-pdf
+    locator: Section 2 (Dual-BERT & Transformer components) & Section 3 (Figure 2b), pp. 2-6
+    relation: supports
+evidence_sources:
+- source_id: r795-primary-pdf
+  title: 'DC-BERT: Decoupling Question and Document for Efficient Contextual Encoding'
+  authors: &id001
+  - Yuyu Zhang
+  - Ping Nie
+  - Xiubo Geng
+  - Arun Ramamurthy
+  - Le Song
+  - Daxin Jiang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2002.12591.pdf
+  persistent_id: https://arxiv.org/bibtex/2002.12591
+  version: Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2020) (2020) (1066834 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:38:00Z'
+  sha256: c327fa6f3f3cb63a56f7f99d82961c714d85d353657dda344af5136056f72fdf
+- source_id: r795-arxiv-abs
+  title: 'DC-BERT: Decoupling Question and Document for Efficient Contextual Encoding (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2002.12591
+  persistent_id: https://arxiv.org/abs/2002.12591
+  version: arXiv abstract page (6962 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:38:00Z'
+  sha256: 194fb9c80a4f682f3c6dd8079c45f7f58dbdb2809f22ce59e22b6924da1da306
+- source_id: r795-metadata-cr
+  title: 'DC-BERT: Decoupling Question and Document for Efficient Contextual Encoding (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2002.12591
+  persistent_id: https://arxiv.org/bibtex/2002.12591
+  version: Crossref API work record (447 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:38:00Z'
+  sha256: 9f846631069960352b17818594d288cc531a80b1d576b57c9d9ebfac967b0216
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: DC-BERT is a dual-BERT plus upper-Transformer neural network architecture for open-domain question answering document reranking.
+limitations:
+- Requires caching full token-level document matrices T' in R^{M x d} offline and running O(K * (L_q + L_d)^2) upper-layer Transformer self-attention per candidate document online.
+curation:
+  created_at: '2026-10-19T14:38:00Z'
+  updated_at: '2026-10-19T14:38:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
