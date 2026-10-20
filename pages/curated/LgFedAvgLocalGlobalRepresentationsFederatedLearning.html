@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LG-FedAvg (Local Global Federated Averaging) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>LG-FedAvg (Local Global Federated Averaging)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">LG-FedAvg (Local Global Federated Averaging)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LgFedAvgLocalGlobalRepresentationsFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LG-FedAvg, Local Global Federated Averaging, Federated Learning with Local and Global Representations
+    </div>
+
+  <div class="detail-desc">
+    A personalized and communication-efficient federated learning algorithm (Liang, Liu, Ziyin, Allen, Auerbach, Brent, Salakhutdinov, &amp; Morency 2020, Sections 3-4, Equations 3-7 &amp; 36-38, Algorithm 1, Theorem 2, Corollary 1) that partitions each device m&#39;s model into lower-layer local representation parameters theta_m^l (which map raw heterogeneous or multimodal inputs X_m to compact feature representations ell_m(X_m; theta_m^l)) and shared upper-layer global classifier parameters theta^g (which produce predictions y_hat = g(ell_m(X_m; theta_m^l); theta^g)), jointly updates both theta_m^l and theta_m^g locally via E epochs of stochastic gradient descent (or minimax adversarial de-biasing min_{theta_m^l, theta_m^g} max_{phi_m} L_m^g(theta_m^l, theta_m^g) - alpha L_m^l(theta_m^l, phi_m) against protected attributes P_m, Equations 5-7), and communicates only the compact upper-layer global parameters theta_m^g to the server for sample-weighted averaging theta_{t+1}^g &lt;- sum_{m in S_t} (N_m / N) theta_m^g.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedPer (AIMech:FedPerFederatedLearningWithPersonalizationLayers, Arivazhagan et al. 2019) and FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which reverse the architectural split by keeping lower feature-extraction layers global (W_B) and top classification heads private on each client; in contrast, LG-FedAvg keeps lower feature-extraction encoders theta_m^l local (allowing modality-specific or adversarially de-biased encoders) and shares only the compact top global classifier theta^g across clients.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r476-local-encoder-global-head-decomposition-and-adversarial-debiasing-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each device m maintains private lower-layer representation parameters theta_m^l and shared upper-layer parameters theta_m^g, transmitting only theta_m^g to the server in each round (Algorithm 1); when local data includes nuisance or protected attributes P_m, device m jointly trains an adversarial discriminator d_m(ell_m(X_m); phi_m) via the minimax objective min_{theta_m^l, theta_m^g} max_{phi_m} [L_m^g(theta_m^l, theta_m^g) - alpha L_m^l(theta_m^l, phi_m)], whose saddle point satisfies H(P_m | ell_m(X_m; theta_m^l)) = H(P_m) with optimal value H(Y_m | X_m) - H(P_m) (Liang et al. 2020, Section 3.3, Equations 5-7, Proposition 3, &amp; Appendix B).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r476-primary-pdf">Think Locally, Act Globally: Federated Learning with Local and Global Representations</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3 (Algorithm 1, Equations 5-7), pp. 4-5, and Appendix B (Proposition 3, Equations 39-52), pp. 21-22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r476-bias-variance-generalization-dominance-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under linear regression with cross-device task variance rho^2 and observation noise variance sigma^2 across M devices with N samples in dimension d, Theorem 2 proves that LG-FedAvg with interpolation weight alpha in [0, 1] has generalization error E_LG(f_alpha) = alpha^2 (d/N) sigma^2 + (1 - alpha)^2 ((M - 1)/M) rho^2 + (1 - alpha^2) (d / (M N)) sigma^2, and Corollary 1 establishes that alpha^* = rho^2 / (rho^2 + (d/N) sigma^2) strictly dominates both purely local learning (alpha = 1) and purely global FedAvg (alpha = 0) whenever rho^2, sigma^2 &gt; 0 (Liang et al. 2020, Section 4, Theorem 2 &amp; Corollary 1, Appendix A Equations 36-38).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r476-primary-pdf">Think Locally, Act Globally: Federated Learning with Local and Global Representations</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Propositions 1-2, Theorem 2, Corollary 1), pp. 6-7, and Appendix A (Equations 13-38), pp. 17-20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r476-heterogeneous-vision-multimodal-and-fair-federated-learning-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to heterogeneous rotated MNIST/CIFAR, multimodal vision-and-language VQA across modality-heterogeneous clients, and adversarial de-biasing of protected attributes on federated facial recognition (Liang et al. 2020, Section 5, Tables 1-4, Figures 2-5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r476-primary-pdf">Think Locally, Act Globally: Federated Learning with Local and Global Representations</a></span>
+        <span>· <strong>Locator:</strong> Section 5 (Experiments, Tables 1-4, Figures 2-5), pp. 7-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r476-stateful-local-encoder-requirement-for-new-devices-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because feature extractors theta_m^l are trained locally and never aggregated on the server, deploying the global head theta^g to a newly joined device requires either an ensemble of existing clients&#39; local encoders or local labeled data to train a new local representation (Liang et al. 2020, Section 3.2 &#39;Dealing with new devices&#39;, p. 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r476-primary-pdf">Think Locally, Act Globally: Federated Learning with Local and Global Representations</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Dealing with new devices), p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Does not learn a single shared backbone representation on the server, so inference on unseen clients requires either transferring an ensemble of local feature extractors or training a local encoder.</li>
+      <li>Requires all local encoders ell_m(X_m; theta_m^l) to output representations of the same dimension so the shared top classifier g(.; theta^g) can operate on them.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LG-FedAvg is a personalized and representation-partitioned federated learning algorithm within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r476-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r476-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2001.01523.pdf" target="_blank" rel="noopener">Think Locally, Act Globally: Federated Learning with Local and Global Representations</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Paul Pu Liang, Terrance Liu, Liu Ziyin, Nicholas B. Allen, Randy P. Auerbach, David Brent, Ruslan Salakhutdinov, Louis-Philippe Morency
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2001.01523</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6a46a1e52019…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r476-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r476-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2001.01523" target="_blank" rel="noopener">Think Locally, Act Globally: Federated Learning with Local and Global Representations (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Paul Pu Liang, Terrance Liu, Liu Ziyin, Nicholas B. Allen, Randy P. Auerbach, David Brent, Ruslan Salakhutdinov, Louis-Philippe Morency
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2001.01523</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:982fd8188a08…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r476-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r476-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2001.01523" target="_blank" rel="noopener">Think Locally, Act Globally: Federated Learning with Local and Global Representations (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Paul Pu Liang, Terrance Liu, Liu Ziyin, Nicholas B. Allen, Randy P. Auerbach, David Brent, Ruslan Salakhutdinov, Louis-Philippe Morency
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2001.01523</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7004751c7f2b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:19:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:19:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LgFedAvgLocalGlobalRepresentationsFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LgFedAvgLocalGlobalRepresentationsFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

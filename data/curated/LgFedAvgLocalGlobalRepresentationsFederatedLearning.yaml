@@ -1,0 +1,105 @@
+id: AIMech:LgFedAvgLocalGlobalRepresentationsFederatedLearning
+name: LG-FedAvg (Local Global Federated Averaging)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A personalized and communication-efficient federated learning algorithm (Liang, Liu, Ziyin, Allen, Auerbach, Brent, Salakhutdinov, & Morency 2020, Sections 3-4, Equations 3-7 & 36-38, Algorithm 1, Theorem 2, Corollary 1) that partitions each device m's model into lower-layer local representation parameters theta_m^l (which map raw heterogeneous or multimodal inputs X_m to compact feature representations ell_m(X_m; theta_m^l)) and shared upper-layer global classifier parameters theta^g (which produce predictions y_hat = g(ell_m(X_m; theta_m^l); theta^g)), jointly updates both theta_m^l and theta_m^g locally via E epochs of stochastic gradient descent (or minimax adversarial de-biasing min_{theta_m^l, theta_m^g} max_{phi_m} L_m^g(theta_m^l, theta_m^g) - alpha L_m^l(theta_m^l, phi_m) against protected attributes P_m, Equations 5-7), and communicates only the compact upper-layer global parameters theta_m^g to the server for sample-weighted averaging theta_{t+1}^g <- sum_{m in S_t} (N_m / N) theta_m^g.
+identity_notes: Distinct from FedPer (AIMech:FedPerFederatedLearningWithPersonalizationLayers, Arivazhagan et al. 2019) and FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which reverse the architectural split by keeping lower feature-extraction layers global (W_B) and top classification heads private on each client; in contrast, LG-FedAvg keeps lower feature-extraction encoders theta_m^l local (allowing modality-specific or adversarially de-biased encoders) and shares only the compact top global classifier theta^g across clients.
+aliases:
+- LG-FedAvg
+- Local Global Federated Averaging
+- Federated Learning with Local and Global Representations
+definition_evidence:
+- source_id: r476-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r476-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r476-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r476-local-encoder-global-head-decomposition-and-adversarial-debiasing-mechanism
+  kind: mechanism
+  statement: Each device m maintains private lower-layer representation parameters theta_m^l and shared upper-layer parameters theta_m^g, transmitting only theta_m^g to the server in each round (Algorithm 1); when local data includes nuisance or protected attributes P_m, device m jointly trains an adversarial discriminator d_m(ell_m(X_m); phi_m) via the minimax objective min_{theta_m^l, theta_m^g} max_{phi_m} [L_m^g(theta_m^l, theta_m^g) - alpha L_m^l(theta_m^l, phi_m)], whose saddle point satisfies H(P_m | ell_m(X_m; theta_m^l)) = H(P_m) with optimal value H(Y_m | X_m) - H(P_m) (Liang et al. 2020, Section 3.3, Equations 5-7, Proposition 3, & Appendix B).
+  evidence:
+  - source_id: r476-primary-pdf
+    locator: Section 3.2-3.3 (Algorithm 1, Equations 5-7), pp. 4-5, and Appendix B (Proposition 3, Equations 39-52), pp. 21-22
+    relation: supports
+- claim_id: r476-bias-variance-generalization-dominance-scope
+  kind: scope
+  statement: Under linear regression with cross-device task variance rho^2 and observation noise variance sigma^2 across M devices with N samples in dimension d, Theorem 2 proves that LG-FedAvg with interpolation weight alpha in [0, 1] has generalization error E_LG(f_alpha) = alpha^2 (d/N) sigma^2 + (1 - alpha)^2 ((M - 1)/M) rho^2 + (1 - alpha^2) (d / (M N)) sigma^2, and Corollary 1 establishes that alpha^* = rho^2 / (rho^2 + (d/N) sigma^2) strictly dominates both purely local learning (alpha = 1) and purely global FedAvg (alpha = 0) whenever rho^2, sigma^2 > 0 (Liang et al. 2020, Section 4, Theorem 2 & Corollary 1, Appendix A Equations 36-38).
+  evidence:
+  - source_id: r476-primary-pdf
+    locator: Section 4 (Propositions 1-2, Theorem 2, Corollary 1), pp. 6-7, and Appendix A (Equations 13-38), pp. 17-20
+    relation: supports
+- claim_id: r476-heterogeneous-vision-multimodal-and-fair-federated-learning-application
+  kind: application
+  statement: Applied to heterogeneous rotated MNIST/CIFAR, multimodal vision-and-language VQA across modality-heterogeneous clients, and adversarial de-biasing of protected attributes on federated facial recognition (Liang et al. 2020, Section 5, Tables 1-4, Figures 2-5).
+  evidence:
+  - source_id: r476-primary-pdf
+    locator: Section 5 (Experiments, Tables 1-4, Figures 2-5), pp. 7-10
+    relation: supports
+- claim_id: r476-stateful-local-encoder-requirement-for-new-devices-limitation
+  kind: limitation
+  statement: Because feature extractors theta_m^l are trained locally and never aggregated on the server, deploying the global head theta^g to a newly joined device requires either an ensemble of existing clients' local encoders or local labeled data to train a new local representation (Liang et al. 2020, Section 3.2 'Dealing with new devices', p. 5).
+  evidence:
+  - source_id: r476-primary-pdf
+    locator: Section 3.2 (Dealing with new devices), p. 5
+    relation: supports
+evidence_sources:
+- source_id: r476-primary-pdf
+  title: 'Think Locally, Act Globally: Federated Learning with Local and Global Representations'
+  authors: &id001
+  - Paul Pu Liang
+  - Terrance Liu
+  - Liu Ziyin
+  - Nicholas B. Allen
+  - Randy P. Auerbach
+  - David Brent
+  - Ruslan Salakhutdinov
+  - Louis-Philippe Morency
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2001.01523.pdf
+  persistent_id: https://arxiv.org/abs/2001.01523
+  version: arXiv:2001.01523 (2020) (2205 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:19:00Z'
+  sha256: 6a46a1e520199c0fdb6ca301656d5a841afc2b71da4169cdd376dcfe01c7e3e8
+- source_id: r476-arxiv-abs
+  title: 'Think Locally, Act Globally: Federated Learning with Local and Global Representations (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2001.01523
+  persistent_id: https://arxiv.org/abs/2001.01523
+  version: arXiv abstract page (703 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:19:00Z'
+  sha256: 982fd8188a0872b0a020af66e5df9c6f7213b59134ec53560ac6af0b2d4a1bf8
+- source_id: r476-metadata-cr
+  title: 'Think Locally, Act Globally: Federated Learning with Local and Global Representations (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2001.01523
+  persistent_id: https://arxiv.org/abs/2001.01523
+  version: Crossref API work record (395 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:19:00Z'
+  sha256: 7004751c7f2ba1052c1626cf84920704de07de984896b9c5ac28a6b2dbfbaabd
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: LG-FedAvg is a personalized and representation-partitioned federated learning algorithm within the broader FederatedLearning category.
+limitations:
+- Does not learn a single shared backbone representation on the server, so inference on unseen clients requires either transferring an ensemble of local feature extractors or training a local encoder.
+- Requires all local encoders ell_m(X_m; theta_m^l) to output representations of the same dimension so the shared top classifier g(.; theta^g) can operate on them.
+curation:
+  created_at: '2026-10-19T09:19:00Z'
+  updated_at: '2026-10-19T09:19:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
