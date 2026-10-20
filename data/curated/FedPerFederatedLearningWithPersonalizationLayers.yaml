@@ -1,0 +1,101 @@
+id: AIMech:FedPerFederatedLearningWithPersonalizationLayers
+name: FedPer (Federated Learning with Personalization Layers)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A personalized federated deep learning algorithm (Arivazhagan, Aggarwal, Singh, & Choudhary 2019, Section 3, Equations 1-3, Algorithms 1-2) that decomposes each client j's deep feedforward network into K_B shared base layers W_B = (W_{B,K_B}, ..., W_{B,1}) and K_P client-specific personalization layers W_{P_j} = (W_{P_j,K_P}, ..., W_{P_j,1}) producing predictions y_hat = f(x; W_B, W_{P_j}) (Equation 1), minimizes the average personalized population risk L^{PR}(W_B, W_{P_1}, ..., W_{P_N}) = (1/N) sum_{j=1}^N E_{(x,y)~P_j}[l(y, f(x; W_B, W_{P_j}))] (Equation 2) by having each client j jointly update both its base and personalization layers locally via e epochs of stochastic gradient descent (W_{B,j}^{(k)}, W_{P_j}^{(k)}) <- SGD_j(W_B^{(k-1)}, W_{P_j}^{(k-1)}, eta_j^{(k)}) (Algorithm 1, Line 5), retaining W_{P_j}^{(k)} privately on device j while transmitting only W_{B,j}^{(k)} to the parameter server for sample-weighted FedAvg aggregation W_B^{(k)} <- sum_{j=1}^N gamma_j W_{B,j}^{(k)} with gamma_j = n_j / sum_{l=1}^N n_l (Algorithm 2, Line 6).
+identity_notes: Distinct from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which alternates separate inner head-only optimization epochs and representation-only optimization steps within each round rather than jointly updating (W_{B,j}, W_{P_j}) simultaneously via coupled SGD steps (Algorithm 1, Line 5); and distinct from FedBABU (AIMech:FedBabuFederatedLearningWithOnlyBodyAggregationAndBodyUpdate, Oh et al. 2022), which freezes a shared random head (alpha_h = 0) during federated representation training.
+aliases:
+- FedPer
+- Federated Learning with Personalization Layers
+- Base Plus Personalization Layer Federated Learning
+definition_evidence:
+- source_id: r473-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r473-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r473-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r473-coupled-local-sgd-base-only-server-aggregation-mechanism
+  kind: mechanism
+  statement: In each global round k, FedPer-Client(j) initializes from the server's aggregated base weights W_B^{(k-1)} and its own private personalization weights W_{P_j}^{(k-1)}, executes e local SGD epochs jointly over (W_B, W_{P_j}) on empirical risk L_j^{ER}(W_B, W_P) (Equation 3), and uploads only W_{B,j}^{(k)} for gamma_j-weighted server averaging while keeping W_{P_j}^{(k)} strictly private on client j (Arivazhagan et al. 2019, Section 3.2, Algorithms 1-2).
+  evidence:
+  - source_id: r473-primary-pdf
+    locator: Section 3.2 (Algorithms 1-2), p. 4
+    relation: supports
+- claim_id: r473-contradictory-user-preference-and-reduction-to-fedavg-scope
+  kind: scope
+  statement: FedPer reduces exactly to standard FedAvg when K_P = 0, while for K_P >= 1 the private top layers W_{P_j} enable different clients to assign distinct or contradictory personalized labels to identical input features (where single-model FedAvg degrades to near-random guessing) and reduce cross-client test accuracy variance under non-identical class partitions (Arivazhagan et al. 2019, Sections 1, 4.2, & 4.5, Figures 2-3 & 7-8).
+  evidence:
+  - source_id: r473-primary-pdf
+    locator: Sections 4.2-4.5 (Figures 2-8), pp. 5-8
+    relation: supports
+- claim_id: r473-personalized-image-aesthetics-and-non-iid-vision-application
+  kind: application
+  statement: Applied to personalized image aesthetics rating prediction on the FLICKR-AES dataset and non-identically partitioned image classification on CIFAR-10 and CIFAR-100 with ResNet-34 and MobileNet-v1 architectures (Arivazhagan et al. 2019, Section 4, Figures 2-18).
+  evidence:
+  - source_id: r473-primary-pdf
+    locator: Section 4.1-4.5, pp. 5-8, and Appendix A, pp. 10-13
+    relation: supports
+- claim_id: r473-base-personalization-desynchronization-between-rounds-limitation
+  kind: limitation
+  statement: When the server replaces a client's local base layers W_{B,j}^{(k-1)} with the newly aggregated global base W_B^{(k-1)} at the start of round k, the private personalization layers W_{P_j}^{(k-1)} can be temporarily mismatched to the updated base representation until local fine-tuning or joint SGD epochs re-align them (Arivazhagan et al. 2019, Appendix A.3, Figures 15-16).
+  evidence:
+  - source_id: r473-primary-pdf
+    locator: Appendix A.3 (Effect of FineTuning, Figures 15-16), pp. 10-12
+    relation: supports
+evidence_sources:
+- source_id: r473-primary-pdf
+  title: Federated Learning with Personalization Layers
+  authors: &id001
+  - Manoj Ghuhan Arivazhagan
+  - Vinay Aggarwal
+  - Aaditya Kumar Singh
+  - Sunav Choudhary
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1912.00818.pdf
+  persistent_id: https://arxiv.org/abs/1912.00818
+  version: arXiv:1912.00818 (2019) (1525 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:16:00Z'
+  sha256: ec6546bd93252ba2ee12bd62ed1c45dcf842f3d83fee278cf2543d79646ba594
+- source_id: r473-arxiv-abs
+  title: Federated Learning with Personalization Layers (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1912.00818
+  persistent_id: https://arxiv.org/abs/1912.00818
+  version: arXiv abstract page (714 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:16:00Z'
+  sha256: 1bdfe17cbfdb33a276c26720a18400da0760b4d8f3859751afd811209e26fcab
+- source_id: r473-metadata-cr
+  title: Federated Learning with Personalization Layers (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1912.00818
+  persistent_id: https://arxiv.org/abs/1912.00818
+  version: Crossref API work record (303 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:16:00Z'
+  sha256: c8da39fce09585056f204a020c825ff76c4464d0055a371e63e2ff9710872647
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedPer is a personalized federated deep learning algorithm within the broader FederatedLearning category.
+limitations:
+- Requires stateful clients that persist their private personalization layers W_{P_j} across communication rounds and cannot directly classify on unseen stateless clients without local labeled samples.
+- Requires all participating clients to share an identical architecture for the K_B base layers W_B.
+curation:
+  created_at: '2026-10-19T09:16:00Z'
+  updated_at: '2026-10-19T09:16:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
