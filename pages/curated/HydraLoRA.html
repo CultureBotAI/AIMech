@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HydraLoRA · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>HydraLoRA</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">HydraLoRA</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:HydraLoRA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Hydra Low-Rank Adaptation, Asymmetric Shared-A Multi-B Mixture-of-Experts LoRA, Hydra-Structured Asymmetric LoRA Architecture
+    </div>
+
+  <div class="detail-desc">
+    An asymmetric parameter-efficient low-rank adaptation architecture that pairs a single shared low-rank down-projection matrix A with multiple task- or sub-domain-specialized up-projection expert matrices B_1, ..., B_N combined via a trainable Mixture-of-Experts softmax router y = W_0 x + sum_{i=1}^N omega_i B_i A x.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:LowRankAdaptation (monolithic single-pair B A), AIMech:MELoRA (block-diagonal concatenation of independent mini-adapters (A_i, B_i) along partitioned input/output dimensions without dynamic gating), and symmetric LoRA-MoE / LoraHub architectures that maintain N separate (A_i, B_i) pairs. HydraLoRA (Chunlin Tian, Zhan Shi, Zhijiang Guo, Li Li, &amp; Cheng-Zhong Xu, NeurIPS 2024, arXiv:2404.19245) is motivated by the empirical observation (Section 2.3, Figure 3) that when multiple LoRA heads are trained on distinct sub-domains, their down-projection matrices A converge to overlapping representations capturing shared corpus knowledge while their up-projection matrices B diverge to capture sub-domain specificities. HydraLoRA shares one central matrix A in R^{r x k} across all samples and deploys N expert matrices B_i in R^{d x r} (where N can be chosen automatically via TF-IDF + k-means elbow clustering on heterogeneous corpora) weighted by router scores omega_i = softmax(W_g^T x)_i (Equations 2-4).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#hydralora-asymmetric-shared-a-multi-b-parameter-decomposition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because fine-tuned LoRA down-projection matrices A converge across sub-domains while up-projection matrices B diverge to encode task-specific variations (Observations I-II), sharing a single A in R^{r x k} across N expert heads B_i in R^{d x r} reduces adapter parameter count from N r (d + k) to r (k + N d) while preventing destructive multi-domain interference.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r672-primary-pdf">HydraLoRA: An Asymmetric LoRA Architecture for Efficient Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3 (Observations I-II, Figure 3) &amp; Section 3.1 (Equation 2), pp. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#hydralora-moe-router-segregation-and-linear-inference-merging</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    HydraLoRA determines the number of intrinsic corpus components N via TF-IDF and k-means elbow clustering (or a user-specified count) and trains a dense softmax router omega = softmax(W_g^T x) jointly with A and {B_i}_{i=1}^N so that during inference the linear expert heads can be dynamically merged via sum_{i=1}^N omega_i B_i A x.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r672-primary-pdf">HydraLoRA: An Asymmetric LoRA Architecture for Efficient Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.1-3.2.2 (Equations 3-4, Figure 4) &amp; Appendix B (Initialization via k-means, Equations 7-8), pp. 4-5, 16-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#hydralora-application-single-and-multitask-llm-finetuning-efficiency</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On LLaMA2-7B and LLaMA2-13B across single-domain benchmarks (MMLU, Medical, Law, GSM8K, HumanEval) and multi-task Flanv2/BBH, HydraLoRA outperforms monolithic LoRA, AdaLoRA, LoraHub, and symmetric LoRA MoE while using only 0.341% trainable parameters on BBH (vs. 2.976% for LoRA MoE) and cutting GSM8K training energy by 49.6% with a 1.96x speedup over rank-32 LoRA.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r672-primary-pdf">HydraLoRA: An Asymmetric LoRA Architecture for Efficient Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2-4.3 (Tables 2-3, Figures 5-6) &amp; Appendix D (Table 4), pp. 6-8, 18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#hydralora-limitation-multi-expert-training-iteration-overhead</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Compared to a single low-rank LoRA head of the same base rank r, training N expert B_i matrices and the gating router requires 1x to 2x more training iterations/compute than minimal single-head PEFT baselines and relies on input-dependent routing during inference so the expert heads cannot be statically collapsed into a single input-independent matrix.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r672-primary-pdf">HydraLoRA: An Asymmetric LoRA Architecture for Efficient Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.2 (p. 5) &amp; Appendix E (Limitation, p. 19)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires 1x to 2x more training expenditure than minimal single-head low-rank PEFT methods due to optimizing multiple B_i expert matrices and the gating network.</li>
+      <li>Because the expert weights omega_i = softmax(W_g^T x) depend on the intermediate token representation x, the N matrices B_1, ..., B_N are merged dynamically per input rather than once statically offline.</li>
+      <li>Evaluated on LoRA fine-tuning of decoder-only LLMs without validation on pre-training or non-LoRA PEFT structures such as prefix-tuning.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            HydraLoRA is an asymmetric Mixture-of-Experts low-rank adapter architecture embedded within transformer neural network layers.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            HydraLoRA uses unsupervised k-means clustering with the elbow criterion over TF-IDF corpus representations to determine the number of intrinsic expert heads N.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r672-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r672-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2404.19245.pdf" target="_blank" rel="noopener">HydraLoRA: An Asymmetric LoRA Architecture for Efficient Fine-Tuning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chunlin Tian, Zhan Shi, Zhijiang Guo, Li Li, Cheng-Zhong Xu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=HydraLoRA+Asymmetric+LoRA+Architecture&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:079d46829af0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r672-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r672-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2404.19245" target="_blank" rel="noopener">HydraLoRA: An Asymmetric LoRA Architecture for Efficient Fine-Tuning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chunlin Tian, Zhan Shi, Zhijiang Guo, Li Li, Cheng-Zhong Xu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2404.19245</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f975dd564831…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r672-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r672-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=HydraLoRA+Asymmetric+LoRA+Architecture&amp;format=xml" target="_blank" rel="noopener">HydraLoRA: An Asymmetric LoRA Architecture for Efficient Fine-Tuning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chunlin Tian, Zhan Shi, Zhijiang Guo, Li Li, Cheng-Zhong Xu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=HydraLoRA+Asymmetric+LoRA+Architecture&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7035778f4340…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:35:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:35:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HydraLoRA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HydraLoRA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

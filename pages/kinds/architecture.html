@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">38 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">39 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">38</span> of <span id="totalCount">38</span>
+      Showing <span id="matchCount">39</span> of <span id="totalCount">39</span>
     </div>
   </div>
 </div>
@@ -465,6 +465,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="hydralora hydralora aimech:hydralora architectures architecture an asymmetric parameter-efficient low-rank adaptation architecture that pairs a single shared low-rank down-projection matrix a with multiple task- or sub-domain-specialized up-projection expert matrices b_1, ..., b_n combined via a trainable mixture-of-experts softmax router y = w_0 x + sum_{i=1}^n omega_i b_i a x. distinct from aimech:lowrankadaptation (monolithic single-pair b a), aimech:melora (block-diagonal concatenation of independent mini-adapters (a_i, b_i) along partitioned input/output dimensions without dynamic gating), and symmetric lora-moe / lorahub architectures that maintain n separate (a_i, b_i) pairs. hydralora (chunlin tian, zhan shi, zhijiang guo, li li, &amp; cheng-zhong xu, neurips 2024, arxiv:2404.19245) is motivated by the empirical observation (section 2.3, figure 3) that when multiple lora heads are trained on distinct sub-domains, their down-projection matrices a converge to overlapping representations capturing shared corpus knowledge while their up-projection matrices b diverge to capture sub-domain specificities. hydralora shares one central matrix a in r^{r x k} across all samples and deploys n expert matrices b_i in r^{d x r} (where n can be chosen automatically via tf-idf + k-means elbow clustering on heterogeneous corpora) weighted by router scores omega_i = softmax(w_g^t x)_i (equations 2-4). hydra low-rank adaptation asymmetric shared-a multi-b mixture-of-experts lora hydra-structured asymmetric lora architecture because fine-tuned lora down-projection matrices a converge across sub-domains while up-projection matrices b diverge to encode task-specific variations (observations i-ii), sharing a single a in r^{r x k} across n expert heads b_i in r^{d x r} reduces adapter parameter count from n r (d + k) to r (k + n d) while preventing destructive multi-domain interference. hydralora determines the number of intrinsic corpus components n via tf-idf and k-means elbow clustering (or a user-specified count) and trains a dense softmax router omega = softmax(w_g^t x) jointly with a and {b_i}_{i=1}^n so that during inference the linear expert heads can be dynamically merged via sum_{i=1}^n omega_i b_i a x. on llama2-7b and llama2-13b across single-domain benchmarks (mmlu, medical, law, gsm8k, humaneval) and multi-task flanv2/bbh, hydralora outperforms monolithic lora, adalora, lorahub, and symmetric lora moe while using only 0.341% trainable parameters on bbh (vs. 2.976% for lora moe) and cutting gsm8k training energy by 49.6% with a 1.96x speedup over rank-32 lora. compared to a single low-rank lora head of the same base rank r, training n expert b_i matrices and the gating router requires 1x to 2x more training iterations/compute than minimal single-head peft baselines and relies on input-dependent routing during inference so the expert heads cannot be statically collapsed into a single input-independent matrix. hydralora: an asymmetric lora architecture for efficient fine-tuning hydralora: an asymmetric lora architecture for efficient fine-tuning (arxiv abstract) hydralora: an asymmetric lora architecture for efficient fine-tuning (crossref metadata) chunlin tian zhan shi zhijiang guo li li cheng-zhong xu chunlin tian zhan shi zhijiang guo li li cheng-zhong xu chunlin tian zhan shi zhijiang guo li li cheng-zhong xu">
+        <td>
+          <a href="../curated/HydraLoRA.html" style="font-weight: 600; font-size: 1rem;">HydraLoRA</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Hydra Low-Rank Adaptation, Asymmetric Shared-A Multi-B Mixture-of-Experts LoRA…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An asymmetric parameter-efficient low-rank adaptation architecture that pairs a single shared low-rank down-projection matrix A with multipl…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:HydraLoRA</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
