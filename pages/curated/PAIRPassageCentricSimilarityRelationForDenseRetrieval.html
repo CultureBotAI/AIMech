@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PAIR Passage-Centric Similarity Relation for Dense Passage Retrieval · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>PAIR Passage-Centric Similarity Relation for Dense Passage Retrieval</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">PAIR Passage-Centric Similarity Relation for Dense Passage Retrieval</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PAIRPassageCentricSimilarityRelationForDenseRetrieval</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PAIR, PAIR Passage-Centric Dense Passage Retrieval, Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval
+    </div>
+
+  <div class="detail-desc">
+    A dense passage retrieval training algorithm that jointly enforces query-centric similarity relations (pulling query q toward positive passage p^+ and pushing q away from negative passages p^- in N_P via L_Q(q, p^+, N_P) = -log(exp(f(q, p^+)) / (exp(f(q, p^+)) + sum_{p^- in N_P} exp(f(q, p^-))))) and passage-centric similarity relations (pushing positive passage p^+ away from negative passages p^- in N_P via L_P(q, p^+, N_P) = -log(exp(-f(p^+, p^+)) / (exp(-f(p^+, p^+)) + sum_{p^- in N_P} exp(f(p^+, p^-))))) under a combined objective L(q, p^+, N_P) = (1 - alpha) L_Q(q, p^+, N_P) + alpha L_P(q, p^+, N_P) trained in two stages: a pre-training stage on denoised synthetic pseudo-queries with decaying weight alpha &gt; 0 followed by a fine-tuning stage on human-labeled queries with alpha = 0.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from DPR (AIMech:DensePassageRetrieval) and RocketQA (AIMech:RocketQADenoisedHardNegativeSampling), which optimize only query-passage similarity f(q, p) without explicitly penalizing passage-passage inner products f(p^+, p^-); and distinct from GPL (AIMech:GPLGenerativePseudoLabelingForDenseRetrieval), which distills cross-encoder query-passage margins on synthetic queries rather than optimizing a passage-centric contrastive repulsion loss L_P.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#pair-passage-centric-contrastive-loss</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the geometric separation condition (Assumption 1: max(||q - p^+||, ||p^+ - p^-||) &lt; ||q - p^-||), query-centric similarity alone cannot prevent hard negative passages p^- from clustering near p^+; PAIR introduces the passage-centric contrastive loss L_P(q, p^+, N_P) = -log(exp(-f(p^+, p^+)) / (exp(-f(p^+, p^+)) + sum_{p^- in N_P} exp(f(p^+, p^-)))) (Equation 2) and combines it with L_Q via L = (1 - alpha) L_Q + alpha L_P (Equation 3) to explicitly minimize positive-negative passage inner products f(p^+, p^-).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r759-primary-pdf">PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1-2.3, Assumption 1, Equations 1-3, Figure 1, pp. 2-3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r759-primary-pdf">PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> main() verification of query_centric_loss L_Q, passage_centric_loss L_P, and combined PAIR loss under clustered vs. separated hard negatives</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#pair-two-stage-pseudo-query-training</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To overcome data sparsity when estimating both query-centric and passage-centric similarity relations, PAIR generates synthetic queries from passages via a T5/BART generator, filters out noisy pseudo-labels and false negatives with a cross-encoder, pre-trains the dual-encoder with dynamic decay of alpha from alpha_0 &gt; 0, and then fine-tunes on labeled target queries with alpha = 0 (Section 2.4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r759-primary-pdf">PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 2.4 Two-Stage Training Procedure, pp. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#pair-benchmark-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    PAIR achieves 37.9 MRR@10 and 86.4% Recall@50 on MS MARCO Passage Ranking Dev and 74.9% Recall@5 / 83.5% Recall@20 on Natural Questions test, outperforming RocketQA and prior dense retrievers while reducing positive-negative passage cosine similarity (Tables 1, 3, and 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r759-primary-pdf">PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Main Results &amp; Section 3.3 Detailed Analysis, Tables 1-4, pp. 5-7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r759-metadata-cr">PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> BibTeX citation record for arXiv:2108.06027 (Findings of ACL-IJCNLP 2021)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#pair-unit-norm-and-pseudo-query-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When passage embeddings are not L2-normalized, the exp(-f(p^+, p^+)) term in L_P can encourage growing the norm ||p^+|| unless unit-norm constraints or careful decay of alpha are applied, and the two-stage pipeline requires generating and cross-encoder-filtering millions of synthetic queries.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r759-primary-pdf">PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.2-2.4 &amp; Section 3.1 Implementation Details, pp. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires generating millions of synthetic pseudo-queries and scoring them with a cross-encoder to provide sufficient training coverage for passage-centric similarity estimation.</li>
+      <li>Sensitive to the weighting hyperparameter alpha and its decay schedule between Stage 1 pre-training and Stage 2 fine-tuning.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PAIR trains a dual-encoder Transformer dense retriever using a combined query-centric and passage-centric contrastive loss over neural embeddings.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r759-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r759-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2108.06027" target="_blank" rel="noopener">PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ruiyang Ren, Shangwen Lv, Yingqi Qu, Jing Liu, Wayne Xin Zhao, Qiaoqiao She, Hua Wu, Haifeng Wang, Ji-Rong Wen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2108.06027</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2919e5f004f6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r759-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r759-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2108.06027" target="_blank" rel="noopener">PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ruiyang Ren, Shangwen Lv, Yingqi Qu, Jing Liu, Wayne Xin Zhao, Qiaoqiao She, Hua Wu, Haifeng Wang, Ji-Rong Wen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2108.06027</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:24813ef24115…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r759-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r759-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2108.06027" target="_blank" rel="noopener">PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ruiyang Ren, Shangwen Lv, Yingqi Qu, Jing Liu, Wayne Xin Zhao, Qiaoqiao She, Hua Wu, Haifeng Wang, Ji-Rong Wen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2108.06027</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b100366c883b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:02:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:02:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PAIRPassageCentricSimilarityRelationForDenseRetrieval.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PAIRPassageCentricSimilarityRelationForDenseRetrieval.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
