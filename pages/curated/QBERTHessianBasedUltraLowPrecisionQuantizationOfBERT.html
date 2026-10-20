@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q-BERT: Hessian-Based Ultra Low Precision Quantization of BERT · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Q-BERT: Hessian-Based Ultra Low Precision Quantization of BERT</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Q-BERT: Hessian-Based Ultra Low Precision Quantization of BERT</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Q-BERT, Q-BERT Hessian Mixed-Precision Quantization, Group-Wise Hessian-Guided BERT Quantization
+    </div>
+
+  <div class="detail-desc">
+    An ultra-low-bit quantization-aware compression algorithm for Transformer language models that computes layer-wise top Hessian eigenvalue distributions via matrix-free backpropagation power iteration d(g_i^T v)/dW_i = H_i v, assigns mixed bit-widths (such as 2/3-bit or 2/4-bit encoder weights and 4/8-bit word/position embeddings) by ranking layers according to the combined mean-and-variance curvature metric Omega_i = |mean(lambda_i)| + std(lambda_i), partitions each dense attention and FFN matrix across attention heads and sequential output-neuron subgroups (e.g., 128 groups per matrix) with independent clamping intervals [q_0, q_{2^k - 1}], and fine-tunes quantized weights using the Straight-Through Estimator (STE).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Sheng Shen, Zhen Dong, Jiayu Ye, Linjian Ma, Zhewei Yao, Amir Gholami, Michael W. Mahoney, and Kurt Keutzer (AAAI 2020, Vol. 34, No. 05, pp. 8815-8821, arXiv:1909.05840, doi:10.1609/aaai.v34i05.6409). Distinct from mean-only Hessian AWare Quantization (HAWQ) for CNNs — which fails on NLP tasks where middle Transformer layers exhibit high eigenvalue variance across data partitions (e.g., SQuAD layer 7 with var(lambda_7) &gt; 61.6 vs. mean(lambda_7) approx 1.0) — and from layer-wise uniform quantization (DirectQ), which shares a single quantization range across all 3072 output neurons of multi-head self-attention.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r809-claim-matrix-free-hessian-and-omega-sensitivity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Q-BERT evaluates the dominant Hessian eigenvalue distribution lambda_i of each 7M-parameter encoder layer without forming the 7M x 7M Hessian matrix by applying matrix-free power iteration via d(g_i^T v)/dW_i = H_i v (Eq. 3.1 &amp; Algorithm 1) across 10% training-data partitions, and ranks layer quantization sensitivity using Omega_i = |mean(lambda_i)| + std(lambda_i) (Eq. 3.2), assigning higher bit precision (3 or 4 bits) to middle encoder layers (layers 4-8) with high curvature mean and variance and 2 bits to flatter outer layers.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r809-primary-pdf">Q-BERT: Hessian Based Ultra Low Precision Quantization of BERT</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Mixed precision quantization, Equations 3.1-3.2), Section 4.1, Algorithm 1, &amp; Tables 6-7, Pages 3-4, 6-7, &amp; 12-15</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r809-primary-pdf">Q-BERT: Hessian Based Ultra Low Precision Quantization of BERT</a></span>
+        <span>· <strong>Locator:</strong> power_iteration_top_eigenvalue and omega_sensitivity verification in main()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r809-claim-groupwise-output-neuron-quantization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To prevent dynamic-range mismatch across the 4 x 12 x 64 = 3072 output neurons of multi-head self-attention and FFN matrices, Q-BERT partitions each weight matrix across its N_h = 12 attention heads and further buckets sequential output neurons into 128 subgroups per matrix, quantizing each subgroup independently via X^I = round((Clamp(X, q_0, q_{2^k-1}) - q_0) / Delta) with Delta = (q_{2^k-1} - q_0) / (2^k - 1) and Q(X) = Delta * X^I + q_0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r809-primary-pdf">Q-BERT: Hessian Based Ultra Low Precision Quantization of BERT</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Group-wise Quantization, Figure 4), Section 4.2 (Table 2), &amp; Appendix A, Pages 5, 7, &amp; 12</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r809-primary-pdf">Q-BERT: Hessian Based Ultra Low Precision Quantization of BERT</a></span>
+        <span>· <strong>Locator:</strong> uniform_quantize_dequantize and groupwise_quantize_mse verification across G=1, 4, 16 in main()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r809-claim-13x-compression-and-module-sensitivity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On SST-2, MNLI, CoNLL-03, and SQuAD, 2/3-bit mixed-precision Q-BERT_MP with 8-bit embeddings and activations compresses encoder weights by 13x (from 324.5 MB to 25.4 MB) within at most 1.1%-2.3% accuracy loss (outperforming uniform 2-bit DirectQ by up to 76.6 F1 points on SQuAD), while 4/8-bit mixed-precision word/position embedding quantization achieves 12x total model compression (34.4-36.9 MB vs. 415.4 MB).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r809-primary-pdf">Q-BERT: Hessian Based Ultra Low Precision Quantization of BERT</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 (Table 1), Section 5.1 (Table 3), &amp; Appendix C.2 (Table 5), Pages 6, 8, &amp; 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r809-claim-non-converged-saddle-point-and-lut-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Q-BERT&#39;s second-order sensitivity analysis assumes the fine-tuned floating-point model has converged to a local minimum with positive Hessian curvature; when fine-tuning stops at a saddle point with large negative Hessian eigenvalues (as observed on SQuAD), ultra-low-bit quantization incurs higher accuracy degradation, and increasing subgroup count beyond 128 yields diminishing accuracy gains (&lt;0.1%) while increasing hardware Look-Up Table (LUT) overhead.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r809-primary-pdf">Q-BERT: Hessian Based Ultra Low Precision Quantization of BERT</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Pages 4-5), Section 4.1-4.2 (Page 7), &amp; Figure 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Relies on the pre-quantized model having converged to a local minimum with positive curvature; negative Hessian eigenvalues (as observed in standard SQuAD fine-tuning) increase ultra-low-bit quantization loss.</li>
+      <li>Increasing the number of quantization groups per matrix increases the number of hardware Look-Up Tables (LUTs) required during matrix multiplication, with accuracy gains saturating around 128 groups.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Compresses deep Transformer neural network weights, embeddings, and activations via second-order Hessian sensitivity analysis and group-wise uniform quantization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r809-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r809-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1909.05840.pdf" target="_blank" rel="noopener">Q-BERT: Hessian Based Ultra Low Precision Quantization of BERT</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sheng Shen, Zhen Dong, Jiayu Ye, Linjian Ma, Zhewei Yao, Amir Gholami, Michael W. Mahoney, Kurt Keutzer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1909.05840</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1a2b124b04c5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r809-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r809-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1909.05840" target="_blank" rel="noopener">Q-BERT: Hessian Based Ultra Low Precision Quantization of BERT (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sheng Shen, Zhen Dong, Jiayu Ye, Linjian Ma, Zhewei Yao, Amir Gholami, Michael W. Mahoney, Kurt Keutzer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1909.05840</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7ca48e8588c9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r809-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r809-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/1909.05840" target="_blank" rel="noopener">Q-BERT: Hessian Based Ultra Low Precision Quantization of BERT (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sheng Shen, Zhen Dong, Jiayu Ye, Linjian Ma, Zhewei Yao, Amir Gholami, Michael W. Mahoney, Kurt Keutzer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1909.05840</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:deb53fcd1bf5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:52:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:52:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.yaml" target="_blank" rel="noopener">
+      <code>data/curated/QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

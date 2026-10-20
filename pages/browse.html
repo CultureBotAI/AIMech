@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1645</strong> artificial intelligence concepts, comprising <strong>1203</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1646</strong> artificial intelligence concepts, comprising <strong>1204</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1645)</option>
-        <option value="curated">Curated AIMech (1203)</option>
+        <option value="all">All Origins (1646)</option>
+        <option value="curated">Curated AIMech (1204)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (842)</option>
+          <option value="algorithm">Algorithms (843)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (84)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1645</span> of <span id="totalCount">1645</span>
+      Showing <span id="matchCount">1646</span> of <span id="totalCount">1646</span>
     </div>
   </div>
 </div>
@@ -30687,6 +30687,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:PushPullAndGPushPullGradientMethodsForDistributedOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="q-bert: hessian-based ultra low precision quantization of bert qberthessianbasedultralowprecisionquantizationofbert aimech:qberthessianbasedultralowprecisionquantizationofbert algorithms algorithm an ultra-low-bit quantization-aware compression algorithm for transformer language models that computes layer-wise top hessian eigenvalue distributions via matrix-free backpropagation power iteration d(g_i^t v)/dw_i = h_i v, assigns mixed bit-widths (such as 2/3-bit or 2/4-bit encoder weights and 4/8-bit word/position embeddings) by ranking layers according to the combined mean-and-variance curvature metric omega_i = |mean(lambda_i)| + std(lambda_i), partitions each dense attention and ffn matrix across attention heads and sequential output-neuron subgroups (e.g., 128 groups per matrix) with independent clamping intervals [q_0, q_{2^k - 1}], and fine-tunes quantized weights using the straight-through estimator (ste). introduced by sheng shen, zhen dong, jiayu ye, linjian ma, zhewei yao, amir gholami, michael w. mahoney, and kurt keutzer (aaai 2020, vol. 34, no. 05, pp. 8815-8821, arxiv:1909.05840, doi:10.1609/aaai.v34i05.6409). distinct from mean-only hessian aware quantization (hawq) for cnns — which fails on nlp tasks where middle transformer layers exhibit high eigenvalue variance across data partitions (e.g., squad layer 7 with var(lambda_7) &gt; 61.6 vs. mean(lambda_7) approx 1.0) — and from layer-wise uniform quantization (directq), which shares a single quantization range across all 3072 output neurons of multi-head self-attention. q-bert q-bert hessian mixed-precision quantization group-wise hessian-guided bert quantization q-bert evaluates the dominant hessian eigenvalue distribution lambda_i of each 7m-parameter encoder layer without forming the 7m x 7m hessian matrix by applying matrix-free power iteration via d(g_i^t v)/dw_i = h_i v (eq. 3.1 &amp; algorithm 1) across 10% training-data partitions, and ranks layer quantization sensitivity using omega_i = |mean(lambda_i)| + std(lambda_i) (eq. 3.2), assigning higher bit precision (3 or 4 bits) to middle encoder layers (layers 4-8) with high curvature mean and variance and 2 bits to flatter outer layers. to prevent dynamic-range mismatch across the 4 x 12 x 64 = 3072 output neurons of multi-head self-attention and ffn matrices, q-bert partitions each weight matrix across its n_h = 12 attention heads and further buckets sequential output neurons into 128 subgroups per matrix, quantizing each subgroup independently via x^i = round((clamp(x, q_0, q_{2^k-1}) - q_0) / delta) with delta = (q_{2^k-1} - q_0) / (2^k - 1) and q(x) = delta * x^i + q_0. on sst-2, mnli, conll-03, and squad, 2/3-bit mixed-precision q-bert_mp with 8-bit embeddings and activations compresses encoder weights by 13x (from 324.5 mb to 25.4 mb) within at most 1.1%-2.3% accuracy loss (outperforming uniform 2-bit directq by up to 76.6 f1 points on squad), while 4/8-bit mixed-precision word/position embedding quantization achieves 12x total model compression (34.4-36.9 mb vs. 415.4 mb). q-bert&#39;s second-order sensitivity analysis assumes the fine-tuned floating-point model has converged to a local minimum with positive hessian curvature; when fine-tuning stops at a saddle point with large negative hessian eigenvalues (as observed on squad), ultra-low-bit quantization incurs higher accuracy degradation, and increasing subgroup count beyond 128 yields diminishing accuracy gains (&lt;0.1%) while increasing hardware look-up table (lut) overhead. q-bert: hessian based ultra low precision quantization of bert q-bert: hessian based ultra low precision quantization of bert (arxiv abstract) q-bert: hessian based ultra low precision quantization of bert (crossref metadata) sheng shen zhen dong jiayu ye linjian ma zhewei yao amir gholami michael w. mahoney kurt keutzer sheng shen zhen dong jiayu ye linjian ma zhewei yao amir gholami michael w. mahoney kurt keutzer sheng shen zhen dong jiayu ye linjian ma zhewei yao amir gholami michael w. mahoney kurt keutzer">
+        <td>
+          <a href="curated/QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.html" style="font-weight: 600; font-size: 1rem;">Q-BERT: Hessian-Based Ultra Low Precision Quantization of BERT</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Q-BERT, Q-BERT Hessian Mixed-Precision Quantization…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An ultra-low-bit quantization-aware compression algorithm for Transformer language models that computes layer-wise top Hessian eigenvalue di…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

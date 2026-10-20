@@ -1,0 +1,363 @@
+# Scientific author self-review of Q-BERT: Hessian-Based Ultra Low Precision Quantization of BERT
+
+- Review: 20261019T145230Z-q-bert-hessian-groupwise-quantization
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T14:52:00Z
+- Finished UTC: 2026-10-19T14:52:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Q-BERT: Hessian-Based Ultra Low Precision Quantization of BERT as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 0bd85731977ad8f4ba3af73dd281b5ba600ba970.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT | data/curated/QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.yaml | maintained | Q-BERT: Hessian-Based Ultra Low Precision Quantization of BERT |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT | Validated history sidecar files. |
+| python3 q-bert-hessian-groupwise-quantization-boundaries.py | passed | True | AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT | {"concept": "QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT", "power_iteration_top_eig": 5.0, "omega_squad_layer7": 9.0, "omega_stable_layer": 2.0671, "quant_mse_layerwise_g1": 0.368129, "quant_mse_groupwise_g4": 0.165817, "quant_mse_groupwise_g16": 0.023476, "encoder_compression_ratio": 12.78, "status": "ok"} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.
+
+Q-BERT: Hessian-Based Ultra Low Precision Quantization of BERT is a distinct concept.
+
+Introduced by Sheng Shen, Zhen Dong, Jiayu Ye, Linjian Ma, Zhewei Yao, Amir Gholami, Michael W. Mahoney, and Kurt Keutzer (AAAI 2020, Vol. 34, No. 05, pp. 8815-8821, arXiv:1909.05840, doi:10.1609/aaai.v34i05.6409). Distinct from mean-only Hessian AWare Quantization (HAWQ) for CNNs — which fails on NLP tasks where middle Transformer layers exhibit high eigenvalue variance across data partitions (e.g., SQuAD layer 7 with var(lambda_7) &gt; 61.6 vs. mean(lambda_7) approx 1.0) — and from layer-wise uniform quantization (DirectQ), which shares a single quantization range across all 3072 output neurons of multi-head self-attention.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in q-bert-hessian-groupwise-quantization-boundaries.py passed with exit code 0: {"concept": "QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT", "power_iteration_top_eig": 5.0, "omega_squad_layer7": 9.0, "omega_stable_layer": 2.0671, "quant_mse_layerwise_g1": 0.368129, "quant_mse_groupwise_g4": 0.165817, "quant_mse_groupwise_g16": 0.023476, "encoder_compression_ratio": 12.78, "status": "ok"}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T145200Z-q-bert-hessian-groupwise-quantization.json | supports | No normalized identity match for AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/q-bert-hessian-groupwise-quantization-boundaries.py | supports | All constructed boundary assertions in q-bert-hessian-groupwise-quantization-boundaries.py passed with exit code 0: {"concept": "QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT", "power_iteration_top_eig": 5.0, "omega_squad_layer7": 9.0, "omega_stable_layer": 2.0671, "quant_mse_layerwise_g1": 0.368129, "quant_mse_groupwise_g4": 0.165817, "quant_mse_groupwise_g16": 0.023476, "encoder_compression_ratio": 12.78, "status": "ok"} |
+| r809-primary-pdf | https://arxiv.org/pdf/1909.05840.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the AAAI Conference on Artificial Intelligence (AAAI 2020) (2020)) read and verified. |
+| r809-arxiv-abs | https://arxiv.org/abs/1909.05840; arXiv abstract | supports | arXiv abstract read and verified. |
+| r809-metadata-cr | https://arxiv.org/bibtex/1909.05840; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT in Round 809.
+- All pages of Proceedings of the AAAI Conference on Artificial Intelligence (AAAI 2020) (2020) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T145230Z-q-bert-hessian-groupwise-quantization
+kind: record
+repository: CultureBotAI/AIMech
+title: 'Scientific author self-review of Q-BERT: Hessian-Based Ultra Low Precision
+  Quantization of BERT'
+started_at: '2026-10-19T14:52:00Z'
+finished_at: '2026-10-19T14:52:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the AAAI Conference on Artificial Intelligence (AAAI 2020) (2020) and pure-Python
+    boundary checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: 'Retain Q-BERT: Hessian-Based Ultra Low Precision Quantization of BERT as
+  a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  evidence and pure-Python boundary verification.'
+source:
+  git_revision: 0bd85731977ad8f4ba3af73dd281b5ba600ba970
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.yaml
+    sha256: 21ec0cceca4d6ebc3c671f53bff41ad27758d6a6bcaff647445e1eed7a8ed0c9
+    role: target
+  - path: research/discovery/20261019T145200Z-q-bert-hessian-groupwise-quantization.json
+    sha256: f9127c8e5a220bb73663cbb95335a161368b6049ddcb3344f9e0581407fad298
+    role: context
+  - path: research/discovery/q-bert-hessian-groupwise-quantization-boundaries.py
+    sha256: c7fce1c69c569a9421724861271f317314fc21619f6473355f021e5305b0ef4b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+  path: data/curated/QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.yaml
+  label: 'Q-BERT: Hessian-Based Ultra Low Precision Quantization of BERT'
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 q-bert-hessian-groupwise-quantization-boundaries.py
+  command: python3 research/discovery/q-bert-hessian-groupwise-quantization-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"concept": "QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT", "power_iteration_top_eig":
+    5.0, "omega_squad_layer7": 9.0, "omega_stable_layer": 2.0671, "quant_mse_layerwise_g1":
+    0.368129, "quant_mse_groupwise_g4": 0.165817, "quant_mse_groupwise_g16": 0.023476,
+    "encoder_compression_ratio": 12.78, "status": "ok"}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T145200Z-q-bert-hessian-groupwise-quantization.json
+  accessed_at: '2026-10-19T14:52:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T14:52:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/q-bert-hessian-groupwise-quantization-boundaries.py
+  accessed_at: '2026-10-19T14:52:00Z'
+  snapshot_sha256: c7fce1c69c569a9421724861271f317314fc21619f6473355f021e5305b0ef4b
+  support: supports
+  summary: 'All constructed boundary assertions in q-bert-hessian-groupwise-quantization-boundaries.py
+    passed with exit code 0: {"concept": "QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT",
+    "power_iteration_top_eig": 5.0, "omega_squad_layer7": 9.0, "omega_stable_layer":
+    2.0671, "quant_mse_layerwise_g1": 0.368129, "quant_mse_groupwise_g4": 0.165817,
+    "quant_mse_groupwise_g16": 0.023476, "encoder_compression_ratio": 12.78, "status":
+    "ok"}'
+- evidence_id: r809-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1909.05840.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T14:52:00Z'
+  snapshot_sha256: 1a2b124b04c5e591552ab02ead589de182d4cd5e9c4a686d316acd43322fb8b8
+  support: supports
+  summary: Full-text PDF (Proceedings of the AAAI Conference on Artificial Intelligence
+    (AAAI 2020) (2020)) read and verified.
+- evidence_id: r809-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1909.05840
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T14:52:00Z'
+  snapshot_sha256: 7ca48e8588c9b36c4f7976f6d10e5cb06ba6db0e00074c8be980df00833e79fe
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r809-metadata-cr
+  kind: primary_source
+  reference: https://arxiv.org/bibtex/1909.05840
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T14:52:00Z'
+  snapshot_sha256: deb53fcd1bf54371dd30137c07fdc974fbb1ad1f45f6e2be8804832bf9f2013c
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+  evidence_ids:
+  - identity
+  - r809-primary-pdf
+  - r809-arxiv-abs
+  - r809-metadata-cr
+  summary: 'Q-BERT: Hessian-Based Ultra Low Precision Quantization of BERT is a distinct
+    concept.'
+  details: Introduced by Sheng Shen, Zhen Dong, Jiayu Ye, Linjian Ma, Zhewei Yao,
+    Amir Gholami, Michael W. Mahoney, and Kurt Keutzer (AAAI 2020, Vol. 34, No. 05,
+    pp. 8815-8821, arXiv:1909.05840, doi:10.1609/aaai.v34i05.6409). Distinct from
+    mean-only Hessian AWare Quantization (HAWQ) for CNNs — which fails on NLP tasks
+    where middle Transformer layers exhibit high eigenvalue variance across data partitions
+    (e.g., SQuAD layer 7 with var(lambda_7) > 61.6 vs. mean(lambda_7) approx 1.0)
+    — and from layer-wise uniform quantization (DirectQ), which shares a single quantization
+    range across all 3072 output neurons of multi-head self-attention.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+  evidence_ids:
+  - mapping
+  - r809-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+  evidence_ids:
+  - r809-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in q-bert-hessian-groupwise-quantization-boundaries.py
+    passed with exit code 0: {"concept": "QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT",
+    "power_iteration_top_eig": 5.0, "omega_squad_layer7": 9.0, "omega_stable_layer":
+    2.0671, "quant_mse_layerwise_g1": 0.368129, "quant_mse_groupwise_g4": 0.165817,
+    "quant_mse_groupwise_g16": 0.023476, "encoder_compression_ratio": 12.78, "status":
+    "ok"}'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+  evidence_ids:
+  - identity
+  - mapping
+  - r809-primary-pdf
+  - r809-arxiv-abs
+  - r809-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+  in Round 809.
+- All pages of Proceedings of the AAAI Conference on Artificial Intelligence (AAAI
+  2020) (2020) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
