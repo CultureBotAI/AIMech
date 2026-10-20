@@ -1,0 +1,109 @@
+id: AIMech:PABEEPatienceBasedEarlyExitForBERT
+name: 'PABEE: Patience-Based Early Exit for Pretrained Language Models'
+concept_kind: algorithm
+review_status: DRAFT
+definition: An input-adaptive dynamic early-exit inference and training algorithm for deep neural networks and pre-trained language models that attaches an internal classifier or regressor C_i to each intermediate layer L_i, trains all n classifiers jointly with a depth-weighted objective L = (sum_{j=1}^n j * L_j) / (sum_{j=1}^n j), and terminates forward propagation at layer j as soon as the cross-layer agreement counter cnt_i (incremented when arg max(y_i) == arg max(y_{i-1}) for classification or |y_i - y_{i-1}| < tau for regression, and reset to 0 otherwise) reaches a predefined patience hyperparameter t.
+identity_notes: 'Introduced by Wangchunshu Zhou, Canwen Xu, Tao Ge, Julian McAuley, Ke Xu, and Furu Wei (NeurIPS 2020, arXiv:2006.04152). Distinct from single-layer confidence or entropy early-exit mechanisms such as BranchyNet, Shallow-Deep Networks, DeeBERT, and FastBERT (Round 807): instead of trusting a single low layer''s potentially over-confident softmax score, PABEE requires t consecutive inter-layer agreements (t + 1 agreeing layers in a row), which supports both classification and continuous regression (e.g., STS-B), mitigates deep-layer overthinking, and creates an implicit multi-layer ensemble defense against adversarial attacks.'
+aliases:
+- PABEE
+- Patience-Based Early Exit
+- BERT Loses Patience Early-Exit Inference
+definition_evidence:
+- source_id: r808-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r808-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r808-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r808-claim-cross-layer-patience-recurrence-and-depth-weighted-loss
+  kind: mechanism
+  statement: PABEE attaches internal classifiers/regressors C_1, ..., C_{n-1} to intermediate layers L_1, ..., L_{n-1} trained jointly via the depth-weighted objective L = (sum_{j=1}^n j * L_j) / (sum_{j=1}^n j) (Eq. 6), and during inference updates a patience counter cnt_i = cnt_{i-1} + 1 if arg max(y_i) == arg max(y_{i-1}) (classification, Eq. 2) or |y_i - y_{i-1}| < tau (regression, Eq. 3) and cnt_i = 0 otherwise, halting at the first layer j where cnt_j == t (or falling back to C_n).
+  evidence:
+  - source_id: r808-primary-pdf
+    locator: Section 3.2 (Inference, Equations 1-3) & Section 3.3 (Training, Equations 4-6), Page 4
+    relation: supports
+  - source_id: r808-primary-pdf
+    locator: pabee_classify_exit, pabee_regress_exit, and weighted_training_loss verification in main()
+    relation: supports
+- claim_id: r808-claim-theorem1-accuracy-improvement-bound
+  kind: mechanism
+  statement: In binary classification with n internal classifiers of error rate q and final classifier error rate p, the early-stopping probability is lower-bounded by p_stop > q^{t+1} + (1 - q)^{t+1} >= (1/2)^t (Eq. 7) and the early-stopped misclassification probability is upper-bounded by p_misc < q^{t+1} + (n - t - 1)(1 - q)q^{t+1} (Eq. 8), guaranteeing that PABEE strictly reduces overall error below conventional full-depth inference whenever n - t < ((1/(2q))^t * (p/q) - q) / (1 - q) (Theorem 1 & Eq. 11).
+  evidence:
+  - source_id: r808-primary-pdf
+    locator: Section 3.4 (Theoretical Analysis, Theorem 1) & Appendix B (Proof of Theorem 1, Equations 7-11), Pages 5 & 13-14
+    relation: supports
+  - source_id: r808-primary-pdf
+    locator: exact_iid_pabee_stats and Equations 7, 8, and 11 verification for n=12, q=0.2, p=0.1, t=4 in main()
+    relation: supports
+- claim_id: r808-claim-glue-accuracy-speedup-and-adversarial-robustness
+  kind: application
+  statement: Adding fewer than 40K parameters (0.33% of ALBERT-base) and no extra training time, PABEE with patience t = 6 accelerates ALBERT-base by 1.57x across 8 GLUE tasks while increasing the GLUE dev macro-score from 84.4 to 85.1 (and test macro-score from 80.4 to 80.9), accelerates 24-layer ALBERT-large by 2.42x with higher accuracy, and increases after-attack accuracy against TextFooler black-box adversarial attacks by over 3x on SNLI (19.3% vs. 5.5%) and MNLI (30.2%/25.6% vs. 9.8%/7.9%).
+  evidence:
+  - source_id: r808-primary-pdf
+    locator: Section 4.4-4.6, Tables 1-5 & Figures 3-4, Pages 6-8
+    relation: supports
+- claim_id: r808-claim-inverted-u-patience-and-single-branch-limitation
+  kind: limitation
+  statement: PABEE exhibits an inverted-U accuracy curve with respect to the patience hyperparameter t (too small t exits prematurely by chance, while too large t allows a single overthinking late layer to reset cnt_i and force fallback to the final classifier C_n), and the sequential counter formulation applies directly only to single-branch sequential backbones (such as Transformers and ResNets) rather than multi-branch DAG architectures.
+  evidence:
+  - source_id: r808-primary-pdf
+    locator: Section 4.5 (Impact of Patience) & Section 5 (Discussion), Pages 7-9
+    relation: supports
+evidence_sources:
+- source_id: r808-primary-pdf
+  title: 'BERT Loses Patience: Fast and Robust Inference with Early Exit'
+  authors: &id001
+  - Wangchunshu Zhou
+  - Canwen Xu
+  - Tao Ge
+  - Julian McAuley
+  - Ke Xu
+  - Furu Wei
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2006.04152.pdf
+  persistent_id: https://arxiv.org/bibtex/2006.04152
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020) (2020) (867655 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:51:00Z'
+  sha256: bfd1c4c3a451ec1cb4b3ba23ca85fd86241f977462ca506e996091131ee6aad5
+- source_id: r808-arxiv-abs
+  title: 'BERT Loses Patience: Fast and Robust Inference with Early Exit (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2006.04152
+  persistent_id: https://arxiv.org/abs/2006.04152
+  version: arXiv abstract page (6852 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:51:00Z'
+  sha256: ef5ae9451d5eb476ff6d327b643f711fcb62fe1dbd7f316c1aa9e5df80b1b2ce
+- source_id: r808-metadata-cr
+  title: 'BERT Loses Patience: Fast and Robust Inference with Early Exit (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2006.04152
+  persistent_id: https://arxiv.org/bibtex/2006.04152
+  version: Crossref API work record (419 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:51:00Z'
+  sha256: 951a49fa92ef020799f427bafcc275f143a7f40d17104bcc166c032285ca68cf
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Couples internal classifiers or regressors with each layer of a deep neural network (such as ALBERT, BERT, or ResNet) to perform cross-layer patience-based early exit during inference.
+limitations:
+- 'Exhibits an inverted-U accuracy trade-off with respect to patience t: excessively large patience allows a single overthinking late layer to break consecutive agreement and force execution to the final classifier.'
+- Designed for sequential single-branch networks (e.g., Transformers and ResNets) and requires adaptation for multi-branch cell architectures.
+curation:
+  created_at: '2026-10-19T14:51:00Z'
+  updated_at: '2026-10-19T14:51:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

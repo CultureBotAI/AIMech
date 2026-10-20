@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1644</strong> artificial intelligence concepts, comprising <strong>1202</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1645</strong> artificial intelligence concepts, comprising <strong>1203</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1644)</option>
-        <option value="curated">Curated AIMech (1202)</option>
+        <option value="all">All Origins (1645)</option>
+        <option value="curated">Curated AIMech (1203)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (841)</option>
+          <option value="algorithm">Algorithms (842)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (84)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1644</span> of <span id="totalCount">1644</span>
+      Showing <span id="matchCount">1645</span> of <span id="totalCount">1645</span>
     </div>
   </div>
 </div>
@@ -27903,6 +27903,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:PTuningV2DeepContinuousPromptTuning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="pabee: patience-based early exit for pretrained language models pabeepatiencebasedearlyexitforbert aimech:pabeepatiencebasedearlyexitforbert algorithms algorithm an input-adaptive dynamic early-exit inference and training algorithm for deep neural networks and pre-trained language models that attaches an internal classifier or regressor c_i to each intermediate layer l_i, trains all n classifiers jointly with a depth-weighted objective l = (sum_{j=1}^n j * l_j) / (sum_{j=1}^n j), and terminates forward propagation at layer j as soon as the cross-layer agreement counter cnt_i (incremented when arg max(y_i) == arg max(y_{i-1}) for classification or |y_i - y_{i-1}| &lt; tau for regression, and reset to 0 otherwise) reaches a predefined patience hyperparameter t. introduced by wangchunshu zhou, canwen xu, tao ge, julian mcauley, ke xu, and furu wei (neurips 2020, arxiv:2006.04152). distinct from single-layer confidence or entropy early-exit mechanisms such as branchynet, shallow-deep networks, deebert, and fastbert (round 807): instead of trusting a single low layer&#39;s potentially over-confident softmax score, pabee requires t consecutive inter-layer agreements (t + 1 agreeing layers in a row), which supports both classification and continuous regression (e.g., sts-b), mitigates deep-layer overthinking, and creates an implicit multi-layer ensemble defense against adversarial attacks. pabee patience-based early exit bert loses patience early-exit inference pabee attaches internal classifiers/regressors c_1, ..., c_{n-1} to intermediate layers l_1, ..., l_{n-1} trained jointly via the depth-weighted objective l = (sum_{j=1}^n j * l_j) / (sum_{j=1}^n j) (eq. 6), and during inference updates a patience counter cnt_i = cnt_{i-1} + 1 if arg max(y_i) == arg max(y_{i-1}) (classification, eq. 2) or |y_i - y_{i-1}| &lt; tau (regression, eq. 3) and cnt_i = 0 otherwise, halting at the first layer j where cnt_j == t (or falling back to c_n). in binary classification with n internal classifiers of error rate q and final classifier error rate p, the early-stopping probability is lower-bounded by p_stop &gt; q^{t+1} + (1 - q)^{t+1} &gt;= (1/2)^t (eq. 7) and the early-stopped misclassification probability is upper-bounded by p_misc &lt; q^{t+1} + (n - t - 1)(1 - q)q^{t+1} (eq. 8), guaranteeing that pabee strictly reduces overall error below conventional full-depth inference whenever n - t &lt; ((1/(2q))^t * (p/q) - q) / (1 - q) (theorem 1 &amp; eq. 11). adding fewer than 40k parameters (0.33% of albert-base) and no extra training time, pabee with patience t = 6 accelerates albert-base by 1.57x across 8 glue tasks while increasing the glue dev macro-score from 84.4 to 85.1 (and test macro-score from 80.4 to 80.9), accelerates 24-layer albert-large by 2.42x with higher accuracy, and increases after-attack accuracy against textfooler black-box adversarial attacks by over 3x on snli (19.3% vs. 5.5%) and mnli (30.2%/25.6% vs. 9.8%/7.9%). pabee exhibits an inverted-u accuracy curve with respect to the patience hyperparameter t (too small t exits prematurely by chance, while too large t allows a single overthinking late layer to reset cnt_i and force fallback to the final classifier c_n), and the sequential counter formulation applies directly only to single-branch sequential backbones (such as transformers and resnets) rather than multi-branch dag architectures. bert loses patience: fast and robust inference with early exit bert loses patience: fast and robust inference with early exit (arxiv abstract) bert loses patience: fast and robust inference with early exit (crossref metadata) wangchunshu zhou canwen xu tao ge julian mcauley ke xu furu wei wangchunshu zhou canwen xu tao ge julian mcauley ke xu furu wei wangchunshu zhou canwen xu tao ge julian mcauley ke xu furu wei">
+        <td>
+          <a href="curated/PABEEPatienceBasedEarlyExitForBERT.html" style="font-weight: 600; font-size: 1rem;">PABEE: Patience-Based Early Exit for Pretrained Language Models</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> PABEE, Patience-Based Early Exit…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An input-adaptive dynamic early-exit inference and training algorithm for deep neural networks and pre-trained language models that attaches…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PABEEPatienceBasedEarlyExitForBERT</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
