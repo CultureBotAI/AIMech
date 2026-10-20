@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supermasks in Superposition · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Supermasks in Superposition</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Supermasks in Superposition</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SupSupSupermasksInSuperposition</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SupSup, HopSupSup, Supermasks in Superposition Continual Learning
+    </div>
+
+  <div class="detail-desc">
+    A continual learning algorithm that eliminates catastrophic forgetting by keeping a shared base neural network fixed at random signed-Kaiming initialization W and learning a sparse binary supermask M^i in {0, 1} for each task i, while inferring unknown task identity at inference (or training) time from a weighted superposition p(alpha) = f(x, W odot sum_{i=1}^k alpha_i M^i) via One-Shot or Binary gradient minimization of output Shannon entropy H(p(alpha)) or superfluous-neuron log-partition objective G(y; alpha) = log sum_v exp(y_v).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Mitchell Wortsman, Vivek Ramanujan, Rosanne Liu, Aniruddha Kembhavi, Mohammad Rastegari, Jason Yosinski, and Ali Farhadi (NeurIPS 2020, pp. 15173-15184, arXiv:2006.14769) as Supermasks in Superposition (SupSup) and HopSupSup. Distinct from LT-SFT (AIMech:LTSFTLotteryTicketSparseFineTuning), which fine-tunes real-valued sparse difference vectors from a pretrained language model and sums them unconditionally; and from Polytropon (AIMech:PolytroponModularSkillAllocation), which jointly learns LoRA skill modules and a binary task-skill allocation matrix.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#supsup-superposition-entropy-one-shot-and-binary-task-inference</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given k binary supermasks {M^i}_{i=1}^k over fixed signed-Kaiming weights W, SupSup forms the uniform superposition p(alpha) = f(x, W odot sum_{i=1}^k alpha_i M^i) at alpha_i = 1/k and infers unknown task identity either in One-Shot via a single Frank-Wolfe gradient step argmax_i (-dH(p(alpha))/dalpha_i) or in log_2(k) Binary halving steps that zero out the bottom median of -nabla_alpha H(p(alpha)) and renormalize alpha on the simplex.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r715-primary-pdf">Supermasks in Superposition</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3 &amp; Appendix A, Equations (1)-(4), Algorithms 1-2, pp. 4-5, 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#supsup-superfluous-neurons-gradient-theorem-and-nns-allocation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Adding superfluous output neurons S = {l+1, ..., s} and defining G(y; alpha) = log sum_{v&#39;=1}^s exp(y_{v&#39;}) with gradients detached on real class neurons R = {1, ..., l} makes dG/dy_v identically match the cross-entropy training gradient dL/dy_v on S (Lemma I.1) so that E[-dG/dalpha_j] &gt; 0 &gt;= E[-dG/dalpha_i] for i != j (Lemmas I.2-I.3), while in task-agnostic Scenario NNs a new supermask is allocated whenever k max_i softmax(-nabla_alpha H)_i &lt; 1 + epsilon.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r715-primary-pdf">Supermasks in Superposition</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4, Section 3.6 &amp; Appendix I-J, Lemmas I.1-I.3, J.1-J.3, pp. 5-6, 20-25</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#supsup-2500-task-permuted-mnist-and-splitimagenet-continual-learning</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because W is fixed and generated from a single random seed, SupSup stores only sparse binary masks (achieving 89.58% vs. BatchE&#39;s 81.50% top-1 accuracy on 100-task SplitImageNet with ResNet-50) and sequentially learns 2,500 tasks on PermutedMNIST (25,000-way classification) without catastrophic forgetting, maintaining 93.46% accuracy in Scenario GNu and 93.28% in Scenario NNs using single-image One-Shot task inference.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r715-primary-pdf">Supermasks in Superposition</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.3 &amp; Appendix H, Figures 2-4, Tables 2-5, pp. 4, 6-8, 18-19</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r715-metadata-cr">Supermasks in Superposition (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> NeurIPS 2020 bibliographic record</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#supsup-miscalibration-and-similar-task-inference-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Gradient-based task identity inference degrades when tasks are closely related (such as 10-degree increments in RotatedMNIST, which require multi-step Binary search over a full batch rather than single-image One-Shot inference) or when uncalibrated subnetworks produce overconfident low-entropy predictions on out-of-task data.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r715-primary-pdf">Supermasks in Superposition</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, Section 5 &amp; Appendix F, Figures 5, 11, pp. 8-9, 17-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>One-Shot single-gradient task identity inference can fail when tasks share highly similar input distributions (e.g., 10-degree rotations in RotatedMNIST), requiring log_2(k)-step Binary search and full test batches.</li>
+      <li>Entropy-based task inference relies on subnetworks being well-calibrated (producing low-entropy outputs only on their own task&#39;s distribution) and degrades when wrong-task masks are overconfident.</li>
+      <li>Storing masks implicitly as attractors in a fixed-size Hopfield network (HopSupSup) is quadratic in mask dimension, restricting masking to layer activations rather than all weight parameters.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SupSup learns sparse binary subnetwork supermasks over a fixed random network and superimposes them for continual learning.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SupSup operates on randomly initialized deep neural networks and Hopfield associative memory networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r715-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r715-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2006.14769.pdf" target="_blank" rel="noopener">Supermasks in Superposition</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mitchell Wortsman, Vivek Ramanujan, Rosanne Liu, Aniruddha Kembhavi, Mohammad Rastegari, Jason Yosinski, Ali Farhadi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Supermasks+in+Superposition+Wortsman&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9dfbf7bbe5e1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r715-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r715-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2006.14769" target="_blank" rel="noopener">Supermasks in Superposition (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mitchell Wortsman, Vivek Ramanujan, Rosanne Liu, Aniruddha Kembhavi, Mohammad Rastegari, Jason Yosinski, Ali Farhadi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2006.14769</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:182cc2f76562…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r715-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r715-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Supermasks+in+Superposition+Wortsman&amp;h=5&amp;format=xml" target="_blank" rel="noopener">Supermasks in Superposition (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mitchell Wortsman, Vivek Ramanujan, Rosanne Liu, Aniruddha Kembhavi, Mohammad Rastegari, Jason Yosinski, Ali Farhadi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Supermasks+in+Superposition+Wortsman&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b833ce75e514…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:18:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:18:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SupSupSupermasksInSuperposition.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SupSupSupermasksInSuperposition.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

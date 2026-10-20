@@ -1,0 +1,111 @@
+id: AIMech:SupSupSupermasksInSuperposition
+name: Supermasks in Superposition
+concept_kind: algorithm
+review_status: DRAFT
+definition: A continual learning algorithm that eliminates catastrophic forgetting by keeping a shared base neural network fixed at random signed-Kaiming initialization W and learning a sparse binary supermask M^i in {0, 1} for each task i, while inferring unknown task identity at inference (or training) time from a weighted superposition p(alpha) = f(x, W odot sum_{i=1}^k alpha_i M^i) via One-Shot or Binary gradient minimization of output Shannon entropy H(p(alpha)) or superfluous-neuron log-partition objective G(y; alpha) = log sum_v exp(y_v).
+identity_notes: Introduced by Mitchell Wortsman, Vivek Ramanujan, Rosanne Liu, Aniruddha Kembhavi, Mohammad Rastegari, Jason Yosinski, and Ali Farhadi (NeurIPS 2020, pp. 15173-15184, arXiv:2006.14769) as Supermasks in Superposition (SupSup) and HopSupSup. Distinct from LT-SFT (AIMech:LTSFTLotteryTicketSparseFineTuning), which fine-tunes real-valued sparse difference vectors from a pretrained language model and sums them unconditionally; and from Polytropon (AIMech:PolytroponModularSkillAllocation), which jointly learns LoRA skill modules and a binary task-skill allocation matrix.
+aliases:
+- SupSup
+- HopSupSup
+- Supermasks in Superposition Continual Learning
+definition_evidence:
+- source_id: r715-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r715-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r715-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: supsup-superposition-entropy-one-shot-and-binary-task-inference
+  kind: mechanism
+  statement: Given k binary supermasks {M^i}_{i=1}^k over fixed signed-Kaiming weights W, SupSup forms the uniform superposition p(alpha) = f(x, W odot sum_{i=1}^k alpha_i M^i) at alpha_i = 1/k and infers unknown task identity either in One-Shot via a single Frank-Wolfe gradient step argmax_i (-dH(p(alpha))/dalpha_i) or in log_2(k) Binary halving steps that zero out the bottom median of -nabla_alpha H(p(alpha)) and renormalize alpha on the simplex.
+  evidence:
+  - source_id: r715-primary-pdf
+    locator: Section 3.2-3.3 & Appendix A, Equations (1)-(4), Algorithms 1-2, pp. 4-5, 13
+    relation: supports
+- claim_id: supsup-superfluous-neurons-gradient-theorem-and-nns-allocation
+  kind: mechanism
+  statement: Adding superfluous output neurons S = {l+1, ..., s} and defining G(y; alpha) = log sum_{v'=1}^s exp(y_{v'}) with gradients detached on real class neurons R = {1, ..., l} makes dG/dy_v identically match the cross-entropy training gradient dL/dy_v on S (Lemma I.1) so that E[-dG/dalpha_j] > 0 >= E[-dG/dalpha_i] for i != j (Lemmas I.2-I.3), while in task-agnostic Scenario NNs a new supermask is allocated whenever k max_i softmax(-nabla_alpha H)_i < 1 + epsilon.
+  evidence:
+  - source_id: r715-primary-pdf
+    locator: Section 3.4, Section 3.6 & Appendix I-J, Lemmas I.1-I.3, J.1-J.3, pp. 5-6, 20-25
+    relation: supports
+- claim_id: supsup-2500-task-permuted-mnist-and-splitimagenet-continual-learning
+  kind: application
+  statement: Because W is fixed and generated from a single random seed, SupSup stores only sparse binary masks (achieving 89.58% vs. BatchE's 81.50% top-1 accuracy on 100-task SplitImageNet with ResNet-50) and sequentially learns 2,500 tasks on PermutedMNIST (25,000-way classification) without catastrophic forgetting, maintaining 93.46% accuracy in Scenario GNu and 93.28% in Scenario NNs using single-image One-Shot task inference.
+  evidence:
+  - source_id: r715-primary-pdf
+    locator: Section 4.1-4.3 & Appendix H, Figures 2-4, Tables 2-5, pp. 4, 6-8, 18-19
+    relation: supports
+  - source_id: r715-metadata-cr
+    locator: NeurIPS 2020 bibliographic record
+    relation: supports
+- claim_id: supsup-miscalibration-and-similar-task-inference-limitation
+  kind: limitation
+  statement: Gradient-based task identity inference degrades when tasks are closely related (such as 10-degree increments in RotatedMNIST, which require multi-step Binary search over a full batch rather than single-image One-Shot inference) or when uncalibrated subnetworks produce overconfident low-entropy predictions on out-of-task data.
+  evidence:
+  - source_id: r715-primary-pdf
+    locator: Section 4.2, Section 5 & Appendix F, Figures 5, 11, pp. 8-9, 17-18
+    relation: supports
+evidence_sources:
+- source_id: r715-primary-pdf
+  title: Supermasks in Superposition
+  authors: &id001
+  - Mitchell Wortsman
+  - Vivek Ramanujan
+  - Rosanne Liu
+  - Aniruddha Kembhavi
+  - Mohammad Rastegari
+  - Jason Yosinski
+  - Ali Farhadi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2006.14769.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Supermasks+in+Superposition+Wortsman&h=5&format=xml
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020), pp. 15173-15184 (2020) (1634530 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:18:00Z'
+  sha256: 9dfbf7bbe5e1d8e64486fb5a7e438a74e5bc44df779fc0338edbe04dbd09046a
+- source_id: r715-arxiv-abs
+  title: Supermasks in Superposition (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2006.14769
+  persistent_id: https://arxiv.org/abs/2006.14769
+  version: arXiv abstract page (7357 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:18:00Z'
+  sha256: 182cc2f765626652e195134e35f0a283c872f47c80a744cbaf15c388842fe577
+- source_id: r715-metadata-cr
+  title: Supermasks in Superposition (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Supermasks+in+Superposition+Wortsman&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Supermasks+in+Superposition+Wortsman&h=5&format=xml
+  version: Crossref API work record (908 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:18:00Z'
+  sha256: b833ce75e514ce0e75967447d6b0f1985f56eab7b7e8d92c8f8760fe4e8658cc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: SupSup learns sparse binary subnetwork supermasks over a fixed random network and superimposes them for continual learning.
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: SupSup operates on randomly initialized deep neural networks and Hopfield associative memory networks.
+limitations:
+- One-Shot single-gradient task identity inference can fail when tasks share highly similar input distributions (e.g., 10-degree rotations in RotatedMNIST), requiring log_2(k)-step Binary search and full test batches.
+- Entropy-based task inference relies on subnetworks being well-calibrated (producing low-entropy outputs only on their own task's distribution) and degrades when wrong-task masks are overconfident.
+- Storing masks implicitly as attractors in a fixed-size Hopfield network (HopSupSup) is quadratic in mask dimension, restricting masking to layer activations rather than all weight parameters.
+curation:
+  created_at: '2026-10-19T13:18:00Z'
+  updated_at: '2026-10-19T13:18:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
