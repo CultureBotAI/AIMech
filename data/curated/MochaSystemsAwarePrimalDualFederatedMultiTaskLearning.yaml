@@ -1,0 +1,101 @@
+id: AIMech:MochaSystemsAwarePrimalDualFederatedMultiTaskLearning
+name: MOCHA (Systems-Aware Primal-Dual Federated Multi-Task Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A systems-aware bi-convex primal-dual optimization framework for federated multi-task learning (Smith, Chiang, Sanjabi, & Talwalkar 2017, Sections 3-4, Equations 1-7, Algorithm 1, Theorems 1-2) that fits task-specific weight vectors W = [w_1, ..., w_m] in R^{d x m} and a task-relationship matrix Omega in R^{m x m} by alternating between (1) distributed primal-dual updates of W (with fixed Omega and matrix regularizer R_bar(w, Omega_bar) strongly convex with respect to M^{-1}) where each node t in {1, ..., m} solves its data-local quadratic dual subproblem min_{Delta alpha_t} G_t^{sigma'}(Delta alpha_t; v_t, alpha_t) = sum_{i=1}^{n_t} l_t^*(-alpha_t^i - Delta alpha_t^i) + <w_t(alpha), X_t Delta alpha_t> + (sigma'/2) ||X_t Delta alpha_t||_{M_t}^2 + c(alpha) (Equations 3-4) to a flexible per-node, per-round approximation accuracy theta_t^h in [0, 1] (Definition 1, Equation 5, allowing stragglers and dropped nodes with theta_t^h = 1) and communicates only Delta v_t = X_t Delta alpha_t in R^d, and (2) centralized data-free updates of the task-structure matrix Omega given W(alpha) = nabla R^*(X alpha) (Algorithm 1).
+identity_notes: Distinct from CoCoA (Jaggi et al. 2014; Ma et al. 2015), which solves single-model distributed ERM under a uniform fixed accuracy parameter theta across all workers and rounds without tolerating dropped nodes (theta_t^h = 1) or alternating multi-task relationship matrix updates Omega; and distinct from Ditto (AIMech:DittoFairAndRobustPersonalizedFederatedMultiTaskLearning, Li et al. 2021) and FedU (AIMech:FedUAndDFedULaplacianRegularizedFederatedMultiTaskLearning, Dinh et al. 2022), which operate in the primal parameter space to support nonconvex neural networks rather than solving dual block-quadratic subproblems G_t^{sigma'} with conjugate losses l_t^* and learned task-covariance matrices Omega.
+aliases:
+- MOCHA
+- Mocha Federated Multi-Task Learning
+- Systems-Aware Primal-Dual Federated Multi-Task Learning
+definition_evidence:
+- source_id: r487-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r487-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r487-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r487-biconvex-alternating-data-local-dual-subproblem-mechanism
+  kind: mechanism
+  statement: MOCHA alternates between centrally updating the m x m task-relationship matrix Omega (via eigenvalue or graphical-lasso updates using only W) and updating W across m nodes via H_i federated rounds in which each node t computes a theta_t^h-approximate solution Delta alpha_t to the local quadratic dual subproblem G_t^{sigma'}(Delta alpha_t; v_t, alpha_t) (Equation 4, with safe step-size parameter sigma' = gamma max_t sum_{t'=1}^m |M_bar_{tt'}| / M_bar_{tt} from Lemma 9) and transmits only the d-dimensional update Delta v_t = X_t Delta alpha_t (Smith et al. 2017, Section 3.2-3.3, Algorithm 1, Lemma 9, pp. 3-4 & 16).
+  evidence:
+  - source_id: r487-primary-pdf
+    locator: Section 3.2-3.3 (Equations 3-4, Algorithm 1), pp. 3-4, and Appendix B & D (Lemma 9, Equation 29), pp. 12-13 & 16
+    relation: supports
+- claim_id: r487-straggler-and-dropout-tolerant-dual-convergence-scope
+  kind: scope
+  statement: Under Assumption 2 (where each node t may drop out with probability p_t^h = P[theta_t^h = 1] <= p_max < 1 and otherwise achieves conditional expected approximation E[theta_t^h | H_h, theta_t^h < 1] <= Theta_max < 1, so E[theta_t^h | H_h] <= Theta_bar = p_max + (1 - p_max) Theta_max < 1 by Lemma 3), Theorem 1 proves geometric dual convergence in H >= (1 / ((1 - Theta_bar) s)) log(n / epsilon_D) iterations for (1/mu)-smooth losses, and Theorem 2 proves O(1 / ((1 - Theta_bar) epsilon_D)) sublinear convergence for L-Lipschitz non-smooth losses such as hinge-loss SVMs (Smith et al. 2017, Section 4, Definition 1, Assumption 2, Theorems 1-2, Equations 5-7, pp. 5-6).
+  evidence:
+  - source_id: r487-primary-pdf
+    locator: Section 4 (Definition 1, Assumption 2, Theorems 1-2, Equations 5-7), pp. 5-6, and Appendix C (Lemmas 3-7), pp. 14-16
+    relation: supports
+- claim_id: r487-federated-sensor-and-wearable-activity-recognition-application
+  kind: application
+  statement: Applied to federated multi-task support vector machine classification on Google Glass (GLEAM), Human Activity Recognition, and Vehicle Sensor benchmarks under simulated cellular/WiFi communication bottlenecks, statistical/systems stragglers, and periodic device dropout (Smith et al. 2017, Section 5, Table 1, Figures 1-3, pp. 6-8).
+  evidence:
+  - source_id: r487-primary-pdf
+    locator: Section 5 (Simulations, Table 1, Figures 1-3), pp. 6-8
+    relation: supports
+- claim_id: r487-convex-fenchel-dual-and-linear-predictor-limitation
+  kind: limitation
+  statement: Relies on Fenchel conjugate duality l_t^* and R^* of convex loss functions and bi-convex matrix regularizers, and therefore does not directly apply to non-convex deep neural networks (Smith et al. 2017, Section 3.1 & Section 6 Discussion, pp. 3 & 9).
+  evidence:
+  - source_id: r487-primary-pdf
+    locator: Section 3.1 & 3.3, pp. 3-4, and Section 6 (Discussion), p. 9
+    relation: supports
+evidence_sources:
+- source_id: r487-primary-pdf
+  title: Federated Multi-Task Learning
+  authors: &id001
+  - Virginia Smith
+  - Chao-Kai Chiang
+  - Maziar Sanjabi
+  - Ameet Talwalkar
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1705.10467.pdf
+  persistent_id: https://arxiv.org/abs/1705.10467
+  version: NeurIPS 2017 (2017) (874 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:30:00Z'
+  sha256: 1b6c0c61d0a19408180bc4391b89806e9fd2ec1b7e0f26c386deaaffd0fffe3f
+- source_id: r487-arxiv-abs
+  title: Federated Multi-Task Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1705.10467
+  persistent_id: https://arxiv.org/abs/1705.10467
+  version: arXiv abstract page (649 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:30:00Z'
+  sha256: 8cc372d555bcbbbb49e8159d96294f5c02d75813410defefbcbd3db368bc7fec
+- source_id: r487-metadata-cr
+  title: Federated Multi-Task Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1705.10467
+  persistent_id: https://arxiv.org/abs/1705.10467
+  version: Crossref API work record (892 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:30:00Z'
+  sha256: fbd33964a3e9c039179b72b6a02470710f453cbd17497afd2919c3ed5466e798
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: MOCHA is a foundational primal-dual federated multi-task learning algorithm within the broader FederatedLearning category.
+limitations:
+- Restricted to convex loss functions with tractable Fenchel conjugates; does not directly apply to non-convex deep neural networks.
+- Central updates to the m x m task-relationship matrix Omega require O(m^3) eigendecomposition or SVD when the number of tasks m is large.
+curation:
+  created_at: '2026-10-19T09:30:00Z'
+  updated_at: '2026-10-19T09:30:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

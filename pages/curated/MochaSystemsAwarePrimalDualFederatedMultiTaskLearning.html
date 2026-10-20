@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOCHA (Systems-Aware Primal-Dual Federated Multi-Task Learning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>MOCHA (Systems-Aware Primal-Dual Federated Multi-Task Learning)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MOCHA (Systems-Aware Primal-Dual Federated Multi-Task Learning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MochaSystemsAwarePrimalDualFederatedMultiTaskLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MOCHA, Mocha Federated Multi-Task Learning, Systems-Aware Primal-Dual Federated Multi-Task Learning
+    </div>
+
+  <div class="detail-desc">
+    A systems-aware bi-convex primal-dual optimization framework for federated multi-task learning (Smith, Chiang, Sanjabi, &amp; Talwalkar 2017, Sections 3-4, Equations 1-7, Algorithm 1, Theorems 1-2) that fits task-specific weight vectors W = [w_1, ..., w_m] in R^{d x m} and a task-relationship matrix Omega in R^{m x m} by alternating between (1) distributed primal-dual updates of W (with fixed Omega and matrix regularizer R_bar(w, Omega_bar) strongly convex with respect to M^{-1}) where each node t in {1, ..., m} solves its data-local quadratic dual subproblem min_{Delta alpha_t} G_t^{sigma&#39;}(Delta alpha_t; v_t, alpha_t) = sum_{i=1}^{n_t} l_t^*(-alpha_t^i - Delta alpha_t^i) + &lt;w_t(alpha), X_t Delta alpha_t&gt; + (sigma&#39;/2) ||X_t Delta alpha_t||_{M_t}^2 + c(alpha) (Equations 3-4) to a flexible per-node, per-round approximation accuracy theta_t^h in [0, 1] (Definition 1, Equation 5, allowing stragglers and dropped nodes with theta_t^h = 1) and communicates only Delta v_t = X_t Delta alpha_t in R^d, and (2) centralized data-free updates of the task-structure matrix Omega given W(alpha) = nabla R^*(X alpha) (Algorithm 1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from CoCoA (Jaggi et al. 2014; Ma et al. 2015), which solves single-model distributed ERM under a uniform fixed accuracy parameter theta across all workers and rounds without tolerating dropped nodes (theta_t^h = 1) or alternating multi-task relationship matrix updates Omega; and distinct from Ditto (AIMech:DittoFairAndRobustPersonalizedFederatedMultiTaskLearning, Li et al. 2021) and FedU (AIMech:FedUAndDFedULaplacianRegularizedFederatedMultiTaskLearning, Dinh et al. 2022), which operate in the primal parameter space to support nonconvex neural networks rather than solving dual block-quadratic subproblems G_t^{sigma&#39;} with conjugate losses l_t^* and learned task-covariance matrices Omega.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r487-biconvex-alternating-data-local-dual-subproblem-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    MOCHA alternates between centrally updating the m x m task-relationship matrix Omega (via eigenvalue or graphical-lasso updates using only W) and updating W across m nodes via H_i federated rounds in which each node t computes a theta_t^h-approximate solution Delta alpha_t to the local quadratic dual subproblem G_t^{sigma&#39;}(Delta alpha_t; v_t, alpha_t) (Equation 4, with safe step-size parameter sigma&#39; = gamma max_t sum_{t&#39;=1}^m |M_bar_{tt&#39;}| / M_bar_{tt} from Lemma 9) and transmits only the d-dimensional update Delta v_t = X_t Delta alpha_t (Smith et al. 2017, Section 3.2-3.3, Algorithm 1, Lemma 9, pp. 3-4 &amp; 16).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r487-primary-pdf">Federated Multi-Task Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3 (Equations 3-4, Algorithm 1), pp. 3-4, and Appendix B &amp; D (Lemma 9, Equation 29), pp. 12-13 &amp; 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r487-straggler-and-dropout-tolerant-dual-convergence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Assumption 2 (where each node t may drop out with probability p_t^h = P[theta_t^h = 1] &lt;= p_max &lt; 1 and otherwise achieves conditional expected approximation E[theta_t^h | H_h, theta_t^h &lt; 1] &lt;= Theta_max &lt; 1, so E[theta_t^h | H_h] &lt;= Theta_bar = p_max + (1 - p_max) Theta_max &lt; 1 by Lemma 3), Theorem 1 proves geometric dual convergence in H &gt;= (1 / ((1 - Theta_bar) s)) log(n / epsilon_D) iterations for (1/mu)-smooth losses, and Theorem 2 proves O(1 / ((1 - Theta_bar) epsilon_D)) sublinear convergence for L-Lipschitz non-smooth losses such as hinge-loss SVMs (Smith et al. 2017, Section 4, Definition 1, Assumption 2, Theorems 1-2, Equations 5-7, pp. 5-6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r487-primary-pdf">Federated Multi-Task Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Definition 1, Assumption 2, Theorems 1-2, Equations 5-7), pp. 5-6, and Appendix C (Lemmas 3-7), pp. 14-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r487-federated-sensor-and-wearable-activity-recognition-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to federated multi-task support vector machine classification on Google Glass (GLEAM), Human Activity Recognition, and Vehicle Sensor benchmarks under simulated cellular/WiFi communication bottlenecks, statistical/systems stragglers, and periodic device dropout (Smith et al. 2017, Section 5, Table 1, Figures 1-3, pp. 6-8).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r487-primary-pdf">Federated Multi-Task Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5 (Simulations, Table 1, Figures 1-3), pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r487-convex-fenchel-dual-and-linear-predictor-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Relies on Fenchel conjugate duality l_t^* and R^* of convex loss functions and bi-convex matrix regularizers, and therefore does not directly apply to non-convex deep neural networks (Smith et al. 2017, Section 3.1 &amp; Section 6 Discussion, pp. 3 &amp; 9).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r487-primary-pdf">Federated Multi-Task Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 &amp; 3.3, pp. 3-4, and Section 6 (Discussion), p. 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Restricted to convex loss functions with tractable Fenchel conjugates; does not directly apply to non-convex deep neural networks.</li>
+      <li>Central updates to the m x m task-relationship matrix Omega require O(m^3) eigendecomposition or SVD when the number of tasks m is large.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MOCHA is a foundational primal-dual federated multi-task learning algorithm within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r487-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r487-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1705.10467.pdf" target="_blank" rel="noopener">Federated Multi-Task Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Virginia Smith, Chao-Kai Chiang, Maziar Sanjabi, Ameet Talwalkar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1705.10467</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1b6c0c61d0a1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r487-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r487-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1705.10467" target="_blank" rel="noopener">Federated Multi-Task Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Virginia Smith, Chao-Kai Chiang, Maziar Sanjabi, Ameet Talwalkar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1705.10467</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8cc372d555bc…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r487-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r487-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1705.10467" target="_blank" rel="noopener">Federated Multi-Task Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Virginia Smith, Chao-Kai Chiang, Maziar Sanjabi, Ameet Talwalkar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1705.10467</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fbd33964a3e9…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:30:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:30:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MochaSystemsAwarePrimalDualFederatedMultiTaskLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MochaSystemsAwarePrimalDualFederatedMultiTaskLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
