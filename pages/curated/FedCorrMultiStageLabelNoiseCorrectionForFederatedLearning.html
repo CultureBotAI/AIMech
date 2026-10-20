@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedCorr (Multi-Stage Federated Learning for Heterogeneous Label Noise Correction) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedCorr (Multi-Stage Federated Learning for Heterogeneous Label Noise Correction)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedCorr (Multi-Stage Federated Learning for Heterogeneous Label Noise Correction)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedCorrMultiStageLabelNoiseCorrectionForFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedCorr, Multi-Stage Federated Learning for Label Noise Correction, LID Prediction Subspace and Adaptive Proximal Federated Label Noise Correction
+    </div>
+
+  <div class="detail-desc">
+    A three-stage federated learning framework for heterogeneous client label noise (Xu et al. 2022, Section 3, Equations 1-7, Algorithm 1) that (1) in a federated pre-processing stage (T_1 iterations with small無-replacement sampling fraction gamma = 1/N), trains local models using Mixup cross-entropy plus an adaptive local proximal regularizer L(X_b) = L_CE(f_k^{(t)}(X_tilde_b), Y_tilde_b) + beta * mu_hat_k^{(t-1)} ||w_k^{(t)} - w^{(t-1)}||^2 proportional to each client&#39;s estimated noise rate mu_hat_k (Equation 5), partitions noisy versus clean clients via a two-component Gaussian Mixture Model (GMM) over cumulative Local Intrinsic Dimensionality (LID) scores of local prediction subspaces LID(D_k, f_k^{(t)}) = (1 / |D_k|) sum_{x in D_k} (-(1 / k) sum_{i=1}^k log(r_i(f(x)) / r_max(f(x))))^{-1} (Equations 1-2), separates noisy local samples D_k^n via a second per-client loss GMM, and partially relabels the top-pi fraction of high-loss samples exceeding global prediction confidence theta (Equations 6-7); (2) finetunes the global model on relatively clean clients (mu_hat_k &lt;= kappa) for T_2 rounds followed by a second relabeling pass; and (3) performs standard FedAvg training across all corrected client datasets for T_3 rounds.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from centralized noisy-label learning methods such as DivideMix (AIMech:DivideMixLearningWithNoisyLabelsAsSemiSupervisedLearning, Li et al. 2020) and Co-teaching (AIMech:CoTeachingRobustTrainingOfDeepNeuralNetworksWithExtremelyNoisyLabels, Han et al. 2018), which assume a single centralized dataset with homogeneous noise and cannot distinguish clean versus noisy clients or bound non-IID weight divergence across distributed clients; and distinct from Byzantine-robust gradient aggregators (such as Krum or Trimmed Mean), which discard client updates rather than correcting corrupted local sample labels.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r462-cumulative-lid-gmm-client-and-sample-noise-identification-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Computes each client&#39;s Local Intrinsic Dimensionality score LID(D_k, f_k^{(t)}) over its M-dimensional prediction vectors via k-NN distance ratios (Equations 1-2), exploits the higher cumulative LID of noisy prediction subspaces to separate noisy clients S_n from clean clients S_c via a server-side 2-component GMM, and then fits a client-side 2-component GMM on per-sample cross-entropy losses on k in S_n to isolate corrupted samples D_k^n and estimate the local noise level mu_hat_k^{(t)} = |D_k^n| / |D_k|.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r462-primary-pdf">FedCorr: Multi-Stage Federated Learning for Label Noise Correction</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Dimensionality of Prediction Subspace (Equations 1-2, Figure 2) &amp; Section 3.2 Stage 1: Pre-processing (Algorithm 1 lines 1-13), pp. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r462-adaptive-proximal-regularization-and-partial-relabeling-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Stabilizes local training under joint data heterogeneity and heterogeneous label noise without sharing raw client data by scaling each client&#39;s proximal penalty beta * mu_hat_k^{(t-1)} ||w_k^{(t)} - w^{(t-1)}||^2 proportionally to its estimated noise rate (Equation 5) and relabeling only the top-pi highest-loss noisy samples whose global-model confidence max(f_G^{(t)}(x)) &gt;= theta (Equations 6-7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r462-primary-pdf">FedCorr: Multi-Stage Federated Learning for Label Noise Correction</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Adaptive Local Proximal Regularization &amp; Label Correction (Equations 5-7), pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r462-knn-lid-computation-and-clean-client-subset-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires O(|D_k|^2 M) pairwise distance computations on each client&#39;s local prediction vectors per pre-processing iteration to estimate k-NN LID scores, and assumes the existence of a non-empty subset of relatively clean clients (mu_hat_k &lt;= kappa) for Stage 2 finetuning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r462-primary-pdf">FedCorr: Multi-Stage Federated Learning for Label Noise Correction</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.3 (Equations 1-2, Algorithm 1 lines 14-18) &amp; Section 4.3 Ablation Study, pp. 3-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r462-federated-classification-under-heterogeneous-label-noise-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to federated image classification under heterogeneous synthetic and real-world label noise on CIFAR-10, CIFAR-100, and Clothing1M.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r462-primary-pdf">FedCorr: Multi-Stage Federated Learning for Label Noise Correction</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Experiments (Tables 1-5, Figures 3-5), pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires pairwise k-NN distance computation over local prediction vectors on every client during Stage 1 pre-processing.</li>
+      <li>Relies on a bimodal GMM separation assumption for both client-level cumulative LID scores and sample-level cross-entropy losses.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedCorr is a multi-stage federated learning algorithm that detects noisy clients via cumulative LID scores and corrects corrupted local labels.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r462-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r462-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2204.04677.pdf" target="_blank" rel="noopener">FedCorr: Multi-Stage Federated Learning for Label Noise Correction</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jingyi Xu, Zihan Chen, Tony Q. S. Quek, Kai Fong Ernest Chong
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/CVPR52688.2022.00994</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4b0071994874…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r462-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r462-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2204.04677" target="_blank" rel="noopener">FedCorr: Multi-Stage Federated Learning for Label Noise Correction (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jingyi Xu, Zihan Chen, Tony Q. S. Quek, Kai Fong Ernest Chong
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2204.04677</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f3530dbb839b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r462-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r462-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1109/CVPR52688.2022.00994" target="_blank" rel="noopener">FedCorr: Multi-Stage Federated Learning for Label Noise Correction (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jingyi Xu, Zihan Chen, Tony Q. S. Quek, Kai Fong Ernest Chong
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/CVPR52688.2022.00994</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1ba678f6016a…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:05:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:05:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedCorrMultiStageLabelNoiseCorrectionForFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedCorrMultiStageLabelNoiseCorrectionForFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
