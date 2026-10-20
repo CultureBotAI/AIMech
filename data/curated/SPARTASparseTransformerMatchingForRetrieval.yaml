@@ -1,0 +1,107 @@
+id: AIMech:SPARTASparseTransformerMatchingForRetrieval
+name: SPARTA Sparse Transformer Matching for Retrieval
+concept_kind: architecture
+review_status: DRAFT
+definition: A sparse neural retrieval architecture for open-domain and sentence-level question answering that encodes each query q = [t_1, ..., t_|q|] via non-contextualized word embeddings E(q) = [e_1, ..., e_|q|] and each candidate answer with surrounding context (a, c) = [c_1, ..., a_1, ..., a_|a|, c_{a+1}, ..., c_|c|] (distinguished by BERT segment embeddings 1 and 0) via a bidirectional Transformer encoder H(a, c) = [s_1, ..., s_|c|], scores each query token via max-pooled token-level dot-product interaction y_i = max_{j in [1, |c|]}(e_i^T s_j), enforces sparsity and scale regularization through a biased ReLU and logarithm f(q, (a, c)) = sum_{i=1}^{|q|} log(ReLU(y_i + b) + 1), trains end-to-end with a cross-entropy learning-to-rank objective over random and nearby-sentence hard negatives, and precomputes LOOKUP(t, (a, c)) = log(ReLU(max_j(e_t^T s_j) + b) + 1) offline for every vocabulary term t in V to store human-interpretable sparse answer vectors in a standard Inverted Index for O(1) lookup and summation at query time.
+identity_notes: Distinct from SPLADE (AIMech:SPLADESparseLexicalAndExpansionModel), which uses the Masked Language Modeling output head on contextualized query and document encoders with explicit L1/FLOPS sparsity regularization rather than non-contextualized query word embeddings max-pooled against contextualized answer+context BERT tokens with a scalar ReLU threshold b; and distinct from COIL (AIMech:COILContextualizedInvertedList) and DeepCT (AIMech:DeepCTContextAwareTermImportanceEstimationForFirstStageRetrieval), which restrict index entries to exact tokens appearing in the document rather than scoring and indexing latent non-appearing vocabulary terms (such as question words 'who', 'where', and synonyms).
+aliases:
+- SPARTA
+- Sparse Transformer Matching
+- SPARTA Neural Ranker
+- 'SPARTA: Efficient Open-Domain Question Answering via Sparse Transformer Matching Retrieval'
+definition_evidence:
+- source_id: r774-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r774-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r774-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: sparta-token-level-max-pooling-and-log-relu-sparsity-control
+  kind: mechanism
+  statement: SPARTA encodes answer sentences a and their surrounding context c using BERT with segment_id = 1 for answer tokens and segment_id = 0 for context tokens into H(a, c) = [s_1, ..., s_|c|] while embedding query tokens via non-contextualized BERT word embeddings E(q) = [e_1, ..., e_|q|] (Equations 2-3), computing token-level max-pooling y_i = max_{j in [1, |c|]}(e_i^T s_j) (Equation 4), sparse thresholding phi(y_i) = ReLU(y_i + b) with trainable bias b (Equation 5), and log-regularized aggregation f(q, (a, c)) = sum_i log(phi(y_i) + 1) (Equation 6), and training with cross-entropy loss J = f(q, (a+, c+)) - log sum_{k in K-} exp(f(q, (a_k, c_k))) using 50% random negatives and 50% nearby-sentence negatives from the ground-truth passage (Equation 7).
+  evidence:
+  - source_id: r774-primary-pdf
+    locator: Sections 3.2-3.3, Equations 2-7, Figure 1(a), pp. 3-4
+    relation: supports
+  - source_id: r774-primary-pdf
+    locator: sparta_term_score(), sparta_online_score(), and sparta_ltr_objective() verification
+    relation: supports
+- claim_id: sparta-offline-vocabulary-lookup-and-inverted-index-inference
+  kind: mechanism
+  statement: Because query token embeddings e_t are non-contextual, SPARTA precomputes LOOKUP(t, (a, c)) = log(ReLU(max_j(e_t^T s_j) + b) + 1) for every term t in the vocabulary V against every candidate answer at indexing time (Equation 8, producing ~1600 non-zero terms per sentence including latent question words and synonyms such as 'who' or 'utah' not literally present in the text, Table 6) and stores them in a Lucene Inverted Index so inference reduces to O(1) term lookup plus summation f(q, (a, c)) = sum_{i=1}^{|q|} LOOKUP(t_i, (a, c)) without GPU or ANN search (Equation 9, Figure 1(b)).
+  evidence:
+  - source_id: r774-primary-pdf
+    locator: Sections 3.4-3.5 & Section 6.1, Equations 8-9, Figure 1(b), Table 6, pp. 3-5, 7-8
+    relation: supports
+  - source_id: r774-primary-pdf
+    locator: build_sparta_inverted_index() and sparta_index_lookup_score() exact equivalence verification
+    relation: supports
+- claim_id: sparta-openqa-and-multireqa-out-of-domain-generalization-application
+  kind: application
+  statement: SPARTA achieves 59.3 EM / 66.5 F1 on OpenSQuAD, 37.5 Test EM on OpenNQ, 62.9 EM / 79.9 F1 on OpenCMRC, and 63.1 EM / 74.6 F1 on OpenDRCD (Tables 1-2), outperforms BM25 by 114.3%, USE-QA by 50.6%, and Poly-Encoders by 26.5% in average in-domain MRR across 5 ReQA datasets (Table 4), and retains strong performance when pruned to only the top-50 or top-500 non-zero terms per answer vector (achieving 69.5 MRR on SQuAD at top-50 with 1.6% of Poly-Encoder's memory footprint, Table 7).
+  evidence:
+  - source_id: r774-primary-pdf
+    locator: Sections 4.1, 5.1-5.2 & 6.2, Tables 1-2, 4-5 & 7, pp. 5-8
+    relation: supports
+- claim_id: sparta-bag-of-words-query-and-single-hop-limitation
+  kind: limitation
+  statement: To enable offline vocabulary-wide inverted-index precomputation, SPARTA restricts query representations to non-contextualized bag-of-words embeddings that discard word-order information in the query (Section 3.2, Section 5.1 & Section 7), and its single-stage ranker does not natively support multi-hop reasoning across multiple evidence passages (Section 7).
+  evidence:
+  - source_id: r774-primary-pdf
+    locator: Section 3.2, Section 5.1 & Section 7, pp. 4, 7-8
+    relation: supports
+evidence_sources:
+- source_id: r774-primary-pdf
+  title: 'SPARTA: Efficient Open-Domain Question Answering via Sparse Transformer Matching Retrieval'
+  authors: &id001
+  - Tiancheng Zhao
+  - Xiaopeng Lu
+  - Kyusong Lee
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2009.13013.pdf
+  persistent_id: https://arxiv.org/bibtex/2009.13013
+  version: NAACL-HLT 2021 / arXiv (2020) (439118 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:17:00Z'
+  sha256: 72713cf904605f6173b4f0b4ccf5281350dc811e0c3515bfa78c078724bd25e4
+- source_id: r774-arxiv-abs
+  title: 'SPARTA: Efficient Open-Domain Question Answering via Sparse Transformer Matching Retrieval (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2009.13013
+  persistent_id: https://arxiv.org/abs/2009.13013
+  version: arXiv abstract page (6494 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:17:00Z'
+  sha256: cfe1ba2903c04420728b0edfba55ef02f9fc2f8cba299cc87c05e19524f07356
+- source_id: r774-metadata-cr
+  title: 'SPARTA: Efficient Open-Domain Question Answering via Sparse Transformer Matching Retrieval (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2009.13013
+  persistent_id: https://arxiv.org/bibtex/2009.13013
+  version: Crossref API work record (422 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:17:00Z'
+  sha256: 4772b8ca95afd66392b1d0ea202a91d6544e4c9d7cae2242e2b68ac7f556af42
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: SPARTA combines a 12-layer bidirectional Transformer answer-context encoder with non-contextual word embeddings and a ReLU-log sparse activation layer.
+limitations:
+- Uses non-contextualized bag-of-words query token embeddings to allow offline inverted-index precomputation, discarding word-order and contextual disambiguation within the query.
+- Designed for single-hop evidence retrieval and does not natively perform multi-hop reasoning across multiple disparate passages.
+curation:
+  created_at: '2026-10-19T14:17:00Z'
+  updated_at: '2026-10-19T14:17:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

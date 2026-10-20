@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">61 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">62 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">61</span> of <span id="totalCount">61</span>
+      Showing <span id="matchCount">62</span> of <span id="totalCount">62</span>
     </div>
   </div>
 </div>
@@ -1469,6 +1469,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="sparta sparse transformer matching for retrieval spartasparsetransformermatchingforretrieval aimech:spartasparsetransformermatchingforretrieval architectures architecture a sparse neural retrieval architecture for open-domain and sentence-level question answering that encodes each query q = [t_1, ..., t_|q|] via non-contextualized word embeddings e(q) = [e_1, ..., e_|q|] and each candidate answer with surrounding context (a, c) = [c_1, ..., a_1, ..., a_|a|, c_{a+1}, ..., c_|c|] (distinguished by bert segment embeddings 1 and 0) via a bidirectional transformer encoder h(a, c) = [s_1, ..., s_|c|], scores each query token via max-pooled token-level dot-product interaction y_i = max_{j in [1, |c|]}(e_i^t s_j), enforces sparsity and scale regularization through a biased relu and logarithm f(q, (a, c)) = sum_{i=1}^{|q|} log(relu(y_i + b) + 1), trains end-to-end with a cross-entropy learning-to-rank objective over random and nearby-sentence hard negatives, and precomputes lookup(t, (a, c)) = log(relu(max_j(e_t^t s_j) + b) + 1) offline for every vocabulary term t in v to store human-interpretable sparse answer vectors in a standard inverted index for o(1) lookup and summation at query time. distinct from splade (aimech:spladesparselexicalandexpansionmodel), which uses the masked language modeling output head on contextualized query and document encoders with explicit l1/flops sparsity regularization rather than non-contextualized query word embeddings max-pooled against contextualized answer+context bert tokens with a scalar relu threshold b; and distinct from coil (aimech:coilcontextualizedinvertedlist) and deepct (aimech:deepctcontextawaretermimportanceestimationforfirststageretrieval), which restrict index entries to exact tokens appearing in the document rather than scoring and indexing latent non-appearing vocabulary terms (such as question words &#39;who&#39;, &#39;where&#39;, and synonyms). sparta sparse transformer matching sparta neural ranker sparta: efficient open-domain question answering via sparse transformer matching retrieval sparta encodes answer sentences a and their surrounding context c using bert with segment_id = 1 for answer tokens and segment_id = 0 for context tokens into h(a, c) = [s_1, ..., s_|c|] while embedding query tokens via non-contextualized bert word embeddings e(q) = [e_1, ..., e_|q|] (equations 2-3), computing token-level max-pooling y_i = max_{j in [1, |c|]}(e_i^t s_j) (equation 4), sparse thresholding phi(y_i) = relu(y_i + b) with trainable bias b (equation 5), and log-regularized aggregation f(q, (a, c)) = sum_i log(phi(y_i) + 1) (equation 6), and training with cross-entropy loss j = f(q, (a+, c+)) - log sum_{k in k-} exp(f(q, (a_k, c_k))) using 50% random negatives and 50% nearby-sentence negatives from the ground-truth passage (equation 7). because query token embeddings e_t are non-contextual, sparta precomputes lookup(t, (a, c)) = log(relu(max_j(e_t^t s_j) + b) + 1) for every term t in the vocabulary v against every candidate answer at indexing time (equation 8, producing ~1600 non-zero terms per sentence including latent question words and synonyms such as &#39;who&#39; or &#39;utah&#39; not literally present in the text, table 6) and stores them in a lucene inverted index so inference reduces to o(1) term lookup plus summation f(q, (a, c)) = sum_{i=1}^{|q|} lookup(t_i, (a, c)) without gpu or ann search (equation 9, figure 1(b)). sparta achieves 59.3 em / 66.5 f1 on opensquad, 37.5 test em on opennq, 62.9 em / 79.9 f1 on opencmrc, and 63.1 em / 74.6 f1 on opendrcd (tables 1-2), outperforms bm25 by 114.3%, use-qa by 50.6%, and poly-encoders by 26.5% in average in-domain mrr across 5 reqa datasets (table 4), and retains strong performance when pruned to only the top-50 or top-500 non-zero terms per answer vector (achieving 69.5 mrr on squad at top-50 with 1.6% of poly-encoder&#39;s memory footprint, table 7). to enable offline vocabulary-wide inverted-index precomputation, sparta restricts query representations to non-contextualized bag-of-words embeddings that discard word-order information in the query (section 3.2, section 5.1 &amp; section 7), and its single-stage ranker does not natively support multi-hop reasoning across multiple evidence passages (section 7). sparta: efficient open-domain question answering via sparse transformer matching retrieval sparta: efficient open-domain question answering via sparse transformer matching retrieval (arxiv abstract) sparta: efficient open-domain question answering via sparse transformer matching retrieval (crossref metadata) tiancheng zhao xiaopeng lu kyusong lee tiancheng zhao xiaopeng lu kyusong lee tiancheng zhao xiaopeng lu kyusong lee">
+        <td>
+          <a href="../curated/SPARTASparseTransformerMatchingForRetrieval.html" style="font-weight: 600; font-size: 1rem;">SPARTA Sparse Transformer Matching for Retrieval</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> SPARTA, Sparse Transformer Matching…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A sparse neural retrieval architecture for open-domain and sentence-level question answering that encodes each query q = [t_1, ..., t_|q|] v…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:SPARTASparseTransformerMatchingForRetrieval</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
