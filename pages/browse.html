@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1446</strong> artificial intelligence concepts, comprising <strong>1004</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1447</strong> artificial intelligence concepts, comprising <strong>1005</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1446)</option>
-        <option value="curated">Curated AIMech (1004)</option>
+        <option value="all">All Origins (1447)</option>
+        <option value="curated">Curated AIMech (1005)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (700)</option>
+          <option value="algorithm">Algorithms (701)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1446</span> of <span id="totalCount">1446</span>
+      Showing <span id="matchCount">1447</span> of <span id="totalCount">1447</span>
     </div>
   </div>
 </div>
@@ -24631,6 +24631,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="padam partially adaptive momentum estimation optimization padampartiallyadaptivemomentumestimationoptimization aimech:padampartiallyadaptivemomentumestimationoptimization algorithms algorithm partially adaptive momentum estimation (padam) is a first-order adaptive stochastic optimization algorithm (chen, zhou, tang, yang, cao, &amp; gu, ijcai 2020) that unifies amsgrad and stochastic gradient descent with momentum (sgd-momentum) by introducing a partial adaptive parameter p in (0, 1/2] on the second-order moment denominator: given stochastic gradients g_t = nabla f(x_t, xi_t), padam updates m_t = beta_1 m_{t-1} + (1 - beta_1) g_t, v_t = beta_2 v_{t-1} + (1 - beta_2) g_t^2, and v_hat_t = max(v_hat_{t-1}, v_t), and performs the parameter update x_{t+1} = x_t - alpha_t * m_t / v_hat_t^p (algorithm 1). setting p = 1/2 recovers amsgrad, whereas letting p -&gt; 0 reduces the update rule to sgd with momentum (up to the constant factor 1 - beta_1), resolving the &#39;small learning rate dilemma&#39; by allowing large base learning rates alpha_t that remain effective after multi-stage learning rate decay. distinct from amsgrad (reddi et al., 2018), which fixes p = 1/2 and requires a small base learning rate alpha_t to prevent coordinates with tiny v_hat_{t,i} &lt;&lt; 1 from overshooting early in training; distinct from adamax (kingma &amp; ba, 2015), which generalizes the l_p norm of current and past gradients while keeping the overall scale of adaptation homogeneous of degree 0 in gradient magnitude, whereas padam intentionally reduces the denominator power to v_hat_t^p with p in (0, 1/2]; and distinct from adabound (luo et al., 2019), which clips adaptive learning rates to time-dependent intervals [eta_l(t), eta_u(t)]. padam partially adaptive momentum estimation partially adaptive momentum estimation method partial adaptive exponent amsgrad optimizer section 3 (algorithm 1, p. 3-4) shows that in fully adaptive methods (p = 1/2), coordinates with small v_hat_{t,i} &lt;&lt; 1 produce huge early effective learning rates alpha_t / v_hat_{t,i}^{1/2}, forcing practitioners to choose a small base learning rate alpha_t that becomes vanishingly small after several rounds of stage-wise decay (&#39;the small learning rate dilemma&#39;); choosing p in (0, 1/2) (such as p = 1/8) moderates v_hat_{t,i}^{-p} so padam can adopt the same large base learning rate as sgd-momentum (e.g., alpha = 0.1 on cifar/imagenet) while continuously interpolating between sgd-momentum at p -&gt; 0 and amsgrad at p = 1/2. for the auxiliary sequence z_t = x_t + (beta_1 / (1 - beta_1))(x_t - x_{t-1}) (appendix a-b, eq. a.1, p. 10, 13-15), lemma a.1 proves the exact identities z_{t+1} - z_t = (beta_1 / (1 - beta_1))(alpha_{t-1} v_hat_{t-1}^{-p} - alpha_t v_hat_t^{-p}) m_{t-1} - alpha_t v_hat_t^{-p} g_t = (beta_1 / (1 - beta_1))[i - (alpha_t v_hat_t^{-p})(alpha_{t-1} v_hat_{t-1}^{-p})^{-1}](x_{t-1} - x_t) - alpha_t v_hat_t^{-p} g_t (eqs. a.2-a.3), and lemma a.5 proves that under ||nabla f(x; xi)||_infty &lt;= g_infty, gamma = beta_1 / beta_2^{2p} &lt; 1, and q in [max{4p - 1, 0}, 1], sum_{t=1}^t alpha_t^2 e[||v_hat_t^{-p} m_t||_2^2] &lt;= (t^{(1+q)/2} d^q alpha^2 (1 - beta_1) g_infty^{1+q-4p} / ((1 - beta_2)^{2p}(1 - gamma))) e[(sum_{i=1}^d ||g_{1:t,i}||_2)^{1-q}] (eqs. b.1-b.6). theorem 4.3, corollary 4.5, and remark 4.6 (section 4, eqs. 4.1-4.3, p. 4-5 &amp; appendix a, p. 10-13) prove that for l-smooth nonconvex objectives with g_infty-bounded stochastic gradients, p in [0, 1/4], beta_1 &lt; beta_2^{2p}, and cumulative gradient growth ||g_{1:t,i}||_2 &lt;= g_infty t^s with 0 &lt;= s &lt;= 1/2, padam with optimal step size alpha = theta((d^{1/2} t^{1/4 + s/2})^{-1}) satisfies e[||nabla f(x_out)||_2^2] &lt;= m_1 / (t alpha) + m_2 d / t + m&#39;_3 alpha d g_infty / t^{1/2 - s} = o(d^{1/2} / t^{3/4 - s/2} + d / t), matching nonconvex sgd&#39;s o(1 / sqrt(t)) rate in the worst case s = 1/2 and achieving a strictly faster rate in t when gradients are sparse (s &lt; 1/2). across cifar-10, cifar-100, imagenet (ilsvrc2012), and penn treebank benchmarks (section 5, tables 1-3 &amp; figures 2-3, p. 5-8; appendix d, table 4 &amp; figure 4, p. 16-17), padam (with p = 1/8 on cnns and p in {0.4, 0.2} on 2/3-layer lstms) achieves the highest test accuracy on cifar-10 vggnet (93.78%) and wideresnet (95.34%), cifar-100 vggnet (74.39%) and resnet (77.85%), and imagenet vggnet (74.04% top-1, 91.93% top-5) and resnet top-5 (89.47%), as well as the lowest test perplexity on penn treebank 2-layer lstm (61.53) and 3-layer lstm (58.48), outperforming adam, amsgrad, adamw, yogi, and adabound. closing the generalization gap of adaptive gradient methods in training deep neural networks closing the generalization gap of adaptive gradient methods in training deep neural networks (arxiv abstract) closing the generalization gap of adaptive gradient methods in training deep neural networks (crossref metadata) jinghui chen dongruo zhou yiqi tang ziyan yang yuan cao quanquan gu jinghui chen dongruo zhou yiqi tang ziyan yang yuan cao quanquan gu jinghui chen dongruo zhou yiqi tang ziyan yang yuan cao quanquan gu">
+        <td>
+          <a href="curated/PadamPartiallyAdaptiveMomentumEstimationOptimization.html" style="font-weight: 600; font-size: 1rem;">Padam Partially Adaptive Momentum Estimation Optimization</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Padam, Partially Adaptive Momentum Estimation…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            Partially Adaptive Momentum Estimation (Padam) is a first-order adaptive stochastic optimization algorithm (Chen, Zhou, Tang, Yang, Cao, &amp; G…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PadamPartiallyAdaptiveMomentumEstimationOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

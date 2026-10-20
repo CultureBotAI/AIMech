@@ -1,0 +1,105 @@
+id: AIMech:PadamPartiallyAdaptiveMomentumEstimationOptimization
+name: Padam Partially Adaptive Momentum Estimation Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Partially Adaptive Momentum Estimation (Padam) is a first-order adaptive stochastic optimization algorithm (Chen, Zhou, Tang, Yang, Cao, & Gu, IJCAI 2020) that unifies AMSGrad and stochastic gradient descent with momentum (SGD-Momentum) by introducing a partial adaptive parameter p in (0, 1/2] on the second-order moment denominator: given stochastic gradients g_t = nabla f(x_t, xi_t), Padam updates m_t = beta_1 m_{t-1} + (1 - beta_1) g_t, v_t = beta_2 v_{t-1} + (1 - beta_2) g_t^2, and v_hat_t = max(v_hat_{t-1}, v_t), and performs the parameter update x_{t+1} = x_t - alpha_t * m_t / v_hat_t^p (Algorithm 1). Setting p = 1/2 recovers AMSGrad, whereas letting p -> 0 reduces the update rule to SGD with momentum (up to the constant factor 1 - beta_1), resolving the ''small learning rate dilemma'' by allowing large base learning rates alpha_t that remain effective after multi-stage learning rate decay.'
+identity_notes: Distinct from AMSGrad (Reddi et al., 2018), which fixes p = 1/2 and requires a small base learning rate alpha_t to prevent coordinates with tiny v_hat_{t,i} << 1 from overshooting early in training; distinct from AdaMax (Kingma & Ba, 2015), which generalizes the L_p norm of current and past gradients while keeping the overall scale of adaptation homogeneous of degree 0 in gradient magnitude, whereas Padam intentionally reduces the denominator power to v_hat_t^p with p in (0, 1/2]; and distinct from AdaBound (Luo et al., 2019), which clips adaptive learning rates to time-dependent intervals [eta_l(t), eta_u(t)].
+aliases:
+- Padam
+- Partially Adaptive Momentum Estimation
+- Partially Adaptive Momentum Estimation Method
+- Partial Adaptive Exponent AMSGrad Optimizer
+definition_evidence:
+- source_id: r610-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r610-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r610-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: small-learning-rate-dilemma-and-endpoint-interpolation
+  kind: mechanism
+  statement: Section 3 (Algorithm 1, p. 3-4) shows that in fully adaptive methods (p = 1/2), coordinates with small v_hat_{t,i} << 1 produce huge early effective learning rates alpha_t / v_hat_{t,i}^{1/2}, forcing practitioners to choose a small base learning rate alpha_t that becomes vanishingly small after several rounds of stage-wise decay ('the small learning rate dilemma'); choosing p in (0, 1/2) (such as p = 1/8) moderates v_hat_{t,i}^{-p} so Padam can adopt the same large base learning rate as SGD-Momentum (e.g., alpha = 0.1 on CIFAR/ImageNet) while continuously interpolating between SGD-Momentum at p -> 0 and AMSGrad at p = 1/2.
+  evidence:
+  - source_id: r610-primary-pdf
+    locator: Section 1, p. 1-2; Section 3, Algorithm 1 & Figure 1, p. 3-5
+    relation: supports
+- claim_id: auxiliary-iterate-identities-and-lemma-a5-moment-sum-bound
+  kind: mechanism
+  statement: For the auxiliary sequence z_t = x_t + (beta_1 / (1 - beta_1))(x_t - x_{t-1}) (Appendix A-B, Eq. A.1, p. 10, 13-15), Lemma A.1 proves the exact identities z_{t+1} - z_t = (beta_1 / (1 - beta_1))(alpha_{t-1} V_hat_{t-1}^{-p} - alpha_t V_hat_t^{-p}) m_{t-1} - alpha_t V_hat_t^{-p} g_t = (beta_1 / (1 - beta_1))[I - (alpha_t V_hat_t^{-p})(alpha_{t-1} V_hat_{t-1}^{-p})^{-1}](x_{t-1} - x_t) - alpha_t V_hat_t^{-p} g_t (Eqs. A.2-A.3), and Lemma A.5 proves that under ||nabla f(x; xi)||_infty <= G_infty, gamma = beta_1 / beta_2^{2p} < 1, and q in [max{4p - 1, 0}, 1], sum_{t=1}^T alpha_t^2 E[||V_hat_t^{-p} m_t||_2^2] <= (T^{(1+q)/2} d^q alpha^2 (1 - beta_1) G_infty^{1+q-4p} / ((1 - beta_2)^{2p}(1 - gamma))) E[(sum_{i=1}^d ||g_{1:T,i}||_2)^{1-q}] (Eqs. B.1-B.6).
+  evidence:
+  - source_id: r610-primary-pdf
+    locator: Appendix A.1 & B.1-B.5, Lemmas A.1-A.5, Eqs. A.1-A.4 & B.1-B.6, p. 10, 13-15
+    relation: supports
+- claim_id: theorem43-and-corollary45-nonconvex-stationarity-convergence-rate
+  kind: mechanism
+  statement: Theorem 4.3, Corollary 4.5, and Remark 4.6 (Section 4, Eqs. 4.1-4.3, p. 4-5 & Appendix A, p. 10-13) prove that for L-smooth nonconvex objectives with G_infty-bounded stochastic gradients, p in [0, 1/4], beta_1 < beta_2^{2p}, and cumulative gradient growth ||g_{1:T,i}||_2 <= G_infty T^s with 0 <= s <= 1/2, Padam with optimal step size alpha = Theta((d^{1/2} T^{1/4 + s/2})^{-1}) satisfies E[||nabla f(x_out)||_2^2] <= M_1 / (T alpha) + M_2 d / T + M'_3 alpha d G_infty / T^{1/2 - s} = O(d^{1/2} / T^{3/4 - s/2} + d / T), matching nonconvex SGD's O(1 / sqrt(T)) rate in the worst case s = 1/2 and achieving a strictly faster rate in T when gradients are sparse (s < 1/2).
+  evidence:
+  - source_id: r610-primary-pdf
+    locator: Section 1, Eq. 1.1, p. 2; Section 4, Theorem 4.3, Corollary 4.5 & Remark 4.6, Eqs. 4.1-4.3, p. 4-5
+    relation: supports
+- claim_id: empirical-generalization-on-cifar-imagenet-and-ptb
+  kind: application
+  statement: Across CIFAR-10, CIFAR-100, ImageNet (ILSVRC2012), and Penn Treebank benchmarks (Section 5, Tables 1-3 & Figures 2-3, p. 5-8; Appendix D, Table 4 & Figure 4, p. 16-17), Padam (with p = 1/8 on CNNs and p in {0.4, 0.2} on 2/3-layer LSTMs) achieves the highest test accuracy on CIFAR-10 VGGNet (93.78%) and WideResNet (95.34%), CIFAR-100 VGGNet (74.39%) and ResNet (77.85%), and ImageNet VGGNet (74.04% Top-1, 91.93% Top-5) and ResNet Top-5 (89.47%), as well as the lowest test perplexity on Penn Treebank 2-layer LSTM (61.53) and 3-layer LSTM (58.48), outperforming Adam, AMSGrad, AdamW, Yogi, and AdaBound.
+  evidence:
+  - source_id: r610-primary-pdf
+    locator: Section 5, Tables 1-3 & Figures 2-3, p. 5-8; Appendix D, Table 4 & Figure 4, p. 16-17
+    relation: supports
+evidence_sources:
+- source_id: r610-primary-pdf
+  title: Closing the Generalization Gap of Adaptive Gradient Methods in Training Deep Neural Networks
+  authors: &id001
+  - Jinghui Chen
+  - Dongruo Zhou
+  - Yiqi Tang
+  - Ziyan Yang
+  - Yuan Cao
+  - Quanquan Gu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1806.06763.pdf
+  persistent_id: https://dblp.org/rec/conf/ijcai/ChenZTYCG20
+  version: Proceedings of the Twenty-Ninth International Joint Conference on Artificial Intelligence (IJCAI 2020) (2020) (3642837 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:33:00Z'
+  sha256: 28c1ec0fd7a4f62956dacdb45a1856b02d7f44ee348f6244d737443645daa187
+- source_id: r610-arxiv-abs
+  title: Closing the Generalization Gap of Adaptive Gradient Methods in Training Deep Neural Networks (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1806.06763
+  persistent_id: https://arxiv.org/abs/1806.06763
+  version: arXiv abstract page (7074 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:33:00Z'
+  sha256: 526ce375a08ae227dbcaa69f5615189c748c833957e74f41abca16488ab8f22c
+- source_id: r610-metadata-cr
+  title: Closing the Generalization Gap of Adaptive Gradient Methods in Training Deep Neural Networks (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/ijcai/ChenZTYCG20
+  persistent_id: https://dblp.org/rec/conf/ijcai/ChenZTYCG20
+  version: Crossref API work record (2622 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:33:00Z'
+  sha256: 99d6c59f9746902b95782b5d5c55176c423be73b2a93b86617a639bd9d186358
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Padam is designed to close the generalization gap of adaptive gradient methods when training deep convolutional and recurrent neural networks (VGGNet-16, ResNet-18, WideResNet-16-4, and multi-layer LSTMs).
+limitations:
+- Requires p <= 1/2 and beta_1 < beta_2^{2p} for convergence guarantees; values of p > 1/2 break the non-increasing effective step-size bound and lead to non-convergence in the theoretical proof (Section 3, p. 3; Theorem 4.3, p. 4).
+- Introduces an additional hyperparameter p in (0, 1/2] that must be selected by grid search (e.g., p in {2/5, 1/4, 1/5, 1/8, 1/16}) and varies across modalities (p = 1/8 for CNNs vs. p = 0.4 or 0.2 for LSTMs) (Section 5, p. 5-7).
+- Maintains the extra running-maximum buffer v_hat_t = max(v_hat_{t-1}, v_t) in addition to m_t and v_t, increasing per-parameter optimizer state memory relative to SGD-Momentum and vanilla Adam (Algorithm 1, p. 3).
+curation:
+  created_at: '2026-10-19T11:33:00Z'
+  updated_at: '2026-10-19T11:33:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
