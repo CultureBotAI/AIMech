@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">662 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">663 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">662</span> of <span id="totalCount">662</span>
+      Showing <span id="matchCount">663</span> of <span id="totalCount">663</span>
     </div>
   </div>
 </div>
@@ -12659,6 +12659,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:ProxSkipAndScaffnewProbabilisticProximalSkippingForAcceleratedLocalGradientDescent</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="proxskip-vr and proxskip-hub variance-reduced local training and regional-hub federated optimization proxskipvrandproxskiphubvariancereducedlocaltrainingandregionalhubfederatedoptimization aimech:proxskipvrandproxskiphubvariancereducedlocaltrainingandregionalhubfederatedoptimization algorithms algorithm a general variance-reduced randomized proximal-skipping framework (proxskip-vr) and hierarchical server-hubs-clients federated optimization method (proxskip-hub / proxskip-lsvrg) introduced by malinovsky, yi, and richtárik (2022) for composite and consensus optimization min_{x in r^d} f(x) + r(x). at each step t, proxskip-vr evaluates an unbiased variance-reduced gradient estimator g_t = g(x_t, y_t, xi_t) satisfying assumption 4, takes a shift-adjusted step x_hat_{t+1} = x_t - gamma (g_t - h_t), updates the control vector y_{t+1}, evaluates the proximity operator x_{t+1} = prox_{(gamma/p) r}(x_hat_{t+1} - (gamma/p) h_t) with probability p in (0, 1] (or sets x_{t+1} = x_hat_{t+1} with probability 1 - p), and updates the gradient shift h_{t+1} = h_t + (p/gamma)(x_{t+1} - x_hat_{t+1}); proxskip-hub instantiates this framework across m regional hubs, each sampling tau of m local clients and applying an unbiased omega-compressor q_t^{ij} to client gradient differences. distinct from vanilla proxskip and sproxskip (mishchenko et al. 2022, which use either full batch gradients nabla f(x_t) at every local step or non-variance-reduced stochastic gradients with c &gt; 0 that only converge to a neighborhood or require o(1/epsilon) complexity), and distinct from non-accelerated variance-reduced local methods such as s-local-svrg and scaffold: proxskip-vr couples probabilistic prox skipping with recursive variance-reduced estimators (c = c_tilde = 0), achieving accelerated o(sqrt(l(tau)/mu) log(1/epsilon)) communication complexity while reducing total computation-plus-communication cost whenever the per-sample local computation cost delta exceeds a small threshold. proxskip-vr proxskip-hub proxskip-lsvrg proxskip-qlsvrg variance reduced proxskip under mu-strong convexity of f (assumption 2), proper closed convexity of r (assumption 3), and an unbiased estimator g_t satisfying e[||g_t - nabla f(x*)||^2 | x_t, y_t] &lt;= 2 a d_f(x_t, x*) + b sigma_t + c and e[sigma_{t+1} | x_t, y_t] &lt;= 2 a_tilde d_f(x_t, x*) + b_tilde sigma_t + c_tilde with b_tilde &lt; 1 (assumption 4), theorem 5 proves that for w &gt; b / (1 - b_tilde), beta = (b + w b_tilde)/w &lt; 1, and 0 &lt; gamma &lt;= min{1/mu, 1/(a + w a_tilde)}, the lyapunov function psi_t := ||x_t - x*||^2 + (gamma^2 / p^2) ||h_t - h*||^2 + gamma^2 w sigma_t satisfies e[psi_t] &lt;= max{(1 - gamma mu)^t, beta^t, (1 - p^2)^t} psi_0 + (c + w c_tilde) gamma^2 / min{gamma mu, p^2, 1 - beta}. in the hierarchical server-hubs-clients architecture with m hubs and m clients per hub, proxskip-hub (algorithm 2) estimates each hub gradient via g_t^i = (1/tau) sum_{j in s_t^i} q_t^{ij}(nabla phi_{ij}(x_t) - nabla phi_{ij}(y_t)) + nabla phi_i(y_t) with minibatch size tau in [m], omega-unbiased compressors q_t^{ij}, and loopless reference update y_{t+1} = x_t with probability q; theorem 9 proves that this hub estimator satisfies assumption 4 with a = 4(l(tau) + (omega/tau) l_max), b = 4(1 + omega/tau), a_tilde = q l_max, b_tilde = 1 - q, and c = c_tilde = 0, achieving o(sqrt((l_max/mu)(1 + omega/tau)) log(1/epsilon)) server-hub communication rounds and o(sqrt(l(tau)/mu) log(1/epsilon)) rounds in the uncompressed proxskip-lsvrg specialization (corollary 1 &amp; appendix e). when each server communication round has unit cost 1 and each single-sample stochastic gradient evaluation has computational cost delta &gt;= 0, equation (15) establishes that the total training cost ratio between full-batch proxskip and minibatch proxskip-lsvrg is cost(proxskip) / cost(proxskip-vr) = (sqrt(mu l) + m l delta) / (sqrt(mu l(tau)) + (2 m mu + (2 l(tau) - 2 mu) tau) delta), which increases monotonically from sqrt(l / l(tau)) &lt;= 1 at delta = 0 to m l / (2(m mu + (l(tau) - mu) tau)) as delta -&gt; infinity, exceeding 1 whenever local computation delta is non-negligible. when local computation cost delta = 0 (so only server communication rounds are counted) and tau &lt; m, l(tau) = ((m - tau)/(tau(m - 1))) l_max + (m(tau - 1)/(tau(m - 1))) l &gt;= l implies that full-batch proxskip has a smaller communication complexity constant sqrt(l/mu) than proxskip-lsvrg&#39;s sqrt(l(tau)/mu), and updating the control vector y_{t+1} = x_t with probability q requires evaluating the full hub gradient nabla phi_i(y_{t+1}) across all m clients of hub i. variance reduced proxskip: algorithm, theory and application to federated learning variance reduced proxskip: algorithm, theory and application to federated learning (arxiv abstract) variance reduced proxskip: algorithm, theory and application to federated learning (crossref metadata) grigory malinovsky kai yi peter richtárik grigory malinovsky kai yi peter richtárik grigory malinovsky kai yi peter richtárik">
+        <td>
+          <a href="../curated/ProxSkipVrAndProxSkipHubVarianceReducedLocalTrainingAndRegionalHubFederatedOptimization.html" style="font-weight: 600; font-size: 1rem;">ProxSkip-VR and ProxSkip-HUB Variance-Reduced Local Training and Regional-Hub Federated Optimization</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> ProxSkip-VR, ProxSkip-HUB…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A general variance-reduced randomized proximal-skipping framework (ProxSkip-VR) and hierarchical server-hubs-clients federated optimization…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:ProxSkipVrAndProxSkipHubVarianceReducedLocalTrainingAndRegionalHubFederatedOptimization</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

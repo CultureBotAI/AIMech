@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ProxSkip-VR and ProxSkip-HUB Variance-Reduced Local Training and Regional-Hub Federated Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>ProxSkip-VR and ProxSkip-HUB Variance-Reduced Local Training and Regional-Hub Federated Optimization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">ProxSkip-VR and ProxSkip-HUB Variance-Reduced Local Training and Regional-Hub Federated Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ProxSkipVrAndProxSkipHubVarianceReducedLocalTrainingAndRegionalHubFederatedOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ProxSkip-VR, ProxSkip-HUB, ProxSkip-LSVRG, ProxSkip-QLSVRG, Variance Reduced ProxSkip
+    </div>
+
+  <div class="detail-desc">
+    A general variance-reduced randomized proximal-skipping framework (ProxSkip-VR) and hierarchical server-hubs-clients federated optimization method (ProxSkip-HUB / ProxSkip-LSVRG) introduced by Malinovsky, Yi, and Richtárik (2022) for composite and consensus optimization min_{x in R^d} f(x) + r(x). At each step t, ProxSkip-VR evaluates an unbiased variance-reduced gradient estimator g_t = g(x_t, y_t, xi_t) satisfying Assumption 4, takes a shift-adjusted step x_hat_{t+1} = x_t - gamma (g_t - h_t), updates the control vector y_{t+1}, evaluates the proximity operator x_{t+1} = prox_{(gamma/p) r}(x_hat_{t+1} - (gamma/p) h_t) with probability p in (0, 1] (or sets x_{t+1} = x_hat_{t+1} with probability 1 - p), and updates the gradient shift h_{t+1} = h_t + (p/gamma)(x_{t+1} - x_hat_{t+1}); ProxSkip-HUB instantiates this framework across M regional hubs, each sampling tau of m local clients and applying an unbiased omega-compressor Q_t^{ij} to client gradient differences.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from vanilla ProxSkip and SProxSkip (Mishchenko et al. 2022, which use either full batch gradients nabla f(x_t) at every local step or non-variance-reduced stochastic gradients with C &gt; 0 that only converge to a neighborhood or require O(1/epsilon) complexity), and distinct from non-accelerated variance-reduced local methods such as S-Local-SVRG and Scaffold: ProxSkip-VR couples probabilistic prox skipping with recursive variance-reduced estimators (C = C_tilde = 0), achieving accelerated O(sqrt(L(tau)/mu) log(1/epsilon)) communication complexity while reducing total computation-plus-communication cost whenever the per-sample local computation cost delta exceeds a small threshold.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#proxskip-vr-parametric-variance-reduction-lyapunov-theorem</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under mu-strong convexity of f (Assumption 2), proper closed convexity of r (Assumption 3), and an unbiased estimator g_t satisfying E[||g_t - nabla f(x*)||^2 | x_t, y_t] &lt;= 2 A D_f(x_t, x*) + B sigma_t + C and E[sigma_{t+1} | x_t, y_t] &lt;= 2 A_tilde D_f(x_t, x*) + B_tilde sigma_t + C_tilde with B_tilde &lt; 1 (Assumption 4), Theorem 5 proves that for W &gt; B / (1 - B_tilde), beta = (B + W B_tilde)/W &lt; 1, and 0 &lt; gamma &lt;= min{1/mu, 1/(A + W A_tilde)}, the Lyapunov function Psi_t := ||x_t - x*||^2 + (gamma^2 / p^2) ||h_t - h*||^2 + gamma^2 W sigma_t satisfies E[Psi_T] &lt;= max{(1 - gamma mu)^T, beta^T, (1 - p^2)^T} Psi_0 + (C + W C_tilde) gamma^2 / min{gamma mu, p^2, 1 - beta}.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r571-primary-pdf">Variance Reduced ProxSkip: Algorithm, Theory and Application to Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3, Assumption 4 &amp; Theorem 5, p. 9; Appendix B, Lemmas 1-2 &amp; Proof of Theorem 5, pp. 25-28</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#proxskip-hub-combined-client-sampling-and-compression-complexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the hierarchical Server-Hubs-Clients architecture with M hubs and m clients per hub, ProxSkip-HUB (Algorithm 2) estimates each hub gradient via g_t^i = (1/tau) sum_{j in S_t^i} Q_t^{ij}(nabla phi_{ij}(x_t) - nabla phi_{ij}(y_t)) + nabla phi_i(y_t) with minibatch size tau in [m], omega-unbiased compressors Q_t^{ij}, and loopless reference update y_{t+1} = x_t with probability q; Theorem 9 proves that this HUB estimator satisfies Assumption 4 with A = 4(L(tau) + (omega/tau) L_max), B = 4(1 + omega/tau), A_tilde = q L_max, B_tilde = 1 - q, and C = C_tilde = 0, achieving O(sqrt((L_max/mu)(1 + omega/tau)) log(1/epsilon)) server-hub communication rounds and O(sqrt(L(tau)/mu) log(1/epsilon)) rounds in the uncompressed ProxSkip-LSVRG specialization (Corollary 1 &amp; Appendix E).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r571-primary-pdf">Variance Reduced ProxSkip: Algorithm, Theory and Application to Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Equations (11)-(14), Theorem 9, Algorithm 2 &amp; Corollaries 1-2, pp. 11-14; Appendices D-E, pp. 31-38</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#proxskip-lsvrg-total-training-cost-ratio-characterization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When each server communication round has unit cost 1 and each single-sample stochastic gradient evaluation has computational cost delta &gt;= 0, Equation (15) establishes that the total training cost ratio between full-batch ProxSkip and minibatch ProxSkip-LSVRG is Cost(ProxSkip) / Cost(ProxSkip-VR) = (sqrt(mu L) + m L delta) / (sqrt(mu L(tau)) + (2 m mu + (2 L(tau) - 2 mu) tau) delta), which increases monotonically from sqrt(L / L(tau)) &lt;= 1 at delta = 0 to m L / (2(m mu + (L(tau) - mu) tau)) as delta -&gt; infinity, exceeding 1 whenever local computation delta is non-negligible.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r571-primary-pdf">Variance Reduced ProxSkip: Algorithm, Theory and Application to Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, Equation (15), pp. 14-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#proxskip-vr-zero-local-cost-and-periodic-full-hub-gradient-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When local computation cost delta = 0 (so only server communication rounds are counted) and tau &lt; m, L(tau) = ((m - tau)/(tau(m - 1))) L_max + (m(tau - 1)/(tau(m - 1))) L &gt;= L implies that full-batch ProxSkip has a smaller communication complexity constant sqrt(L/mu) than ProxSkip-LSVRG&#39;s sqrt(L(tau)/mu), and updating the control vector y_{t+1} = x_t with probability q requires evaluating the full hub gradient nabla phi_i(y_{t+1}) across all m clients of hub i.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r571-primary-pdf">Variance Reduced ProxSkip: Algorithm, Theory and Application to Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Equations (11)-(13), p. 12; Section 5.2, Equation (15) &amp; discussion of delta = 0 limit, p. 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>When local computation cost is completely ignored (delta = 0) and tau &lt; m, the communication complexity constant sqrt(L(tau)/mu) is larger than full-batch ProxSkip&#39;s sqrt(L/mu) because L(tau) &gt;= L.</li>
+      <li>Requires full participation of the M hubs at synchronization steps (when theta_t = 1) and full m-client hub gradient evaluation nabla phi_i(y_t) whenever the reference point y_t updates (with probability q).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            ProxSkip-VR, ProxSkip-LSVRG, and ProxSkip-HUB are federated optimization algorithms that combine accelerated local training with variance-reduced client/data sampling and compressed hub-client communication.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r571-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r571-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2207.04338.pdf" target="_blank" rel="noopener">Variance Reduced ProxSkip: Algorithm, Theory and Application to Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Grigory Malinovsky, Kai Yi, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/W7133186255</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7ad9b5e9ca68…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r571-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r571-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2207.04338" target="_blank" rel="noopener">Variance Reduced ProxSkip: Algorithm, Theory and Application to Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Grigory Malinovsky, Kai Yi, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2207.04338</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:611dd08a4070…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r571-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r571-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.openalex.org/works/W7133186255" target="_blank" rel="noopener">Variance Reduced ProxSkip: Algorithm, Theory and Application to Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Grigory Malinovsky, Kai Yi, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/W7133186255</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1745f31a282b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:54:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:54:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ProxSkipVrAndProxSkipHubVarianceReducedLocalTrainingAndRegionalHubFederatedOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ProxSkipVrAndProxSkipHubVarianceReducedLocalTrainingAndRegionalHubFederatedOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

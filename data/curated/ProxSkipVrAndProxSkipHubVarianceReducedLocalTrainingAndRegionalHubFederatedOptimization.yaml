@@ -1,0 +1,102 @@
+id: AIMech:ProxSkipVrAndProxSkipHubVarianceReducedLocalTrainingAndRegionalHubFederatedOptimization
+name: ProxSkip-VR and ProxSkip-HUB Variance-Reduced Local Training and Regional-Hub Federated Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A general variance-reduced randomized proximal-skipping framework (ProxSkip-VR) and hierarchical server-hubs-clients federated optimization method (ProxSkip-HUB / ProxSkip-LSVRG) introduced by Malinovsky, Yi, and Richt\xE1rik (2022) for composite and consensus optimization min_{x in R^d} f(x) + r(x). At each step t, ProxSkip-VR evaluates an unbiased variance-reduced gradient estimator g_t = g(x_t, y_t, xi_t) satisfying Assumption 4, takes a shift-adjusted step x_hat_{t+1} = x_t - gamma (g_t - h_t), updates the control vector y_{t+1}, evaluates the proximity operator x_{t+1} = prox_{(gamma/p) r}(x_hat_{t+1} - (gamma/p) h_t) with probability p in (0, 1] (or sets x_{t+1} = x_hat_{t+1} with probability 1 - p), and updates the gradient shift h_{t+1} = h_t + (p/gamma)(x_{t+1} - x_hat_{t+1}); ProxSkip-HUB instantiates this framework across M regional hubs, each sampling tau of m local clients and applying an unbiased omega-compressor Q_t^{ij} to client gradient differences."
+identity_notes: 'Distinct from vanilla ProxSkip and SProxSkip (Mishchenko et al. 2022, which use either full batch gradients nabla f(x_t) at every local step or non-variance-reduced stochastic gradients with C > 0 that only converge to a neighborhood or require O(1/epsilon) complexity), and distinct from non-accelerated variance-reduced local methods such as S-Local-SVRG and Scaffold: ProxSkip-VR couples probabilistic prox skipping with recursive variance-reduced estimators (C = C_tilde = 0), achieving accelerated O(sqrt(L(tau)/mu) log(1/epsilon)) communication complexity while reducing total computation-plus-communication cost whenever the per-sample local computation cost delta exceeds a small threshold.'
+aliases:
+- ProxSkip-VR
+- ProxSkip-HUB
+- ProxSkip-LSVRG
+- ProxSkip-QLSVRG
+- Variance Reduced ProxSkip
+definition_evidence:
+- source_id: r571-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r571-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r571-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: proxskip-vr-parametric-variance-reduction-lyapunov-theorem
+  kind: mechanism
+  statement: Under mu-strong convexity of f (Assumption 2), proper closed convexity of r (Assumption 3), and an unbiased estimator g_t satisfying E[||g_t - nabla f(x*)||^2 | x_t, y_t] <= 2 A D_f(x_t, x*) + B sigma_t + C and E[sigma_{t+1} | x_t, y_t] <= 2 A_tilde D_f(x_t, x*) + B_tilde sigma_t + C_tilde with B_tilde < 1 (Assumption 4), Theorem 5 proves that for W > B / (1 - B_tilde), beta = (B + W B_tilde)/W < 1, and 0 < gamma <= min{1/mu, 1/(A + W A_tilde)}, the Lyapunov function Psi_t := ||x_t - x*||^2 + (gamma^2 / p^2) ||h_t - h*||^2 + gamma^2 W sigma_t satisfies E[Psi_T] <= max{(1 - gamma mu)^T, beta^T, (1 - p^2)^T} Psi_0 + (C + W C_tilde) gamma^2 / min{gamma mu, p^2, 1 - beta}.
+  evidence:
+  - source_id: r571-primary-pdf
+    locator: Section 3.2-3.3, Assumption 4 & Theorem 5, p. 9; Appendix B, Lemmas 1-2 & Proof of Theorem 5, pp. 25-28
+    relation: supports
+- claim_id: proxskip-hub-combined-client-sampling-and-compression-complexity
+  kind: mechanism
+  statement: In the hierarchical Server-Hubs-Clients architecture with M hubs and m clients per hub, ProxSkip-HUB (Algorithm 2) estimates each hub gradient via g_t^i = (1/tau) sum_{j in S_t^i} Q_t^{ij}(nabla phi_{ij}(x_t) - nabla phi_{ij}(y_t)) + nabla phi_i(y_t) with minibatch size tau in [m], omega-unbiased compressors Q_t^{ij}, and loopless reference update y_{t+1} = x_t with probability q; Theorem 9 proves that this HUB estimator satisfies Assumption 4 with A = 4(L(tau) + (omega/tau) L_max), B = 4(1 + omega/tau), A_tilde = q L_max, B_tilde = 1 - q, and C = C_tilde = 0, achieving O(sqrt((L_max/mu)(1 + omega/tau)) log(1/epsilon)) server-hub communication rounds and O(sqrt(L(tau)/mu) log(1/epsilon)) rounds in the uncompressed ProxSkip-LSVRG specialization (Corollary 1 & Appendix E).
+  evidence:
+  - source_id: r571-primary-pdf
+    locator: Section 4, Equations (11)-(14), Theorem 9, Algorithm 2 & Corollaries 1-2, pp. 11-14; Appendices D-E, pp. 31-38
+    relation: supports
+- claim_id: proxskip-lsvrg-total-training-cost-ratio-characterization
+  kind: application
+  statement: When each server communication round has unit cost 1 and each single-sample stochastic gradient evaluation has computational cost delta >= 0, Equation (15) establishes that the total training cost ratio between full-batch ProxSkip and minibatch ProxSkip-LSVRG is Cost(ProxSkip) / Cost(ProxSkip-VR) = (sqrt(mu L) + m L delta) / (sqrt(mu L(tau)) + (2 m mu + (2 L(tau) - 2 mu) tau) delta), which increases monotonically from sqrt(L / L(tau)) <= 1 at delta = 0 to m L / (2(m mu + (L(tau) - mu) tau)) as delta -> infinity, exceeding 1 whenever local computation delta is non-negligible.
+  evidence:
+  - source_id: r571-primary-pdf
+    locator: Section 5.2, Equation (15), pp. 14-16
+    relation: supports
+- claim_id: proxskip-vr-zero-local-cost-and-periodic-full-hub-gradient-limitation
+  kind: limitation
+  statement: When local computation cost delta = 0 (so only server communication rounds are counted) and tau < m, L(tau) = ((m - tau)/(tau(m - 1))) L_max + (m(tau - 1)/(tau(m - 1))) L >= L implies that full-batch ProxSkip has a smaller communication complexity constant sqrt(L/mu) than ProxSkip-LSVRG's sqrt(L(tau)/mu), and updating the control vector y_{t+1} = x_t with probability q requires evaluating the full hub gradient nabla phi_i(y_{t+1}) across all m clients of hub i.
+  evidence:
+  - source_id: r571-primary-pdf
+    locator: Section 4.1, Equations (11)-(13), p. 12; Section 5.2, Equation (15) & discussion of delta = 0 limit, p. 15
+    relation: supports
+evidence_sources:
+- source_id: r571-primary-pdf
+  title: 'Variance Reduced ProxSkip: Algorithm, Theory and Application to Federated Learning'
+  authors: &id001
+  - Grigory Malinovsky
+  - Kai Yi
+  - "Peter Richt\xE1rik"
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2207.04338.pdf
+  persistent_id: https://api.openalex.org/works/W7133186255
+  version: Advances in Neural Information Processing Systems 35 (NeurIPS 2022) (2022) (1974757 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:54:00Z'
+  sha256: 7ad9b5e9ca6882d42e633f7235fed05299d531f9716bf32006bad41bc9a79225
+- source_id: r571-arxiv-abs
+  title: 'Variance Reduced ProxSkip: Algorithm, Theory and Application to Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2207.04338
+  persistent_id: https://arxiv.org/abs/2207.04338
+  version: arXiv abstract page (6413 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:54:00Z'
+  sha256: 611dd08a4070f55ac8c3b12b3f4e7af08ae7e3e3e741dbca49d97430f5ebc2df
+- source_id: r571-metadata-cr
+  title: 'Variance Reduced ProxSkip: Algorithm, Theory and Application to Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.openalex.org/works/W7133186255
+  persistent_id: https://api.openalex.org/works/W7133186255
+  version: Crossref API work record (14548 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:54:00Z'
+  sha256: 1745f31a282b97b8a6415fa1bb6dac1bfb583abbbf718e70e105c2a7614b7cb7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: ProxSkip-VR, ProxSkip-LSVRG, and ProxSkip-HUB are federated optimization algorithms that combine accelerated local training with variance-reduced client/data sampling and compressed hub-client communication.
+limitations:
+- When local computation cost is completely ignored (delta = 0) and tau < m, the communication complexity constant sqrt(L(tau)/mu) is larger than full-batch ProxSkip's sqrt(L/mu) because L(tau) >= L.
+- Requires full participation of the M hubs at synchronization steps (when theta_t = 1) and full m-client hub gradient evaluation nabla phi_i(y_t) whenever the reference point y_t updates (with probability q).
+curation:
+  created_at: '2026-10-19T10:54:00Z'
+  updated_at: '2026-10-19T10:54:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
