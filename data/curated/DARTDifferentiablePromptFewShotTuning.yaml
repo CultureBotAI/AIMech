@@ -1,0 +1,106 @@
+id: AIMech:DARTDifferentiablePromptFewShotTuning
+name: DART Differentiable Prompt Few-Shot Tuning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A few-shot prompt-based fine-tuning algorithm that maps both template tokens {[T_{0:i}], [MASK], [T_{i+1:m}]} and target class labels M(Y_j) = {h_{m+j}} to trainable continuous pseudo-token embeddings {h_1, ..., h_m, ..., h_{m+n}} assigned to unused tokens in the language model vocabulary V', and jointly optimizes them with backpropagation under a combined class-discrimination cross-entropy loss L_C = CE(g(y|X_prompt)) and an auxiliary masked-input fluency constraint loss L_F = sum_{m in M} BCE(h(x^m | x', y)) via L = L_C + lambda L_F without adding external prompt-encoder networks.
+identity_notes: Distinct from LM-BFF (Gao et al., ACL 2021, AIMech:LMBFFBetterFewShotFineTuning), which performs brute-force discrete verbalizer search and external T5 template generation, from P-Tuning (Liu et al., 2021), which relies on an external bidirectional LSTM to induce template token co-dependence and uses fixed discrete verbalizers, and from WARP (AIMech:WARPWordLevelAdversarialReProgramming), which freezes the backbone Transformer and does not enforce an auxiliary MLM fluency constraint.
+aliases:
+- DART
+- DifferentiAble pRompT
+- DART Differentiable Template and Label Prompt Tuning
+- Fluency-Constrained Differentiable Prompt and Label Optimization
+definition_evidence:
+- source_id: r725-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r725-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r725-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r725-claim-joint-template-label-and-fluency
+  kind: mechanism
+  statement: To eliminate exponential O(k^C) discrete verbalizer search over C classes and external LSTM reparameterization, DART assigns unused vocabulary tokens V' to both m template pseudo-tokens {h_0, ..., h_m} and n class-label pseudo-tokens M(Y_j) = {h_{m+j}}, coupling them via an auxiliary fluency constraint objective L_F that randomly masks an input sentence token x^m in x', feeds the gold pseudo-label token y in place of [MASK], and maximizes masked-token reconstruction probability h(x^m | x', y).
+  evidence:
+  - source_id: r725-primary-pdf
+    locator: Section 4.2-4.4, Equations 3-10, Figure 1, pp. 2, 4-5
+    relation: supports
+- claim_id: r725-claim-intra-inter-distance-separability
+  kind: mechanism
+  statement: Optimizing continuous template and label pseudo-tokens under DART lowers the ratio R_D = D_bar_intra / D_bar_inter between average Euclidean intra-class distance and inter-class distance of [MASK] hidden state representations compared to fixed discrete prompts, producing more compact and linearly separable class clusters.
+  evidence:
+  - source_id: r725-primary-pdf
+    locator: Section 5.5 & Appendix A.6, Equation 11, Figures 3, 4, and 6, pp. 8-9, 18
+    relation: supports
+- claim_id: r725-claim-few-shot-re-and-classification-application
+  kind: application
+  statement: "Across 15 NLP benchmarks\u2014including complex many-class relation extraction and event extraction tasks (SemEval-2010 Task 8, TACRED-Revisit, Wiki80, ChemProt, ACE-2005)\u2014DART improves 8-shot performance by up to 27.0 points (23.28% average gain) over conventional fine-tuning and outperforms both LM-BFF and P-Tuning without requiring an external T5 template generator."
+  evidence:
+  - source_id: r725-primary-pdf
+    locator: Section 5.3-5.4, Tables 1-3, Figure 2, pp. 6-8
+    relation: supports
+- claim_id: r725-claim-domain-shift-and-non-mlm-limitation
+  kind: limitation
+  statement: The auxiliary fluency constraint objective L_F cannot be applied to autoregressive language models not pretrained with a masked language modeling objective (such as GPT-2), and DART remains susceptible to hyperparameter sensitivity across few-shot data splits and performance degradation when the downstream task corpus distribution diverges strongly from the pretraining corpus (e.g., specialized biomedical text without domain pretraining).
+  evidence:
+  - source_id: r725-primary-pdf
+    locator: Section 5.5 (Footnote 6) & Appendix A.7, pp. 8, 18-19
+    relation: supports
+evidence_sources:
+- source_id: r725-primary-pdf
+  title: Differentiable Prompt Makes Pre-trained Language Models Better Few-shot Learners
+  authors: &id001
+  - Ningyu Zhang
+  - Luoqiu Li
+  - Xiang Chen
+  - Shumin Deng
+  - Zhen Bi
+  - Chuanqi Tan
+  - Fei Huang
+  - Huajun Chen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2108.13161.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Differentiable+Prompt+Makes+Pre-trained+Language+Models+Better+Few-shot+Learners+Zhang&format=xml
+  version: International Conference on Learning Representations (ICLR 2022) (2022) (1094271 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:28:00Z'
+  sha256: 2d959a79162322d4a056bb899a31a44882c98772e06bbe7bae69cce1eeeee7cd
+- source_id: r725-arxiv-abs
+  title: Differentiable Prompt Makes Pre-trained Language Models Better Few-shot Learners (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2108.13161
+  persistent_id: https://arxiv.org/abs/2108.13161
+  version: arXiv abstract page (7673 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:28:00Z'
+  sha256: a85b7692c726e5d1bab42d35b7c425fb00bbbd413f4155b3df264681d900cfc1
+- source_id: r725-metadata-cr
+  title: Differentiable Prompt Makes Pre-trained Language Models Better Few-shot Learners (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Differentiable+Prompt+Makes+Pre-trained+Language+Models+Better+Few-shot+Learners+Zhang&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Differentiable+Prompt+Makes+Pre-trained+Language+Models+Better+Few-shot+Learners+Zhang&format=xml
+  version: Crossref API work record (1003 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:28:00Z'
+  sha256: d23d312319ec9a1a7807305c4f3fe7e8d0556ab8d914a4be11e60b84a2a84673
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: DART adapts pretrained Transformer neural language models to few-shot classification and relation extraction by jointly optimizing continuous template and label pseudo-tokens with a fluency constraint.
+limitations:
+- The auxiliary fluency constraint objective L_F requires a masked language modeling pretraining head and must be omitted when applying DART to autoregressive LMs such as GPT-2.
+- Exhibits few-shot hyperparameter sensitivity across small data splits and degrades when the target domain distribution diverges substantially from the pretraining corpus.
+curation:
+  created_at: '2026-10-19T13:28:00Z'
+  updated_at: '2026-10-19T13:28:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
