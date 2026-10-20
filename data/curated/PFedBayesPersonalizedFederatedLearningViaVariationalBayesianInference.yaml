@@ -1,0 +1,102 @@
+id: AIMech:PFedBayesPersonalizedFederatedLearningViaVariationalBayesianInference
+name: pFedBayes (Personalized Federated Learning via Variational Bayesian Inference)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A personalized federated Bayesian neural network algorithm (Zhang, Li, Li, Guo, & Shao 2022, Section 3, Equations 8-20, Algorithm 1, Theorems 4.4-4.5) that models both the global parameters w ~ P_theta(w) = N(mu, diag(sigma^2)) and each client i's personalized parameters w_i ~ P_{theta_i}(w_i) = N(mu_i, diag(sigma_i^2)) (with reparameterization sigma = log(1 + exp(rho))) as mean-field Gaussian random variables and solves the bi-level variational Bayesian optimization problem min_{theta} (1/N) sum_{i=1}^N F_i(theta), where F_i(theta) = min_{theta_i} { zeta * KL(P_{theta_i}(w_i) || P_theta(w)) - E_{w_i ~ P_{theta_i}(w_i)} [log P(D_i | w_i)] } (Equations 8-9), by alternating R local reparameterized Monte Carlo gradient updates on personalized posterior parameters theta_i = (mu_i, rho_i) (Equation 15) and K local closed-form KL gradient updates on localized global prior parameters theta_g^i = (mu_g^i, rho_g^i) (Equation 17), followed by server momentum-style aggregation theta^{t+1} = (1 - beta) theta^t + (beta / |S^t|) sum_{i in S^t} theta_g^i (Equation 20).
+identity_notes: Distinct from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, T. Dinh et al. 2020), which regularizes deterministic point-estimate weights via an L2 Moreau envelope (zeta/2) ||w_i - w||_2^2 without modeling posterior weight uncertainty sigma_i^2 or optimizing an evidence lower bound; and distinct from FedPA (AIMech:FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance, Al-Shedivat et al. 2021) and FedBE (AIMech:FedBeFederatedBayesianModelEnsembleViaStochasticWeightAverageDistillation, Chen & Chao 2021), which construct a single global posterior rather than bi-level personalized variational Bayesian posteriors P_{theta_i}(w_i) coupled to a learned global variational prior P_theta(w).
+aliases:
+- pFedBayes
+- Personalized Federated Variational Bayesian Inference
+- Bi-Level Variational Bayesian Personalized Federated Learning
+definition_evidence:
+- source_id: r479-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r479-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r479-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r479-bilevel-gaussian-elbo-and-reparameterized-update-mechanism
+  kind: mechanism
+  statement: Each client i minimizes its negative evidence lower bound zeta * KL(N(mu_i, diag(sigma_i^2)) || N(mu_g^i, diag((sigma_g^i)^2))) - (n / b) sum_{j in D_i} E_{epsilon ~ N(0,I)}[log P(D_j | mu_i + sigma_i odot epsilon)] (Equations 12-14) via R inner reparameterized stochastic gradient steps on theta_i = (mu_i, rho_i) (Equation 15) and K outer steps on the localized prior theta_g^i = (mu_g^i, rho_g^i) using the exact diagonal-Gaussian KL gradient (Equation 17), before the server aggregates theta^{t+1} = (1 - beta) theta^t + (beta / |S^t|) sum_{i in S^t} theta_g^i (Zhang et al. 2022, Section 3.3, Algorithm 1).
+  evidence:
+  - source_id: r479-primary-pdf
+    locator: Section 3.3 (Equations 10-20, Algorithm 1), pp. 4-5
+    relation: supports
+- claim_id: r479-minimax-nonparametric-generalization-rate-scope
+  kind: scope
+  statement: Under beta-Holder smooth underlying client functions f_i(x) on [0, 1]^d and sparse Bayesian neural networks, Theorems 4.4 and 4.5 prove that the client-averaged squared Hellinger / L2 estimation error of pFedBayes is bounded by O(C_zeta (r_n / n) log^3 L + C_zeta xi_n^2) and achieves the minimax-optimal rate n^{-2 beta / (2 beta + d)} up to polylogarithmic factors while preventing overfitting in small-data regimes (Zhang et al. 2022, Section 4, Lemmas 4.1-4.3 & Theorems 4.4-4.5, pp. 5-7).
+  evidence:
+  - source_id: r479-primary-pdf
+    locator: Section 4 (Lemmas 4.1-4.3, Theorems 4.4-4.5, Equations 21-31), pp. 5-7
+    relation: supports
+- claim_id: r479-small-data-non-iid-personalized-classification-application
+  kind: application
+  statement: Applied to non-IID personalized federated classification under small, medium, and large local sample sizes on MNIST, CIFAR-10, CIFAR-100, and Sent140 (Zhang et al. 2022, Section 5, Tables 1-2, Figures 1-3).
+  evidence:
+  - source_id: r479-primary-pdf
+    locator: Section 5 (Experimental Results, Tables 1-2, Figures 1-3), pp. 7-9
+    relation: supports
+- claim_id: r479-doubled-parameter-communication-and-mc-sampling-limitation
+  kind: limitation
+  statement: Representing every weight by both a mean mu and variance parameter rho doubles the memory footprint and per-round communication payload relative to deterministic FedAvg/pFedMe and requires M Monte Carlo forward passes per minibatch step (Zhang et al. 2022, Section 3.3, Equations 10-16).
+  evidence:
+  - source_id: r479-primary-pdf
+    locator: Section 3.3 (Equations 10-16, Algorithm 1), pp. 4-5
+    relation: supports
+evidence_sources:
+- source_id: r479-primary-pdf
+  title: Personalized Federated Learning via Variational Bayesian Inference
+  authors: &id001
+  - Xu Zhang
+  - Yinchuan Li
+  - Wenpeng Li
+  - Kaiyang Guo
+  - Yunfeng Shao
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v162/zhang22o/zhang22o.pdf
+  persistent_id: https://proceedings.mlr.press/v162/zhang22o.html
+  version: ICML 2022 (PMLR 162:26293-26310) (2022) (1761 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:22:00Z'
+  sha256: c1e686ff48e1aff1c4aa0be44c2367a584dd4a38c587dea56cabd1eb16b319d6
+- source_id: r479-arxiv-abs
+  title: Personalized Federated Learning via Variational Bayesian Inference (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v162/zhang22o.html
+  persistent_id: https://proceedings.mlr.press/v162/zhang22o.html
+  version: arXiv abstract page (581 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:22:00Z'
+  sha256: 055e4cbb3fc7ee22765677c2a96381f8a9fe08d1727d615ed4f9c3a5dbdfe90b
+- source_id: r479-metadata-cr
+  title: Personalized Federated Learning via Variational Bayesian Inference (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v162/zhang22o.html
+  persistent_id: https://proceedings.mlr.press/v162/zhang22o.html
+  version: Crossref API work record (318 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:22:00Z'
+  sha256: b0db69e193479977fb62c5316f02e755c008a01ad41eace54db16391ae860b71
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: pFedBayes is a personalized variational Bayesian federated learning algorithm within the broader FederatedLearning category.
+limitations:
+- Doubles the number of communicated parameters per round (mean mu_g^i and variance parameter rho_g^i) compared to point-estimate federated learning.
+- Assumes a mean-field (diagonal covariance) Gaussian variational family that ignores posterior correlations across weights.
+curation:
+  created_at: '2026-10-19T09:22:00Z'
+  updated_at: '2026-10-19T09:22:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

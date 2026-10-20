@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pFedBayes (Personalized Federated Learning via Variational Bayesian Inference) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>pFedBayes (Personalized Federated Learning via Variational Bayesian Inference)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">pFedBayes (Personalized Federated Learning via Variational Bayesian Inference)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PFedBayesPersonalizedFederatedLearningViaVariationalBayesianInference</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> pFedBayes, Personalized Federated Variational Bayesian Inference, Bi-Level Variational Bayesian Personalized Federated Learning
+    </div>
+
+  <div class="detail-desc">
+    A personalized federated Bayesian neural network algorithm (Zhang, Li, Li, Guo, &amp; Shao 2022, Section 3, Equations 8-20, Algorithm 1, Theorems 4.4-4.5) that models both the global parameters w ~ P_theta(w) = N(mu, diag(sigma^2)) and each client i&#39;s personalized parameters w_i ~ P_{theta_i}(w_i) = N(mu_i, diag(sigma_i^2)) (with reparameterization sigma = log(1 + exp(rho))) as mean-field Gaussian random variables and solves the bi-level variational Bayesian optimization problem min_{theta} (1/N) sum_{i=1}^N F_i(theta), where F_i(theta) = min_{theta_i} { zeta * KL(P_{theta_i}(w_i) || P_theta(w)) - E_{w_i ~ P_{theta_i}(w_i)} [log P(D_i | w_i)] } (Equations 8-9), by alternating R local reparameterized Monte Carlo gradient updates on personalized posterior parameters theta_i = (mu_i, rho_i) (Equation 15) and K local closed-form KL gradient updates on localized global prior parameters theta_g^i = (mu_g^i, rho_g^i) (Equation 17), followed by server momentum-style aggregation theta^{t+1} = (1 - beta) theta^t + (beta / |S^t|) sum_{i in S^t} theta_g^i (Equation 20).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, T. Dinh et al. 2020), which regularizes deterministic point-estimate weights via an L2 Moreau envelope (zeta/2) ||w_i - w||_2^2 without modeling posterior weight uncertainty sigma_i^2 or optimizing an evidence lower bound; and distinct from FedPA (AIMech:FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance, Al-Shedivat et al. 2021) and FedBE (AIMech:FedBeFederatedBayesianModelEnsembleViaStochasticWeightAverageDistillation, Chen &amp; Chao 2021), which construct a single global posterior rather than bi-level personalized variational Bayesian posteriors P_{theta_i}(w_i) coupled to a learned global variational prior P_theta(w).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r479-bilevel-gaussian-elbo-and-reparameterized-update-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each client i minimizes its negative evidence lower bound zeta * KL(N(mu_i, diag(sigma_i^2)) || N(mu_g^i, diag((sigma_g^i)^2))) - (n / b) sum_{j in D_i} E_{epsilon ~ N(0,I)}[log P(D_j | mu_i + sigma_i odot epsilon)] (Equations 12-14) via R inner reparameterized stochastic gradient steps on theta_i = (mu_i, rho_i) (Equation 15) and K outer steps on the localized prior theta_g^i = (mu_g^i, rho_g^i) using the exact diagonal-Gaussian KL gradient (Equation 17), before the server aggregates theta^{t+1} = (1 - beta) theta^t + (beta / |S^t|) sum_{i in S^t} theta_g^i (Zhang et al. 2022, Section 3.3, Algorithm 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r479-primary-pdf">Personalized Federated Learning via Variational Bayesian Inference</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Equations 10-20, Algorithm 1), pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r479-minimax-nonparametric-generalization-rate-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under beta-Holder smooth underlying client functions f_i(x) on [0, 1]^d and sparse Bayesian neural networks, Theorems 4.4 and 4.5 prove that the client-averaged squared Hellinger / L2 estimation error of pFedBayes is bounded by O(C_zeta (r_n / n) log^3 L + C_zeta xi_n^2) and achieves the minimax-optimal rate n^{-2 beta / (2 beta + d)} up to polylogarithmic factors while preventing overfitting in small-data regimes (Zhang et al. 2022, Section 4, Lemmas 4.1-4.3 &amp; Theorems 4.4-4.5, pp. 5-7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r479-primary-pdf">Personalized Federated Learning via Variational Bayesian Inference</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Lemmas 4.1-4.3, Theorems 4.4-4.5, Equations 21-31), pp. 5-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r479-small-data-non-iid-personalized-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to non-IID personalized federated classification under small, medium, and large local sample sizes on MNIST, CIFAR-10, CIFAR-100, and Sent140 (Zhang et al. 2022, Section 5, Tables 1-2, Figures 1-3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r479-primary-pdf">Personalized Federated Learning via Variational Bayesian Inference</a></span>
+        <span>· <strong>Locator:</strong> Section 5 (Experimental Results, Tables 1-2, Figures 1-3), pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r479-doubled-parameter-communication-and-mc-sampling-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Representing every weight by both a mean mu and variance parameter rho doubles the memory footprint and per-round communication payload relative to deterministic FedAvg/pFedMe and requires M Monte Carlo forward passes per minibatch step (Zhang et al. 2022, Section 3.3, Equations 10-16).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r479-primary-pdf">Personalized Federated Learning via Variational Bayesian Inference</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Equations 10-16, Algorithm 1), pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Doubles the number of communicated parameters per round (mean mu_g^i and variance parameter rho_g^i) compared to point-estimate federated learning.</li>
+      <li>Assumes a mean-field (diagonal covariance) Gaussian variational family that ignores posterior correlations across weights.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            pFedBayes is a personalized variational Bayesian federated learning algorithm within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r479-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r479-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v162/zhang22o/zhang22o.pdf" target="_blank" rel="noopener">Personalized Federated Learning via Variational Bayesian Inference</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xu Zhang, Yinchuan Li, Wenpeng Li, Kaiyang Guo, Yunfeng Shao
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v162/zhang22o.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c1e686ff48e1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r479-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r479-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v162/zhang22o.html" target="_blank" rel="noopener">Personalized Federated Learning via Variational Bayesian Inference (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xu Zhang, Yinchuan Li, Wenpeng Li, Kaiyang Guo, Yunfeng Shao
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v162/zhang22o.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:055e4cbb3fc7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r479-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r479-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v162/zhang22o.html" target="_blank" rel="noopener">Personalized Federated Learning via Variational Bayesian Inference (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xu Zhang, Yinchuan Li, Wenpeng Li, Kaiyang Guo, Yunfeng Shao
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v162/zhang22o.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b0db69e19347…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:22:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:22:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PFedBayesPersonalizedFederatedLearningViaVariationalBayesianInference.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PFedBayesPersonalizedFederatedLearningViaVariationalBayesianInference.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
