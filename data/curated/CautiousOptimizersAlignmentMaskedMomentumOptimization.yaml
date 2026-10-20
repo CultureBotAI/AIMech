@@ -1,0 +1,101 @@
+id: AIMech:CautiousOptimizersAlignmentMaskedMomentumOptimization
+name: Cautious Optimizers (C-AdamW / C-Lion Alignment-Masked Momentum)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A general element-wise sign-alignment modification for momentum-based optimization algorithms (Algorithms 1-3) that replaces a base optimizer's negative update step w_{t+1} <- w_t - epsilon_t u_t with the masked and rescaled update w_{t+1} <- w_t - epsilon_t u_t circ phi(u_t circ g_t), where g_t = grad L(w_t), phi(x) = alpha(x) I(x > 0), and alpha(x) = dim(x) / (nnz(x > 0) + xi) (with default xi = 1), zeroing out parameter coordinates where the proposed momentum direction u_t and current gradient g_t have opposite signs.
+identity_notes: Distinct from standard AdamW, Lion (Round 588), and Lookahead by applying an element-wise Update-gradient sign-consistency mask I(u_t circ g_t > 0) with active-coordinate magnitude compensation d / (||phi_t||_0 + 1) prior to decoupled weight decay, simultaneously decreasing both the base optimizer's Hamiltonian H(w, s) and the objective loss L(w) without altering base hyperparameters.
+aliases:
+- Cautious Optimizer
+- C-AdamW and C-Lion
+- Alignment-Masked Momentum Optimization
+definition_evidence:
+- source_id: r600-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r600-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r600-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r600-hamiltonian-and-loss-simultaneous-monotonic-descent
+  kind: mechanism
+  statement: In continuous-time Hamiltonian+Descent systems d/dt w_t = -grad K(s_t) - Phi_t(grad L(w_t)), d/dt s_t = grad L(w_t) - Psi_t(grad K(s_t)) with Hamiltonian H(w, s) = L(w) + K(s), Theorem 2.1 proves that weighting grad K(s_t) by phi(x_t) where x_t = grad L(w_t) circ grad K(s_t) and phi(x)_i >= 1 for x_i > 0, phi(x)_i <= 0 for x_i < 0 guarantees both d/dt H <= -Delta_H <= 0 and monotonic loss decrease d/dt L <= -x_t^T phi(x_t) - ||grad L||_{Phi_t}^2 <= 0 while converging to stationary points of H(w, s) (Corollary 2.2, pp. 4-5, 14-16).
+  evidence:
+  - source_id: r600-primary-pdf
+    locator: Section 2.1-2.2, Eq. (2)-(6), Theorem 2.1, & Corollary 2.2, pp. 3-5; Appendix A.1-A.3, pp. 13-17
+    relation: supports
+- claim_id: c-r600-discrete-step-loss-dominance-under-smoothness
+  kind: mechanism
+  statement: For a mu-smooth loss function L, Theorem 2.3 establishes that whenever Delta(x) := -x^T (1 - phi(x)) >= 0 and the step size satisfies epsilon_t <= 2 Delta(u_t circ g_t) / (mu ||r_t|| (2 ||u_t|| + ||r_t||)) with r_t = u_t circ (1 - phi_t), a single cautious step achieves strictly lower or equal objective loss than the unmasked base optimizer step, L(w_bar_{t+1}) <= L(w_{t+1}) (Section 2.3 & Appendix A.4, pp. 5, 17-18).
+  evidence:
+  - source_id: r600-primary-pdf
+    locator: Section 2.3, Eq. (7)-(8) & Theorem 2.3-2.4, p. 5; Appendix A.4, Theorem 2.3 & Theorem A.3-A.4, pp. 17-18
+    relation: supports
+- claim_id: c-r600-llm-pretraining-and-vision-transformer-gains
+  kind: application
+  statement: C-AdamW and C-Lion consistently improve evaluation perplexity over AdamW and Lion on LLaMA pretraining across C4 (60M-100M) and FineWeb-Edu (130M-1.2B, improving downstream accuracy on 5 of 7 LM Eval-Harness benchmarks), improve ViT Top-1 accuracy on Mini-ImageNet across C-AdamW (73.52% vs 72.11%), C-LaProp (73.92% vs 71.73%), and C-MARS (74.91% vs 74.06%), and accelerate MAE pretraining and Qwen2.5/Pythia post-training (Section 3.2-3.3 & Appendix E, pp. 7-8, 24-25).
+  evidence:
+  - source_id: r600-primary-pdf
+    locator: Section 3.2-3.3, Tables 1-4, pp. 7-8; Appendix E, Table 7 & Figures 8-11, pp. 24-25
+    relation: supports
+- claim_id: c-r600-single-step-bound-scope-and-scaling-reduction-overhead
+  kind: limitation
+  statement: Discrete-time dominance over the base optimizer (Theorem 2.3) is guaranteed per step within a bounded step-size range rather than globally across multi-step trajectories on arbitrary nonconvex landscapes, and computing the global active-mask mean ||phi_t||_0 / d incurs an extra element-wise mask pass (~3% throughput reduction vs fused PyTorch AdamW) and a scalar all-gather under tensor parallelism.
+  evidence:
+  - source_id: r600-primary-pdf
+    locator: Section 2.3, p. 5; Appendix F, Table 9, p. 26
+    relation: supports
+evidence_sources:
+- source_id: r600-primary-pdf
+  title: 'Cautious Optimizers: Improving Training with One Line of Code'
+  authors: &id001
+  - Kaizhao Liang
+  - Lizhang Chen
+  - Bo Liu
+  - Qiang Liu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2411.16085.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/LiangCLL26
+  version: International Conference on Learning Representations (ICLR 2026) (arXiv:2411.16085) (2026) (6452441 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:23:00Z'
+  sha256: 0b429a474de51b1de5e85f4fc1e8c8f42285b93cdd7f6e33fee2f89e5cc632a7
+- source_id: r600-arxiv-abs
+  title: 'Cautious Optimizers: Improving Training with One Line of Code (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2411.16085
+  persistent_id: https://arxiv.org/abs/2411.16085
+  version: arXiv abstract page (6374 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:23:00Z'
+  sha256: ad83e03db21aaee24c84c9bb48325c8b479b09dc930e92adb4724bf1fba4ef00
+- source_id: r600-metadata-cr
+  title: 'Cautious Optimizers: Improving Training with One Line of Code (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/LiangCLL26
+  persistent_id: https://dblp.org/rec/conf/iclr/LiangCLL26
+  version: Crossref API work record (1872 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:23:00Z'
+  sha256: 143ccaed85b4a59c1b806569c94614e5a521521f56365ec1d9ac6761ae6f7690
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Cautious Optimizers (such as C-AdamW and C-Lion) accelerate pretraining and post-training of large language models, Vision Transformers, and masked autoencoders.
+limitations:
+- Discrete-time step dominance (Theorem 2.3) relies on a local smoothness bound for a single step, as multi-step trajectories diverge into different regions of nonconvex loss landscapes.
+- Computing the active alignment mask and its mean scaling factor adds minor kernel overhead (~3% vs fused PyTorch AdamW) and requires an all-gather of a scalar mean when parameters are sharded under tensor parallelism.
+curation:
+  created_at: '2026-10-19T11:23:00Z'
+  updated_at: '2026-10-19T11:23:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

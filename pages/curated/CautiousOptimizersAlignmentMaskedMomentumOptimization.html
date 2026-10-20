@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cautious Optimizers (C-AdamW / C-Lion Alignment-Masked Momentum) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Cautious Optimizers (C-AdamW / C-Lion Alignment-Masked Momentum)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Cautious Optimizers (C-AdamW / C-Lion Alignment-Masked Momentum)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CautiousOptimizersAlignmentMaskedMomentumOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Cautious Optimizer, C-AdamW and C-Lion, Alignment-Masked Momentum Optimization
+    </div>
+
+  <div class="detail-desc">
+    A general element-wise sign-alignment modification for momentum-based optimization algorithms (Algorithms 1-3) that replaces a base optimizer&#39;s negative update step w_{t+1} &lt;- w_t - epsilon_t u_t with the masked and rescaled update w_{t+1} &lt;- w_t - epsilon_t u_t circ phi(u_t circ g_t), where g_t = grad L(w_t), phi(x) = alpha(x) I(x &gt; 0), and alpha(x) = dim(x) / (nnz(x &gt; 0) + xi) (with default xi = 1), zeroing out parameter coordinates where the proposed momentum direction u_t and current gradient g_t have opposite signs.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard AdamW, Lion (Round 588), and Lookahead by applying an element-wise Update-gradient sign-consistency mask I(u_t circ g_t &gt; 0) with active-coordinate magnitude compensation d / (||phi_t||_0 + 1) prior to decoupled weight decay, simultaneously decreasing both the base optimizer&#39;s Hamiltonian H(w, s) and the objective loss L(w) without altering base hyperparameters.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r600-hamiltonian-and-loss-simultaneous-monotonic-descent</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In continuous-time Hamiltonian+Descent systems d/dt w_t = -grad K(s_t) - Phi_t(grad L(w_t)), d/dt s_t = grad L(w_t) - Psi_t(grad K(s_t)) with Hamiltonian H(w, s) = L(w) + K(s), Theorem 2.1 proves that weighting grad K(s_t) by phi(x_t) where x_t = grad L(w_t) circ grad K(s_t) and phi(x)_i &gt;= 1 for x_i &gt; 0, phi(x)_i &lt;= 0 for x_i &lt; 0 guarantees both d/dt H &lt;= -Delta_H &lt;= 0 and monotonic loss decrease d/dt L &lt;= -x_t^T phi(x_t) - ||grad L||_{Phi_t}^2 &lt;= 0 while converging to stationary points of H(w, s) (Corollary 2.2, pp. 4-5, 14-16).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r600-primary-pdf">Cautious Optimizers: Improving Training with One Line of Code</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1-2.2, Eq. (2)-(6), Theorem 2.1, &amp; Corollary 2.2, pp. 3-5; Appendix A.1-A.3, pp. 13-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r600-discrete-step-loss-dominance-under-smoothness</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a mu-smooth loss function L, Theorem 2.3 establishes that whenever Delta(x) := -x^T (1 - phi(x)) &gt;= 0 and the step size satisfies epsilon_t &lt;= 2 Delta(u_t circ g_t) / (mu ||r_t|| (2 ||u_t|| + ||r_t||)) with r_t = u_t circ (1 - phi_t), a single cautious step achieves strictly lower or equal objective loss than the unmasked base optimizer step, L(w_bar_{t+1}) &lt;= L(w_{t+1}) (Section 2.3 &amp; Appendix A.4, pp. 5, 17-18).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r600-primary-pdf">Cautious Optimizers: Improving Training with One Line of Code</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, Eq. (7)-(8) &amp; Theorem 2.3-2.4, p. 5; Appendix A.4, Theorem 2.3 &amp; Theorem A.3-A.4, pp. 17-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r600-llm-pretraining-and-vision-transformer-gains</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    C-AdamW and C-Lion consistently improve evaluation perplexity over AdamW and Lion on LLaMA pretraining across C4 (60M-100M) and FineWeb-Edu (130M-1.2B, improving downstream accuracy on 5 of 7 LM Eval-Harness benchmarks), improve ViT Top-1 accuracy on Mini-ImageNet across C-AdamW (73.52% vs 72.11%), C-LaProp (73.92% vs 71.73%), and C-MARS (74.91% vs 74.06%), and accelerate MAE pretraining and Qwen2.5/Pythia post-training (Section 3.2-3.3 &amp; Appendix E, pp. 7-8, 24-25).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r600-primary-pdf">Cautious Optimizers: Improving Training with One Line of Code</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3, Tables 1-4, pp. 7-8; Appendix E, Table 7 &amp; Figures 8-11, pp. 24-25</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r600-single-step-bound-scope-and-scaling-reduction-overhead</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Discrete-time dominance over the base optimizer (Theorem 2.3) is guaranteed per step within a bounded step-size range rather than globally across multi-step trajectories on arbitrary nonconvex landscapes, and computing the global active-mask mean ||phi_t||_0 / d incurs an extra element-wise mask pass (~3% throughput reduction vs fused PyTorch AdamW) and a scalar all-gather under tensor parallelism.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r600-primary-pdf">Cautious Optimizers: Improving Training with One Line of Code</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, p. 5; Appendix F, Table 9, p. 26</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Discrete-time step dominance (Theorem 2.3) relies on a local smoothness bound for a single step, as multi-step trajectories diverge into different regions of nonconvex loss landscapes.</li>
+      <li>Computing the active alignment mask and its mean scaling factor adds minor kernel overhead (~3% vs fused PyTorch AdamW) and requires an all-gather of a scalar mean when parameters are sharded under tensor parallelism.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Cautious Optimizers (such as C-AdamW and C-Lion) accelerate pretraining and post-training of large language models, Vision Transformers, and masked autoencoders.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r600-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r600-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2411.16085.pdf" target="_blank" rel="noopener">Cautious Optimizers: Improving Training with One Line of Code</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kaizhao Liang, Lizhang Chen, Bo Liu, Qiang Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/LiangCLL26</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0b429a474de5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r600-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r600-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2411.16085" target="_blank" rel="noopener">Cautious Optimizers: Improving Training with One Line of Code (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kaizhao Liang, Lizhang Chen, Bo Liu, Qiang Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2411.16085</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ad83e03db21a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r600-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r600-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/LiangCLL26" target="_blank" rel="noopener">Cautious Optimizers: Improving Training with One Line of Code (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kaizhao Liang, Lizhang Chen, Bo Liu, Qiang Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/LiangCLL26</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:143ccaed85b4…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:23:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:23:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CautiousOptimizersAlignmentMaskedMomentumOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CautiousOptimizersAlignmentMaskedMomentumOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
