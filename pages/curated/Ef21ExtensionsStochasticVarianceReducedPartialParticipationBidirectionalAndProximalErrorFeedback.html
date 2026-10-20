@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EF21 Algorithmic Extensions (EF21-SGD, EF21-PAGE, EF21-PP, EF21-BC, EF21-HB, EF21-Prox) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>EF21 Algorithmic Extensions (EF21-SGD, EF21-PAGE, EF21-PP, EF21-BC, EF21-HB, EF21-Prox)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">EF21 Algorithmic Extensions (EF21-SGD, EF21-PAGE, EF21-PP, EF21-BC, EF21-HB, EF21-Prox)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:Ef21ExtensionsStochasticVarianceReducedPartialParticipationBidirectionalAndProximalErrorFeedback</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> EF21 with Bells and Whistles, EF21-PAGE, EF21-BC, EF21-PP, EF21-Prox, EF21-HB
+    </div>
+
+  <div class="detail-desc">
+    A suite of six algorithmic extensions of the Markov-compressor error-feedback method EF21 for distributed nonconvex and Polyak-Lojasiewicz (PL) optimization with contractive compressors C in B(alpha): (1) EF21-SGD replacing exact local gradients nabla f_i(x^t) with unbiased stochastic minibatch gradients hat{g}_i(x^t); (2) EF21-PAGE replacing local gradients with probabilistic PAGE variance-reduced estimators v_i^{t+1} (computed via full local gradients with probability p and recursive minibatch differences with probability 1 - p) to eliminate the stochastic variance floor; (3) EF21-PP supporting partial client participation where only a sampled subset S_t subseteq {1, ..., n} communicates c_i^t = C_i^t(nabla f_i(x^{t+1}) - g_i^t) while inactive clients retain g_i^{t+1} = g_i^t; (4) EF21-BC adding server-to-worker contractive compression C_M^t on the aggregated state difference; (5) EF21-HB incorporating heavy-ball momentum; and (6) EF21-Prox solving composite problems min_x f(x) + R(x) via x^{t+1} = prox_{gamma R}(x^t - gamma g^t).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from baseline EF21 (which requires full-batch local gradients, full client participation, uncompressed server broadcasts, no momentum, and smooth unconstrained objectives) and from EF-BV (which decomposes compressors into bias and variance parameters using an auxiliary scaling lambda). The EF21 extensions directly generalize the Markov compression recursion g_i^{t+1} = g_i^t + C_i^t(u_i^{t+1} - g_i^t) across six orthogonal operational axes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ef21-page-variance-reduced-coupled-distortion-recursion</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In EF21-PAGE (Algorithm 2), each worker i maintains both a PAGE gradient estimator v_i^{t+1} (equal to nabla f_i(x^{t+1}) with probability p and v_i^t + hat{Delta}_i^t with probability 1 - p) and a compressed state g_i^{t+1} = g_i^t + C_i^t(v_i^{t+1} - g_i^t). Theorem 4 proves that by coupling the compression distortion G^t = (1/n) sum_i ||g_i^t - v_i^t||^2 and the PAGE variance V^t = (1/n) sum_i ||v_i^t - nabla f_i(x^t)||^2 in a three-term Lyapunov function, EF21-PAGE converges to an exact stationary point without the O(sigma^2 / tau) noise floor of EF21-SGD.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r577-primary-pdf">EF21 with Bells &amp; Whistles: Practical Algorithmic Extensions of Modern Error Feedback</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Algorithm 2 and Theorem 4, pp. 10-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ef21-bc-bidirectional-master-and-worker-markov-compression</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In EF21-BC (Algorithm 4), workers compress local gradient differences via c_i^{t+1} = C_i^t(nabla f_i(x^{t+1}) - g_i^t) with contractive parameter alpha_W, while the master maintains both a worker-average state g^t = (1/n) sum_i g_i^t and a broadcast state p^t updated via p^{t+1} = p^t + C_M^t(g^{t+1} - p^t) with contractive parameter alpha_M, achieving O(1 / (alpha_W alpha_M epsilon^2)) complexity for smooth nonconvex objectives and linear convergence under the Polyak-Lojasiewicz condition (Theorem 8).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r577-primary-pdf">EF21 with Bells &amp; Whistles: Practical Algorithmic Extensions of Modern Error Feedback</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4, Algorithm 4 and Theorem 8, pp. 14-16</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r577-metadata-cr">EF21 with Bells &amp; Whistles: Practical Algorithmic Extensions of Modern Error Feedback (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic record</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#ef21-pp-and-ef21-prox-partial-participation-and-composite-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    EF21-PP (Algorithm 3, Theorem 6) preserves the Markov error-feedback invariant g^t = (1/n) sum_{i=1}^n g_i^t under arbitrary proper client sampling by keeping g_i^{t+1} = g_i^t for unsampled clients i not in S_t, while EF21-Prox (Algorithm 6, Theorem 12) replaces the smooth gradient update with x^{t+1} = prox_{gamma R}(x^t - gamma g^t) and guarantees O(1 / (alpha T)) decay of the squared generalized gradient mapping ||G_gamma(x^t)||^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r577-primary-pdf">EF21 with Bells &amp; Whistles: Practical Algorithmic Extensions of Modern Error Feedback</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, Algorithm 3 and Theorem 6, pp. 12-14; Section 3.6, Algorithm 6 and Theorem 12, pp. 19-21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#ef21-sgd-large-minibatch-or-neighborhood-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Unlike EF21-PAGE, vanilla EF21-SGD (Algorithm 1, Theorem 2) accumulates stochastic noise inside the contractive compressor C_i^t(hat{g}_i(x^{t+1}) - g_i^t), so with constant stepsize and fixed minibatch size tau it only converges to a neighborhood proportional to sigma^2 / (alpha^2 tau), requiring O(sigma^2 / (alpha^2 epsilon^2)) minibatch sizes to reach an epsilon-stationary point.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r577-primary-pdf">EF21 with Bells &amp; Whistles: Practical Algorithmic Extensions of Modern Error Feedback</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Theorem 2 and Corollary 3, pp. 8-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>EF21-SGD without variance reduction requires large minibatch sizes O(1 / (alpha^2 epsilon^2)) to suppress compressor-amplified stochastic noise.</li>
+      <li>All extensions require contractive compressors with 0 &lt; alpha &lt;= 1 and store at least one d-dimensional state vector g_i^t per worker.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            EF21-PP, EF21-PAGE, and EF21-BC directly address partial client participation, local stochastic gradients, and bidirectional communication compression in federated optimization.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            EF21-Prox solves composite nonconvex problems with non-smooth sparsity-inducing regularizers R(x) under contractive gradient compression.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r577-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r577-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2110.03294" target="_blank" rel="noopener">EF21 with Bells &amp; Whistles: Practical Algorithmic Extensions of Modern Error Feedback</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ilyas Fatkhullin, Igor Sokolov, Eduard Gorbunov, Zhize Li, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=EF21+with+Bells+Whistles&amp;format=json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:66404399c838…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r577-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r577-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2110.03294" target="_blank" rel="noopener">EF21 with Bells &amp; Whistles: Practical Algorithmic Extensions of Modern Error Feedback (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ilyas Fatkhullin, Igor Sokolov, Eduard Gorbunov, Zhize Li, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2110.03294</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:afd67978b8a0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r577-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r577-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=EF21+with+Bells+Whistles&amp;format=json" target="_blank" rel="noopener">EF21 with Bells &amp; Whistles: Practical Algorithmic Extensions of Modern Error Feedback (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ilyas Fatkhullin, Igor Sokolov, Eduard Gorbunov, Zhize Li, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=EF21+with+Bells+Whistles&amp;format=json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:257b8ccee540…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:00:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:00:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/Ef21ExtensionsStochasticVarianceReducedPartialParticipationBidirectionalAndProximalErrorFeedback.yaml" target="_blank" rel="noopener">
+      <code>data/curated/Ef21ExtensionsStochasticVarianceReducedPartialParticipationBidirectionalAndProximalErrorFeedback.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

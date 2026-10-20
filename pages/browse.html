@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1413</strong> artificial intelligence concepts, comprising <strong>971</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1414</strong> artificial intelligence concepts, comprising <strong>972</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1413)</option>
-        <option value="curated">Curated AIMech (971)</option>
+        <option value="all">All Origins (1414)</option>
+        <option value="curated">Curated AIMech (972)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (667)</option>
+          <option value="algorithm">Algorithms (668)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1413</span> of <span id="totalCount">1413</span>
+      Showing <span id="matchCount">1414</span> of <span id="totalCount">1414</span>
     </div>
   </div>
 </div>
@@ -9093,6 +9093,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:EfBvUnifiedErrorFeedbackAndVarianceReductionWithBiasVarianceDecomposition</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="ef21 algorithmic extensions (ef21-sgd, ef21-page, ef21-pp, ef21-bc, ef21-hb, ef21-prox) ef21extensionsstochasticvariancereducedpartialparticipationbidirectionalandproximalerrorfeedback aimech:ef21extensionsstochasticvariancereducedpartialparticipationbidirectionalandproximalerrorfeedback algorithms algorithm a suite of six algorithmic extensions of the markov-compressor error-feedback method ef21 for distributed nonconvex and polyak-lojasiewicz (pl) optimization with contractive compressors c in b(alpha): (1) ef21-sgd replacing exact local gradients nabla f_i(x^t) with unbiased stochastic minibatch gradients hat{g}_i(x^t); (2) ef21-page replacing local gradients with probabilistic page variance-reduced estimators v_i^{t+1} (computed via full local gradients with probability p and recursive minibatch differences with probability 1 - p) to eliminate the stochastic variance floor; (3) ef21-pp supporting partial client participation where only a sampled subset s_t subseteq {1, ..., n} communicates c_i^t = c_i^t(nabla f_i(x^{t+1}) - g_i^t) while inactive clients retain g_i^{t+1} = g_i^t; (4) ef21-bc adding server-to-worker contractive compression c_m^t on the aggregated state difference; (5) ef21-hb incorporating heavy-ball momentum; and (6) ef21-prox solving composite problems min_x f(x) + r(x) via x^{t+1} = prox_{gamma r}(x^t - gamma g^t). distinct from baseline ef21 (which requires full-batch local gradients, full client participation, uncompressed server broadcasts, no momentum, and smooth unconstrained objectives) and from ef-bv (which decomposes compressors into bias and variance parameters using an auxiliary scaling lambda). the ef21 extensions directly generalize the markov compression recursion g_i^{t+1} = g_i^t + c_i^t(u_i^{t+1} - g_i^t) across six orthogonal operational axes. ef21 with bells and whistles ef21-page ef21-bc ef21-pp ef21-prox ef21-hb in ef21-page (algorithm 2), each worker i maintains both a page gradient estimator v_i^{t+1} (equal to nabla f_i(x^{t+1}) with probability p and v_i^t + hat{delta}_i^t with probability 1 - p) and a compressed state g_i^{t+1} = g_i^t + c_i^t(v_i^{t+1} - g_i^t). theorem 4 proves that by coupling the compression distortion g^t = (1/n) sum_i ||g_i^t - v_i^t||^2 and the page variance v^t = (1/n) sum_i ||v_i^t - nabla f_i(x^t)||^2 in a three-term lyapunov function, ef21-page converges to an exact stationary point without the o(sigma^2 / tau) noise floor of ef21-sgd. in ef21-bc (algorithm 4), workers compress local gradient differences via c_i^{t+1} = c_i^t(nabla f_i(x^{t+1}) - g_i^t) with contractive parameter alpha_w, while the master maintains both a worker-average state g^t = (1/n) sum_i g_i^t and a broadcast state p^t updated via p^{t+1} = p^t + c_m^t(g^{t+1} - p^t) with contractive parameter alpha_m, achieving o(1 / (alpha_w alpha_m epsilon^2)) complexity for smooth nonconvex objectives and linear convergence under the polyak-lojasiewicz condition (theorem 8). ef21-pp (algorithm 3, theorem 6) preserves the markov error-feedback invariant g^t = (1/n) sum_{i=1}^n g_i^t under arbitrary proper client sampling by keeping g_i^{t+1} = g_i^t for unsampled clients i not in s_t, while ef21-prox (algorithm 6, theorem 12) replaces the smooth gradient update with x^{t+1} = prox_{gamma r}(x^t - gamma g^t) and guarantees o(1 / (alpha t)) decay of the squared generalized gradient mapping ||g_gamma(x^t)||^2. unlike ef21-page, vanilla ef21-sgd (algorithm 1, theorem 2) accumulates stochastic noise inside the contractive compressor c_i^t(hat{g}_i(x^{t+1}) - g_i^t), so with constant stepsize and fixed minibatch size tau it only converges to a neighborhood proportional to sigma^2 / (alpha^2 tau), requiring o(sigma^2 / (alpha^2 epsilon^2)) minibatch sizes to reach an epsilon-stationary point. ef21 with bells &amp; whistles: practical algorithmic extensions of modern error feedback ef21 with bells &amp; whistles: practical algorithmic extensions of modern error feedback (arxiv abstract) ef21 with bells &amp; whistles: practical algorithmic extensions of modern error feedback (crossref metadata) ilyas fatkhullin igor sokolov eduard gorbunov zhize li peter richtarik ilyas fatkhullin igor sokolov eduard gorbunov zhize li peter richtarik ilyas fatkhullin igor sokolov eduard gorbunov zhize li peter richtarik">
+        <td>
+          <a href="curated/Ef21ExtensionsStochasticVarianceReducedPartialParticipationBidirectionalAndProximalErrorFeedback.html" style="font-weight: 600; font-size: 1rem;">EF21 Algorithmic Extensions (EF21-SGD, EF21-PAGE, EF21-PP, EF21-BC, EF21-HB, EF21-Prox)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> EF21 with Bells and Whistles, EF21-PAGE…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A suite of six algorithmic extensions of the Markov-compressor error-feedback method EF21 for distributed nonconvex and Polyak-Lojasiewicz (…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:Ef21ExtensionsStochasticVarianceReducedPartialParticipationBidirectionalAndProximalErrorFeedback</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
