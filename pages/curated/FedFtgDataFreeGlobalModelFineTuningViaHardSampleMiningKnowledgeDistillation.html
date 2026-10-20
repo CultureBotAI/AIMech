@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedFTG (Data-Free Global Model Fine-Tuning via Hard Sample Mining Knowledge Distillation) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedFTG (Data-Free Global Model Fine-Tuning via Hard Sample Mining Knowledge Distillation)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedFTG (Data-Free Global Model Fine-Tuning via Hard Sample Mining Knowledge Distillation)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedFtgDataFreeGlobalModelFineTuningViaHardSampleMiningKnowledgeDistillation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedFTG, Fine-Tuning Global Model via Data-Free Knowledge Distillation, Adversarial Hard-Sample Data-Free Federated Global Fine-Tuning
+    </div>
+
+  <div class="detail-desc">
+    A server-side data-free knowledge distillation algorithm for non-IID federated learning (Zhang, Shen, Ding, Tao, &amp; Duan 2022, Section 4, Equations 2-10, Algorithms 1-2) that fine-tunes the FedAvg-aggregated server model omega_t after each communication round by jointly training a conditional generator G(z, y; theta) -&gt; x_tilde and the global model omega in an adversarial hard-sample mining minimax game: min_omega max_theta E_{z ~ N(0,I), y ~ p_t(y)} [L_{md} - lambda_{cls} L_{cls} - lambda_{dis} L_{dis}] (Equation 8), where L_{md} = sum_{k in S_t} alpha_t^{k,y} D_{KL}(sigma(f(x_tilde; omega)) || sigma(f(x_tilde; omega_t^k))) (Equations 3-4) measures prediction discrepancy between the global model and uploaded client models {omega_t^k}, L_{cls} = sum_{k in S_t} alpha_t^{k,y} L_{CE}(sigma(f(x_tilde; omega_t^k)), y) (Equations 5-6) enforces class-consistent synthetic semantics, L_{dis} = exp((1/Q^2) sum_{i,j} (-||x_tilde_i - x_tilde_j||_2 ||z_i - z_j||_2)) (Equation 7) prevents generator mode collapse, and p_t(y) = (sum_{k in S_t} n_k^y) / (sum_{y&#39;, k in S_t} n_k^{y&#39;}) (Equation 9) and alpha_t^{k,y} = n_k^y / sum_{i in S_t} n_i^y (Equation 10) weight synthetic classes and local teacher ensembles by exact per-class client sample counts.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedGen (AIMech:FedGenDataFreeKnowledgeDistillationForHeterogeneousFederatedLearning, Zhu, Hong, &amp; Zhou 2021), which broadcasts a lightweight latent-feature generator to clients to regularize local training rather than adversarially mining hard input-space pseudo-samples x_tilde on the server to fine-tune the global model omega_t via minimax discrepancy maximization (Equation 8); and distinct from FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning, Lin et al. 2020), which requires an external unlabeled proxy dataset on the server and uses uniform client logit averaging rather than data-free adversarial generation with class-specific ensemble weights alpha_t^{k,y} (Equation 10).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r480-adversarial-hard-sample-mining-minimax-distillation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In each round&#39;s I server fine-tuning iterations, FedFTG first updates the conditional generator G(z, y; theta) for I_g steps to maximize the weighted KL discrepancy L_{md} minus the semantic cross-entropy penalty lambda_{cls} L_{cls} and diversity loss lambda_{dis} L_{dis} (mining hard synthetic samples where the averaged global model omega disagrees with local teacher models {omega_t^k}), and then updates the global model omega for I_d steps to minimize L_{md} on those hard samples (Zhang et al. 2022, Section 4.1, Equations 3-8, Algorithm 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r480-primary-pdf">Fine-Tuning Global Model via Data-Free Knowledge Distillation for Non-IID Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 (Equations 3-8, Algorithm 2), pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r480-customized-label-sampling-and-class-level-ensemble-weighting-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To handle extreme non-IID label skew across active clients S_t, FedFTG samples synthetic labels according to the active corpus class proportion p_t(y) = (sum_{k in S_t} n_k^y) / (sum_{y&#39;, k in S_t} n_k^{y&#39;}) (Equation 9) and assigns each local teacher k the class-conditional importance weight alpha_t^{k,y} = n_k^y / sum_{i in S_t} n_i^y (Equation 10), preventing clients with zero or few samples of class y from corrupting the ensemble teacher logits for class y (Zhang et al. 2022, Section 4.2, Equations 9-10, Table 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r480-primary-pdf">Fine-Tuning Global Model via Data-Free Knowledge Distillation for Non-IID Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 (Equations 9-10), p. 5, and Section 5.3 (Table 4), p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r480-plug-and-play-server-finetuning-for-federated-optimizers-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied both standalone and as a plug-and-play server-side fine-tuning module on top of FedAvg, FedProx, FedDyn, and MOON on Dirichlet-skewed CIFAR-10, CIFAR-100, Tiny-ImageNet, and MNIST/FEMNIST benchmarks (Zhang et al. 2022, Section 5, Tables 1-4, Figures 3-5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r480-primary-pdf">Fine-Tuning Global Model via Data-Free Knowledge Distillation for Non-IID Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.3 (Tables 1-4, Figures 3-5), pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r480-class-count-disclosure-and-server-generator-compute-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires clients to report their per-class sample counts {n_k^y} (or requires estimating them via synthetic forward passes) to compute p_t(y) and alpha_t^{k,y}, and adds I * (I_g + I_d) server-side generator-and-teacher forward/backward passes per communication round (Zhang et al. 2022, Section 4.2, p. 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r480-primary-pdf">Fine-Tuning Global Model via Data-Free Knowledge Distillation for Non-IID Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2 (Algorithm 2, Equations 9-10), pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Incurs additional server-side computation to train the conditional generator G(.; theta) and evaluate all |S_t| uploaded client models on synthetic batches.</li>
+      <li>Requires either client-reported per-class sample counts n_k^y or approximate pseudo-label count estimation to form class-level teacher weights alpha_t^{k,y}.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedFTG is a server-side data-free knowledge distillation algorithm for federated learning within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r480-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r480-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2203.09249.pdf" target="_blank" rel="noopener">Fine-Tuning Global Model via Data-Free Knowledge Distillation for Non-IID Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lin Zhang, Li Shen, Liang Ding, Dacheng Tao, Ling-Yu Duan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2203.09249</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:94549b5648f2…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r480-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r480-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2203.09249" target="_blank" rel="noopener">Fine-Tuning Global Model via Data-Free Knowledge Distillation for Non-IID Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lin Zhang, Li Shen, Liang Ding, Dacheng Tao, Ling-Yu Duan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2203.09249</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9a671f7e4162…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r480-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r480-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2203.09249" target="_blank" rel="noopener">Fine-Tuning Global Model via Data-Free Knowledge Distillation for Non-IID Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lin Zhang, Li Shen, Liang Ding, Dacheng Tao, Ling-Yu Duan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2203.09249</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b143c2b49cb8…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:23:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:23:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedFtgDataFreeGlobalModelFineTuningViaHardSampleMiningKnowledgeDistillation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedFtgDataFreeGlobalModelFineTuningViaHardSampleMiningKnowledgeDistillation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
