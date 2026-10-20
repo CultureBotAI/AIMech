@@ -1,0 +1,101 @@
+id: AIMech:FedDrAndAsyncFedDrRandomizedDouglasRachfordSplittingForNonconvexFederatedCompositeOptimization
+name: FedDR and asyncFedDR (Randomized Douglas-Rachford Splitting for Nonconvex Federated Composite Optimization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A family of synchronous (FedDR, Algorithm 1) and asynchronous (asyncFedDR, Algorithm 2) randomized block-coordinate Douglas-Rachford splitting algorithms for nonconvex federated composite optimization min_x { F(x) := (1/n) sum_{i=1}^n f_i(x) + g(x) } with L-smooth nonconvex client objectives f_i and proper closed convex regularizer g (Tran-Dinh, Pham, Phan, & Nguyen 2021, Sections 3-4, Equations 1-8, Algorithms 1-2, Theorems 1-2): in each round k, each sampled client i in S_k updates its local shadow iterate y_i^{k+1} = y_i^k + alpha (x_bar^k - x_i^k), approximately solves the local proximal subproblem x_i^{k+1} approx prox_{eta f_i}(y_i^{k+1}) = argmin_x { f_i(x) + (1/(2 eta)) ||x - y_i^{k+1}||^2 } up to accuracy epsilon_{i,k}, and forms the reflected iterate x_hat_i^{k+1} = 2 x_i^{k+1} - y_i^{k+1}, while the server maintains the global average x_tilde^{k+1} = x_tilde^k + (1/n) sum_{i in S_k} (x_hat_i^{k+1} - x_hat_i^k) and applies the global composite proximal step x_bar^{k+1} = prox_{eta g}(x_tilde^{k+1}) (Equation 3, Algorithm 1).'
+identity_notes: Distinct from FedSplit (AIMech:FedSplitOperatorSplittingForFastFederatedOptimization, Pathak & Wainwright 2020), which applies deterministic Peaceman-Rachford / Douglas-Rachford operator splitting strictly to strongly convex unconstrained objectives without composite nonsmooth regularizer g(x), partial client sampling, or asynchronous delay tolerance; and distinct from FedPD (AIMech:FedPdFederatedPrimalDualOptimizationWithAdaptivityToNonIidData, Zhang et al. 2021), which uses an augmented Lagrangian primal-dual method with full synchronization rather than a nonconvex Douglas-Rachford Lyapunov envelope with randomized block-coordinate and asynchronous bounded-delay updates (asyncFedDR).
+aliases:
+- FedDR
+- asyncFedDR
+- Randomized Douglas-Rachford Splitting for Nonconvex Federated Optimization
+definition_evidence:
+- source_id: r482-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r482-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r482-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r482-nonconvex-douglas-rachford-triad-and-reflection-mechanism
+  kind: mechanism
+  statement: Each active client i in S_k updates its local triad (y_i^k, x_i^k, x_hat_i^k) by relaxing y_i^{k+1} = y_i^k + alpha (x_bar^k - x_i^k), computing an inexact proximal point x_i^{k+1} approx prox_{eta f_i}(y_i^{k+1}) satisfying ||nabla f_i(x_i^{k+1}) + (1/eta)(x_i^{k+1} - y_i^{k+1})|| <= epsilon_{i,k}, and transmitting Delta x_hat_i^k = x_hat_i^{k+1} - x_hat_i^k where x_hat_i^{k+1} = 2 x_i^{k+1} - y_i^{k+1}, so that at any consensus fixed point x_bar^* = x_i^* = x^* the shadow offsets y_i^* = x^* + eta nabla f_i(x^*) cancel local gradient drift and enforce exact composite stationarity G_eta(x^*) = (1/eta)(x^* - prox_{eta g}(x^* - eta nabla f(x^*))) = 0 (Tran-Dinh et al. 2021, Section 3, Equation 3, Algorithm 1, Lemma 1, pp. 4-5).
+  evidence:
+  - source_id: r482-primary-pdf
+    locator: Section 3 (Equation 3, Algorithm 1, Lemma 1), pp. 4-5
+    relation: supports
+- claim_id: r482-nonconvex-composite-convergence-and-async-bounded-delay-scope
+  kind: scope
+  statement: Without any bounded gradient-dissimilarity assumption across non-IID clients, Theorems 1 and 2 prove that under L-smooth nonconvex f_i, proper closed convex g, relaxation 0 < alpha < 2, and step size eta satisfying 2(2 - alpha) - alpha eta L - (1 + 2 alpha) eta^2 L^2 > 0 (Equation 7), both synchronous FedDR under arbitrary positive sampling probabilities p_i > 0 and asynchronous asyncFedDR under bounded delay d_i^k <= tau achieve O(1/epsilon^2) communication rounds to reach E[||G_eta(x_bar^{k_hat})||^2] <= epsilon^2 (Tran-Dinh et al. 2021, Section 3.3 & Section 4.2, Theorems 1-2, pp. 5-8).
+  evidence:
+  - source_id: r482-primary-pdf
+    locator: Section 3.3 (Theorem 1, Corollary 1, Equation 7) & Section 4.2 (Theorem 2, Corollary 2), pp. 5-8
+    relation: supports
+- claim_id: r482-non-iid-sparse-and-regularized-neural-network-application
+  kind: application
+  statement: Applied to nonconvex L1-regularized sparse federated deep classification and unconstrained non-IID neural network training on MNIST, FEMNIST, and Shakespeare benchmarks under cross-device partial participation and asynchronous worker delays (Tran-Dinh et al. 2021, Section 5, Figures 1-4).
+  evidence:
+  - source_id: r482-primary-pdf
+    locator: Section 5 (Numerical Experiments, Figures 1-4), pp. 8-10
+    relation: supports
+- claim_id: r482-stateful-client-triad-memory-requirement-limitation
+  kind: limitation
+  statement: Requires every client i to maintain persistent local state across rounds (x_i^k, y_i^k, x_hat_i^k) and requires the server to maintain the aggregated reflected vector x_tilde^k of all n clients, preventing stateless one-shot client participation (Tran-Dinh et al. 2021, Algorithm 1 & Remark 1, p. 4).
+  evidence:
+  - source_id: r482-primary-pdf
+    locator: Section 3.2 (Algorithm 1 & Remark 1), p. 4
+    relation: supports
+evidence_sources:
+- source_id: r482-primary-pdf
+  title: "FedDR \u2013 Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization"
+  authors: &id001
+  - Quoc Tran-Dinh
+  - Nhan H. Pham
+  - Dzung T. Phan
+  - Lam M. Nguyen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2103.03452.pdf
+  persistent_id: https://arxiv.org/abs/2103.03452
+  version: NeurIPS 2021 (2021) (392 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:25:00Z'
+  sha256: d193f2ad41e6c65807b4b450e8998d41f09aeb7111b037931a34360e0f75e373
+- source_id: r482-arxiv-abs
+  title: "FedDR \u2013 Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization (arXiv abstract)"
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2103.03452
+  persistent_id: https://arxiv.org/abs/2103.03452
+  version: arXiv abstract page (735 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:25:00Z'
+  sha256: da5ee238c290ce16776161a2936f7f9e1258623c788bd303c6f5a221b455abe8
+- source_id: r482-metadata-cr
+  title: "FedDR \u2013 Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization (Crossref metadata)"
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2103.03452
+  persistent_id: https://arxiv.org/abs/2103.03452
+  version: Crossref API work record (981 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:25:00Z'
+  sha256: 6e9d3ce7dc4bd8ea50f6690b53882721db5e6faa8b081106883398ae307e54b2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedDR and asyncFedDR are operator-splitting federated optimization algorithms within the broader FederatedLearning category.
+limitations:
+- Requires clients to persist local primal and shadow variables (x_i^k, y_i^k, x_hat_i^k) across communication rounds.
+- Step size eta must satisfy the smoothness-dependent quadratic upper bound 2(2-alpha) - alpha eta L - (1+2 alpha) eta^2 L^2 > 0.
+curation:
+  created_at: '2026-10-19T09:25:00Z'
+  updated_at: '2026-10-19T09:25:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
