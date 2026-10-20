@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zeno++ Robust Fully Asynchronous Stochastic Gradient Descent · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Zeno++ Robust Fully Asynchronous Stochastic Gradient Descent</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Zeno++ Robust Fully Asynchronous Stochastic Gradient Descent</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ZenoPlusPlusRobustFullyAsynchronousStochasticGradientDescent</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Zeno++, Zeno++ Byzantine-Tolerant Fully Asynchronous SGD, ZenoPlusPlus Asynchronous Inner-Product Validation SGD
+    </div>
+
+  <div class="detail-desc">
+    A Byzantine-tolerant fully asynchronous stochastic gradient descent algorithm for parameter-server architectures with anonymous workers, unbounded worker delay, and an arbitrary number of Byzantine workers that maintains a lazily updated server validation gradient v = nabla f_s(x_tau) (with server staleness t - tau &lt;= k), normalizes each arriving candidate worker gradient g_tilde to g = c * g_tilde such that ||g||_2^2 = ||v||_2^2, and applies the asynchronous update x_t &lt;- x_{t-1} - gamma * g if and only if the first-order Taylor approximated stochastic descent score satisfies gamma * &lt;v, g&gt; - rho * ||g||_2^2 &gt;= -gamma * epsilon.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Xie, Koyejo, and Gupta (ICML 2020, PMLR 119:10495-10503, arXiv:1903.07020). Distinct from synchronous Zeno (AIMech:ZenoSuspicionBasedFaultTolerantDistributedStochasticGradientDescent, Xie et al. ICML 2019), which evaluates exact zero-order loss differences f_r(x) - f_r(x - gamma*g_i) for all m workers at a synchronous barrier and averages the top m - b candidates, and from asynchronous Kardam (Damaskinos et al. 2018), which requires verified worker identities, bounded consecutive worker messages, and fewer than one-third Byzantine workers.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c1-mechanism-norm-rescaling-and-first-order-approximated-descent-score</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Upon receiving a candidate gradient g_tilde from an anonymous worker, the Zeno++ server reads its cached validation gradient v = nabla f_s(x_tau) (tau &lt;= t - 1), rescales g = c * g_tilde so that ||g||_2^2 = ||v||_2^2, tests whether the first-order approximated stochastic descent score satisfies gamma * &lt;v, g&gt; - rho * ||g||_2^2 &gt;= -gamma * epsilon (Definition 3), updates x_t &lt;- x_{t-1} - gamma * g if accepted, and refreshes v non-blockingly in the background via ZenoUpdater(x) when idle or every k iterations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r532-primary-pdf">Zeno++: Robust Fully Asynchronous SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, Definition 3 and Algorithm 2 Lines 1-3, p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#c2-scope-convergence-under-unbounded-worker-delay-and-byzantine-majority</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L-smoothness, bounded true and validation gradient norms ||nabla F(x)||^2, ||nabla f_s(x)||^2 &lt;= V_1, non-zero lower-bounded validation gradients ||nabla f_s(x)||^2 &gt;= V_2 &gt; 0, bounded validation variance E[||nabla f_s(x) - nabla F(x)||^2] &lt;= V_3, and bounded server validation staleness t - tau &lt;= k, Zeno++ converges at rate O(1/T) for general non-convex objectives (Theorem 2) and linearly to a neighborhood for PL objectives (Theorem 1) without any bound on worker delay k_w or the number of Byzantine workers q &lt;= m.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r532-primary-pdf">Zeno++: Robust Fully Asynchronous SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1 Assumption 1, Theorems 1-2, and Appendix A.1, pp. 5, 11-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c3-application-asynchronous-cifar10-and-wikitext2-byzantine-training</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Zeno++ maintains convergence on asynchronous CIFAR-10 CNN classification and WikiText-2 LSTM language modeling under sign-flipping (-10 * grad) and label-flipping attacks even when q = 8 of m = 10 workers are Byzantine and worker delay reaches k_w = 15, outperforming Kardam and server-only training.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r532-primary-pdf">Zeno++: Robust Fully Asynchronous SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 6.2-6.3, Figures 1-4, and Appendix B Figures 5-9, pp. 6-9, 12-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c4-limitation-server-validation-dataset-and-false-positive-rejection-tradeoff</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Zeno++ requires a clean server validation dataset S with non-zero validation gradients (||nabla f_s(x)||^2 &gt;= V_2 &gt; 0) and incurs a trade-off controlled by rho and server delay k where larger rho accelerates per-step descent but increases the false-positive rejection rate of honest stale gradients (FP ~ 47-60% on CIFAR-10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r532-primary-pdf">Zeno++: Robust Fully Asynchronous SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1 Remarks 5-6 and Section 6.2.1-6.2.2 Figures 1-3, pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an auxiliary server-side validation dataset S with bounded gradient variance V_3 relative to the global objective.</li>
+      <li>Rejects a substantial fraction of benign stale worker gradients (false-positive rate ~47-60% under high worker delay on CIFAR-10), trading off wall-clock step acceptance against Byzantine resilience.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Zeno++ is a Byzantine-robust fully asynchronous distributed stochastic gradient descent algorithm for worker-server training.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r532-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r532-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1903.07020.pdf" target="_blank" rel="noopener">Zeno++: Robust Fully Asynchronous SGD</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Cong Xie, Oluwasanmi Koyejo, Indranil Gupta
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/XieKG20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:66e7b5e1c42c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r532-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r532-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1903.07020" target="_blank" rel="noopener">Zeno++: Robust Fully Asynchronous SGD (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Cong Xie, Oluwasanmi Koyejo, Indranil Gupta
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1903.07020</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:873bc8e3c6db…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r532-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r532-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/XieKG20" target="_blank" rel="noopener">Zeno++: Robust Fully Asynchronous SGD (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Cong Xie, Oluwasanmi Koyejo, Indranil Gupta
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/XieKG20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d05ebc9f243c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:15:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:15:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ZenoPlusPlusRobustFullyAsynchronousStochasticGradientDescent.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ZenoPlusPlusRobustFullyAsynchronousStochasticGradientDescent.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

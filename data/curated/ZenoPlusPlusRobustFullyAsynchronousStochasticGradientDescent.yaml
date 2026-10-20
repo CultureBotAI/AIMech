@@ -1,0 +1,100 @@
+id: AIMech:ZenoPlusPlusRobustFullyAsynchronousStochasticGradientDescent
+name: Zeno++ Robust Fully Asynchronous Stochastic Gradient Descent
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Byzantine-tolerant fully asynchronous stochastic gradient descent algorithm for parameter-server architectures with anonymous workers, unbounded worker delay, and an arbitrary number of Byzantine workers that maintains a lazily updated server validation gradient v = nabla f_s(x_tau) (with server staleness t - tau <= k), normalizes each arriving candidate worker gradient g_tilde to g = c * g_tilde such that ||g||_2^2 = ||v||_2^2, and applies the asynchronous update x_t <- x_{t-1} - gamma * g if and only if the first-order Taylor approximated stochastic descent score satisfies gamma * <v, g> - rho * ||g||_2^2 >= -gamma * epsilon.
+identity_notes: Introduced by Xie, Koyejo, and Gupta (ICML 2020, PMLR 119:10495-10503, arXiv:1903.07020). Distinct from synchronous Zeno (AIMech:ZenoSuspicionBasedFaultTolerantDistributedStochasticGradientDescent, Xie et al. ICML 2019), which evaluates exact zero-order loss differences f_r(x) - f_r(x - gamma*g_i) for all m workers at a synchronous barrier and averages the top m - b candidates, and from asynchronous Kardam (Damaskinos et al. 2018), which requires verified worker identities, bounded consecutive worker messages, and fewer than one-third Byzantine workers.
+aliases:
+- Zeno++
+- Zeno++ Byzantine-Tolerant Fully Asynchronous SGD
+- ZenoPlusPlus Asynchronous Inner-Product Validation SGD
+definition_evidence:
+- source_id: r532-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r532-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r532-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c1-mechanism-norm-rescaling-and-first-order-approximated-descent-score
+  kind: mechanism
+  statement: Upon receiving a candidate gradient g_tilde from an anonymous worker, the Zeno++ server reads its cached validation gradient v = nabla f_s(x_tau) (tau <= t - 1), rescales g = c * g_tilde so that ||g||_2^2 = ||v||_2^2, tests whether the first-order approximated stochastic descent score satisfies gamma * <v, g> - rho * ||g||_2^2 >= -gamma * epsilon (Definition 3), updates x_t <- x_{t-1} - gamma * g if accepted, and refreshes v non-blockingly in the background via ZenoUpdater(x) when idle or every k iterations.
+  evidence:
+  - source_id: r532-primary-pdf
+    locator: Section 4.2, Definition 3 and Algorithm 2 Lines 1-3, p. 4
+    relation: supports
+- claim_id: c2-scope-convergence-under-unbounded-worker-delay-and-byzantine-majority
+  kind: scope
+  statement: Under L-smoothness, bounded true and validation gradient norms ||nabla F(x)||^2, ||nabla f_s(x)||^2 <= V_1, non-zero lower-bounded validation gradients ||nabla f_s(x)||^2 >= V_2 > 0, bounded validation variance E[||nabla f_s(x) - nabla F(x)||^2] <= V_3, and bounded server validation staleness t - tau <= k, Zeno++ converges at rate O(1/T) for general non-convex objectives (Theorem 2) and linearly to a neighborhood for PL objectives (Theorem 1) without any bound on worker delay k_w or the number of Byzantine workers q <= m.
+  evidence:
+  - source_id: r532-primary-pdf
+    locator: Section 5.1 Assumption 1, Theorems 1-2, and Appendix A.1, pp. 5, 11-12
+    relation: supports
+- claim_id: c3-application-asynchronous-cifar10-and-wikitext2-byzantine-training
+  kind: application
+  statement: Zeno++ maintains convergence on asynchronous CIFAR-10 CNN classification and WikiText-2 LSTM language modeling under sign-flipping (-10 * grad) and label-flipping attacks even when q = 8 of m = 10 workers are Byzantine and worker delay reaches k_w = 15, outperforming Kardam and server-only training.
+  evidence:
+  - source_id: r532-primary-pdf
+    locator: Section 6.2-6.3, Figures 1-4, and Appendix B Figures 5-9, pp. 6-9, 12-15
+    relation: supports
+- claim_id: c4-limitation-server-validation-dataset-and-false-positive-rejection-tradeoff
+  kind: limitation
+  statement: Zeno++ requires a clean server validation dataset S with non-zero validation gradients (||nabla f_s(x)||^2 >= V_2 > 0) and incurs a trade-off controlled by rho and server delay k where larger rho accelerates per-step descent but increases the false-positive rejection rate of honest stale gradients (FP ~ 47-60% on CIFAR-10).
+  evidence:
+  - source_id: r532-primary-pdf
+    locator: Section 5.1 Remarks 5-6 and Section 6.2.1-6.2.2 Figures 1-3, pp. 5-8
+    relation: supports
+evidence_sources:
+- source_id: r532-primary-pdf
+  title: 'Zeno++: Robust Fully Asynchronous SGD'
+  authors: &id001
+  - Cong Xie
+  - Oluwasanmi Koyejo
+  - Indranil Gupta
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1903.07020.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/XieKG20
+  version: Proceedings of the 37th International Conference on Machine Learning (ICML 2020), PMLR 119:10495-10503 (2020) (640859 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:15:00Z'
+  sha256: 66e7b5e1c42ca41065bb64c65a499050db4bed2fc19223df9dfec0b01e2c61f8
+- source_id: r532-arxiv-abs
+  title: 'Zeno++: Robust Fully Asynchronous SGD (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1903.07020
+  persistent_id: https://arxiv.org/abs/1903.07020
+  version: arXiv abstract page (6410 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:15:00Z'
+  sha256: 873bc8e3c6dba0558e12c1dd0c3d77292d77ea892815543e01c3395b08c9cc78
+- source_id: r532-metadata-cr
+  title: 'Zeno++: Robust Fully Asynchronous SGD (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/XieKG20
+  persistent_id: https://dblp.org/rec/conf/icml/XieKG20
+  version: Crossref API work record (1048 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:15:00Z'
+  sha256: d05ebc9f243cf7d0aef057c50915e858df1d736095e369c7548854972bd72eea
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Zeno++ is a Byzantine-robust fully asynchronous distributed stochastic gradient descent algorithm for worker-server training.
+limitations:
+- Requires an auxiliary server-side validation dataset S with bounded gradient variance V_3 relative to the global objective.
+- Rejects a substantial fraction of benign stale worker gradients (false-positive rate ~47-60% under high worker delay on CIFAR-10), trading off wall-clock step acceptance against Byzantine resilience.
+curation:
+  created_at: '2026-10-19T10:15:00Z'
+  updated_at: '2026-10-19T10:15:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
