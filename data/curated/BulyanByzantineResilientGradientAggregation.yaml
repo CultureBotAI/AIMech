@@ -1,0 +1,93 @@
+id: AIMech:BulyanByzantineResilientGradientAggregation
+name: Bulyan (Byzantine-Resilient Gradient Meta-Aggregation Rule)
+concept_kind: algorithm
+review_status: DRAFT
+definition: Bulyan (or Bulyan(A)) is a two-stage Byzantine-resilient gradient meta-aggregation rule for distributed stochastic gradient descent over n >= 4f + 3 workers (up to f Byzantine) that eliminates the high-dimensional coordinate-wise poisoning leeway Omega(d^{1/p}) of l_p-norm distance-based aggregation rules A (such as Krum, Brute, or GeoMed) by (1) recursively invoking A without replacement theta = n - 2f >= 2f + 3 times to build a selection set S = (S_1, ..., S_theta) guaranteed to contain a strict majority of non-Byzantine gradients, and (2) computing each i-th coordinate of the aggregated gradient G[i] = (1/beta) sum_{X in M[i]} X[i] as the average of the beta = theta - 2f >= 3 values in S closest to the coordinate median median[i] = argmin_{m=Y[i], Y in S} sum_{Z in S} |Z[i] - m|.
+identity_notes: Introduced by El Mahdi El Mhamdi, Rachid Guerraoui, and Sebastien Rouault in 'The Hidden Vulnerability of Distributed Learning in Byzantium' (ICML 2018, PMLR 80:3518-3527; arXiv:1802.07927). Distinct from Krum and Multi-Krum (Blanchard et al. NeurIPS 2017), which select and average whole vectors using Euclidean pairwise distance scores without coordinate-wise median trimming and thus remain vulnerable to single-coordinate O(sqrt(d)) poisoning; and distinct from Coordinate-Wise Median and Trimmed Mean (Yin et al. ICML 2018), which apply coordinate-wise order statistics directly to all n submitted vectors without a first-stage (alpha, f)-Byzantine-resilient vector selection quorum S.
+aliases:
+- Bulyan
+- Bulyan Gradient Aggregation
+- Bulyan Byzantine-Resilient Meta-Aggregation
+definition_evidence:
+- source_id: r518-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r518-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r518-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: bulyan-high-dimensional-lp-norm-poisoning-leeway-analysis
+  kind: mechanism
+  statement: In dimension d >> 1, any l_p-norm distance-minimization gradient aggregation rule (including Brute, Krum, and GeoMed) allows an omniscient adversary submitting B(gamma) = (1/(n - f)) sum_{V in Q} V + gamma E on a single coordinate E = (0, ..., 1, ..., 0) to be selected while injecting a coordinate-wise poisoning margin of gamma_m = O(bar_delta d^{1/p}) for Brute and gamma_m = O(bar_delta f^{1/q} d^{1/p}) for Krum (q=2) and GeoMed (q=1), or driving l_infty-norm rules along E = (1, ..., 1) into ineffective non-convex subspaces.
+  evidence:
+  - source_id: r518-primary-pdf
+    locator: Section 3.1-3.3, pages 4-5; Appendix B.1-B.3, pages 12-13
+    relation: supports
+- claim_id: bulyan-two-stage-selection-and-coordinate-wise-leeway-reduction
+  kind: mechanism
+  statement: Given n >= 4f + 3 workers and any (alpha, f)-Byzantine-resilient rule A, Bulyan(A) recursively selects theta = n - 2f >= 2f + 3 vectors into S and averages the beta = theta - 2f >= 3 closest values to median[i] on each coordinate i in [1..d]; Proposition 2 proves that every selected coordinate B[i] in M[i] is bracketed by at least two honest workers g_l[i] <= B[i] <= g_r[i], narrowing the expected component-wise attacker leeway to E|Bu_t[i] - g_k[i]| = O(sigma / sqrt(d)) while preserving (alpha, f)-Byzantine-resilience and almost-sure convergence (Corollaries 1-2).
+  evidence:
+  - source_id: r518-primary-pdf
+    locator: Section 4, Proposition 2 and Corollaries 1-2, pages 5-6
+    relation: supports
+- claim_id: bulyan-amortized-quadratic-complexity-and-empirical-resilience
+  kind: application
+  statement: Proposition 1 proves that Bulyan(A) has average master complexity O((n - 2f) C + d n) and, by reusing pairwise distance computations across the theta iterations of Krum or GeoMed, achieves the same O(n^2 d) asymptotic complexity as base Krum or GeoMed; on MNIST (d approx 8 x 10^4) and CIFAR-10 (d approx 10^6) with 30 honest and 9 Byzantine workers under the curse-of-dimensionality attack, Bulyan(Krum) matches unattacked honest averaging while standalone Krum and GeoMed degrade or fail to learn (Figures 4-5).
+  evidence:
+  - source_id: r518-primary-pdf
+    locator: Section 4, Proposition 1, page 5; Section 5.2.2, Figures 4-5, pages 7-8
+    relation: supports
+evidence_sources:
+- source_id: r518-primary-pdf
+  title: The Hidden Vulnerability of Distributed Learning in Byzantium
+  authors: &id001
+  - El Mahdi El Mhamdi
+  - Rachid Guerraoui
+  - Sebastien Rouault
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1802.07927.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/MhamdiGR18
+  version: ICML 2018 (2018) (807520 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:01:00Z'
+  sha256: 5234c45a295f7915d26f9bb60a4d5f0739d0fb19ad99f0622391dffb917c145d
+- source_id: r518-arxiv-abs
+  title: The Hidden Vulnerability of Distributed Learning in Byzantium (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1802.07927
+  persistent_id: https://arxiv.org/abs/1802.07927
+  version: arXiv abstract page (6672 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:01:00Z'
+  sha256: 54577000dfe2cb4aca5efdbbcd3cb8546200e12cfb42a1ae4113e432ea908c5c
+- source_id: r518-metadata-cr
+  title: The Hidden Vulnerability of Distributed Learning in Byzantium (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/MhamdiGR18
+  persistent_id: https://dblp.org/rec/conf/icml/MhamdiGR18
+  version: Crossref API work record (1775 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:01:00Z'
+  sha256: 72596d3756ca83f7a992ecc5fa84afffebdc58a9b0ca88f547969a0819108a9a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Bulyan is a Byzantine-resilient gradient meta-aggregation rule for distributed parameter-server and federated optimization related to AIO:FederatedLearning.
+limitations:
+- Requires n >= 4f + 3 total workers (tolerating less than 25% Byzantine workers), compared to n >= 2f + 3 for standalone Krum and n >= 2f + 1 for Brute or Coordinate-Wise Median.
+- When using very small mini-batch sizes in Byzantine-free settings, trimming 2f coordinates around the median slightly reduces convergence speed relative to arithmetic averaging (Figure 6).
+curation:
+  created_at: '2026-10-19T10:01:00Z'
+  updated_at: '2026-10-19T10:01:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
