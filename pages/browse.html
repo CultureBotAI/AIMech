@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1347</strong> artificial intelligence concepts, comprising <strong>905</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1348</strong> artificial intelligence concepts, comprising <strong>906</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1347)</option>
-        <option value="curated">Curated AIMech (905)</option>
+        <option value="all">All Origins (1348)</option>
+        <option value="curated">Curated AIMech (906)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (603)</option>
+          <option value="algorithm">Algorithms (604)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1347</span> of <span id="totalCount">1347</span>
+      Showing <span id="matchCount">1348</span> of <span id="totalCount">1348</span>
     </div>
   </div>
 </div>
@@ -12075,6 +12075,32 @@
         </td>
         <td>
             <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="flora: stacking-based federated fine-tuning with heterogeneous low-rank adaptations florastackingbasedfederatedheterogeneouslowrankadaptation aimech:florastackingbasedfederatedheterogeneouslowrankadaptation algorithms algorithm a noise-free, rank-heterogeneous federated parameter-efficient fine-tuning algorithm (flora; wang, shen, he, sun, wang, lyu, and li, neurips 2024) that enables k distributed clients with heterogeneous lora ranks {r_k}_{k=0}^k to collaboratively fine-tune a pre-trained model w in r^{m x n}. in each communication round, client k initializes and trains local low-rank adapter matrices a_k in r^{r_k x n} and b_k in r^{m x r_k}; instead of independently averaging a_k and b_k (which introduces cross-client error sum_{i != j} p_i p_j b_i a_j and squared diagonal weights p_k^2, eq. 6), the server constructs global stacked adapters by vertically concatenating scaled a_k blocks a = p_0 a_0 (+) p_1 a_1 (+) ... (+) p_k a_k in r^{(sum_{k=0}^k r_k) x n} and horizontally concatenating b_k blocks b = b_0 (+) b_1 (+) ... (+) b_k in r^{m x (sum_{k=0}^k r_k)} (eqs. 9-12) (optionally permuting rank-1 sub-modules at random for cross-client privacy), satisfying the exact identity b a = sum_{k=0}^k p_k b_k a_k before redistributing (b, a) to update local base models w &lt;- w + b a. distinct from ffa-lora (aimech:ffalorafederatedfreezealowrankadaptation; sun et al., iclr 2024), which eliminates aggregation cross-terms by freezing a homogeneous random projection matrix a_0 across all clients rather than training both a_k and b_k with heterogeneous client ranks r_k and stacking them on the server. distinct from fedit (zhang et al., 2023) and zero-padded heterogeneous lora (hetlora; cho et al., 2023), which average a_k and b_k separately and suffer from cross-client product noise (sum_k p_k b_k)(sum_k p_k a_k) != sum_k p_k b_k a_k. also distinct from centralized memory-efficient low-rank gradient projection (flora; hao et al., 2024), which resamples random projection matrices on a single machine rather than stacking multi-client heterogeneous lora adapters in federated learning. flora stacking-based federated heterogeneous lora flora federated fine-tuning with heterogeneous low-rank adaptations given k + 1 participating clients with arbitrary local lora ranks r_k and sample-proportion weights p_k = |d_k| / sum_{j=0}^k |d_j| applied to a_k only, flora vertically stacks a = p_0 a_0 (+) ... (+) p_k a_k in r^{(sum_k r_k) x n} and horizontally stacks b = b_0 (+) ... (+) b_k in r^{m x (sum_k r_k)} (eqs. 9-12, pp. 4-6), guaranteeing the exact noise-free outer-product decomposition b a = sum_{k=0}^k p_k b_k a_k (eq. 10) while allowing the server to decompose (b, a) into sum_k r_k rank-1 sub-modules and randomly permute their order so clients cannot identify individual peers&#39; adapters (section 5, p. 9). under assumptions 1-5 (l-smoothness, mu-strong convexity, bounded stochastic gradient variance sigma_k^2 and second moment g^2, and unbiased lora local update steps b_k^{(t+1)} a_k^{(t+1)} - b_k^{(t)} a_k^{(t)} = eta^{(t)} nabla f_k(w_k^{(t)} | xi_k^{(t)})), theorem 1 (appendix b, eqs. 13-14, p. 14) proves that flora with step size alpha_k / r_k = 2 / (mu (gamma + t)), kappa = l / mu, and gamma = max{8 kappa, e} bounds the expected fine-tuning optimality gap by delta^{(t)} = e[f(w^{(t-1)} + b^{(t)} a^{(t)})] - f* &lt;= (2 kappa / (gamma + t))(m / mu + 2 l ||w^{(1)} - w*||^2) = o(1 / t) where m = sum_{k=1}^k p_k^2 sigma_k^2 + 6 l gamma + 8 (e - 1)^2 g^2. because the server broadcasts the stacked matrices a in r^{(sum_k r_k) x n} and b in r^{m x (sum_k r_k)} whose inner dimension equals the sum of all participating clients&#39; ranks sum_{k=0}^k r_k, flora increases per-round downlink communication relative to fedit (e.g., 0.215 vs 0.177 of full fine-tuning over 3 rounds in figure 6, p. 9) and requires clients to merge b a into w and re-initialize fresh local lora adapters each round (section 3.2, pp. 5-6; section 5, pp. 8-9; appendix c, p. 14). applied to homogeneous and rank-heterogeneous (r_k in {4, 8, 16, 32, 64} and dynamic adalora) federated instruction tuning of tinyllama-1.1b, llama-7b, and llama2-7b on dolly-15k, alpaca, wizard, and sharegpt evaluated on mmlu and mt-bench. flora: federated fine-tuning large language models with heterogeneous low-rank adaptations flora: federated fine-tuning large language models with heterogeneous low-rank adaptations (arxiv abstract) flora: federated fine-tuning large language models with heterogeneous low-rank adaptations (crossref metadata) ziyao wang zheyu shen yexiao he guoheng sun hongyi wang lingjuan lyu ang li ziyao wang zheyu shen yexiao he guoheng sun hongyi wang lingjuan lyu ang li ziyao wang zheyu shen yexiao he guoheng sun hongyi wang lingjuan lyu ang li">
+        <td>
+          <a href="curated/FloraStackingBasedFederatedHeterogeneousLowRankAdaptation.html" style="font-weight: 600; font-size: 1rem;">FLoRA: Stacking-Based Federated Fine-Tuning with Heterogeneous Low-Rank Adaptations</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FLoRA, Stacking-Based Federated Heterogeneous LoRA…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A noise-free, rank-heterogeneous federated parameter-efficient fine-tuning algorithm (FLoRA; Wang, Shen, He, Sun, Wang, Lyu, and Li, NeurIPS…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FloraStackingBasedFederatedHeterogeneousLowRankAdaptation</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
