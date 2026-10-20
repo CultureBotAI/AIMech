@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FoolsGold Cosine-Similarity Sybil Defense for Federated Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FoolsGold Cosine-Similarity Sybil Defense for Federated Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FoolsGold Cosine-Similarity Sybil Defense for Federated Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FoolsGoldCosineSimilaritySybilDefenseForFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FoolsGold, FoolsGold Sybil-Resilient Federated Aggregation, FoolsGold Contribution-Similarity Adaptive Learning Rate
+    </div>
+
+  <div class="detail-desc">
+    A sybil-resilient federated learning aggregation algorithm that tracks each client&#39;s cumulative historical gradient vector H_i = sum_{t=1}^T Delta_{i,t}, computes pairwise indicative-feature weighted cosine similarities cs_{ij} between historical updates, applies a ratio-based pardoning rule cs_{ij} *= v_i / v_j whenever v_j &gt; v_i (where v_i = max_{k != i} cs_{ik}) to avoid penalizing honest clients, inverts and max-normalizes the row-wise maximum similarities into alpha_i = (1 - max_j cs_{ij}) / max_k(1 - max_j cs_{kj}), and rescales client learning rates via a centered logit function alpha_i = clip_{[0,1]}(kappa * (ln(alpha_i / (1 - alpha_i)) + 0.5)) before updating w_{t+1} = w_t + sum_i alpha_i Delta_{i,t}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FLTrust (which computes cosine similarity against a central server&#39;s root-dataset reference gradient g_0 rather than pairwise historical inter-client similarity with pardoning and logit inversion), and distinct from majority-bounded distance filters (Krum, Multi-Krum, Bulyan) that assume fewer than 50% malicious clients. Specifically denotes the FoolsGold algorithm of Fung, Yoon, &amp; Beschastnikh (RAID 2020 / arXiv:1808.04866, Section 5, Algorithm 1, and Appendix A).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r526-historical-indicative-cosine-pardoning-and-logit-weighting</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In each synchronous round t, FoolsGold (Algorithm 1) accumulates client i&#39;s historical update H_i = sum_{tau=1}^t Delta_{i,tau}, computes S_t-weighted cosine similarity cs_{ij} over output-layer indicative features S_t, sets v_i = max_j cs_{ij}, pardons clients with lower maximum similarity via cs_{ij} *= v_i / v_j when v_j &gt; v_i, computes normalized trust alpha_i = (1 - max_j cs_{ij}) / max_k(1 - max_j cs_{kj}), and applies alpha_i = clip_{[0,1]}(kappa * (ln(alpha_i / (1 - alpha_i)) + 0.5)) to update w_{t+1} = w_t + sum_i alpha_i Delta_{i,t}.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r526-primary-pdf">Mitigating Sybils in Federated Learning Poisoning</a></span>
+        <span>· <strong>Locator:</strong> Section 5, Algorithm 1, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r526-sybil-majority-resilience-and-convergence-conditions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Without requiring an upper bound on the number of sybils or a server validation dataset, FoolsGold suppresses colluding sybil groups (including scenarios where sybils constitute up to 99% of participants, A-99) and preserves O(1/T^2) SGD convergence (Appendix A) whenever asymptotic sybil similarity exceeds beta_m &gt;= 1 - e^{-0.5*kappa}/(1 + e^{-0.5*kappa}) (driving h(i,t) -&gt; 0) and honest inter-client similarity satisfies beta_g &lt;= 1 - e^{0.5*kappa}/(1 + e^{0.5*kappa}) (keeping h(i,t) -&gt; 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r526-primary-pdf">Mitigating Sybils in Federated Learning Poisoning</a></span>
+        <span>· <strong>Locator:</strong> Section 6.1 Table 3 and Figure 4, pp. 7-8; Appendix A Conditions 1-2, p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r526-single-adversary-and-adaptive-threshold-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because FoolsGold identifies attackers solely through pairwise inter-client update similarity, it cannot detect a poisoning attack mounted by a single non-colluding malicious client (Attack A-1, requiring augmentation with Multi-Krum at f = 1) and can be bypassed if an informed adversary spawns sufficiently many sybils to rate-limit poisoned updates below a similarity threshold M (Algorithm 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r526-primary-pdf">Mitigating Sybils in Federated Learning Poisoning</a></span>
+        <span>· <strong>Locator:</strong> Section 6.1, pp. 7-8; Section 6.4 Algorithm 2 and Figure 9, pp. 10-11; Section 7 and Figure 12, pp. 11-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Cannot detect a poisoning attack executed by a single non-colluding malicious client without sybils (Attack A-1), requiring composition with a single-outlier filter such as Multi-Krum.</li>
+      <li>Incompatible with cryptographic secure aggregation protocols that hide individual client update vectors from the central server.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FoolsGold is a sybil-resilient client update weighting and aggregation method for federated learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r526-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r526-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1808.04866.pdf" target="_blank" rel="noopener">Mitigating Sybils in Federated Learning Poisoning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Clement Fung, Chris J. M. Yoon, Ivan Beschastnikh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.usenix.org/conference/raid2020/presentation/fung</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f0fa58338123…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r526-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r526-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1808.04866" target="_blank" rel="noopener">Mitigating Sybils in Federated Learning Poisoning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Clement Fung, Chris J. M. Yoon, Ivan Beschastnikh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1808.04866</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b364d83bc803…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r526-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r526-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.usenix.org/conference/raid2020/presentation/fung" target="_blank" rel="noopener">Mitigating Sybils in Federated Learning Poisoning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Clement Fung, Chris J. M. Yoon, Ivan Beschastnikh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.usenix.org/conference/raid2020/presentation/fung</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ac84f3c518fe…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:09:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:09:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FoolsGoldCosineSimilaritySybilDefenseForFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FoolsGoldCosineSimilaritySybilDefenseForFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
