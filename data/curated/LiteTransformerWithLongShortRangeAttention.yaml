@@ -1,0 +1,108 @@
+id: AIMech:LiteTransformerWithLongShortRangeAttention
+name: Lite Transformer with Long-Short Range Attention (LSRA)
+concept_kind: architecture
+review_status: DRAFT
+definition: 'Lite Transformer with Long-Short Range Attention (LSRA) is a computation- and memory-efficient Transformer architecture for resource-constrained mobile NLP (<500M Mult-Adds, <10M parameters) that eliminates the standard 1:4 FFN channel expansion bottleneck by flattening the attention and FFN channel dimensions and replaces standard multi-head attention with a parallel two-branch LSRA primitive: the input channels are split equally into two d/2 halves, where the global extractor branch applies multi-head self-attention to capture sparse long-range relationships and the local extractor branch applies gated linear units (GLU) and lightweight depthwise separable 1D convolutions to capture diagonal local neighborhood context before channel concatenation and FFN mixing.'
+identity_notes: Distinct from Evolved Transformer (So et al., 2019), which stacks convolution and self-attention layers sequentially rather than in parallel channel-split branches and retains the 1:4 FFN bottleneck, distinct from LightConv (Wu et al., 2019), which replaces self-attention entirely with lightweight convolutions and lacks a global attention branch, and distinct from MobileBERT (AIMech:MobileBERTCompactTaskAgnosticBERTWithBottlenecks), which narrows intra-block channels via linear bottlenecks rather than flattening the FFN and splitting channels across parallel attention and convolution extractors.
+aliases:
+- Lite Transformer
+- Long-Short Range Attention
+- LSRA Lite Transformer
+definition_evidence:
+- source_id: r817-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r817-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r817-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: lite-transformer-flattened-bottleneck-for-1d-attention
+  kind: mechanism
+  statement: For typical 1D NLP sequence lengths N (~20-30 tokens), the standard Transformer 1:4 bottleneck between attention O(4 N d^2 + N^2 d) and FFN O(2 * 4 N d^2) causes the context-agnostic FFN to consume the majority of Mult-Adds (754M vs 582M in Transformer-Base); Lite Transformer flattens this bottleneck so that attention and FFN share the same channel dimension, shifting the computational budget to the context-capturing module.
+  evidence:
+  - source_id: r817-primary-pdf
+    locator: Section 3 (Is Bottleneck Effective for 1-D Attention?), Figure 2, pp. 3-4
+    relation: supports
+  - source_id: r817-primary-pdf
+    locator: transformer_block_mult_adds and main
+    relation: supports
+- claim_id: lite-transformer-parallel-channel-split-long-short-range-attention
+  kind: mechanism
+  statement: Long-Short Range Attention (LSRA) splits the input along the channel dimension into two equal d/2 groups (reducing branch computation by 2x) and processes them side-by-side through a global multi-head self-attention branch (which specializes in off-diagonal long-range token dependencies) and a local GLU + lightweight depthwise convolution branch (which captures diagonal neighborhood correlations), followed by FFN channel mixing.
+  evidence:
+  - source_id: r817-primary-pdf
+    locator: Section 4 (Long-Short Range Attention) and Section 5.3 (Architecture), Figure 3, pp. 4-5, 7
+    relation: supports
+  - source_id: r817-primary-pdf
+    locator: lsra_dual_branch_mult_adds and lsra_forward_split_and_concat
+    relation: supports
+- claim_id: lite-transformer-mobile-translation-summarization-and-compression
+  kind: application
+  statement: Under mobile constraints (500M/100M MACs), Lite Transformer outperforms vanilla Transformer by +1.2/+1.7 BLEU on WMT'14 En-Fr and by +3.1 BLEU on IWSLT'14 De-En (<100M MACs), reduces Transformer-Base computation by 2.5x (and model size by 18.2x to 9.7 MB when combined with pruning and 8-bit k-means quantization), lowers WikiText-103 test perplexity by 1.8, and beats Evolved Transformer by +0.5 BLEU with 19,567x lower CO2 design cost.
+  evidence:
+  - source_id: r817-primary-pdf
+    locator: Section 6.1-6.3, Tables 1-5 and Figures 4-5, pp. 7-10
+    relation: supports
+- claim_id: lite-transformer-quadratic-global-branch-scaling-and-manual-kernel-limitation
+  kind: limitation
+  statement: Because the global extractor branch retains standard O(N^2 (d/2)) pairwise dot-product self-attention on half of the channels and the local branch uses manually specified layer-wise convolution kernel sizes (e.g., [3, 5, 7, 31x3]), quadratic sequence-length scaling still re-emerges for very long sequences N >> d.
+  evidence:
+  - source_id: r817-primary-pdf
+    locator: Section 3 (computation scaling N^2 d) and Section 5.3 (Architecture kernel sizes), pp. 3-4, 7
+    relation: supports
+evidence_sources:
+- source_id: r817-primary-pdf
+  title: Lite Transformer with Long-Short Range Attention
+  authors: &id001
+  - Zhanghao Wu
+  - Zhijian Liu
+  - Ji Lin
+  - Yujun Lin
+  - Song Han
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.11886
+  persistent_id: https://arxiv.org/bibtex/2004.11886
+  version: ICLR 2020 (2020) (1828904 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:00:00Z'
+  sha256: 587acac1ca4a42facdec1a6ea8e77c0bcebde0452dc65dd94d1646a251335ef8
+- source_id: r817-arxiv-abs
+  title: Lite Transformer with Long-Short Range Attention (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.11886
+  persistent_id: https://arxiv.org/abs/2004.11886
+  version: arXiv abstract page (7208 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:00:00Z'
+  sha256: 27f9b9d07d1a7801f30350a757e3554c7a5a103fd88549b5acc4a28bab80e962
+- source_id: r817-metadata-cr
+  title: Lite Transformer with Long-Short Range Attention (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2004.11886
+  persistent_id: https://arxiv.org/bibtex/2004.11886
+  version: Crossref API work record (393 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:00:00Z'
+  sha256: 7989876dc75663a920433086d8fbea30f27aa0c777292cc8939bab06e962c748
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Lite Transformer is a neural sequence-to-sequence and language modeling architecture built on the Long-Short Range Attention (LSRA) block.
+limitations:
+- The global self-attention branch retains O(N^2 * d/2) complexity with respect to sequence length N, so quadratic attention cost still dominates when N is very large.
+- Layer-wise depthwise convolution kernel schedules (e.g., [3, 5, 7, 31x3] for translation vs [15, 15, 31x4, 63x6] for language modeling) must be manually configured per task family.
+curation:
+  created_at: '2026-10-19T15:00:00Z'
+  updated_at: '2026-10-19T15:00:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
