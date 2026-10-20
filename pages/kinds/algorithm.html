@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">729 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">730 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">729</span> of <span id="totalCount">729</span>
+      Showing <span id="matchCount">730</span> of <span id="totalCount">730</span>
     </div>
   </div>
 </div>
@@ -11355,6 +11355,32 @@
         <td>
             <span class="badge badge-mechanism" title="2 claims curated">2 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="microadam (sparse-gradient adaptive optimization with quantized error feedback) microadamsparsegradientwithquantizederrorfeedbackoptimization aimech:microadamsparsegradientwithquantizederrorfeedbackoptimization algorithms algorithm a memory-efficient adaptive optimization algorithm that replaces dense first- and second-moment optimizer states with a circular sliding window of m top-k sparse error-compensated gradients (storing block-relative int16 indices and bfloat16 values) alongside a 4-bit quantized error-feedback accumulator, dynamically reconstructing bias-corrected adam statistics at each step with provable amsgrad-rate non-convex convergence. distinct from 8-bit adam (aimech:eightbitoptimizerblockwisequantization), which quantizes dense first- and second-moment vectors m_t, v_t in r^d to 8 bits (2d bytes total); microadam stores a circular window of m = 10 top-k sparse gradients (k = d/100) plus a 4-bit quantized error-feedback vector e_t (0.5d + 4mk = 0.9d bytes, less than half of 8-bit adam). distinct from galore (aimech:galoregradientlowrankprojection), which projects gradients into a low-rank svd subspace without error feedback. microadam microadam optimizer microadamw top-k sparse sliding-window adam with quantized error feedback at each step t, microadam dequantizes the 4-bit error-feedback state into the gradient accumulator a_t = g_t + q^{-1}(e_t, delta_t, delta_t), extracts the top-k largest-magnitude entries (i_t, v_t) = t_k(|a_t|) (with k = d/100 and block-relative int16 indices within blocks b_d &lt; 2^{15} - 1), zeros those entries in a_t, quantizes the residual error e_{t+1} = q(a_t, delta_{t+1}, delta_{t+1}) to b = 4 bits, writes (i_t, v_t) into row t mod m of circular buffer g, and dynamically computes m_hat_t = adamstats(beta_1, g) and v_hat_t = adamstats(beta_2, g^2) via unrolled decay z[i_i] &lt;- z[i_i] + beta^r v_i. storing the 4-bit error feedback buffer (0.5d bytes) and the circular window g of m sparse gradients with int16 indices and bfloat16 values (4mk bytes) yields total optimizer-state memory m_{mu a}(m) = 0.5d + 4mk bytes, which for k = d/100 is strictly smaller than 8-bit adamw&#39;s 2d bytes whenever m &lt; m_max = 37.5, requiring 0.9d bytes (5.65 gb vs 12.55 gb for 8-bit adamw and 50.21 gb for fp32 adamw) on llama-2 7b at m = 10. under a q-contractive gradient compressor c (q = sqrt(1 - k/d)) and an unbiased omega-bounded error quantizer q (lemma 1: omega = (sqrt(d - 2) / (2^b - 1)) * (delta - delta) / sqrt(delta^2 + delta^2)) satisfying q_omega = (1 + omega) * q &lt; 1, lemma 3 bounds the error buffer by ||e_t||^2 &lt;= 4 * q_omega^2 * g^2 / (1 - q_omega^2)^2, theorem 1 proves o(1/sqrt(t) + d/t) non-convex gradient stationarity matching amsgrad, and theorem 2 proves o(log(t)/t) convergence under the polyak-lojasiewicz condition. applied to full fine-tuning of bert-base/large and opt-1.3b on glue/mnli, llama-2 7b/13b on gsm-8k and open-platypus, and from-scratch pre-training of resnet-18/50 on imagenet, microadam matches or exceeds uncompressed adamw and 8-bit adamw accuracy (including 77.37% vs 72.05% for adamw on resnet-50 due to sparse-update implicit regularization) while enabling llama-2 7b full fine-tuning on a single 40 gb gpu. with window size m = 10 and density k = d/100, the per-step parameter update u_t has at least 90% sparsity, which is insufficient for from-scratch pre-training of large language models whose self-attention projection matrices require dense updates to learn global token correlations. microadam: accurate adaptive optimization with low space overhead and provable convergence microadam: accurate adaptive optimization with low space overhead and provable convergence (arxiv abstract) microadam: accurate adaptive optimization with low space overhead and provable convergence (crossref metadata) ionut-vlad modoranu mher safaryan grigory malinovsky eldar kurtic thomas robert peter richtárik dan alistarh ionut-vlad modoranu mher safaryan grigory malinovsky eldar kurtic thomas robert peter richtárik dan alistarh ionut-vlad modoranu mher safaryan grigory malinovsky eldar kurtic thomas robert peter richtárik dan alistarh">
+        <td>
+          <a href="../curated/MicroAdamSparseGradientWithQuantizedErrorFeedbackOptimization.html" style="font-weight: 600; font-size: 1rem;">MicroAdam (Sparse-Gradient Adaptive Optimization with Quantized Error Feedback)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> MicroAdam, MicroAdam Optimizer…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A memory-efficient adaptive optimization algorithm that replaces dense first- and second-moment optimizer states with a circular sliding win…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:MicroAdamSparseGradientWithQuantizedErrorFeedbackOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="5 claims curated">5 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
