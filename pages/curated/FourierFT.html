@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FourierFT · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FourierFT</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FourierFT</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FourierFT</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Discrete Fourier Transform Fine-Tuning, Fourier Fine-Tuning, FourierFT Parameter-Efficient Fine-Tuning
+    </div>
+
+  <div class="detail-desc">
+    A spectral parameter-efficient fine-tuning algorithm that parameterizes the spatial weight update matrix of a frozen pretrained layer as the real part of the two-dimensional inverse discrete Fourier transform of a sparse frequency-domain matrix populated by a small trainable vector of n spectral coefficients.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:LowRankAdaptation (LoRA) and AIMech:VeRA, which parameterize weight updates directly in the spatial domain via low-rank matrix products and therefore require at least O(d_1 + d_2) parameters or high rank to represent complex spatial patterns. FourierFT (Ziqi Gao, Qichao Wang, Aochuan Chen, Zijing Liu, Bingzhe Wu, Liang Chen, and Jia Li, ICML 2024, PMLR v235, arXiv:2405.03003) represents the weight update Delta_W in R^{d_1 x d_2} in the orthogonal 2D Fourier basis. A fixed entry index table E in {0, ..., d_1-1} x {0, ..., d_2-1} of length n &lt;&lt; d_1 d_2 is sampled once (uniformly or with a central-frequency radial Gaussian bias), a trainable coefficient vector c in R^n is scattered into a sparse spectral matrix S = ToMatrix(c) in R^{d_1 x d_2} at locations E, and the spatial weight update is reconstructed via the 2D inverse discrete Fourier transform Delta_W = alpha * Re(F^{-1}(ToMatrix(c))). Because every spectral coefficient modulates a global 2D complex sinusoid across all d_1 x d_2 spatial entries, FourierFT decouples parameter count n from layer dimensions (d_1, d_2) and can generate full-rank spatial updates when the sampled frequencies span rows and columns.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fourierft-sparse-spectral-to-spatial-idft-parameterization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FourierFT defines a layer&#39;s weight update as Delta_W = alpha * Re(F^{-1}(ToMatrix(c))), where c in R^n is a trainable spectral vector scattered onto n pre-selected frequency coordinates (u_k, v_k) of a d_1 x d_2 spectral grid and F^{-1} is the 2D inverse discrete Fourier transform, decoupling the trainable parameter count n from the layer dimensions d_1 and d_2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r663-primary-pdf">Parameter-Efficient Fine-Tuning with Discrete Fourier Transform</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 (Forward and Backward Pass of FourierFT), pp. 3-4, Equations (3)-(5)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fourierft-direct-basis-evaluation-and-frequency-bias-sampling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Rather than executing a full O(d_1 d_2 log(d_1 d_2)) 2D FFT when n is small, FourierFT evaluates the inverse transform directly over the n active frequencies using precomputed complex exponential basis matrices, and optionally samples frequency coordinates with a radial Gaussian bias toward low- or mid-frequency bands.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r663-primary-pdf">Parameter-Efficient Fine-Tuning with Discrete Fourier Transform</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Entry Sampling Strategies) &amp; Algorithm 1, p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#fourierft-application-extreme-compression-nlp-and-vision-peft</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across GLUE natural language understanding, instruction tuning on LLaMA-2, and ViT image classification benchmarks, FourierFT matches or exceeds LoRA accuracy while using up to an order of magnitude fewer trainable parameters (for example, n = 1000 spectral coefficients per layer versus rank-8 LoRA on RoBERTa-large).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r663-primary-pdf">Parameter-Efficient Fine-Tuning with Discrete Fourier Transform</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Experiments), Tables 1-4, pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fourierft-limitation-dense-delta-w-materialization-during-training</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the inverse discrete Fourier transform produces a dense spatial matrix Delta_W in R^{d_1 x d_2} rather than a low-rank factored intermediate representation, FourierFT must either materialize Delta_W in memory during each forward/backward pass or compute O(n d_1 d_2) basis projections, incurring higher per-layer FLOPs than rank-1 LoRA when n is large.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r663-primary-pdf">Parameter-Efficient Fine-Tuning with Discrete Fourier Transform</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 &amp; Appendix (Complexity Analysis and Memory Discussion), pp. 4, 13-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Reconstructing the spatial weight update from n spectral coefficients produces a dense d_1 x d_2 matrix during training rather than a low-rank intermediate vector projection, increasing per-layer compute if n is large.</li>
+      <li>Because the n frequency coordinates are sampled randomly before training and held fixed, task-relevant spectral energy that falls outside the sampled frequency support cannot be represented.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FourierFT adapts linear layers of deep artificial neural networks by learning sparse spectral coefficients in the 2D discrete Fourier domain.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FourierFT learns a sparse set of n frequency-domain coefficients whose inverse 2D discrete Fourier transform reconstructs the spatial weight update.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r663-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r663-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2405.03003" target="_blank" rel="noopener">Parameter-Efficient Fine-Tuning with Discrete Fourier Transform</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ziqi Gao, Qichao Wang, Aochuan Chen, Zijing Liu, Bingzhe Wu, Liang Chen, Jia Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/GaoWC0WCL24.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:751a4d4b1e34…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r663-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r663-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2405.03003" target="_blank" rel="noopener">Parameter-Efficient Fine-Tuning with Discrete Fourier Transform (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ziqi Gao, Qichao Wang, Aochuan Chen, Zijing Liu, Bingzhe Wu, Liang Chen, Jia Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2405.03003</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:43b22a73641c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r663-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r663-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/GaoWC0WCL24.xml" target="_blank" rel="noopener">Parameter-Efficient Fine-Tuning with Discrete Fourier Transform (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ziqi Gao, Qichao Wang, Aochuan Chen, Zijing Liu, Bingzhe Wu, Liang Chen, Jia Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/GaoWC0WCL24.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:47dfe2854075…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:26:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:26:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FourierFT.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FourierFT.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
