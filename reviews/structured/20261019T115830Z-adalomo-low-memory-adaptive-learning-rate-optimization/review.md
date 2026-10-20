@@ -1,0 +1,356 @@
+# Scientific author self-review of AdaLomo (Low-Memory Optimization with Adaptive Learning Rate)
+
+- Review: 20261019T115830Z-adalomo-low-memory-adaptive-learning-rate-optimization
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T11:58:00Z
+- Finished UTC: 2026-10-19T11:58:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain AdaLomo (Low-Memory Optimization with Adaptive Learning Rate) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/AdaLomoLowMemoryAdaptiveLearningRateOptimization.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base f821f4126717532a3924b2eb0c8cb04f86585bd7.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization | data/curated/AdaLomoLowMemoryAdaptiveLearningRateOptimization.yaml | maintained | AdaLomo (Low-Memory Optimization with Adaptive Learning Rate) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization | Validated history sidecar files. |
+| python3 adalomo-low-memory-adaptive-learning-rate-optimization-boundaries.py | passed | True | AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization | [PASS] Round 635 AdaLomo verified: nmf_rank1_err=2.08e-17, state_comp=85.3x, grad_mem_ratio=0.0244, rms_match_err=0.00e+00, f_global=-2.000&lt;f_local=-1.000 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization.
+
+AdaLomo (Low-Memory Optimization with Adaptive Learning Rate) is a distinct concept.
+
+Distinct from LOMO (AIMech:LomoFusedBackwardLowMemoryOptimization), which applies naive non-adaptive stochastic gradient descent during the fused backward pass and requires two backward passes whenever global gradient normalization is used; AdaLomo incorporates per-parameter second-moment scaling via row/column moving-average factors (r_{t,i}, c_{t,i}) and normalizes each tensor's update in a single fused backward pass via grouped update normalization. Distinct from Adafactor (AIMech:AdafactorSublinearMemoryAdaptiveOptimization), which materializes full-model gradients before the optimizer step and therefore consumes roughly 2.5x the memory of AdaLomo.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in adalomo-low-memory-adaptive-learning-rate-optimization-boundaries.py passed with exit code 0: [PASS] Round 635 AdaLomo verified: nmf_rank1_err=2.08e-17, state_comp=85.3x, grad_mem_ratio=0.0244, rms_match_err=0.00e+00, f_global=-2.000&lt;f_local=-1.000
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T115800Z-adalomo-low-memory-adaptive-learning-rate-optimization.json | supports | No normalized identity match for AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/adalomo-low-memory-adaptive-learning-rate-optimization-boundaries.py | supports | All constructed boundary assertions in adalomo-low-memory-adaptive-learning-rate-optimization-boundaries.py passed with exit code 0: [PASS] Round 635 AdaLomo verified: nmf_rank1_err=2.08e-17, state_comp=85.3x, grad_mem_ratio=0.0244, rms_match_err=0.00e+00, f_global=-2.000&lt;f_local=-1.000 |
+| r635-primary-pdf | https://arxiv.org/pdf/2310.10195.pdf; Full-text PDF | supports | Full-text PDF (Findings of the Association for Computational Linguistics: ACL 2024 (2024)) read and verified. |
+| r635-arxiv-abs | https://arxiv.org/abs/2310.10195; arXiv abstract | supports | arXiv abstract read and verified. |
+| r635-metadata-cr | https://dblp.org/rec/conf/acl/Lv0GLQ24; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization in Round 635.
+- All pages of Findings of the Association for Computational Linguistics: ACL 2024 (2024) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T115830Z-adalomo-low-memory-adaptive-learning-rate-optimization
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of AdaLomo (Low-Memory Optimization with Adaptive
+  Learning Rate)
+started_at: '2026-10-19T11:58:00Z'
+finished_at: '2026-10-19T11:58:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: 'The author challenged definition distinctness of AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+    against existing AIMech and AIO records and verified all claims against Findings
+    of the Association for Computational Linguistics: ACL 2024 (2024) and pure-Python
+    boundary checks. This is adversarial author self-review, not independent approval.'
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain AdaLomo (Low-Memory Optimization with Adaptive Learning Rate) as a
+  distinct DRAFT algorithm. All three claims are supported by full-text primary evidence
+  and pure-Python boundary verification.
+source:
+  git_revision: f821f4126717532a3924b2eb0c8cb04f86585bd7
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/AdaLomoLowMemoryAdaptiveLearningRateOptimization.yaml
+    sha256: 95edbf885dbb9c90523e7a3bb92ae7dab3e5054f94ea421ac2ae4bf297005dbf
+    role: target
+  - path: research/discovery/20261019T115800Z-adalomo-low-memory-adaptive-learning-rate-optimization.json
+    sha256: 9b8b2670ffe2bcff8694c00f30a95cb18630cd5e404277680cf8d45dae5a9c57
+    role: context
+  - path: research/discovery/adalomo-low-memory-adaptive-learning-rate-optimization-boundaries.py
+    sha256: 0f3c9a85290f08a7797346c7a112b34c5728b0b8b096e3ccd7d98006dc634b86
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+  path: data/curated/AdaLomoLowMemoryAdaptiveLearningRateOptimization.yaml
+  label: AdaLomo (Low-Memory Optimization with Adaptive Learning Rate)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AdaLomoLowMemoryAdaptiveLearningRateOptimization.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/AdaLomoLowMemoryAdaptiveLearningRateOptimization.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 adalomo-low-memory-adaptive-learning-rate-optimization-boundaries.py
+  command: python3 research/discovery/adalomo-low-memory-adaptive-learning-rate-optimization-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 635 AdaLomo verified: nmf_rank1_err=2.08e-17, state_comp=85.3x,
+    grad_mem_ratio=0.0244, rms_match_err=0.00e+00, f_global=-2.000<f_local=-1.000'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T115800Z-adalomo-low-memory-adaptive-learning-rate-optimization.json
+  accessed_at: '2026-10-19T11:58:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T11:58:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/adalomo-low-memory-adaptive-learning-rate-optimization-boundaries.py
+  accessed_at: '2026-10-19T11:58:00Z'
+  snapshot_sha256: 0f3c9a85290f08a7797346c7a112b34c5728b0b8b096e3ccd7d98006dc634b86
+  support: supports
+  summary: 'All constructed boundary assertions in adalomo-low-memory-adaptive-learning-rate-optimization-boundaries.py
+    passed with exit code 0: [PASS] Round 635 AdaLomo verified: nmf_rank1_err=2.08e-17,
+    state_comp=85.3x, grad_mem_ratio=0.0244, rms_match_err=0.00e+00, f_global=-2.000<f_local=-1.000'
+- evidence_id: r635-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2310.10195.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T11:58:00Z'
+  snapshot_sha256: 65bd0e33ca1c9f1b2dafe3827abc9f273c43439dc1e8e8ae2e7350c71b80e856
+  support: supports
+  summary: 'Full-text PDF (Findings of the Association for Computational Linguistics:
+    ACL 2024 (2024)) read and verified.'
+- evidence_id: r635-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2310.10195
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T11:58:00Z'
+  snapshot_sha256: 65c13009e2c5f9fb4391626fb5a372daba5ac8b758bda36bb62b8e7efb4628fb
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r635-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/acl/Lv0GLQ24
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T11:58:00Z'
+  snapshot_sha256: 603bbb15629f88e65275e6a029a3503e84b71b729d3e59577c33ab8dea32746c
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+  evidence_ids:
+  - identity
+  - r635-primary-pdf
+  - r635-arxiv-abs
+  - r635-metadata-cr
+  summary: AdaLomo (Low-Memory Optimization with Adaptive Learning Rate) is a distinct
+    concept.
+  details: Distinct from LOMO (AIMech:LomoFusedBackwardLowMemoryOptimization), which
+    applies naive non-adaptive stochastic gradient descent during the fused backward
+    pass and requires two backward passes whenever global gradient normalization is
+    used; AdaLomo incorporates per-parameter second-moment scaling via row/column
+    moving-average factors (r_{t,i}, c_{t,i}) and normalizes each tensor's update
+    in a single fused backward pass via grouped update normalization. Distinct from
+    Adafactor (AIMech:AdafactorSublinearMemoryAdaptiveOptimization), which materializes
+    full-model gradients before the optimizer step and therefore consumes roughly
+    2.5x the memory of AdaLomo.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+  evidence_ids:
+  - mapping
+  - r635-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+  evidence_ids:
+  - r635-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in adalomo-low-memory-adaptive-learning-rate-optimization-boundaries.py
+    passed with exit code 0: [PASS] Round 635 AdaLomo verified: nmf_rank1_err=2.08e-17,
+    state_comp=85.3x, grad_mem_ratio=0.0244, rms_match_err=0.00e+00, f_global=-2.000<f_local=-1.000'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+  evidence_ids:
+  - identity
+  - mapping
+  - r635-primary-pdf
+  - r635-arxiv-abs
+  - r635-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization in
+  Round 635.
+- 'All pages of Findings of the Association for Computational Linguistics: ACL 2024
+  (2024) were read in full text.'
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

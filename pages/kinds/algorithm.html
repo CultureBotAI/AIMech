@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">725 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">726 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">725</span> of <span id="totalCount">725</span>
+      Showing <span id="matchCount">726</span> of <span id="totalCount">726</span>
     </div>
   </div>
 </div>
@@ -622,6 +622,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="adalomo (low-memory optimization with adaptive learning rate) adalomolowmemoryadaptivelearningrateoptimization aimech:adalomolowmemoryadaptivelearningrateoptimization algorithms algorithm a memory-efficient full-parameter adaptive optimization algorithm for large language models that fuses gradient backpropagation with in-place parameter updates to maintain o(1) gradient memory while providing per-parameter adaptive learning rates via rank-1 non-negative matrix factorization of the second-order gradient moment and single-pass parameter-wise root-mean-square grouped update normalization. distinct from lomo (aimech:lomofusedbackwardlowmemoryoptimization), which applies naive non-adaptive stochastic gradient descent during the fused backward pass and requires two backward passes whenever global gradient normalization is used; adalomo incorporates per-parameter second-moment scaling via row/column moving-average factors (r_{t,i}, c_{t,i}) and normalizes each tensor&#39;s update in a single fused backward pass via grouped update normalization. distinct from adafactor (aimech:adafactorsublinearmemoryadaptiveoptimization), which materializes full-model gradients before the optimizer step and therefore consumes roughly 2.5x the memory of adalomo. adalomo adalomo optimizer low-memory optimization with adaptive learning rate fused-backward factored second-moment adaptive optimizer during the backward pass, as soon as the gradient g_{t,i} of parameter tensor theta_{t-1,i} in r^{m x n} is computed, adalomo updates row and column second-moment vectors r_{t,i} = beta * r_{t-1,i} + (1 - beta) * g_{t,i}^2 * 1_n in r^{m x 1} and c_{t,i} = beta * c_{t-1,i} + (1 - beta) * 1_m^t * g_{t,i}^2 in r^{1 x n}, reconstructs the non-negative matrix factorization second-moment estimate v_{t,i} = (r_{t,i} * c_{t,i}) / (1_m^t * r_{t,i}), updates theta_{t,i} immediately, and discards g_{t,i-1}, reducing optimizer-state storage to m + n values per matrix and gradient storage to at most two consecutive parameter tensors. to avoid the two backward passes required by global gradient norm clipping in fused-backward training, adalomo applies grouped update normalization independently to each parameter tensor&#39;s raw adaptive update u_{t,i} within a single backward pass via u_hat_{t,i} = (u_{t,i} / max(1, rms(u_{t,i}))) * max(epsilon, rms(theta_{t-1,i})), where rms(u) = sqrt((1/n) * sum_{k=1}^n u_k^2), scaling the step size proportionally to the parameter tensor&#39;s root-mean-square magnitude. ablation analysis isolating adam&#39;s first-order momentum (equation 3) versus second-order variance scaling (equation 4) demonstrates that second-order moment estimation is the primary factor enabling escape from suboptimal local minima and compensating for unbounded layer-wise lipschitz variations in transformer self-attention. applied to instruction-tuning llama-7b/13b/30b/65b on alpaca-gpt4 (evaluated on mmlu, bbh, gsm8k, humaneval, and alpacafarm), domain continual pre-training on chinese and python corpora, and from-scratch pre-training of a 1.1b llama model on c4, adalomo matches adamw convergence and benchmark accuracy while reducing total memory footprint to the level of lora (~40% of adafactor&#39;s memory). because adalomo reduces only gradient and optimizer-state memory and omits first-order momentum, its overall memory savings are limited in regimes dominated by activation memory, and it can exhibit minor early-warmup loss fluctuations on smaller models as well as a modest throughput reduction relative to non-adaptive lomo. adalomo: low-memory optimization with adaptive learning rate adalomo: low-memory optimization with adaptive learning rate (arxiv abstract) adalomo: low-memory optimization with adaptive learning rate (crossref metadata) kai lv hang yan qipeng guo haijun lv xipeng qiu kai lv hang yan qipeng guo haijun lv xipeng qiu kai lv hang yan qipeng guo haijun lv xipeng qiu">
+        <td>
+          <a href="../curated/AdaLomoLowMemoryAdaptiveLearningRateOptimization.html" style="font-weight: 600; font-size: 1rem;">AdaLomo (Low-Memory Optimization with Adaptive Learning Rate)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> AdaLomo, AdaLomo Optimizer…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A memory-efficient full-parameter adaptive optimization algorithm for large language models that fuses gradient backpropagation with in-plac…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="5 claims curated">5 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
