@@ -1,0 +1,93 @@
+id: AIMech:EntangledPolynomialCodesForStragglerResilientDistributedMatrixMultiplication
+name: Entangled Polynomial Codes for Straggler-Resilient Distributed Matrix Multiplication
+concept_kind: algorithm
+review_status: DRAFT
+definition: A straggler-resilient linear coded computing method for distributed matrix multiplication C = A^T B across N worker nodes that partitions A in F^{s x r} into p x m blocks A_{j,k} and B in F^{s x t} into p x n blocks B_{j',k'} (allowing each worker to store a 1/(pm) fraction of A and a 1/(pn) fraction of B) and encodes worker i's stored submatrices at distinct evaluation point x_i in F as A_tilde_i = sum_{j=0}^{p-1} sum_{k=0}^{m-1} A_{j,k} x_i^{j + k p} and B_tilde_i = sum_{j'=0}^{p-1} sum_{k'=0}^{n-1} B_{j',k'} x_i^{(p - 1 - j') + k' p m}, so that each desired inner-dimension sum C_{k,k'} = sum_{j=0}^{p-1} A_{j,k}^T B_{j,k'} aligns onto the unique degree-(p - 1 + k p + k' p m) coefficient of the degree-(p m n + p - 2) worker product polynomial h(x_i) = A_tilde_i^T B_tilde_i and can be recovered from any K_{entangled-poly} = p m n + p - 1 non-straggling workers.
+identity_notes: 'Distinct from Polynomial Codes (AIMech:PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication, which restrict p = 1 and partition input matrices only along their outer dimensions) and from MatDot and PolyDot Codes (AIMech:MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication, where PolyDot achieves recovery threshold m^2 (2p - 1) for m = n because unaligned inner-dimension cross-terms double the polynomial degree in p): Entangled Polynomial Codes (Yu, Maddah-Ali, & Avestimehr, ISIT 2018 / IEEE TIT 2020) assign exponent strides (alpha, beta, theta) = (1, p, p m) with reversed inner-dimension powers x_i^j and x_i^{p-1-j''} to align all p summands of each C_{k,k''} onto x_i^{p-1 + k p + k'' p m}, reducing the recovery threshold by a factor of 2 to p m n + p - 1 and further to 2 R(p, m, n) - 1 via bilinear-complexity tensor decompositions.'
+aliases:
+- Entangled Polynomial Code
+- Entangled Polynomial Codes
+- Bilinear-Complexity Entangled Polynomial Coding
+definition_evidence:
+- source_id: r542-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r542-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r542-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: epc-degree-alignment-recovery-threshold
+  kind: mechanism
+  statement: By choosing exponent strides (alpha, beta, theta) = (1, p, p m) in Definition 4 (Eq. 28), each worker i evaluates a polynomial h(x_i) = A_tilde_i^T B_tilde_i of degree p m n + p - 2 in which each subblock C_{k,k'} = sum_{j=0}^{p-1} A_{j,k}^T B_{j,k'} appears as the exact coefficient of x_i^{p - 1 + k p + k' p m}, achieving recovery threshold K_{entangled-poly} = p m n + p - 1 from any subset of p m n + p - 1 non-straggling workers via polynomial interpolation.
+  evidence:
+  - source_id: r542-primary-pdf
+    locator: Section III Theorem 1 p. 3 Eq. 10; Section IV-B p. 7 Eq. 28-29
+    relation: supports
+- claim_id: epc-linear-converse-and-bilinear-complexity-bound
+  kind: scope
+  statement: Entangled Polynomial Codes achieve the optimal linear recovery threshold K*_{linear} = p m n + p - 1 = p m + p n - 1 whenever m = 1 or n = 1 (Theorem 2, Lemma 1, Eq. 12 and 30), and for arbitrary (p, m, n) an improved bilinear-complexity construction using a rank-R tensor decomposition of m-by-p by p-by-n matrix multiplication achieves recovery threshold 2 R - 1, characterizing K*_{linear} within a factor of 2 as R(p, m, n) <= K*_{linear} <= 2 R(p, m, n) - 1 (Theorem 3, Eq. 15).
+  evidence:
+  - source_id: r542-primary-pdf
+    locator: Section III Theorems 2-3 p. 4-5 Eq. 12-15; Section V Lemma 1 p. 8 Eq. 30; Section VI p. 9-10 Eq. 40-48
+    relation: supports
+- claim_id: epc-real-field-vandermonde-conditioning-limitation
+  kind: limitation
+  statement: When implemented over the field of real or complex numbers rather than a finite field, decoding Entangled Polynomial Codes requires interpolating a degree-(p m n + p - 2) polynomial (or degree-(2 R - 2) polynomial in the bilinear-complexity variant), which can suffer from numerical ill-conditioning and floating-point precision loss as p m n grows.
+  evidence:
+  - source_id: r542-primary-pdf
+    locator: Section VII Concluding Remarks p. 11
+    relation: supports
+evidence_sources:
+- source_id: r542-primary-pdf
+  title: 'Straggler Mitigation in Distributed Matrix Multiplication: Fundamental Limits and Optimal Coding'
+  authors: &id001
+  - Qian Yu
+  - Mohammad Ali Maddah-Ali
+  - A. Salman Avestimehr
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1801.07487.pdf
+  persistent_id: https://dblp.org/rec/journals/tit/YuMA20
+  version: IEEE Transactions on Information Theory (2020) (821086 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:25:00Z'
+  sha256: 19ca132faffca729d97b54e70aa169700231677ca68316073eaf89bccf609610
+- source_id: r542-arxiv-abs
+  title: 'Straggler Mitigation in Distributed Matrix Multiplication: Fundamental Limits and Optimal Coding (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1801.07487
+  persistent_id: https://arxiv.org/abs/1801.07487
+  version: arXiv abstract page (7672 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:25:00Z'
+  sha256: 92d512f3a3a65fcc6d8693a3e385e2db7fe45bbc3889faca365b463beca08e8f
+- source_id: r542-metadata-cr
+  title: 'Straggler Mitigation in Distributed Matrix Multiplication: Fundamental Limits and Optimal Coding (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/tit/YuMA20
+  persistent_id: https://dblp.org/rec/journals/tit/YuMA20
+  version: Crossref API work record (2572 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:25:00Z'
+  sha256: 848da46a7d6b24ab708fd47e9d7e6c98c5e3d154a7b1ade77c0b05d374710171
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Entangled Polynomial Codes provide optimal straggler-resilient coded matrix multiplication across distributed worker nodes in large-scale distributed and federated machine learning.
+limitations:
+- Over real or complex fields, polynomial interpolation of degree p m n + p - 2 or 2 R(p, m, n) - 2 suffers from Vandermonde numerical conditioning degradation as partition counts p, m, n grow.
+- Achieving the factor-of-2 optimal bound 2 R(p, m, n) - 1 requires an explicit low-rank bilinear-complexity tensor decomposition (a, b, c) for (p, m, n), whose exact minimum rank R(p, m, n) is NP-hard to determine in general.
+curation:
+  created_at: '2026-10-19T10:25:00Z'
+  updated_at: '2026-10-19T10:25:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
