@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generalized LoRA · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Generalized LoRA</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Generalized LoRA</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GLoRA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GLoRA, One-for-All Generalized Low-Rank Adaptation, GLoRA Structural Re-Parameterization Supernet PEFT
+    </div>
+
+  <div class="detail-desc">
+    A unified parameter-efficient fine-tuning framework that adapts each pretrained linear layer f(x) = W_0 x + b_0 using five configurable support tensors (A, B, C, D, E) spanning weight scaling, weight shifting, layer-wise prompt tuning, and bias scaling and shifting, selects optimal per-layer tensor structures from a weight-entangled supernet via evolutionary search, and structurally re-parameterizes all learned tensors into a single unified weight matrix W_uni and bias vector b_uni for zero-overhead inference.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard LoRA (AIMech:LoRA, which tunes only an additive low-rank weight residual B without weight scaling A, layer-wise prompt vector C, or bias scale/shift tensors D and E), from DoRA (AIMech:DoraWeightDecomposedLowRankAdaptation, which normalizes column-wise weight directions and learns a magnitude vector rather than searching heterogeneous support tensor types {LoRA, vector, scalar, none} in a multi-path supernet), and from DyLoRA (AIMech:DyLoRADynamicSearchFreeLowRankAdaptation, which orders ranks within a single LoRA pair via nested dropout rather than searching across five distinct support tensor roles). Formulated by Chavan et al. (arXiv:2306.07967).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#glora-five-support-tensor-unified-formulation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    GLoRA formulates the adapted linear transformation of frozen weights W_0 in R^{d_2 x d_1} and bias b_0 in R^{d_2 x 1} as f(x) = (W_0 + W_0 A + B) x + C W_0 + D b_0 + E + b_0, where each layer&#39;s trainable support tensors are independently chosen from discrete search spaces A, B in {LoRA, vector, scalar, none}, C in {LoRA, vector, none}, and D, E in {vector, scalar, none} (432 configurations per linear layer) using weight-entangled sub-tensor indexing across a multi-path supernet.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r683-primary-pdf">One-for-All: Generalized LoRA for Parameter-Efficient Fine-tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 A Unified Formulation of One-for-All, Eq. 10-11 &amp; Appendix E, p. 4, 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#glora-structural-reparameterization-zero-inference-cost</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because GLoRA eliminates non-linear activations between adjacent support tensor operations, all trained support tensors are absorbed post-training into a single unified weight matrix W_uni = W_0 + W_0 A + B and unified bias vector b_uni = C W_0 + D b_0 + E + b_0 so that inference executes f(x) = W_uni x + b_uni with zero additional parameters or FLOPs.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r683-primary-pdf">One-for-All: Generalized LoRA for Parameter-Efficient Fine-tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3 Structural Re-parameterization Design, Eq. 12-14 &amp; Table 4, p. 5, 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#glora-vision-and-llm-transfer-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    GLoRA is applied to parameter-efficient transfer learning, few-shot recognition, and out-of-domain generalization on ViT-B and Swin-B across VTAB-1K and ImageNet variants as well as instruction tuning of LLaMA-1-7B and LLaMA-2-7B on the Open LLM Leaderboard, outperforming LoRA, VPT, Adapter, and NOAH while maintaining identical inference throughput to the unadapted backbone.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r683-primary-pdf">One-for-All: Generalized LoRA for Parameter-Efficient Fine-tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Experiments, Tables 1-4 and Figures 2-3, p. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#glora-supernet-training-and-evolutionary-search-overhead</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Training the multi-path weight-entangled supernet followed by evolutionary subnet search on a validation set requires substantially more training epochs (e.g., 5x the training epochs of single-configuration LoRA) and additional validation evaluations before the final re-parameterized model is deployed.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r683-primary-pdf">One-for-All: Generalized LoRA for Parameter-Efficient Fine-tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.4, Appendix A, Appendix B, and Appendix D, p. 5, 14-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires multi-epoch supernet training (typically 5x the training epochs of standard LoRA) followed by an evolutionary search phase over validation data to identify the optimal per-layer subnet.</li>
+      <li>Restricted to purely linear support tensor transformations without intermediate non-linear bottleneck activations so that structural re-parameterization into W_uni and b_uni remains exact.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Generalized LoRA adapts pretrained vision and language neural networks via structurally re-parameterized support tensors.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r683-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r683-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2306.07967" target="_blank" rel="noopener">One-for-All: Generalized LoRA for Parameter-Efficient Fine-tuning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Arnav Chavan, Zhuang Liu, Deepak Gupta, Eric Xing, Zhiqiang Shen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-2306-07967.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0a1f68436cea…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r683-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r683-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2306.07967" target="_blank" rel="noopener">One-for-All: Generalized LoRA for Parameter-Efficient Fine-tuning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Arnav Chavan, Zhuang Liu, Deepak Gupta, Eric Xing, Zhiqiang Shen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2306.07967</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c3658c586177…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r683-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r683-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/corr/abs-2306-07967.xml" target="_blank" rel="noopener">One-for-All: Generalized LoRA for Parameter-Efficient Fine-tuning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Arnav Chavan, Zhuang Liu, Deepak Gupta, Eric Xing, Zhiqiang Shen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-2306-07967.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0c1c3be4ae27…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:46:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:46:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GLoRA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GLoRA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
