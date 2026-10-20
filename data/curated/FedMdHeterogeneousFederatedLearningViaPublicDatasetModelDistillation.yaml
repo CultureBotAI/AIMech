@@ -1,0 +1,99 @@
+id: AIMech:FedMdHeterogeneousFederatedLearningViaPublicDatasetModelDistillation
+name: FedMD (Heterogeneous Federated Learning via Public-Dataset Model Distillation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A model-heterogeneous federated learning framework (Li & Wang 2019, Section 3, Algorithm 1, Figure 2) in which each client k in {1, ..., m} designs an arbitrary, privately held neural network architecture f_k, performs initial transfer learning by pre-training f_k on a shared public dataset D_0 = {x_i^0} and fine-tuning on its private dataset D_k, and then collaborates in each communication round through a four-stage public-logit protocol: (1) Communicate each client''s class score (logit) predictions f_k(x_i^0) on D_0 to the server; (2) Aggregate the consensus logit vector f_tilde(x_i^0) = (1/m) sum_{k=1}^m f_k(x_i^0) on the server; (3) Distribute f_tilde(x_i^0) back to all clients; and (4) Digest & Revisit by training each local model f_k to match the consensus logits f_tilde(x_i^0) on D_0 (Digest phase) followed by local fine-tuning epochs on private dataset D_k (Revisit phase).'
+identity_notes: Distinct from FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning, Lin et al. 2020), which exchanges model weights and performs ensemble distillation on the server into global prototype architectures rather than communicating only public-dataset logits f_k(x_i^0) and distilling on each client via alternating Digest and Revisit phases; and distinct from FedGKT (AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning, He et al. 2020), which exchanges intermediate feature maps and private-sample logits between small edge encoders and a large server classifier.
+aliases:
+- FedMD
+- Heterogeneous Federated Learning via Model Distillation
+- Digest-and-Revisit Federated Model Distillation
+definition_evidence:
+- source_id: r478-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r478-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r478-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r478-consensus-logit-digest-and-private-revisit-protocol-mechanism
+  kind: mechanism
+  statement: By communicating only class score vectors f_k(x_i^0) evaluated on a shared public dataset D_0 and alternating between a Digest stage (distilling the server-averaged consensus logits f_tilde(x_i^0) = (1/m) sum_{k=1}^m f_k(x_i^0) into each client's model f_k on D_0) and a Revisit stage (fine-tuning f_k on private labeled data D_k), FedMD enables collaborative learning across clients whose neural network depths, channel widths, and architectures differ arbitrarily without revealing model weights or architecture intellectual property (Li & Wang 2019, Section 3, Algorithm 1).
+  evidence:
+  - source_id: r478-primary-pdf
+    locator: Section 3 (Algorithm 1, Figure 2), p. 3
+    relation: supports
+- claim_id: r478-transfer-learning-initialization-and-architecture-agnostic-scope
+  kind: scope
+  statement: Initializing each heterogeneous client model via transfer learning (training to convergence on public dataset D_0 before fine-tuning on small private dataset D_k) combined with iterative Digest-and-Revisit consensus distillation achieves up to ~20 percentage points higher test accuracy than isolated private training across 10 structurally distinct 2-layer and 3-layer CNN architectures under both IID and non-IID class partitions (Li & Wang 2019, Section 4, Tables 1-2, Figures 3-6).
+  evidence:
+  - source_id: r478-primary-pdf
+    locator: Section 4 (Tables 1-2, Figures 3-6), pp. 4-6
+    relation: supports
+- claim_id: r478-cross-architecture-emnist-and-cifar-federated-distillation-application
+  kind: application
+  statement: Applied to heterogeneous cross-architecture federated classification using public MNIST with private EMNIST letters and public CIFAR-10 with private CIFAR-100 subsets across 10 distinct CNN architectures (Li & Wang 2019, Section 4, Tables 1-2, Figures 3-6).
+  evidence:
+  - source_id: r478-primary-pdf
+    locator: Section 4 (Experiments, Tables 1-2, Figures 3-6), pp. 4-6
+    relation: supports
+- claim_id: r478-shared-public-dataset-and-per-sample-logit-communication-limitation
+  kind: limitation
+  statement: Requires a task-relevant shared public dataset D_0 accessible to all clients and incurs per-round communication proportional to |D_0| times the number of classes C (Li & Wang 2019, Sections 3 & 5, pp. 3 & 7).
+  evidence:
+  - source_id: r478-primary-pdf
+    locator: Section 3 (Algorithm 1), p. 3, and Section 5 (Conclusion and Future Works), p. 7
+    relation: supports
+evidence_sources:
+- source_id: r478-primary-pdf
+  title: 'FedMD: Heterogenous Federated Learning via Model Distillation'
+  authors: &id001
+  - Daliang Li
+  - Junpu Wang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1910.03581.pdf
+  persistent_id: https://arxiv.org/abs/1910.03581
+  version: arXiv:1910.03581 (2019) (1239 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:21:00Z'
+  sha256: 15536354e635b9236161f6a55aadda31f02ead1b2e951b599bd2a2f1e7670682
+- source_id: r478-arxiv-abs
+  title: 'FedMD: Heterogenous Federated Learning via Model Distillation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1910.03581
+  persistent_id: https://arxiv.org/abs/1910.03581
+  version: arXiv abstract page (507 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:21:00Z'
+  sha256: 8d51dac49ddc3e72cd56e05f370af896f904d5c1dd9517f4253c7db16a15b299
+- source_id: r478-metadata-cr
+  title: 'FedMD: Heterogenous Federated Learning via Model Distillation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1910.03581
+  persistent_id: https://arxiv.org/abs/1910.03581
+  version: Crossref API work record (225 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:21:00Z'
+  sha256: f928cb9c01b55491de778dbad8098415ee041bcc2845e44b187ff1b65a2645f4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedMD is a heterogeneous federated model distillation framework within the broader FederatedLearning category.
+limitations:
+- Requires a labeled or unlabeled public proxy dataset D_0 whose domain is sufficiently related to the clients' private tasks.
+- Does not produce a single server-side model unless the server separately trains a student network on the consensus public logits.
+curation:
+  created_at: '2026-10-19T09:21:00Z'
+  updated_at: '2026-10-19T09:21:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

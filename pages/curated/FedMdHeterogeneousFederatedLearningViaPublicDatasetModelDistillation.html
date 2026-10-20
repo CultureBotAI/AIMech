@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedMD (Heterogeneous Federated Learning via Public-Dataset Model Distillation) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedMD (Heterogeneous Federated Learning via Public-Dataset Model Distillation)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedMD (Heterogeneous Federated Learning via Public-Dataset Model Distillation)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedMdHeterogeneousFederatedLearningViaPublicDatasetModelDistillation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedMD, Heterogeneous Federated Learning via Model Distillation, Digest-and-Revisit Federated Model Distillation
+    </div>
+
+  <div class="detail-desc">
+    A model-heterogeneous federated learning framework (Li &amp; Wang 2019, Section 3, Algorithm 1, Figure 2) in which each client k in {1, ..., m} designs an arbitrary, privately held neural network architecture f_k, performs initial transfer learning by pre-training f_k on a shared public dataset D_0 = {x_i^0} and fine-tuning on its private dataset D_k, and then collaborates in each communication round through a four-stage public-logit protocol: (1) Communicate each client&#39;s class score (logit) predictions f_k(x_i^0) on D_0 to the server; (2) Aggregate the consensus logit vector f_tilde(x_i^0) = (1/m) sum_{k=1}^m f_k(x_i^0) on the server; (3) Distribute f_tilde(x_i^0) back to all clients; and (4) Digest &amp; Revisit by training each local model f_k to match the consensus logits f_tilde(x_i^0) on D_0 (Digest phase) followed by local fine-tuning epochs on private dataset D_k (Revisit phase).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning, Lin et al. 2020), which exchanges model weights and performs ensemble distillation on the server into global prototype architectures rather than communicating only public-dataset logits f_k(x_i^0) and distilling on each client via alternating Digest and Revisit phases; and distinct from FedGKT (AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning, He et al. 2020), which exchanges intermediate feature maps and private-sample logits between small edge encoders and a large server classifier.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r478-consensus-logit-digest-and-private-revisit-protocol-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By communicating only class score vectors f_k(x_i^0) evaluated on a shared public dataset D_0 and alternating between a Digest stage (distilling the server-averaged consensus logits f_tilde(x_i^0) = (1/m) sum_{k=1}^m f_k(x_i^0) into each client&#39;s model f_k on D_0) and a Revisit stage (fine-tuning f_k on private labeled data D_k), FedMD enables collaborative learning across clients whose neural network depths, channel widths, and architectures differ arbitrarily without revealing model weights or architecture intellectual property (Li &amp; Wang 2019, Section 3, Algorithm 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r478-primary-pdf">FedMD: Heterogenous Federated Learning via Model Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Algorithm 1, Figure 2), p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r478-transfer-learning-initialization-and-architecture-agnostic-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Initializing each heterogeneous client model via transfer learning (training to convergence on public dataset D_0 before fine-tuning on small private dataset D_k) combined with iterative Digest-and-Revisit consensus distillation achieves up to ~20 percentage points higher test accuracy than isolated private training across 10 structurally distinct 2-layer and 3-layer CNN architectures under both IID and non-IID class partitions (Li &amp; Wang 2019, Section 4, Tables 1-2, Figures 3-6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r478-primary-pdf">FedMD: Heterogenous Federated Learning via Model Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Tables 1-2, Figures 3-6), pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r478-cross-architecture-emnist-and-cifar-federated-distillation-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to heterogeneous cross-architecture federated classification using public MNIST with private EMNIST letters and public CIFAR-10 with private CIFAR-100 subsets across 10 distinct CNN architectures (Li &amp; Wang 2019, Section 4, Tables 1-2, Figures 3-6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r478-primary-pdf">FedMD: Heterogenous Federated Learning via Model Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Experiments, Tables 1-2, Figures 3-6), pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r478-shared-public-dataset-and-per-sample-logit-communication-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires a task-relevant shared public dataset D_0 accessible to all clients and incurs per-round communication proportional to |D_0| times the number of classes C (Li &amp; Wang 2019, Sections 3 &amp; 5, pp. 3 &amp; 7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r478-primary-pdf">FedMD: Heterogenous Federated Learning via Model Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Algorithm 1), p. 3, and Section 5 (Conclusion and Future Works), p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires a labeled or unlabeled public proxy dataset D_0 whose domain is sufficiently related to the clients&#39; private tasks.</li>
+      <li>Does not produce a single server-side model unless the server separately trains a student network on the consensus public logits.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedMD is a heterogeneous federated model distillation framework within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r478-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r478-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1910.03581.pdf" target="_blank" rel="noopener">FedMD: Heterogenous Federated Learning via Model Distillation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Daliang Li, Junpu Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1910.03581</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:15536354e635…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r478-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r478-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1910.03581" target="_blank" rel="noopener">FedMD: Heterogenous Federated Learning via Model Distillation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Daliang Li, Junpu Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1910.03581</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8d51dac49ddc…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r478-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r478-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1910.03581" target="_blank" rel="noopener">FedMD: Heterogenous Federated Learning via Model Distillation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Daliang Li, Junpu Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1910.03581</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f928cb9c01b5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:21:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:21:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedMdHeterogeneousFederatedLearningViaPublicDatasetModelDistillation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedMdHeterogeneousFederatedLearningViaPublicDatasetModelDistillation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
