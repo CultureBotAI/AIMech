@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">559 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">560 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">559</span> of <span id="totalCount">559</span>
+      Showing <span id="matchCount">560</span> of <span id="totalCount">560</span>
     </div>
   </div>
 </div>
@@ -4955,6 +4955,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:FedExpExtrapolatedServerAveragingForFederatedLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fedfa (federated feature augmentation and momentum-queued feature anchor loss) fedfafederatedfeatureaugmentationandmomentumqueuedanchorloss aimech:fedfafederatedfeatureaugmentationandmomentumqueuedanchorloss algorithms algorithm a federated learning algorithm for heterogeneous client distributions (zhou &amp; konukoglu 2023, sections 3.1-3.3, equations 4-15, lemma 1, algorithm 1) that integrates two complementary mechanisms: (1) probabilistic federated feature augmentation (ffa, equations 4-8), which inserts a parameter-free layer after each network block to normalize channel/token activations x_hat = (x - mu) / (sigma + epsilon) and re-modulate them with gaussian-perturbed statistics y = gamma o x_hat + beta where gamma ~ n(sigma, sigma_sigma^2) and beta ~ n(mu, sigma_mu^2), estimating variances online via ema buffers sigma_mu^{(t)} = alpha sigma_mu^{(t-1)} + (1 - alpha) gamma_mu^{(t)} sigma_{mu,b}^{(t)} with variance-proportional channel-adaptive weights gamma_{\cdot,c}^{(t)} = d * sigma_{\cdot,b,c}^{(t)} / sum_{i=1}^d sigma_{\cdot,b,i}^{(t)} (equation 8) and resetting local variance buffers each round to the aggregated server-side buffer sigma_*^{(r,0)} = (1 / |s_r|) sum_{k in s_r} sigma_k^{(r,e)}; and (2) momentum-queued federated feature anchor loss (ffal, equations 9-14), which aligns final features f_i and momentum-queued historical features q_{c,m} in q_k (|q_k| = c x m) with shared global class anchors a^{(r)} via the symmetric cosine-distance loss l_anchor(f_i, a_{y_i}) = 1 - cos(f_i, a_{y_i}) + (1 / m) sum_{m=1}^m (1 - cos(f_i, q_{y_i,m})) (equation 11, satisfying lemma 1 e[1 - cos(f, q_{c,m})] = 1 - cos(f, a_c) under a von mises-fisher distribution with mean direction a_c) and updates client anchors via ema before class-specific server aggregation a_c^{(r+1)} = (1 / |s_{r,c}|) sum_{k in s_{r,c}} a_{k,c}^{(r,e)} (equation 13). distinct from fedbn (aimech:fedbnfederatedlearningonnoniidfeaturesvialocalbatchnormalization, li et al. 2021), which keeps trainable batch normalization affine parameters strictly local without stochastic gaussian feature-statistic perturbation gamma ~ n(sigma, sigma_sigma^2), beta ~ n(mu, sigma_mu^2) or global variance buffer aggregation; and distinct from fedproto (aimech:fedprotofederatedprototypelearningacrossheterogeneousclients, tan et al. 2022), which penalizes euclidean distance ||f_i - c_j||_2^2 to empirical class centroids without intermediate gaussian feature augmentation or a c x m momentum feature queue. fedfa federated feature augmentation probabilistic federated feature augmentation with momentum-queued anchor loss normalizes intermediate cnn or transformer feature representations x_hat = (x - mu) / (sigma + epsilon) and applies stochastic affine re-modulation y = gamma o x_hat + beta with gamma ~ n(sigma, sigma_sigma^2) and beta ~ n(mu, sigma_mu^2) (equations 4-6), updating variance radii sigma_mu^{(t)}, sigma_sigma^{(t)} via channel-adaptive weights gamma_{\cdot,c}^{(t)} = d * sigma_{\cdot,b,c}^{(t)} / sum_{i=1}^d sigma_{\cdot,b,i}^{(t)} (equations 7-8) and synchronizing sigma_mu, sigma_sigma across clients at every communication round. proves in lemma 1 (appendix a.1, equations 16-18) that if l2-normalized queued features q_{c,m} follow a von mises-fisher distribution with unit mean direction a_c (so e[q_{c,m}] = gamma_d(kappa) a_c), then up to the concentration scale gamma_d(kappa) = i_{d/2}(kappa) / i_{d/2-1}(kappa), the expected cosine distance e_{q_{c,m}}[1 - cos(f, q_{c,m})] equals the anchor cosine distance 1 - cos(f, a_c), enabling variance-reduced online contrastive alignment via a c x m fifo queue updated by a momentum encoder theta_k^m &lt;- gamma theta_k^m + (1 - gamma) theta_k (equations 11-12). introduces local memory and compute overhead from maintaining a momentum feature extractor theta_k^m and a c x m feature queue q_k, along with extra communication overhead of 2 sum_{l=1}^l d_l + c d_l floats per round to exchange layer-wise variance buffers and class anchors. applied to federated visual classification under both dirichlet label distribution skew (cifar-10, cifar-100, tinyimagenet, femnist) and multi-domain feature shift (digits, office-caltech10) with cnn and vision transformer backbones. fedfa: federated feature augmentation fedfa: federated feature augmentation (arxiv abstract) fedfa: federated feature augmentation (crossref metadata) tianfei zhou ender konukoglu tianfei zhou ender konukoglu tianfei zhou ender konukoglu">
+        <td>
+          <a href="../curated/FedFaFederatedFeatureAugmentationAndMomentumQueuedAnchorLoss.html" style="font-weight: 600; font-size: 1rem;">FedFA (Federated Feature Augmentation and Momentum-Queued Feature Anchor Loss)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedFA, Federated Feature Augmentation…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A federated learning algorithm for heterogeneous client distributions (Zhou &amp; Konukoglu 2023, Sections 3.1-3.3, Equations 4-15, Lemma 1, Alg…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedFaFederatedFeatureAugmentationAndMomentumQueuedAnchorLoss</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
