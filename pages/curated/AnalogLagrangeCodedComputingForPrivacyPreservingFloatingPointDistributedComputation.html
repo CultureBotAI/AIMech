@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Analog Lagrange Coded Computing for Privacy-Preserving Floating-Point Distributed Computation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Analog Lagrange Coded Computing for Privacy-Preserving Floating-Point Distributed Computation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Analog Lagrange Coded Computing for Privacy-Preserving Floating-Point Distributed Computation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AnalogLagrangeCodedComputingForPrivacyPreservingFloatingPointDistributedComputation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Analog Lagrange Coded Computing, ALCC, Complex Roots-of-Unity Analog Lagrange Coded Computing
+    </div>
+
+  <div class="detail-desc">
+    An analog coded distributed computing algorithm that extends Lagrange Coded Computing from finite fields to real and complex floating-point domains by embedding K real-valued dataset partitions X_1, ..., X_K and T zero-mean Gaussian random noise masks Z_1, ..., Z_T into a degree-(K + T - 1) Lagrange interpolation polynomial u(z) evaluated at complex roots of unity beta_j = gamma * omega^(j-1) and distributed to N worker nodes at unit-circle roots of unity alpha_i = omega_N^i, enabling numerically stable recovery of degree-D polynomial evaluations f(X_j) from any D*(K + T - 1) + 1 surviving workers while bounding mutual-information and differential-privacy leakage against up to T colluding workers.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced as Analog Lagrange Coded Computing (ALCC) by Mahdi Soleymani, Hessam Mahdavifar, and A. Salman Avestimehr (IEEE Journal on Selected Areas in Information Theory, Vol. 2, No. 1, pp. 283-295, 2021; arXiv:2008.08565). Distinct from finite-field Lagrange Coded Computing (Yu et al., AISTATS 2019, Round 536), which requires fixed-point quantization into F_p and suffers from modular overflow on multi-term products; distinct from Berrut Approximated Coded Computing (Jahani-Nezhad &amp; Maddah-Ali, IEEE TPAMI 2023, Round 547), which uses barycentric rational interpolation for non-polynomial functions without T-colluding Gaussian privacy masks; and distinct from CodedPrivateML (So, Guler, &amp; Avestimehr, IEEE JSAIT 2021, Round 550), which uses stochastic rounding into a prime finite field F_p rather than analog floating-point complex roots of unity.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#alcc-complex-roots-of-unity-lagrange-encoding-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    ALCC encodes K real-valued dataset blocks X_1, ..., X_K in R^(m x d) together with T i.i.d. Gaussian noise matrices Z_1, ..., Z_T ~ N(0, sigma_n^2) into the complex Lagrange polynomial u(z) = sum_{j=1}^K X_j l_j(z) + sum_{j=K+1}^{K+T} Z_{j-K} l_j(z) using evaluation points beta_j = gamma * exp(2*pi*i*(j-1)/(K+T)) on a circle of radius gamma in C and worker points alpha_r = exp(2*pi*i*r/N) on the unit circle, so that any subset of at least D*(K + T - 1) + 1 workers evaluating a degree-D polynomial f(u(alpha_r)) suffices to interpolate f(X_j) with well-conditioned complex Vandermonde matrices.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r548-primary-pdf">Analog Lagrange Coded Computing</a></span>
+        <span>· <strong>Locator:</strong> Section III-A Encoding and Decoding &amp; Lemma 1, pp. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#alcc-analog-privacy-leakage-tradeoff-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Against any subset T_c of at most T colluding workers in the analog floating-point domain, ALCC bounds the mutual-information leakage I(X; U_{T_c}) and provides (epsilon, delta)-differential privacy guarantees as an explicit function of the noise variance sigma_n^2, the circle radius ratio gamma, and the singular values of the complex Cauchy-Vandermonde submatrices.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r548-primary-pdf">Analog Lagrange Coded Computing</a></span>
+        <span>· <strong>Locator:</strong> Section III-B Privacy Analysis &amp; Theorem 1-3, pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#alcc-accuracy-privacy-floating-point-precision-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Unlike finite-field Lagrange coding which achieves zero mutual information (perfect information-theoretic privacy) over F_p, ALCC over floating-point numbers exhibits a fundamental accuracy-privacy trade-off because increasing the Gaussian mask standard deviation sigma_n to strengthen privacy amplifies floating-point roundoff error in the decoded polynomial evaluation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r548-primary-pdf">Analog Lagrange Coded Computing</a></span>
+        <span>· <strong>Locator:</strong> Section IV Accuracy Analysis &amp; Theorem 4, pp. 8-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#alcc-privacy-preserving-distributed-polynomial-inference-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to privacy-preserving straggler-resilient distributed matrix multiplication and polynomial kernel classification over floating-point datasets without finite-field quantization.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r548-primary-pdf">Analog Lagrange Coded Computing</a></span>
+        <span>· <strong>Locator:</strong> Section V Experimental Results, pp. 10-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires complex arithmetic over roots of unity whenever real evaluation nodes would induce exponentially growing Vandermonde condition numbers.</li>
+      <li>Subject to a fundamental precision-privacy trade-off where large Gaussian mask variance degrades floating-point mantissa accuracy.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:FederatedLearning covers collaborative distributed learning paradigms, whereas ALCC is a specific complex-roots-of-unity Lagrange coded computing protocol for privacy-preserving straggler-resilient floating-point polynomial evaluation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r548-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r548-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2008.08565.pdf" target="_blank" rel="noopener">Analog Lagrange Coded Computing</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mahdi Soleymani, Hessam Mahdavifar, A. Salman Avestimehr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/jsait/SoleymaniMA21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cdf28d59fe6c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r548-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r548-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2008.08565" target="_blank" rel="noopener">Analog Lagrange Coded Computing (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mahdi Soleymani, Hessam Mahdavifar, A. Salman Avestimehr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2008.08565</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e9df90efcd68…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r548-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r548-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/jsait/SoleymaniMA21" target="_blank" rel="noopener">Analog Lagrange Coded Computing (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mahdi Soleymani, Hessam Mahdavifar, A. Salman Avestimehr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/jsait/SoleymaniMA21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:02c3e13ceba1…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:31:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:31:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AnalogLagrangeCodedComputingForPrivacyPreservingFloatingPointDistributedComputation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AnalogLagrangeCodedComputingForPrivacyPreservingFloatingPointDistributedComputation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

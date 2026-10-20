@@ -1,0 +1,100 @@
+id: AIMech:AnalogLagrangeCodedComputingForPrivacyPreservingFloatingPointDistributedComputation
+name: Analog Lagrange Coded Computing for Privacy-Preserving Floating-Point Distributed Computation
+concept_kind: algorithm
+review_status: DRAFT
+definition: An analog coded distributed computing algorithm that extends Lagrange Coded Computing from finite fields to real and complex floating-point domains by embedding K real-valued dataset partitions X_1, ..., X_K and T zero-mean Gaussian random noise masks Z_1, ..., Z_T into a degree-(K + T - 1) Lagrange interpolation polynomial u(z) evaluated at complex roots of unity beta_j = gamma * omega^(j-1) and distributed to N worker nodes at unit-circle roots of unity alpha_i = omega_N^i, enabling numerically stable recovery of degree-D polynomial evaluations f(X_j) from any D*(K + T - 1) + 1 surviving workers while bounding mutual-information and differential-privacy leakage against up to T colluding workers.
+identity_notes: Introduced as Analog Lagrange Coded Computing (ALCC) by Mahdi Soleymani, Hessam Mahdavifar, and A. Salman Avestimehr (IEEE Journal on Selected Areas in Information Theory, Vol. 2, No. 1, pp. 283-295, 2021; arXiv:2008.08565). Distinct from finite-field Lagrange Coded Computing (Yu et al., AISTATS 2019, Round 536), which requires fixed-point quantization into F_p and suffers from modular overflow on multi-term products; distinct from Berrut Approximated Coded Computing (Jahani-Nezhad & Maddah-Ali, IEEE TPAMI 2023, Round 547), which uses barycentric rational interpolation for non-polynomial functions without T-colluding Gaussian privacy masks; and distinct from CodedPrivateML (So, Guler, & Avestimehr, IEEE JSAIT 2021, Round 550), which uses stochastic rounding into a prime finite field F_p rather than analog floating-point complex roots of unity.
+aliases:
+- Analog Lagrange Coded Computing
+- ALCC
+- Complex Roots-of-Unity Analog Lagrange Coded Computing
+definition_evidence:
+- source_id: r548-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r548-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r548-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: alcc-complex-roots-of-unity-lagrange-encoding-mechanism
+  kind: mechanism
+  statement: ALCC encodes K real-valued dataset blocks X_1, ..., X_K in R^(m x d) together with T i.i.d. Gaussian noise matrices Z_1, ..., Z_T ~ N(0, sigma_n^2) into the complex Lagrange polynomial u(z) = sum_{j=1}^K X_j l_j(z) + sum_{j=K+1}^{K+T} Z_{j-K} l_j(z) using evaluation points beta_j = gamma * exp(2*pi*i*(j-1)/(K+T)) on a circle of radius gamma in C and worker points alpha_r = exp(2*pi*i*r/N) on the unit circle, so that any subset of at least D*(K + T - 1) + 1 workers evaluating a degree-D polynomial f(u(alpha_r)) suffices to interpolate f(X_j) with well-conditioned complex Vandermonde matrices.
+  evidence:
+  - source_id: r548-primary-pdf
+    locator: Section III-A Encoding and Decoding & Lemma 1, pp. 3-5
+    relation: supports
+- claim_id: alcc-analog-privacy-leakage-tradeoff-scope
+  kind: scope
+  statement: Against any subset T_c of at most T colluding workers in the analog floating-point domain, ALCC bounds the mutual-information leakage I(X; U_{T_c}) and provides (epsilon, delta)-differential privacy guarantees as an explicit function of the noise variance sigma_n^2, the circle radius ratio gamma, and the singular values of the complex Cauchy-Vandermonde submatrices.
+  evidence:
+  - source_id: r548-primary-pdf
+    locator: Section III-B Privacy Analysis & Theorem 1-3, pp. 5-8
+    relation: supports
+- claim_id: alcc-accuracy-privacy-floating-point-precision-limitation
+  kind: limitation
+  statement: Unlike finite-field Lagrange coding which achieves zero mutual information (perfect information-theoretic privacy) over F_p, ALCC over floating-point numbers exhibits a fundamental accuracy-privacy trade-off because increasing the Gaussian mask standard deviation sigma_n to strengthen privacy amplifies floating-point roundoff error in the decoded polynomial evaluation.
+  evidence:
+  - source_id: r548-primary-pdf
+    locator: Section IV Accuracy Analysis & Theorem 4, pp. 8-10
+    relation: supports
+- claim_id: alcc-privacy-preserving-distributed-polynomial-inference-application
+  kind: application
+  statement: Applied to privacy-preserving straggler-resilient distributed matrix multiplication and polynomial kernel classification over floating-point datasets without finite-field quantization.
+  evidence:
+  - source_id: r548-primary-pdf
+    locator: Section V Experimental Results, pp. 10-11
+    relation: supports
+evidence_sources:
+- source_id: r548-primary-pdf
+  title: Analog Lagrange Coded Computing
+  authors: &id001
+  - Mahdi Soleymani
+  - Hessam Mahdavifar
+  - A. Salman Avestimehr
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2008.08565.pdf
+  persistent_id: https://dblp.org/rec/journals/jsait/SoleymaniMA21
+  version: IEEE Journal on Selected Areas in Information Theory (2021) (1327996 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:31:00Z'
+  sha256: cdf28d59fe6c8658726ecd0850627e60e96a8df12d0a696f26fedf58c6e5189f
+- source_id: r548-arxiv-abs
+  title: Analog Lagrange Coded Computing (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2008.08565
+  persistent_id: https://arxiv.org/abs/2008.08565
+  version: arXiv abstract page (7572 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:31:00Z'
+  sha256: e9df90efcd68c838325901b2383a22347d8d22c3c5f583eda3caba33fcb1f10a
+- source_id: r548-metadata-cr
+  title: Analog Lagrange Coded Computing (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/jsait/SoleymaniMA21
+  persistent_id: https://dblp.org/rec/journals/jsait/SoleymaniMA21
+  version: Crossref API work record (3901 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:31:00Z'
+  sha256: 02c3e13ceba1029ea65b83226c846880173f01e101ff731455e8fd64f996497e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning covers collaborative distributed learning paradigms, whereas ALCC is a specific complex-roots-of-unity Lagrange coded computing protocol for privacy-preserving straggler-resilient floating-point polynomial evaluation.
+limitations:
+- Requires complex arithmetic over roots of unity whenever real evaluation nodes would induce exponentially growing Vandermonde condition numbers.
+- Subject to a fundamental precision-privacy trade-off where large Gaussian mask variance degrades floating-point mantissa accuracy.
+curation:
+  created_at: '2026-10-19T10:31:00Z'
+  updated_at: '2026-10-19T10:31:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
