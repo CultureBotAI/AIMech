@@ -1,0 +1,104 @@
+id: AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+name: Fromage (Frobenius Matched Gradient Descent)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A layerwise relative-trust optimization algorithm for deep neural networks (Algorithm 1) derived from the deep relative trust gradient breakdown model and neural network descent lemma (Lemma 2) that updates each layer's weight matrix W_l (l = 1, ..., L) with gradient g_l = grad_{W_l} L(W) via W_l <- (1 / sqrt(1 + eta^2)) [W_l - eta (||W_l||_F / ||g_l||_F) g_l], inducing a fixed relative Frobenius perturbation ||Delta W_l||_F / ||W_l||_F = eta per step while preventing compounding norm growth in scale-invariant layers.
+identity_notes: 'Distinct from LARS (Round 594) and LAMB (Round 593) by deriving layerwise relative step scaling from a multiplicative compositional perturbation bound on multilayer perceptrons and their layer-to-output Jacobians (Theorem 1 & Modelling Assumption 1: Deep Relative Trust) together with the exact Pythagorean normalization prefactor 1 / sqrt(1 + eta^2), eliminating weight-decay hyperparameter tuning for rescaling-invariant layers.'
+aliases:
+- Fromage Optimizer
+- Frobenius Matched Gradient Descent
+- Deep Relative Trust Gradient Descent (Fromage)
+definition_evidence:
+- source_id: r599-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r599-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r599-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r599-compositional-perturbation-bound-and-deep-relative-trust-lemma
+  kind: mechanism
+  statement: For an L-layer multilayer perceptron with (alpha, beta)-transmitting nonlinearity and matrices of condition number at most kappa, Theorem 1 bounds relative functional change by ((beta / alpha) kappa^2)^L [prod_{k=1}^L (1 + ||Delta W_k||_F / ||W_k||_F) - 1] and relative Jacobian change analogously (Section 3 & Appendix B, pp. 4, 14-17), which under Deep Relative Trust guarantees loss descent for layerwise perturbations ||Delta W_l||_F / ||W_l||_F <= eta whenever eta < (1 + cos theta_l)^{1/L} - 1 (Lemma 2, pp. 6, 13).
+  evidence:
+  - source_id: r599-primary-pdf
+    locator: Section 3-4, Theorem 1, Lemma 1-2, & Modelling Assumption 1, pp. 4-6; Appendix A-B, pp. 13-17
+    relation: supports
+- claim_id: c-r599-pythagorean-prefactor-stability-on-scale-invariant-layers
+  kind: mechanism
+  statement: In batch-normalized or spectrally normalized layers that are invariant to W_l -> (1 + alpha) W_l, the gradient g_l is orthogonal to W_l, so unregularized LARS updates Delta W_l = -eta (||W_l||_F / ||g_l||_F) g_l compound weight norms by ||W_l + Delta W_l||_F^2 = (1 + eta^2) ||W_l||_F^2 at every step; Fromage's prefactor 1 / sqrt(1 + eta^2) exactly cancels this Pythagorean growth without a weight-decay hyperparameter (Section 5 & Figure 2, p. 7).
+  evidence:
+  - source_id: r599-primary-pdf
+    locator: Section 5, Eq. (5)-(6), Algorithm 1, & Figure 2, p. 7
+    relation: supports
+- claim_id: c-r599-deep-mlp-and-single-lr-benchmark-training
+  kind: application
+  statement: Fromage trains vanilla ReLU multilayer perceptrons (without batch normalization or skip connections) up to depth L = 50 on MNIST where SGD and Adam fail beyond depth 25 (Figure 3, p. 8), and using a single untuned default learning rate eta = 0.01 across CIFAR-10 ResNet-18, ImageNet ResNet-50, CIFAR-10 cGAN (FID 16 +/- 1 vs Adam 23.7 +/- 0.7), and WikiText-2 Transformer matches or outperforms tuned SGD and Adam baselines (Section 6, Table 1-2, pp. 8-9, 18).
+  evidence:
+  - source_id: r599-primary-pdf
+    locator: Section 6, Figures 3-4 & Table 1, pp. 8-9; Appendix C & Table 2, pp. 18-19
+    relation: supports
+- claim_id: c-r599-depth-dependent-step-size-and-norm-cap-regularization
+  kind: limitation
+  statement: On very deep skip-free multilayer perceptrons, Lemma 2 and Figure 3 require decreasing eta as depth L grows (since (1 + cos theta_l)^{1/L} - 1 = O(1 / L)), and on CIFAR-10 ResNet-18 and WikiText-2 Transformer benchmarks Fromage heavily overfits the training set unless each layer's Frobenius norm is constrained not to exceed its initial norm.
+  evidence:
+  - source_id: r599-primary-pdf
+    locator: Section 6-7, Figure 3, pp. 8-9; Appendix C, p. 19
+    relation: supports
+evidence_sources:
+- source_id: r599-primary-pdf
+  title: On the distance between two neural networks and the stability of learning
+  authors: &id001
+  - Jeremy Bernstein
+  - Arash Vahdat
+  - Yisong Yue
+  - Ming-Yu Liu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2002.03432.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/BernsteinVY020
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020) (arXiv:2002.03432) (2020) (577673 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:22:00Z'
+  sha256: 459ff29104973f3fd4e0fe2a55858d0847d80e53d7f3b9a6b08c641ef94b85e6
+- source_id: r599-arxiv-abs
+  title: On the distance between two neural networks and the stability of learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2002.03432
+  persistent_id: https://arxiv.org/abs/2002.03432
+  version: arXiv abstract page (6670 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:22:00Z'
+  sha256: d3ee155a3dd4d61a5a61a0094a639b1defd1fd919bf22feb36476ab7ccf46941
+- source_id: r599-metadata-cr
+  title: On the distance between two neural networks and the stability of learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/BernsteinVY020
+  persistent_id: https://dblp.org/rec/conf/nips/BernsteinVY020
+  version: Crossref API work record (1876 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:22:00Z'
+  sha256: e4161fbb79047dc58c64d751d6c56172e0a7b7a406d33dcb1530049bdf4c7e43
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Fromage is a layerwise relative-trust gradient descent algorithm derived from compositional perturbation bounds on deep artificial neural networks.
+- target: AIO:BatchNormalizationLayer
+  relation: related_match
+  rationale: Fromage's 1 / sqrt(1 + eta^2) prefactor specifically corrects the compounding weight-norm growth caused by orthogonal gradients in batch-normalized and spectrally normalized neural network layers.
+limitations:
+- Deep Relative Trust is a modelling assumption that sets nonlinearity transmission parameters alpha = beta = 1/2, matrix condition numbers kappa = 1, and omits the output loss derivative dL/df.
+- Without bounding layer Frobenius norms by their initial values, Fromage can severely overfit training sets on ResNet-18 CIFAR-10 and WikiText-2 Transformer tasks.
+curation:
+  created_at: '2026-10-19T11:22:00Z'
+  updated_at: '2026-10-19T11:22:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

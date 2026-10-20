@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fromage (Frobenius Matched Gradient Descent) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Fromage (Frobenius Matched Gradient Descent)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Fromage (Frobenius Matched Gradient Descent)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FromageFrobeniusMatchedGradientDescentOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Fromage Optimizer, Frobenius Matched Gradient Descent, Deep Relative Trust Gradient Descent (Fromage)
+    </div>
+
+  <div class="detail-desc">
+    A layerwise relative-trust optimization algorithm for deep neural networks (Algorithm 1) derived from the deep relative trust gradient breakdown model and neural network descent lemma (Lemma 2) that updates each layer&#39;s weight matrix W_l (l = 1, ..., L) with gradient g_l = grad_{W_l} L(W) via W_l &lt;- (1 / sqrt(1 + eta^2)) [W_l - eta (||W_l||_F / ||g_l||_F) g_l], inducing a fixed relative Frobenius perturbation ||Delta W_l||_F / ||W_l||_F = eta per step while preventing compounding norm growth in scale-invariant layers.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from LARS (Round 594) and LAMB (Round 593) by deriving layerwise relative step scaling from a multiplicative compositional perturbation bound on multilayer perceptrons and their layer-to-output Jacobians (Theorem 1 &amp; Modelling Assumption 1: Deep Relative Trust) together with the exact Pythagorean normalization prefactor 1 / sqrt(1 + eta^2), eliminating weight-decay hyperparameter tuning for rescaling-invariant layers.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r599-compositional-perturbation-bound-and-deep-relative-trust-lemma</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For an L-layer multilayer perceptron with (alpha, beta)-transmitting nonlinearity and matrices of condition number at most kappa, Theorem 1 bounds relative functional change by ((beta / alpha) kappa^2)^L [prod_{k=1}^L (1 + ||Delta W_k||_F / ||W_k||_F) - 1] and relative Jacobian change analogously (Section 3 &amp; Appendix B, pp. 4, 14-17), which under Deep Relative Trust guarantees loss descent for layerwise perturbations ||Delta W_l||_F / ||W_l||_F &lt;= eta whenever eta &lt; (1 + cos theta_l)^{1/L} - 1 (Lemma 2, pp. 6, 13).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r599-primary-pdf">On the distance between two neural networks and the stability of learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3-4, Theorem 1, Lemma 1-2, &amp; Modelling Assumption 1, pp. 4-6; Appendix A-B, pp. 13-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r599-pythagorean-prefactor-stability-on-scale-invariant-layers</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In batch-normalized or spectrally normalized layers that are invariant to W_l -&gt; (1 + alpha) W_l, the gradient g_l is orthogonal to W_l, so unregularized LARS updates Delta W_l = -eta (||W_l||_F / ||g_l||_F) g_l compound weight norms by ||W_l + Delta W_l||_F^2 = (1 + eta^2) ||W_l||_F^2 at every step; Fromage&#39;s prefactor 1 / sqrt(1 + eta^2) exactly cancels this Pythagorean growth without a weight-decay hyperparameter (Section 5 &amp; Figure 2, p. 7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r599-primary-pdf">On the distance between two neural networks and the stability of learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5, Eq. (5)-(6), Algorithm 1, &amp; Figure 2, p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r599-deep-mlp-and-single-lr-benchmark-training</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Fromage trains vanilla ReLU multilayer perceptrons (without batch normalization or skip connections) up to depth L = 50 on MNIST where SGD and Adam fail beyond depth 25 (Figure 3, p. 8), and using a single untuned default learning rate eta = 0.01 across CIFAR-10 ResNet-18, ImageNet ResNet-50, CIFAR-10 cGAN (FID 16 +/- 1 vs Adam 23.7 +/- 0.7), and WikiText-2 Transformer matches or outperforms tuned SGD and Adam baselines (Section 6, Table 1-2, pp. 8-9, 18).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r599-primary-pdf">On the distance between two neural networks and the stability of learning</a></span>
+        <span>· <strong>Locator:</strong> Section 6, Figures 3-4 &amp; Table 1, pp. 8-9; Appendix C &amp; Table 2, pp. 18-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r599-depth-dependent-step-size-and-norm-cap-regularization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On very deep skip-free multilayer perceptrons, Lemma 2 and Figure 3 require decreasing eta as depth L grows (since (1 + cos theta_l)^{1/L} - 1 = O(1 / L)), and on CIFAR-10 ResNet-18 and WikiText-2 Transformer benchmarks Fromage heavily overfits the training set unless each layer&#39;s Frobenius norm is constrained not to exceed its initial norm.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r599-primary-pdf">On the distance between two neural networks and the stability of learning</a></span>
+        <span>· <strong>Locator:</strong> Section 6-7, Figure 3, pp. 8-9; Appendix C, p. 19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Deep Relative Trust is a modelling assumption that sets nonlinearity transmission parameters alpha = beta = 1/2, matrix condition numbers kappa = 1, and omits the output loss derivative dL/df.</li>
+      <li>Without bounding layer Frobenius norms by their initial values, Fromage can severely overfit training sets on ResNet-18 CIFAR-10 and WikiText-2 Transformer tasks.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Fromage is a layerwise relative-trust gradient descent algorithm derived from compositional perturbation bounds on deep artificial neural networks.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/BatchNormalizationLayer.html" style="font-weight: 600;"><code>AIO:BatchNormalizationLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">BatchNormalization Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Fromage&#39;s 1 / sqrt(1 + eta^2) prefactor specifically corrects the compounding weight-norm growth caused by orthogonal gradients in batch-normalized and spectrally normalized neural network layers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r599-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r599-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2002.03432.pdf" target="_blank" rel="noopener">On the distance between two neural networks and the stability of learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jeremy Bernstein, Arash Vahdat, Yisong Yue, Ming-Yu Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/BernsteinVY020</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:459ff2910497…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r599-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r599-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2002.03432" target="_blank" rel="noopener">On the distance between two neural networks and the stability of learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jeremy Bernstein, Arash Vahdat, Yisong Yue, Ming-Yu Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2002.03432</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d3ee155a3dd4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r599-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r599-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/BernsteinVY020" target="_blank" rel="noopener">On the distance between two neural networks and the stability of learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jeremy Bernstein, Arash Vahdat, Yisong Yue, Ming-Yu Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/BernsteinVY020</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e4161fbb7904…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:22:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:22:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FromageFrobeniusMatchedGradientDescentOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FromageFrobeniusMatchedGradientDescentOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
