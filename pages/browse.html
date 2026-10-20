@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1530</strong> artificial intelligence concepts, comprising <strong>1088</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1531</strong> artificial intelligence concepts, comprising <strong>1089</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1530)</option>
-        <option value="curated">Curated AIMech (1088)</option>
+        <option value="all">All Origins (1531)</option>
+        <option value="curated">Curated AIMech (1089)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (777)</option>
+          <option value="algorithm">Algorithms (778)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (45)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1530</span> of <span id="totalCount">1530</span>
+      Showing <span id="matchCount">1531</span> of <span id="totalCount">1531</span>
     </div>
   </div>
 </div>
@@ -8902,6 +8902,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="diff pruning diffpruning aimech:diffpruning algorithms algorithm a parameter-efficient transfer learning algorithm that formulates task-specific fine-tuning as learning a sparse difference (&#39;diff&#39;) vector delta_tau added to frozen shared pre-trained parameters theta via theta_tau = theta + delta_tau. to learn which coordinates to modify during training, diff pruning decomposes delta_tau = z_tau (*) w_tau using a stretched hard-concrete gate z_tau = min(1, max(0, s_tau * (r - l) + l)) with s_tau = sigma(log u - log(1 - u) + alpha_tau), u ~ u(0, 1), l &lt; 0, and r &gt; 1, and optimizes a closed-form differentiable expected l0-norm penalty e[||delta_tau||_0] = sum_{i=1}^d sigma(alpha_{tau,i} - log(-l/r)). in its structured diff pruning extension, parameters are partitioned into g matrix/bias groups {g(1), ..., g(g)} with per-group gates z_tau^j so delta_{tau,i}^j = z_{tau,i} * z_tau^j * w_{tau,i} and e[||delta_tau||_0] = sum_{j=1}^g sum_{i in g(j)} sigma(alpha_{tau,i} - log(-l/r)) * sigma(alpha_tau^j - log(-l/r)). after training, exact budget control (e.g., t% = 0.5% nonzeros) is achieved by projecting delta_tau onto the target l0-ball via magnitude pruning on delta_tau followed by fixed-mask fine-tuning. distinct from standard weight pruning and movement pruning (aimech:movementpruning), which mask the pre-trained parameters theta directly (setting masked weights to zero) rather than masking the additive task difference delta_tau = theta_tau - theta (which preserves the unpruned pre-trained value theta_i when delta_{tau,i} = 0). also distinct from low-rank additive adapters such as lora (aimech:lowrankadaptation), which constrain delta_tau to a low-rank matrix product rather than an l0-sparse coordinate/group-gated difference vector. structured diff pruning adaptive diff pruning l0-regularized diff pruning difference vector pruning for transfer learning diff pruning relaxes the binary mask on delta_tau = z_tau (*) w_tau using a stretched hard-concrete distribution on (l, r)^d (with l = -1.5, r = 1.5, w_tau initialized to 0, and alpha_tau initialized to 5), yielding the differentiable expected l0 penalty sum_{i=1}^d sigma(alpha_{tau,i} - log(-l/r)); structured diff pruning multiplies each element mask by a matrix/bias-group gate z_tau^j (393 groups in bert_large), increasing the average percentage of completely zeroed parameter groups at 0.5% sparsity from 6.3% (non-structured) to 28.1% (structured) (table 3). by projecting delta_tau onto an exact l0-ball via magnitude pruning and fine-tuning with the nonzero mask fixed, structured diff pruning matches full fine-tuning of bert_large on the glue test server (80.6 average score vs. 80.6 for full fine-tuning, 79.4 for unstructured diff pruning, and 75.5 for non-adaptive diff pruning) while modifying only 0.5% of parameters per task (13.6 mb storage for positions + weights vs. 49.0 mb for 3.6% adapters and 1297.0 mb for full fine-tuning), and achieves 93.2 f1 on squad v1.1 at 1.0% sparsity vs. 90.8 f1 for full fine-tuning. during training, diff pruning requires extra gpu memory to store and optimize the auxiliary log-alpha parameters alpha_tau alongside the dense weight vector w_tau, runs approximately 1.5x to 2x slower per minibatch than standard fine-tuning, and requires storing integer coordinate indices alongside nonzero float weights for each task&#39;s compressed diff vector. parameter-efficient transfer learning with diff pruning parameter-efficient transfer learning with diff pruning (arxiv abstract) parameter-efficient transfer learning with diff pruning (crossref metadata) demi guo alexander m. rush yoon kim demi guo alexander m. rush yoon kim demi guo alexander m. rush yoon kim">
+        <td>
+          <a href="curated/DiffPruning.html" style="font-weight: 600; font-size: 1rem;">Diff Pruning</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Structured Diff Pruning, Adaptive Diff Pruning…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A parameter-efficient transfer learning algorithm that formulates task-specific fine-tuning as learning a sparse difference (&#39;diff&#39;) vector…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:DiffPruning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>

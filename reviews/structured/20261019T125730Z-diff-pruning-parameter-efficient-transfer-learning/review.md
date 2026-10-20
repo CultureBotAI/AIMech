@@ -1,0 +1,358 @@
+# Scientific author self-review of Diff Pruning
+
+- Review: 20261019T125730Z-diff-pruning-parameter-efficient-transfer-learning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T12:57:00Z
+- Finished UTC: 2026-10-19T12:57:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Diff Pruning as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/DiffPruning.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:DiffPruning
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 8b25f73edf763a6d8ef38be440e837ae4a7ceac3.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DiffPruning | data/curated/DiffPruning.yaml | maintained | Diff Pruning |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:DiffPruning | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:DiffPruning | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:DiffPruning | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:DiffPruning | Validated history sidecar files. |
+| python3 diff-pruning-parameter-efficient-transfer-learning-boundaries.py | passed | True | AIMech:DiffPruning | [PASS] Round 694 Diff Pruning (Guo et al., ACL 2021): p_init(alpha=5)=0.9933, E[L0]_struct=2.878, zero_groups(struct=3 &gt; unstruct=0), mse_struct=0.0001 &lt;&lt; mse_non_adap=0.4698 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:DiffPruning.
+
+Diff Pruning is a distinct concept.
+
+Distinct from standard weight pruning and Movement Pruning (AIMech:MovementPruning), which mask the pre-trained parameters theta directly (setting masked weights to zero) rather than masking the additive task difference delta_tau = theta_tau - theta (which preserves the unpruned pre-trained value theta_i when delta_{tau,i} = 0). Also distinct from low-rank additive adapters such as LoRA (AIMech:LowRankAdaptation), which constrain delta_tau to a low-rank matrix product rather than an L0-sparse coordinate/group-gated difference vector.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:DiffPruning.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:DiffPruning.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in diff-pruning-parameter-efficient-transfer-learning-boundaries.py passed with exit code 0: [PASS] Round 694 Diff Pruning (Guo et al., ACL 2021): p_init(alpha=5)=0.9933, E[L0]_struct=2.878, zero_groups(struct=3 &gt; unstruct=0), mse_struct=0.0001 &lt;&lt; mse_non_adap=0.4698
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:DiffPruning.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T125700Z-diff-pruning-parameter-efficient-transfer-learning.json | supports | No normalized identity match for AIMech:DiffPruning across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/diff-pruning-parameter-efficient-transfer-learning-boundaries.py | supports | All constructed boundary assertions in diff-pruning-parameter-efficient-transfer-learning-boundaries.py passed with exit code 0: [PASS] Round 694 Diff Pruning (Guo et al., ACL 2021): p_init(alpha=5)=0.9933, E[L0]_struct=2.878, zero_groups(struct=3 &gt; unstruct=0), mse_struct=0.0001 &lt;&lt; mse_non_adap=0.4698 |
+| r694-primary-pdf | https://arxiv.org/pdf/2012.07463.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (ACL/IJCNLP 2021) (2021)) read and verified. |
+| r694-arxiv-abs | https://arxiv.org/abs/2012.07463; arXiv abstract | supports | arXiv abstract read and verified. |
+| r694-metadata-cr | https://dblp.org/search/publ/api?q=Parameter+Efficient+Transfer+Learning+Diff+Pruning+Guo&amp;format=xml; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DiffPruning in Round 694.
+- All pages of Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (ACL/IJCNLP 2021) (2021) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T125730Z-diff-pruning-parameter-efficient-transfer-learning
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Diff Pruning
+started_at: '2026-10-19T12:57:00Z'
+finished_at: '2026-10-19T12:57:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:DiffPruning
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 59th Annual Meeting of the Association for Computational Linguistics and
+    the 11th International Joint Conference on Natural Language Processing (ACL/IJCNLP
+    2021) (2021) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Diff Pruning as a distinct DRAFT algorithm. All three claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 8b25f73edf763a6d8ef38be440e837ae4a7ceac3
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/SparseLearning.yaml
+    sha256: 0e45f464899bee39df6c8af85e3e0fccba4062f39c73e35c8e884113f78ce3c5
+    role: context
+  - path: data/curated/DiffPruning.yaml
+    sha256: e4ab73ce590e1a09e2d5f4dd941a2025a1d1d4d4fe19f72cc481640a013e9479
+    role: target
+  - path: research/discovery/20261019T125700Z-diff-pruning-parameter-efficient-transfer-learning.json
+    sha256: ebad81913217669c660896242a529546dfbce32f2dfe62d9e656a5bdeb1ead61
+    role: context
+  - path: research/discovery/diff-pruning-parameter-efficient-transfer-learning-boundaries.py
+    sha256: f4ec471cc5475c3aea3dd58a6a6347a6ae24e774aae1c115d8a591b15694cd5f
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DiffPruning
+  path: data/curated/DiffPruning.yaml
+  label: Diff Pruning
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DiffPruning.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/DiffPruning.yaml and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:DiffPruning'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DiffPruning
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiffPruning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiffPruning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiffPruning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiffPruning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 diff-pruning-parameter-efficient-transfer-learning-boundaries.py
+  command: python3 research/discovery/diff-pruning-parameter-efficient-transfer-learning-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiffPruning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 694 Diff Pruning (Guo et al., ACL 2021): p_init(alpha=5)=0.9933,
+    E[L0]_struct=2.878, zero_groups(struct=3 > unstruct=0), mse_struct=0.0001 << mse_non_adap=0.4698'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T125700Z-diff-pruning-parameter-efficient-transfer-learning.json
+  accessed_at: '2026-10-19T12:57:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:DiffPruning across AIO and curated
+    corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T12:57:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/diff-pruning-parameter-efficient-transfer-learning-boundaries.py
+  accessed_at: '2026-10-19T12:57:00Z'
+  snapshot_sha256: f4ec471cc5475c3aea3dd58a6a6347a6ae24e774aae1c115d8a591b15694cd5f
+  support: supports
+  summary: 'All constructed boundary assertions in diff-pruning-parameter-efficient-transfer-learning-boundaries.py
+    passed with exit code 0: [PASS] Round 694 Diff Pruning (Guo et al., ACL 2021):
+    p_init(alpha=5)=0.9933, E[L0]_struct=2.878, zero_groups(struct=3 > unstruct=0),
+    mse_struct=0.0001 << mse_non_adap=0.4698'
+- evidence_id: r694-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2012.07463.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T12:57:00Z'
+  snapshot_sha256: e4c9f421b65ab494219f8e0f3928b6f3c898a6875a18ffc1beae3c9219bb036b
+  support: supports
+  summary: Full-text PDF (Proceedings of the 59th Annual Meeting of the Association
+    for Computational Linguistics and the 11th International Joint Conference on Natural
+    Language Processing (ACL/IJCNLP 2021) (2021)) read and verified.
+- evidence_id: r694-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2012.07463
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T12:57:00Z'
+  snapshot_sha256: 8777622955e9889aa17bde9ed7d76a35b6643ab973180588279cd08c6fb1dff4
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r694-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/search/publ/api?q=Parameter+Efficient+Transfer+Learning+Diff+Pruning+Guo&format=xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T12:57:00Z'
+  snapshot_sha256: 3182c390e22cc415c79c6e6b59f5d521ee91300621fcfed1844487f63271892b
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:DiffPruning
+  evidence_ids:
+  - identity
+  - r694-primary-pdf
+  - r694-arxiv-abs
+  - r694-metadata-cr
+  summary: Diff Pruning is a distinct concept.
+  details: Distinct from standard weight pruning and Movement Pruning (AIMech:MovementPruning),
+    which mask the pre-trained parameters theta directly (setting masked weights to
+    zero) rather than masking the additive task difference delta_tau = theta_tau -
+    theta (which preserves the unpruned pre-trained value theta_i when delta_{tau,i}
+    = 0). Also distinct from low-rank additive adapters such as LoRA (AIMech:LowRankAdaptation),
+    which constrain delta_tau to a low-rank matrix product rather than an L0-sparse
+    coordinate/group-gated difference vector.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:DiffPruning
+  evidence_ids:
+  - mapping
+  - r694-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:DiffPruning
+  evidence_ids:
+  - r694-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in diff-pruning-parameter-efficient-transfer-learning-boundaries.py
+    passed with exit code 0: [PASS] Round 694 Diff Pruning (Guo et al., ACL 2021):
+    p_init(alpha=5)=0.9933, E[L0]_struct=2.878, zero_groups(struct=3 > unstruct=0),
+    mse_struct=0.0001 << mse_non_adap=0.4698'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:DiffPruning
+  evidence_ids:
+  - identity
+  - mapping
+  - r694-primary-pdf
+  - r694-arxiv-abs
+  - r694-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DiffPruning in Round 694.
+- All pages of Proceedings of the 59th Annual Meeting of the Association for Computational
+  Linguistics and the 11th International Joint Conference on Natural Language Processing
+  (ACL/IJCNLP 2021) (2021) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
