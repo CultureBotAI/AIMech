@@ -1,0 +1,103 @@
+id: AIMech:EPREfficientPromptRetrievalForInContextLearning
+name: EPR Efficient Prompt Retrieval for In-Context Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A supervised dense prompt retrieval method for in-context learning that first filters candidate training demonstrations for each training example using an unsupervised retriever, scores each candidate by the conditional probability of the gold target sequence under a scoring language model conditioned on that candidate demonstration and the input, labels the highest- and lowest-scoring candidates as positive and hard-negative examples, and trains a dual-encoder bi-encoder via contrastive InfoNCE loss for fast maximum inner-product search at inference time.
+identity_notes: Distinct from unsupervised or transfer sentence-embedding nearest-neighbor retrieval (AIMech:KATEkNNAugmentedInContextExampleSelection), which does not use language-model conditional decoding probabilities to supervise the retriever. Also distinct from determinantal point process subset selection (CEIL), which models pairwise diversity and joint subset interactions across multiple exemplars rather than scoring individual prompt candidates independently.
+aliases:
+- EPR
+- Efficient Prompt Retrieval
+- LM-Scored Contrastive Dense Prompt Retrieval
+definition_evidence:
+- source_id: r735-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r735-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r735-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: epr-scoring-lm-candidate-labeling-mechanism
+  kind: mechanism
+  statement: For each training pair (x, y), EPR retrieves a candidate pool E_bar of L examples using an unsupervised retriever on y, evaluates each candidate e_l independently using a scoring language model g_hat via s(e_l) = Prob_{g_hat}(y | e_l, x), and designates the top-k candidates as positive prompts E_pos and the bottom-k candidates as hard-negative prompts E_neg.
+  evidence:
+  - source_id: r735-primary-pdf
+    locator: Section 3.1, p. 3, Figure 2
+    relation: supports
+- claim_id: epr-contrastive-biencoder-mips-mechanism
+  kind: mechanism
+  statement: EPR trains an input encoder E_X(x) and a prompt encoder E_P(e) with inner-product similarity sim(x, e) = E_X(x)^T E_P(e) using an in-batch contrastive negative log-likelihood objective over positive and hard-negative examples, enabling sub-linear test-time prompt retrieval via FAISS maximum inner-product search.
+  evidence:
+  - source_id: r735-primary-pdf
+    locator: Section 3.2, p. 4, Equation 1
+    relation: supports
+- claim_id: epr-semantic-parsing-and-lm-proxy-application
+  kind: application
+  statement: EPR is applied to few-shot semantic parsing and meaning-representation generation on BREAK, MTOP, and SMCalFlow, where a retriever trained using a smaller proxy scoring language model (GPT-Neo 2.7B) transfers effectively to larger inference models including GPT-J, Codex, and GPT-3.
+  evidence:
+  - source_id: r735-primary-pdf
+    locator: Section 4.1-4.4, pp. 4-7, Tables 2-5
+    relation: supports
+  - source_id: r735-metadata-cr
+    locator: DBLP bibliographic record conf/naacl/RubinHB22
+    relation: supports
+- claim_id: epr-independent-singleton-scoring-limitation
+  kind: limitation
+  statement: Because EPR scores each candidate demonstration independently as a single-shot prompt during training data construction while concatenating multiple top-ranked demonstrations at inference time, it does not model redundancy or higher-order interactions among the jointly selected in-context examples.
+  evidence:
+  - source_id: r735-primary-pdf
+    locator: Section 3.2, p. 4
+    relation: supports
+evidence_sources:
+- source_id: r735-primary-pdf
+  title: Learning To Retrieve Prompts for In-Context Learning
+  authors: &id001
+  - Ohad Rubin
+  - Jonathan Herzig
+  - Jonathan Berant
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2112.08633.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Learning+To+Retrieve+Prompts+for+In-Context+Learning+Rubin&h=5&format=xml
+  version: 'Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT 2022) (2022) (1194839 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:38:00Z'
+  sha256: d18479bda48c0f1bfc6bc05cdf3496aef400ee2c40970bf72bf0d3ccfd0f928b
+- source_id: r735-arxiv-abs
+  title: Learning To Retrieve Prompts for In-Context Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2112.08633
+  persistent_id: https://arxiv.org/abs/2112.08633
+  version: arXiv abstract page (6558 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:38:00Z'
+  sha256: 3d473a7c3699ed808130a4387e1c05b0e8db360a90997556b7e24c9cbbdd60d9
+- source_id: r735-metadata-cr
+  title: Learning To Retrieve Prompts for In-Context Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Learning+To+Retrieve+Prompts+for+In-Context+Learning+Rubin&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Learning+To+Retrieve+Prompts+for+In-Context+Learning+Rubin&h=5&format=xml
+  version: Crossref API work record (869 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:38:00Z'
+  sha256: c9bedf435e59415d0c9680547a29128965bbd7b4821095685e23a47bfe84d2c1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: EPR trains a neural dual-encoder dense retriever supervised by a neural language model to select in-context prompts.
+limitations:
+- Generating training supervision requires scoring L candidate prompts with a language model for every training instance in the dataset.
+- Retrieves top-L' prompts greedily by independent inner-product scores without optimizing joint set diversity or prompt ordering.
+curation:
+  created_at: '2026-10-19T13:38:00Z'
+  updated_at: '2026-10-19T13:38:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
