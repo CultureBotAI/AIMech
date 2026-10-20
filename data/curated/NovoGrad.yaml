@@ -1,0 +1,113 @@
+id: AIMech:NovoGrad
+name: NovoGrad
+concept_kind: algorithm
+review_status: DRAFT
+definition: A layer-wise adaptive stochastic gradient optimization algorithm that computes a single scalar second-moment exponential moving average per network layer l from the squared Euclidean norm of the layer gradient, v_t^l = beta_2 v_{t-1}^l + (1 - beta_2) ||g_t^l||_2^2 (initialized directly at v_1^l = ||g_1^l||_2^2), normalizes the current layer gradient by sqrt(v_t^l) + epsilon and adds decoupled weight decay d * w_t^l prior to first-moment accumulation m_t^l = beta_1 m_{t-1}^l + (g_t^l / (sqrt(v_t^l) + epsilon) + d * w_t^l), and updates layer weights via w_{t+1}^l = w_t^l - alpha_t m_t^l.
+identity_notes: Distinct from Adam and AdamW (which maintain a full per-parameter second-moment tensor v_t of dimension p^l per layer and normalize the first moment after accumulation), from LaProp (AIMech:LaProp, which normalizes coordinates before momentum using per-coordinate second moments), and from LARS/LAMB (AIMech:LARSAndLAMBLayerWiseAdaptiveRateScaling, which rescale updates by the weight-to-update trust ratio ||w^l||_2 / ||u^l||_2). NovoGrad requires only one scalar v_t^l per layer, reducing optimizer state memory from 2P to P + L floats.
+aliases:
+- Layer-Wise Adaptive Moments for Deep Network Training
+- Stochastic Gradient Methods with Layer-wise Adaptive Moments
+- Layer-Wise Normalized Adam with Decoupled Weight Decay
+definition_evidence:
+- source_id: r611-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r611-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r611-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: novograd-layerwise-second-moment-and-pre-momentum-normalization
+  kind: mechanism
+  statement: For each layer l with stochastic gradient g_t^l at iteration t, NovoGrad updates a single scalar second moment v_t^l = beta_2 v_{t-1}^l + (1 - beta_2) ||g_t^l||_2^2 initialized at v_1^l = ||g_1^l||_2^2, normalizes the gradient and adds decoupled weight decay d * w_t^l inside the momentum recurrence m_t^l = beta_1 m_{t-1}^l + (g_t^l / (sqrt(v_t^l) + epsilon) + d * w_t^l), and updates weights via w_{t+1}^l = w_t^l - alpha_t m_t^l, reducing to Stochastic Normalized Gradient Descent when beta_2 = 0 and d = 0.
+  evidence:
+  - source_id: r611-primary-pdf
+    locator: Section 1 (Algorithm), Equations 1-3, p. 1-2
+    relation: supports
+  - source_id: r611-metadata-cr
+    locator: Bibliographic metadata for Ginsburg et al. 2019
+    relation: supports
+- claim_id: novograd-memory-footprint-and-outlier-gradient-robustness
+  kind: scope
+  statement: Because NovoGrad stores only one scalar second-moment estimate v_t^l per layer instead of one float per parameter, it cuts auxiliary optimizer state memory in half compared to Adam/AdamW (from 2P to P + L floats for a model with P parameters and L layers) while bounding any single-step pre-momentum gradient contribution in Euclidean norm by at most 1 / sqrt(1 - beta_2).
+  evidence:
+  - source_id: r611-primary-pdf
+    locator: Abstract and Section 1, p. 1-2
+    relation: supports
+  - source_id: r611-arxiv-abs
+    locator: Abstract
+    relation: supports
+- claim_id: novograd-large-batch-vision-speech-and-translation-applications
+  kind: application
+  statement: NovoGrad is applied to large-batch and mixed-precision training of ResNet-50 on ImageNet (reaching 76.94% top-1 accuracy at batch size 1024 and 76.36% at batch size 32K), Jasper speech recognition on LibriSpeech (11.9% WER on test-other, outperforming SGD by 1.3% relative), Transformer neural machine translation on WMT 2014 English-to-German (28.3 BLEU without warmup), and OpenAI GPT-2 language modeling on WikiText-103.
+  evidence:
+  - source_id: r611-primary-pdf
+    locator: Section 2 (Experiments), Tables 1-4 and Figures 1-2, p. 2-4
+    relation: supports
+- claim_id: novograd-within-layer-isotropic-scaling-limitation
+  kind: limitation
+  statement: Because NovoGrad normalizes all parameters within a layer l by a single shared scalar sqrt(v_t^l), it does not adaptively rescale individual coordinates within the same layer that have heterogeneous curvature or sparse feature frequencies, and its effective update scale depends on how parameters are partitioned into layers or parameter groups.
+  evidence:
+  - source_id: r611-primary-pdf
+    locator: Section 1 (Algorithm), Equations 1-2, p. 1-2
+    relation: supports
+evidence_sources:
+- source_id: r611-primary-pdf
+  title: Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks
+  authors: &id001
+  - Boris Ginsburg
+  - Patrice Castonguay
+  - Oleksii Hrinchuk
+  - Olivier Kuchaiev
+  - Vitaly Lavrukhin
+  - Ryan Leary
+  - Jason Li
+  - Huyen Nguyen
+  - Yang Zhang
+  - Jonathan M. Cohen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1905.11286.pdf
+  persistent_id: https://dblp.org/rec/journals/corr/abs-1905-11286.xml
+  version: arXiv (2019) (632432 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:34:00Z'
+  sha256: 6c554ab644b32d386113c39281a93832035ad8a373a678882bb2bcb45a975ff7
+- source_id: r611-arxiv-abs
+  title: Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1905.11286
+  persistent_id: https://arxiv.org/abs/1905.11286
+  version: arXiv abstract page (7257 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:34:00Z'
+  sha256: 8c47037873c433ceb7d2674ac282f97195fa9ca52f7ef3b6d5db6e87311b344d
+- source_id: r611-metadata-cr
+  title: Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-1905-11286.xml
+  persistent_id: https://dblp.org/rec/journals/corr/abs-1905-11286.xml
+  version: Crossref API work record (1554 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:34:00Z'
+  sha256: 6a97a25e2189ba141631bc5cff85a394609bdef8e17d644f363da2b1dbd019f1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: NovoGrad is a layer-wise adaptive stochastic optimizer designed for large-batch training of deep convolutional, recurrent, and Transformer neural networks.
+limitations:
+- Applies a single isotropic scalar step-size normalization across all coordinates of a given layer l, lacking per-coordinate diagonal preconditioning for sparse embedding tables or layers with highly heterogeneous within-layer feature scales.
+- Update magnitudes depend on the user-defined partitioning of parameters into layers (e.g., separating biases and BatchNorm parameters from weight tensors).
+curation:
+  created_at: '2026-10-19T11:34:00Z'
+  updated_at: '2026-10-19T11:34:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

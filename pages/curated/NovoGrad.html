@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NovoGrad · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>NovoGrad</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">NovoGrad</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NovoGrad</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Layer-Wise Adaptive Moments for Deep Network Training, Stochastic Gradient Methods with Layer-wise Adaptive Moments, Layer-Wise Normalized Adam with Decoupled Weight Decay
+    </div>
+
+  <div class="detail-desc">
+    A layer-wise adaptive stochastic gradient optimization algorithm that computes a single scalar second-moment exponential moving average per network layer l from the squared Euclidean norm of the layer gradient, v_t^l = beta_2 v_{t-1}^l + (1 - beta_2) ||g_t^l||_2^2 (initialized directly at v_1^l = ||g_1^l||_2^2), normalizes the current layer gradient by sqrt(v_t^l) + epsilon and adds decoupled weight decay d * w_t^l prior to first-moment accumulation m_t^l = beta_1 m_{t-1}^l + (g_t^l / (sqrt(v_t^l) + epsilon) + d * w_t^l), and updates layer weights via w_{t+1}^l = w_t^l - alpha_t m_t^l.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Adam and AdamW (which maintain a full per-parameter second-moment tensor v_t of dimension p^l per layer and normalize the first moment after accumulation), from LaProp (AIMech:LaProp, which normalizes coordinates before momentum using per-coordinate second moments), and from LARS/LAMB (AIMech:LARSAndLAMBLayerWiseAdaptiveRateScaling, which rescale updates by the weight-to-update trust ratio ||w^l||_2 / ||u^l||_2). NovoGrad requires only one scalar v_t^l per layer, reducing optimizer state memory from 2P to P + L floats.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#novograd-layerwise-second-moment-and-pre-momentum-normalization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each layer l with stochastic gradient g_t^l at iteration t, NovoGrad updates a single scalar second moment v_t^l = beta_2 v_{t-1}^l + (1 - beta_2) ||g_t^l||_2^2 initialized at v_1^l = ||g_1^l||_2^2, normalizes the gradient and adds decoupled weight decay d * w_t^l inside the momentum recurrence m_t^l = beta_1 m_{t-1}^l + (g_t^l / (sqrt(v_t^l) + epsilon) + d * w_t^l), and updates weights via w_{t+1}^l = w_t^l - alpha_t m_t^l, reducing to Stochastic Normalized Gradient Descent when beta_2 = 0 and d = 0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r611-primary-pdf">Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 1 (Algorithm), Equations 1-3, p. 1-2</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r611-metadata-cr">Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata for Ginsburg et al. 2019</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#novograd-memory-footprint-and-outlier-gradient-robustness</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because NovoGrad stores only one scalar second-moment estimate v_t^l per layer instead of one float per parameter, it cuts auxiliary optimizer state memory in half compared to Adam/AdamW (from 2P to P + L floats for a model with P parameters and L layers) while bounding any single-step pre-momentum gradient contribution in Euclidean norm by at most 1 / sqrt(1 - beta_2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r611-primary-pdf">Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks</a></span>
+        <span>· <strong>Locator:</strong> Abstract and Section 1, p. 1-2</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r611-arxiv-abs">Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#novograd-large-batch-vision-speech-and-translation-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    NovoGrad is applied to large-batch and mixed-precision training of ResNet-50 on ImageNet (reaching 76.94% top-1 accuracy at batch size 1024 and 76.36% at batch size 32K), Jasper speech recognition on LibriSpeech (11.9% WER on test-other, outperforming SGD by 1.3% relative), Transformer neural machine translation on WMT 2014 English-to-German (28.3 BLEU without warmup), and OpenAI GPT-2 language modeling on WikiText-103.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r611-primary-pdf">Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2 (Experiments), Tables 1-4 and Figures 1-2, p. 2-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#novograd-within-layer-isotropic-scaling-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because NovoGrad normalizes all parameters within a layer l by a single shared scalar sqrt(v_t^l), it does not adaptively rescale individual coordinates within the same layer that have heterogeneous curvature or sparse feature frequencies, and its effective update scale depends on how parameters are partitioned into layers or parameter groups.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r611-primary-pdf">Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 1 (Algorithm), Equations 1-2, p. 1-2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Applies a single isotropic scalar step-size normalization across all coordinates of a given layer l, lacking per-coordinate diagonal preconditioning for sparse embedding tables or layers with highly heterogeneous within-layer feature scales.</li>
+      <li>Update magnitudes depend on the user-defined partitioning of parameters into layers (e.g., separating biases and BatchNorm parameters from weight tensors).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            NovoGrad is a layer-wise adaptive stochastic optimizer designed for large-batch training of deep convolutional, recurrent, and Transformer neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r611-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r611-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1905.11286.pdf" target="_blank" rel="noopener">Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Boris Ginsburg, Patrice Castonguay, Oleksii Hrinchuk, Olivier Kuchaiev, Vitaly Lavrukhin, Ryan Leary, Jason Li, Huyen Nguyen, Yang Zhang, Jonathan M. Cohen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-1905-11286.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6c554ab644b3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r611-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r611-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1905.11286" target="_blank" rel="noopener">Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Boris Ginsburg, Patrice Castonguay, Oleksii Hrinchuk, Olivier Kuchaiev, Vitaly Lavrukhin, Ryan Leary, Jason Li, Huyen Nguyen, Yang Zhang, Jonathan M. Cohen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1905.11286</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8c47037873c4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r611-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r611-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/corr/abs-1905-11286.xml" target="_blank" rel="noopener">Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Boris Ginsburg, Patrice Castonguay, Oleksii Hrinchuk, Olivier Kuchaiev, Vitaly Lavrukhin, Ryan Leary, Jason Li, Huyen Nguyen, Yang Zhang, Jonathan M. Cohen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-1905-11286.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6a97a25e2189…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:34:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:34:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NovoGrad.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NovoGrad.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
