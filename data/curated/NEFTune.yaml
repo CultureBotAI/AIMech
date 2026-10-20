@@ -1,0 +1,111 @@
+id: AIMech:NEFTune
+name: NEFTune
+concept_kind: algorithm
+review_status: DRAFT
+definition: A regularization algorithm for language model instruction fine-tuning that perturbs input token embedding tensors X_emb in R^{B x L x d} during each training forward pass by adding i.i.d. uniform noise epsilon ~ Uniform(-1, 1) scaled by alpha / sqrt(L d), where L is sequence length, d is embedding dimension, and alpha > 0 is a tunable noise magnitude.
+identity_notes: Distinct from adversarial embedding perturbation methods such as FreeLB (which require inner-loop gradient ascent steps to compute worst-case adversarial perturbations) and from parameter-space noise injection or dropout. NEFTune (Noisy Embedding Instruction Fine Tuning; Neel Jain, Ping-yeh Chiang, Yuxin Wen, John Kirchenbauer, Hong-Min Chu, Gowthami Somepalli, Brian R. Bartoldson, Bhavya Kailkhura, Avi Schwarzschild, Aniruddha Saha, Micah Goldblum, Jonas Geiping, & Tom Goldstein, ICLR 2024, arXiv:2310.05914) samples a single zero-overhead random vector epsilon ~ Uniform(-1, 1)^{B x L x d} per forward pass and computes X'_emb = X_emb + (alpha / sqrt(L d)) epsilon (Algorithm 1). Because E[epsilon_{t,j}^2] = 1/3, the perturbation has expected Euclidean norm alpha / sqrt(3) independent of sequence length L and embedding dimension d, reducing overfitting to the exact phrasing and length formatting of small instruction datasets without degrading factual knowledge or token-level nearest-neighbor semantics.
+aliases:
+- Noisy Embedding Instruction Finetuning
+- NEFT Noisy Embedding Finetuning
+- Scaled Uniform Embedding Noise Instruction Finetuning
+definition_evidence:
+- source_id: r673-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r673-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r673-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: neftune-length-and-dimension-invariant-uniform-embedding-noise-scaling
+  kind: mechanism
+  statement: For a token sequence of length L and embedding dimension d, sampling epsilon ~ Uniform(-1, 1)^{L x d} i.i.d. and forming X'_emb = X_emb + (alpha / sqrt(L d)) epsilon produces a non-adversarial perturbation with expected Euclidean norm alpha / sqrt(3) independent of L and d and zero additional backward passes.
+  evidence:
+  - source_id: r673-primary-pdf
+    locator: 'Section 2 (NEFTune: Noisy Embedding Instruction Finetuning) & Algorithm 1, pp. 2-3'
+    relation: supports
+- claim_id: neftune-instruction-overfitting-mitigation-and-intra-token-preservation
+  kind: mechanism
+  statement: NEFTune increases training loss on the instruction dataset while lowering held-out test loss and training-prompt ROUGE-L/BLEU memorization scores (preventing verbatim lock-in to training responses), while maintaining <= 0.4% nearest-neighbor vocabulary token flips and preserving n-gram log-diversity.
+  evidence:
+  - source_id: r673-primary-pdf
+    locator: Section 5.1-5.2 (Figures 4-5, Table 4) & Appendix A.3 (Figures 6-8), pp. 7-8, 14-16
+    relation: supports
+- claim_id: neftune-application-llama2-opt-qlora-instruction-tuning
+  kind: application
+  statement: Applied to LLaMA-2-7B across Alpaca, Evol-Instruct, ShareGPT, and OpenPlatypus, NEFTune boosts GPT-4 AlpacaEval win rate by +15.1 percentage points on average (including 29.79% -> 64.69% on Alpaca), improves RLHF-tuned LLaMA-2-Chat-7B (+7.30%) and LLaMA-2-70B (+13.78%), and improves QLoRA fine-tuning while preserving OpenLLM Leaderboard accuracy on MMLU, ARC, HellaSwag, and TruthfulQA.
+  evidence:
+  - source_id: r673-primary-pdf
+    locator: Section 4 (Tables 1-3, Figures 1-3), pp. 1, 4-6
+    relation: supports
+- claim_id: neftune-limitation-verbosity-shift-and-safety-refusal-tradeoff
+  kind: limitation
+  statement: NEFTune induces substantially longer, more verbose completions (which correlate with LLM-judge preferences on AlpacaEval), yields smaller gains under 4-bit QLoRA than under full-parameter fine-tuning, and can affect safety-aligned checkpoints' refusal behavior against toxic outputs if applied without safety re-alignment.
+  evidence:
+  - source_id: r673-primary-pdf
+    locator: Section 4 (p. 4-5), Section 5.2-5.3 (pp. 7-8), Section 6-7 (pp. 9-10)
+    relation: supports
+evidence_sources:
+- source_id: r673-primary-pdf
+  title: 'NEFTune: Noisy Embeddings Improve Instruction Finetuning'
+  authors: &id001
+  - Neel Jain
+  - Ping-yeh Chiang
+  - Yuxin Wen
+  - John Kirchenbauer
+  - Hong-Min Chu
+  - Gowthami Somepalli
+  - Brian R. Bartoldson
+  - Bhavya Kailkhura
+  - Avi Schwarzschild
+  - Aniruddha Saha
+  - Micah Goldblum
+  - Jonas Geiping
+  - Tom Goldstein
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2310.05914.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=NEFTune+Noisy+Embeddings+Improve+Instruction+Finetuning&format=xml
+  version: Twelfth International Conference on Learning Representations (ICLR 2024) (2024) (801752 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:36:00Z'
+  sha256: c5ac68e99a6807b672874981b3bba16e1e16f74705a283b40e5079b9250c8878
+- source_id: r673-arxiv-abs
+  title: 'NEFTune: Noisy Embeddings Improve Instruction Finetuning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2310.05914
+  persistent_id: https://arxiv.org/abs/2310.05914
+  version: arXiv abstract page (6604 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:36:00Z'
+  sha256: 5bbbf8fee65bd756f2460337fdea02e3a80c51e4f338b4807a10e33f14171497
+- source_id: r673-metadata-cr
+  title: 'NEFTune: Noisy Embeddings Improve Instruction Finetuning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=NEFTune+Noisy+Embeddings+Improve+Instruction+Finetuning&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=NEFTune+Noisy+Embeddings+Improve+Instruction+Finetuning&format=xml
+  version: Crossref API work record (1052 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:36:00Z'
+  sha256: a478cfd4efacba9cec054174ff369423c5659c2dc7e35153e9f0017c1eccc63d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: NEFTune regularizes transformer neural network instruction fine-tuning by perturbing the input token embedding layer with scaled uniform noise.
+limitations:
+- Significantly increases output response length and verbosity, which can confound length-sensitive automatic evaluators such as GPT-4 AlpacaEval.
+- Further fine-tuning RLHF-aligned chat models with NEFTune on instruction datasets without safety data can degrade refusal behavior against toxic prompts.
+- Provides milder improvements under 4-bit QLoRA quantization than under full-parameter fine-tuning.
+curation:
+  created_at: '2026-10-19T12:36:00Z'
+  updated_at: '2026-10-19T12:36:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
