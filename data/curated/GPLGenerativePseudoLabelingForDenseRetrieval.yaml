@@ -1,0 +1,100 @@
+id: AIMech:GPLGenerativePseudoLabelingForDenseRetrieval
+name: GPL (Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An unsupervised domain adaptation algorithm for dense text retrieval models that adapts a bi-encoder f_theta to an unlabeled target-domain passage corpus by (1) generating synthetic queries Q_i for target passages P_i^+ using a pre-trained sequence-to-sequence query generator, (2) mining hard negative passages P_i^- from the target corpus for each generated query using pre-existing retrievers, and (3) scoring each (Q_i, P_i^+, P_i^-) tuple with a pre-trained cross-encoder CE to compute continuous relevance margins delta_i = CE(Q_i, P_i^+) - CE(Q_i, P_i^-) and training the student bi-encoder via MarginMSE loss L_MarginMSE(theta) = (1/M) sum_{i=0}^{M-1} |hat_delta_i - delta_i|^2.
+identity_notes: Introduced by Wang, Thakur, Reimers, and Gurevych (NAACL-HLT 2022, pp. 2345-2360, arXiv:2112.07577). Distinguished from QGen (Ma et al., 2021; Thakur et al., 2021), which trains on generated queries with binary 0-1 MultipleNegativesRanking loss (MNRL) and degrades when combined with hard negatives, and from InPars (Bonifacio et al., 2022) or Promptagator (Dai et al., 2023), which rely on few-shot LLM prompt generation and top-k likelihood or dual-encoder consistency filtering rather than cross-encoder MarginMSE soft-margin distillation.
+aliases:
+- Generative Pseudo Labeling
+- GPL Unsupervised Domain Adaptation for Dense Retrieval
+- GPL MarginMSE Pseudo-Labeling Pipeline
+definition_evidence:
+- source_id: r745-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r745-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r745-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: gpl-three-stage-marginmse-distillation-mechanism
+  kind: mechanism
+  statement: For an unlabeled target corpus C (down-sampled to |C_eff| = ceil(250K / 3) when 3*|C| > 250K, with q_avg = ceil(250K / |C_eff|) >= 3 synthetic queries per passage), GPL generates queries Q_i via nucleus sampling from a T5 query generator, retrieves k = 50 hard negatives P_i^- per query using pre-existing dense retrievers, computes cross-encoder logit margins delta_i = CE(Q_i, P_i^+) - CE(Q_i, P_i^-), and trains the student bi-encoder f_theta with dot-product margins hat_delta_i = f_theta(Q_i)^T f_theta(P_i^+) - f_theta(Q_i)^T f_theta(P_i^-) to minimize L_MarginMSE(theta) = (1/M) sum_i |hat_delta_i - delta_i|^2.
+  evidence:
+  - source_id: r745-primary-pdf
+    locator: Section 3 (Method, Eq. 1) & Section 4.1 (Experimental Setup), pp. 3-5
+    relation: supports
+  - source_id: r745-primary-pdf
+    locator: compute_gpl_qpp_and_corpus_size, margin_mse_loss_and_grad_wrt_neg_sim & main
+    relation: supports
+- claim_id: gpl-false-negative-and-noisy-query-denoising
+  kind: scope
+  statement: Replacing QGen's binary 0-1 MultipleNegativesRanking loss (which drops by 2.5 nDCG@10 points on average when trained with mined hard negatives due to false negatives) with continuous cross-encoder MarginMSE soft labels improves average nDCG@10 across six domain-specialized BeIR datasets (FiQA, SciFact, BioASQ, TREC-COVID, CQADupStack, Robust04) from 45.2 (zero-shot MS MARCO) and 48.8 (QGen) to 51.5 (GPL) and 52.9 (TSDAE + GPL), and maintains +3.0 nDCG@10 over zero-shot even at extreme query-generation sampling temperature 10.0.
+  evidence:
+  - source_id: r745-primary-pdf
+    locator: Section 5 (Table 1), Section 6.3 (Figure 3), & Section 7 (Table 5), pp. 6-9
+    relation: supports
+  - source_id: r745-primary-pdf
+    locator: main (Table 5 FiQA false-negative vs. true-negative margin gradient comparison)
+    relation: supports
+- claim_id: gpl-multi-stage-training-overhead-limitation
+  kind: limitation
+  statement: "GPL requires a complex multi-stage offline adaptation pipeline\u2014generating 250K synthetic queries, indexing the target corpus for hard-negative mining, and running cross-encoder inference and 140K MarginMSE optimization steps (approximately 9.6 hours on a V100 GPU per 100K steps)\u2014and relies on pre-existing query generation and cross-encoder models pre-trained on a source-domain dataset such as MS MARCO."
+  evidence:
+  - source_id: r745-primary-pdf
+    locator: Section 3, p. 3; Section 4.1, p. 4; Section 6.1, pp. 7-8; Section 8 (Conclusion), p. 9
+    relation: supports
+evidence_sources:
+- source_id: r745-primary-pdf
+  title: 'GPL: Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval'
+  authors: &id001
+  - Kexin Wang
+  - Nandan Thakur
+  - Nils Reimers
+  - Iryna Gurevych
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2112.07577
+  persistent_id: https://dblp.org/search/publ/api?q=GPL+Generative+Pseudo+Labeling+for+Unsupervised+Domain+Adaptation+Wang&h=5&format=xml
+  version: 'Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT 2022) (2022) (421136 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:48:00Z'
+  sha256: 7aa2a27bfa303bdedbba10a0542e8acdb6c78cfdcff0e872d3024973a08e2b1e
+- source_id: r745-arxiv-abs
+  title: 'GPL: Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2112.07577
+  persistent_id: https://arxiv.org/abs/2112.07577
+  version: arXiv abstract page (7122 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:48:00Z'
+  sha256: ff9479cfab7467249422b704bb9a959e47978ae03528aba04ca153c8f4659513
+- source_id: r745-metadata-cr
+  title: 'GPL: Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=GPL+Generative+Pseudo+Labeling+for+Unsupervised+Domain+Adaptation+Wang&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=GPL+Generative+Pseudo+Labeling+for+Unsupervised+Domain+Adaptation+Wang&h=5&format=xml
+  version: Crossref API work record (938 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:48:00Z'
+  sha256: 6f2a60158a07a14e1ebf706f6e59df1362d981469e06eecc1bf8342e415e8fbc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Adapts neural bi-encoder dense retrieval networks using sequence-to-sequence query generation and cross-encoder margin distillation.
+limitations:
+- Requires an offline multi-stage adaptation pipeline (query generation, hard-negative mining, cross-encoder scoring, and ~100K-140K MarginMSE optimization steps) for each target corpus.
+- Assumes availability of a source-domain-trained query generator (e.g., DocT5Query) and cross-encoder teacher (e.g., MS MARCO MiniLM cross-encoder).
+curation:
+  created_at: '2026-10-19T13:48:00Z'
+  updated_at: '2026-10-19T13:48:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

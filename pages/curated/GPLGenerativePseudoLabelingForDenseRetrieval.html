@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPL (Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>GPL (Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">GPL (Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GPLGenerativePseudoLabelingForDenseRetrieval</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Generative Pseudo Labeling, GPL Unsupervised Domain Adaptation for Dense Retrieval, GPL MarginMSE Pseudo-Labeling Pipeline
+    </div>
+
+  <div class="detail-desc">
+    An unsupervised domain adaptation algorithm for dense text retrieval models that adapts a bi-encoder f_theta to an unlabeled target-domain passage corpus by (1) generating synthetic queries Q_i for target passages P_i^+ using a pre-trained sequence-to-sequence query generator, (2) mining hard negative passages P_i^- from the target corpus for each generated query using pre-existing retrievers, and (3) scoring each (Q_i, P_i^+, P_i^-) tuple with a pre-trained cross-encoder CE to compute continuous relevance margins delta_i = CE(Q_i, P_i^+) - CE(Q_i, P_i^-) and training the student bi-encoder via MarginMSE loss L_MarginMSE(theta) = (1/M) sum_{i=0}^{M-1} |hat_delta_i - delta_i|^2.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Wang, Thakur, Reimers, and Gurevych (NAACL-HLT 2022, pp. 2345-2360, arXiv:2112.07577). Distinguished from QGen (Ma et al., 2021; Thakur et al., 2021), which trains on generated queries with binary 0-1 MultipleNegativesRanking loss (MNRL) and degrades when combined with hard negatives, and from InPars (Bonifacio et al., 2022) or Promptagator (Dai et al., 2023), which rely on few-shot LLM prompt generation and top-k likelihood or dual-encoder consistency filtering rather than cross-encoder MarginMSE soft-margin distillation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#gpl-three-stage-marginmse-distillation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For an unlabeled target corpus C (down-sampled to |C_eff| = ceil(250K / 3) when 3*|C| &gt; 250K, with q_avg = ceil(250K / |C_eff|) &gt;= 3 synthetic queries per passage), GPL generates queries Q_i via nucleus sampling from a T5 query generator, retrieves k = 50 hard negatives P_i^- per query using pre-existing dense retrievers, computes cross-encoder logit margins delta_i = CE(Q_i, P_i^+) - CE(Q_i, P_i^-), and trains the student bi-encoder f_theta with dot-product margins hat_delta_i = f_theta(Q_i)^T f_theta(P_i^+) - f_theta(Q_i)^T f_theta(P_i^-) to minimize L_MarginMSE(theta) = (1/M) sum_i |hat_delta_i - delta_i|^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r745-primary-pdf">GPL: Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Method, Eq. 1) &amp; Section 4.1 (Experimental Setup), pp. 3-5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r745-primary-pdf">GPL: Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> compute_gpl_qpp_and_corpus_size, margin_mse_loss_and_grad_wrt_neg_sim &amp; main</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#gpl-false-negative-and-noisy-query-denoising</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Replacing QGen&#39;s binary 0-1 MultipleNegativesRanking loss (which drops by 2.5 nDCG@10 points on average when trained with mined hard negatives due to false negatives) with continuous cross-encoder MarginMSE soft labels improves average nDCG@10 across six domain-specialized BeIR datasets (FiQA, SciFact, BioASQ, TREC-COVID, CQADupStack, Robust04) from 45.2 (zero-shot MS MARCO) and 48.8 (QGen) to 51.5 (GPL) and 52.9 (TSDAE + GPL), and maintains +3.0 nDCG@10 over zero-shot even at extreme query-generation sampling temperature 10.0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r745-primary-pdf">GPL: Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 5 (Table 1), Section 6.3 (Figure 3), &amp; Section 7 (Table 5), pp. 6-9</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r745-primary-pdf">GPL: Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> main (Table 5 FiQA false-negative vs. true-negative margin gradient comparison)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#gpl-multi-stage-training-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    GPL requires a complex multi-stage offline adaptation pipeline—generating 250K synthetic queries, indexing the target corpus for hard-negative mining, and running cross-encoder inference and 140K MarginMSE optimization steps (approximately 9.6 hours on a V100 GPU per 100K steps)—and relies on pre-existing query generation and cross-encoder models pre-trained on a source-domain dataset such as MS MARCO.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r745-primary-pdf">GPL: Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3, p. 3; Section 4.1, p. 4; Section 6.1, pp. 7-8; Section 8 (Conclusion), p. 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an offline multi-stage adaptation pipeline (query generation, hard-negative mining, cross-encoder scoring, and ~100K-140K MarginMSE optimization steps) for each target corpus.</li>
+      <li>Assumes availability of a source-domain-trained query generator (e.g., DocT5Query) and cross-encoder teacher (e.g., MS MARCO MiniLM cross-encoder).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Adapts neural bi-encoder dense retrieval networks using sequence-to-sequence query generation and cross-encoder margin distillation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r745-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r745-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2112.07577" target="_blank" rel="noopener">GPL: Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kexin Wang, Nandan Thakur, Nils Reimers, Iryna Gurevych
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=GPL+Generative+Pseudo+Labeling+for+Unsupervised+Domain+Adaptation+Wang&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7aa2a27bfa30…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r745-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r745-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2112.07577" target="_blank" rel="noopener">GPL: Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kexin Wang, Nandan Thakur, Nils Reimers, Iryna Gurevych
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2112.07577</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ff9479cfab74…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r745-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r745-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=GPL+Generative+Pseudo+Labeling+for+Unsupervised+Domain+Adaptation+Wang&amp;h=5&amp;format=xml" target="_blank" rel="noopener">GPL: Generative Pseudo Labeling for Unsupervised Domain Adaptation of Dense Retrieval (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kexin Wang, Nandan Thakur, Nils Reimers, Iryna Gurevych
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=GPL+Generative+Pseudo+Labeling+for+Unsupervised+Domain+Adaptation+Wang&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6f2a60158a07…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:48:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:48:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GPLGenerativePseudoLabelingForDenseRetrieval.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GPLGenerativePseudoLabelingForDenseRetrieval.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
