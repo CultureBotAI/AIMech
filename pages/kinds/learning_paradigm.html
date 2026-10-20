@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Learning Paradigms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">6 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">7 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">High-level training frameworks such as contrastive or self-supervised learning.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">6</span> of <span id="totalCount">6</span>
+      Showing <span id="matchCount">7</span> of <span id="totalCount">7</span>
     </div>
   </div>
 </div>
@@ -213,6 +213,32 @@
         <td>
             <span class="badge badge-mechanism" title="2 claims curated">2 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="learning_paradigm"
+          data-branch=""
+          data-search="tinybert (two-stage transformer distillation for natural language understanding) tinyberttransformerdistillationfornaturallanguageunderstanding aimech:tinyberttransformerdistillationfornaturallanguageunderstanding learning paradigms learning_paradigm a two-stage knowledge distillation framework for transformer language models (jiao et al., findings of emnlp 2020) that transfers knowledge from a n-layer teacher bert to a smaller m-layer student tinybert with reduced hidden dimension d&#39; &lt; d via a layer mapping function n = g(m) (such as uniform mapping g(m) = (n/m)*m) and three layer-wise losses—embedding-layer mse l_embd = mse(e^s w_e, e^t), transformer-layer unnormalized attention matrix mse l_attn = (1/h) sum_{i=1}^h mse(a_i^s, a_i^t) plus projected hidden-state mse l_hidn = mse(h^s w_h, h^t), and prediction-layer soft cross-entropy l_pred = ce(z^t/t, z^s/t)—applied across both a general pre-training distillation stage on unlabeled text and a two-step task-specific distillation stage over a bert-and-glove word-replacement augmented task dataset. distinct from distilbert (sanh et al., 2019, which distills only at the pre-training stage and requires identical hidden dimensions d&#39; = d to initialize from teacher layers), from bert-pkd (aimech:bertpkdpatientknowledgedistillationforbertmodelcompression, which matches only l2-normalized [cls] hidden states at the fine-tuning stage), and from simplified tinybert (aimech:simplifiedtinybertknowledgedistillationfordocumentretrieval, which merges the two task-specific steps into one step and adds hard-label cross-entropy for document retrieval). tinybert fits unnormalized pre-softmax attention matrices a_i = q k^t / sqrt(d_k), projects smaller student hidden states via learnable matrices w_e, w_h in r^{d&#39; x d}, and expands task datasets 20x via single-piece bert [mask] prediction and multi-piece glove nearest-neighbor word replacement (algorithm 1). tinybert tinybert transformer distillation two-stage tinybert knowledge distillation framework given an m-layer student with hidden size d&#39; and an n-layer teacher with hidden size d linked by layer mapping n = g(m) (with g(0) = 0, g(m+1) = n+1, and uniform mapping g(m) = (n/m)*m for 1 &lt;= m &lt;= m), tinybert minimizes l_model = sum_{x in x} sum_{m=0}^{m+1} lambda_m l_layer(f_m^s(x), f_{g(m)}^t(x)) (equations 6, 11), where m=0 optimizes embedding mse l_embd = mse(e^s w_e, e^t) (equation 9), 1 &lt;= m &lt;= m optimizes unnormalized attention logits mse l_attn = (1/h) sum_{i=1}^h mse(a_i^s, a_i^t) plus projected hidden-state mse l_hidn = mse(h^s w_h, h^t) with learnable w_e, w_h in r^{d&#39; x d} (equations 7-8), and m=m+1 optimizes soft logit cross-entropy l_pred = ce(z^t/t, z^s/t) (equation 10). tinybert executes a two-stage learning pipeline (figure 1): (1) general distillation (gd) on a general-domain corpus (2,500m words of english wikipedia) using intermediate-layer losses (l_embd and l_hidn + l_attn) from pre-trained bert_base to initialize the student, and (2) task-specific distillation (td) on a 20x augmented task dataset (generated via algorithm 1 by replacing single-piece words with bert [mask] predictions and multi-piece words with glove nearest neighbors at probability p_t = 0.4, n_a = 20, k = 15), performing 20 epochs of intermediate-layer distillation followed by 3 epochs of prediction-layer distillation. on the official glue test benchmark, 4-layer tinybert_4 (m=4, d&#39;=312, d&#39;_i=1200, h=12; 14.5m parameters, 1.2b flops) retains 96.8% of bert_base&#39;s average score (77.0 vs. 79.5) while being 7.5x smaller and 9.4x faster, outperforming 4-layer bert_4-pkd (72.6) and distilbert_4 (71.9) by at least 4.4 points with ~28% of their parameters, while 6-layer tinybert_6 (67.0m parameters, 2.0x speedup) reaches 79.4 average glue score (on par with bert_base&#39;s 79.5, table 1). tinybert requires selecting a fixed layer-to-layer mapping function n = g(m) between student and teacher layers, introducing learnable projection matrices w_e, w_h in r^{d&#39; x d} when d&#39; != d, and running a costly 20x task-specific data augmentation and two-step teacher-student distillation pass for each downstream task (without which dev average drops from 75.6 to 68.5 w/o td or 68.4 w/o da, table 2). tinybert: distilling bert for natural language understanding tinybert: distilling bert for natural language understanding (arxiv abstract) tinybert: distilling bert for natural language understanding (crossref metadata) xiaoqi jiao yichun yin lifeng shang xin jiang xiao chen linlin li fang wang qun liu xiaoqi jiao yichun yin lifeng shang xin jiang xiao chen linlin li fang wang qun liu xiaoqi jiao yichun yin lifeng shang xin jiang xiao chen linlin li fang wang qun liu">
+        <td>
+          <a href="../curated/TinyBERTTransformerDistillationForNaturalLanguageUnderstanding.html" style="font-weight: 600; font-size: 1rem;">TinyBERT (Two-Stage Transformer Distillation for Natural Language Understanding)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> TinyBERT, TinyBERT Transformer Distillation…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A two-stage knowledge distillation framework for Transformer language models (Jiao et al., Findings of EMNLP 2020) that transfers knowledge…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/learning_paradigm.html" style="font-size: 0.85rem;">Learning Paradigms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:TinyBERTTransformerDistillationForNaturalLanguageUnderstanding</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
     </tbody>

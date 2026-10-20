@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TinyBERT (Two-Stage Transformer Distillation for Natural Language Understanding) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/learning_paradigm.html">Learning Paradigms</a>
+  <span>/</span>
+  <strong>TinyBERT (Two-Stage Transformer Distillation for Natural Language Understanding)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">TinyBERT (Two-Stage Transformer Distillation for Natural Language Understanding)</h1>
+    <span class="badge badge-curated">Learning Paradigms</span>
+    <span class="detail-id">AIMech:TinyBERTTransformerDistillationForNaturalLanguageUnderstanding</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> TinyBERT, TinyBERT Transformer Distillation, Two-Stage TinyBERT Knowledge Distillation Framework
+    </div>
+
+  <div class="detail-desc">
+    A two-stage knowledge distillation framework for Transformer language models (Jiao et al., Findings of EMNLP 2020) that transfers knowledge from a N-layer teacher BERT to a smaller M-layer student TinyBERT with reduced hidden dimension d&#39; &lt; d via a layer mapping function n = g(m) (such as uniform mapping g(m) = (N/M)*m) and three layer-wise losses—embedding-layer MSE L_embd = MSE(E^S W_e, E^T), Transformer-layer unnormalized attention matrix MSE L_attn = (1/h) sum_{i=1}^h MSE(A_i^S, A_i^T) plus projected hidden-state MSE L_hidn = MSE(H^S W_h, H^T), and prediction-layer soft cross-entropy L_pred = CE(z^T/t, z^S/t)—applied across both a general pre-training distillation stage on unlabeled text and a two-step task-specific distillation stage over a BERT-and-GloVe word-replacement augmented task dataset.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from DistilBERT (Sanh et al., 2019, which distills only at the pre-training stage and requires identical hidden dimensions d&#39; = d to initialize from teacher layers), from BERT-PKD (AIMech:BERTPKDPatientKnowledgeDistillationForBERTModelCompression, which matches only L2-normalized [CLS] hidden states at the fine-tuning stage), and from Simplified TinyBERT (AIMech:SimplifiedTinyBERTKnowledgeDistillationForDocumentRetrieval, which merges the two task-specific steps into one step and adds hard-label cross-entropy for document retrieval). TinyBERT fits unnormalized pre-softmax attention matrices A_i = Q K^T / sqrt(d_k), projects smaller student hidden states via learnable matrices W_e, W_h in R^{d&#39; x d}, and expands task datasets 20x via single-piece BERT [MASK] prediction and multi-piece GloVe nearest-neighbor word replacement (Algorithm 1).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#tinybert-unnormalized-attention-and-projected-hidden-distillation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given an M-layer student with hidden size d&#39; and an N-layer teacher with hidden size d linked by layer mapping n = g(m) (with g(0) = 0, g(M+1) = N+1, and uniform mapping g(m) = (N/M)*m for 1 &lt;= m &lt;= M), TinyBERT minimizes L_model = sum_{x in X} sum_{m=0}^{M+1} lambda_m L_layer(f_m^S(x), f_{g(m)}^T(x)) (Equations 6, 11), where m=0 optimizes embedding MSE L_embd = MSE(E^S W_e, E^T) (Equation 9), 1 &lt;= m &lt;= M optimizes unnormalized attention logits MSE L_attn = (1/h) sum_{i=1}^h MSE(A_i^S, A_i^T) plus projected hidden-state MSE L_hidn = MSE(H^S W_h, H^T) with learnable W_e, W_h in R^{d&#39; x d} (Equations 7-8), and m=M+1 optimizes soft logit cross-entropy L_pred = CE(z^T/t, z^S/t) (Equation 10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r800-primary-pdf">TinyBERT: Distilling BERT for Natural Language Understanding</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 (Transformer Distillation), pp. 3-4, Figure 2, Equations (6)-(11)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r800-primary-pdf">TinyBERT: Distilling BERT for Natural Language Understanding</a></span>
+        <span>· <strong>Locator:</strong> layer_mapping and tinybert_layer_losses verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#tinybert-two-stage-learning-and-contextual-data-augmentation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    TinyBERT executes a two-stage learning pipeline (Figure 1): (1) General Distillation (GD) on a general-domain corpus (2,500M words of English Wikipedia) using intermediate-layer losses (L_embd and L_hidn + L_attn) from pre-trained BERT_BASE to initialize the student, and (2) Task-specific Distillation (TD) on a 20x augmented task dataset (generated via Algorithm 1 by replacing single-piece words with BERT [MASK] predictions and multi-piece words with GloVe nearest neighbors at probability p_t = 0.4, N_a = 20, K = 15), performing 20 epochs of intermediate-layer distillation followed by 3 epochs of prediction-layer distillation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r800-primary-pdf">TinyBERT: Distilling BERT for Natural Language Understanding</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (TinyBERT Learning, Algorithm 1) &amp; Section 4.2, pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#tinybert-glue-and-squad-compression-performance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On the official GLUE test benchmark, 4-layer TinyBERT_4 (M=4, d&#39;=312, d&#39;_i=1200, h=12; 14.5M parameters, 1.2B FLOPs) retains 96.8% of BERT_BASE&#39;s average score (77.0 vs. 79.5) while being 7.5x smaller and 9.4x faster, outperforming 4-layer BERT_4-PKD (72.6) and DistilBERT_4 (71.9) by at least 4.4 points with ~28% of their parameters, while 6-layer TinyBERT_6 (67.0M parameters, 2.0x speedup) reaches 79.4 average GLUE score (on par with BERT_BASE&#39;s 79.5, Table 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r800-primary-pdf">TinyBERT: Distilling BERT for Natural Language Understanding</a></span>
+        <span>· <strong>Locator:</strong> Section 4.4 (Experimental Results on GLUE, Table 1) &amp; Appendix B (Table 6), pp. 6-7, 11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#tinybert-layer-mapping-and-task-specific-augmentation-overhead</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    TinyBERT requires selecting a fixed layer-to-layer mapping function n = g(m) between student and teacher layers, introducing learnable projection matrices W_e, W_h in R^{d&#39; x d} when d&#39; != d, and running a costly 20x task-specific data augmentation and two-step teacher-student distillation pass for each downstream task (without which dev average drops from 75.6 to 68.5 w/o TD or 68.4 w/o DA, Table 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r800-primary-pdf">TinyBERT: Distilling BERT for Natural Language Understanding</a></span>
+        <span>· <strong>Locator:</strong> Section 4.5.1 (Effects of Learning Procedure, Table 2) &amp; Section 4.6 (Table 4), pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires a fixed layer-to-layer mapping function g(m), projection matrices W_e and W_h when d&#39; != d, and expensive 20x task-specific data augmentation and multi-epoch intermediate distillation for each downstream task.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            TinyBERT is a two-stage multi-layer knowledge distillation paradigm for compressing Transformer neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r800-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r800-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1909.10351.pdf" target="_blank" rel="noopener">TinyBERT: Distilling BERT for Natural Language Understanding</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiaoqi Jiao, Yichun Yin, Lifeng Shang, Xin Jiang, Xiao Chen, Linlin Li, Fang Wang, Qun Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1909.10351</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:23f43a2b372c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r800-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r800-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1909.10351" target="_blank" rel="noopener">TinyBERT: Distilling BERT for Natural Language Understanding (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiaoqi Jiao, Yichun Yin, Lifeng Shang, Xin Jiang, Xiao Chen, Linlin Li, Fang Wang, Qun Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1909.10351</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:66fc54d9f1f8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r800-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r800-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/1909.10351" target="_blank" rel="noopener">TinyBERT: Distilling BERT for Natural Language Understanding (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiaoqi Jiao, Yichun Yin, Lifeng Shang, Xin Jiang, Xiao Chen, Linlin Li, Fang Wang, Qun Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1909.10351</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0fe58adeaf87…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:43:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:43:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TinyBERTTransformerDistillationForNaturalLanguageUnderstanding.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TinyBERTTransformerDistillationForNaturalLanguageUnderstanding.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
