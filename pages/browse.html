@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1308</strong> artificial intelligence concepts, comprising <strong>866</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1309</strong> artificial intelligence concepts, comprising <strong>867</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1308)</option>
-        <option value="curated">Curated AIMech (866)</option>
+        <option value="all">All Origins (1309)</option>
+        <option value="curated">Curated AIMech (867)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (564)</option>
+          <option value="algorithm">Algorithms (565)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1308</span> of <span id="totalCount">1308</span>
+      Showing <span id="matchCount">1309</span> of <span id="totalCount">1309</span>
     </div>
   </div>
 </div>
@@ -22586,6 +22586,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="pfedgp (personalized federated learning with gaussian processes and shared deep kernel trees) pfedgppersonalizedfederatedlearningwithgaussianprocessesandshareddeepkerneltrees aimech:pfedgppersonalizedfederatedlearningwithgaussianprocessesandshareddeepkerneltrees algorithms algorithm a bayesian personalized federated learning algorithm (achituve, shamsian, navon, chechik, &amp; fetaya 2021, sections 3-4, equations 1-14, theorem 1, algorithm 1) that learns a shared deep neural network feature extractor g_theta across all clients while fitting a separate personalized gaussian process (gp) classifier with pólya-gamma (pg) data augmentation on each client&#39;s latent embeddings z_i = g_theta(x_i), extending binary pg-augmented gp classification to c-class classification via a full binary decision tree of c - 1 internal gp nodes (where node m models p(y_m = 1 | x, omega_m) with conditionally gaussian posterior p(f_m | x, y_m, omega_m) = n(f_m | mu_m, sigma_m), sigma_m = (k_m^{-1} + omega_m)^{-1}, mu_m = sigma_m kappa_m, kappa_m = y_m - 1/2, equations 1-6), and introducing two inducing-point extensions — pfedgp-ip-data (which optimizes local inducing inputs x_bar in input space to regularize zero-shot adaptation) and pfedgp-ip-compute (which applies the fully independent training conditional (fitc) approximation k_{nn} approx q_{nn} + diag(k_{nn} - q_{nn}), q_{nn} = k_{nm} k_{mm}^{-1} k_{mn} to reduce cubic o(n^3) matrix inversion to o(m^2 n + m^3), equations 9-12). distinct from pfedbayes (aimech:pfedbayespersonalizedfederatedlearningviavariationalbayesianinference, zhang et al. 2022), which places factorized gaussian variational posteriors over neural network weights rather than non-parametric gaussian processes with pólya-gamma augmentation over a shared deep kernel; and distinct from fedpa (aimech:fedpafederatedposterioraveragingvialocalmcmcandshrinkagecovariance, al-shedivat et al. 2021), which aggregates approximate client parameter posteriors into a single global parameter vector. pfedgp personalized federated learning with gaussian processes pfedgp-ip-data pfedgp-ip-compute conditioned on pólya-gamma auxiliary variables omega_i ~ pg(1, f(x_i)), each binary gp node m in the c-class hierarchical tree yields an exact gaussian posterior n(f_m | sigma_m(y_m - 1/2), sigma_m) with sigma_m = (k_m^{-1} + diag(omega_m))^{-1}, gaussian predictive latent distribution n(f_* | mu_*, sigma_*^2) (equations 4-5), and factorized class probability p(y_* = c | x_*, x, y, omega) = prod_{m in path_c} (int psi(f_m^*) n(f_m^* | mu_m^*, sigma_m^{*2}) df_m^*)^{y_{c,m}} (1 - int ...)^{1 - y_{c,m}} (equation 7) (achituve et al. 2021, section 4.1). theorem 1 establishes a pac-bayes generalization bound for each client&#39;s gp tree scales with (1 / m_i) sum_{j in y} kl(q_i(f_j) || p(f_j)), motivating shared deep kernel optimization via predictive marginal likelihood; pfedgp-ip-compute further replaces k_{nn} with the fitc low-rank-plus-diagonal covariance q_{nn} + diag(k_{nn} - q_{nn}) over m &lt;&lt; n inducing points to achieve o(m^2 n + m^3) complexity (achituve et al. 2021, sections 4.2-4.3, equations 9-14, theorem 1). applied to personalized federated classification, novel-client adaptation without gradient updates, and out-of-distribution uncertainty calibration (expected calibration error) on cifar-10, cifar-100, and cinic-10 (achituve et al. 2021, section 5, tables 1-4). requires fitting c - 1 binary gp classifiers along the class hierarchy tree and running block gibbs sampling over pólya-gamma variables omega_m and gaussian latents f_m during local updates, which increases per-step computational cost when the number of classes c or local dataset size n_i is large without inducing-point approximation (achituve et al. 2021, sections 4.1-4.2). personalized federated learning with gaussian processes personalized federated learning with gaussian processes (arxiv abstract) personalized federated learning with gaussian processes (crossref metadata) idan achituve aviv shamsian aviv navon gal chechik ethan fetaya idan achituve aviv shamsian aviv navon gal chechik ethan fetaya idan achituve aviv shamsian aviv navon gal chechik ethan fetaya">
+        <td>
+          <a href="curated/PFedGpPersonalizedFederatedLearningWithGaussianProcessesAndSharedDeepKernelTrees.html" style="font-weight: 600; font-size: 1rem;">pFedGP (Personalized Federated Learning with Gaussian Processes and Shared Deep Kernel Trees)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> pFedGP, Personalized Federated Learning with Gaussian Processes…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A Bayesian personalized federated learning algorithm (Achituve, Shamsian, Navon, Chechik, &amp; Fetaya 2021, Sections 3-4, Equations 1-14, Theor…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PFedGpPersonalizedFederatedLearningWithGaussianProcessesAndSharedDeepKernelTrees</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>

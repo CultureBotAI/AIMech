@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pFedGP (Personalized Federated Learning with Gaussian Processes and Shared Deep Kernel Trees) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>pFedGP (Personalized Federated Learning with Gaussian Processes and Shared Deep Kernel Trees)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">pFedGP (Personalized Federated Learning with Gaussian Processes and Shared Deep Kernel Trees)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PFedGpPersonalizedFederatedLearningWithGaussianProcessesAndSharedDeepKernelTrees</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> pFedGP, Personalized Federated Learning with Gaussian Processes, pFedGP-IP-data, pFedGP-IP-compute
+    </div>
+
+  <div class="detail-desc">
+    A Bayesian personalized federated learning algorithm (Achituve, Shamsian, Navon, Chechik, &amp; Fetaya 2021, Sections 3-4, Equations 1-14, Theorem 1, Algorithm 1) that learns a shared deep neural network feature extractor g_theta across all clients while fitting a separate personalized Gaussian Process (GP) classifier with Pólya-Gamma (PG) data augmentation on each client&#39;s latent embeddings z_i = g_theta(x_i), extending binary PG-augmented GP classification to C-class classification via a full binary decision tree of C - 1 internal GP nodes (where node m models p(y_m = 1 | x, omega_m) with conditionally Gaussian posterior p(f_m | X, y_m, omega_m) = N(f_m | mu_m, Sigma_m), Sigma_m = (K_m^{-1} + Omega_m)^{-1}, mu_m = Sigma_m kappa_m, kappa_m = y_m - 1/2, Equations 1-6), and introducing two inducing-point extensions — pFedGP-IP-data (which optimizes local inducing inputs X_bar in input space to regularize zero-shot adaptation) and pFedGP-IP-compute (which applies the Fully Independent Training Conditional (FITC) approximation K_{NN} approx Q_{NN} + diag(K_{NN} - Q_{NN}), Q_{NN} = K_{NM} K_{MM}^{-1} K_{MN} to reduce cubic O(N^3) matrix inversion to O(M^2 N + M^3), Equations 9-12).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from pFedBayes (AIMech:PFedBayesPersonalizedFederatedLearningViaVariationalBayesianInference, Zhang et al. 2022), which places factorized Gaussian variational posteriors over neural network weights rather than non-parametric Gaussian Processes with Pólya-Gamma augmentation over a shared deep kernel; and distinct from FedPA (AIMech:FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance, Al-Shedivat et al. 2021), which aggregates approximate client parameter posteriors into a single global parameter vector.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r472-polya-gamma-gp-tree-predictive-marginal-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Conditioned on Pólya-Gamma auxiliary variables omega_i ~ PG(1, f(x_i)), each binary GP node m in the C-class hierarchical tree yields an exact Gaussian posterior N(f_m | Sigma_m(y_m - 1/2), Sigma_m) with Sigma_m = (K_m^{-1} + diag(omega_m))^{-1}, Gaussian predictive latent distribution N(f_* | mu_*, sigma_*^2) (Equations 4-5), and factorized class probability P(y_* = c | x_*, X, y, Omega) = prod_{m in Path_c} (int Psi(f_m^*) N(f_m^* | mu_m^*, sigma_m^{*2}) df_m^*)^{y_{c,m}} (1 - int ...)^{1 - y_{c,m}} (Equation 7) (Achituve et al. 2021, Section 4.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r472-primary-pdf">Personalized Federated Learning with Gaussian Processes</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.2 &amp; 4.1 (Equations 1-7), pp. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r472-pac-bayes-generalization-and-fitc-inducing-points-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 1 establishes a PAC-Bayes generalization bound for each client&#39;s GP tree scales with (1 / m_i) sum_{j in Y} KL(Q_i(f_j) || P(f_j)), motivating shared deep kernel optimization via predictive marginal likelihood; pFedGP-IP-compute further replaces K_{NN} with the FITC low-rank-plus-diagonal covariance Q_{NN} + diag(K_{NN} - Q_{NN}) over M &lt;&lt; N inducing points to achieve O(M^2 N + M^3) complexity (Achituve et al. 2021, Sections 4.2-4.3, Equations 9-14, Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r472-primary-pdf">Personalized Federated Learning with Gaussian Processes</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.2-4.3 (Equations 9-14, Theorem 1), pp. 5-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r472-uncertainty-calibrated-personalized-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to personalized federated classification, novel-client adaptation without gradient updates, and out-of-distribution uncertainty calibration (Expected Calibration Error) on CIFAR-10, CIFAR-100, and CINIC-10 (Achituve et al. 2021, Section 5, Tables 1-4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r472-primary-pdf">Personalized Federated Learning with Gaussian Processes</a></span>
+        <span>· <strong>Locator:</strong> Section 5 (Experiments, Tables 1-4, Figure 2), pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r472-tree-node-scaling-and-gibbs-sampling-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires fitting C - 1 binary GP classifiers along the class hierarchy tree and running block Gibbs sampling over Pólya-Gamma variables omega_m and Gaussian latents f_m during local updates, which increases per-step computational cost when the number of classes C or local dataset size N_i is large without inducing-point approximation (Achituve et al. 2021, Sections 4.1-4.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r472-primary-pdf">Personalized Federated Learning with Gaussian Processes</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.1-4.2, pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Full GP inference scales cubically O(N_i^3) in local dataset size N_i per tree node unless the FITC inducing-point variant (pFedGP-IP-compute) is used.</li>
+      <li>Multi-class classification requires constructing and evaluating C - 1 binary GP classifiers arranged in a hierarchical tree.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            pFedGP is a Bayesian personalized federated learning algorithm within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r472-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r472-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2106.15482.pdf" target="_blank" rel="noopener">Personalized Federated Learning with Gaussian Processes</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Idan Achituve, Aviv Shamsian, Aviv Navon, Gal Chechik, Ethan Fetaya
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2021/hash/44f683a84163b3523afe57c2e008bc8c-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b41062931648…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r472-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r472-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2106.15482" target="_blank" rel="noopener">Personalized Federated Learning with Gaussian Processes (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Idan Achituve, Aviv Shamsian, Aviv Navon, Gal Chechik, Ethan Fetaya
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2106.15482</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dede9e95fe4d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r472-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r472-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/2021/hash/44f683a84163b3523afe57c2e008bc8c-Abstract.html" target="_blank" rel="noopener">Personalized Federated Learning with Gaussian Processes (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Idan Achituve, Aviv Shamsian, Aviv Navon, Gal Chechik, Ethan Fetaya
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2021/hash/44f683a84163b3523afe57c2e008bc8c-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1d24fa65d0ff…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:15:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:15:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PFedGpPersonalizedFederatedLearningWithGaussianProcessesAndSharedDeepKernelTrees.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PFedGpPersonalizedFederatedLearningWithGaussianProcessesAndSharedDeepKernelTrees.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

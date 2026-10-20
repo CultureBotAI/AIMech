@@ -1,0 +1,103 @@
+id: AIMech:PFedGpPersonalizedFederatedLearningWithGaussianProcessesAndSharedDeepKernelTrees
+name: pFedGP (Personalized Federated Learning with Gaussian Processes and Shared Deep Kernel Trees)
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A Bayesian personalized federated learning algorithm (Achituve, Shamsian, Navon, Chechik, & Fetaya 2021, Sections 3-4, Equations 1-14, Theorem 1, Algorithm 1) that learns a shared deep neural network feature extractor g_theta across all clients while fitting a separate personalized Gaussian Process (GP) classifier with P\xF3lya-Gamma (PG) data augmentation on each client's latent embeddings z_i = g_theta(x_i), extending binary PG-augmented GP classification to C-class classification via a full binary decision tree of C - 1 internal GP nodes (where node m models p(y_m = 1 | x, omega_m) with conditionally Gaussian posterior p(f_m | X, y_m, omega_m) = N(f_m | mu_m, Sigma_m), Sigma_m = (K_m^{-1} + Omega_m)^{-1}, mu_m = Sigma_m kappa_m, kappa_m = y_m - 1/2, Equations 1-6), and introducing two inducing-point extensions \u2014 pFedGP-IP-data (which optimizes local inducing inputs X_bar in input space to regularize zero-shot adaptation) and pFedGP-IP-compute (which applies the Fully Independent Training Conditional (FITC) approximation K_{NN} approx Q_{NN} + diag(K_{NN} - Q_{NN}), Q_{NN} = K_{NM} K_{MM}^{-1} K_{MN} to reduce cubic O(N^3) matrix inversion to O(M^2 N + M^3), Equations 9-12)."
+identity_notes: "Distinct from pFedBayes (AIMech:PFedBayesPersonalizedFederatedLearningViaVariationalBayesianInference, Zhang et al. 2022), which places factorized Gaussian variational posteriors over neural network weights rather than non-parametric Gaussian Processes with P\xF3lya-Gamma augmentation over a shared deep kernel; and distinct from FedPA (AIMech:FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance, Al-Shedivat et al. 2021), which aggregates approximate client parameter posteriors into a single global parameter vector."
+aliases:
+- pFedGP
+- Personalized Federated Learning with Gaussian Processes
+- pFedGP-IP-data
+- pFedGP-IP-compute
+definition_evidence:
+- source_id: r472-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r472-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r472-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r472-polya-gamma-gp-tree-predictive-marginal-mechanism
+  kind: mechanism
+  statement: "Conditioned on P\xF3lya-Gamma auxiliary variables omega_i ~ PG(1, f(x_i)), each binary GP node m in the C-class hierarchical tree yields an exact Gaussian posterior N(f_m | Sigma_m(y_m - 1/2), Sigma_m) with Sigma_m = (K_m^{-1} + diag(omega_m))^{-1}, Gaussian predictive latent distribution N(f_* | mu_*, sigma_*^2) (Equations 4-5), and factorized class probability P(y_* = c | x_*, X, y, Omega) = prod_{m in Path_c} (int Psi(f_m^*) N(f_m^* | mu_m^*, sigma_m^{*2}) df_m^*)^{y_{c,m}} (1 - int ...)^{1 - y_{c,m}} (Equation 7) (Achituve et al. 2021, Section 4.1)."
+  evidence:
+  - source_id: r472-primary-pdf
+    locator: Sections 3.2 & 4.1 (Equations 1-7), pp. 3-5
+    relation: supports
+- claim_id: r472-pac-bayes-generalization-and-fitc-inducing-points-mechanism
+  kind: mechanism
+  statement: Theorem 1 establishes a PAC-Bayes generalization bound for each client's GP tree scales with (1 / m_i) sum_{j in Y} KL(Q_i(f_j) || P(f_j)), motivating shared deep kernel optimization via predictive marginal likelihood; pFedGP-IP-compute further replaces K_{NN} with the FITC low-rank-plus-diagonal covariance Q_{NN} + diag(K_{NN} - Q_{NN}) over M << N inducing points to achieve O(M^2 N + M^3) complexity (Achituve et al. 2021, Sections 4.2-4.3, Equations 9-14, Theorem 1).
+  evidence:
+  - source_id: r472-primary-pdf
+    locator: Sections 4.2-4.3 (Equations 9-14, Theorem 1), pp. 5-7
+    relation: supports
+- claim_id: r472-uncertainty-calibrated-personalized-classification-application
+  kind: application
+  statement: Applied to personalized federated classification, novel-client adaptation without gradient updates, and out-of-distribution uncertainty calibration (Expected Calibration Error) on CIFAR-10, CIFAR-100, and CINIC-10 (Achituve et al. 2021, Section 5, Tables 1-4).
+  evidence:
+  - source_id: r472-primary-pdf
+    locator: Section 5 (Experiments, Tables 1-4, Figure 2), pp. 7-9
+    relation: supports
+- claim_id: r472-tree-node-scaling-and-gibbs-sampling-overhead-limitation
+  kind: limitation
+  statement: "Requires fitting C - 1 binary GP classifiers along the class hierarchy tree and running block Gibbs sampling over P\xF3lya-Gamma variables omega_m and Gaussian latents f_m during local updates, which increases per-step computational cost when the number of classes C or local dataset size N_i is large without inducing-point approximation (Achituve et al. 2021, Sections 4.1-4.2)."
+  evidence:
+  - source_id: r472-primary-pdf
+    locator: Sections 4.1-4.2, pp. 4-6
+    relation: supports
+evidence_sources:
+- source_id: r472-primary-pdf
+  title: Personalized Federated Learning with Gaussian Processes
+  authors: &id001
+  - Idan Achituve
+  - Aviv Shamsian
+  - Aviv Navon
+  - Gal Chechik
+  - Ethan Fetaya
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.15482.pdf
+  persistent_id: https://proceedings.neurips.cc/paper/2021/hash/44f683a84163b3523afe57c2e008bc8c-Abstract.html
+  version: NeurIPS 2021 (2021) (1270 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:15:00Z'
+  sha256: b4106293164884a48a4c7fec56a8406c999861e1bd471a2b9da0fd79119cf43d
+- source_id: r472-arxiv-abs
+  title: Personalized Federated Learning with Gaussian Processes (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.15482
+  persistent_id: https://arxiv.org/abs/2106.15482
+  version: arXiv abstract page (419 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:15:00Z'
+  sha256: dede9e95fe4de7cb5bf49bd44eca00ab30546bb24fcda876d322393fae069b11
+- source_id: r472-metadata-cr
+  title: Personalized Federated Learning with Gaussian Processes (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2021/hash/44f683a84163b3523afe57c2e008bc8c-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2021/hash/44f683a84163b3523afe57c2e008bc8c-Abstract.html
+  version: Crossref API work record (303 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:15:00Z'
+  sha256: 1d24fa65d0ff1e583c0b3f1f1eddff9385867f9e0998aca28358c94fec9b768b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: pFedGP is a Bayesian personalized federated learning algorithm within the broader FederatedLearning category.
+limitations:
+- Full GP inference scales cubically O(N_i^3) in local dataset size N_i per tree node unless the FITC inducing-point variant (pFedGP-IP-compute) is used.
+- Multi-class classification requires constructing and evaluating C - 1 binary GP classifiers arranged in a hierarchical tree.
+curation:
+  created_at: '2026-10-19T09:15:00Z'
+  updated_at: '2026-10-19T09:15:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
