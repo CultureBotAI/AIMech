@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedCP (Federated Conditional Policy for Sample-Wise Feature Information Separation) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedCP (Federated Conditional Policy for Sample-Wise Feature Information Separation)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedCP (Federated Conditional Policy for Sample-Wise Feature Information Separation)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedCpConditionalPolicyFeatureSeparationForPersonalizedFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedCP, Federated Conditional Policy, Separating Feature Information for Personalized Federated Learning via Conditional Policy
+    </div>
+
+  <div class="detail-desc">
+    A personalized federated learning algorithm (Zhang et al. 2023, Section 3.2, Equations 2-8, Algorithm 1) that separates each input sample&#39;s K-dimensional representation h_i = f(x_i; W_i^{fe}) in R^K into global feature information r_i odot h_i and personalized feature information s_i odot h_i using a client-specific Conditional Policy Network (CPN, parameterized by Theta_i) that takes the head-conditioned vector C_i = (v_i / ||v_i||_2) odot h_i (with v_i = sum_{c=1}^C w_c^T summed over the rows of the personalized head W_i^{hd}) and outputs complementary per-dimension soft routing gates r_i^k = exp(a_{i,1}^k) / (exp(a_{i,1}^k) + exp(a_{i,2}^k)) and s_i^k = exp(a_{i,2}^k) / (exp(a_{i,1}^k) + exp(a_{i,2}^k)) satisfying r_i^k + s_i^k = 1 (Equations 3-4), routes r_i odot h_i to the frozen global head W^{hd} and s_i odot h_i to the trainable personalized head W_i^{hd} to form combined logits out_i = g(r_i odot h_i; W^{hd}) + g(s_i odot h_i; W_i^{hd}) (Equation 5), regularizes h_i toward the frozen global feature extractor via RKHS Maximum Mean Discrepancy E_i^d (Equations 7-8), and uploads the averaged head W_hat_i^{hd} = (W^{hd} + W_i^{hd}) / 2 (Equation 6).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedALA (AIMech:FedAlaAdaptiveLocalAggregationForPersonalizedFederatedLearning, Zhang et al. 2023), which learns static client-level parameter initialization weights W_i^p before local training rather than a sample-dependent feature-gating Conditional Policy Network CPN(C_i; Theta_i) with dual global/personalized heads during forward inference; and distinct from FedRep (AIMech:FedRepSharedRepresentationPersonalizedFederatedLearning) and FedRoD (AIMech:FedRodDecoupledGenericAndPersonalizedFederatedLearning, Chen &amp; Chao 2022), which feed the entire unseparated feature vector h_i into both heads without complementary per-dimension feature gating r_i + s_i = 1.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r463-head-conditioned-complementary-feature-gating-cpn-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Conditions the local policy network CPN(.; Theta_i) on the Hadamard product C_i = (v_i / ||v_i||_2) odot h_i between the normalized column-sum of the personalized classifier head v_i = sum_{c=1}^C w_c^T and the sample feature vector h_i, applying a 2-way softmax per feature dimension k in [K] to generate complementary routing policies r_i^k + s_i^k = 1 (Equations 3-4) that dispatch r_i odot h_i to the frozen global head W^{hd} and s_i odot h_i to the trainable personalized head W_i^{hd} (Equation 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r463-primary-pdf">FedCP: Separating Feature Information for Personalized Federated Learning via Conditional Policy</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.1 Separating Feature Information &amp; Section 3.2.2 Processing Separated Feature Information (Equations 3-6), pp. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r463-mmd-feature-alignment-and-pir-quantification-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Aligns personalized feature extractors W_i^{fe} with the global feature extractor W^{fe} via an RKHS Maximum Mean Discrepancy regularizer E_i^d = ||E[phi(h_i)] - E[phi(f(x_i; W^{fe}))]||_H^2 (Equations 7-8) while quantifying the fraction of personalized feature dimensions via the Personalization Identification Ratio PIR_i = (1 / K) sum_{k=1}^K s_bar_i^k (Section 8).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r463-primary-pdf">FedCP: Separating Feature Information for Personalized Federated Learning via Conditional Policy</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.3 Regularizing Feature Extractor (Equations 7-8) &amp; Section 8 Personalization Identification Ratio, pp. 5, 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r463-cpn-parameter-and-dual-extractor-forward-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Introduces client-specific CPN parameters Theta_i of size O(K^2) and requires an additional forward pass through the frozen global feature extractor W^{fe} on every local mini-batch to evaluate the MMD alignment loss E_i^d.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r463-primary-pdf">FedCP: Separating Feature Information for Personalized Federated Learning via Conditional Policy</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.1-3.2.3 (Algorithm 1, Equations 7-8) &amp; Section 4.4 Overhead Analysis, pp. 4-5, 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r463-personalized-federated-image-and-text-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to personalized federated image and text classification under pathological and Dirichlet label skew on MNIST, CIFAR-10, CIFAR-100, Tiny-ImageNet, and AG News.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r463-primary-pdf">FedCP: Separating Feature Information for Personalized Federated Learning via Conditional Policy</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Experiments (Tables 1-4, Figures 3-6), pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires stateful clients to maintain local CPN parameters Theta_i and personalized head W_i^{hd} across communication rounds.</li>
+      <li>Adds O(K^2) CPN parameters and an extra frozen global feature-extractor forward pass per training batch for MMD regularization.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedCP is a personalized federated learning method that uses a sample-wise conditional policy network to separate global and personalized feature representations.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r463-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r463-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2307.01217.pdf" target="_blank" rel="noopener">FedCP: Separating Feature Information for Personalized Federated Learning via Conditional Policy</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianqing Zhang, Yang Hua, Hao Wang, Tao Song, Zhengui Xue, Ruhui Ma, Haibing Guan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1145/3580305.3599345</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9a56c997a0ef…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r463-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r463-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2307.01217" target="_blank" rel="noopener">FedCP: Separating Feature Information for Personalized Federated Learning via Conditional Policy (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianqing Zhang, Yang Hua, Hao Wang, Tao Song, Zhengui Xue, Ruhui Ma, Haibing Guan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2307.01217</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5d646ec66ec6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r463-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r463-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1145/3580305.3599345" target="_blank" rel="noopener">FedCP: Separating Feature Information for Personalized Federated Learning via Conditional Policy (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianqing Zhang, Yang Hua, Hao Wang, Tao Song, Zhengui Xue, Ruhui Ma, Haibing Guan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1145/3580305.3599345</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:07bc51e8bba3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:06:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:06:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedCpConditionalPolicyFeatureSeparationForPersonalizedFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedCpConditionalPolicyFeatureSeparationForPersonalizedFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

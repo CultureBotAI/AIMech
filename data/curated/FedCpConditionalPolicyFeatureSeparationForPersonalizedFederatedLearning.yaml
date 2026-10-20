@@ -1,0 +1,104 @@
+id: AIMech:FedCpConditionalPolicyFeatureSeparationForPersonalizedFederatedLearning
+name: FedCP (Federated Conditional Policy for Sample-Wise Feature Information Separation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A personalized federated learning algorithm (Zhang et al. 2023, Section 3.2, Equations 2-8, Algorithm 1) that separates each input sample's K-dimensional representation h_i = f(x_i; W_i^{fe}) in R^K into global feature information r_i odot h_i and personalized feature information s_i odot h_i using a client-specific Conditional Policy Network (CPN, parameterized by Theta_i) that takes the head-conditioned vector C_i = (v_i / ||v_i||_2) odot h_i (with v_i = sum_{c=1}^C w_c^T summed over the rows of the personalized head W_i^{hd}) and outputs complementary per-dimension soft routing gates r_i^k = exp(a_{i,1}^k) / (exp(a_{i,1}^k) + exp(a_{i,2}^k)) and s_i^k = exp(a_{i,2}^k) / (exp(a_{i,1}^k) + exp(a_{i,2}^k)) satisfying r_i^k + s_i^k = 1 (Equations 3-4), routes r_i odot h_i to the frozen global head W^{hd} and s_i odot h_i to the trainable personalized head W_i^{hd} to form combined logits out_i = g(r_i odot h_i; W^{hd}) + g(s_i odot h_i; W_i^{hd}) (Equation 5), regularizes h_i toward the frozen global feature extractor via RKHS Maximum Mean Discrepancy E_i^d (Equations 7-8), and uploads the averaged head W_hat_i^{hd} = (W^{hd} + W_i^{hd}) / 2 (Equation 6).
+identity_notes: Distinct from FedALA (AIMech:FedAlaAdaptiveLocalAggregationForPersonalizedFederatedLearning, Zhang et al. 2023), which learns static client-level parameter initialization weights W_i^p before local training rather than a sample-dependent feature-gating Conditional Policy Network CPN(C_i; Theta_i) with dual global/personalized heads during forward inference; and distinct from FedRep (AIMech:FedRepSharedRepresentationPersonalizedFederatedLearning) and FedRoD (AIMech:FedRodDecoupledGenericAndPersonalizedFederatedLearning, Chen & Chao 2022), which feed the entire unseparated feature vector h_i into both heads without complementary per-dimension feature gating r_i + s_i = 1.
+aliases:
+- FedCP
+- Federated Conditional Policy
+- Separating Feature Information for Personalized Federated Learning via Conditional Policy
+definition_evidence:
+- source_id: r463-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r463-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r463-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r463-head-conditioned-complementary-feature-gating-cpn-mechanism
+  kind: mechanism
+  statement: Conditions the local policy network CPN(.; Theta_i) on the Hadamard product C_i = (v_i / ||v_i||_2) odot h_i between the normalized column-sum of the personalized classifier head v_i = sum_{c=1}^C w_c^T and the sample feature vector h_i, applying a 2-way softmax per feature dimension k in [K] to generate complementary routing policies r_i^k + s_i^k = 1 (Equations 3-4) that dispatch r_i odot h_i to the frozen global head W^{hd} and s_i odot h_i to the trainable personalized head W_i^{hd} (Equation 5).
+  evidence:
+  - source_id: r463-primary-pdf
+    locator: Section 3.2.1 Separating Feature Information & Section 3.2.2 Processing Separated Feature Information (Equations 3-6), pp. 3-5
+    relation: supports
+- claim_id: r463-mmd-feature-alignment-and-pir-quantification-scope
+  kind: scope
+  statement: Aligns personalized feature extractors W_i^{fe} with the global feature extractor W^{fe} via an RKHS Maximum Mean Discrepancy regularizer E_i^d = ||E[phi(h_i)] - E[phi(f(x_i; W^{fe}))]||_H^2 (Equations 7-8) while quantifying the fraction of personalized feature dimensions via the Personalization Identification Ratio PIR_i = (1 / K) sum_{k=1}^K s_bar_i^k (Section 8).
+  evidence:
+  - source_id: r463-primary-pdf
+    locator: Section 3.2.3 Regularizing Feature Extractor (Equations 7-8) & Section 8 Personalization Identification Ratio, pp. 5, 9
+    relation: supports
+- claim_id: r463-cpn-parameter-and-dual-extractor-forward-overhead-limitation
+  kind: limitation
+  statement: Introduces client-specific CPN parameters Theta_i of size O(K^2) and requires an additional forward pass through the frozen global feature extractor W^{fe} on every local mini-batch to evaluate the MMD alignment loss E_i^d.
+  evidence:
+  - source_id: r463-primary-pdf
+    locator: Section 3.2.1-3.2.3 (Algorithm 1, Equations 7-8) & Section 4.4 Overhead Analysis, pp. 4-5, 8
+    relation: supports
+- claim_id: r463-personalized-federated-image-and-text-classification-application
+  kind: application
+  statement: Applied to personalized federated image and text classification under pathological and Dirichlet label skew on MNIST, CIFAR-10, CIFAR-100, Tiny-ImageNet, and AG News.
+  evidence:
+  - source_id: r463-primary-pdf
+    locator: Section 4 Experiments (Tables 1-4, Figures 3-6), pp. 5-8
+    relation: supports
+evidence_sources:
+- source_id: r463-primary-pdf
+  title: 'FedCP: Separating Feature Information for Personalized Federated Learning via Conditional Policy'
+  authors: &id001
+  - Jianqing Zhang
+  - Yang Hua
+  - Hao Wang
+  - Tao Song
+  - Zhengui Xue
+  - Ruhui Ma
+  - Haibing Guan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2307.01217.pdf
+  persistent_id: https://doi.org/10.1145/3580305.3599345
+  version: Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD '23), pp. 3249-3261 (2023) (2221 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:06:00Z'
+  sha256: 9a56c997a0efbfecd4c00c53898448ed8f768143455a44471828935f8991696e
+- source_id: r463-arxiv-abs
+  title: 'FedCP: Separating Feature Information for Personalized Federated Learning via Conditional Policy (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2307.01217
+  persistent_id: https://arxiv.org/abs/2307.01217
+  version: arXiv abstract page (915 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:06:00Z'
+  sha256: 5d646ec66ec619ec00eb342890f1251a1e05eafdd09d3b6a0fd3500dc8924fee
+- source_id: r463-metadata-cr
+  title: 'FedCP: Separating Feature Information for Personalized Federated Learning via Conditional Policy (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1145/3580305.3599345
+  persistent_id: https://doi.org/10.1145/3580305.3599345
+  version: Crossref API work record (484 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:06:00Z'
+  sha256: 07bc51e8bba35480fe5e51104c4b84d63ce2b8b6c9beefa8aaefedc5e526c9da
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedCP is a personalized federated learning method that uses a sample-wise conditional policy network to separate global and personalized feature representations.
+limitations:
+- Requires stateful clients to maintain local CPN parameters Theta_i and personalized head W_i^{hd} across communication rounds.
+- Adds O(K^2) CPN parameters and an extra frozen global feature-extractor forward pass per training batch for MMD regularization.
+curation:
+  created_at: '2026-10-19T09:06:00Z'
+  updated_at: '2026-10-19T09:06:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

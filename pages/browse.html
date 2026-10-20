@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1299</strong> artificial intelligence concepts, comprising <strong>857</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1300</strong> artificial intelligence concepts, comprising <strong>858</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1299)</option>
-        <option value="curated">Curated AIMech (857)</option>
+        <option value="all">All Origins (1300)</option>
+        <option value="curated">Curated AIMech (858)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (555)</option>
+          <option value="algorithm">Algorithms (556)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1299</span> of <span id="totalCount">1299</span>
+      Showing <span id="matchCount">1300</span> of <span id="totalCount">1300</span>
     </div>
   </div>
 </div>
@@ -10173,6 +10173,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:FedCorrMultiStageLabelNoiseCorrectionForFederatedLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fedcp (federated conditional policy for sample-wise feature information separation) fedcpconditionalpolicyfeatureseparationforpersonalizedfederatedlearning aimech:fedcpconditionalpolicyfeatureseparationforpersonalizedfederatedlearning algorithms algorithm a personalized federated learning algorithm (zhang et al. 2023, section 3.2, equations 2-8, algorithm 1) that separates each input sample&#39;s k-dimensional representation h_i = f(x_i; w_i^{fe}) in r^k into global feature information r_i odot h_i and personalized feature information s_i odot h_i using a client-specific conditional policy network (cpn, parameterized by theta_i) that takes the head-conditioned vector c_i = (v_i / ||v_i||_2) odot h_i (with v_i = sum_{c=1}^c w_c^t summed over the rows of the personalized head w_i^{hd}) and outputs complementary per-dimension soft routing gates r_i^k = exp(a_{i,1}^k) / (exp(a_{i,1}^k) + exp(a_{i,2}^k)) and s_i^k = exp(a_{i,2}^k) / (exp(a_{i,1}^k) + exp(a_{i,2}^k)) satisfying r_i^k + s_i^k = 1 (equations 3-4), routes r_i odot h_i to the frozen global head w^{hd} and s_i odot h_i to the trainable personalized head w_i^{hd} to form combined logits out_i = g(r_i odot h_i; w^{hd}) + g(s_i odot h_i; w_i^{hd}) (equation 5), regularizes h_i toward the frozen global feature extractor via rkhs maximum mean discrepancy e_i^d (equations 7-8), and uploads the averaged head w_hat_i^{hd} = (w^{hd} + w_i^{hd}) / 2 (equation 6). distinct from fedala (aimech:fedalaadaptivelocalaggregationforpersonalizedfederatedlearning, zhang et al. 2023), which learns static client-level parameter initialization weights w_i^p before local training rather than a sample-dependent feature-gating conditional policy network cpn(c_i; theta_i) with dual global/personalized heads during forward inference; and distinct from fedrep (aimech:fedrepsharedrepresentationpersonalizedfederatedlearning) and fedrod (aimech:fedroddecoupledgenericandpersonalizedfederatedlearning, chen &amp; chao 2022), which feed the entire unseparated feature vector h_i into both heads without complementary per-dimension feature gating r_i + s_i = 1. fedcp federated conditional policy separating feature information for personalized federated learning via conditional policy conditions the local policy network cpn(.; theta_i) on the hadamard product c_i = (v_i / ||v_i||_2) odot h_i between the normalized column-sum of the personalized classifier head v_i = sum_{c=1}^c w_c^t and the sample feature vector h_i, applying a 2-way softmax per feature dimension k in [k] to generate complementary routing policies r_i^k + s_i^k = 1 (equations 3-4) that dispatch r_i odot h_i to the frozen global head w^{hd} and s_i odot h_i to the trainable personalized head w_i^{hd} (equation 5). aligns personalized feature extractors w_i^{fe} with the global feature extractor w^{fe} via an rkhs maximum mean discrepancy regularizer e_i^d = ||e[phi(h_i)] - e[phi(f(x_i; w^{fe}))]||_h^2 (equations 7-8) while quantifying the fraction of personalized feature dimensions via the personalization identification ratio pir_i = (1 / k) sum_{k=1}^k s_bar_i^k (section 8). introduces client-specific cpn parameters theta_i of size o(k^2) and requires an additional forward pass through the frozen global feature extractor w^{fe} on every local mini-batch to evaluate the mmd alignment loss e_i^d. applied to personalized federated image and text classification under pathological and dirichlet label skew on mnist, cifar-10, cifar-100, tiny-imagenet, and ag news. fedcp: separating feature information for personalized federated learning via conditional policy fedcp: separating feature information for personalized federated learning via conditional policy (arxiv abstract) fedcp: separating feature information for personalized federated learning via conditional policy (crossref metadata) jianqing zhang yang hua hao wang tao song zhengui xue ruhui ma haibing guan jianqing zhang yang hua hao wang tao song zhengui xue ruhui ma haibing guan jianqing zhang yang hua hao wang tao song zhengui xue ruhui ma haibing guan">
+        <td>
+          <a href="curated/FedCpConditionalPolicyFeatureSeparationForPersonalizedFederatedLearning.html" style="font-weight: 600; font-size: 1rem;">FedCP (Federated Conditional Policy for Sample-Wise Feature Information Separation)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedCP, Federated Conditional Policy…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A personalized federated learning algorithm (Zhang et al. 2023, Section 3.2, Equations 2-8, Algorithm 1) that separates each input sample&#39;s…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedCpConditionalPolicyFeatureSeparationForPersonalizedFederatedLearning</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
