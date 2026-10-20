@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1304</strong> artificial intelligence concepts, comprising <strong>862</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1305</strong> artificial intelligence concepts, comprising <strong>863</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1304)</option>
-        <option value="curated">Curated AIMech (862)</option>
+        <option value="all">All Origins (1305)</option>
+        <option value="curated">Curated AIMech (863)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (560)</option>
+          <option value="algorithm">Algorithms (561)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1304</span> of <span id="totalCount">1304</span>
+      Showing <span id="matchCount">1305</span> of <span id="totalCount">1305</span>
     </div>
   </div>
 </div>
@@ -10973,6 +10973,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:FedSplitOperatorSplittingForFastFederatedOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fedthe (test-time robust personalized federated learning with two-head ensemble) fedthetesttimeheadensembleforpersonalizedfederatedlearning aimech:fedthetesttimeheadensembleforpersonalizedfederatedlearning algorithms algorithm a test-time adaptive personalized federated learning framework (jiang &amp; lin 2023, sections 4.1-4.2, algorithm 1) that equips a shared feature extractor g with both an aggregated global classifier head h_g and a local personalized classifier head h_{p_m}, maintains a local training feature history h_hat_m = beta h_hat_m + (1 - beta) z_bar_m where z_bar_m is the batch average of l2-normalized penultimate features g(x) / ||g(x)||_2, and adapts per-sample ensemble weights (e, 1 - e) in the simplex delta^1 at test time for each single test input x&#39; by (1) updating a test-sample ema feature tracker z&#39;_t = alpha z&#39;_{t-1} + (1 - alpha) z_norm(x&#39;) to compute cosine similarity lambda_s = cos(z&#39;_t, h_hat_m) clipped to [0, 1] as a feature-space interpolator between global and personalized heads, (2) taking a one-step gradient descent update on the prediction shannon entropy l_e(y_hat) = -sum_c y_hat_c log y_hat_c of y_hat = softmax(e h_g(g(x&#39;)) + (1 - e) h_{p_m}(g(x&#39;))) projected onto delta^1 to obtain entropy-minimized weights (e^*, 1 - e^*), and (3) combining both signals via feature-space temperature scaling y_hat_final = softmax(e^* h_g(g(x&#39;)) / tau_g + (1 - e^*) h_{p_m}(g(x&#39;)) / tau_l) with adaptive temperatures tau_g = 1 - lambda_s + epsilon and tau_l = lambda_s + epsilon (algorithm 1, lines 12-13). distinct from fedrod (aimech:fedrodbridginggenericandpersonalizedfederatedlearning, chen &amp; chao 2022), which trains dual generic (balanced softmax) and personalized heads but uses fixed static head selection or addition at test time without per-sample entropy minimization or cosine-similarity feature temperature scaling; and distinct from fedrep (aimech:fedrepexploitingsharedrepresentationsforpersonalizedfederatedlearning, collins et al. 2021), which discards the global head and evaluates only a local personalized head that fails on out-of-client shifted test classes. fedthe fedthe+ test-time head ensemble for personalized federated learning two-head ensemble with test-time entropy and feature similarity adaptation combines test-time prediction entropy minimization min_{(e, 1-e) in delta^1} h(softmax(e z_g + (1 - e) z_p)) (algorithm 1, line 8) with feature-space cosine-similarity temperature scaling tau_g = 1 - lambda_s + epsilon, tau_l = lambda_s + epsilon where lambda_s = clip(cos(z&#39;_t, h_hat_m), 0, 1) measures alignment between the test representation ema z&#39;_t and the client&#39;s local training representation centroid h_hat_m (algorithm 1, lines 11-13), upweighting h_{p_m} on in-distribution samples (lambda_s -&gt; 1) and upweighting h_g on out-of-client samples (lambda_s -&gt; 0). operates on single streaming test samples (batch size 1) by optimizing only two scalar ensemble weights (e, 1 - e) rather than high-dimensional batch normalization parameters, and extends to fedthe+ by adding one epoch of local fine-tuning of both backbone and local head prior to computing h_hat_m (section 4.1 &amp; table 1). pure test-time entropy minimization on two-head logits can be misled when a client&#39;s local personalized head trained on a skewed subset of classes produces overconfident low-entropy wrong predictions on unseen classes, necessitating the feature-space cosine similarity term lambda_s and assuming unimodal class-representation clustering around h_hat_m. applied to personalized federated image classification on cifar-10, cifar-100, and imagenet-32 under co-occurring in-distribution label skew, global out-of-client class shift, and hendrycks cifar-10-c/cifar-100-c common corruptions. test-time robust personalization for federated learning test-time robust personalization for federated learning (arxiv abstract) test-time robust personalization for federated learning (crossref metadata) liangze jiang tao lin liangze jiang tao lin liangze jiang tao lin">
+        <td>
+          <a href="curated/FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning.html" style="font-weight: 600; font-size: 1rem;">FedTHE (Test-Time Robust Personalized Federated Learning with Two-Head Ensemble)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedTHE, FedTHE+…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A test-time adaptive personalized federated learning framework (Jiang &amp; Lin 2023, Sections 4.1-4.2, Algorithm 1) that equips a shared featur…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

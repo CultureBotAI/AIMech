@@ -1,0 +1,352 @@
+# Scientific author self-review of FedTHE (Test-Time Robust Personalized Federated Learning with Two-Head Ensemble)
+
+- Review: 20261019T091130Z-fedthe-test-time-head-ensemble-personalized-fl
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T09:11:00Z
+- Finished UTC: 2026-10-19T09:11:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain FedTHE (Test-Time Robust Personalized Federated Learning with Two-Head Ensemble) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 066676b4195411a68fc0ad6d773622925efff119.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning | data/curated/FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning.yaml | maintained | FedTHE (Test-Time Robust Personalized Federated Learning with Two-Head Ensemble) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning | Validated history sidecar files. |
+| python3 fedthe-test-time-head-ensemble-boundaries.py | passed | True | AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning | [PASS] Round 468 FedTHE verified: ID(1-e*=1.00, lam_s=0.939), OoC(e*=1.00, lam_s=0.065, pred_class=3) |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning.
+
+FedTHE (Test-Time Robust Personalized Federated Learning with Two-Head Ensemble) is a distinct concept.
+
+Distinct from FedRoD (AIMech:FedRodBridgingGenericAndPersonalizedFederatedLearning, Chen &amp; Chao 2022), which trains dual generic (balanced softmax) and personalized heads but uses fixed static head selection or addition at test time without per-sample entropy minimization or cosine-similarity feature temperature scaling; and distinct from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which discards the global head and evaluates only a local personalized head that fails on out-of-client shifted test classes.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in fedthe-test-time-head-ensemble-boundaries.py passed with exit code 0: [PASS] Round 468 FedTHE verified: ID(1-e*=1.00, lam_s=0.939), OoC(e*=1.00, lam_s=0.065, pred_class=3)
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T091100Z-fedthe-test-time-head-ensemble-personalized-fl.json | supports | No normalized identity match for AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/fedthe-test-time-head-ensemble-boundaries.py | supports | All constructed boundary assertions in fedthe-test-time-head-ensemble-boundaries.py passed with exit code 0: [PASS] Round 468 FedTHE verified: ID(1-e*=1.00, lam_s=0.939), OoC(e*=1.00, lam_s=0.065, pred_class=3) |
+| r468-primary-pdf | https://arxiv.org/pdf/2212.01370.pdf; Full-text PDF | supports | Full-text PDF (Conference Proceedings (2023)) read and verified. |
+| r468-arxiv-abs | https://arxiv.org/abs/2212.01370; arXiv abstract | supports | arXiv abstract read and verified. |
+| r468-metadata-cr | https://openreview.net/forum?id=3a1522662c; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning in Round 468.
+- All pages of Conference Proceedings (2023) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T091130Z-fedthe-test-time-head-ensemble-personalized-fl
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of FedTHE (Test-Time Robust Personalized Federated
+  Learning with Two-Head Ensemble)
+started_at: '2026-10-19T09:11:00Z'
+finished_at: '2026-10-19T09:11:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+    against existing AIMech and AIO records and verified all claims against Conference
+    Proceedings (2023) and pure-Python boundary checks. This is adversarial author
+    self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain FedTHE (Test-Time Robust Personalized Federated Learning with Two-Head
+  Ensemble) as a distinct DRAFT algorithm. All three claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 066676b4195411a68fc0ad6d773622925efff119
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning.yaml
+    sha256: 8a6b9217d5c87d9570dd3dadda8e7a7f157980d20106ee13caf45fc1d44c7021
+    role: target
+  - path: research/discovery/20261019T091100Z-fedthe-test-time-head-ensemble-personalized-fl.json
+    sha256: 82caa0936cad9c3c21d1d074ae1dc07edd29694dcef74622992e49d0ba53b211
+    role: context
+  - path: research/discovery/fedthe-test-time-head-ensemble-boundaries.py
+    sha256: e5523aa63a1ebbbda68db0482843a645e13905b75e7c2fede8d35130a1eaea16
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+  path: data/curated/FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning.yaml
+  label: FedTHE (Test-Time Robust Personalized Federated Learning with Two-Head Ensemble)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 fedthe-test-time-head-ensemble-boundaries.py
+  command: python3 research/discovery/fedthe-test-time-head-ensemble-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 468 FedTHE verified: ID(1-e*=1.00, lam_s=0.939), OoC(e*=1.00,
+    lam_s=0.065, pred_class=3)'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T091100Z-fedthe-test-time-head-ensemble-personalized-fl.json
+  accessed_at: '2026-10-19T09:11:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T09:11:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/fedthe-test-time-head-ensemble-boundaries.py
+  accessed_at: '2026-10-19T09:11:00Z'
+  snapshot_sha256: e5523aa63a1ebbbda68db0482843a645e13905b75e7c2fede8d35130a1eaea16
+  support: supports
+  summary: 'All constructed boundary assertions in fedthe-test-time-head-ensemble-boundaries.py
+    passed with exit code 0: [PASS] Round 468 FedTHE verified: ID(1-e*=1.00, lam_s=0.939),
+    OoC(e*=1.00, lam_s=0.065, pred_class=3)'
+- evidence_id: r468-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2212.01370.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T09:11:00Z'
+  snapshot_sha256: 03916ff69b1304b30ad32a8acc5aa8898506b46a03429db4342288724c7b39ba
+  support: supports
+  summary: Full-text PDF (Conference Proceedings (2023)) read and verified.
+- evidence_id: r468-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2212.01370
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T09:11:00Z'
+  snapshot_sha256: aa47fcba6e28b147605f29e951f06f519fa5094529fe07419059370b1c3d085b
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r468-metadata-cr
+  kind: primary_source
+  reference: https://openreview.net/forum?id=3a1522662c
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T09:11:00Z'
+  snapshot_sha256: 051ee25674a3fae720a7d3ec2bb88cfb879144c243b56b1e90eaf5f8306337ad
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+  evidence_ids:
+  - identity
+  - r468-primary-pdf
+  - r468-arxiv-abs
+  - r468-metadata-cr
+  summary: FedTHE (Test-Time Robust Personalized Federated Learning with Two-Head
+    Ensemble) is a distinct concept.
+  details: Distinct from FedRoD (AIMech:FedRodBridgingGenericAndPersonalizedFederatedLearning,
+    Chen & Chao 2022), which trains dual generic (balanced softmax) and personalized
+    heads but uses fixed static head selection or addition at test time without per-sample
+    entropy minimization or cosine-similarity feature temperature scaling; and distinct
+    from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning,
+    Collins et al. 2021), which discards the global head and evaluates only a local
+    personalized head that fails on out-of-client shifted test classes.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+  evidence_ids:
+  - mapping
+  - r468-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+  evidence_ids:
+  - r468-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in fedthe-test-time-head-ensemble-boundaries.py
+    passed with exit code 0: [PASS] Round 468 FedTHE verified: ID(1-e*=1.00, lam_s=0.939),
+    OoC(e*=1.00, lam_s=0.065, pred_class=3)'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+  evidence_ids:
+  - identity
+  - mapping
+  - r468-primary-pdf
+  - r468-arxiv-abs
+  - r468-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+  in Round 468.
+- All pages of Conference Proceedings (2023) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
