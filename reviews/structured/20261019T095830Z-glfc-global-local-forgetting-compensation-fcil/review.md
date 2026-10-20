@@ -1,0 +1,353 @@
+# Scientific author self-review of GLFC (Global-Local Forgetting Compensation)
+
+- Review: 20261019T095830Z-glfc-global-local-forgetting-compensation-fcil
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T09:58:00Z
+- Finished UTC: 2026-10-19T09:58:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain GLFC (Global-Local Forgetting Compensation) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base e2200c27945dc20da95eda9f18ac12ba84bd2dad.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning | data/curated/GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.yaml | maintained | GLFC (Global-Local Forgetting Compensation) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning | Validated history sidecar files. |
+| python3 glfc-global-local-forgetting-compensation-fcil-boundaries.py | passed | True | AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning | [PASS] Round 515 GLFC (Dong et al. 2022): mean_w_old=1.00==mean_w_new=1.00, KL_forgetting=0.9818&gt;&gt;KL_matched=0.0e+00, entropy_jump=1.436&gt;=1.2 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.
+
+GLFC (Global-Local Forgetting Compensation) is a distinct concept.
+
+Introduced by Jiahua Dong, Lixu Wang, Zhen Fang, Gan Sun, Shichao Xu, Xiao Wang, and Qi Zhu in 'Federated Class-Incremental Learning' (CVPR 2022, pp. 10154-10163, DOI:10.1109/CVPR52688.2022.00992; arXiv:2203.11473). Distinct from FedWeIT (Yoon et al. ICML 2021), which addresses task-incremental federated continual learning with known task IDs at test time and parameter decomposition into masked base weights and sparse task-adaptive weights rather than single-head class-incremental learning; and distinct from centralized class-incremental learning methods (iCaRL, Rebuffi et al. CVPR 2017; PODNet, Douillard et al. ECCV 2020), which assume a single centralized exemplar store without heterogeneous client groups S_o, S_b, S_n or proxy-server prototype gradient reconstruction.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in glfc-global-local-forgetting-compensation-fcil-boundaries.py passed with exit code 0: [PASS] Round 515 GLFC (Dong et al. 2022): mean_w_old=1.00==mean_w_new=1.00, KL_forgetting=0.9818&gt;&gt;KL_matched=0.0e+00, entropy_jump=1.436&gt;=1.2
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T095800Z-glfc-global-local-forgetting-compensation-fcil.json | supports | No normalized identity match for AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/glfc-global-local-forgetting-compensation-fcil-boundaries.py | supports | All constructed boundary assertions in glfc-global-local-forgetting-compensation-fcil-boundaries.py passed with exit code 0: [PASS] Round 515 GLFC (Dong et al. 2022): mean_w_old=1.00==mean_w_new=1.00, KL_forgetting=0.9818&gt;&gt;KL_matched=0.0e+00, entropy_jump=1.436&gt;=1.2 |
+| r515-primary-pdf | https://arxiv.org/pdf/2203.11473.pdf; Full-text PDF | supports | Full-text PDF (CVPR 2022 (2022)) read and verified. |
+| r515-arxiv-abs | https://arxiv.org/abs/2203.11473; arXiv abstract | supports | arXiv abstract read and verified. |
+| r515-metadata-cr | https://dblp.org/rec/conf/cvpr/DongWFSXW022; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning in Round 515.
+- All pages of CVPR 2022 (2022) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T095830Z-glfc-global-local-forgetting-compensation-fcil
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of GLFC (Global-Local Forgetting Compensation)
+started_at: '2026-10-19T09:58:00Z'
+finished_at: '2026-10-19T09:58:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+    against existing AIMech and AIO records and verified all claims against CVPR 2022
+    (2022) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain GLFC (Global-Local Forgetting Compensation) as a distinct DRAFT algorithm.
+  All three claims are supported by full-text primary evidence and pure-Python boundary
+  verification.
+source:
+  git_revision: e2200c27945dc20da95eda9f18ac12ba84bd2dad
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.yaml
+    sha256: cb1ee7389adb446e4aefc942cc2562042a162e26cde898c2eb54e4e1c4e44f56
+    role: target
+  - path: research/discovery/20261019T095800Z-glfc-global-local-forgetting-compensation-fcil.json
+    sha256: a42ff2d26ad70810534b69d920c6040b4671554d5c251d1a8f72f738376f2ef4
+    role: context
+  - path: research/discovery/glfc-global-local-forgetting-compensation-fcil-boundaries.py
+    sha256: c36792b5211587d6d23e81b2c881c75797fa45e6247bb870c5c83585774d8514
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+  path: data/curated/GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.yaml
+  label: GLFC (Global-Local Forgetting Compensation)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 glfc-global-local-forgetting-compensation-fcil-boundaries.py
+  command: python3 research/discovery/glfc-global-local-forgetting-compensation-fcil-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 515 GLFC (Dong et al. 2022): mean_w_old=1.00==mean_w_new=1.00,
+    KL_forgetting=0.9818>>KL_matched=0.0e+00, entropy_jump=1.436>=1.2'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T095800Z-glfc-global-local-forgetting-compensation-fcil.json
+  accessed_at: '2026-10-19T09:58:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T09:58:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/glfc-global-local-forgetting-compensation-fcil-boundaries.py
+  accessed_at: '2026-10-19T09:58:00Z'
+  snapshot_sha256: c36792b5211587d6d23e81b2c881c75797fa45e6247bb870c5c83585774d8514
+  support: supports
+  summary: 'All constructed boundary assertions in glfc-global-local-forgetting-compensation-fcil-boundaries.py
+    passed with exit code 0: [PASS] Round 515 GLFC (Dong et al. 2022): mean_w_old=1.00==mean_w_new=1.00,
+    KL_forgetting=0.9818>>KL_matched=0.0e+00, entropy_jump=1.436>=1.2'
+- evidence_id: r515-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2203.11473.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T09:58:00Z'
+  snapshot_sha256: fde0980a2a5e1f7ae3f2de8d805a082e8a8ca2a8573f59e15b8e8aeab9177e01
+  support: supports
+  summary: Full-text PDF (CVPR 2022 (2022)) read and verified.
+- evidence_id: r515-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2203.11473
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T09:58:00Z'
+  snapshot_sha256: f47c3caff455bb8c5b6de95cbe7c0a7d9e4526c60be7876d9cc268c8c2b790d0
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r515-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/cvpr/DongWFSXW022
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T09:58:00Z'
+  snapshot_sha256: 8e713776ba720c10caea0a7636bb4af809a4fb7122de8474ffa5cd30edbc8dad
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+  evidence_ids:
+  - identity
+  - r515-primary-pdf
+  - r515-arxiv-abs
+  - r515-metadata-cr
+  summary: GLFC (Global-Local Forgetting Compensation) is a distinct concept.
+  details: Introduced by Jiahua Dong, Lixu Wang, Zhen Fang, Gan Sun, Shichao Xu, Xiao
+    Wang, and Qi Zhu in 'Federated Class-Incremental Learning' (CVPR 2022, pp. 10154-10163,
+    DOI:10.1109/CVPR52688.2022.00992; arXiv:2203.11473). Distinct from FedWeIT (Yoon
+    et al. ICML 2021), which addresses task-incremental federated continual learning
+    with known task IDs at test time and parameter decomposition into masked base
+    weights and sparse task-adaptive weights rather than single-head class-incremental
+    learning; and distinct from centralized class-incremental learning methods (iCaRL,
+    Rebuffi et al. CVPR 2017; PODNet, Douillard et al. ECCV 2020), which assume a
+    single centralized exemplar store without heterogeneous client groups S_o, S_b,
+    S_n or proxy-server prototype gradient reconstruction.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+  evidence_ids:
+  - mapping
+  - r515-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+  evidence_ids:
+  - r515-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in glfc-global-local-forgetting-compensation-fcil-boundaries.py
+    passed with exit code 0: [PASS] Round 515 GLFC (Dong et al. 2022): mean_w_old=1.00==mean_w_new=1.00,
+    KL_forgetting=0.9818>>KL_matched=0.0e+00, entropy_jump=1.436>=1.2'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+  evidence_ids:
+  - identity
+  - mapping
+  - r515-primary-pdf
+  - r515-arxiv-abs
+  - r515-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+  in Round 515.
+- All pages of CVPR 2022 (2022) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
