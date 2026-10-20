@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1638</strong> artificial intelligence concepts, comprising <strong>1196</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1639</strong> artificial intelligence concepts, comprising <strong>1197</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1638)</option>
-        <option value="curated">Curated AIMech (1196)</option>
+        <option value="all">All Origins (1639)</option>
+        <option value="curated">Curated AIMech (1197)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -55,7 +55,7 @@
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (81)</option>
           <option value="layer">Layers &amp; Modules (12)</option>
-          <option value="learning_paradigm">Learning Paradigms (8)</option>
+          <option value="learning_paradigm">Learning Paradigms (9)</option>
           <option value="evaluation_criterion">Evaluation Criteria (5)</option>
           <option value="preprocessing_method">Preprocessing Methods (5)</option>
           <option value="evaluation_method">Evaluation Methods (4)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1638</span> of <span id="totalCount">1638</span>
+      Showing <span id="matchCount">1639</span> of <span id="totalCount">1639</span>
     </div>
   </div>
 </div>
@@ -4093,6 +4093,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:BerrutApproximatedCodedComputingForStragglerResilientNonPolynomialDistributedComputation</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="learning_paradigm"
+          data-branch=""
+          data-search="bert-pkd (patient knowledge distillation for bert model compression) bertpkdpatientknowledgedistillationforbertmodelcompression aimech:bertpkdpatientknowledgedistillationforbertmodelcompression learning paradigms learning_paradigm a multi-layer knowledge distillation method for compressing a deep pre-trained bert teacher into a shallower n-layer bert_n student (sun, cheng, gan, &amp; liu, emnlp-ijcnlp 2019) that supplements output-layer soft-target cross-entropy l_ds and ground-truth hard-label cross-entropy l_ce^s with a patient teacher loss l_pt measuring the squared l2 distance between l2-normalized intermediate-layer [cls] token representations of the student and k = n - 1 selected intermediate layers i_pt of the teacher under either a uniform skip strategy (pkd-skip) or a top-layer contiguous strategy (pkd-last): l_pkd = (1 - alpha) l_ce^s + alpha l_ds + beta l_pt. distinct from tinybert (aimech:tinyberttransformerdistillationfornaturallanguageunderstanding) and minilm (aimech:minilmdeepselfattentiondistillationfortaskagnosticcompression), which match full sequence token hidden states or multi-head attention/value-relation matrices across all tokens. to avoid the computational cost and noise of distilling all token positions during task-specific fine-tuning, bert-pkd initializes the n-layer student with the first n layers of pre-trained bert and aligns only the l2-normalized [cls] token embeddings across k = n - 1 intermediate layers via pkd-skip (e.g., i_pt = {2, 4, 6, 8, 10} for 12-&gt;6) or pkd-last (e.g., i_pt = {7, 8, 9, 10, 11}). bert-pkd patient knowledge distillation patient-kd (pkd-skip and pkd-last) for an n-layer student bert_n distilled from a deeper teacher (such as bert_12), bert-pkd selects k = n - 1 intermediate teacher layers i_pt via either pkd-skip (every d_step layers, e.g., i_pt = {2, 4, 6, 8, 10} for n=6) or pkd-last (the last k intermediate layers prior to the output layer, e.g., i_pt = {7, 8, 9, 10, 11} for n=6) and minimizes l_pkd = (1 - alpha) l_ce^s + alpha l_ds + beta l_pt (equations 5, 8), where l_pt = sum_{i=1}^n sum_{j=1}^m || h_{i,j}^s / ||h_{i,j}^s||_2 - h_{i,i_pt(j)}^t / ||h_{i,i_pt(j)}^t||_2 ||_2^2 (equations 6-7) aligns l2-normalized intermediate [cls] token vectors. on the official glue test benchmark and the race reading comprehension test set, 6-layer bert_6-pkd (1.64x parameter reduction, 1.94x gpu inference speedup) and 3-layer bert_3-pkd (2.40x parameter reduction, 3.73x speedup) consistently outperform direct fine-tuning (ft) and last-layer vanilla kd across sst-2, qqp, mnli-m/mm, qnli, rte, and race (reaching 60.34% on race vs. 58.74% for bert_6-kd and 54.32% for bert_6-ft, tables 1, 3, 4), with pkd-skip outperforming pkd-last by capturing diverse low-to-high-level layer semantics (table 2). because equation (7) directly subtracts normalized student and teacher [cls] vectors without a projection matrix and initializes bert_k from the bottom k layers of the teacher, bert-pkd cannot directly compute l_pt when student and teacher hidden dimensions differ (such as distilling bert_24[large] d=1024 into bert_6[base] d=768) and suffers from bottom-layer initialization mismatch when compressing 24-layer bert_large 4:1 into 6-layer bert_6[large] (section 4.5, table 5). patient knowledge distillation for bert model compression patient knowledge distillation for bert model compression (arxiv abstract) patient knowledge distillation for bert model compression (crossref metadata) siqi sun yu cheng zhe gan jingjing liu siqi sun yu cheng zhe gan jingjing liu siqi sun yu cheng zhe gan jingjing liu">
+        <td>
+          <a href="curated/BERTPKDPatientKnowledgeDistillationForBERTModelCompression.html" style="font-weight: 600; font-size: 1rem;">BERT-PKD (Patient Knowledge Distillation for BERT Model Compression)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> BERT-PKD, Patient Knowledge Distillation…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A multi-layer knowledge distillation method for compressing a deep pre-trained BERT teacher into a shallower n-layer BERT_n student (Sun, Ch…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/learning_paradigm.html" style="font-size: 0.85rem;">Learning Paradigms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:BERTPKDPatientKnowledgeDistillationForBERTModelCompression</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>

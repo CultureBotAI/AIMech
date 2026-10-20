@@ -1,0 +1,96 @@
+id: AIMech:BERTPKDPatientKnowledgeDistillationForBERTModelCompression
+name: BERT-PKD (Patient Knowledge Distillation for BERT Model Compression)
+concept_kind: learning_paradigm
+review_status: DRAFT
+definition: 'A multi-layer knowledge distillation method for compressing a deep pre-trained BERT teacher into a shallower n-layer BERT_n student (Sun, Cheng, Gan, & Liu, EMNLP-IJCNLP 2019) that supplements output-layer soft-target cross-entropy L_DS and ground-truth hard-label cross-entropy L_CE^s with a patient teacher loss L_PT measuring the squared L2 distance between L2-normalized intermediate-layer [CLS] token representations of the student and k = n - 1 selected intermediate layers I_pt of the teacher under either a uniform skip strategy (PKD-Skip) or a top-layer contiguous strategy (PKD-Last): L_PKD = (1 - alpha) L_CE^s + alpha L_DS + beta L_PT.'
+identity_notes: Distinct from TinyBERT (AIMech:TinyBERTTransformerDistillationForNaturalLanguageUnderstanding) and MiniLM (AIMech:MiniLMDeepSelfAttentionDistillationForTaskAgnosticCompression), which match full sequence token hidden states or multi-head attention/value-relation matrices across all tokens. To avoid the computational cost and noise of distilling all token positions during task-specific fine-tuning, BERT-PKD initializes the n-layer student with the first n layers of pre-trained BERT and aligns only the L2-normalized [CLS] token embeddings across k = n - 1 intermediate layers via PKD-Skip (e.g., I_pt = {2, 4, 6, 8, 10} for 12->6) or PKD-Last (e.g., I_pt = {7, 8, 9, 10, 11}).
+aliases:
+- BERT-PKD
+- Patient Knowledge Distillation
+- Patient-KD (PKD-Skip and PKD-Last)
+definition_evidence:
+- source_id: r802-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r802-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r802-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: bert-pkd-normalized-cls-patient-loss-and-layer-selection
+  kind: mechanism
+  statement: For an n-layer student BERT_n distilled from a deeper teacher (such as BERT_12), BERT-PKD selects k = n - 1 intermediate teacher layers I_pt via either PKD-Skip (every d_step layers, e.g., I_pt = {2, 4, 6, 8, 10} for n=6) or PKD-Last (the last k intermediate layers prior to the output layer, e.g., I_pt = {7, 8, 9, 10, 11} for n=6) and minimizes L_PKD = (1 - alpha) L_CE^s + alpha L_DS + beta L_PT (Equations 5, 8), where L_PT = sum_{i=1}^N sum_{j=1}^M || h_{i,j}^s / ||h_{i,j}^s||_2 - h_{i,I_pt(j)}^t / ||h_{i,I_pt(j)}^t||_2 ||_2^2 (Equations 6-7) aligns L2-normalized intermediate [CLS] token vectors.
+  evidence:
+  - source_id: r802-primary-pdf
+    locator: Section 3.2 (Patient Teacher for Model Compression), p. 4, Figure 1, Equations (6)-(8)
+    relation: supports
+  - source_id: r802-primary-pdf
+    locator: pkd_layer_indices and patient_loss verification
+    relation: supports
+- claim_id: bert-pkd-glue-and-race-empirical-gains-and-speedup
+  kind: application
+  statement: On the official GLUE test benchmark and the RACE reading comprehension test set, 6-layer BERT_6-PKD (1.64x parameter reduction, 1.94x GPU inference speedup) and 3-layer BERT_3-PKD (2.40x parameter reduction, 3.73x speedup) consistently outperform direct fine-tuning (FT) and last-layer vanilla KD across SST-2, QQP, MNLI-m/mm, QNLI, RTE, and RACE (reaching 60.34% on RACE vs. 58.74% for BERT_6-KD and 54.32% for BERT_6-FT, Tables 1, 3, 4), with PKD-Skip outperforming PKD-Last by capturing diverse low-to-high-level layer semantics (Table 2).
+  evidence:
+  - source_id: r802-primary-pdf
+    locator: Section 4.3-4.4 (Tables 1-4, Figure 2), pp. 5-8
+    relation: supports
+- claim_id: bert-pkd-equal-hidden-dimension-and-initialization-mismatch
+  kind: limitation
+  statement: Because Equation (7) directly subtracts normalized student and teacher [CLS] vectors without a projection matrix and initializes BERT_k from the bottom k layers of the teacher, BERT-PKD cannot directly compute L_PT when student and teacher hidden dimensions differ (such as distilling BERT_24[Large] d=1024 into BERT_6[Base] d=768) and suffers from bottom-layer initialization mismatch when compressing 24-layer BERT_Large 4:1 into 6-layer BERT_6[Large] (Section 4.5, Table 5).
+  evidence:
+  - source_id: r802-primary-pdf
+    locator: Section 4.5 (Does a Better Teacher Help?, Table 5), pp. 7-8
+    relation: supports
+evidence_sources:
+- source_id: r802-primary-pdf
+  title: Patient Knowledge Distillation for BERT Model Compression
+  authors: &id001
+  - Siqi Sun
+  - Yu Cheng
+  - Zhe Gan
+  - Jingjing Liu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1908.09355.pdf
+  persistent_id: https://arxiv.org/bibtex/1908.09355
+  version: Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP 2019) (2019) (556482 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:45:00Z'
+  sha256: 31222dec4de625c55ec8741edebdbce1d8a948903493451dc860ed94a6fcc7fe
+- source_id: r802-arxiv-abs
+  title: Patient Knowledge Distillation for BERT Model Compression (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1908.09355
+  persistent_id: https://arxiv.org/abs/1908.09355
+  version: arXiv abstract page (6896 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:45:00Z'
+  sha256: da120d49c02a313ba311e1ba213278bf9f7d569ac424352789f571e6a03080da
+- source_id: r802-metadata-cr
+  title: Patient Knowledge Distillation for BERT Model Compression (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/1908.09355
+  persistent_id: https://arxiv.org/bibtex/1908.09355
+  version: Crossref API work record (391 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:45:00Z'
+  sha256: 5f220c550c7e83a2b90b7c1b0fc0f03ac4e5f30807492324c76ce9baa11f4703
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: BERT-PKD is a multi-layer knowledge distillation paradigm for compressing Transformer neural networks.
+limitations:
+- Requires identical hidden dimension d between student and teacher [CLS] vectors in L_PT and suffers from bottom-layer initialization mismatch when compressing 24-layer BERT-Large into a 6-layer student without pre-training the student from scratch.
+curation:
+  created_at: '2026-10-19T14:45:00Z'
+  updated_at: '2026-10-19T14:45:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
