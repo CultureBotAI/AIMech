@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adam-mini (Hessian-Block-Partitioned Learning Rate Optimization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Adam-mini (Hessian-Block-Partitioned Learning Rate Optimization)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Adam-mini (Hessian-Block-Partitioned Learning Rate Optimization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AdamMiniHessianBlockPartitionedLearningRateOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Adam-mini, Adam-mini Optimizer, Hessian-Structure Blockwise Adaptive Learning Rate Optimizer, Smallest-Dense-Hessian-Subblock AdamW
+    </div>
+
+  <div class="detail-desc">
+    A memory-efficient adaptive first-order optimization algorithm that partitions neural network parameters into blocks corresponding to the smallest dense sub-blocks of the Hessian matrix and replaces Adam&#39;s coordinate-wise second-moment vector within each block by a single scalar exponential moving average of the block-mean squared gradient, eliminating over 99.9% of second-moment parameters and halving total optimizer-state memory.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from NovoGrad (AIMech:NovoGrad), which partitions parameters coarsely by entire PyTorch layers (causing training instability on billion-parameter Transformers) and normalizes the current gradient before accumulating first-order momentum; Adam-mini partitions Transformer parameters by smallest dense Hessian sub-blocks (heads for Query/Key, output neurons for Value/Attn.Proj/MLP, and tokens for Embedding/Output) and retains standard AdamW first-order momentum m_b while averaging g_b (.) g_b per block. Distinct from LAMB (AIMech:LambLayerwiseAdaptiveLargeBatchOptimization), which retains full coordinate-wise v in R^d alongside layerwise trust-ratio scaling and saves zero memory.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#adammini-hessian-subblock-partition-principle-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Following Principle 1 (partitioning parameters into blocks associated with the smallest dense sub-blocks of the neural network Hessian), Adam-mini partitions Transformer parameters via Algorithm 3 by tokens for embedding and output layers, by attention heads for query and key projections, and by output neurons for value, attention output projection, and MLP layers.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r638-primary-pdf">Adam-mini: Use Fewer Learning Rates To Gain More</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3 Principle 1, Figure 7, and Appendix B Algorithm 3, pages 6-7, 19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#adammini-block-mean-second-moment-update-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each parameter block b in {1, ..., B} with gradient g_b, Adam-mini applies decoupled weight decay, updates full coordinate-wise first-order momentum m_b = (1 - beta_1) * g_b + beta_1 * m_b with m_hat_b = m_b / (1 - beta_1^t), tracks a single scalar second moment v_b = (1 - beta_2) * mean(g_b * g_b) + beta_2 * v_b with v_hat_b = v_b / (1 - beta_2^t), and updates block parameters via param_b &lt;- param_b - eta_t * m_hat_b / (sqrt(v_hat_b) + epsilon), cutting &gt;=99.9% of Adam&#39;s v entries and reducing optimizer-state memory by 50%.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r638-primary-pdf">Adam-mini: Use Fewer Learning Rates To Gain More</a></span>
+        <span>· <strong>Locator:</strong> Section 1 page 2, Section 2.2 Algorithm 1 page 5, and Section 2.4 Table 1 page 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#adammini-dense-hessian-condition-number-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On dense positive-definite Hessian sub-blocks H_b with low diagonal-over-off-diagonal ratio tau = (sum_i |H_{b,i,i}|) / (sum_{i,j} |H_{b,i,j}|), Adam&#39;s coordinate-wise diagonal preconditioner D_Adam = Diag(1 / sqrt(v)) fails to reduce and often increases the condition number r = kappa(D_Adam H_b) / kappa(H_b) &gt; 1, whereas a single scalar learning rate per dense sub-block preserves block conditioning and outperforms coordinate-wise Adam.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r638-primary-pdf">Adam-mini: Use Fewer Learning Rates To Gain More</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1 Equation (2), Figures 4-5, pages 3-5, and Appendix D.1 Table 3, page 20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#adammini-llm-pretraining-sft-rlhf-and-throughput-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across GPT-2 (125M to 1.5B) and LLaMA-2/3 (20M to 13B) pre-training, Chinchilla scaling-law fits, LLaMA-2-7B SFT and ReMax RLHF alignment, and ResNet/Swin/DiT/DDPM/GAT/GCN training, Adam-mini matches or outperforms AdamW using identical hyperparameters while halving optimizer memory and achieving 49.6% higher throughput (33.1% wall-clock GPU-hour reduction) on LLaMA-2-7B.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r638-primary-pdf">Adam-mini: Use Fewer Learning Rates To Gain More</a></span>
+        <span>· <strong>Locator:</strong> Section 2.4 Tables 1-2 page 7, Section 3.1-3.3 Figures 8-12 pages 8-10, and Appendix D.3-D.5 Tables 4-7 pages 21-23</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#adammini-coarse-partition-instability-and-first-moment-memory-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Coarse layer-wise partitioning (such as PyTorch default parameter groups) violates Principle 1 on Transformers and causes severe training loss spikes, and because Adam-mini retains full coordinate-wise first-order momentum m, its optimizer-state memory reduction is capped at 50% unless combined with orthogonal gradient-projection or quantization methods.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r638-primary-pdf">Adam-mini: Use Fewer Learning Rates To Gain More</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3 Figure 7(i) pages 6-7, Section 3.1 Figure 8(a) page 8, and Appendix A page 18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires architecture-aware Hessian sub-block partitioning (Principle 1); naive PyTorch layer-level partitioning causes loss spikes on large Transformers.</li>
+      <li>Retains full coordinate-wise first-order momentum m, bounding standalone optimizer-state memory savings at 50%.</li>
+      <li>Approximates each dense Hessian block&#39;s step size via the arithmetic mean of squared gradients rather than exact block spectral quantities.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Adam-mini is a memory-efficient adaptive optimizer for pre-training, supervised fine-tuning, and RLHF alignment of Transformer language models, diffusion models, vision backbones, and graph neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r638-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r638-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2406.16793.pdf" target="_blank" rel="noopener">Adam-mini: Use Fewer Learning Rates To Gain More</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yushun Zhang, Congliang Chen, Ziniu Li, Tian Ding, Chenwei Wu, Diederik P. Kingma, Yinyu Ye, Zhi-Quan Luo, Ruoyu Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/ZhangCLD0K0L025</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d64fd863d8a7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r638-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r638-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2406.16793" target="_blank" rel="noopener">Adam-mini: Use Fewer Learning Rates To Gain More (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yushun Zhang, Congliang Chen, Ziniu Li, Tian Ding, Chenwei Wu, Diederik P. Kingma, Yinyu Ye, Zhi-Quan Luo, Ruoyu Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2406.16793</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ebb5eb2e3d28…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r638-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r638-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/ZhangCLD0K0L025" target="_blank" rel="noopener">Adam-mini: Use Fewer Learning Rates To Gain More (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yushun Zhang, Congliang Chen, Ziniu Li, Tian Ding, Chenwei Wu, Diederik P. Kingma, Yinyu Ye, Zhi-Quan Luo, Ruoyu Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/ZhangCLD0K0L025</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:54882545dca1…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:01:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:01:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdamMiniHessianBlockPartitionedLearningRateOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdamMiniHessianBlockPartitionedLearningRateOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

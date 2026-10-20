@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">728 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">729 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">728</span> of <span id="totalCount">728</span>
+      Showing <span id="matchCount">729</span> of <span id="totalCount">729</span>
     </div>
   </div>
 </div>
@@ -675,6 +675,32 @@
         <td>
             <span class="badge badge-mechanism" title="2 claims curated">2 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="adam-mini (hessian-block-partitioned learning rate optimization) adamminihessianblockpartitionedlearningrateoptimization aimech:adamminihessianblockpartitionedlearningrateoptimization algorithms algorithm a memory-efficient adaptive first-order optimization algorithm that partitions neural network parameters into blocks corresponding to the smallest dense sub-blocks of the hessian matrix and replaces adam&#39;s coordinate-wise second-moment vector within each block by a single scalar exponential moving average of the block-mean squared gradient, eliminating over 99.9% of second-moment parameters and halving total optimizer-state memory. distinct from novograd (aimech:novograd), which partitions parameters coarsely by entire pytorch layers (causing training instability on billion-parameter transformers) and normalizes the current gradient before accumulating first-order momentum; adam-mini partitions transformer parameters by smallest dense hessian sub-blocks (heads for query/key, output neurons for value/attn.proj/mlp, and tokens for embedding/output) and retains standard adamw first-order momentum m_b while averaging g_b (.) g_b per block. distinct from lamb (aimech:lamblayerwiseadaptivelargebatchoptimization), which retains full coordinate-wise v in r^d alongside layerwise trust-ratio scaling and saves zero memory. adam-mini adam-mini optimizer hessian-structure blockwise adaptive learning rate optimizer smallest-dense-hessian-subblock adamw following principle 1 (partitioning parameters into blocks associated with the smallest dense sub-blocks of the neural network hessian), adam-mini partitions transformer parameters via algorithm 3 by tokens for embedding and output layers, by attention heads for query and key projections, and by output neurons for value, attention output projection, and mlp layers. for each parameter block b in {1, ..., b} with gradient g_b, adam-mini applies decoupled weight decay, updates full coordinate-wise first-order momentum m_b = (1 - beta_1) * g_b + beta_1 * m_b with m_hat_b = m_b / (1 - beta_1^t), tracks a single scalar second moment v_b = (1 - beta_2) * mean(g_b * g_b) + beta_2 * v_b with v_hat_b = v_b / (1 - beta_2^t), and updates block parameters via param_b &lt;- param_b - eta_t * m_hat_b / (sqrt(v_hat_b) + epsilon), cutting &gt;=99.9% of adam&#39;s v entries and reducing optimizer-state memory by 50%. on dense positive-definite hessian sub-blocks h_b with low diagonal-over-off-diagonal ratio tau = (sum_i |h_{b,i,i}|) / (sum_{i,j} |h_{b,i,j}|), adam&#39;s coordinate-wise diagonal preconditioner d_adam = diag(1 / sqrt(v)) fails to reduce and often increases the condition number r = kappa(d_adam h_b) / kappa(h_b) &gt; 1, whereas a single scalar learning rate per dense sub-block preserves block conditioning and outperforms coordinate-wise adam. across gpt-2 (125m to 1.5b) and llama-2/3 (20m to 13b) pre-training, chinchilla scaling-law fits, llama-2-7b sft and remax rlhf alignment, and resnet/swin/dit/ddpm/gat/gcn training, adam-mini matches or outperforms adamw using identical hyperparameters while halving optimizer memory and achieving 49.6% higher throughput (33.1% wall-clock gpu-hour reduction) on llama-2-7b. coarse layer-wise partitioning (such as pytorch default parameter groups) violates principle 1 on transformers and causes severe training loss spikes, and because adam-mini retains full coordinate-wise first-order momentum m, its optimizer-state memory reduction is capped at 50% unless combined with orthogonal gradient-projection or quantization methods. adam-mini: use fewer learning rates to gain more adam-mini: use fewer learning rates to gain more (arxiv abstract) adam-mini: use fewer learning rates to gain more (crossref metadata) yushun zhang congliang chen ziniu li tian ding chenwei wu diederik p. kingma yinyu ye zhi-quan luo ruoyu sun yushun zhang congliang chen ziniu li tian ding chenwei wu diederik p. kingma yinyu ye zhi-quan luo ruoyu sun yushun zhang congliang chen ziniu li tian ding chenwei wu diederik p. kingma yinyu ye zhi-quan luo ruoyu sun">
+        <td>
+          <a href="../curated/AdamMiniHessianBlockPartitionedLearningRateOptimization.html" style="font-weight: 600; font-size: 1rem;">Adam-mini (Hessian-Block-Partitioned Learning Rate Optimization)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Adam-mini, Adam-mini Optimizer…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A memory-efficient adaptive first-order optimization algorithm that partitions neural network parameters into blocks corresponding to the sm…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:AdamMiniHessianBlockPartitionedLearningRateOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="5 claims curated">5 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
