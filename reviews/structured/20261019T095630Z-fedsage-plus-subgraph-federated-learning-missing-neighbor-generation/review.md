@@ -1,0 +1,357 @@
+# Scientific author self-review of FedSage+ (Subgraph Federated Learning with Missing Neighbor Generation)
+
+- Review: 20261019T095630Z-fedsage-plus-subgraph-federated-learning-missing-neighbor-generation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T09:56:00Z
+- Finished UTC: 2026-10-19T09:56:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain FedSage+ (Subgraph Federated Learning with Missing Neighbor Generation) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 4c9e39d4a2ede7a43bed7039d7bcf96811b27852.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration | data/curated/FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.yaml | maintained | FedSage+ (Subgraph Federated Learning with Missing Neighbor Generation) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration | Validated history sidecar files. |
+| python3 fedsage-plus-subgraph-federated-learning-missing-neighbor-generation-boundaries.py | passed | True | AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration | [PASS] Round 513 FedSage+ (Zhang et al. 2021): dGen_smoothL1=0.0487, fGen_L2_gap=0.1493 &lt;&lt; local_only_gap=1.6332, GNTK_bound_reduction=2.236x |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.
+
+FedSage+ (Subgraph Federated Learning with Missing Neighbor Generation) is a distinct concept.
+
+Introduced by Ke Zhang, Carl Yang, Xiaoxiao Li, Lichao Sun, and Siu-Ming Yiu in 'Subgraph Federated Learning with Missing Neighbor Generation' (NeurIPS 2021, pages 6671-6682; arXiv:2106.13430). Distinct from vanilla FedSage (Section 3.2 of the same paper), which applies FedAvg directly to GraphSage on unmended subgraphs without missing neighbor generation; distinct from LocSage+, which trains NeighGen and GraphSage purely locally without cross-subgraph gradient feedback (alpha = 0 in Eq. 6); and distinct from GCFL+ (Xie et al. NeurIPS 2021), which clusters clients for graph-level classification rather than mending cut cross-subgraph edges for node classification.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in fedsage-plus-subgraph-federated-learning-missing-neighbor-generation-boundaries.py passed with exit code 0: [PASS] Round 513 FedSage+ (Zhang et al. 2021): dGen_smoothL1=0.0487, fGen_L2_gap=0.1493 &lt;&lt; local_only_gap=1.6332, GNTK_bound_reduction=2.236x
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T095600Z-fedsage-plus-subgraph-federated-learning-missing-neighbor-generation.json | supports | No normalized identity match for AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/fedsage-plus-subgraph-federated-learning-missing-neighbor-generation-boundaries.py | supports | All constructed boundary assertions in fedsage-plus-subgraph-federated-learning-missing-neighbor-generation-boundaries.py passed with exit code 0: [PASS] Round 513 FedSage+ (Zhang et al. 2021): dGen_smoothL1=0.0487, fGen_L2_gap=0.1493 &lt;&lt; local_only_gap=1.6332, GNTK_bound_reduction=2.236x |
+| r513-primary-pdf | https://arxiv.org/pdf/2106.13430.pdf; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems 34 (NeurIPS 2021), pages 6671-6682 (2021)) read and verified. |
+| r513-arxiv-abs | https://arxiv.org/abs/2106.13430; arXiv abstract | supports | arXiv abstract read and verified. |
+| r513-metadata-cr | https://dblp.org/rec/conf/nips/ZhangYLSY21; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration in Round 513.
+- All pages of Advances in Neural Information Processing Systems 34 (NeurIPS 2021), pages 6671-6682 (2021) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T095630Z-fedsage-plus-subgraph-federated-learning-missing-neighbor-generation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of FedSage+ (Subgraph Federated Learning with
+  Missing Neighbor Generation)
+started_at: '2026-10-19T09:56:00Z'
+finished_at: '2026-10-19T09:56:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems 34 (NeurIPS 2021), pages 6671-6682 (2021)
+    and pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain FedSage+ (Subgraph Federated Learning with Missing Neighbor Generation)
+  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
+source:
+  git_revision: 4c9e39d4a2ede7a43bed7039d7bcf96811b27852
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.yaml
+    sha256: 7048435f8c667ac37cc8b7b901df4cf57af64d8ea07ba7f932f6e1ef9936a8fb
+    role: target
+  - path: research/discovery/20261019T095600Z-fedsage-plus-subgraph-federated-learning-missing-neighbor-generation.json
+    sha256: eefae4e2f00e0dc8a15cbb424cc04bfdb4aa3d1984cd7e0845bc38daceb8bb40
+    role: context
+  - path: research/discovery/fedsage-plus-subgraph-federated-learning-missing-neighbor-generation-boundaries.py
+    sha256: 6868b839e203e5e66dd31d4db3d220de0cc57415401115b463494361d9183859
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+  path: data/curated/FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.yaml
+  label: FedSage+ (Subgraph Federated Learning with Missing Neighbor Generation)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 fedsage-plus-subgraph-federated-learning-missing-neighbor-generation-boundaries.py
+  command: python3 research/discovery/fedsage-plus-subgraph-federated-learning-missing-neighbor-generation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 513 FedSage+ (Zhang et al. 2021): dGen_smoothL1=0.0487, fGen_L2_gap=0.1493
+    << local_only_gap=1.6332, GNTK_bound_reduction=2.236x'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T095600Z-fedsage-plus-subgraph-federated-learning-missing-neighbor-generation.json
+  accessed_at: '2026-10-19T09:56:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T09:56:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/fedsage-plus-subgraph-federated-learning-missing-neighbor-generation-boundaries.py
+  accessed_at: '2026-10-19T09:56:00Z'
+  snapshot_sha256: 6868b839e203e5e66dd31d4db3d220de0cc57415401115b463494361d9183859
+  support: supports
+  summary: 'All constructed boundary assertions in fedsage-plus-subgraph-federated-learning-missing-neighbor-generation-boundaries.py
+    passed with exit code 0: [PASS] Round 513 FedSage+ (Zhang et al. 2021): dGen_smoothL1=0.0487,
+    fGen_L2_gap=0.1493 << local_only_gap=1.6332, GNTK_bound_reduction=2.236x'
+- evidence_id: r513-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2106.13430.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T09:56:00Z'
+  snapshot_sha256: 80571ccadbc8f1b07bab4a0b690871be9f1b20741b9f75bd00331f22e6f69932
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 34 (NeurIPS
+    2021), pages 6671-6682 (2021)) read and verified.
+- evidence_id: r513-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2106.13430
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T09:56:00Z'
+  snapshot_sha256: 8c3128f1f12851b1b18a331ce61524cdd0a054e626dd6655e25149a56d0bbf5a
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r513-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/nips/ZhangYLSY21
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T09:56:00Z'
+  snapshot_sha256: c6fa19d9e29e59caae9f1afaa1c1a0e39e96a64aa95f7c7917fc2d326cb1e4d4
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+  evidence_ids:
+  - identity
+  - r513-primary-pdf
+  - r513-arxiv-abs
+  - r513-metadata-cr
+  summary: FedSage+ (Subgraph Federated Learning with Missing Neighbor Generation)
+    is a distinct concept.
+  details: Introduced by Ke Zhang, Carl Yang, Xiaoxiao Li, Lichao Sun, and Siu-Ming
+    Yiu in 'Subgraph Federated Learning with Missing Neighbor Generation' (NeurIPS
+    2021, pages 6671-6682; arXiv:2106.13430). Distinct from vanilla FedSage (Section
+    3.2 of the same paper), which applies FedAvg directly to GraphSage on unmended
+    subgraphs without missing neighbor generation; distinct from LocSage+, which trains
+    NeighGen and GraphSage purely locally without cross-subgraph gradient feedback
+    (alpha = 0 in Eq. 6); and distinct from GCFL+ (Xie et al. NeurIPS 2021), which
+    clusters clients for graph-level classification rather than mending cut cross-subgraph
+    edges for node classification.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+  evidence_ids:
+  - mapping
+  - r513-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+  evidence_ids:
+  - r513-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in fedsage-plus-subgraph-federated-learning-missing-neighbor-generation-boundaries.py
+    passed with exit code 0: [PASS] Round 513 FedSage+ (Zhang et al. 2021): dGen_smoothL1=0.0487,
+    fGen_L2_gap=0.1493 << local_only_gap=1.6332, GNTK_bound_reduction=2.236x'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+  evidence_ids:
+  - identity
+  - mapping
+  - r513-primary-pdf
+  - r513-arxiv-abs
+  - r513-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+  in Round 513.
+- All pages of Advances in Neural Information Processing Systems 34 (NeurIPS 2021),
+  pages 6671-6682 (2021) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

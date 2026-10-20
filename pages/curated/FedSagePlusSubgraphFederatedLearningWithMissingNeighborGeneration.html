@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedSage+ (Subgraph Federated Learning with Missing Neighbor Generation) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedSage+ (Subgraph Federated Learning with Missing Neighbor Generation)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedSage+ (Subgraph Federated Learning with Missing Neighbor Generation)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedSage+, FedSage Plus, Subgraph Federated Learning with Missing Neighbor Generation
+    </div>
+
+  <div class="detail-desc">
+    FedSage+ is a subgraph federated learning algorithm for collaborative node classification across M data owners holding disjoint local subgraphs G_i = {V_i, E_i, X_i} with missing cross-subgraph links that trains a local missing neighbor generator NeighGen_i = {H_i^e, dGen_i, fGen_i} on simulated impaired subgraphs G_bar_i alongside cross-subgraph closest-node feature reconstruction gradients from other data owners D_j (j != i), mends each local subgraph G_i into G&#39;_i with synthetic missing neighbors, and collaboratively trains a shared K-layer GraphSage classifier F(phi) via FedAvg on the mended subgraphs.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Ke Zhang, Carl Yang, Xiaoxiao Li, Lichao Sun, and Siu-Ming Yiu in &#39;Subgraph Federated Learning with Missing Neighbor Generation&#39; (NeurIPS 2021, pages 6671-6682; arXiv:2106.13430). Distinct from vanilla FedSage (Section 3.2 of the same paper), which applies FedAvg directly to GraphSage on unmended subgraphs without missing neighbor generation; distinct from LocSage+, which trains NeighGen and GraphSage purely locally without cross-subgraph gradient feedback (alpha = 0 in Eq. 6); and distinct from GCFL+ (Xie et al. NeurIPS 2021), which clusters clients for graph-level classification rather than mending cut cross-subgraph edges for node classification.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fedsage-plus-neighgen-architecture-and-impaired-graph-mending</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In FedSage+, each data owner D_i holds out h% of its local nodes V_i^h subset V_i and incident links E_i^h to construct an impaired subgraph G_bar_i = {V_bar_i, E_bar_i, X_bar_i} and trains a Missing Neighbor Generator NeighGen_i comprising a K-layer GraphSage encoder H_i^e(theta^e) producing node embeddings z_v in R^{d_z}, a linear degree generator dGen(theta^d) predicting missing neighbor counts n_tilde_v = sigma((theta^d)^T . n_v) under smooth L1 loss L^d = (1/|V_bar_i|) sum_{v in V_bar_i} L_1^S(n_tilde_v - n_v), and a Gaussian-noise variational feature generator fGen(theta^f) generating n_tilde_v neighbor feature vectors x_tilde_v = R(sigma((theta^f)^T . (z_v + N(0,1))), n_tilde_v) (Equations 3-4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r513-primary-pdf">Subgraph Federated Learning with Missing Neighbor Generation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Figure 2 and Equations (3)-(4), page 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fedsage-plus-cross-subgraph-gradient-sharing-without-raw-features</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because directly averaging NeighGen weights across clients via FedAvg degrades neighbor diversity (Table 4), FedSage+ maintains a local specialized NeighGen_i per owner D_i and optimizes the cross-subgraph feature reconstruction loss L_i^f = (1/|V_bar_i|) sum_{v in V_bar_i} sum_{p in [n_tilde_v]} (min_{u in N_{G_i}(v) cap V_i^h} ||x_tilde_v^p - x_u||_2^2 + alpha sum_{j in [M] \ {i}} min_{u in V_j} ||H_i^g(z_v)^p - x_u||_2^2) (Equation 6), where each peer owner D_j locally computes the closest-node distance gradient nabla L_{i,j}^f and returns it via the server without sharing raw node features X_j (Algorithm 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r513-primary-pdf">Subgraph Federated Learning with Missing Neighbor Generation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3, Equation (6), page 6; Appendix A, Algorithm 1, page 13; Appendix D.2, Table 4, page 18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#fedsage-plus-gntk-generalization-bound-and-node-classification-gain</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the overparameterized Graph Neural Tangent Kernel (GNTK) regime with kernel matrix Theta in R^{n x n} satisfying tr(Theta) &lt;= 2n (Lemma C.4) and sqrt(y^T Theta^{-1} y) = o(n) (Lemma C.3), the node classification generalization error is bounded by L_{D(F)} = O(sqrt(y^T Theta^{-1} y . tr(Theta)) / n + sqrt(log(1/sigma) / n)) &lt;= O(1/n^c) (Theorem 6.2 and Theorem C.1), and empirically FedSage+ outperforms Local GraphSage (LocSage) by an average of 23.18% across Cora, CiteSeer, PubMed, and MSAcademic while reducing the accuracy gap to centralized GlobSage from 2.11% (FedSage) to 1.28%.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r513-primary-pdf">Subgraph Federated Learning with Missing Neighbor Generation</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, Table 2, page 8; Section 6, Theorem 6.2, page 10; Appendix C, Theorem C.1 and Lemmas C.3-C.4, pages 15-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fedsage-plus-impairing-ratio-sensitivity-and-embedding-transmission-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FedSage+ requires tuning the graph impairing ratio h% to match the true missing cross-subgraph edge fraction (since too-small h=1% provides insufficient training supervision for NeighGen and too-large h=30% over-sparsifies local subgraphs), and Phase 1 NeighGen training transmits node embeddings z_v and generator models H_i^g across owners, incurring additional communication and potential embedding-level privacy leakage without formal differential privacy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r513-primary-pdf">Subgraph Federated Learning with Missing Neighbor Generation</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, Figure 3b, pages 8-9; Section 7, page 10; Algorithm 1, page 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Sensitive to extreme choices of the local node holding-out ratio h% (degrading when h=1% or h=30%) and cross-subgraph gradient weight alpha (degrading at alpha=10).</li>
+      <li>Transmits intermediate node embeddings z_v and generator networks H_i^g during NeighGen federated training without formal differential privacy guarantees.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedSage+ is a subgraph federated learning algorithm that combines cross-subgraph missing neighbor generation with Federated Averaging of GraphSage models under AIO:FederatedLearning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r513-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r513-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2106.13430.pdf" target="_blank" rel="noopener">Subgraph Federated Learning with Missing Neighbor Generation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ke Zhang, Carl Yang, Xiaoxiao Li, Lichao Sun, Siu Ming Yiu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/ZhangYLSY21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:80571ccadbc8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r513-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r513-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2106.13430" target="_blank" rel="noopener">Subgraph Federated Learning with Missing Neighbor Generation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ke Zhang, Carl Yang, Xiaoxiao Li, Lichao Sun, Siu Ming Yiu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2106.13430</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8c3128f1f128…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r513-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r513-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/ZhangYLSY21" target="_blank" rel="noopener">Subgraph Federated Learning with Missing Neighbor Generation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ke Zhang, Carl Yang, Xiaoxiao Li, Lichao Sun, Siu Ming Yiu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/ZhangYLSY21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c6fa19d9e29e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:56:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:56:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

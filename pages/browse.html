@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1349</strong> artificial intelligence concepts, comprising <strong>907</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1350</strong> artificial intelligence concepts, comprising <strong>908</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1349)</option>
-        <option value="curated">Curated AIMech (907)</option>
+        <option value="all">All Origins (1350)</option>
+        <option value="curated">Curated AIMech (908)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (605)</option>
+          <option value="algorithm">Algorithms (606)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1349</span> of <span id="totalCount">1349</span>
+      Showing <span id="matchCount">1350</span> of <span id="totalCount">1350</span>
     </div>
   </div>
 </div>
@@ -11545,6 +11545,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:FedRolexModelHeterogeneousFederatedLearningWithRollingSubModelExtraction</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fedsage+ (subgraph federated learning with missing neighbor generation) fedsageplussubgraphfederatedlearningwithmissingneighborgeneration aimech:fedsageplussubgraphfederatedlearningwithmissingneighborgeneration algorithms algorithm fedsage+ is a subgraph federated learning algorithm for collaborative node classification across m data owners holding disjoint local subgraphs g_i = {v_i, e_i, x_i} with missing cross-subgraph links that trains a local missing neighbor generator neighgen_i = {h_i^e, dgen_i, fgen_i} on simulated impaired subgraphs g_bar_i alongside cross-subgraph closest-node feature reconstruction gradients from other data owners d_j (j != i), mends each local subgraph g_i into g&#39;_i with synthetic missing neighbors, and collaboratively trains a shared k-layer graphsage classifier f(phi) via fedavg on the mended subgraphs. introduced by ke zhang, carl yang, xiaoxiao li, lichao sun, and siu-ming yiu in &#39;subgraph federated learning with missing neighbor generation&#39; (neurips 2021, pages 6671-6682; arxiv:2106.13430). distinct from vanilla fedsage (section 3.2 of the same paper), which applies fedavg directly to graphsage on unmended subgraphs without missing neighbor generation; distinct from locsage+, which trains neighgen and graphsage purely locally without cross-subgraph gradient feedback (alpha = 0 in eq. 6); and distinct from gcfl+ (xie et al. neurips 2021), which clusters clients for graph-level classification rather than mending cut cross-subgraph edges for node classification. fedsage+ fedsage plus subgraph federated learning with missing neighbor generation in fedsage+, each data owner d_i holds out h% of its local nodes v_i^h subset v_i and incident links e_i^h to construct an impaired subgraph g_bar_i = {v_bar_i, e_bar_i, x_bar_i} and trains a missing neighbor generator neighgen_i comprising a k-layer graphsage encoder h_i^e(theta^e) producing node embeddings z_v in r^{d_z}, a linear degree generator dgen(theta^d) predicting missing neighbor counts n_tilde_v = sigma((theta^d)^t . n_v) under smooth l1 loss l^d = (1/|v_bar_i|) sum_{v in v_bar_i} l_1^s(n_tilde_v - n_v), and a gaussian-noise variational feature generator fgen(theta^f) generating n_tilde_v neighbor feature vectors x_tilde_v = r(sigma((theta^f)^t . (z_v + n(0,1))), n_tilde_v) (equations 3-4). because directly averaging neighgen weights across clients via fedavg degrades neighbor diversity (table 4), fedsage+ maintains a local specialized neighgen_i per owner d_i and optimizes the cross-subgraph feature reconstruction loss l_i^f = (1/|v_bar_i|) sum_{v in v_bar_i} sum_{p in [n_tilde_v]} (min_{u in n_{g_i}(v) cap v_i^h} ||x_tilde_v^p - x_u||_2^2 + alpha sum_{j in [m] \ {i}} min_{u in v_j} ||h_i^g(z_v)^p - x_u||_2^2) (equation 6), where each peer owner d_j locally computes the closest-node distance gradient nabla l_{i,j}^f and returns it via the server without sharing raw node features x_j (algorithm 1). in the overparameterized graph neural tangent kernel (gntk) regime with kernel matrix theta in r^{n x n} satisfying tr(theta) &lt;= 2n (lemma c.4) and sqrt(y^t theta^{-1} y) = o(n) (lemma c.3), the node classification generalization error is bounded by l_{d(f)} = o(sqrt(y^t theta^{-1} y . tr(theta)) / n + sqrt(log(1/sigma) / n)) &lt;= o(1/n^c) (theorem 6.2 and theorem c.1), and empirically fedsage+ outperforms local graphsage (locsage) by an average of 23.18% across cora, citeseer, pubmed, and msacademic while reducing the accuracy gap to centralized globsage from 2.11% (fedsage) to 1.28%. fedsage+ requires tuning the graph impairing ratio h% to match the true missing cross-subgraph edge fraction (since too-small h=1% provides insufficient training supervision for neighgen and too-large h=30% over-sparsifies local subgraphs), and phase 1 neighgen training transmits node embeddings z_v and generator models h_i^g across owners, incurring additional communication and potential embedding-level privacy leakage without formal differential privacy. subgraph federated learning with missing neighbor generation subgraph federated learning with missing neighbor generation (arxiv abstract) subgraph federated learning with missing neighbor generation (crossref metadata) ke zhang carl yang xiaoxiao li lichao sun siu ming yiu ke zhang carl yang xiaoxiao li lichao sun siu ming yiu ke zhang carl yang xiaoxiao li lichao sun siu ming yiu">
+        <td>
+          <a href="curated/FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration.html" style="font-weight: 600; font-size: 1rem;">FedSage+ (Subgraph Federated Learning with Missing Neighbor Generation)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedSage+, FedSage Plus…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            FedSage+ is a subgraph federated learning algorithm for collaborative node classification across M data owners holding disjoint local subgra…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
