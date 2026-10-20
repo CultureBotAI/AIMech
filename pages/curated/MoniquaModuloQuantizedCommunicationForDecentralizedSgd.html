@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moniqua Modulo Quantized Communication for Decentralized SGD · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Moniqua Modulo Quantized Communication for Decentralized SGD</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Moniqua Modulo Quantized Communication for Decentralized SGD</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MoniquaModuloQuantizedCommunicationForDecentralizedSgd</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Moniqua, Modulo Quantized Communication in Decentralized SGD, Moniqua Decentralized Quantized SGD
+    </div>
+
+  <div class="detail-desc">
+    A zero-additional-memory communication-quantization algorithm for decentralized stochastic optimization (Moniqua) that exploits an a priori inter-worker consensus bound ||x_{k,i} - x_{k,j}||_infty &lt; theta_k and modular arithmetic z mod a in [-a/2, a/2) by transmitting only the quantized scaled modulo residue q_{k,i} = Q_delta((x_{k,i} / B_{theta_k}) mod 1) with B_{theta_k} = 2*theta_k / (1 - 2*delta) and reconstructing neighbor models via x_hat_{k,j} = (q_{k,j} * B_{theta_k} - x_{k,i}) mod B_{theta_k} + x_{k,i} with local bias cancellation x_{k+1/2,i} = x_{k,i} + sum_{j in N_i} (x_hat_{k,j} - x_hat_{k,i}) W_{ji}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Yucheng Lu and Christopher De Sa (ICML 2020, PMLR Vol. 119, pp. 6415-6425; arXiv:2002.11787). Distinct from Choco-SGD (Koloskova et al., ICML 2019) and DCD/ECD-PSGD (Tang et al., NeurIPS 2018), which maintain neighbor model replicas incurring Theta(m * d) additional memory overhead; and distinct from DeepSqueeze / DoubleSqueeze (Tang et al., 2019), which maintain error-compensation buffers incurring Theta(n * d) memory overhead rather than memoryless modular-arithmetic residue quantization.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#moniqua-modular-residue-quantization-and-bias-cancellation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given ||x_{k,i} - x_{k,j}||_infty &lt; theta_k and a quantizer Q_delta on [-1/2, 1/2)^d with L_infty error at most delta &lt; 1/2, Moniqua sets B_{theta_k} = 2*theta_k / (1 - 2*delta), broadcasts q_{k,i} = Q_delta((x_{k,i} / B_{theta_k}) mod 1), reconstructs x_hat_{k,j} = (q_{k,j} * B_{theta_k} - x_{k,i}) mod B_{theta_k} + x_{k,i} with error ||x_hat_{k,j} - x_{k,j}||_infty &lt;= delta * B_{theta_k} = theta_k * 2*delta / (1 - 2*delta), and subtracts the local self-quantization term x_hat_{k,i} = q_{k,i} * B_{theta_k} - (x_{k,i} mod B_{theta_k}) + x_{k,i} so that global model averages remain unbiased.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r555-primary-pdf">Moniqua: Modulo Quantized Communication in Decentralized SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Algorithm 1, Equation (5), Lemma 2, &amp; Appendix B, pp. 4-5, 15-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#moniqua-zero-extra-memory-asymptotic-rate-and-1bit-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires zero additional memory beyond baseline D-PSGD, supports biased and 1-bit quantizers (via slack mixing matrix W_bar = gamma * W + (1 - gamma) * I in Theorem 3) as well as non-constant step sizes and extensions to D^2 (Theorem 4) and asynchronous AD-PSGD (Theorem 5), achieving the same O(sigma / sqrt(n*K)) asymptotic non-convex convergence rate as full-precision D-PSGD with O(log log n) bits per coordinate.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r555-primary-pdf">Moniqua: Modulo Quantized Communication in Decentralized SGD</a></span>
+        <span>· <strong>Locator:</strong> Table 1, Section 4 Theorems 2-3 &amp; Corollary 1, Section 5 Theorems 4-5, pp. 3, 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#moniqua-apriori-discrepancy-bound-wraparound-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Correct modular recovery requires the actual inter-worker coordinate difference |x_{k,i} - x_{k,j}| to remain strictly below the a priori bound theta_k; if theta_k is underestimated, modular wrap-around introduces O(B_{theta_k}) reconstruction errors unless detected by hash verification.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r555-primary-pdf">Moniqua: Modulo Quantized Communication in Decentralized SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Lemma 2 &amp; Section 6 Choosing theta empirically, pp. 5, 11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#moniqua-low-bandwidth-cifar-resnet-vgg-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to 1-bit, 2-bit, and 8-bit quantized decentralized training of ResNet-20, ResNet-110, and VGG-16 on CIFAR-10 across bandwidth- and latency-constrained networks, including heterogeneous D^2 and asynchronous AD-PSGD.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r555-primary-pdf">Moniqua: Modulo Quantized Communication in Decentralized SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Experiments, Figures 1-2 &amp; Table 2, pp. 8-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Sensitive to underestimation of the inter-worker discrepancy bound theta_k, which can cause modular wrap-around.</li>
+      <li>Theoretical analysis assumes uniform L_infty gradient bound ||g_tilde_{k,i}||_infty &lt;= G_infty.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:FederatedLearning covers distributed learning with communication constraints, whereas Moniqua is a memoryless modular-arithmetic communication-quantization protocol for decentralized gossip SGD.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r555-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r555-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2002.11787.pdf" target="_blank" rel="noopener">Moniqua: Modulo Quantized Communication in Decentralized SGD</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yucheng Lu, Christopher De Sa
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/LuS20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8f8280653587…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r555-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r555-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2002.11787" target="_blank" rel="noopener">Moniqua: Modulo Quantized Communication in Decentralized SGD (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yucheng Lu, Christopher De Sa
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2002.11787</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e1e1d0e9d0da…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r555-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r555-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/LuS20" target="_blank" rel="noopener">Moniqua: Modulo Quantized Communication in Decentralized SGD (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yucheng Lu, Christopher De Sa
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/LuS20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:347047c9e8a0…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:38:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:38:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MoniquaModuloQuantizedCommunicationForDecentralizedSgd.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MoniquaModuloQuantizedCommunicationForDecentralizedSgd.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
