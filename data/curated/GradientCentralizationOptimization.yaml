@@ -1,0 +1,105 @@
+id: AIMech:GradientCentralizationOptimization
+name: Gradient Centralization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A hyperparameter-free projected-gradient optimization technique for deep neural networks that operates directly on the weight gradient matrix or unfolded convolutional gradient tensor grad_W L in R^{M x N} (where M = C_in for fully connected layers and M = C_in k_1 k_2 for convolutional layers, and N = C_out) by subtracting the mean across input dimensions from each column vector grad_{w_i} L in R^M before the optimizer step: Phi_GC(grad_{w_i} L) = grad_{w_i} L - (1 / M) sum_{j=1}^M grad_{W_{j,i}} L, or in matrix form Phi_GC(grad_W L) = P grad_W L with orthogonal projection matrix P = I - e e^T (e = (1 / sqrt(M)) 1).'
+identity_notes: 'Distinct from activation normalizations (Batch Normalization, Layer Normalization, Group Normalization) and from weight reparameterizations (Weight Normalization, Weight Standardization): whereas Weight Standardization enforces e^T w = 0 directly on weights and therefore breaks pretrained ImageNet checkpoints whose initial weights have non-zero mean e^T w^0 != 0, Gradient Centralization projects gradients onto the hyperplane e^T (w - w^0) = 0, preserving any pretrained initialization w^0 while embedding into SGDM, Adam, or AdamW in a single line of code.'
+aliases:
+- GC
+- Gradient Centralization Operator
+- Phi_GC
+- Projected Zero-Mean Gradient Centralization
+definition_evidence:
+- source_id: r625-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r625-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r625-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r625-hyperplane-projection-and-weight-mean-conservation
+  kind: mechanism
+  statement: The Gradient Centralization matrix P = I - e e^T (where e = (1 / sqrt(M)) 1) satisfies P^2 = P = P^T and e^T P grad_W L = 0 (Eq. 3 and Eq. 9), so replacing grad_{w^t} L by P grad_{w^t} L performs projected gradient descent on the affine hyperplane e^T (w - w^0) = 0 (Eq. 4), holding e^T w^t = e^T w^0 exactly constant throughout training for any initialization w^0.
+  evidence:
+  - source_id: r625-primary-pdf
+    locator: Section 4.1 Eq. (3)-(4) & Figure 2, p. 6-7; Appendix A1-A2 Eq. (9), p. 15-16
+    relation: supports
+- claim_id: c-r625-output-feature-constant-intensity-shift-invariance
+  kind: mechanism
+  statement: Theorem 4.1 (Eq. 5 and Appendix A1 Eq. 7-8) proves that when SGD or SGDM with Gradient Centralization updates a weight vector w^t = w^0 - P sum_{i=0}^{t-1} alpha^{(i)} grad_{w^{(i)}} L, the output activation difference for any input feature x and constant intensity shift x + gamma 1 satisfies (w^t)^T x - (w^t)^T (x + gamma 1) = -gamma 1^T w^0 for all t, depending only on the initial weight sum 1^T w^0 rather than the learned weights w^t.
+  evidence:
+  - source_id: r625-primary-pdf
+    locator: Section 4.1 Theorem 4.1, Eq. (5), p. 7-8; Appendix A1 Proof of Theorem 4.1, Eq. (7)-(8), p. 15-16
+    relation: supports
+- claim_id: c-r625-lipschitz-smoothing-and-gradient-explosion-suppression
+  kind: mechanism
+  statement: Theorem 4.2 (Eq. 6 and Appendix A2 Eq. 10-11) proves that ||Phi_GC(grad_w L)||_2^2 = ||grad_w L||_2^2 - ||e^T grad_w L||_2^2 <= ||grad_w L||_2^2 and ||grad_w Phi_GC(grad_w L)||_2^2 = ||P grad_w^2 L||_2^2 = ||grad_w^2 L||_2^2 - ||e^T grad_w^2 L||_2^2 <= ||grad_w^2 L||_2^2, smoothing the optimization landscape, suppressing gradient explosion, and improving test accuracy across SGDM, Adam, Adagrad, SGDW, and AdamW on CIFAR-100, ImageNet, fine-grained classification, and COCO object detection/segmentation.
+  evidence:
+  - source_id: r625-primary-pdf
+    locator: Section 4.2 Theorem 4.2, Eq. (6) & Figure 4, p. 8-9; Section 5.2-5.6 Tables 1-9, p. 10-15; Appendix A2 Eq. (10)-(11), p. 16-17
+    relation: supports
+- claim_id: c-r625-feature-normalization-and-weight-decay-coupling-limitation
+  kind: limitation
+  statement: Gradient Centralization operates only on weight gradients and does not normalize intermediate feature activations, so deep networks still require activation normalization (such as Batch Normalization or Group Normalization) to train effectively; moreover, when L2 weight decay lambda w is added before projection as P(g^t + lambda w), the mean component of w is not decayed unless decoupled weight decay (SGDW/AdamW) is applied outside P.
+  evidence:
+  - source_id: r625-primary-pdf
+    locator: Section 3.4, p. 5; Section 5.2-5.3, p. 11
+    relation: supports
+evidence_sources:
+- source_id: r625-primary-pdf
+  title: 'Gradient Centralization: A New Optimization Technique for Deep Neural Networks'
+  authors: &id001
+  - Hongwei Yong
+  - Jianqiang Huang
+  - Xiansheng Hua
+  - Lei Zhang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.01461.pdf
+  persistent_id: https://dblp.org/rec/conf/eccv/YongHHZ20
+  version: "Computer Vision \u2014 ECCV 2020 (LNCS vol. 12346, pp. 635-652) / arXiv:2004.01461v2 (2020) (1029364 bytes)."
+  access_level: full_text
+  accessed_at: '2026-10-19T11:48:00Z'
+  sha256: b94013464e17bae1ecd56548b7d6b3e267761fb666ddd04777b429f06299ec33
+- source_id: r625-arxiv-abs
+  title: 'Gradient Centralization: A New Optimization Technique for Deep Neural Networks (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.01461
+  persistent_id: https://arxiv.org/abs/2004.01461
+  version: arXiv abstract page (7333 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:48:00Z'
+  sha256: 07d234bea32c655027124f100335bb10f73d887811eca336671b29be9a2211e6
+- source_id: r625-metadata-cr
+  title: 'Gradient Centralization: A New Optimization Technique for Deep Neural Networks (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/eccv/YongHHZ20
+  persistent_id: https://dblp.org/rec/conf/eccv/YongHHZ20
+  version: Crossref API work record (1947 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:48:00Z'
+  sha256: a7beb3267f9b542e55731b1ade2aadc56430f42c84f32822c93201256c2bdfd6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BatchNormalizationLayer
+  relation: related_match
+  rationale: Gradient Centralization is a statistics-based zero-mean centering operator on weight gradients complementary to Batch Normalization on activations.
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Gradient Centralization regularizes weight and output feature spaces during deep neural network optimization.
+limitations:
+- Does not replace activation normalization layers (Batch Normalization or Group Normalization), which remain necessary to normalize feature scales across layers.
+- Applicable only to weight matrices/tensors with input fan-in dimension M > 1 (convolutional and fully connected weight columns), not to 1D bias vectors or scalar scale parameters.
+curation:
+  created_at: '2026-10-19T11:48:00Z'
+  updated_at: '2026-10-19T11:48:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
