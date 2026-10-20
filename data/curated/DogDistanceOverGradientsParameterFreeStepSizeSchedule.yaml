@@ -1,0 +1,93 @@
+id: AIMech:DogDistanceOverGradientsParameterFreeStepSizeSchedule
+name: DoG (Distance over Gradients Parameter-Free Step Size Schedule)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-free dynamic step-size schedule for stochastic gradient descent (x_{t+1} = x_t - eta_t g_t) that sets the initial step size to eta_0 = r_epsilon / ||g_0|| for a small initial movement parameter r_epsilon and dynamically sets subsequent step sizes to the ratio of the maximum observed distance from initialization r_bar_t = max_{i<=t} ||x_i - x_0|| vee r_epsilon to the root-sum-of-squares of observed stochastic gradient norms sqrt(G_t) = sqrt(sum_{i<=t} ||g_i||^2), i.e., eta_t = r_bar_t / sqrt(sum_{i<=t} ||g_i||^2), along with a tamed variant (T-DoG) that inflates the denominator by polylogarithmic factors to guarantee iterate boundedness r_bar_T <= 3 d_0 with high probability and a per-layer variant (L-DoG).
+identity_notes: Distinct from LARS, LAMB, and Fromage in that DoG scales the step size by the maximum distance from the initial point max_{i<=t} ||x_i - x_0|| rather than the current parameter norm ||x_t|| and requires no multiplicative learning-rate hyperparameter (c = 1). Distinct from D-Adaptation and Prodigy in that DoG directly plugs the empirical displacement r_bar_t into the SGD step-size numerator instead of a dual regret lower bound d_hat_t.
+aliases:
+- DoG
+- Distance over Gradients
+- T-DoG and L-DoG (Distance over Gradients)
+definition_evidence:
+- source_id: r591-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r591-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r591-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r591-weighted-regret-and-locally-bounded-convergence
+  kind: mechanism
+  statement: For any DoG-like step size eta_t = r_bar_t / sqrt(G'_t) on a closed convex domain X, the r_bar_k-weighted regret satisfies sum_{k=0}^{t-1} r_bar_k <g_k, x_k - x_*> <= r_bar_t (2 d_bar_t + r_bar_t) sqrt(G'_{t-1}) (Lemma 1), and T-DoG with G'_t = 8^4 theta_{T,delta}^2 log_+^2(1 + t l_bar_t^2 / l_bar_0^2)(G_{t-1} + 16 l_bar_t^2) guarantees P(r_bar_T > 3 d_0) <= delta (Proposition 2) and high-probability O(d_0 L_* / sqrt(T)) optimality up to logarithmic factors assuming only pointwise locally bounded stochastic gradients (Theorem 1).
+  evidence:
+  - source_id: r591-primary-pdf
+    locator: Section 3.1-3.3, Lemma 1-3, Propositions 1-2, Corollary 1 & Theorem 1, pp. 4-9
+    relation: supports
+- claim_id: c-r591-layerwise-ldog-and-polynomial-averaging
+  kind: application
+  statement: Applying the DoG formula independently to each network layer l as eta_t^l = max_{i<=t} ||x_i^l - x_0^l|| / sqrt(sum_{i<=t} ||g_i^l||^2 + epsilon) (L-DoG) combined with polynomial decay iterate averaging x_bar_t^gamma = (1 - (1+gamma)/(t+gamma)) x_bar_{t-1}^gamma + ((1+gamma)/(t+gamma)) x_t (gamma = 8) matches or outperforms tuned SGD across 79 of 80 vision and language fine-tuning tasks and narrows the performance gap to instance-tuned Adam.
+  evidence:
+  - source_id: r591-primary-pdf
+    locator: Section 4, p. 9; Section 4.1-4.5, pp. 10-15; Appendix E.5, Eq. (19), p. 38
+    relation: supports
+- claim_id: c-r591-nemirovski-divergence-and-batchnorm-sensitivity
+  kind: limitation
+  statement: "Untamed DoG is not universally iterate-bounded \u2014 on a pathological variant of Nemirovski's function in R^m, its displacement grows as r_bar_T / d_0 = sqrt(T) / 10 (Appendix C.3) \u2014 and in deep networks with batch normalization, scale invariance can make DoG sensitive to overly small initial movement sizes r_epsilon."
+  evidence:
+  - source_id: r591-primary-pdf
+    locator: Section 3.2, p. 7; Section 4.3, p. 12; Appendix C.3, pp. 30-31; Appendix F.4, pp. 45-46
+    relation: supports
+evidence_sources:
+- source_id: r591-primary-pdf
+  title: 'DoG is SGD''s Best Friend: A Parameter-Free Dynamic Step Size Schedule'
+  authors: &id001
+  - Maor Ivgi
+  - Oliver Hinder
+  - Yair Carmon
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2302.12022.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/IvgiHC23
+  version: Proceedings of the 40th International Conference on Machine Learning (ICML 2023), PMLR 202:14465-14499 (2023) (1514585 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:14:00Z'
+  sha256: b66a44022187e57847f3627c04a58409344601f7a5ce371e7d08a052e725be67
+- source_id: r591-arxiv-abs
+  title: 'DoG is SGD''s Best Friend: A Parameter-Free Dynamic Step Size Schedule (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2302.12022
+  persistent_id: https://arxiv.org/abs/2302.12022
+  version: arXiv abstract page (6272 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:14:00Z'
+  sha256: f50020911da64224ca3207b312ad78b6494720f48c25ba036cd9dcb5b2f49011
+- source_id: r591-metadata-cr
+  title: 'DoG is SGD''s Best Friend: A Parameter-Free Dynamic Step Size Schedule (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/IvgiHC23
+  persistent_id: https://dblp.org/rec/conf/icml/IvgiHC23
+  version: Crossref API work record (1785 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:14:00Z'
+  sha256: 110e9d8ff82ed124d3007561a8e53ce2d4f5b33972e2e1a2ed9a8913798095e5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: DoG is a parameter-free dynamic SGD step-size schedule for training and fine-tuning artificial neural networks.
+limitations:
+- Untamed DoG can diverge on pathological convex objectives (such as Nemirovski's function where r_bar_T / d_0 = sqrt(T) / 10), while T-DoG's polylogarithmic taming factor is too conservative for practical training.
+- Exhibits sensitivity to overly small initial movement sizes r_epsilon on architectures with batch normalization and lacks native momentum or coordinatewise Adam preconditioning.
+curation:
+  created_at: '2026-10-19T11:14:00Z'
+  updated_at: '2026-10-19T11:14:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DoG (Distance over Gradients Parameter-Free Step Size Schedule) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>DoG (Distance over Gradients Parameter-Free Step Size Schedule)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DoG (Distance over Gradients Parameter-Free Step Size Schedule)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DogDistanceOverGradientsParameterFreeStepSizeSchedule</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DoG, Distance over Gradients, T-DoG and L-DoG (Distance over Gradients)
+    </div>
+
+  <div class="detail-desc">
+    A parameter-free dynamic step-size schedule for stochastic gradient descent (x_{t+1} = x_t - eta_t g_t) that sets the initial step size to eta_0 = r_epsilon / ||g_0|| for a small initial movement parameter r_epsilon and dynamically sets subsequent step sizes to the ratio of the maximum observed distance from initialization r_bar_t = max_{i&lt;=t} ||x_i - x_0|| vee r_epsilon to the root-sum-of-squares of observed stochastic gradient norms sqrt(G_t) = sqrt(sum_{i&lt;=t} ||g_i||^2), i.e., eta_t = r_bar_t / sqrt(sum_{i&lt;=t} ||g_i||^2), along with a tamed variant (T-DoG) that inflates the denominator by polylogarithmic factors to guarantee iterate boundedness r_bar_T &lt;= 3 d_0 with high probability and a per-layer variant (L-DoG).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from LARS, LAMB, and Fromage in that DoG scales the step size by the maximum distance from the initial point max_{i&lt;=t} ||x_i - x_0|| rather than the current parameter norm ||x_t|| and requires no multiplicative learning-rate hyperparameter (c = 1). Distinct from D-Adaptation and Prodigy in that DoG directly plugs the empirical displacement r_bar_t into the SGD step-size numerator instead of a dual regret lower bound d_hat_t.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r591-weighted-regret-and-locally-bounded-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any DoG-like step size eta_t = r_bar_t / sqrt(G&#39;_t) on a closed convex domain X, the r_bar_k-weighted regret satisfies sum_{k=0}^{t-1} r_bar_k &lt;g_k, x_k - x_*&gt; &lt;= r_bar_t (2 d_bar_t + r_bar_t) sqrt(G&#39;_{t-1}) (Lemma 1), and T-DoG with G&#39;_t = 8^4 theta_{T,delta}^2 log_+^2(1 + t l_bar_t^2 / l_bar_0^2)(G_{t-1} + 16 l_bar_t^2) guarantees P(r_bar_T &gt; 3 d_0) &lt;= delta (Proposition 2) and high-probability O(d_0 L_* / sqrt(T)) optimality up to logarithmic factors assuming only pointwise locally bounded stochastic gradients (Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r591-primary-pdf">DoG is SGD&#39;s Best Friend: A Parameter-Free Dynamic Step Size Schedule</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.3, Lemma 1-3, Propositions 1-2, Corollary 1 &amp; Theorem 1, pp. 4-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r591-layerwise-ldog-and-polynomial-averaging</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applying the DoG formula independently to each network layer l as eta_t^l = max_{i&lt;=t} ||x_i^l - x_0^l|| / sqrt(sum_{i&lt;=t} ||g_i^l||^2 + epsilon) (L-DoG) combined with polynomial decay iterate averaging x_bar_t^gamma = (1 - (1+gamma)/(t+gamma)) x_bar_{t-1}^gamma + ((1+gamma)/(t+gamma)) x_t (gamma = 8) matches or outperforms tuned SGD across 79 of 80 vision and language fine-tuning tasks and narrows the performance gap to instance-tuned Adam.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r591-primary-pdf">DoG is SGD&#39;s Best Friend: A Parameter-Free Dynamic Step Size Schedule</a></span>
+        <span>· <strong>Locator:</strong> Section 4, p. 9; Section 4.1-4.5, pp. 10-15; Appendix E.5, Eq. (19), p. 38</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r591-nemirovski-divergence-and-batchnorm-sensitivity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Untamed DoG is not universally iterate-bounded — on a pathological variant of Nemirovski&#39;s function in R^m, its displacement grows as r_bar_T / d_0 = sqrt(T) / 10 (Appendix C.3) — and in deep networks with batch normalization, scale invariance can make DoG sensitive to overly small initial movement sizes r_epsilon.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r591-primary-pdf">DoG is SGD&#39;s Best Friend: A Parameter-Free Dynamic Step Size Schedule</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, p. 7; Section 4.3, p. 12; Appendix C.3, pp. 30-31; Appendix F.4, pp. 45-46</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Untamed DoG can diverge on pathological convex objectives (such as Nemirovski&#39;s function where r_bar_T / d_0 = sqrt(T) / 10), while T-DoG&#39;s polylogarithmic taming factor is too conservative for practical training.</li>
+      <li>Exhibits sensitivity to overly small initial movement sizes r_epsilon on architectures with batch normalization and lacks native momentum or coordinatewise Adam preconditioning.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DoG is a parameter-free dynamic SGD step-size schedule for training and fine-tuning artificial neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r591-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r591-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2302.12022.pdf" target="_blank" rel="noopener">DoG is SGD&#39;s Best Friend: A Parameter-Free Dynamic Step Size Schedule</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Maor Ivgi, Oliver Hinder, Yair Carmon
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/IvgiHC23</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b66a44022187…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r591-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r591-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2302.12022" target="_blank" rel="noopener">DoG is SGD&#39;s Best Friend: A Parameter-Free Dynamic Step Size Schedule (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Maor Ivgi, Oliver Hinder, Yair Carmon
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2302.12022</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f50020911da6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r591-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r591-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/IvgiHC23" target="_blank" rel="noopener">DoG is SGD&#39;s Best Friend: A Parameter-Free Dynamic Step Size Schedule (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Maor Ivgi, Oliver Hinder, Yair Carmon
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/IvgiHC23</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:110e9d8ff82e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:14:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:14:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DogDistanceOverGradientsParameterFreeStepSizeSchedule.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DogDistanceOverGradientsParameterFreeStepSizeSchedule.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
