@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">43 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">44 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">43</span> of <span id="totalCount">43</span>
+      Showing <span id="matchCount">44</span> of <span id="totalCount">44</span>
     </div>
   </div>
 </div>
@@ -543,6 +543,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="ladder side-tuning (lst) laddersidetuning aimech:laddersidetuning architectures architecture a parameter- and memory-efficient transfer learning architecture that separates all trainable parameters from a frozen backbone network f into a parallel lightweight side network g of hidden dimension scaled by 1/r, fuses downsampled intermediate backbone activations h_i^f with side-network representations h_{i-1}^g via learned temperature-scaled sigmoid gates mu_i * h_i^f + (1 - mu_i) * h_{i-1}^g (mu_i = sigmoid(alpha_i / t)), initializes g via fisher-information or magnitude structural pruning of f, and completely eliminates backpropagation through the frozen backbone. distinct from in-backbone petl methods such as lora (aimech:lora), lora-fa (aimech:lorafa), compacter (aimech:compacterlowrankhypercomplexadapterlayers), and ia3 (aimech:ia3infusedadapterbyinhibitingandamplifyinginneractivations), all of which insert trainable parameters inside the backbone and must cache backbone nonlinearity derivatives {sigma&#39;} for chain-rule backpropagation (capping memory savings at &lt;= 50%), and from vanilla side-tuning (which fuses representations only at the final output layer without intermediate gated ladder shortcuts, structural pruning initialization, or side-network layer dropping). formulated by sung, cho, and bansal (neurips 2022, arxiv:2206.06522). lst ladder side-tuning backpropagation-free gated ladder side network because in-backbone petl methods must compute dl/da_{i+1} = (dl/da_{i+2}) sigma&#39;_{i+1} w_{i+1} through the frozen backbone, they cannot reduce the nonlinearity derivative cache |sigma&#39;| (limiting backpropagation memory savings to at most 50%), whereas lst detaches trainable parameters into a separate side network g with dimension reduction factor r so that backpropagation memory scales as (|a| + |sigma&#39;|) / r. at each side-network layer i, lst downsamples the intermediate backbone activation by 1/r and combines it with the previous side-layer activation h_{i-1}^g via mu_i * h_i^f + (1 - mu_i) * h_{i-1}^g with mu_i = sigmoid(alpha_i / t) (t = 0.1), initializes side-network weights by selecting the top d_out / r rows and corresponding columns of backbone matrices ranked by row-wise empirical fisher information i = (1/n) sum (nabla_w log p(y_i | x_i))^2 or weight magnitude, and optionally drops intermediate side-network layers. lst is applied to t5-base, t5-large, and t5-3b on the glue benchmark and to clip-t5 on vision-and-language tasks (vqa, gqa, nlvr2, mscoco), saving 69% of full fine-tuning gpu training memory (2.7x more memory savings than adapter and lora at matched parameter budgets) and enabling t5-large/t5-3b and clip-t5 adaptation within a 16gb gpu budget. unlike lora modules that merge into backbone weights w_0 with zero extra inference graph nodes, lst retains the separate side network g and linear downsample/upsample ladder projections at inference time, requiring parallel execution of backbone and side-network layers to avoid extra inference latency. lst: ladder side-tuning for parameter and memory efficient transfer learning lst: ladder side-tuning for parameter and memory efficient transfer learning (arxiv abstract) lst: ladder side-tuning for parameter and memory efficient transfer learning (crossref metadata) yi-lin sung jaemin cho mohit bansal yi-lin sung jaemin cho mohit bansal yi-lin sung jaemin cho mohit bansal">
+        <td>
+          <a href="../curated/LadderSideTuning.html" style="font-weight: 600; font-size: 1rem;">Ladder Side-Tuning (LST)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> LST, Ladder Side-Tuning…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A parameter- and memory-efficient transfer learning architecture that separates all trainable parameters from a frozen backbone network f in…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:LadderSideTuning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
