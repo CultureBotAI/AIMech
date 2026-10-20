@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RepAdapter (Structurally Re-parameterized Visual Adapter) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>RepAdapter (Structurally Re-parameterized Visual Adapter)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">RepAdapter (Structurally Re-parameterized Visual Adapter)</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:RepAdapter</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RepAdapter, RepAdapter_attn, Sequentially Re-parameterized Dense-to-Sparse Visual Adapter
+    </div>
+
+  <div class="detail-desc">
+    A parameter-efficient visual adaptation architecture that inserts a sequential linear residual bottleneck with a dense down-projection and a group-wise sparse up-projection immediately before multi-head attention and feed-forward (or convolutional) modules during training, and losslessly merges the learned adapter weights and biases into the adjacent pre-trained projection layers via sequential structural re-parameterization for zero extra inference latency or parameters.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Gen Luo, Minglang Huang, Yiyi Zhou, Xiaoshuai Sun, Guannan Jiang, Zhiyu Wang, and Rongrong Ji (2023, arXiv:2302.08106). Distinct from parallel non-linear visual adapters such as AdaptFormer (Chen et al., NeurIPS 2022; AIMech Round 696) and post-FFN non-linear sequential adapters (Houlsby et al., ICML 2019; AIMech Round 677), which cannot be merged into Transformer blocks due to intervening non-linearities, and distinct from SSF (Lian et al., NeurIPS 2022; AIMech Round 692), which applies element-wise affine modulation rather than a dense-to-sparse bottleneck projection. Both full RepAdapter (placed before both MHA and FFN) and the lightweight RepAdapter_attn variant (placed only before MHA) are covered within this single record.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#repadapter-sequential-structural-reparameterization-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By removing the internal non-linear activation from the residual bottleneck adapter f(X; theta) = (X W_d + b_d) W_u + b + X, RepAdapter simplifies the module at inference time to the single affine transformation f(X; theta) = X W_ada + b_ada with W_ada = W_d W_u + W_I and b_ada = b_d W_u + b (Eq. 9), and when sequentially pre-inserted before a pre-trained linear or convolutional layer (W_0, b_0) as X&#39;_l = MHA(f(LN(X_{l-1}); theta)) + X_{l-1} and X_l = FFN(f(LN(X&#39;_l); theta)) + X&#39;_l (Eq. 12), merges into W_rep = W_ada W_0 and b_rep = b_ada W_0 + b_0 (Eq. 10) for zero additional inference parameters (Delta P = 0) and zero additional inference FLOPs or GPU latency (Delta F = 0).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r701-primary-pdf">Towards Efficient Visual Adaption via Structural Re-parameterization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.1 Sequentially Structural Re-parameterization, Figure 3 &amp; Eqs. 8-10, p. 4; Section 3.2.2 Adapter Placement, Figure 4 &amp; Eq. 12, p. 5; Section 4.3.3 Table 4, p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#repadapter-dense-to-sparse-group-projection-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    RepAdapter formulates its upsampling projection phi_u as a k-group sparse transformation phi_u(X&#39;) = [X&#39;_{g_0} W_{g_0}, ..., X&#39;_{g_k} W_{g_k}] + b where each feature split X&#39;_i in R^{n x (c/k)} is projected by W_i in R^{(c/k) x (d/k)} (Eq. 11) and converted to a dense matrix W_u in R^{c x d} via zero-padding during inference re-parameterization, saving 25% of adapter parameters when k = 2 (0.11M vs. 0.16M for RepAdapter_attn with c = 8) while outperforming both dense (k = 1) and fully sparse (both projections group-wise) variants.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r701-primary-pdf">Towards Efficient Visual Adaption via Structural Re-parameterization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.2 Adapter Structure, Eq. 11, p. 5; Section 4.2 Implementation Details, p. 5; Section 4.3.2 Ablation Studies, Tables 2-3, pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#repadapter-vision-benchmarks-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Validated across 27 datasets spanning image classification (VTAB-1k, where RepAdapter achieves 76.1% average accuracy with 0.22M parameters on ViT-B/16, +7.2% over full tuning while saving 25% training time, 20% GPU memory, and 94.6% storage), CLIP few-shot and domain generalization (ImageNet, -V2, -Sketch, -A, -R), ConvNeXt-B (79.0%) and Swin-B (77.4%), video classification (SSv2 and HMDB51), and semantic segmentation (SETR on ADE20K).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r701-primary-pdf">Towards Efficient Visual Adaption via Structural Re-parameterization</a></span>
+        <span>· <strong>Locator:</strong> Abstract, p. 1; Section 4.3.1 Table 1, p. 6; Section 4.3.3 Figure 5, p. 7; Section 4.3.4 Tables 5-8, pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#repadapter-group-count-and-post-insertion-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Increasing the group count k beyond 2 (e.g., k = 4 or k = 8) or making both projections group-wise (&#39;full sparse&#39;) degrades VTAB-1k accuracy (from 75.5% to 74.5% and 75.1%) by restricting cross-channel information exchange, and placing RepAdapter after MHA/FFN or increasing hidden dimension c beyond 8 (e.g., c = 16) reduces accuracy due to overfitting on small downstream datasets.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r701-primary-pdf">Towards Efficient Visual Adaption via Structural Re-parameterization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3.2 Ablation Studies, Table 2(a)-(d), pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Increasing the group number k beyond 2 or using group-wise transformations in both down- and up-projections (&#39;full sparse&#39;) restricts cross-group feature interaction and reduces accuracy.</li>
+      <li>Expanding the bottleneck hidden dimension c from 8 to 12 or 16 degrades VTAB-1k accuracy (from 75.5% to 75.1%) due to overfitting on small-scale 1,000-example datasets.</li>
+      <li>Exact structural re-parameterization into adjacent weights requires RepAdapter to be linear and sequentially pre-inserted before linear or convolutional projections rather than placed in parallel with non-linear FFN blocks.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            RepAdapter adapts pre-trained Vision Transformer and CNN neural networks via sequentially placed linear dense-to-sparse bottleneck blocks that merge into adjacent projection weights at inference.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r701-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r701-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2302.08106.pdf" target="_blank" rel="noopener">Towards Efficient Visual Adaption via Structural Re-parameterization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Gen Luo, Minglang Huang, Yiyi Zhou, Xiaoshuai Sun, Guannan Jiang, Zhiyu Wang, Rongrong Ji
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Towards+Efficient+Visual+Adaption+via+Structural+Re-parameterization&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2d2061487728…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r701-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r701-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2302.08106" target="_blank" rel="noopener">Towards Efficient Visual Adaption via Structural Re-parameterization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Gen Luo, Minglang Huang, Yiyi Zhou, Xiaoshuai Sun, Guannan Jiang, Zhiyu Wang, Rongrong Ji
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2302.08106</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ccbe40087eea…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r701-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r701-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Towards+Efficient+Visual+Adaption+via+Structural+Re-parameterization&amp;format=xml" target="_blank" rel="noopener">Towards Efficient Visual Adaption via Structural Re-parameterization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Gen Luo, Minglang Huang, Yiyi Zhou, Xiaoshuai Sun, Guannan Jiang, Zhiyu Wang, Rongrong Ji
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Towards+Efficient+Visual+Adaption+via+Structural+Re-parameterization&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ed82b5cb3839…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:04:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:04:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RepAdapter.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RepAdapter.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

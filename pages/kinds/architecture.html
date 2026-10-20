@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">47 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">48 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">47</span> of <span id="totalCount">47</span>
+      Showing <span id="matchCount">48</span> of <span id="totalCount">48</span>
     </div>
   </div>
 </div>
@@ -953,6 +953,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="repadapter (structurally re-parameterized visual adapter) repadapter aimech:repadapter architectures architecture a parameter-efficient visual adaptation architecture that inserts a sequential linear residual bottleneck with a dense down-projection and a group-wise sparse up-projection immediately before multi-head attention and feed-forward (or convolutional) modules during training, and losslessly merges the learned adapter weights and biases into the adjacent pre-trained projection layers via sequential structural re-parameterization for zero extra inference latency or parameters. introduced by gen luo, minglang huang, yiyi zhou, xiaoshuai sun, guannan jiang, zhiyu wang, and rongrong ji (2023, arxiv:2302.08106). distinct from parallel non-linear visual adapters such as adaptformer (chen et al., neurips 2022; aimech round 696) and post-ffn non-linear sequential adapters (houlsby et al., icml 2019; aimech round 677), which cannot be merged into transformer blocks due to intervening non-linearities, and distinct from ssf (lian et al., neurips 2022; aimech round 692), which applies element-wise affine modulation rather than a dense-to-sparse bottleneck projection. both full repadapter (placed before both mha and ffn) and the lightweight repadapter_attn variant (placed only before mha) are covered within this single record. repadapter repadapter_attn sequentially re-parameterized dense-to-sparse visual adapter by removing the internal non-linear activation from the residual bottleneck adapter f(x; theta) = (x w_d + b_d) w_u + b + x, repadapter simplifies the module at inference time to the single affine transformation f(x; theta) = x w_ada + b_ada with w_ada = w_d w_u + w_i and b_ada = b_d w_u + b (eq. 9), and when sequentially pre-inserted before a pre-trained linear or convolutional layer (w_0, b_0) as x&#39;_l = mha(f(ln(x_{l-1}); theta)) + x_{l-1} and x_l = ffn(f(ln(x&#39;_l); theta)) + x&#39;_l (eq. 12), merges into w_rep = w_ada w_0 and b_rep = b_ada w_0 + b_0 (eq. 10) for zero additional inference parameters (delta p = 0) and zero additional inference flops or gpu latency (delta f = 0). repadapter formulates its upsampling projection phi_u as a k-group sparse transformation phi_u(x&#39;) = [x&#39;_{g_0} w_{g_0}, ..., x&#39;_{g_k} w_{g_k}] + b where each feature split x&#39;_i in r^{n x (c/k)} is projected by w_i in r^{(c/k) x (d/k)} (eq. 11) and converted to a dense matrix w_u in r^{c x d} via zero-padding during inference re-parameterization, saving 25% of adapter parameters when k = 2 (0.11m vs. 0.16m for repadapter_attn with c = 8) while outperforming both dense (k = 1) and fully sparse (both projections group-wise) variants. validated across 27 datasets spanning image classification (vtab-1k, where repadapter achieves 76.1% average accuracy with 0.22m parameters on vit-b/16, +7.2% over full tuning while saving 25% training time, 20% gpu memory, and 94.6% storage), clip few-shot and domain generalization (imagenet, -v2, -sketch, -a, -r), convnext-b (79.0%) and swin-b (77.4%), video classification (ssv2 and hmdb51), and semantic segmentation (setr on ade20k). increasing the group count k beyond 2 (e.g., k = 4 or k = 8) or making both projections group-wise (&#39;full sparse&#39;) degrades vtab-1k accuracy (from 75.5% to 74.5% and 75.1%) by restricting cross-channel information exchange, and placing repadapter after mha/ffn or increasing hidden dimension c beyond 8 (e.g., c = 16) reduces accuracy due to overfitting on small downstream datasets. towards efficient visual adaption via structural re-parameterization towards efficient visual adaption via structural re-parameterization (arxiv abstract) towards efficient visual adaption via structural re-parameterization (crossref metadata) gen luo minglang huang yiyi zhou xiaoshuai sun guannan jiang zhiyu wang rongrong ji gen luo minglang huang yiyi zhou xiaoshuai sun guannan jiang zhiyu wang rongrong ji gen luo minglang huang yiyi zhou xiaoshuai sun guannan jiang zhiyu wang rongrong ji">
+        <td>
+          <a href="../curated/RepAdapter.html" style="font-weight: 600; font-size: 1rem;">RepAdapter (Structurally Re-parameterized Visual Adapter)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> RepAdapter, RepAdapter_attn…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A parameter-efficient visual adaptation architecture that inserts a sequential linear residual bottleneck with a dense down-projection and a…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:RepAdapter</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
