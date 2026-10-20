@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">751 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">752 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">751</span> of <span id="totalCount">751</span>
+      Showing <span id="matchCount">752</span> of <span id="totalCount">752</span>
     </div>
   </div>
 </div>
@@ -14681,6 +14681,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:QsparseLocalSgdQuantizationSparsificationAndLocalComputation</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="quantization-aware low-rank adaptation (qa-lora) qaloraquantizationawarelowrankadaptation aimech:qaloraquantizationawarelowrankadaptation algorithms algorithm quantization-aware low-rank adaptation (qa-lora) is a joint low-bit quantization and parameter-efficient fine-tuning algorithm for large language models that partitions each column j in {1, ..., d_out} of a pretrained weight matrix w in r^{d_in x d_out} into l contiguous groups of size g = d_in / l, quantizing each group l in {1, ..., l} with its own scaling factor alpha_{l, j} and zero-point beta_{l, j} into n-bit integers w_hat_{i, j} in {0, 1, ..., 2^n - 1} via w_tilde_{i, j} = alpha_{floor(i/g), j} (w_hat_{i, j} - beta_{floor(i/g), j}), while constraining all row vectors of the low-rank adapter matrix a within each group l to be identical. implemented via parameter-free non-overlapping group summation (or scaled 1d average pooling) a(x)_l = sum_{r=1}^g x_{(l-1)g + r} on the input vector x in r^{d_in} followed by low-rank matrices l_1 in r^{l x d_int} and l_2 in r^{d_int x d_out}, qa-lora computes the training forward pass y = x^t w_tilde + s a(x)^t l_1 l_2 and, after fine-tuning, merges the adapter losslessly into the quantized model simply by shifting the group-wise zero-point parameters beta^{new}_{l, j} = beta_{l, j} - s (l_1 l_2)_{l, j} / alpha_{l, j} while keeping w_hat in n-bit integer precision. distinct from qlora (dettmers et al., 2023; aimech:qloraquantizedlowrankadaptation) and loftq (li et al., 2024; aimech:loftqlorafinetuningawarequantization), which use unconstrained d_in x d_int adapter matrices a that cannot be merged into column-wise or group-wise n-bit quantized weights without either converting the merged matrix back to fp16 or applying lossy post-training quantization (ptq). qa-lora quantization-aware low-rank adaptation group-wise quantization-aware low-rank adaptation because all g = d_in / l rows within group l share the same adapter row vector (l_1 l_2)_{l, j} and the same quantization scale alpha_{l, j} and zero-point beta_{l, j}, the sum of the dequantized linear term and low-rank adapter satisfies x^t (alpha odot (w_hat - beta)) + s a(x)^t l_1 l_2 = x^t (alpha odot (w_hat - (beta - s (l_1 l_2) oslash alpha))), allowing exact lossless integration of the adapter into the zero-point matrix beta^{new} = beta - s (l_1 l_2) oslash alpha without altering the n-bit integer tensor w_hat or incurring any post-training quantization error. partitioning each column into l groups increases quantization degrees of freedom from d_out to l d_out pairs of (alpha, beta) factors while reducing low-rank adaptation parameters from d_in d_int + d_int d_out to l d_int + d_int d_out (cutting learnable parameters on llama-7b/13b/33b/65b by ~44% and reducing int4 fine-tuning time by 1.86x to 2.90x compared to nf4 qlora). across llama-7b/13b/33b/65b and llama2-7b/13b fine-tuned on alpaca and flan v2 under 4-bit, 3-bit, and 2-bit quantization, qa-lora consistently outperforms qlora followed by gptq post-training quantization—improving 0-shot commonsense qa by +15.0% and mmlu 5-shot accuracy by up to +8.2% at 2-bit precision—while executing inference in pure low-bit integer arithmetic. because input features are summed across windows of size g = d_in / l before entering l_1, setting a large group size g (small l, e.g., g = 128 vs. g = 32) restricts the effective rank and input resolution of the adapter and reduces accuracy in 2-bit quantization, and low-bit (int2) qa-lora requires larger instruction-tuning datasets (e.g., &gt;= 320k flan v2 examples) to converge. qa-lora: quantization-aware low-rank adaptation of large language models qa-lora: quantization-aware low-rank adaptation of large language models (arxiv abstract) qa-lora: quantization-aware low-rank adaptation of large language models (crossref metadata) yuhui xu lingxi xie xiaotao gu xin chen heng chang hengheng zhang zhengsu chen xiaopeng zhang qi tian yuhui xu lingxi xie xiaotao gu xin chen heng chang hengheng zhang zhengsu chen xiaopeng zhang qi tian yuhui xu lingxi xie xiaotao gu xin chen heng chang hengheng zhang zhengsu chen xiaopeng zhang qi tian">
+        <td>
+          <a href="../curated/QaloraQuantizationAwareLowRankAdaptation.html" style="font-weight: 600; font-size: 1rem;">Quantization-Aware Low-Rank Adaptation (QA-LoRA)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> QA-LoRA, Quantization-Aware Low-Rank Adaptation…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            Quantization-Aware Low-Rank Adaptation (QA-LoRA) is a joint low-bit quantization and parameter-efficient fine-tuning algorithm for large lan…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:QaloraQuantizationAwareLowRankAdaptation</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

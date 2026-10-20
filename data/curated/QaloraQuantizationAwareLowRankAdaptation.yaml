@@ -1,0 +1,106 @@
+id: AIMech:QaloraQuantizationAwareLowRankAdaptation
+name: Quantization-Aware Low-Rank Adaptation (QA-LoRA)
+concept_kind: algorithm
+review_status: DRAFT
+definition: Quantization-Aware Low-Rank Adaptation (QA-LoRA) is a joint low-bit quantization and parameter-efficient fine-tuning algorithm for large language models that partitions each column j in {1, ..., D_out} of a pretrained weight matrix W in R^{D_in x D_out} into L contiguous groups of size g = D_in / L, quantizing each group l in {1, ..., L} with its own scaling factor alpha_{l, j} and zero-point beta_{l, j} into N-bit integers W_hat_{i, j} in {0, 1, ..., 2^N - 1} via W_tilde_{i, j} = alpha_{floor(i/g), j} (W_hat_{i, j} - beta_{floor(i/g), j}), while constraining all row vectors of the low-rank adapter matrix A within each group l to be identical. Implemented via parameter-free non-overlapping group summation (or scaled 1D average pooling) A(x)_l = sum_{r=1}^g x_{(l-1)g + r} on the input vector x in R^{D_in} followed by low-rank matrices L_1 in R^{L x D_int} and L_2 in R^{D_int x D_out}, QA-LoRA computes the training forward pass y = x^T W_tilde + s A(x)^T L_1 L_2 and, after fine-tuning, merges the adapter losslessly into the quantized model simply by shifting the group-wise zero-point parameters beta^{new}_{l, j} = beta_{l, j} - s (L_1 L_2)_{l, j} / alpha_{l, j} while keeping W_hat in N-bit integer precision.
+identity_notes: Distinct from QLoRA (Dettmers et al., 2023; AIMech:QloraQuantizedLowRankAdaptation) and LoftQ (Li et al., 2024; AIMech:LoftqLoraFineTuningAwareQuantization), which use unconstrained D_in x D_int adapter matrices A that cannot be merged into column-wise or group-wise N-bit quantized weights without either converting the merged matrix back to FP16 or applying lossy post-training quantization (PTQ).
+aliases:
+- QA-LoRA
+- Quantization-Aware Low-Rank Adaptation
+- Group-Wise Quantization-Aware Low-Rank Adaptation
+definition_evidence:
+- source_id: r661-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r661-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r661-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r661-claim-lossless-zero-point-merging-identity
+  kind: mechanism
+  statement: Because all g = D_in / L rows within group l share the same adapter row vector (L_1 L_2)_{l, j} and the same quantization scale alpha_{l, j} and zero-point beta_{l, j}, the sum of the dequantized linear term and low-rank adapter satisfies x^T (alpha odot (W_hat - beta)) + s A(x)^T L_1 L_2 = x^T (alpha odot (W_hat - (beta - s (L_1 L_2) oslash alpha))), allowing exact lossless integration of the adapter into the zero-point matrix beta^{new} = beta - s (L_1 L_2) oslash alpha without altering the N-bit integer tensor W_hat or incurring any post-training quantization error.
+  evidence:
+  - source_id: r661-primary-pdf
+    locator: Section 3.3, Algorithm 1 (`merge_with_quantization`), p. 5; Appendix B.1-B.3, Equations (2)-(7), p. 15-16
+    relation: supports
+- claim_id: r661-claim-degree-of-freedom-balance-and-parameter-reduction
+  kind: mechanism
+  statement: Partitioning each column into L groups increases quantization degrees of freedom from D_out to L D_out pairs of (alpha, beta) factors while reducing low-rank adaptation parameters from D_in D_int + D_int D_out to L D_int + D_int D_out (cutting learnable parameters on LLaMA-7B/13B/33B/65B by ~44% and reducing INT4 fine-tuning time by 1.86x to 2.90x compared to NF4 QLoRA).
+  evidence:
+  - source_id: r661-primary-pdf
+    locator: 'Section 3.3 (The insight of QA-LoRA: balance), p. 5-6; Section 4.2, Table 2, p. 7-8'
+    relation: supports
+- claim_id: r661-claim-int4-int3-int2-mmlu-and-commonsense-qa-accuracy
+  kind: application
+  statement: "Across LLaMA-7B/13B/33B/65B and LLaMA2-7B/13B fine-tuned on Alpaca and FLAN v2 under 4-bit, 3-bit, and 2-bit quantization, QA-LoRA consistently outperforms QLoRA followed by GPTQ post-training quantization\u2014improving 0-shot commonsense QA by +15.0% and MMLU 5-shot accuracy by up to +8.2% at 2-bit precision\u2014while executing inference in pure low-bit integer arithmetic."
+  evidence:
+  - source_id: r661-primary-pdf
+    locator: Section 4.2, Figure 1 & Tables 1, 3, 4, p. 2, 6-8
+    relation: supports
+- claim_id: r661-claim-group-size-tradeoff-and-data-size-limitation
+  kind: limitation
+  statement: Because input features are summed across windows of size g = D_in / L before entering L_1, setting a large group size g (small L, e.g., g = 128 vs. g = 32) restricts the effective rank and input resolution of the adapter and reduces accuracy in 2-bit quantization, and low-bit (INT2) QA-LoRA requires larger instruction-tuning datasets (e.g., >= 320K FLAN v2 examples) to converge.
+  evidence:
+  - source_id: r661-primary-pdf
+    locator: Section 4.3 (Ablative Studies), Tables 5-6 & Figure 3, p. 8-9
+    relation: supports
+evidence_sources:
+- source_id: r661-primary-pdf
+  title: 'QA-LoRA: Quantization-Aware Low-Rank Adaptation of Large Language Models'
+  authors: &id001
+  - Yuhui Xu
+  - Lingxi Xie
+  - Xiaotao Gu
+  - Xin Chen
+  - Heng Chang
+  - Hengheng Zhang
+  - Zhengsu Chen
+  - Xiaopeng Zhang
+  - Qi Tian
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2309.14717.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/XuXGCCZ0T24.html
+  version: The Twelfth International Conference on Learning Representations (ICLR 2024) (2024) (681578 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:24:00Z'
+  sha256: c8086d00324e1606184346cfffb0caac165e3174090210c721ddca419ed2f38d
+- source_id: r661-arxiv-abs
+  title: 'QA-LoRA: Quantization-Aware Low-Rank Adaptation of Large Language Models (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2309.14717
+  persistent_id: https://arxiv.org/abs/2309.14717
+  version: arXiv abstract page (6827 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:24:00Z'
+  sha256: 303a83d6a7da1f1a8e150d6332c94b29fde9f7f9cf3e8554b003dea2e4638cce
+- source_id: r661-metadata-cr
+  title: 'QA-LoRA: Quantization-Aware Low-Rank Adaptation of Large Language Models (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/XuXGCCZ0T24.html
+  persistent_id: https://dblp.org/rec/conf/iclr/XuXGCCZ0T24.html
+  version: Crossref API work record (982 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:24:00Z'
+  sha256: 761844705ee67bab7eb13b23517d0a955aa518fcbee6c54f8f20241f7b271208
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: QA-LoRA performs quantization-aware low-rank fine-tuning and lossless quantized weight merging on linear layers of Transformer neural networks.
+limitations:
+- Aggregating input features within each group of size g = D_in / L restricts the adapter matrix A to piecewise-constant rows across each group, creating a trade-off where larger group sizes g reduce quantization metadata overhead L D_out but lower adapter expressivity.
+- Merging the adapter into the floating-point group zero-point matrix beta^{new} requires asymmetric group-wise quantization support (separate scale alpha_{l,j} and floating-point offset beta_{l,j} per group) in the target low-bit inference kernel.
+curation:
+  created_at: '2026-10-19T12:24:00Z'
+  updated_at: '2026-10-19T12:24:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
