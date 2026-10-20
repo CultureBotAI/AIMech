@@ -1,0 +1,101 @@
+id: AIMech:PFedLaAndHeurPFedLaLayerWisedHypernetworkModelAggregationForPersonalizedFederatedLearning
+name: pFedLA and HeurpFedLA (Layer-Wised Hypernetwork Model Aggregation for Personalized Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A layer-wise personalized federated learning framework (Ma, Zhang, Guo, & Xu 2022, Section 3, Equations 1-12, Algorithms 1-2) that deploys a dedicated server-side hypernetwork HN_i(v_i; psi_i) with trainable client embedding vector v_i and hypernetwork weights psi_i for each client i in {1, ..., N} to generate an N x n column-stochastic layer-wise aggregation weight matrix alpha_i = [alpha_i^{l1}, alpha_i^{l2}, ..., alpha_i^{ln}] satisfying sum_{j=1}^N alpha_i^{ln, j} = 1 (Equations 3-4), synthesizes client i's personalized model by layer-wise weighted combination theta_bar_i^{ln} = sum_{j=1}^N theta_j^{ln} alpha_i^{ln, j} across all clients' intermediate layers {theta_j^{ln}} (Equations 5-6), updates v_i and psi_i at the server using the chain-rule surrogate gradients Delta v_i = (nabla_{v_i} theta_bar_i)^T Delta theta_i and Delta psi_i = (nabla_{psi_i} theta_bar_i)^T Delta theta_i driven by client i's local parameter displacement Delta theta_i = theta_i - theta_bar_i^{(t+1)} (Equations 8-11, Algorithm 1), and optionally retains the top-k highest self-weighted layers theta_bar_i^{retain} = AT_k{theta_bar_i^{l1}, ..., theta_bar_i^{ln} | alpha_i^{l1, i}, ..., alpha_i^{ln, i}} purely locally without server aggregation or transmission in its communication-efficient variant HeurpFedLA (Equation 12, Algorithm 2).
+identity_notes: Distinct from pFedHN (AIMech:PFedHnPersonalizedFederatedHypernetworks, Shamsian et al. 2021), where a single hypernetwork directly generates the target neural network's raw weight tensors theta_i = HN(v_i; psi) rather than generating an N x n cross-client layer-wise convex combination matrix alpha_i = HN_i(v_i; psi_i) to aggregate clients' locally trained layer parameters {theta_j^{ln}}; and distinct from FedFomo (AIMech:FedFomoFirstOrderModelOptimizationForPersonalizedFederatedLearning, Zhang et al. 2021) and FedAMP (AIMech:FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning, Huang et al. 2021), which compute whole-model scalar aggregation weights using parameter/loss distances rather than hypernetwork-parameterized layer-granular aggregation matrices.
+aliases:
+- pFedLA
+- HeurpFedLA
+- Layer-wised Personalized Federated Learning
+definition_evidence:
+- source_id: r485-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r485-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r485-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r485-hypernetwork-parameterized-layer-wise-aggregation-mechanism
+  kind: mechanism
+  statement: For each client i, server hypernetwork HN_i(v_i; psi_i) maps client embedding v_i to layer-specific cross-client aggregation weights alpha_i^{ln, j} (sum_{j=1}^N alpha_i^{ln, j} = 1) so that each layer ln of client i's personalized model is aggregated as theta_bar_i^{ln} = sum_{j=1}^N theta_j^{ln} alpha_i^{ln, j} (Equations 3-6), and updates v_i and psi_i via chain-rule inner products with the uploaded local update Delta theta_i (Equations 10-11, Algorithm 1) (Ma et al. 2022, Section 3.2, pp. 4-5).
+  evidence:
+  - source_id: r485-primary-pdf
+    locator: Section 3.2 (Equations 3-11, Algorithm 1), pp. 4-5
+    relation: supports
+- claim_id: r485-heurpfedla-topk-self-weight-layer-retention-mechanism
+  kind: mechanism
+  statement: HeurpFedLA sorts client i's self-aggregation weights {alpha_i^{l1, i}, ..., alpha_i^{ln, i}} in descending order and selects the top-k layers theta_bar_i^{retain} = AT_k{theta_bar_i^{l1}, ..., theta_bar_i^{ln} | alpha_i^{l1, i}, ..., alpha_i^{ln, i}} (Equation 12) to remain strictly local on client i without server aggregation or server-to-client download, reducing communication cost while preserving personalized layers (Ma et al. 2022, Section 3.3, Algorithm 2, Figure 4, Table 3, pp. 5 & 8).
+  evidence:
+  - source_id: r485-primary-pdf
+    locator: Section 3.3 (Equation 12, Algorithm 2, Figure 4), p. 5, and Section 4.4-4.5 (Table 3), p. 8
+    relation: supports
+- claim_id: r485-non-iid-image-classification-personalization-application
+  kind: application
+  statement: Applied to personalized federated image classification across 10-client and 100-client non-IID partitions on EMNIST, FashionMNIST, CIFAR-10, and CIFAR-100 benchmarks (Ma et al. 2022, Section 4, Tables 1-3, Figures 5-7).
+  evidence:
+  - source_id: r485-primary-pdf
+    locator: Section 4.1-4.5 (Tables 1-3, Figures 5-7), pp. 6-8
+    relation: supports
+- claim_id: r485-per-client-server-hypernetwork-and-model-storage-limitation
+  kind: limitation
+  statement: Requires the server to store and maintain N separate intermediate client models {theta_1, ..., theta_N} and N dedicated hypernetworks {HN_1(v_1; psi_1), ..., HN_N(v_N; psi_N)}, and assumes identical neural layer architectures across all participating clients (Ma et al. 2022, Section 3.2 & Section 4.1, pp. 3-4 & 7).
+  evidence:
+  - source_id: r485-primary-pdf
+    locator: Section 3.2 (Algorithm 1), pp. 3-4, and Section 4.1 (Training Details), p. 7
+    relation: supports
+evidence_sources:
+- source_id: r485-primary-pdf
+  title: Layer-wised Model Aggregation for Personalized Federated Learning
+  authors: &id001
+  - Xiaosong Ma
+  - Jie Zhang
+  - Song Guo
+  - Wenchao Xu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2205.03993.pdf
+  persistent_id: https://arxiv.org/abs/2205.03993
+  version: CVPR 2022 (2022) (888 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:28:00Z'
+  sha256: 53c0e52293436a3a29eb05ec710717a6d4004cfe4d83447573127f2303dc1313
+- source_id: r485-arxiv-abs
+  title: Layer-wised Model Aggregation for Personalized Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2205.03993
+  persistent_id: https://arxiv.org/abs/2205.03993
+  version: arXiv abstract page (594 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:28:00Z'
+  sha256: cbc990150f987549321fe456e0003a098c011546810b9de47ff4289f8e8402fe
+- source_id: r485-metadata-cr
+  title: Layer-wised Model Aggregation for Personalized Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2205.03993
+  persistent_id: https://arxiv.org/abs/2205.03993
+  version: Crossref API work record (838 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:28:00Z'
+  sha256: 2225197194665fb4d9cc658168db2d2115ca14c2004f86de6b2f12905130c0a0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: pFedLA and HeurpFedLA are layer-wise hypernetwork-aggregated personalized federated learning algorithms within the broader FederatedLearning category.
+limitations:
+- Server memory scales linearly with the total number of clients N due to storing N intermediate client models and N hypernetworks.
+- Requires all clients to share an identical layer-by-layer neural architecture.
+curation:
+  created_at: '2026-10-19T09:28:00Z'
+  updated_at: '2026-10-19T09:28:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
