@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DyLoRA (Dynamic Search-Free Low-Rank Adaptation) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>DyLoRA (Dynamic Search-Free Low-Rank Adaptation)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DyLoRA (Dynamic Search-Free Low-Rank Adaptation)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DyLoRADynamicSearchFreeLowRankAdaptation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DyLoRA, Dynamic Low-Rank Adaptation, Search-Free Dynamic LoRA, Nested-Dropout Ordered Low-Rank Adapter Tuning
+    </div>
+
+  <div class="detail-desc">
+    A dynamic, search-free parameter-efficient low-rank adaptation algorithm for pre-trained models that orders the information content of low-rank adapter matrices across ranks b in Range[r_min, r_max] by sampling a target rank b ~ p_B(.) at each training iteration, truncating the down-projection matrix to its first b rows W_{dw downarrow b} = W_{dw}[1:b, :] and the up-projection matrix to its first b columns W_{up downarrow b} = W_{up}[:, 1:b] in the forward pass h = W_0 x + (alpha / b) W_{up downarrow b} W_{dw downarrow b} x, and updating either the b-truncated prefix or exclusively the b-th row and column (FROZEN mode).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from static LoRA (AIMech:LowRankAdaptation), which trains adapter matrices for a single fixed rank r and suffers severe accuracy degradation if truncated to a smaller rank b &lt; r at inference time without retraining from scratch. Distinct from AdaLoRA (AIMech:AdaLoraAdaptiveBudgetLowRankAdaptation), which prunes singular values of SVD-parameterized adapters to a single final static budget allocation across layers rather than ordering prefix representations to support dynamic multi-rank inference from a single checkpoint. Distinct from Nested Dropout (Rippel et al., 2014), which orders vector bottleneck activations using a weighted sum of losses over all truncations rather than sampling one rank b per batch on factorized weight matrices.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dylora-stochastic-rank-truncation-forward-pass-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each training iteration, DyLoRA samples an active rank b ~ p_B(.) from a categorical distribution supported on Range[r_min, r_max], slices W_{dw downarrow b} = W_{dw}[1:b, :] in R^{b x d} and W_{up downarrow b} = W_{up}[:, 1:b] in R^{m x b}, and computes the b-truncated adapter output h = W_0 X + (alpha / b) W_{up downarrow b} W_{dw downarrow b} X to evaluate the single-rank batch loss L_{downarrow b}^{DY} without summing over all ranks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r646-primary-pdf">DyLoRA: Parameter-Efficient Tuning of Pretrained Models using Dynamic Search-Free Low Rank Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Equations (5)-(9), Algorithm 1, and Section 5.8 Table 7, pages 4-5, 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dylora-frozen-mode-single-row-column-update-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In FROZEN mode (Equation 10 and Algorithm 1 lines 12-15), DyLoRA updates only the b-th row W_{dw}^b = W_{dw}[b, :] and b-th column W_{up}^b = W_{up}[:, b] corresponding to the sampled rank b while keeping lower-indexed rows and columns 1, ..., b - 1 frozen during that step, preventing optimization of higher ranks from overwriting lower-rank representations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r646-primary-pdf">DyLoRA: Parameter-Efficient Tuning of Pretrained Models using Dynamic Search-Free Low Rank Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Equation (10), Algorithm 1, and Section 5.8 Table 4, pages 5, 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#dylora-rank-search-time-complexity-reduction-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because DyLoRA trains a single adapter supporting every rank b in {r_min, ..., r_max} in approximately the same wall-clock time as training static LoRA once at r_max (408.39s vs 399.95s on MRPC for r_max = 8), it reduces rank-selection training time by a factor of 4x to 7x compared to grid-searching static LoRA across candidate ranks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r646-primary-pdf">DyLoRA: Parameter-Efficient Tuning of Pretrained Models using Dynamic Search-Free Low Rank Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Abstract, Section 5.4 Table 5, and Appendix A Time Complexity, pages 1, 8, 11-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#dylora-roberta-glue-and-gpt2-nlg-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On RoBERTa-Base across GLUE tasks and GPT-2 Medium across E2E, DART, and WebNLG generation benchmarks, a single DyLoRA model evaluated across ranks 1 through 8 substantially outperforms static LoRA at low ranks (achieving 84.22 vs 54.90 average GLUE score and 68.86 vs 3.38 E2E BLEU at Rank 1) while matching or exceeding static LoRA at Rank 8.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r646-primary-pdf">DyLoRA: Parameter-Efficient Tuning of Pretrained Models using Dynamic Search-Free Low Rank Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 5.3 Table 2, Section 5.7 Table 6, and Appendix C Table 9, pages 6, 8-9, 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#dylora-rank-sampling-distribution-and-range-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    DyLoRA requires pre-specifying the maximum rank r_max and rank-sampling distribution p_B (where geometric distributions favor Rank 1 accuracy while uniform distributions favor higher-rank average accuracy), and FROZEN mode trades a modest reduction in peak accuracy for parameter-update efficiency.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r646-primary-pdf">DyLoRA: Parameter-Efficient Tuning of Pretrained Models using Dynamic Search-Free Low Rank Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 5.8 Table 4 and Section 6 Limitations, pages 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires selecting the rank range [r_min, r_max], scaling factor alpha, and sampling distribution p_B ahead of training.</li>
+      <li>Updating only the b-th row and column in FROZEN mode slightly reduces average downstream accuracy compared to updating the full prefix 1..b.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DyLoRA is a parameter-efficient fine-tuning algorithm for pre-trained Transformer neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r646-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r646-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2210.07558.pdf" target="_blank" rel="noopener">DyLoRA: Parameter-Efficient Tuning of Pretrained Models using Dynamic Search-Free Low Rank Adaptation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mojtaba Valipour, Mehdi Rezagholizadeh, Ivan Kobyzev, Ali Ghodsi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/eacl/ValipourRKG23</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5fbd78365696…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r646-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r646-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2210.07558" target="_blank" rel="noopener">DyLoRA: Parameter-Efficient Tuning of Pretrained Models using Dynamic Search-Free Low Rank Adaptation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mojtaba Valipour, Mehdi Rezagholizadeh, Ivan Kobyzev, Ali Ghodsi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2210.07558</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:09d0947f01bf…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r646-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r646-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/eacl/ValipourRKG23" target="_blank" rel="noopener">DyLoRA: Parameter-Efficient Tuning of Pretrained Models using Dynamic Search-Free Low Rank Adaptation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mojtaba Valipour, Mehdi Rezagholizadeh, Ivan Kobyzev, Ali Ghodsi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/eacl/ValipourRKG23</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5361d315ee00…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:09:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:09:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DyLoRADynamicSearchFreeLowRankAdaptation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DyLoRADynamicSearchFreeLowRankAdaptation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
