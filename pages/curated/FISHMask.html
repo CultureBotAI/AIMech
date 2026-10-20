@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FISH Mask · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FISH Mask</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FISH Mask</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FISHMask</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Fisher-Induced Sparse uncHanging Mask, FISH Mask Training, Fisher-Induced Fixed Sparse Mask, Top-k Fisher Sparse Update Mask
+    </div>
+
+  <div class="detail-desc">
+    A sparse gradient-based neural network training and parameter-efficient transfer learning algorithm (Fisher-Induced Sparse uncHanging Mask) that pre-computes a fixed binary parameter mask before training (or at coarse epoch intervals) and updates only the selected k parameters over many subsequent gradient descent iterations. To measure how strongly each parameter theta_i affects the model output distribution p_theta(y|x) under local KL divergence E_x[D_KL(p_theta(y|x) || p_{theta+delta}(y|x))] = delta^T F_theta delta + O(delta^3), FISH Mask estimates the diagonal Fisher information F_hat_theta = (1/N) sum_{i=1}^N E_{y ~ p_theta(y|x_i)} [(grad_theta log p_theta(y|x_i))^2] (or its supervised empirical Fisher variant (1/N) sum_{i=1}^N (grad_theta log p_theta(y_i|x_i))^2) over N examples and constructs the fixed mask {theta_i | F_hat_{theta_i} &gt;= sort(F_hat_theta)_k} corresponding to a target mask sparsity level.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Diff Pruning (AIMech:DiffPruning), which optimizes a trainable stretched Hard-Concrete mask over an additive diff vector throughout training at the cost of extra memory and 1.5x-2x slower minibatches, and from BitFit (AIMech:BitFit), which heuristically updates only bias vectors (and cannot be applied to bias-free architectures such as T5). Also distinct from Fisher weight pruning methods, which zero out weights to sparsify the network rather than keeping all pre-trained weights intact while restricting gradient updates to the top-k Fisher coordinates.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fish-mask-diagonal-fisher-kl-sensitivity-selection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FISH Mask approximates parameter importance via the diagonal Fisher information F_hat_theta = (1/N) sum_{i=1}^N E_{y ~ p_theta(y|x_i)}[(grad_theta log p_theta(y|x_i))^2] (or the empirical Fisher using ground-truth labels y_i), which governs the second-order KL divergence E_x[D_KL(p_theta(y|x) || p_{theta+delta}(y|x))] = delta^T F_theta delta + O(delta^3), and selects the fixed subset {theta_i | F_hat_{theta_i} &gt;= sort(F_hat_theta)_k} using as few as N = 32 to 1024 samples before gradient descent begins.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r695-primary-pdf">Training Neural Networks with Fixed Sparse Masks</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1-2.2, Equations 1-3, pp. 3-4; Section 4.4.1-4.4.2, Figure 2, pp. 7 &amp; 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#fish-mask-glue-transfer-distributed-and-checkpoint-efficiency</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On BERT_LARGE across the GLUE test server, FISH Mask updating only 0.5% of parameters per task achieves an 82.6 average score—matching 100% dense fine-tuning (82.5) and outperforming Diff Pruning at 0.5% (81.5), BitFit at 0.08% (81.2), and a 0.5% Random Mask (76.8)—while reducing ResNet-34 CIFAR-10 checkpoint disk storage by 5x at 10% mask sparsity (93.9% accuracy when refreshed every epoch, matching standard training).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r695-primary-pdf">Training Neural Networks with Fixed Sparse Masks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.3, Tables 1-2 &amp; Figures 2-3, pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fish-mask-from-scratch-warmup-and-extreme-sparsity-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When training ResNet-34 from scratch on CIFAR-10, fixing a single FISH Mask across the entire training run without periodic refresh or 5 epochs of dense warmup degrades validation accuracy (e.g., dropping to 78.5% at 0.5% fixed mask sparsity vs. 93.9% standard training), and segmenting the FISH Mask into non-overlapping worker partitions in distributed BERT fine-tuning underperforms sharing a single global FISH Mask across workers.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r695-primary-pdf">Training Neural Networks with Fixed Sparse Masks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2-4.3, Table 2, pp. 8-9; Appendix A, Table 3, p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>From-scratch training requires an initial dense warmup phase (e.g., 5 epochs on CIFAR-10) and periodic mask recomputation (e.g., every epoch) at higher mask sparsity (10%), as keeping a 0.5% mask fixed from random initialization drops accuracy from 93.9% to 78.5% (Section 4.2-4.3, Table 2).</li>
+      <li>Storing both 32-bit float values and 32-bit integer coordinate indices only reduces checkpoint or communication size when the mask sparsity level is below 50%, and partitioning the FISH Mask into disjoint worker subsets degrades distributed convergence (Section 4.3, p. 9; Appendix A, p. 14).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FISH Mask is a sparse learning method that restricts gradient updates to a fixed top-k parameter subset selected via diagonal Fisher information.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FISH Mask trains and fine-tunes deep neural networks with reduced checkpoint storage and distributed worker communication.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r695-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r695-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2111.09839.pdf" target="_blank" rel="noopener">Training Neural Networks with Fixed Sparse Masks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yi-Lin Sung, Varun Nair, Colin Raffel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Training+Neural+Networks+Fixed+Sparse+Masks+Sung&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4415f2f79ad1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r695-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r695-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2111.09839" target="_blank" rel="noopener">Training Neural Networks with Fixed Sparse Masks (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yi-Lin Sung, Varun Nair, Colin Raffel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2111.09839</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:48785d5ebf91…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r695-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r695-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Training+Neural+Networks+Fixed+Sparse+Masks+Sung&amp;format=xml" target="_blank" rel="noopener">Training Neural Networks with Fixed Sparse Masks (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yi-Lin Sung, Varun Nair, Colin Raffel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Training+Neural+Networks+Fixed+Sparse+Masks+Sung&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8b879bcbc94b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:58:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:58:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FISHMask.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FISHMask.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,97 @@
+id: AIMech:FISHMask
+name: FISH Mask
+concept_kind: algorithm
+review_status: DRAFT
+definition: A sparse gradient-based neural network training and parameter-efficient transfer learning algorithm (Fisher-Induced Sparse uncHanging Mask) that pre-computes a fixed binary parameter mask before training (or at coarse epoch intervals) and updates only the selected k parameters over many subsequent gradient descent iterations. To measure how strongly each parameter theta_i affects the model output distribution p_theta(y|x) under local KL divergence E_x[D_KL(p_theta(y|x) || p_{theta+delta}(y|x))] = delta^T F_theta delta + O(delta^3), FISH Mask estimates the diagonal Fisher information F_hat_theta = (1/N) sum_{i=1}^N E_{y ~ p_theta(y|x_i)} [(grad_theta log p_theta(y|x_i))^2] (or its supervised empirical Fisher variant (1/N) sum_{i=1}^N (grad_theta log p_theta(y_i|x_i))^2) over N examples and constructs the fixed mask {theta_i | F_hat_{theta_i} >= sort(F_hat_theta)_k} corresponding to a target mask sparsity level.
+identity_notes: Distinct from Diff Pruning (AIMech:DiffPruning), which optimizes a trainable stretched Hard-Concrete mask over an additive diff vector throughout training at the cost of extra memory and 1.5x-2x slower minibatches, and from BitFit (AIMech:BitFit), which heuristically updates only bias vectors (and cannot be applied to bias-free architectures such as T5). Also distinct from Fisher weight pruning methods, which zero out weights to sparsify the network rather than keeping all pre-trained weights intact while restricting gradient updates to the top-k Fisher coordinates.
+aliases:
+- Fisher-Induced Sparse uncHanging Mask
+- FISH Mask Training
+- Fisher-Induced Fixed Sparse Mask
+- Top-k Fisher Sparse Update Mask
+definition_evidence:
+- source_id: r695-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r695-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r695-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fish-mask-diagonal-fisher-kl-sensitivity-selection
+  kind: mechanism
+  statement: FISH Mask approximates parameter importance via the diagonal Fisher information F_hat_theta = (1/N) sum_{i=1}^N E_{y ~ p_theta(y|x_i)}[(grad_theta log p_theta(y|x_i))^2] (or the empirical Fisher using ground-truth labels y_i), which governs the second-order KL divergence E_x[D_KL(p_theta(y|x) || p_{theta+delta}(y|x))] = delta^T F_theta delta + O(delta^3), and selects the fixed subset {theta_i | F_hat_{theta_i} >= sort(F_hat_theta)_k} using as few as N = 32 to 1024 samples before gradient descent begins.
+  evidence:
+  - source_id: r695-primary-pdf
+    locator: Section 2.1-2.2, Equations 1-3, pp. 3-4; Section 4.4.1-4.4.2, Figure 2, pp. 7 & 10
+    relation: supports
+- claim_id: fish-mask-glue-transfer-distributed-and-checkpoint-efficiency
+  kind: application
+  statement: "On BERT_LARGE across the GLUE test server, FISH Mask updating only 0.5% of parameters per task achieves an 82.6 average score\u2014matching 100% dense fine-tuning (82.5) and outperforming Diff Pruning at 0.5% (81.5), BitFit at 0.08% (81.2), and a 0.5% Random Mask (76.8)\u2014while reducing ResNet-34 CIFAR-10 checkpoint disk storage by 5x at 10% mask sparsity (93.9% accuracy when refreshed every epoch, matching standard training)."
+  evidence:
+  - source_id: r695-primary-pdf
+    locator: Section 4.1-4.3, Tables 1-2 & Figures 2-3, pp. 6-9
+    relation: supports
+- claim_id: fish-mask-from-scratch-warmup-and-extreme-sparsity-limitation
+  kind: limitation
+  statement: When training ResNet-34 from scratch on CIFAR-10, fixing a single FISH Mask across the entire training run without periodic refresh or 5 epochs of dense warmup degrades validation accuracy (e.g., dropping to 78.5% at 0.5% fixed mask sparsity vs. 93.9% standard training), and segmenting the FISH Mask into non-overlapping worker partitions in distributed BERT fine-tuning underperforms sharing a single global FISH Mask across workers.
+  evidence:
+  - source_id: r695-primary-pdf
+    locator: Section 4.2-4.3, Table 2, pp. 8-9; Appendix A, Table 3, p. 14
+    relation: supports
+evidence_sources:
+- source_id: r695-primary-pdf
+  title: Training Neural Networks with Fixed Sparse Masks
+  authors: &id001
+  - Yi-Lin Sung
+  - Varun Nair
+  - Colin Raffel
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2111.09839.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Training+Neural+Networks+Fixed+Sparse+Masks+Sung&format=xml
+  version: Advances in Neural Information Processing Systems (NeurIPS 2021) (2021) (623838 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:58:00Z'
+  sha256: 4415f2f79ad18d03890fad8cefb092ca061fc01d12be8e671db6a9191067aae9
+- source_id: r695-arxiv-abs
+  title: Training Neural Networks with Fixed Sparse Masks (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2111.09839
+  persistent_id: https://arxiv.org/abs/2111.09839
+  version: arXiv abstract page (6315 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:58:00Z'
+  sha256: 48785d5ebf917fb58b5c544afd62eb2ec4a4083cd5f216300cee826a41d4b683
+- source_id: r695-metadata-cr
+  title: Training Neural Networks with Fixed Sparse Masks (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Training+Neural+Networks+Fixed+Sparse+Masks+Sung&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Training+Neural+Networks+Fixed+Sparse+Masks+Sung&format=xml
+  version: Crossref API work record (875 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:58:00Z'
+  sha256: 8b879bcbc94b088cef16d62e451a3db638428ba8a9a2f62d8f189a4c4bfeeb81
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SparseLearning
+  relation: narrow_match
+  rationale: FISH Mask is a sparse learning method that restricts gradient updates to a fixed top-k parameter subset selected via diagonal Fisher information.
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: FISH Mask trains and fine-tunes deep neural networks with reduced checkpoint storage and distributed worker communication.
+limitations:
+- From-scratch training requires an initial dense warmup phase (e.g., 5 epochs on CIFAR-10) and periodic mask recomputation (e.g., every epoch) at higher mask sparsity (10%), as keeping a 0.5% mask fixed from random initialization drops accuracy from 93.9% to 78.5% (Section 4.2-4.3, Table 2).
+- Storing both 32-bit float values and 32-bit integer coordinate indices only reduces checkpoint or communication size when the mask sparsity level is below 50%, and partitioning the FISH Mask into disjoint worker subsets degrades distributed convergence (Section 4.3, p. 9; Appendix A, p. 14).
+curation:
+  created_at: '2026-10-19T12:58:00Z'
+  updated_at: '2026-10-19T12:58:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
