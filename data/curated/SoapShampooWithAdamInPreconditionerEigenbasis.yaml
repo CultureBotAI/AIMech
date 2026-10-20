@@ -1,0 +1,105 @@
+id: AIMech:SoapShampooWithAdamInPreconditionerEigenbasis
+name: SOAP (ShampoO with Adam in the Preconditioner's Eigenbasis)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A second-order stochastic optimization algorithm (ShampoO with Adam in the Preconditioner's eigenbasis) that maintains Kronecker-factored gradient covariance EMAs L <- beta_2 L + (1 - beta_2) G G^T and R <- beta_2 R + (1 - beta_2) G^T G along with their eigenvector bases Q_L, Q_R (updated every f steps via power iteration and QR decomposition), projects the gradient G' = Q_L^T G Q_R and first-moment EMA M' = Q_L^T M Q_R into Shampoo's eigenbasis, continually updates an elementwise second-moment EMA V <- beta_2 V + (1 - beta_2)(G' odot G') in the rotated space at every step, applies the Adam preconditioned step N' = M' / (sqrt(V_hat) + epsilon), and rotates the update back to the original parameter space via N = Q_L N' Q_R^T.
+identity_notes: Distinct from Shampoo in that SOAP establishes an exact equivalence between idealized Shampoo (with exponent 1/2 and trace scaling) and idealized Adafactor in Shampoo's eigenbasis (Claim 1), and replaces rank-1 Adafactor with full coordinatewise Adam second-moment tracking V updated at every step inside the rotated eigenbasis (Q_L, Q_R), preventing stale-preconditioner degradation when Q_L and Q_R are recomputed infrequently every f steps. Distinct from GaLore in that SOAP maintains exponential moving averages of G G^T and G^T G on both sides of a 2D layer and stores first-moment momentum M in the original parameter space before projecting into the updated eigenbasis.
+aliases:
+- SOAP
+- SOAP Optimizer
+- ShampoO with Adam in the Preconditioner's eigenbasis
+definition_evidence:
+- source_id: r589-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r589-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r589-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r589-shampoo-adafactor-eigenbasis-equivalence
+  kind: mechanism
+  statement: Idealized Shampoo with matrix power 1/2 and trace normalization H_hat = (L otimes R) / Trace(L), W_t <- W_{t-1} - eta L^{-1/2} G_t R^{-1/2} / Trace(L)^{-1/2}, is algebraically equivalent to running idealized Adafactor in the eigenbasis (Q_L, Q_R) of L = E_B[G_B G_B^T] and R = E_B[G_B^T G_B] because the row and column second-moment marginals A_i = e_i^T E_B[G'_B odot G'_B] 1_m and C_j = (1_n^T E_B[G'_B odot G'_B])_j in the rotated basis equal the eigenvalues lambda_i(L) and mu_j(R) (Claim 1).
+  evidence:
+  - source_id: r589-primary-pdf
+    locator: Section 4.1, Algorithms 1-2 & Claim 1, pp. 4-5
+    relation: supports
+- claim_id: c-r589-rotated-adam-and-qr-power-iteration
+  kind: mechanism
+  statement: SOAP continually updates the elementwise second-moment matrix V <- beta_2 V + (1 - beta_2)(G' odot G') at every step in the rotated coordinate basis G' = Q_L^T G Q_R while updating the eigenbases Q_L, Q_R only every f steps via a single power-iteration matrix multiplication followed by QR decomposition (Algorithm 3 and Algorithm 4), introducing only one additional hyperparameter (preconditioning frequency f) beyond AdamW and degrading significantly more slowly than Shampoo as f increases up to 100.
+  evidence:
+  - source_id: r589-primary-pdf
+    locator: Algorithm 3-4, p. 6; Section 6.2 & Figure 1, pp. 3, 8; Figure 7, pp. 12-13
+    relation: supports
+- claim_id: c-r589-llm-pretraining-speedup-and-critical-batch
+  kind: application
+  statement: On 360M and 660M parameter language model pre-training in the large-batch regime, SOAP reduces the number of training iterations by over 40% and wall-clock time by over 35% compared to AdamW (and by approximately 20% in both metrics compared to DistributedShampoo), while improving scaling toward the ideal linear critical batch size.
+  evidence:
+  - source_id: r589-primary-pdf
+    locator: Abstract, p. 1; Section 6.1-6.4 & Figures 1-5, pp. 7-11
+    relation: supports
+- claim_id: c-r589-space-and-per-step-projection-overhead
+  kind: limitation
+  statement: Full two-sided SOAP requires 2m^2 + 2n^2 + 3mn memory and m^3 + n^3 + 2m^2 n + 2mn^2 per-step matrix-multiplication overhead for an m x n layer (more per-step projection work than Shampoo's m^3 + n^3 + m^2 n + mn^2), requiring identity-basis fallback on huge vocabulary embedding/output dimensions or one-sided/factorized approximations to reduce memory below AdamW.
+  evidence:
+  - source_id: r589-primary-pdf
+    locator: Section 4.1 item 3, p. 7; Section 7.1-7.3, pp. 10-13
+    relation: supports
+evidence_sources:
+- source_id: r589-primary-pdf
+  title: 'SOAP: Improving and Stabilizing Shampoo using Adam'
+  authors: &id001
+  - Nikhil Vyas
+  - Depen Morwani
+  - Rosie Zhao
+  - Mujin Kwun
+  - Itai Shapira
+  - David Brandfonbrener
+  - Lucas Janson
+  - Sham Kakade
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2409.11321.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/0001MZSBJK25
+  version: International Conference on Learning Representations (ICLR 2025) (2025) (1300562 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:12:00Z'
+  sha256: d6f33bb71eab0f046d911b60800846fd3332f1dcf5f2f1434ab444ab89d0b22a
+- source_id: r589-arxiv-abs
+  title: 'SOAP: Improving and Stabilizing Shampoo using Adam (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2409.11321
+  persistent_id: https://arxiv.org/abs/2409.11321
+  version: arXiv abstract page (7365 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:12:00Z'
+  sha256: 6b90ff5efde8274b1f5c8140bfed1203f1b25ecb69d1f77519459d0cd3e75257
+- source_id: r589-metadata-cr
+  title: 'SOAP: Improving and Stabilizing Shampoo using Adam (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/0001MZSBJK25
+  persistent_id: https://dblp.org/rec/conf/iclr/0001MZSBJK25
+  version: Crossref API work record (2084 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:12:00Z'
+  sha256: 8ccbc2ce42e0582ce719ea790ce4d4bb40b804fc1159eacd9585431be35a4b5e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: SOAP is a Kronecker-eigenbasis preconditioned Adam optimizer for training artificial neural networks.
+limitations:
+- Incurs 2m^2 + 2n^2 + 3mn state memory and m^3 + n^3 + 2m^2 n + 2mn^2 per-step matrix-multiplication overhead on 2D layers unless one-sided or factorized approximations are used.
+- Cannot maintain full eigenbasis rotation matrices on layers with very large vocabulary dimensions (such as LLM embedding and output projection layers), where the rotation matrix for the large dimension must be fixed to the identity.
+curation:
+  created_at: '2026-10-19T11:12:00Z'
+  updated_at: '2026-10-19T11:12:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
