@@ -1,0 +1,109 @@
+id: AIMech:IDPGInstanceDependentPromptGeneration
+name: Instance-Dependent Prompt Generation
+concept_kind: algorithm
+review_status: DRAFT
+definition: A conditional parameter-efficient prompt-tuning method for pre-trained language models that generates continuous soft prompts W_p(T, x_i) = G(M(x_i), T) in R^{t x d} conditioned on each input sequence representation M(x_i) in R^d using a lightweight two-layer bottleneck perceptron G whose down-projection W_1 in R^{m x d} and up-projection W_2 in R^{(t d) x m} are decomposed via Parameterized Hypercomplex Multiplication (PHM) Kronecker sums W = sum_{j=1}^n A_j otimes B_j, with multi-layer variant M-IDPG sharing W across all Transformer layers while maintaining layer-specific bias prompts.
+identity_notes: Introduced by Zhuofeng Wu, Sinong Wang, Jiatao Gu, Rui Hou, Yuxiao Dong, V. G. Vinod Vydiswaran, and Hao Ma (NAACL 2022, arXiv:2204.04497) as Instance-Dependent Prompt Generation (IDPG / S-IDPG-PHM / M-IDPG-PHM). Distinct from static Prompt Tuning and SPoT (AIMech:SPoTSoftPromptTransfer), which use a fixed input-independent prompt per task (recovered as the degenerate case W = 0 in IDPG where only the second-layer bias is active); from ATTEMPT (AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts), which interpolates pre-trained source-task prompts via sub-query attention rather than generating prompts through a PHM bottleneck MLP; and from Hyperdecoder (AIMech:HyperdecoderInstanceSpecificDecoderAdapter), which generates decoder adapter weights from encoder hidden states rather than layer-wise soft prompt tokens.
+aliases:
+- IDPG
+- M-IDPG-PHM
+- S-IDPG-PHM
+- Multi-Layer Instance-Dependent Prompt Generation
+definition_evidence:
+- source_id: r711-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r711-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r711-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: idpg-bottleneck-prompt-generator-and-static-degeneracy
+  kind: mechanism
+  statement: Given a sentence representation M(x_i) in R^d of input x_i, IDPG generates a t-token continuous prompt W_p(T, x_i) = G(M(x_i), T) via a two-layer bottleneck generator with hidden size m << d requiring m(d+1) + t d(m+1) parameters before compression, and strictly generalizes task-specific prompt tuning since setting the projection weights W to zero leaves the second-layer bias term t x d as a static task-specific prompt.
+  evidence:
+  - source_id: r711-primary-pdf
+    locator: Section 1 & Section 3.1, Equations (1)-(3), pp. 2-3
+    relation: supports
+- claim_id: idpg-phm-kronecker-decomposition-and-multilayer-sharing
+  kind: mechanism
+  statement: Replacing the dense generator matrices W_1 in R^{m x d} and W_2 in R^{(t d) x m} with Parameterized Hypercomplex Multiplication (PHM) layers W = sum_{i=1}^n A_i otimes B_i (with A_i in R^{n x n} shared across layers) reduces single-layer generator parameters from 1.5M (S-IDPG-DNN) to 105K (S-IDPG-PHM) for d=1024, m=256, t=5, n=16, while multi-layer M-IDPG-PHM shares W across N=24 layers with layer-specific biases in 134K trainable parameters (0.04% of RoBERTa-Large).
+  evidence:
+  - source_id: r711-primary-pdf
+    locator: Section 3.2.1-3.2.2, Equation (4), Table 2 & Appendix A.1.2, pp. 4, 6, 11-12
+    relation: supports
+- claim_id: idpg-nlu-and-few-shot-benchmark-performance
+  kind: application
+  statement: Across ten NLU benchmarks (MPQA, Subj, CR, MR, SST-2, QNLI, RTE, MRPC, STS-B, QQP) on RoBERTa-Large, M-IDPG-PHM achieves 91.9 average score with 134K trainable parameters, outperforming standard prompt tuning (88.8) by +3.1 points and P-tuning v2 (90.3) by +1.6 points, and in few-shot settings (K in {100, 500, 1000}) outperforms prompt tuning by +2.5, +2.1, and +2.0 points respectively.
+  evidence:
+  - source_id: r711-primary-pdf
+    locator: Section 4.2-4.4, Tables 1-3, pp. 5-7
+    relation: supports
+  - source_id: r711-metadata-cr
+    locator: NAACL 2022 bibliographic record
+    relation: supports
+- claim_id: idpg-two-forward-pass-and-low-resource-variance-limitation
+  kind: limitation
+  statement: When using the pre-trained language model itself to compute M(x_i), IDPG requires two forward passes at inference time unless M(x_i) is cached or replaced by lightweight GloVe embeddings (M-IDPG-PHM-GloVe), and exhibits elevated initialization variance in extreme low-resource regimes (e.g., standard deviation 4.6 on MPQA at K=100).
+  evidence:
+  - source_id: r711-primary-pdf
+    locator: Section 3.1, Section 4.4 & Section 4.5.1, pp. 3-4, 6-7
+    relation: supports
+evidence_sources:
+- source_id: r711-primary-pdf
+  title: 'IDPG: An Instance-Dependent Prompt Generation Method'
+  authors: &id001
+  - Zhuofeng Wu
+  - Sinong Wang
+  - Jiatao Gu
+  - Rui Hou
+  - Yuxiao Dong
+  - V. G. Vinod Vydiswaran
+  - Hao Ma
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2204.04497.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=IDPG+An+Instance-Dependent+Prompt+Generation+Method&h=5&format=xml
+  version: 'Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT 2022) (2022) (872220 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:14:00Z'
+  sha256: bc7419642a39683264bb873422fe707232972b73f7975d120e63da4ea7c3ddfa
+- source_id: r711-arxiv-abs
+  title: 'IDPG: An Instance-Dependent Prompt Generation Method (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2204.04497
+  persistent_id: https://arxiv.org/abs/2204.04497
+  version: arXiv abstract page (6191 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:14:00Z'
+  sha256: 0fe36615990405d389cf60fde0d02f509f9dbb82688a8e49a95f8d85216c5539
+- source_id: r711-metadata-cr
+  title: 'IDPG: An Instance-Dependent Prompt Generation Method (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=IDPG+An+Instance-Dependent+Prompt+Generation+Method&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=IDPG+An+Instance-Dependent+Prompt+Generation+Method&h=5&format=xml
+  version: Crossref API work record (936 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:14:00Z'
+  sha256: 86944201b50982d32b84c5a48d30f5bec484acb5f72736a48ba02adb4dc3a4c1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: IDPG is a conditional prompt-generation architecture and fine-tuning algorithm for frozen pre-trained Transformer neural networks.
+limitations:
+- Computing the instance representation M(x_i) with the pre-trained Transformer requires an extra forward pass at inference time unless M(x_i) is pre-cached or substituted with static word embeddings such as GloVe.
+- In extreme few-shot regimes (K = 100), generator initialization sensitivity can cause higher run-to-run variance on small datasets such as MPQA.
+- Combining residual connections and LayerNorm simultaneously inside the single-layer PHM prompt generator degrades accuracy compared to PHM alone or PHM with LayerNorm only.
+curation:
+  created_at: '2026-10-19T13:14:00Z'
+  updated_at: '2026-10-19T13:14:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
