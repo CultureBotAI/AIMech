@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1375</strong> artificial intelligence concepts, comprising <strong>933</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1376</strong> artificial intelligence concepts, comprising <strong>934</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1375)</option>
-        <option value="curated">Curated AIMech (933)</option>
+        <option value="all">All Origins (1376)</option>
+        <option value="curated">Curated AIMech (934)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (631)</option>
+          <option value="algorithm">Algorithms (632)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1375</span> of <span id="totalCount">1375</span>
+      Showing <span id="matchCount">1376</span> of <span id="totalCount">1376</span>
     </div>
   </div>
 </div>
@@ -2816,6 +2816,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="basgd buffered asynchronous stochastic gradient descent for byzantine learning basgdbufferedasynchronousstochasticgradientdescentforbyzantinelearning aimech:basgdbufferedasynchronousstochasticgradientdescentforbyzantinelearning algorithms algorithm an asynchronous byzantine-resilient parameter-server optimization algorithm proposed by yang and li (icml 2021) that resists malicious worker attacks and arbitrary worker delays without storing any validation instances on the server by maintaining b server-side buffers (0 &lt; b &lt;= m) and a dynamic worker-to-buffer mapping table {beta_s}_{s=0}^{m-1}, accumulating incoming worker gradients into running buffer averages h_b in buffer b = beta_s mod b while immediately returning the current model w^t to worker s, executing a robust aggregation step g^t = aggr([h_1, ..., h_b]) using a q-byzantine-robust (q-br) or (a_1, a_2)-effective aggregator whenever all b buffers contain at least one gradient, and reassigning active workers across buffers if a timer exceeds delta seconds. distinct from kardam (aimech:kardamlipschitzandfrequencyfilteredasynchronousbyzantinestochasticgradientdescent, which filters individual incoming gradients via empirical lipschitz quantiles and a 2f-window frequency filter without server buffers) and from zeno++ (aimech:zenoplusplusrobustfullyasynchronousstochasticgradientdescent, which requires a clean validation dataset stored on the server to compute candidate loss-descent scores). also distinct from synchronous s-bucketing (aimech:bucketingforagnosticbyzantinerobustaggregationonheterogeneousdatasets, which randomly reshuffles synchronous worker momentum vectors at every barrier step). basgd (yang &amp; li, icml 2021, pmlr 139:11751-11761, algorithm 1 &amp; section 3.1-3.3, pp. 3-5) routes each arriving asynchronous gradient g from worker s into buffer b = beta_s mod b via the online mean update n_b^t &lt;- n_b^t + 1, h_b &lt;- ((n_b^t - 1) h_b + g) / n_b^t, immediately replies to worker s with the latest w^t without synchronization barriers, triggers a parameter update w^{t+1} &lt;- w^t - eta aggr([h_1, ..., h_b]) and zeroes all buffers as soon as n_b^t &gt; 0 for every b in [b], and resets the mapping table {beta_s} to redistribute active workers across all b buffers whenever the step timer exceeds the reassignment interval delta. basgd buffered asynchronous sgd buffered asynchronous stochastic gradient descent basgd maintains b server buffers and a mapping table {beta_s}_{s=0}^{m-1}: when worker s sends gradient g, the server updates buffer b = beta_s mod b via n_b^t &lt;- n_b^t + 1 and h_b &lt;- ((n_b^t - 1) h_b + g)/n_b^t and immediately returns w^t to worker s; once n_b^t &gt; 0 for all b in [b], it aggregates g^t = aggr([h_1, ..., h_b]) via a q-br function (coordinate-wise median or q-trimmed mean, definitions 1-3 &amp; proposition 1), updates w^{t+1} &lt;- w^t - eta g^t, and zeroes the buffers, or reassigns active workers across [b] if the timer exceeds delta. when the combined number of byzantine and heavily delayed (tau_k^t &gt; tau_{max}) workers is at most r &lt;= q &lt; b/2, lemmas 1-2 and theorem 1 prove that basgd with any q-br aggregator achieves o(1/sqrt(t)) convergence up to a variance/bias neighborhood controlled by lambda_{b,q,r} = (b-r)sqrt(b-r+1)/sqrt((b-q-1)(q-r+1)), and theorem 2 proves dimension-free o(tau_{max}/sqrt(t)) + a_1 convergence for any (a_1, a_2)-effective stable aggregation function (definitions 4-5). choosing a larger buffer count b increases resilience against byzantine workers (up to r &lt;= floor((b-1)/2) for median) but reduces the server&#39;s parameter update frequency, while an improperly tuned reassignment interval delta either discards buffered gradients too frequently (small delta) or delays recovery from unresponsive straggler buffers (large delta). applied to asynchronous byzantine-resilient distributed training of resnet-20 on cifar-10 and 2-layer lstm language models on wikitext-2 under negative-gradient (ng) and random-disturbance (rd) attacks with random worker delays. basgd: buffered asynchronous sgd for byzantine learning basgd: buffered asynchronous sgd for byzantine learning (arxiv abstract) basgd: buffered asynchronous sgd for byzantine learning (crossref metadata) yi-rui yang wu-jun li yi-rui yang wu-jun li yi-rui yang wu-jun li">
+        <td>
+          <a href="curated/BasgdBufferedAsynchronousStochasticGradientDescentForByzantineLearning.html" style="font-weight: 600; font-size: 1rem;">BASGD Buffered Asynchronous Stochastic Gradient Descent for Byzantine Learning</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> BASGD, Buffered Asynchronous SGD…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An asynchronous Byzantine-resilient parameter-server optimization algorithm proposed by Yang and Li (ICML 2021) that resists malicious worke…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:BasgdBufferedAsynchronousStochasticGradientDescentForByzantineLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
