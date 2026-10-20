@@ -1,0 +1,108 @@
+id: AIMech:PayLessAttentionWithLightweightAndDynamicConvolutions
+name: Lightweight and Dynamic Convolutions (LightConv and DynamicConv)
+concept_kind: layer
+review_status: DRAFT
+definition: 'Lightweight Convolution (LightConv) and Dynamic Convolution (DynamicConv) are linear-time O(n k d) sequence modeling primitives that replace quadratic O(n^2 d) content-based self-attention: LightConv applies a depthwise separable 1D convolution (preceded by a d -> 2d linear projection and Gated Linear Unit) whose kernel weights W in R^{H x k} are tied across every group of d/H contiguous channels, normalized across the temporal dimension k via softmax(W)_{h,j} = exp(W_{h,j}) / sum_{j''=1}^k exp(W_{h,j''}), and regularized with DropConnect; DynamicConv extends LightConv by predicting time-step-dependent convolution kernels f(X_i) = W^Q X_i in R^{H x k} as a learned linear function of the current time-step input X_i alone.'
+identity_notes: Distinct from standard 1D or depthwise separable convolutions (Kaiser et al., 2018), which neither tie weights across d/H channel groups nor apply temporal softmax normalization or per-timestep kernel prediction, and distinct from Lite Transformer (AIMech:LiteTransformerWithLongShortRangeAttention), which combines a self-attention global branch and a convolution local branch in parallel rather than replacing self-attention across all encoder and decoder layers.
+aliases:
+- LightConv and DynamicConv
+- Pay Less Attention with Lightweight and Dynamic Convolutions
+- Softmax-Normalized Lightweight and Dynamic Sequence Convolutions
+definition_evidence:
+- source_id: r820-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r820-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r820-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: lightconv-channel-group-weight-sharing-and-temporal-softmax
+  kind: mechanism
+  statement: "LightConv ties depthwise convolution parameters across every group of d/H contiguous channels\u2014reducing kernel parameters from d^2 * k (standard convolution) and d * k (depthwise convolution) to H * k (e.g., from 7,340,032 to 112 parameters for d = 1024, k = 7, H = 16)\u2014and normalizes weights across the temporal window k via softmax(W)_{h,j} = exp(W_{h,j}) / sum_{j'=1}^k exp(W_{h,j'}) so that LightConv(X, W_{ceil(cH/d),:}, i, c) = DepthwiseConv(X, softmax(W_{ceil(cH/d),:}), i, c)."
+  evidence:
+  - source_id: r820-primary-pdf
+    locator: Section 3 (Lightweight Convolutions), p. 3
+    relation: supports
+  - source_id: r820-primary-pdf
+    locator: conv_parameter_counts and lightconv_step
+    relation: supports
+- claim_id: dynamicconv-timestep-dependent-linear-kernel-prediction
+  kind: mechanism
+  statement: DynamicConv predicts a separate H x k convolution kernel at each time step i solely from the current token representation X_i via a learned linear module f(X_i)_{h,j} = sum_{c=1}^d W^Q_{h,j,c} X_{i,c} and computes DynamicConv(X, i, c) = LightConv(X, f(X_i)_{h,:}, i, c), achieving position-varying context weights with O(n) complexity in sequence length n.
+  evidence:
+  - source_id: r820-primary-pdf
+    locator: Section 4 (Dynamic Convolutions), p. 4
+    relation: supports
+  - source_id: r820-primary-pdf
+    locator: dynamicconv_step and main
+    relation: supports
+- claim_id: dynamicconv-translation-summarization-and-runtime-speedup
+  kind: application
+  statement: Without using self-attention in either encoder or decoder, DynamicConv achieves 29.7 BLEU on WMT'14 En-De (+0.4 BLEU over Transformer-Big), 43.2 BLEU on WMT'14 En-Fr, +0.8 BLEU on IWSLT'14 De-En, 20% faster inference throughput than self-attention, 26.67 test perplexity on Billion Word language modeling, and higher ROUGE on CNN-DailyMail summarization.
+  evidence:
+  - source_id: r820-primary-pdf
+    locator: Section 6.1-6.4, Tables 1-5, pp. 6-8
+    relation: supports
+- claim_id: dynamicconv-softmax-normalization-stability-and-receptive-field-limitation
+  kind: limitation
+  statement: Removing temporal softmax normalization (or replacing it with unnormalized, L1-normalized, squared, or abs weights) causes DynamicConv training to diverge (Table 3 and Appendix A Table 6), and each layer's receptive field is bounded by its fixed kernel width k rather than attending globally in a single hop.
+  evidence:
+  - source_id: r820-primary-pdf
+    locator: Section 6.2 (Table 3, p. 7) and Appendix A (Table 6, p. 13)
+    relation: supports
+evidence_sources:
+- source_id: r820-primary-pdf
+  title: Pay Less Attention with Lightweight and Dynamic Convolutions
+  authors: &id001
+  - Felix Wu
+  - Angela Fan
+  - Alexei Baevski
+  - Yann N. Dauphin
+  - Michael Auli
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1901.10430
+  persistent_id: https://arxiv.org/bibtex/1901.10430
+  version: ICLR 2019 (2019) (618524 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:03:00Z'
+  sha256: 9d3da8563d94f4054a38069c00be6947a209fcf9c4e2ac3cb20b31424233ac42
+- source_id: r820-arxiv-abs
+  title: Pay Less Attention with Lightweight and Dynamic Convolutions (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1901.10430
+  persistent_id: https://arxiv.org/abs/1901.10430
+  version: arXiv abstract page (6957 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:03:00Z'
+  sha256: 0d313838f4bf8c20dbf59b5b0b8a1e6c78e2e9304653d8c2464cae427dbdb68a
+- source_id: r820-metadata-cr
+  title: Pay Less Attention with Lightweight and Dynamic Convolutions (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/1901.10430
+  persistent_id: https://arxiv.org/bibtex/1901.10430
+  version: Crossref API work record (420 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:03:00Z'
+  sha256: 6adaac1f23cabf46ee9b91436afa5ee0b2c28380a560ad2173a3211a5d0fd682
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: LightConv and DynamicConv are neural sequence modeling layer primitives and encoder-decoder architectures for natural language processing.
+limitations:
+- DynamicConv training diverges without temporal softmax (or L2/sigmoid/tanh) kernel normalization.
+- Each layer has a finite receptive field bounded by kernel width k, requiring progressive multi-layer kernel expansion (e.g., k = 3, 7, 15, 31) to capture long-range context.
+curation:
+  created_at: '2026-10-19T15:03:00Z'
+  updated_at: '2026-10-19T15:03:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

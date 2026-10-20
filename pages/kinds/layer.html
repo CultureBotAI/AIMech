@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Layers &amp; Modules</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">12 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">13 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined neural network components that transform representations between stages.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">12</span> of <span id="totalCount">12</span>
+      Showing <span id="matchCount">13</span> of <span id="totalCount">13</span>
     </div>
   </div>
 </div>
@@ -235,6 +235,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="layer"
+          data-branch=""
+          data-search="lightweight and dynamic convolutions (lightconv and dynamicconv) paylessattentionwithlightweightanddynamicconvolutions aimech:paylessattentionwithlightweightanddynamicconvolutions layers &amp; modules layer lightweight convolution (lightconv) and dynamic convolution (dynamicconv) are linear-time o(n k d) sequence modeling primitives that replace quadratic o(n^2 d) content-based self-attention: lightconv applies a depthwise separable 1d convolution (preceded by a d -&gt; 2d linear projection and gated linear unit) whose kernel weights w in r^{h x k} are tied across every group of d/h contiguous channels, normalized across the temporal dimension k via softmax(w)_{h,j} = exp(w_{h,j}) / sum_{j&#39;=1}^k exp(w_{h,j&#39;}), and regularized with dropconnect; dynamicconv extends lightconv by predicting time-step-dependent convolution kernels f(x_i) = w^q x_i in r^{h x k} as a learned linear function of the current time-step input x_i alone. distinct from standard 1d or depthwise separable convolutions (kaiser et al., 2018), which neither tie weights across d/h channel groups nor apply temporal softmax normalization or per-timestep kernel prediction, and distinct from lite transformer (aimech:litetransformerwithlongshortrangeattention), which combines a self-attention global branch and a convolution local branch in parallel rather than replacing self-attention across all encoder and decoder layers. lightconv and dynamicconv pay less attention with lightweight and dynamic convolutions softmax-normalized lightweight and dynamic sequence convolutions lightconv ties depthwise convolution parameters across every group of d/h contiguous channels—reducing kernel parameters from d^2 * k (standard convolution) and d * k (depthwise convolution) to h * k (e.g., from 7,340,032 to 112 parameters for d = 1024, k = 7, h = 16)—and normalizes weights across the temporal window k via softmax(w)_{h,j} = exp(w_{h,j}) / sum_{j&#39;=1}^k exp(w_{h,j&#39;}) so that lightconv(x, w_{ceil(ch/d),:}, i, c) = depthwiseconv(x, softmax(w_{ceil(ch/d),:}), i, c). dynamicconv predicts a separate h x k convolution kernel at each time step i solely from the current token representation x_i via a learned linear module f(x_i)_{h,j} = sum_{c=1}^d w^q_{h,j,c} x_{i,c} and computes dynamicconv(x, i, c) = lightconv(x, f(x_i)_{h,:}, i, c), achieving position-varying context weights with o(n) complexity in sequence length n. without using self-attention in either encoder or decoder, dynamicconv achieves 29.7 bleu on wmt&#39;14 en-de (+0.4 bleu over transformer-big), 43.2 bleu on wmt&#39;14 en-fr, +0.8 bleu on iwslt&#39;14 de-en, 20% faster inference throughput than self-attention, 26.67 test perplexity on billion word language modeling, and higher rouge on cnn-dailymail summarization. removing temporal softmax normalization (or replacing it with unnormalized, l1-normalized, squared, or abs weights) causes dynamicconv training to diverge (table 3 and appendix a table 6), and each layer&#39;s receptive field is bounded by its fixed kernel width k rather than attending globally in a single hop. pay less attention with lightweight and dynamic convolutions pay less attention with lightweight and dynamic convolutions (arxiv abstract) pay less attention with lightweight and dynamic convolutions (crossref metadata) felix wu angela fan alexei baevski yann n. dauphin michael auli felix wu angela fan alexei baevski yann n. dauphin michael auli felix wu angela fan alexei baevski yann n. dauphin michael auli">
+        <td>
+          <a href="../curated/PayLessAttentionWithLightweightAndDynamicConvolutions.html" style="font-weight: 600; font-size: 1rem;">Lightweight and Dynamic Convolutions (LightConv and DynamicConv)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> LightConv and DynamicConv, Pay Less Attention with Lightweight and Dynamic Convolutions…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            Lightweight Convolution (LightConv) and Dynamic Convolution (DynamicConv) are linear-time O(n k d) sequence modeling primitives that replace…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/layer.html" style="font-size: 0.85rem;">Layers &amp; Modules</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PayLessAttentionWithLightweightAndDynamicConvolutions</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
