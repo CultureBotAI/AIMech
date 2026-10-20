@@ -1,0 +1,101 @@
+id: AIMech:ReLoRA
+name: ReLoRA
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient high-rank neural network training algorithm that transitions from an initial full-rank warm-start phase to sequential low-rank adaptation updates Delta W = sum_{k=1}^N s W_A^k W_B^k by periodically merging learned low-rank factors into the frozen base weights, reinitializing the low-rank matrices, partially resetting Adam optimizer states via magnitude pruning, and applying a jagged cosine learning rate schedule with rapid zero-learning-rate re-warmups.
+identity_notes: Distinct from standard LoRA (AIMech:LoRA, which trains a single pair of low-rank matrices whose update rank is bounded above by r without restarts or warm-start pre-training), from Chain of LoRA (AIMech:ChainOfLoRA, which fine-tunes already pretrained models via a Frank-Wolfe conditional-gradient chain with step-down rank schedules rather than pre-training transformers with a full-rank warm start, magnitude-pruned partial Adam moment resets, and a jagged cosine learning rate schedule), and from GaLore (AIMech:GaLoreGradientLowRankProjection, which projects full-parameter gradients into low-rank subspaces via SVD rather than parameterizing linear layers with merged-and-reinitialized LoRA adapters). Formulated by Lialin et al. (ICLR 2024, arXiv:2307.05695).
+aliases:
+- Restarted Low-Rank Adaptation (ReLoRA)
+- ReLoRA High-Rank Training Through Low-Rank Updates
+- Warm-Started Periodic Reset Low-Rank Pre-Training
+definition_evidence:
+- source_id: r682-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r682-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r682-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: relora-sum-of-ranks-periodic-merge-and-reinit
+  kind: mechanism
+  statement: ReLoRA exploits the subadditivity of matrix rank, rank(A + B) <= rank(A) + rank(B), by wrapping frozen linear layers W^i with rank-r factors (W_A^i, W_B^i) and every q steps merging the update W^i <- W^i + s W_A^i W_B^i into the base weights and reinitializing W_A^i with Kaiming initialization and W_B^i with zeros, accumulating a high-rank total update Delta W = sum_{k=1}^N s W_A^k W_B^k whose singular value spectrum closely matches full-rank training.
+  evidence:
+  - source_id: r682-primary-pdf
+    locator: Section 2 Method, Eq. 1-2, Algorithm 1, and Section 4 Figures 3-4, p. 2-6
+    relation: supports
+- claim_id: relora-partial-optimizer-pruning-and-jagged-cosine-schedule
+  kind: mechanism
+  statement: To prevent historical Adam first and second moments (M_{W_A}, V_{W_A}) with high beta_1, beta_2 from constraining reinitialized factors W_A^{k+1} to the previous subspace while avoiding divergence from a full reset, ReLoRA prunes 90% to 99% of the lowest-magnitude optimizer state entries at each restart and pairs the reset with a jagged cosine learning rate schedule that drops the learning rate to zero and warms it back up over 50 to 100 steps.
+  evidence:
+  - source_id: r682-primary-pdf
+    locator: Section 2 Method, Figure 2, Algorithm 1 Lines 17-20, and Section 4.2 Table 6, p. 2-4, 8
+    relation: supports
+- claim_id: relora-transformer-pretraining-application
+  kind: application
+  statement: ReLoRA is applied to pre-training transformer language models from 60M up to 1.3B parameters on the C4 corpus following an initial full-rank warm-start phase, achieving perplexity comparable to full-rank training while saving up to 5.5 GB of GPU RAM per device and improving training throughput by 9% to 40% across hardware setups.
+  evidence:
+  - source_id: r682-primary-pdf
+    locator: Section 3 Experiments & Section 4 Results, Tables 2, 4, and 7, p. 4-8
+    relation: supports
+- claim_id: relora-full-rank-warmstart-requirement-and-frequent-reset-degradation
+  kind: limitation
+  statement: Training from random initialization with ReLoRA requires a substantial initial full-rank warm-start phase (typically 25% to 33% of total update steps) to avoid significant perplexity degradation, and overly frequent online LoRA merges (e.g., every 100 steps) or restarts without the jagged learning rate schedule degrade performance or cause training divergence.
+  evidence:
+  - source_id: r682-primary-pdf
+    locator: 'Section 4.1 Negative results: Online ReLoRA, Table 5, and Section 4.2 Table 6, p. 7-8'
+    relation: supports
+evidence_sources:
+- source_id: r682-primary-pdf
+  title: 'ReLoRA: High-Rank Training Through Low-Rank Updates'
+  authors: &id001
+  - Vladislav Lialin
+  - Sherin Muckatira
+  - Namrata Shivagunde
+  - Anna Rumshisky
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2307.05695
+  persistent_id: https://dblp.org/rec/conf/iclr/LialinMSR24.xml
+  version: The Twelfth International Conference on Learning Representations (ICLR 2024) (2024) (1955171 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:45:00Z'
+  sha256: 456aa1b49414be59efeb39e23754b81eeb336f1a209fcd773119b565613e392b
+- source_id: r682-arxiv-abs
+  title: 'ReLoRA: High-Rank Training Through Low-Rank Updates (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2307.05695
+  persistent_id: https://arxiv.org/abs/2307.05695
+  version: arXiv abstract page (6111 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:45:00Z'
+  sha256: 97416bde109d3a7e1cb9c6e6610af323f5de4e4718b9d0ebce22567c17570452
+- source_id: r682-metadata-cr
+  title: 'ReLoRA: High-Rank Training Through Low-Rank Updates (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/LialinMSR24.xml
+  persistent_id: https://dblp.org/rec/conf/iclr/LialinMSR24.xml
+  version: Crossref API work record (460 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:45:00Z'
+  sha256: da95b6d8065de27730a16b364d02f0b4831cbc7dc25b71944bd5223e0b9606e9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: ReLoRA trains high-rank transformer neural networks through sequential merged low-rank updates.
+limitations:
+- Requires an initial full-rank training warm-start phase when training from scratch before switching to low-rank updates.
+- Overly frequent online merges (Online ReLoRA) or optimizer resets without jagged zero-LR re-warmup degrade perplexity or cause divergence, and ReLoRA does not outperform standard single-stage LoRA on downstream GLUE fine-tuning.
+curation:
+  created_at: '2026-10-19T12:45:00Z'
+  updated_at: '2026-10-19T12:45:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
