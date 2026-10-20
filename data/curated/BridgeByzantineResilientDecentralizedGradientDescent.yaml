@@ -1,0 +1,93 @@
+id: AIMech:BridgeByzantineResilientDecentralizedGradientDescent
+name: BRIDGE Byzantine-Resilient Decentralized Gradient Descent
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Byzantine-resilient decentralized empirical risk minimization framework over a directed network G(J, E) of M nodes with up to b Byzantine nodes, in which each nonfaulty node j in R broadcasts its full d-dimensional parameter vector w_j(t) once per iteration, screens incoming neighbor iterates {w_i(t)}_{i in N_j U {j}} into a filtered vector y_j(t) using coordinate-wise trimmed mean (BRIDGE-T, removing the b largest and b smallest values per coordinate k and averaging the remaining |N_j| - 2b + 1 values), coordinate-wise median (BRIDGE-M), Krum (BRIDGE-K), or Krum-plus-trimmed-mean (BRIDGE-B), and updates w_j(t + 1) = y_j(t) - rho(t) grad f_j(w_j(t)).
+identity_notes: 'Distinct from ByRDiE (Yang & Bajwa, 2019, which updates and screens one coordinate at a time across d sequential network-wide communication rounds and d local gradient evaluations per iteration) and from ClippedGossip (AIMech:ClippedGossipSelfCenteredClippingForByzantineRobustDecentralizedLearning, which clips neighbor differences in L2 norm around node i''s own state withlocal momentum): BRIDGE (Fang, Yang, & Bajwa, IEEE TSIPN 2022) performs a single full-vector broadcast and gradient step per iteration coupled with neighbor-set statistical screening (BRIDGE-T/-M/-K/-B) and establishes both algorithmic consensus O(sqrt(d)/t) and high-probability statistical sample-complexity convergence O(sqrt(d ||alpha_m||^2 log(2/delta) / N)) on strongly convex and locally strongly convex nonconvex risks.'
+aliases:
+- BRIDGE
+- BRIDGE-T
+- Byzantine-Resilient Decentralized Gradient Descent
+definition_evidence:
+- source_id: r546-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r546-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r546-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: bridge-t-coordinatewise-trimmed-screening-and-consensus
+  kind: mechanism
+  statement: In BRIDGE-T, each nonfaulty node j with |N_j| >= 2b + 1 trims the b largest and b smallest neighbor values in each coordinate k and averages the remaining values with [w_j(t)]_k (Eq. 7-10), which admits an exact representation Omega(t+1) = Y(t) Omega(t) - rho(t) g(t) as a row-stochastic convex combination of nonfaulty nodes only (Eq. 13-15); under Assumption 4 that every reduced graph G_red(b) contains a source component of size >= b + 1, transition matrices Phi(t, t_0) converge geometrically to 1 alpha^T(t_0) and all nonfaulty nodes achieve consensus lim_{t->inf} max_{j in R} ||w_j(t) - v(t)|| = 0 at rate O(sqrt(d) / t) for rho(t) = O(1 / t) (Theorem 1, Eq. 17-23).
+  evidence:
+  - source_id: r546-primary-pdf
+    locator: Section III p. 7 Eq. 7-10; Section IV-A Theorem 1 p. 8-9 Eq. 13-23
+    relation: supports
+- claim_id: bridge-t-statistical-risk-convergence-convex-and-nonconvex
+  kind: scope
+  statement: Under i.i.d. node datasets of size N, bounded L-Lipschitz gradients, and Assumption 4, BRIDGE-T with step size rho(t) = 1 / (lambda(t_0 + t)) converges sublinearly at rate O(log t / t) to a statistical risk neighborhood ||w_j(t+1) - w*|| <= O(sqrt(d ||alpha_m||^2 log(2/delta) / N)) / lambda with probability at least 1 - delta for both globally lambda-strongly convex losses (Theorem 2, Eq. 33) and locally lambda-strongly convex nonconvex losses initialized in B(w*, beta_0) (Lemma 4, Theorem 3, Eq. 34).
+  evidence:
+  - source_id: r546-primary-pdf
+    locator: Section IV-B Theorems 2-3 & Lemmas 1-4 p. 10-11 Eq. 29-34; Appendix D p. 18
+    relation: supports
+- claim_id: bridge-neighborhood-degree-and-reduced-graph-limitation
+  kind: limitation
+  statement: BRIDGE-T, BRIDGE-K, and BRIDGE-B require minimum neighborhood sizes |N_j| >= 2b + 1, b + 3, and max(4b, 3b + 2) + 1 respectively (Table II), and BRIDGE-T's consensus guarantee requires every reduced graph G_red(b) formed by removing all Byzantine nodes and b incoming edges per nonfaulty node to contain a source component of size >= b + 1 (Assumption 4).
+  evidence:
+  - source_id: r546-primary-pdf
+    locator: Section II-C Assumption 4 p. 5-6; Section III Table II p. 7; Section V-A p. 12-13
+    relation: supports
+evidence_sources:
+- source_id: r546-primary-pdf
+  title: 'BRIDGE: Byzantine-resilient Decentralized Gradient Descent'
+  authors: &id001
+  - Cheng Fang
+  - Zhixiong Yang
+  - Waheed U. Bajwa
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1908.08098.pdf
+  persistent_id: https://dblp.org/rec/journals/tsipn/FangYB22
+  version: IEEE Transactions on Signal and Information Processing over Networks (2022) (1327149 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:29:00Z'
+  sha256: f9d8b611ddbaa88b5e798b0afd9e4221344ad1adc45c8cee09d986dbaa1f4b1b
+- source_id: r546-arxiv-abs
+  title: 'BRIDGE: Byzantine-resilient Decentralized Gradient Descent (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1908.08098
+  persistent_id: https://arxiv.org/abs/1908.08098
+  version: arXiv abstract page (7352 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:29:00Z'
+  sha256: de7d91b5b9c7b53956d82b2e6ec2ea6fce3598dc326a7b75f7420226480796e4
+- source_id: r546-metadata-cr
+  title: 'BRIDGE: Byzantine-resilient Decentralized Gradient Descent (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/tsipn/FangYB22
+  persistent_id: https://dblp.org/rec/journals/tsipn/FangYB22
+  version: Crossref API work record (1756 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:29:00Z'
+  sha256: a3d8599edad82eab3e3c542930633bc40755c3045105c5f3f3d3761b9e6e256e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: BRIDGE is a Byzantine-resilient decentralized gradient descent framework for collaborative distributed machine learning without a central server.
+limitations:
+- BRIDGE-T requires every nonfaulty node to have at least 2b + 1 neighbors and every reduced graph G_red(b) to contain a source component of cardinality at least b + 1.
+- Statistical convergence rates scale with sqrt(d ||alpha_m||^2 / N), which improves over purely local learning by ||alpha_m|| < 1 but cannot match the fault-free centralized rate O(sqrt(d / (M N))).
+curation:
+  created_at: '2026-10-19T10:29:00Z'
+  updated_at: '2026-10-19T10:29:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
