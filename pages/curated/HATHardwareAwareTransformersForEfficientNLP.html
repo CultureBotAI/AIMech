@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HAT (Hardware-Aware Transformers for Efficient Natural Language Processing) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>HAT (Hardware-Aware Transformers for Efficient Natural Language Processing)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">HAT (Hardware-Aware Transformers for Efficient Natural Language Processing)</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:HATHardwareAwareTransformersForEfficientNLP</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> HAT, Hardware-Aware Transformers, HAT SuperTransformer with Arbitrary Encoder-Decoder Attention
+    </div>
+
+  <div class="detail-desc">
+    HAT (Hardware-Aware Transformers) is a hardware-aware Neural Architecture Search (NAS) framework for sequence-to-sequence encoder-decoder Transformers that breaks the information bottleneck between encoder and decoder via Arbitrary Encoder-Decoder Attention (allowing each decoder layer to attend to the concatenated key-value representations of the last 1, 2, or 3 encoder layers with zero extra parameters), enables layer-wise Heterogeneous Transformer Layers (varying embedding dimensions, FFN hidden dimensions, attention head counts, and decoder layer count across ~10^15 candidate SubTransformers), trains a single weight-sharing SuperTransformer by uniformly sampling SubTransformers and slicing front-prefix weight subtensors, and executes evolutionary search guided by a target-device MLP Latency Predictor to extract specialized SubTransformers meeting strict hardware latency constraints.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Evolved Transformer (So et al., 2019), which searches homogeneous cell structures without hardware latency feedback at &gt;10,000x higher GPU cost, distinct from Once-for-All (Cai et al., 2020), which targets convolutional neural networks via progressive shrinking rather than encoder-decoder Transformers with arbitrary cross-attention spans, and distinct from DynaBERT (AIMech:DynaBERTDynamicBERTWithAdaptiveWidthAndDepth), which adapts encoder-only BERT width and depth via importance-ordered head/neuron rewiring and distillation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#hat-arbitrary-encoder-decoder-attention-and-heterogeneous-layers</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    HAT defines a heterogeneous design space of ~10^15 encoder-decoder SubTransformers in which each layer independently selects its FFN inner dimension and attention head count while Arbitrary Encoder-Decoder Attention lets each decoder layer attend to the last 1, 2, or 3 encoder layers by concatenating their key and value vectors along the sequence dimension without adding trainable parameters.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r813-primary-pdf">HAT: Hardware-Aware Transformers for Efficient Natural Language Processing</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 (Design Space), Figure 5, Figure 6, and Table 1, pp. 7678-7679</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r813-primary-pdf">HAT: Hardware-Aware Transformers for Efficient Natural Language Processing</a></span>
+        <span>· <strong>Locator:</strong> design_space_cardinality and arbitrary_enc_dec_attention</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#hat-weight-sharing-supertransformer-and-latency-predictor-search</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    HAT trains a single weight-sharing SuperTransformer by uniformly sampling SubTransformers at each step and updating their front-slice weight subtensors, and pairs the SuperTransformer with a 3-layer MLP hardware latency predictor (trained on 2000 measured architecture-latency pairs with ~0.1 ms/0.1 s RMSE) during evolutionary search under a hard hardware latency budget.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r813-primary-pdf">HAT: Hardware-Aware Transformers for Efficient Natural Language Processing</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Performance Approximation) and Section 3.3 (Hardware Latency Constraint), Figures 7-8, pp. 7679-7680</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r813-primary-pdf">HAT: Hardware-Aware Transformers for Efficient Natural Language Processing</a></span>
+        <span>· <strong>Locator:</strong> extract_front_subtensor and main</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#hat-hardware-specialized-machine-translation-speedup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On WMT&#39;14 En-De, WMT&#39;14 En-Fr, WMT&#39;19 En-De, and IWSLT&#39;14 De-En across Raspberry Pi-4 ARM CPU, Intel Xeon CPU, and Nvidia Titan Xp GPU, HAT achieves up to 3x latency speedup and 3.7x smaller model size over Transformer-Big while cutting NAS search cost by 12,041x compared to Evolved Transformer, automatically discovering deep-and-thin models for ARM CPU versus shallow-and-wide models for GPU.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r813-primary-pdf">HAT: Hardware-Aware Transformers for Efficient Natural Language Processing</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 (Main Results), Table 2, Table 3, and Figure 12, pp. 7681-7684</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#hat-post-search-retraining-and-device-profiling-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Although the SuperTransformer ranks candidate SubTransformers accurately, achieving peak final translation BLEU requires retraining the discovered SubTransformer from scratch for 40K steps, and each new target hardware platform requires profiling ~2000 architectures to fit a device-specific latency predictor.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r813-primary-pdf">HAT: Hardware-Aware Transformers for Efficient Natural Language Processing</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Latency Predictor) and Section 4.1 (Search Cost / Retraining), pp. 7680-7681</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Extracted SubTransformers require post-search retraining from scratch (e.g., 40K steps) to reach full stand-alone BLEU accuracy.</li>
+      <li>Deploying to a new hardware target requires collecting ~2000 on-device latency measurements to train the device-specific MLP latency predictor.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            HAT is a hardware-aware neural architecture search and weight-sharing SuperTransformer framework for sequence-to-sequence neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r813-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r813-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2005.14187" target="_blank" rel="noopener">HAT: Hardware-Aware Transformers for Efficient Natural Language Processing</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hanrui Wang, Zhanghao Wu, Zhijian Liu, Han Cai, Ligeng Zhu, Chuang Gan, Song Han
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2005.14187</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5162696f5c4d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r813-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r813-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2005.14187" target="_blank" rel="noopener">HAT: Hardware-Aware Transformers for Efficient Natural Language Processing (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hanrui Wang, Zhanghao Wu, Zhijian Liu, Han Cai, Ligeng Zhu, Chuang Gan, Song Han
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2005.14187</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e11c0c2afd1f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r813-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r813-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2005.14187" target="_blank" rel="noopener">HAT: Hardware-Aware Transformers for Efficient Natural Language Processing (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hanrui Wang, Zhanghao Wu, Zhijian Liu, Han Cai, Ligeng Zhu, Chuang Gan, Song Han
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2005.14187</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:43bd7fcaf89d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:56:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:56:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HATHardwareAwareTransformersForEfficientNLP.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HATHardwareAwareTransformersForEfficientNLP.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
