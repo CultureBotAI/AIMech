@@ -1,0 +1,112 @@
+id: AIMech:CoTMAEContextualMaskedAutoEncoderForDensePassageRetrieval
+name: CoT-MAE Contextual Masked Auto-Encoder for Dense Passage Retrieval
+concept_kind: architecture
+review_status: DRAFT
+definition: An asymmetric encoder-decoder generative pre-training architecture and algorithm for dense passage retrieval that samples pairs of text spans (T_A, T_B) from each document using a uniform mixture of adjacent non-overlapping (Near), partially overlapping (Olap), and random non-overlapping (Rand) span-pair strategies, applies asymmetric token masking with rate p_enc (e.g., 30%) on the deep Transformer encoder side and a higher rate p_dec (e.g., 45%) on the shallow (2-layer) Transformer decoder side, and jointly minimizes the symmetric dual sum of self-supervised masked language modeling and cross-span context-supervised masked language modeling losses L = L^{AB} + L^{BA} = (L^A_smlm + L^{AB}_cmlm) + (L^B_smlm + L^{BA}_cmlm), where L^A_smlm = -sum_{t in m_enc(T_A)} log p(t | T_A \ m_enc(T_A)) and L^{AB}_cmlm = -sum_{t in m_dec(T_B)} log p(t | [h^{last}_{0, A}, T_B \ m_dec(T_B)]) conditions the decoder's reconstruction of masked tokens in T_B on the encoder's last-layer [CLS] context representation h^{last}_{0, A} of neighboring span T_A (and symmetrically for B -> A) before discarding the decoder at fine-tuning time.
+identity_notes: Distinct from SEED-Encoder (AIMech:SEEDPreTrainingStrongTextEncoderUsingWeakDecoder), Condenser (AIMech:CondenserPreTrainingArchitectureForDenseRetrieval), RetroMAE (AIMech:RetroMAERetrievalOrientedMaskedAutoEncoder), and SimLM (AIMech:SimLMRepresentationBottleneckPreTraining), all of which perform single-span internal auto-encoding where the decoder reconstructs the same text span encoded into [CLS] rather than cross-span context-supervised masked auto-encoding over paired neighboring spans (T_A, T_B); and distinct from coCondenser (AIMech:CoCondenserUnsupervisedCorpusAwareLanguageModelPreTraining), which uses a discriminative corpus-level contrastive loss across spans rather than generative context-MLM reconstruction.
+aliases:
+- CoT-MAE
+- ConTextual Masked Auto-Encoder
+- Contextual Masked Auto-Encoder for Dense Passage Retrieval
+definition_evidence:
+- source_id: r766-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r766-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r766-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: cot-mae-dual-self-and-context-supervised-mlm
+  kind: mechanism
+  statement: CoT-MAE links intra-span token semantics and inter-span semantic correlation by jointly optimizing self-supervised MLM on the deep encoder (L^A_smlm = -sum_{t in m(T_A)} log p(t | T_A \ m(T_A)), Equation 4) and context-supervised MLM on the shallow 2-layer decoder conditioned on the neighboring span's last-layer [CLS] vector h^{last}_0 (L^{AB}_cmlm = -sum_{t in m(T_B)} log p(t | [h^{last}_0, T_B \ m(T_B)]), Equation 5) symmetrically in both directions L = (L^A_smlm + L^{AB}_cmlm) + (L^B_smlm + L^{BA}_cmlm) (Equations 6-8).
+  evidence:
+  - source_id: r766-primary-pdf
+    locator: 'Section CoT-MAE: ConTextual Masked Auto-Encoder, Equations 4-8, Figure 1b, pp. 2-4'
+    relation: supports
+  - source_id: r766-primary-pdf
+    locator: main() verification of symmetric dual loss L = L^{AB} + L^{BA} and reduction of L^{AB}_{cmlm} under aligned neighboring span [CLS] context
+    relation: supports
+- claim_id: cot-mae-asymmetric-masking-and-mixed-span-sampling
+  kind: mechanism
+  statement: Combining all three span-pair sampling strategies (Near, Olap, and Rand) with asymmetric masking rates (p_enc = 30% on the encoder and p_dec = 45% on the 2-layer decoder) maximizes downstream retrieval accuracy (39.2 MRR@10 at 800k steps in Tables 3-5), whereas either a 1-layer decoder (too weak to fuse context and unmasked tokens) or a deeper 3-to-6-layer decoder (reducing reliance on the encoder's [CLS] context vector) underperforms the 2-layer decoder.
+  evidence:
+  - source_id: r766-primary-pdf
+    locator: Section Analysis (Impact of Mask Rate, Impact of Sampling Strategies, Impact of Decoder Layer Number), Tables 3-5, p. 6
+    relation: supports
+  - source_id: r766-primary-pdf
+    locator: main() verification of Near, Olap, and Rand span-pair properties and asymmetric mask counts (30% vs 45%)
+    relation: supports
+- claim_id: cot-mae-benchmark-applications
+  kind: application
+  statement: On MS-MARCO Passage Ranking, Natural Questions (NQ), and TREC DL 2020, CoT-MAE achieves 39.4 MRR@10 and 98.7% R@1k without distillation (exceeding coCondenser's 38.2 MRR@10 and reaching 70.4 nDCG@10 on TREC DL 2020 in Table 1), and reaches 40.4 MRR@10 and 88.5% R@50 after reranker distillation (Table 2).
+  evidence:
+  - source_id: r766-primary-pdf
+    locator: Section Main Results & Comparison with Distilled Retrievers, Tables 1-2, pp. 5-6
+    relation: supports
+  - source_id: r766-metadata-cr
+    locator: BibTeX citation record for arXiv:2208.07670
+    relation: supports
+- claim_id: cot-mae-excessive-encoder-masking-limitation
+  kind: limitation
+  statement: Increasing the encoder masking rate too aggressively (e.g., p_enc = 45% with p_dec = 60% in Table 3) degrades downstream retrieval performance (from 39.2 to 38.8 MRR@10) because the heavily masked encoder span can no longer provide a sufficiently informative [CLS] context vector to the decoder.
+  evidence:
+  - source_id: r766-primary-pdf
+    locator: 'Section Analysis: Impact of Mask Rate, Table 3, p. 6'
+    relation: supports
+evidence_sources:
+- source_id: r766-primary-pdf
+  title: ConTextual Masked Auto-Encoder for Dense Passage Retrieval
+  authors: &id001
+  - Xing Wu
+  - Guangyuan Ma
+  - Meng Lin
+  - Zijia Lin
+  - Zhongyuan Wang
+  - Songlin Hu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2208.07670
+  persistent_id: https://arxiv.org/bibtex/2208.07670
+  version: Proceedings of the AAAI Conference on Artificial Intelligence (AAAI 2023) (2023) (720429 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:09:00Z'
+  sha256: 9de95451dca004d3ab9fa9e3a71d7ca06d5e226225806ca389e111c22b0f1731
+- source_id: r766-arxiv-abs
+  title: ConTextual Masked Auto-Encoder for Dense Passage Retrieval (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2208.07670
+  persistent_id: https://arxiv.org/abs/2208.07670
+  version: arXiv abstract page (6632 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:09:00Z'
+  sha256: ff742d5955d086ba033e0a7c1a12e50349f8478d3902d7e3904aab8cba8278f6
+- source_id: r766-metadata-cr
+  title: ConTextual Masked Auto-Encoder for Dense Passage Retrieval (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2208.07670
+  persistent_id: https://arxiv.org/bibtex/2208.07670
+  version: Crossref API work record (426 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:09:00Z'
+  sha256: 5c8448b955f171a90465c6caaae20c06ad0fcde41d46722b550c22201ef02374
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: CoT-MAE is an asymmetric deep-encoder / shallow-decoder Transformer neural network architecture pre-trained with dual self-supervised and cross-span context-supervised masked auto-encoding.
+limitations:
+- Excessive encoder masking (e.g., 45% encoder mask rate) degrades the quality of the [CLS] context representation passed to the decoder and reduces downstream retrieval MRR (Table 3).
+- Requires multi-span document segmentation (via sentence tokenization and grouping) so that every document yields multiple neighboring spans (T_A, T_B), and full pre-training for 1,200k steps with batch size 1,024 takes 4 days on 8 A100 GPUs.
+curation:
+  created_at: '2026-10-19T14:09:00Z'
+  updated_at: '2026-10-19T14:09:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
