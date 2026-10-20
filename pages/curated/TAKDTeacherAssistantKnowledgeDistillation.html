@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teacher Assistant Knowledge Distillation (TAKD) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/learning_paradigm.html">Learning Paradigms</a>
+  <span>/</span>
+  <strong>Teacher Assistant Knowledge Distillation (TAKD)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Teacher Assistant Knowledge Distillation (TAKD)</h1>
+    <span class="badge badge-curated">Learning Paradigms</span>
+    <span class="detail-id">AIMech:TAKDTeacherAssistantKnowledgeDistillation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> TAKD, Teacher Assistant Knowledge Distillation, Multi-Step Teacher Assistant Distillation
+    </div>
+
+  <div class="detail-desc">
+    A multi-step knowledge distillation paradigm that mitigates accuracy degradation caused by a large capacity gap between a high-capacity teacher network T and a compact student network S by introducing one or more intermediate-capacity Teacher Assistant (TA) networks (|S|_C &lt; |TA_m|_C &lt; ... &lt; |TA_1|_C &lt; |T|_C), sequentially distilling T into TA_1, each TA_i into TA_{i+1}, and the final TA into S under temperature-scaled KL divergence plus supervised cross-entropy L = (1 - lambda) L_SL + lambda * tau^2 KL(y_s, y_t), and selecting resource-constrained length-k distillation paths via dynamic programming in O(k * n^2) distillation operations.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Seyed-Iman Mirzadeh, Mehrdad Farajtabar, Ang Li, Nir Levine, Akihiro Matsukawa, and Hassan Ghasemzadeh (AAAI 2020, Vol. 34, No. 04, pp. 5191-5198, arXiv:1902.03393, doi:10.1609/aaai.v34i04.5963). Distinct from direct single-step Baseline Knowledge Distillation (BLKD, Hinton et al. 2015), from multi-teacher ensemble distillation (which averages parallel teachers of similar large capacity), and from online Deep Mutual Learning (which co-trains peer networks simultaneously): TAKD proves both empirically and via VC generalization bounds (Eqs. 4-12) that an overly large teacher degrades a fixed small student, and resolves this by sequential capacity-ordered intermediary distillation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r811-claim-teacher-student-capacity-gap-and-vc-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When the capacity gap between teacher F_t and student F_s is large, direct distillation learning rate alpha_{st} shrinks toward the from-scratch rate alpha_{sr} and teacher logits become overly confident; inserting an intermediate-capacity Teacher Assistant F_a decomposes the transfer into larger learning rate exponents alpha_{at} &gt;= alpha_{st} and alpha_{sa} &gt;= alpha_{st} with approximation errors eps_{at} + eps_{sa} &lt;= eps_{st}, reducing the VC generalization excess risk upper bound from O(|F_t|_C / n^{alpha_{tr}} + |F_s|_C / n^{alpha_{st}}) + eps_{tr} + eps_{st} (Eq. 11) to O(|F_t|_C / n^{alpha_{tr}} + |F_a|_C / n^{alpha_{at}} + |F_s|_C / n^{alpha_{sa}}) + eps_{tr} + eps_{at} + eps_{sa} (Eq. 10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r811-primary-pdf">Improved Knowledge Distillation via Teacher Assistant</a></span>
+        <span>· <strong>Locator:</strong> Section &#39;The Gap Between Student and Teacher&#39; (Page 3) &amp; Section &#39;Why Does Distillation with TA work? / Theoretical Analysis&#39; (Equations 4-12 &amp; Figure 6), Pages 6-7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r811-primary-pdf">Improved Knowledge Distillation via Teacher Assistant</a></span>
+        <span>· <strong>Locator:</strong> vc_bound verification of Equations 10 &lt;= 11 &lt;= 12 in main()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r811-claim-multi-step-path-optimality-and-dynamic-programming</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given candidate network capacities ordered as Q = (q_0 = T, q_1, ..., q_n = S), the unconstrained optimal TAKD path includes all intermediate TAs (Lemma 1), while finding the optimal constrained length-k distillation path satisfies optimal substructure (Lemma 2) and is solved via dynamic programming w_k(q_j) = arg min_{w in W_{j,k}} l(w) where W_{j,k} = {BLKD(w_{k-1}(q_i) -&gt; q_j) | 0 &lt; i &lt; j} (Eq. 13 &amp; Algorithm 1) in O(k * n^2) distillation operations instead of C(n - 1, k - 1) exhaustive paths.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r811-primary-pdf">Improved Knowledge Distillation via Teacher Assistant</a></span>
+        <span>· <strong>Locator:</strong> Section &#39;Why Limiting to 1-step TA?&#39; (Figure 5) &amp; Appendix &#39;The Best TA Sequence&#39; (Principles 1-3, Lemmas 1-2, Equation 13, &amp; Algorithm 1), Pages 5-6 &amp; 10-11</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r811-primary-pdf">Improved Knowledge Distillation via Teacher Assistant</a></span>
+        <span>· <strong>Locator:</strong> Exact Figure 5 path enumeration and Lemma 1 / Lemma 2 / Algorithm 1 DP verification in main()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r811-claim-cifar-and-imagenet-empirical-gains</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across CIFAR-10, CIFAR-100, and ImageNet on plain CNN and ResNet backbones (e.g., T=ResNet-110 -&gt; TA=ResNet-20 -&gt; S=ResNet-8 on CIFAR-100 and T=ResNet-50 -&gt; TA=ResNet-20 -&gt; S=ResNet-14 on ImageNet), TAKD consistently outperforms both Baseline Knowledge Distillation (BLKD) and from-scratch training (NOKD), as well as FitNet, Attention Transfer (AT), FSP, BSS, and Deep Mutual Learning, while producing flatter student loss landscapes around local minima.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r811-primary-pdf">Improved Knowledge Distillation via Teacher Assistant</a></span>
+        <span>· <strong>Locator:</strong> Section &#39;Results and Analysis&#39; (Tables 1-3, Figures 4-7), Pages 4-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r811-claim-sequential-training-cost-and-ta-size-selection-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    TAKD requires training one or more intermediate Teacher Assistant networks sequentially before the student can be distilled, and selecting the optimal TA capacity (or k-step path without prior evaluation of all O(k * n^2) pairwise transfers) relies on heuristics such as choosing a TA whose standalone accuracy lies near the mean of the teacher and student accuracies.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r811-primary-pdf">Improved Knowledge Distillation via Teacher Assistant</a></span>
+        <span>· <strong>Locator:</strong> Section &#39;What is the Best TA Size?&#39; (Pages 4-5), Section &#39;Summary&#39; (Page 7), &amp; Algorithm 1 (Page 11)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Increases total training compute and wall-clock time because each intermediate Teacher Assistant network in the chain must be trained via distillation before distilling the next stage.</li>
+      <li>Determining the optimal TA capacity a priori without running multiple distillation trials relies on empirical heuristics (such as matching the average standalone accuracy of teacher and student).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Distillation.html" style="font-weight: 600;"><code>AIO:Distillation</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Distillation</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            TAKD is a multi-step knowledge distillation framework that bridges large teacher-student capacity gaps using a sequential chain of intermediate-sized Teacher Assistant models.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Transfers softened logit dark knowledge across hierarchies of deep neural networks of decreasing capacity.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r811-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r811-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1902.03393.pdf" target="_blank" rel="noopener">Improved Knowledge Distillation via Teacher Assistant</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Seyed-Iman Mirzadeh, Mehrdad Farajtabar, Ang Li, Nir Levine, Akihiro Matsukawa, Hassan Ghasemzadeh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1902.03393</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4b84d3d4c455…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r811-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r811-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1902.03393" target="_blank" rel="noopener">Improved Knowledge Distillation via Teacher Assistant (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Seyed-Iman Mirzadeh, Mehrdad Farajtabar, Ang Li, Nir Levine, Akihiro Matsukawa, Hassan Ghasemzadeh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1902.03393</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ac1b03a726c3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r811-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r811-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/1902.03393" target="_blank" rel="noopener">Improved Knowledge Distillation via Teacher Assistant (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Seyed-Iman Mirzadeh, Mehrdad Farajtabar, Ang Li, Nir Levine, Akihiro Matsukawa, Hassan Ghasemzadeh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1902.03393</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4522cc652840…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:54:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:54:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TAKDTeacherAssistantKnowledgeDistillation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TAKDTeacherAssistantKnowledgeDistillation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
