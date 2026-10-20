@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepCT Deep Contextualized Term Weighting for First-Stage Retrieval · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>DeepCT Deep Contextualized Term Weighting for First-Stage Retrieval</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DeepCT Deep Contextualized Term Weighting for First-Stage Retrieval</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DeepCTContextAwareTermImportanceEstimationForFirstStageRetrieval</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DeepCT, DeepCT-Index and DeepCT-Query, Deep Contextualized Term Weighting, Context-Aware Sentence/Passage Term Importance Estimation for First Stage Retrieval
+    </div>
+
+  <div class="detail-desc">
+    A supervised deep contextualized term-weighting framework for first-stage bag-of-words retrieval that maps each word&#39;s first-subword contextualized BERT embedding T_{t, c} in text c to a scalar term importance prediction y^_{t, c} = w^T T_{t, c} + b by minimizing per-token Mean Squared Error loss_MSE = sum_c sum_t (y_{t, c} - y^_{t, c})^2 against relevance-derived recall targets: in DeepCT-Index, ground-truth passage term importance is defined as Query Term Recall QTR(t, d) = |Q_{d, t}| / |Q_d| in [0, 1] (the fraction of queries relevant to passage d that contain term t) and query-independent offline predictions are scaled to integer pseudo-frequencies TF_DeepCT(t, d) = round(y^_{t, d} * N) (with N = 100) that replace raw term frequencies TF(t, d) in standard inverted index postings; in DeepCT-Query, ground-truth query term importance is defined as Term Recall TR(t, q) = |D_{q, t}| / |D_q| in [0, 1] to weight bag-of-words and sequential dependency queries.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from SPLADE (AIMech:SPLADESparseLexicalAndExpansionModel), which projects over the entire MLM vocabulary to perform term expansion and trains end-to-end with contrastive ranking and FLOPS regularization; and distinct from COIL (AIMech:COILContextualizedInvertedList), which stores multi-dimensional contextualized vectors per token in inverted lists rather than scalar integer pseudo-frequencies TF_DeepCT(t, d) compatible with unmodified BM25 and Query Likelihood inverted indexes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#deepct-per-token-mse-regression-and-qtr-targets</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    DeepCT applies a linear regression head y^_{t, c} = w^T T_{t, c} + b to the contextualized BERT embedding of each word&#39;s first subword (masking subsequent subwords) and minimizes loss_MSE = sum_c sum_t (y_{t, c} - y^_{t, c})^2 (Equations 1-2) against Query Term Recall QTR(t, d) = |Q_{d, t}| / |Q_d| for passages (Equation 3) or Term Recall TR(t, q) = |D_{q, t}| / |D_q| for queries (Equation 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r768-primary-pdf">Context-Aware Sentence/Passage Term Importance Estimation For First Stage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1-3.3, Equations 1-3 &amp; 5, pp. 3-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r768-primary-pdf">Context-Aware Sentence/Passage Term Importance Estimation For First Stage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> main() verification of compute_qtr and compute_tr in [0, 1]</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#deepct-inverted-index-integer-scaling-and-central-term-skew</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    During offline indexing, DeepCT-Index runs query-independent inference on each passage d, scales predicted weights into non-negative integers TF_DeepCT(t, d) = round(y^_{t, d} * N) with N = 100 (Equation 4), and replaces raw TF(t, d) in the inverted index `[docid(d), TF_DeepCT(t, d)]` without adding new posting lists or online query latency, skewing flat passage term distributions toward central topical terms while suppressing frequent off-topic terms (Table 5, Figure 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r768-primary-pdf">Context-Aware Sentence/Passage Term Importance Estimation For First Stage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 &amp; Section 5.2, Equation 4, Table 5, Figure 1, pp. 3-4, 6-7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r768-primary-pdf">Context-Aware Sentence/Passage Term Importance Estimation For First Stage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> main() verification of tf_deepct scaling and BM25 disambiguation of equal-TF on-topic vs off-topic passages</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#deepct-first-stage-retrieval-and-reranking-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    DeepCT-Index improves first-stage BM25 MRR@10 by 27% on MS MARCO (0.191 to 0.243) and 46% on TREC-CAR (0.233 to 0.332), reduces the candidate depth required by a BERT Re-Ranker by 5x to 10x for equivalent MRR@10 (Tables 2-4), and DeepCT-Query significantly improves description and narrative queries on Robust04 and Gov2 over BOW-tf and DeepTR (Table 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r768-primary-pdf">Context-Aware Sentence/Passage Term Importance Estimation For First Stage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1 &amp; Section 6, Tables 2-4 &amp; 6, pp. 5-8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r768-metadata-cr">Context-Aware Sentence/Passage Term Importance Estimation For First Stage Retrieval (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> BibTeX citation record for arXiv:1910.10687</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#deepct-noncentral-answer-suppression-and-no-expansion-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because DeepCT-Index only re-weights existing tokens in passage d without vocabulary expansion and strongly suppresses non-central terms, it cannot resolve vocabulary mismatch when query terms do not appear in d, can down-weight or zero out peripheral passage sentences that contain the answer to a detail query (Section 5.2), and DeepCT-Query provides little benefit on short keyword title queries lacking linguistic context (Section 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r768-primary-pdf">Context-Aware Sentence/Passage Term Importance Estimation For First Stage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1, Section 5.2 &amp; Section 6 Results, pp. 5, 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Only re-weights terms already present in the passage or query (no document or query vocabulary expansion), so exact-match vocabulary mismatch remains unaddressed.</li>
+      <li>Strong bias toward central passage terms can down-weight or zero out non-central sentences where answers to peripheral detail queries reside (Section 5.2), and DeepCT-Query does not improve short keyword title queries (Table 6).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DeepCT fine-tunes a deep bidirectional Transformer neural network (BERT) with a per-token linear regression head to estimate context-aware term weights.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r768-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r768-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1910.10687" target="_blank" rel="noopener">Context-Aware Sentence/Passage Term Importance Estimation For First Stage Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhuyun Dai, Jamie Callan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1910.10687</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:29ba94d61299…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r768-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r768-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1910.10687" target="_blank" rel="noopener">Context-Aware Sentence/Passage Term Importance Estimation For First Stage Retrieval (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhuyun Dai, Jamie Callan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1910.10687</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9f48a51548d5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r768-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r768-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/1910.10687" target="_blank" rel="noopener">Context-Aware Sentence/Passage Term Importance Estimation For First Stage Retrieval (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhuyun Dai, Jamie Callan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1910.10687</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2ca42cdc5b25…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:11:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:11:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DeepCTContextAwareTermImportanceEstimationForFirstStageRetrieval.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DeepCTContextAwareTermImportanceEstimationForFirstStageRetrieval.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
