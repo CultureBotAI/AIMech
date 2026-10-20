@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Learning Paradigms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">7 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">8 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">High-level training frameworks such as contrastive or self-supervised learning.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">7</span> of <span id="totalCount">7</span>
+      Showing <span id="matchCount">8</span> of <span id="totalCount">8</span>
     </div>
   </div>
 </div>
@@ -131,6 +131,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:MarginMSECrossArchitectureKnowledgeDistillationForNeuralRanking</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="learning_paradigm"
+          data-branch=""
+          data-search="minilm (deep self-attention distillation for task-agnostic compression of pre-trained transformers) minilmdeepselfattentiondistillationfortaskagnosticcompression aimech:minilmdeepselfattentiondistillationfortaskagnosticcompression learning paradigms learning_paradigm a task-agnostic knowledge distillation framework for compressing pre-trained transformer language models (wang, wei, dong, bao, yang, &amp; zhou, neurips 2020) that trains an m-layer student model with arbitrary hidden dimension d&#39;_h to deeply mimic the self-attention module of only the last (l-th) transformer layer of the teacher by minimizing the sum of two kullback-leibler divergences: l = l_at + l_vr, where l_at matches multi-head query-key attention distributions a_{l,a}^t = softmax(q_{l,a}^t (k_{l,a}^t)^t / sqrt(d_k)) and l_vr matches multi-head scaled dot-product value relations vr_{l,a}^t = softmax(v_{l,a}^t (v_{l,a}^t)^t / sqrt(d_k)), optionally bridged by an intermediate-width teacher assistant when both depth and width are halved (m &lt;= l/2, d&#39;_h &lt;= d_h/2). distinct from tinybert (aimech:tinyberttransformerdistillationfornaturallanguageunderstanding, which performs layer-to-layer distillation across all student layers using a mapping function g(m) and learnable projection matrices w_h in r^{d&#39; x d}) and from mobilebert (sun et al., 2020, which requires student and teacher to have identical layer counts l=24 and bottleneck-matched outer dimensions). minilm distills only the teacher&#39;s final transformer layer and converts value vectors v_{m,a}^s in r^{|x| x d&#39;_k} into sequence-by-sequence relation matrices vr_{m,a}^s in r^{|x| x |x|} whose dimensions are invariant to d&#39;_k, eliminating both layer-mapping tuning and linear projection matrices. minilm deep self-attention distillation minilm self-attention distribution and value-relation distillation minilm aligns the m-th (last) layer of the student with the l-th (last) layer of the teacher by minimizing l = l_at + l_vr (equation 10), where l_at = (1 / (a_h |x|)) sum_{a=1}^{a_h} sum_{t=1}^{|x|} d_kl(a_{l,a,t}^t || a_{m,a,t}^s) (equation 6) transfers query-key attention distributions and l_vr = (1 / (a_h |x|)) sum_{a=1}^{a_h} sum_{t=1}^{|x|} d_kl(vr_{l,a,t}^t || vr_{m,a,t}^s) (equations 7-9) transfers the multi-head scaled value-value dot-product relation matrices vr_{l,a}^t = softmax(v_{l,a}^t (v_{l,a}^t)^t / sqrt(d_k)) and vr_{m,a}^s = softmax(v_{m,a}^s (v_{m,a}^s)^t / sqrt(d&#39;_k)) in r^{a_h x |x| x |x|} without introducing projection parameters when student head dimension d&#39;_k != d_k. when compressing an l-layer, d_h-hidden teacher into a student whose depth and width are both at most half of the teacher&#39;s (m &lt;= l/2 and d&#39;_h &lt;= d_h/2), minilm first distills the teacher into an intermediate l-layer, d&#39;_h-hidden teacher assistant (ta) using l = l_at + l_vr and then uses the teacher assistant to guide the final m-layer, d&#39;_h-hidden student (section 3.3, table 3). in task-agnostic compression from bert_base without task-specific distillation or data augmentation, 6-layer, 768-hidden minilm (66m parameters, 2.0x faster) achieves 76.4 f1 on squad 2.0 and 80.4 average score across squad 2.0 and glue dev tasks—retaining &gt;99% of bert_base (76.8 squad 2.0, 81.5 average) and outperforming task-agnostic distilbert (75.2 average) and tinybert (79.1 average, table 2)—while smaller students (6x384, 4x384, 3x384 at up to 10.1x speedup) and multilingual xlm-r distilled minilm models on xnli and mlqa consistently outperform mlm-kd and layer-to-layer baselines (tables 3-13). because minilm computes head-wise kl divergences d_kl(a_{l,a}^t || a_{m,a}^s) and d_kl(vr_{l,a}^t || vr_{m,a}^s) across a = 1, ..., a_h (equations 6, 9), the student model must use the same number of attention heads a_h as the teacher (or as its teacher assistant) in the last transformer layer. minilm: deep self-attention distillation for task-agnostic compression of pre-trained transformers minilm: deep self-attention distillation for task-agnostic compression of pre-trained transformers (arxiv abstract) minilm: deep self-attention distillation for task-agnostic compression of pre-trained transformers (crossref metadata) wenhui wang furu wei li dong hangbo bao nan yang ming zhou wenhui wang furu wei li dong hangbo bao nan yang ming zhou wenhui wang furu wei li dong hangbo bao nan yang ming zhou">
+        <td>
+          <a href="../curated/MiniLMDeepSelfAttentionDistillationForTaskAgnosticCompression.html" style="font-weight: 600; font-size: 1rem;">MiniLM (Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> MiniLM, Deep Self-Attention Distillation…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A task-agnostic knowledge distillation framework for compressing pre-trained Transformer language models (Wang, Wei, Dong, Bao, Yang, &amp; Zhou…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/learning_paradigm.html" style="font-size: 0.85rem;">Learning Paradigms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:MiniLMDeepSelfAttentionDistillationForTaskAgnosticCompression</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

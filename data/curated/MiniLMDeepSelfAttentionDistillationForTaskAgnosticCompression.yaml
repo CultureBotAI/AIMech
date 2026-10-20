@@ -1,0 +1,105 @@
+id: AIMech:MiniLMDeepSelfAttentionDistillationForTaskAgnosticCompression
+name: MiniLM (Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers)
+concept_kind: learning_paradigm
+review_status: DRAFT
+definition: 'A task-agnostic knowledge distillation framework for compressing pre-trained Transformer language models (Wang, Wei, Dong, Bao, Yang, & Zhou, NeurIPS 2020) that trains an M-layer student model with arbitrary hidden dimension d''_h to deeply mimic the self-attention module of only the last (L-th) Transformer layer of the teacher by minimizing the sum of two Kullback-Leibler divergences: L = L_AT + L_VR, where L_AT matches multi-head query-key attention distributions A_{L,a}^T = softmax(Q_{L,a}^T (K_{L,a}^T)^T / sqrt(d_k)) and L_VR matches multi-head scaled dot-product value relations VR_{L,a}^T = softmax(V_{L,a}^T (V_{L,a}^T)^T / sqrt(d_k)), optionally bridged by an intermediate-width Teacher Assistant when both depth and width are halved (M <= L/2, d''_h <= d_h/2).'
+identity_notes: Distinct from TinyBERT (AIMech:TinyBERTTransformerDistillationForNaturalLanguageUnderstanding, which performs layer-to-layer distillation across all student layers using a mapping function g(m) and learnable projection matrices W_h in R^{d' x d}) and from MobileBERT (Sun et al., 2020, which requires student and teacher to have identical layer counts L=24 and bottleneck-matched outer dimensions). MiniLM distills only the teacher's final Transformer layer and converts value vectors V_{M,a}^S in R^{|x| x d'_k} into sequence-by-sequence relation matrices VR_{M,a}^S in R^{|x| x |x|} whose dimensions are invariant to d'_k, eliminating both layer-mapping tuning and linear projection matrices.
+aliases:
+- MiniLM
+- Deep Self-Attention Distillation
+- MiniLM Self-Attention Distribution and Value-Relation Distillation
+definition_evidence:
+- source_id: r801-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r801-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r801-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: minilm-last-layer-attention-and-value-relation-kl-transfer
+  kind: mechanism
+  statement: MiniLM aligns the M-th (last) layer of the student with the L-th (last) layer of the teacher by minimizing L = L_AT + L_VR (Equation 10), where L_AT = (1 / (A_h |x|)) sum_{a=1}^{A_h} sum_{t=1}^{|x|} D_KL(A_{L,a,t}^T || A_{M,a,t}^S) (Equation 6) transfers query-key attention distributions and L_VR = (1 / (A_h |x|)) sum_{a=1}^{A_h} sum_{t=1}^{|x|} D_KL(VR_{L,a,t}^T || VR_{M,a,t}^S) (Equations 7-9) transfers the multi-head scaled value-value dot-product relation matrices VR_{L,a}^T = softmax(V_{L,a}^T (V_{L,a}^T)^T / sqrt(d_k)) and VR_{M,a}^S = softmax(V_{M,a}^S (V_{M,a}^S)^T / sqrt(d'_k)) in R^{A_h x |x| x |x|} without introducing projection parameters when student head dimension d'_k != d_k.
+  evidence:
+  - source_id: r801-primary-pdf
+    locator: Section 3.1-3.2 (Self-Attention Distribution & Value-Relation Transfer), pp. 3-4, Figure 1, Equations (6)-(10)
+    relation: supports
+  - source_id: r801-primary-pdf
+    locator: value_relation_matrix and minilm_deep_self_attention_loss verification
+    relation: supports
+- claim_id: minilm-teacher-assistant-regime-for-high-compression
+  kind: mechanism
+  statement: When compressing an L-layer, d_h-hidden teacher into a student whose depth and width are both at most half of the teacher's (M <= L/2 and d'_h <= d_h/2), MiniLM first distills the teacher into an intermediate L-layer, d'_h-hidden Teacher Assistant (TA) using L = L_AT + L_VR and then uses the Teacher Assistant to guide the final M-layer, d'_h-hidden student (Section 3.3, Table 3).
+  evidence:
+  - source_id: r801-primary-pdf
+    locator: Section 3.3 (Teacher Assistant) & Section 4.3 (Table 3), pp. 4, 6
+    relation: supports
+- claim_id: minilm-squad-glue-and-multilingual-xnli-performance
+  kind: application
+  statement: "In task-agnostic compression from BERT_BASE without task-specific distillation or data augmentation, 6-layer, 768-hidden MiniLM (66M parameters, 2.0x faster) achieves 76.4 F1 on SQuAD 2.0 and 80.4 average score across SQuAD 2.0 and GLUE dev tasks\u2014retaining >99% of BERT_BASE (76.8 SQuAD 2.0, 81.5 average) and outperforming task-agnostic DistilBERT (75.2 average) and TinyBERT (79.1 average, Table 2)\u2014while smaller students (6x384, 4x384, 3x384 at up to 10.1x speedup) and multilingual XLM-R distilled MiniLM models on XNLI and MLQA consistently outperform MLM-KD and layer-to-layer baselines (Tables 3-13)."
+  evidence:
+  - source_id: r801-primary-pdf
+    locator: Section 4.3-4.4 & Section 5 (Tables 2-13), pp. 5-10
+    relation: supports
+- claim_id: minilm-equal-attention-head-count-constraint
+  kind: limitation
+  statement: Because MiniLM computes head-wise KL divergences D_KL(A_{L,a}^T || A_{M,a}^S) and D_KL(VR_{L,a}^T || VR_{M,a}^S) across a = 1, ..., A_h (Equations 6, 9), the student model must use the same number of attention heads A_h as the teacher (or as its Teacher Assistant) in the last Transformer layer.
+  evidence:
+  - source_id: r801-primary-pdf
+    locator: Section 3.1-3.2 (Equations 6, 9) & Section 4.1 (Distillation Setup), pp. 4-5
+    relation: supports
+evidence_sources:
+- source_id: r801-primary-pdf
+  title: 'MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers'
+  authors: &id001
+  - Wenhui Wang
+  - Furu Wei
+  - Li Dong
+  - Hangbo Bao
+  - Nan Yang
+  - Ming Zhou
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2002.10957.pdf
+  persistent_id: https://arxiv.org/bibtex/2002.10957
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020) (2020) (583637 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:44:00Z'
+  sha256: f2c36bbb2be0ff92d7700a9f46b8998c35eeaf316326a6971acab7e4265c80b5
+- source_id: r801-arxiv-abs
+  title: 'MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2002.10957
+  persistent_id: https://arxiv.org/abs/2002.10957
+  version: arXiv abstract page (7707 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:44:00Z'
+  sha256: 7415fb11fe91bfb102860d4ef7f6c4134f5581b27133e0d6735a663f50dea757
+- source_id: r801-metadata-cr
+  title: 'MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2002.10957
+  persistent_id: https://arxiv.org/bibtex/2002.10957
+  version: Crossref API work record (464 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:44:00Z'
+  sha256: 4aee24db5199f860b5b9ce69e036ffc4805838120a6a453c60be9c9599089838
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: MiniLM is a task-agnostic deep self-attention knowledge distillation paradigm for Transformer neural networks.
+limitations:
+- Requires the student's final Transformer layer to have the same number of self-attention heads A_h as the teacher (e.g., A_h = 12) so that head-wise KL divergences L_AT and L_VR can be matched one-to-one.
+curation:
+  created_at: '2026-10-19T14:44:00Z'
+  updated_at: '2026-10-19T14:44:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

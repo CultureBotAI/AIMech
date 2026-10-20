@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiniLM (Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/learning_paradigm.html">Learning Paradigms</a>
+  <span>/</span>
+  <strong>MiniLM (Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MiniLM (Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers)</h1>
+    <span class="badge badge-curated">Learning Paradigms</span>
+    <span class="detail-id">AIMech:MiniLMDeepSelfAttentionDistillationForTaskAgnosticCompression</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MiniLM, Deep Self-Attention Distillation, MiniLM Self-Attention Distribution and Value-Relation Distillation
+    </div>
+
+  <div class="detail-desc">
+    A task-agnostic knowledge distillation framework for compressing pre-trained Transformer language models (Wang, Wei, Dong, Bao, Yang, &amp; Zhou, NeurIPS 2020) that trains an M-layer student model with arbitrary hidden dimension d&#39;_h to deeply mimic the self-attention module of only the last (L-th) Transformer layer of the teacher by minimizing the sum of two Kullback-Leibler divergences: L = L_AT + L_VR, where L_AT matches multi-head query-key attention distributions A_{L,a}^T = softmax(Q_{L,a}^T (K_{L,a}^T)^T / sqrt(d_k)) and L_VR matches multi-head scaled dot-product value relations VR_{L,a}^T = softmax(V_{L,a}^T (V_{L,a}^T)^T / sqrt(d_k)), optionally bridged by an intermediate-width Teacher Assistant when both depth and width are halved (M &lt;= L/2, d&#39;_h &lt;= d_h/2).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from TinyBERT (AIMech:TinyBERTTransformerDistillationForNaturalLanguageUnderstanding, which performs layer-to-layer distillation across all student layers using a mapping function g(m) and learnable projection matrices W_h in R^{d&#39; x d}) and from MobileBERT (Sun et al., 2020, which requires student and teacher to have identical layer counts L=24 and bottleneck-matched outer dimensions). MiniLM distills only the teacher&#39;s final Transformer layer and converts value vectors V_{M,a}^S in R^{|x| x d&#39;_k} into sequence-by-sequence relation matrices VR_{M,a}^S in R^{|x| x |x|} whose dimensions are invariant to d&#39;_k, eliminating both layer-mapping tuning and linear projection matrices.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#minilm-last-layer-attention-and-value-relation-kl-transfer</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    MiniLM aligns the M-th (last) layer of the student with the L-th (last) layer of the teacher by minimizing L = L_AT + L_VR (Equation 10), where L_AT = (1 / (A_h |x|)) sum_{a=1}^{A_h} sum_{t=1}^{|x|} D_KL(A_{L,a,t}^T || A_{M,a,t}^S) (Equation 6) transfers query-key attention distributions and L_VR = (1 / (A_h |x|)) sum_{a=1}^{A_h} sum_{t=1}^{|x|} D_KL(VR_{L,a,t}^T || VR_{M,a,t}^S) (Equations 7-9) transfers the multi-head scaled value-value dot-product relation matrices VR_{L,a}^T = softmax(V_{L,a}^T (V_{L,a}^T)^T / sqrt(d_k)) and VR_{M,a}^S = softmax(V_{M,a}^S (V_{M,a}^S)^T / sqrt(d&#39;_k)) in R^{A_h x |x| x |x|} without introducing projection parameters when student head dimension d&#39;_k != d_k.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r801-primary-pdf">MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2 (Self-Attention Distribution &amp; Value-Relation Transfer), pp. 3-4, Figure 1, Equations (6)-(10)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r801-primary-pdf">MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers</a></span>
+        <span>· <strong>Locator:</strong> value_relation_matrix and minilm_deep_self_attention_loss verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#minilm-teacher-assistant-regime-for-high-compression</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When compressing an L-layer, d_h-hidden teacher into a student whose depth and width are both at most half of the teacher&#39;s (M &lt;= L/2 and d&#39;_h &lt;= d_h/2), MiniLM first distills the teacher into an intermediate L-layer, d&#39;_h-hidden Teacher Assistant (TA) using L = L_AT + L_VR and then uses the Teacher Assistant to guide the final M-layer, d&#39;_h-hidden student (Section 3.3, Table 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r801-primary-pdf">MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Teacher Assistant) &amp; Section 4.3 (Table 3), pp. 4, 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#minilm-squad-glue-and-multilingual-xnli-performance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In task-agnostic compression from BERT_BASE without task-specific distillation or data augmentation, 6-layer, 768-hidden MiniLM (66M parameters, 2.0x faster) achieves 76.4 F1 on SQuAD 2.0 and 80.4 average score across SQuAD 2.0 and GLUE dev tasks—retaining &gt;99% of BERT_BASE (76.8 SQuAD 2.0, 81.5 average) and outperforming task-agnostic DistilBERT (75.2 average) and TinyBERT (79.1 average, Table 2)—while smaller students (6x384, 4x384, 3x384 at up to 10.1x speedup) and multilingual XLM-R distilled MiniLM models on XNLI and MLQA consistently outperform MLM-KD and layer-to-layer baselines (Tables 3-13).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r801-primary-pdf">MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3-4.4 &amp; Section 5 (Tables 2-13), pp. 5-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#minilm-equal-attention-head-count-constraint</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because MiniLM computes head-wise KL divergences D_KL(A_{L,a}^T || A_{M,a}^S) and D_KL(VR_{L,a}^T || VR_{M,a}^S) across a = 1, ..., A_h (Equations 6, 9), the student model must use the same number of attention heads A_h as the teacher (or as its Teacher Assistant) in the last Transformer layer.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r801-primary-pdf">MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2 (Equations 6, 9) &amp; Section 4.1 (Distillation Setup), pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires the student&#39;s final Transformer layer to have the same number of self-attention heads A_h as the teacher (e.g., A_h = 12) so that head-wise KL divergences L_AT and L_VR can be matched one-to-one.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MiniLM is a task-agnostic deep self-attention knowledge distillation paradigm for Transformer neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r801-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r801-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2002.10957.pdf" target="_blank" rel="noopener">MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wenhui Wang, Furu Wei, Li Dong, Hangbo Bao, Nan Yang, Ming Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2002.10957</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f2c36bbb2be0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r801-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r801-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2002.10957" target="_blank" rel="noopener">MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wenhui Wang, Furu Wei, Li Dong, Hangbo Bao, Nan Yang, Ming Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2002.10957</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7415fb11fe91…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r801-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r801-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2002.10957" target="_blank" rel="noopener">MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wenhui Wang, Furu Wei, Li Dong, Hangbo Bao, Nan Yang, Ming Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2002.10957</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4aee24db5199…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:44:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:44:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MiniLMDeepSelfAttentionDistillationForTaskAgnosticCompression.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MiniLMDeepSelfAttentionDistillationForTaskAgnosticCompression.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
