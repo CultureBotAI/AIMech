@@ -1,0 +1,109 @@
+id: AIMech:LionEvolvedSignMomentumOptimization
+name: Lion (EvoLved Sign Momentum)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A first-order stochastic optimization algorithm (EvoLved Sign Momentum) discovered via evolutionary symbolic program search with abstract execution and funnel selection that tracks only a single exponential moving average momentum buffer m_t and updates parameters using the elementwise sign of a linear interpolation c_t = beta_1 m_{t-1} + (1 - beta_1) g_t combined with decoupled weight decay, theta_t = theta_{t-1} - eta_t (sign(c_t) + lambda theta_{t-1}), followed by a distinct momentum EMA update m_t = beta_2 m_{t-1} + (1 - beta_2) g_t with default beta_1 = 0.9 and beta_2 = 0.99.
+identity_notes: Distinct from Adam, AdamW, AdaBelief, Sophia, and Adafactor in that Lion stores no second-moment or Hessian buffer and applies an elementwise binary sign operation sign(c_t) in {-1, 0, +1} yielding uniform coordinate update magnitudes. Distinct from signSGD with momentum in that Lion decouples the interpolation weight beta_1 = 0.9 used to form the sign-update direction c_t from the longer-horizon EMA decay beta_2 = 0.99 used to update the stored momentum m_t.
+aliases:
+- Lion Optimizer
+- EvoLved Sign Momentum
+- Lion EvoLved Sign Momentum Optimizer
+definition_evidence:
+- source_id: r587-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r587-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r587-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r587-dual-interpolation-sign-update
+  kind: mechanism
+  statement: 'Lion decouples the update direction from momentum tracking via two distinct linear interpolations: it computes c_t = beta_1 m_{t-1} + (1 - beta_1) g_t (default beta_1 = 0.9) before applying the elementwise sign operator theta_t = theta_{t-1} - eta_t (sign(c_t) + lambda theta_{t-1}), and then updates the momentum state with a longer memory horizon m_t = beta_2 m_{t-1} + (1 - beta_2) g_t (default beta_2 = 0.99), outperforming single-EMA sign-momentum ablations with beta_1 = beta_2.'
+  evidence:
+  - source_id: r587-primary-pdf
+    locator: Program 1, p. 2; Section 3.1-3.2, p. 7; Section 4.6, p. 13; Algorithm 2, p. 24
+    relation: supports
+- claim_id: c-r587-lr-and-weight-decay-rescaling
+  kind: mechanism
+  statement: Because the elementwise sign update sign(c_t) in {-1, +1} has a larger norm than adaptive gradient updates, Lion requires a learning rate eta_t that is typically 3x to 10x smaller than AdamW and a decoupled weight decay coefficient lambda that is correspondingly 3x to 10x larger so that the effective weight decay strength eta_t * lambda remains invariant.
+  evidence:
+  - source_id: r587-primary-pdf
+    locator: Section 3.2, p. 7; Section 5, p. 14; Table 12, p. 30
+    relation: supports
+- claim_id: c-r587-memory-and-compute-efficiency
+  kind: application
+  statement: By tracking only the momentum tensor m_t and omitting second-moment state v_t, Lion halves the optimizer state memory footprint compared to AdamW and achieves up to 2% higher ViT accuracy on ImageNet, up to 5x pre-training compute savings on JFT, and up to 2.3x training compute reduction with lower FID on diffusion models.
+  evidence:
+  - source_id: r587-primary-pdf
+    locator: Abstract, p. 1; Section 3.2, p. 7; Section 4.1-4.3, pp. 8-11
+    relation: supports
+- claim_id: c-r587-small-batch-and-massive-corpus-limitation
+  kind: limitation
+  statement: Lion's performance advantage over AdamW diminishes when strong data augmentations or small batch sizes (< 64) are used, and its validation perplexity gains are small or not statistically significant on massive high-quality language modeling datasets.
+  evidence:
+  - source_id: r587-primary-pdf
+    locator: Section 1, p. 3; Section 4.6, p. 13; Section 6, pp. 14-15
+    relation: supports
+evidence_sources:
+- source_id: r587-primary-pdf
+  title: Symbolic Discovery of Optimization Algorithms
+  authors: &id001
+  - Xiangning Chen
+  - Chen Liang
+  - Da Huang
+  - Esteban Real
+  - Kaiyuan Wang
+  - Yao Liu
+  - Hieu Pham
+  - Xuanyi Dong
+  - Thang Luong
+  - Cho-Jui Hsieh
+  - Yifeng Lu
+  - Quoc V. Le
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2302.06675.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/ChenLHRW0DLHLL23
+  version: Advances in Neural Information Processing Systems 36 (NeurIPS 2023) (2023) (1560733 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:10:00Z'
+  sha256: a3a7c83cfe354ddf00734bb04e4315ed1fe56de3fe231b05af5f6e18650bf95a
+- source_id: r587-arxiv-abs
+  title: Symbolic Discovery of Optimization Algorithms (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2302.06675
+  persistent_id: https://arxiv.org/abs/2302.06675
+  version: arXiv abstract page (7938 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:10:00Z'
+  sha256: 45b5a89db71a8c10f720f597824e2daa155f9961eb91e46d1ebdd82372d8ae5b
+- source_id: r587-metadata-cr
+  title: Symbolic Discovery of Optimization Algorithms (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/ChenLHRW0DLHLL23
+  persistent_id: https://dblp.org/rec/conf/nips/ChenLHRW0DLHLL23
+  version: Crossref API work record (2419 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:10:00Z'
+  sha256: 9d6dfba2d24baaed0a3124939deef90b1a982993ebbd3f25422c925000084bcb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Lion is a sign-momentum stochastic optimizer for training artificial neural networks.
+limitations:
+- Requires rescaling both the learning rate (3-10x smaller) and decoupled weight decay (3-10x larger) relative to AdamW because the sign operation produces unit-magnitude coordinate updates.
+- Provides smaller or negligible improvements over AdamW when training with small batch sizes (< 64), strong data augmentations, or massive language-modeling corpora.
+curation:
+  created_at: '2026-10-19T11:10:00Z'
+  updated_at: '2026-10-19T11:10:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
