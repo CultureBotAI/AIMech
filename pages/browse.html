@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1469</strong> artificial intelligence concepts, comprising <strong>1027</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1470</strong> artificial intelligence concepts, comprising <strong>1028</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1469)</option>
-        <option value="curated">Curated AIMech (1027)</option>
+        <option value="all">All Origins (1470)</option>
+        <option value="curated">Curated AIMech (1028)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (723)</option>
+          <option value="algorithm">Algorithms (724)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1469</span> of <span id="totalCount">1469</span>
+      Showing <span id="matchCount">1470</span> of <span id="totalCount">1470</span>
     </div>
   </div>
 </div>
@@ -401,6 +401,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="accordion (critical-regime adaptive gradient communication and batch-size scheduler) accordioncriticalregimeadaptivegradientcommunication aimech:accordioncriticalregimeadaptivegradientcommunication algorithms algorithm an adaptive communication scheduling algorithm for synchronous data-parallel distributed training that detects critical learning regimes at epoch boundaries whenever the relative change between previously accumulated and current accumulated gradient norms satisfies | ||delta_prev|| - ||delta_curr|| | / ||delta_prev|| &gt;= eta (with default threshold eta = 0.5) or a scheduled learning-rate decay occurs (gamma_next &lt; gamma_curr), dynamically selecting a low-compression level l_low (or small mini-batch size b_low) during critical regimes to prevent irrecoverable trajectory drift and switching to a high-compression level l_high (or large mini-batch size b_high with proportionally scaled learning rate) outside critical regimes. distinct from static gradient compressors such as powersgd (aimech:powersgdlowrankgradientcompression, vogels et al. 2019), top-k sparsification (aimech:topkgradientsparsification, aji &amp; heafield 2017), and qsgd (aimech:qsgdquantizedstochasticgradientdescent, alistarh et al. 2017), which use a fixed compression ratio throughout training. distinct from adacomp (aimech:adacompadaptiveresidualgradientcompression, chen et al. 2018), which is a specific bin-level residual sparsifier/quantizer rather than a critical-regime controller that wraps arbitrary compressors (powersgd, top-k) and batch-size schedules. accordion accordion adaptive gradient communication accordion critical-regime compression scheduler accordion adaptive compression and batch-size scheduler over-compressing gradients during critical training regimes—specifically the initial epochs and the epochs immediately following scheduled learning-rate decays where top hessian eigenvalues and layer gradient norms drop rapidly—causes irrecoverable generalization loss even if full-precision gradients are communicated everywhere else (figure 2b); accordion detects these critical regimes without hessian eigenanalysis by evaluating | ||delta_prev|| - ||delta_curr|| | / ||delta_prev|| &gt;= eta (with eta = 0.5 evaluated every 10 epochs) or gamma_next &lt; gamma_curr, selecting l_low (or b_low) in critical regimes and l_high (or b_high) otherwise (algorithm 1). under the sparse-mean plus dense-noise stochastic gradient decomposition grad_w l(w; x_i, y_i) = e_j[grad_w l(w; x_j, y_j)] + (grad_w l(w; x_i, y_i) - e_j[grad_w l(w; x_j, y_j)]) (eq. 1, justified empirically by &gt;90% support overlap among top-10% gradient coordinates in figure 4a and proved with high probability for lasso in appendix b lemma 1 where e[grad_w l] = w + lambda sign(w) + mu(mu^t w) is (k_1 + k_2)-sparse), a large-batch gradient and a heavily compressed gradient both recover only the sparse large-magnitude mean, explaining why both hurt generalization in critical regimes and enabling algorithm 1 to schedule batch size between b_low and b_high. across resnet-18, vgg-19bn, senet, densenet, and googlenet on cifar-10/100 and a 2-layer lstm on wikitext-2, accordion with powersgd (switching per layer between rank 2/4 and rank 1) and top-k (switching between k = 99% and k = 10%/25%/2%) reduces communication volume by up to 3.7x and wall-clock training time by up to 3.8x without accuracy degradation (tables 1-4, figure 11), while accordion batch-size switching between b_low = 512 and b_high = 4096 achieves up to 5.6x communication reduction and 4.1x wall-clock speedup at baseline small-batch accuracy (tables 5-6). accordion does not automatically select the endpoint levels {l_low, l_high} or {b_low, b_high}, and if the high-compression endpoint l_high or b_high is overly aggressive for a given architecture—such as powersgd rank 1 on vgg-19 for cifar-100 (which drops to 50% standalone accuracy and caps accordion rank 4-1 at 63% vs 68% for rank 4-2, figure 9) or b_high = 16,384 on resnet-18 (which loses 1.6% accuracy, figure 10)—switching cannot fully recover the baseline accuracy. accordion: adaptive gradient communication via critical learning regime identification accordion: adaptive gradient communication via critical learning regime identification (arxiv abstract) accordion: adaptive gradient communication via critical learning regime identification (crossref metadata) saurabh agarwal hongyi wang kangwook lee shivaram venkataraman dimitris papailiopoulos saurabh agarwal hongyi wang kangwook lee shivaram venkataraman dimitris papailiopoulos saurabh agarwal hongyi wang kangwook lee shivaram venkataraman dimitris papailiopoulos">
+        <td>
+          <a href="curated/AccordionCriticalRegimeAdaptiveGradientCommunication.html" style="font-weight: 600; font-size: 1rem;">Accordion (Critical-Regime Adaptive Gradient Communication and Batch-Size Scheduler)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Accordion, Accordion Adaptive Gradient Communication…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An adaptive communication scheduling algorithm for synchronous data-parallel distributed training that detects critical learning regimes at…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:AccordionCriticalRegimeAdaptiveGradientCommunication</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="aio"

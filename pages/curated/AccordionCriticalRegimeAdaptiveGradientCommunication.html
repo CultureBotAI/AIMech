@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accordion (Critical-Regime Adaptive Gradient Communication and Batch-Size Scheduler) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Accordion (Critical-Regime Adaptive Gradient Communication and Batch-Size Scheduler)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Accordion (Critical-Regime Adaptive Gradient Communication and Batch-Size Scheduler)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AccordionCriticalRegimeAdaptiveGradientCommunication</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Accordion, Accordion Adaptive Gradient Communication, Accordion Critical-Regime Compression Scheduler, Accordion Adaptive Compression and Batch-Size Scheduler
+    </div>
+
+  <div class="detail-desc">
+    An adaptive communication scheduling algorithm for synchronous data-parallel distributed training that detects critical learning regimes at epoch boundaries whenever the relative change between previously accumulated and current accumulated gradient norms satisfies | ||Delta_prev|| - ||Delta_curr|| | / ||Delta_prev|| &gt;= eta (with default threshold eta = 0.5) or a scheduled learning-rate decay occurs (gamma_next &lt; gamma_curr), dynamically selecting a low-compression level l_low (or small mini-batch size B_low) during critical regimes to prevent irrecoverable trajectory drift and switching to a high-compression level l_high (or large mini-batch size B_high with proportionally scaled learning rate) outside critical regimes.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from static gradient compressors such as PowerSGD (AIMech:PowerSGDLowRankGradientCompression, Vogels et al. 2019), Top-K sparsification (AIMech:TopKGradientSparsification, Aji &amp; Heafield 2017), and QSGD (AIMech:QSGDQuantizedStochasticGradientDescent, Alistarh et al. 2017), which use a fixed compression ratio throughout training. Distinct from AdaComp (AIMech:AdaCompAdaptiveResidualGradientCompression, Chen et al. 2018), which is a specific bin-level residual sparsifier/quantizer rather than a critical-regime controller that wraps arbitrary compressors (PowerSGD, Top-K) and batch-size schedules.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r633-gradient-norm-critical-regime-detection-and-switching-rule</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Over-compressing gradients during critical training regimes—specifically the initial epochs and the epochs immediately following scheduled learning-rate decays where top Hessian eigenvalues and layer gradient norms drop rapidly—causes irrecoverable generalization loss even if full-precision gradients are communicated everywhere else (Figure 2b); Accordion detects these critical regimes without Hessian eigenanalysis by evaluating | ||Delta_prev|| - ||Delta_curr|| | / ||Delta_prev|| &gt;= eta (with eta = 0.5 evaluated every 10 epochs) or gamma_next &lt; gamma_curr, selecting l_low (or B_low) in critical regimes and l_high (or B_high) otherwise (Algorithm 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r633-primary-pdf">Accordion: Adaptive Gradient Communication via Critical Learning Regime Identification</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2 Figures 2-3 &amp; Algorithm 1, pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r633-sparse-mean-dense-noise-equivalence-of-compression-and-batch-size</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the sparse-mean plus dense-noise stochastic gradient decomposition grad_w l(w; x_i, y_i) = E_j[grad_w l(w; x_j, y_j)] + (grad_w l(w; x_i, y_i) - E_j[grad_w l(w; x_j, y_j)]) (Eq. 1, justified empirically by &gt;90% support overlap among Top-10% gradient coordinates in Figure 4a and proved with high probability for LASSO in Appendix B Lemma 1 where E[grad_w l] = w + lambda sign(w) + mu(mu^T w) is (k_1 + k_2)-sparse), a large-batch gradient and a heavily compressed gradient both recover only the sparse large-magnitude mean, explaining why both hurt generalization in critical regimes and enabling Algorithm 1 to schedule batch size between B_low and B_high.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r633-primary-pdf">Accordion: Adaptive Gradient Communication via Critical Learning Regime Identification</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 Eq. (1), Figure 4 &amp; Appendix B Lemma 1, pp. 6-7, 15-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r633-powersgd-topk-and-batch-size-communication-reductions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across ResNet-18, VGG-19bn, SENet, DenseNet, and GoogLeNet on CIFAR-10/100 and a 2-layer LSTM on WikiText-2, Accordion with PowerSGD (switching per layer between Rank 2/4 and Rank 1) and Top-K (switching between K = 99% and K = 10%/25%/2%) reduces communication volume by up to 3.7x and wall-clock training time by up to 3.8x without accuracy degradation (Tables 1-4, Figure 11), while Accordion batch-size switching between B_low = 512 and B_high = 4096 achieves up to 5.6x communication reduction and 4.1x wall-clock speedup at baseline small-batch accuracy (Tables 5-6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r633-primary-pdf">Accordion: Adaptive Gradient Communication via Critical Learning Regime Identification</a></span>
+        <span>· <strong>Locator:</strong> Sections 5.3-5.5 Tables 1-6 &amp; Appendix D.1 Figure 11, pp. 8-9, 17</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r633-metadata-cr">Accordion: Adaptive Gradient Communication via Critical Learning Regime Identification (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> DBLP bibliographic record (journals/corr/abs-2010-16248)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r633-manual-endpoint-selection-and-extreme-compression-floor</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Accordion does not automatically select the endpoint levels {l_low, l_high} or {B_low, B_high}, and if the high-compression endpoint l_high or B_high is overly aggressive for a given architecture—such as PowerSGD Rank 1 on VGG-19 for CIFAR-100 (which drops to 50% standalone accuracy and caps Accordion Rank 4-1 at 63% vs 68% for Rank 4-2, Figure 9) or B_high = 16,384 on ResNet-18 (which loses 1.6% accuracy, Figure 10)—switching cannot fully recover the baseline accuracy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r633-primary-pdf">Accordion: Adaptive Gradient Communication via Critical Learning Regime Identification</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Figures 9 &amp; Appendix C Figure 10, pp. 11, 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires the user to pre-specify the two endpoint compression levels {l_low, l_high} or batch sizes {B_low, B_high}; if l_high is too aggressive outside critical regimes (e.g., PowerSGD Rank 1 on VGG-19 CIFAR-100, Figure 9), final accuracy still degrades.</li>
+      <li>Scaling to extremely large batch sizes outside critical regimes (e.g., B_high = 16,384 on CIFAR-10 ResNet-18, Appendix C Figure 10) causes a transient accuracy drop upon switching and a ~1.6% final accuracy gap.</li>
+      <li>Evaluates gradient-compression scheduling and batch-size scheduling separately rather than jointly adapting both compression ratio and batch size simultaneously.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Accordion schedules gradient compression ratios and mini-batch sizes during distributed training of deep neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r633-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r633-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2010.16248.pdf" target="_blank" rel="noopener">Accordion: Adaptive Gradient Communication via Critical Learning Regime Identification</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Saurabh Agarwal, Hongyi Wang, Kangwook Lee, Shivaram Venkataraman, Dimitris Papailiopoulos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-2010-16248</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:66b1778ae7dd…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r633-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r633-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2010.16248" target="_blank" rel="noopener">Accordion: Adaptive Gradient Communication via Critical Learning Regime Identification (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Saurabh Agarwal, Hongyi Wang, Kangwook Lee, Shivaram Venkataraman, Dimitris Papailiopoulos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2010.16248</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2dfddcaf209e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r633-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r633-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/corr/abs-2010-16248" target="_blank" rel="noopener">Accordion: Adaptive Gradient Communication via Critical Learning Regime Identification (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Saurabh Agarwal, Hongyi Wang, Kangwook Lee, Shivaram Venkataraman, Dimitris Papailiopoulos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-2010-16248</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e3d9a2448b1c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:56:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:56:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AccordionCriticalRegimeAdaptiveGradientCommunication.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AccordionCriticalRegimeAdaptiveGradientCommunication.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

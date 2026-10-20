@@ -1,0 +1,107 @@
+id: AIMech:AccordionCriticalRegimeAdaptiveGradientCommunication
+name: Accordion (Critical-Regime Adaptive Gradient Communication and Batch-Size Scheduler)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An adaptive communication scheduling algorithm for synchronous data-parallel distributed training that detects critical learning regimes at epoch boundaries whenever the relative change between previously accumulated and current accumulated gradient norms satisfies | ||Delta_prev|| - ||Delta_curr|| | / ||Delta_prev|| >= eta (with default threshold eta = 0.5) or a scheduled learning-rate decay occurs (gamma_next < gamma_curr), dynamically selecting a low-compression level l_low (or small mini-batch size B_low) during critical regimes to prevent irrecoverable trajectory drift and switching to a high-compression level l_high (or large mini-batch size B_high with proportionally scaled learning rate) outside critical regimes.
+identity_notes: Distinct from static gradient compressors such as PowerSGD (AIMech:PowerSGDLowRankGradientCompression, Vogels et al. 2019), Top-K sparsification (AIMech:TopKGradientSparsification, Aji & Heafield 2017), and QSGD (AIMech:QSGDQuantizedStochasticGradientDescent, Alistarh et al. 2017), which use a fixed compression ratio throughout training. Distinct from AdaComp (AIMech:AdaCompAdaptiveResidualGradientCompression, Chen et al. 2018), which is a specific bin-level residual sparsifier/quantizer rather than a critical-regime controller that wraps arbitrary compressors (PowerSGD, Top-K) and batch-size schedules.
+aliases:
+- Accordion
+- Accordion Adaptive Gradient Communication
+- Accordion Critical-Regime Compression Scheduler
+- Accordion Adaptive Compression and Batch-Size Scheduler
+definition_evidence:
+- source_id: r633-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r633-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r633-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r633-gradient-norm-critical-regime-detection-and-switching-rule
+  kind: mechanism
+  statement: "Over-compressing gradients during critical training regimes\u2014specifically the initial epochs and the epochs immediately following scheduled learning-rate decays where top Hessian eigenvalues and layer gradient norms drop rapidly\u2014causes irrecoverable generalization loss even if full-precision gradients are communicated everywhere else (Figure 2b); Accordion detects these critical regimes without Hessian eigenanalysis by evaluating | ||Delta_prev|| - ||Delta_curr|| | / ||Delta_prev|| >= eta (with eta = 0.5 evaluated every 10 epochs) or gamma_next < gamma_curr, selecting l_low (or B_low) in critical regimes and l_high (or B_high) otherwise (Algorithm 1)."
+  evidence:
+  - source_id: r633-primary-pdf
+    locator: Section 4.1-4.2 Figures 2-3 & Algorithm 1, pp. 4-6
+    relation: supports
+- claim_id: r633-sparse-mean-dense-noise-equivalence-of-compression-and-batch-size
+  kind: scope
+  statement: Under the sparse-mean plus dense-noise stochastic gradient decomposition grad_w l(w; x_i, y_i) = E_j[grad_w l(w; x_j, y_j)] + (grad_w l(w; x_i, y_i) - E_j[grad_w l(w; x_j, y_j)]) (Eq. 1, justified empirically by >90% support overlap among Top-10% gradient coordinates in Figure 4a and proved with high probability for LASSO in Appendix B Lemma 1 where E[grad_w l] = w + lambda sign(w) + mu(mu^T w) is (k_1 + k_2)-sparse), a large-batch gradient and a heavily compressed gradient both recover only the sparse large-magnitude mean, explaining why both hurt generalization in critical regimes and enabling Algorithm 1 to schedule batch size between B_low and B_high.
+  evidence:
+  - source_id: r633-primary-pdf
+    locator: Section 4.3 Eq. (1), Figure 4 & Appendix B Lemma 1, pp. 6-7, 15-16
+    relation: supports
+- claim_id: r633-powersgd-topk-and-batch-size-communication-reductions
+  kind: application
+  statement: Across ResNet-18, VGG-19bn, SENet, DenseNet, and GoogLeNet on CIFAR-10/100 and a 2-layer LSTM on WikiText-2, Accordion with PowerSGD (switching per layer between Rank 2/4 and Rank 1) and Top-K (switching between K = 99% and K = 10%/25%/2%) reduces communication volume by up to 3.7x and wall-clock training time by up to 3.8x without accuracy degradation (Tables 1-4, Figure 11), while Accordion batch-size switching between B_low = 512 and B_high = 4096 achieves up to 5.6x communication reduction and 4.1x wall-clock speedup at baseline small-batch accuracy (Tables 5-6).
+  evidence:
+  - source_id: r633-primary-pdf
+    locator: Sections 5.3-5.5 Tables 1-6 & Appendix D.1 Figure 11, pp. 8-9, 17
+    relation: supports
+  - source_id: r633-metadata-cr
+    locator: DBLP bibliographic record (journals/corr/abs-2010-16248)
+    relation: supports
+- claim_id: r633-manual-endpoint-selection-and-extreme-compression-floor
+  kind: limitation
+  statement: "Accordion does not automatically select the endpoint levels {l_low, l_high} or {B_low, B_high}, and if the high-compression endpoint l_high or B_high is overly aggressive for a given architecture\u2014such as PowerSGD Rank 1 on VGG-19 for CIFAR-100 (which drops to 50% standalone accuracy and caps Accordion Rank 4-1 at 63% vs 68% for Rank 4-2, Figure 9) or B_high = 16,384 on ResNet-18 (which loses 1.6% accuracy, Figure 10)\u2014switching cannot fully recover the baseline accuracy."
+  evidence:
+  - source_id: r633-primary-pdf
+    locator: Section 6 Figures 9 & Appendix C Figure 10, pp. 11, 16
+    relation: supports
+evidence_sources:
+- source_id: r633-primary-pdf
+  title: 'Accordion: Adaptive Gradient Communication via Critical Learning Regime Identification'
+  authors: &id001
+  - Saurabh Agarwal
+  - Hongyi Wang
+  - Kangwook Lee
+  - Shivaram Venkataraman
+  - Dimitris Papailiopoulos
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2010.16248.pdf
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2010-16248
+  version: Proceedings of Machine Learning and Systems (MLSys 2021) / arXiv:2010.16248v1 (2020) (12644638 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:56:00Z'
+  sha256: 66b1778ae7dd3775b169f61104e1d6035951dd42a939cee9527906d13d3f956a
+- source_id: r633-arxiv-abs
+  title: 'Accordion: Adaptive Gradient Communication via Critical Learning Regime Identification (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2010.16248
+  persistent_id: https://arxiv.org/abs/2010.16248
+  version: arXiv abstract page (7285 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:56:00Z'
+  sha256: 2dfddcaf209e8d98ae13485afb9c2e3e78ba5b472b8ad5e86c973d129a6ea849
+- source_id: r633-metadata-cr
+  title: 'Accordion: Adaptive Gradient Communication via Critical Learning Regime Identification (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-2010-16248
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2010-16248
+  version: Crossref API work record (1337 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:56:00Z'
+  sha256: e3d9a2448b1c5bf3a7c52b4e48150e665243e999e75686b64adea6cc33cec297
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Accordion schedules gradient compression ratios and mini-batch sizes during distributed training of deep neural networks.
+limitations:
+- Requires the user to pre-specify the two endpoint compression levels {l_low, l_high} or batch sizes {B_low, B_high}; if l_high is too aggressive outside critical regimes (e.g., PowerSGD Rank 1 on VGG-19 CIFAR-100, Figure 9), final accuracy still degrades.
+- Scaling to extremely large batch sizes outside critical regimes (e.g., B_high = 16,384 on CIFAR-10 ResNet-18, Appendix C Figure 10) causes a transient accuracy drop upon switching and a ~1.6% final accuracy gap.
+- Evaluates gradient-compression scheduling and batch-size scheduling separately rather than jointly adapting both compression ratio and batch size simultaneously.
+curation:
+  created_at: '2026-10-19T11:56:00Z'
+  updated_at: '2026-10-19T11:56:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
