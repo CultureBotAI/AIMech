@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">730 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">731 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">730</span> of <span id="totalCount">730</span>
+      Showing <span id="matchCount">731</span> of <span id="totalCount">731</span>
     </div>
   </div>
 </div>
@@ -10664,6 +10664,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="lisa (layerwise importance sampled adamw) lisalayerwiseimportancesampledadamw aimech:lisalayerwiseimportancesampledadamw algorithms algorithm a memory-efficient full-rank optimization algorithm for large language models that emulates the skewed layerwise update-norm distribution of low-rank adaptation without low-rank subspace restrictions by permanently unfreezing the bottom embedding and top language-modeling head layers while periodically sampling a small fixed number gamma of intermediate transformer layers every k iterations to update with adamw. distinct from badam (aimech:badamblockcoordinateadamfullparameteroptimization), which partitions all model layers into d blocks of equal status and updates one block per k-step epoch via cyclic or random-reshuffling block coordinate descent; lisa is grounded in the empirical skewness of layerwise weight norms w^{(ell)} = (1/t) sum_{t=1}^t ||theta_t^{(ell)}||_2 in lora (where embedding and lm head norms exceed intermediate layers by 10^2x), assigning importance-sampling probabilities {1.0, gamma/n_l, ..., gamma/n_l, 1.0} so e and h remain continuously active while gamma intermediate layers are sampled every k steps. distinct from lora (aimech:loralowrankadaptation), which freezes base weights and constrains updates to rank-r adapter matrices across all layers. lisa layerwise importance sampled adamw layerwise importance sampling adamw layerwise importance sampling for memory-efficient llm fine-tuning observing that lora&#39;s layerwise mean weight norms w^{(ell)} = (1/t) * sum_{t=1}^t ||theta_t^{(ell)}||_2 are skewed by factors of hundreds toward the token-embedding and language-modeling head layers relative to intermediate transformer blocks, lisa matches expected layerwise step sizes eta_t^{(ell)} = tilde_eta_t^{(ell)} * (tilde_w^{(ell)} / w^{(ell)}) in full-rank space by setting layer activation probabilities {p_ell}_{ell=1}^{n_l} = {1.0, gamma/n_l, ..., gamma/n_l, 1.0} and, every k iterations, freezing all intermediate layers except gamma randomly sampled layers that are updated alongside the embedding and head layers via adamw. because lisa introduces no auxiliary adapter modules, deletes redundant intermediate activations during backpropagation, and allocates gradients and adamw states only for the embedding layer, lm head, and gamma active intermediate layers (e+h+gamma l), it reduces llama-2-7b fine-tuning memory from 59 gb (full training) to 21-23 gb (fitting on a single 24 gb gpu), reduces llama-2-70b memory to 71-75 gb vs 79 gb for lora rank 128, and achieves a 2.9x per-iteration speedup over full-parameter training (1.5x over lora). viewing adamw on loss f(w) as randomized block-coordinate adam on the scaled quadratic-regularized objective f^{reg}(w) = f(w) + (1/2) * w^t s w with positive semidefinite diagonal matrix s, theorem 1 guarantees that for convex smooth f on a bounded domain with bounded stochastic gradients, lisa iterates satisfy (1/t) * sum_{t=1}^t f^{reg}(w_t) - f_*^{reg} &lt;= o(1 / sqrt(t)). across instruction tuning of tinyllama-1.1b, mistral-7b, llama-2-7b, and llama-2-70b on alpaca-gpt4, gsm8k, and pubmedqa, and continual pre-training on 1.5b tokens of openwebmath, lisa outperforms lora by 10%-35% on mt-bench (reaching 6.72 vs 6.10 for lora and 6.25 for full training on llama-2-70b) and matches full-parameter continual pre-training on gsm8k at less than half the gpu memory cost (26 gb vs 59 gb). during the forward pass, lisa still requires the full pre-trained base model weights to reside in gpu memory, and its default e+h+gamma l schedule samples all intermediate layers with uniform probability gamma / n_l rather than adapting middle-layer sampling probabilities to task- or architecture-specific importance. lisa: layerwise importance sampling for memory-efficient large language model fine-tuning lisa: layerwise importance sampling for memory-efficient large language model fine-tuning (arxiv abstract) lisa: layerwise importance sampling for memory-efficient large language model fine-tuning (crossref metadata) rui pan xiang liu shizhe diao renjie pi jipeng zhang chi han tong zhang rui pan xiang liu shizhe diao renjie pi jipeng zhang chi han tong zhang rui pan xiang liu shizhe diao renjie pi jipeng zhang chi han tong zhang">
+        <td>
+          <a href="../curated/LISALayerwiseImportanceSampledAdamW.html" style="font-weight: 600; font-size: 1rem;">LISA (Layerwise Importance Sampled AdamW)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> LISA, Layerwise Importance Sampled AdamW…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A memory-efficient full-rank optimization algorithm for large language models that emulates the skewed layerwise update-norm distribution of…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:LISALayerwiseImportanceSampledAdamW</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="5 claims curated">5 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
