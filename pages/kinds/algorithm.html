@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">658 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">659 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">658</span> of <span id="totalCount">658</span>
+      Showing <span id="matchCount">659</span> of <span id="totalCount">659</span>
     </div>
   </div>
 </div>
@@ -16926,6 +16926,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:ZenoPlusPlusRobustFullyAsynchronousStochasticGradientDescent</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="zerosarah and d-zerosarah variance-reduced nonconvex optimization without full gradient computations zerosarahanddzerosarahvariancereducednonconvexoptimizationwithoutfullgradientcomputations aimech:zerosarahanddzerosarahvariancereducednonconvexoptimizationwithoutfullgradientcomputations algorithms algorithm a family of single-loop variance-reduced stochastic optimization algorithms for nonconvex finite-sum minimization f(x) = (1/n) sum_{i=1}^n f_i(x) (zerosarah) and partial-participation distributed finite-sum minimization (d-zerosarah) introduced by li, hanzely, and richtárik (2021). zerosarah maintains a historical gradient table {y_i^{k-1}}_{i=1}^n initialized to zero (requiring zero full gradient computations throughout training), samples a mini-batch i_b^k subseteq [n] of size b_k, updates the gradient estimator via v^k = (1/b_k) sum_{i in i_b^k} (nabla f_i(x^k) - nabla f_i(x^{k-1})) + (1 - lambda_k) v^{k-1} + lambda_k ((1/b_k) sum_{i in i_b^k} (nabla f_i(x^{k-1}) - y_i^{k-1}) + (1/n) sum_{j=1}^n y_j^{k-1}), steps x^{k+1} = x^k - eta_k v^k, and refreshes y_i^k = nabla f_i(x^k) for i in i_b^k while keeping y_i^k = y_i^{k-1} for i not in i_b^k. distinct from classical sarah, spider, spiderboost, and page (which require an initial full gradient computation nabla f(x^0) and/or periodic full-batch checkpoints of cost o(n) every epoch or with probability p_k), and distinct from saga (which achieves o(n^{2/3}/epsilon^2) nonconvex gradient complexity rather than o(sqrt(n)/epsilon^2)): zerosarah combines sarah&#39;s recursive difference update with a saga-style historical table correction weighted by lambda_k = b_k / (2n) so that e_k[v^k - nabla f(x^k)] = (1 - lambda_k)(v^{k-1} - nabla f(x^{k-1})), never computing any full gradient across all iterations. zerosarah d-zerosarah distributed zerosarah variance-reduced nonconvex optimization with zero full gradient computation zerosarah initializes x^{-1} = x^0, v^{-1} = 0, and y_1^{-1} = ... = y_n^{-1} = 0 without evaluating nabla f(x^0), and at iteration k &gt;= 0 samples a mini-batch i_b^k of size b_k to form v^k = (1/b_k) sum_{i in i_b^k}(nabla f_i(x^k) - nabla f_i(x^{k-1})) + (1 - lambda_k) v^{k-1} + lambda_k ((1/b_k) sum_{i in i_b^k}(nabla f_i(x^{k-1}) - y_i^{k-1}) + (1/n) sum_{j=1}^n y_j^{k-1}); by lemma 1, the conditional expectation of the estimation error satisfies e_k[v^k - nabla f(x^k)] = (1 - lambda_k)(v^{k-1} - nabla f(x^{k-1})). under l-smoothness (assumption 1), setting b_k = sqrt(n), lambda_0 = 1, lambda_k = b_k / (2n) for k &gt;= 1, and step size eta_k = 1 / ((1 + sqrt(8)) l) yields m_{k+1} = 2 / (lambda_{k+1} b_{k+1}) + 8 lambda_{k+1} n^2 / b_{k+1}^3 = 8 and guarantees e[||nabla f(hat{x}^k)||^2] &lt;= epsilon^2 in o(sqrt(n) (l delta_0 + g_0) / epsilon^2) stochastic gradient computations with zero full gradient evaluations, recovering best-known o(n + sqrt(n) l delta_0 / epsilon^2) complexity when initialized with y_i^{-1} = nabla f_i(x^0) (theorem 1, corollaries 1-2). d-zerosarah (algorithm 3) extends zerosarah to distributed optimization f(x) = (1/m) sum_{i=1}^m f_i(x) where each client i in [m] holds s local functions f_{i,j}: in each round k, a subset i_{b_1}^k subseteq [m] of b_1 clients is sampled and each active client samples a local mini-batch i_{i,b_2}^k subseteq [s] of size b_2, achieving e[||nabla f(hat{x}^k)||^2] &lt;= epsilon^2 without ever requiring full client participation or full local dataset gradient evaluation (theorem 2, corollaries 3-4). maintaining the historical gradient table {y_i^{k-1}}_{i=1}^n requires o(n d) memory in general (reduced to o(n) scalar storage for generalized linear models where nabla f_i(x) scales a fixed feature vector a_i), and the zero-full-gradient complexity bound depends on the initial average squared component gradient norm g_0 = (1/n) sum_{i=1}^n ||nabla f_i(x^0)||^2 when y_i^{-1} is initialized to zero. zerosarah: efficient nonconvex finite-sum optimization with zero full gradient computation zerosarah: efficient nonconvex finite-sum optimization with zero full gradient computation (arxiv abstract) zerosarah: efficient nonconvex finite-sum optimization with zero full gradient computation (crossref metadata) zhize li slavomír hanzely peter richtárik zhize li slavomír hanzely peter richtárik zhize li slavomír hanzely peter richtárik">
+        <td>
+          <a href="../curated/ZeroSarahAndDZeroSarahVarianceReducedNonconvexOptimizationWithoutFullGradientComputations.html" style="font-weight: 600; font-size: 1rem;">ZeroSARAH and D-ZeroSARAH Variance-Reduced Nonconvex Optimization without Full Gradient Computations</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> ZeroSARAH, D-ZeroSARAH…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A family of single-loop variance-reduced stochastic optimization algorithms for nonconvex finite-sum minimization f(x) = (1/n) sum_{i=1}^n f…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:ZeroSarahAndDZeroSarahVarianceReducedNonconvexOptimizationWithoutFullGradientComputations</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
