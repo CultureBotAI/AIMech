@@ -1,0 +1,107 @@
+id: AIMech:ConformerKernelWithQueryTermIndependenceForDocumentRetrieval
+name: Conformer-Kernel with Query Term Independence for Document Retrieval
+concept_kind: architecture
+review_status: DRAFT
+definition: "An efficient neural document retrieval and ranking architecture (Mitra, Hofst\xE4tter, Zamani, & Craswell, 2020) that modifies the Transformer-Kernel (TK) model along three axes: (1) replacing quadratic O(|d|^2) self-attention with linear-complexity separable self-attention Out = Phi(Q)*(Phi(K^T)*V) to process documents thousands of tokens long without sliding windows, (2) combining windowed convolutional layers and separable self-attention in a hybrid Conformer layer, and (3) enforcing a Query Term Independence (QTI) assumption by encoding query terms solely with context-free embeddings while combining an implicit Conformer-Kernel soft-match score and an explicit batch-scaled BM25-like lexical sub-model so that per-(term, document) impact scores can be pre-computed offline and stored in a standard inverted index for full-collection retrieval."
+identity_notes: Distinct from TK (AIMech:TKTransformerKernelRankingModel, which contextualizes both query and document with quadratic self-attention) and TKL (AIMech:TKLTransformerKernelForLongDocuments, which applies TK over overlapping sliding windows of long documents). Conformer-Kernel replaces quadratic self-attention with separable self-attention (Equations 5-6) inside a parallel Convolution+Transformer (Conformer) block and optionally enforces Query Term Independence (CK with QTI) by combining a learned explicit batch-scaled BM25 sub-model s_{t,d}^{(explicit)} (Equations 9-10) with an implicit Conformer-Kernel sub-model s_{t,d}^{(implicit)} (Equations 11-16) whose non-negative combined scores s_{t,d} = ReLU(alpha * s_{t,d}^{(explicit)} + (1 - alpha) * s_{t,d}^{(implicit)} + b_comb) can be pre-computed offline for top-k vocabulary terms per document.
+aliases:
+- Conformer-Kernel with Query Term Independence
+- Conformer-Kernel
+- CK with QTI
+- Conformer-Kernel Document Retrieval Architecture
+definition_evidence:
+- source_id: r792-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r792-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r792-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: conformer-kernel-separable-self-attention-and-hybrid-layer
+  kind: mechanism
+  statement: To scale document contextualization to thousands of tokens without quadratic O(n^2) intermediate attention matrices, Conformer-Kernel factorizes self-attention into separable self-attention A = Phi(K^T) V in R^{d_key x d_val} and Out = Phi(Q) A in R^{n x d_val} (Equations 5-6, where Phi(.) is row-wise softmax) with O(n * d_key) intermediate memory, and combines a windowed 1D convolution layer and separable Transformer layer in parallel inside a Conformer block (Figure 1c).
+  evidence:
+  - source_id: r792-primary-pdf
+    locator: Section 3.2 (Separable Self-Attention) & Section 3.3 (Conformer Layer), pp. 3-4, Figure 1, Equations (5)-(6)
+    relation: supports
+  - source_id: r792-primary-pdf
+    locator: separable_self_attention verification
+    relation: supports
+- claim_id: conformer-kernel-query-term-independence-and-explicit-implicit-scoring
+  kind: mechanism
+  statement: Under Query Term Independence (QTI), Conformer-Kernel leaves query terms context-free and decomposes document scoring into S_{q,d} = sum_{t in q} s_{t,d}, where s_{t,d} = ReLU(alpha * s_{t,d}^{(explicit)} + (1 - alpha) * s_{t,d}^{(implicit)} + b_comb) combines a learned explicit BM25-like sub-model s_{t,d}^{(explicit)} = IDF_t * BS(TF_{t,d}) / (BS(TF_{t,d}) + ReLU(w_dlen * BS(|d|) + b_dlen) + eps) using batch scaling BS(x) = x / (E[x] + eps) (Equations 9-10) with a length-normalized Conformer-Kernel RBF soft-match sub-model s_{t,d}^{(implicit)} (Equations 11-16), allowing all s_{t,d} values to be pre-computed offline and indexed for retrieval.
+  evidence:
+  - source_id: r792-primary-pdf
+    locator: Section 3.4 (Enforcing Query Term Independence), pp. 4-6, Figure 2, Equations (7)-(16)
+    relation: supports
+  - source_id: r792-primary-pdf
+    locator: explicit_bm25_submodel and batch_scale verification
+    relation: supports
+- claim_id: conformer-kernel-trec-dl-empirical-performance
+  kind: application
+  statement: On the TREC 2019 Deep Learning Track document ranking task (with documents up to |d| = 2000 tokens), Conformer-Kernel achieves 0.680 NDCG@10 and 0.371 MRR (and 0.629 NDCG@10 under QTI) compared to 0.525 NDCG@10 for BM25, while reducing training memory from 10.61 GB (TK at |d|=2000, batch size 8) to 0.83 GB at batch size 32.
+  evidence:
+  - source_id: r792-primary-pdf
+    locator: Section 5 (Results), pp. 7-8, Tables 2-3
+    relation: supports
+- claim_id: conformer-kernel-qti-query-context-tradeoff
+  kind: limitation
+  statement: Enforcing Query Term Independence (QTI) removes cross-term query contextualization, reducing NDCG@10 on the TREC DL 2019 test set from 0.680 (full Conformer-Kernel) to 0.629 (CK with QTI), and full-collection inverted-index retrieval requires sparsifying offline document scores to top-k vocabulary terms per document to bound index size.
+  evidence:
+  - source_id: r792-primary-pdf
+    locator: Section 3.4 (Figure 2c) & Section 5 (Table 2 & Discussion), pp. 5-8
+    relation: supports
+evidence_sources:
+- source_id: r792-primary-pdf
+  title: Conformer-Kernel with Query Term Independence for Document Retrieval
+  authors: &id001
+  - Bhaskar Mitra
+  - "Sebastian Hofst\xE4tter"
+  - Hamed Zamani
+  - Nick Craswell
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2007.10434.pdf
+  persistent_id: https://arxiv.org/bibtex/2007.10434
+  version: arXiv preprint (2020) (406700 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:35:00Z'
+  sha256: c25e181a2ce7be4be1f4d538bf37468b33da80dfc8e831ecdee98009b4632e73
+- source_id: r792-arxiv-abs
+  title: Conformer-Kernel with Query Term Independence for Document Retrieval (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2007.10434
+  persistent_id: https://arxiv.org/abs/2007.10434
+  version: arXiv abstract page (6659 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:35:00Z'
+  sha256: 7f5e799f6ac998d7b0ab05b5933344c8cc9d2bcdce665a48561614cf7639fecf
+- source_id: r792-metadata-cr
+  title: Conformer-Kernel with Query Term Independence for Document Retrieval (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2007.10434
+  persistent_id: https://arxiv.org/bibtex/2007.10434
+  version: Crossref API work record (431 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:35:00Z'
+  sha256: c10c471fb7eaa30cc31e012c9c0cdd0c5b1df34042dcbdfe7e47a513f161d052
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Conformer-Kernel with QTI is a specialized hybrid convolutional-and-separable-attention neural network architecture for long-document ranking and inverted-index retrieval.
+limitations:
+- Enforcing Query Term Independence sacrifices cross-term query contextualization (reducing TREC DL 2019 NDCG@10 from 0.680 to 0.629) and requires top-k vocabulary sparsification to keep offline inverted index sizes tractable.
+curation:
+  created_at: '2026-10-19T14:35:00Z'
+  updated_at: '2026-10-19T14:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conformer-Kernel with Query Term Independence for Document Retrieval · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Conformer-Kernel with Query Term Independence for Document Retrieval</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Conformer-Kernel with Query Term Independence for Document Retrieval</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:ConformerKernelWithQueryTermIndependenceForDocumentRetrieval</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Conformer-Kernel with Query Term Independence, Conformer-Kernel, CK with QTI, Conformer-Kernel Document Retrieval Architecture
+    </div>
+
+  <div class="detail-desc">
+    An efficient neural document retrieval and ranking architecture (Mitra, Hofstätter, Zamani, &amp; Craswell, 2020) that modifies the Transformer-Kernel (TK) model along three axes: (1) replacing quadratic O(|d|^2) self-attention with linear-complexity separable self-attention Out = Phi(Q)*(Phi(K^T)*V) to process documents thousands of tokens long without sliding windows, (2) combining windowed convolutional layers and separable self-attention in a hybrid Conformer layer, and (3) enforcing a Query Term Independence (QTI) assumption by encoding query terms solely with context-free embeddings while combining an implicit Conformer-Kernel soft-match score and an explicit batch-scaled BM25-like lexical sub-model so that per-(term, document) impact scores can be pre-computed offline and stored in a standard inverted index for full-collection retrieval.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from TK (AIMech:TKTransformerKernelRankingModel, which contextualizes both query and document with quadratic self-attention) and TKL (AIMech:TKLTransformerKernelForLongDocuments, which applies TK over overlapping sliding windows of long documents). Conformer-Kernel replaces quadratic self-attention with separable self-attention (Equations 5-6) inside a parallel Convolution+Transformer (Conformer) block and optionally enforces Query Term Independence (CK with QTI) by combining a learned explicit batch-scaled BM25 sub-model s_{t,d}^{(explicit)} (Equations 9-10) with an implicit Conformer-Kernel sub-model s_{t,d}^{(implicit)} (Equations 11-16) whose non-negative combined scores s_{t,d} = ReLU(alpha * s_{t,d}^{(explicit)} + (1 - alpha) * s_{t,d}^{(implicit)} + b_comb) can be pre-computed offline for top-k vocabulary terms per document.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#conformer-kernel-separable-self-attention-and-hybrid-layer</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To scale document contextualization to thousands of tokens without quadratic O(n^2) intermediate attention matrices, Conformer-Kernel factorizes self-attention into separable self-attention A = Phi(K^T) V in R^{d_key x d_val} and Out = Phi(Q) A in R^{n x d_val} (Equations 5-6, where Phi(.) is row-wise softmax) with O(n * d_key) intermediate memory, and combines a windowed 1D convolution layer and separable Transformer layer in parallel inside a Conformer block (Figure 1c).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r792-primary-pdf">Conformer-Kernel with Query Term Independence for Document Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Separable Self-Attention) &amp; Section 3.3 (Conformer Layer), pp. 3-4, Figure 1, Equations (5)-(6)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r792-primary-pdf">Conformer-Kernel with Query Term Independence for Document Retrieval</a></span>
+        <span>· <strong>Locator:</strong> separable_self_attention verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#conformer-kernel-query-term-independence-and-explicit-implicit-scoring</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Query Term Independence (QTI), Conformer-Kernel leaves query terms context-free and decomposes document scoring into S_{q,d} = sum_{t in q} s_{t,d}, where s_{t,d} = ReLU(alpha * s_{t,d}^{(explicit)} + (1 - alpha) * s_{t,d}^{(implicit)} + b_comb) combines a learned explicit BM25-like sub-model s_{t,d}^{(explicit)} = IDF_t * BS(TF_{t,d}) / (BS(TF_{t,d}) + ReLU(w_dlen * BS(|d|) + b_dlen) + eps) using batch scaling BS(x) = x / (E[x] + eps) (Equations 9-10) with a length-normalized Conformer-Kernel RBF soft-match sub-model s_{t,d}^{(implicit)} (Equations 11-16), allowing all s_{t,d} values to be pre-computed offline and indexed for retrieval.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r792-primary-pdf">Conformer-Kernel with Query Term Independence for Document Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4 (Enforcing Query Term Independence), pp. 4-6, Figure 2, Equations (7)-(16)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r792-primary-pdf">Conformer-Kernel with Query Term Independence for Document Retrieval</a></span>
+        <span>· <strong>Locator:</strong> explicit_bm25_submodel and batch_scale verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#conformer-kernel-trec-dl-empirical-performance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On the TREC 2019 Deep Learning Track document ranking task (with documents up to |d| = 2000 tokens), Conformer-Kernel achieves 0.680 NDCG@10 and 0.371 MRR (and 0.629 NDCG@10 under QTI) compared to 0.525 NDCG@10 for BM25, while reducing training memory from 10.61 GB (TK at |d|=2000, batch size 8) to 0.83 GB at batch size 32.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r792-primary-pdf">Conformer-Kernel with Query Term Independence for Document Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 5 (Results), pp. 7-8, Tables 2-3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#conformer-kernel-qti-query-context-tradeoff</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Enforcing Query Term Independence (QTI) removes cross-term query contextualization, reducing NDCG@10 on the TREC DL 2019 test set from 0.680 (full Conformer-Kernel) to 0.629 (CK with QTI), and full-collection inverted-index retrieval requires sparsifying offline document scores to top-k vocabulary terms per document to bound index size.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r792-primary-pdf">Conformer-Kernel with Query Term Independence for Document Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4 (Figure 2c) &amp; Section 5 (Table 2 &amp; Discussion), pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Enforcing Query Term Independence sacrifices cross-term query contextualization (reducing TREC DL 2019 NDCG@10 from 0.680 to 0.629) and requires top-k vocabulary sparsification to keep offline inverted index sizes tractable.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Conformer-Kernel with QTI is a specialized hybrid convolutional-and-separable-attention neural network architecture for long-document ranking and inverted-index retrieval.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r792-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r792-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2007.10434.pdf" target="_blank" rel="noopener">Conformer-Kernel with Query Term Independence for Document Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bhaskar Mitra, Sebastian Hofstätter, Hamed Zamani, Nick Craswell
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2007.10434</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c25e181a2ce7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r792-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r792-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2007.10434" target="_blank" rel="noopener">Conformer-Kernel with Query Term Independence for Document Retrieval (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bhaskar Mitra, Sebastian Hofstätter, Hamed Zamani, Nick Craswell
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2007.10434</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7f5e799f6ac9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r792-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r792-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2007.10434" target="_blank" rel="noopener">Conformer-Kernel with Query Term Independence for Document Retrieval (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bhaskar Mitra, Sebastian Hofstätter, Hamed Zamani, Nick Craswell
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2007.10434</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c10c471fb7ea…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:35:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:35:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ConformerKernelWithQueryTermIndependenceForDocumentRetrieval.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ConformerKernelWithQueryTermIndependenceForDocumentRetrieval.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
