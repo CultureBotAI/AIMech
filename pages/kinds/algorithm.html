@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">633 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">634 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">633</span> of <span id="totalCount">633</span>
+      Showing <span id="matchCount">634</span> of <span id="totalCount">634</span>
     </div>
   </div>
 </div>
@@ -9361,6 +9361,32 @@
         <td>
             <span class="badge badge-mechanism" title="5 claims curated">5 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="matdot and polydot codes for straggler-resilient coded matrix multiplication matdotandpolydotcodesforstragglerresilientcodedmatrixmultiplication aimech:matdotandpolydotcodesforstragglerresilientcodedmatrixmultiplication algorithms algorithm a family of algebraic coded matrix-multiplication schemes proposed by dutta, fahim, haddadpour, jeong, cadambe, and grover (2017/2020) that reduces the straggler recovery threshold for distributed multiplication ab of n x n matrices under a 1/m per-worker storage constraint from m^2 (in polynomial codes) down to 2m - 1 in matdot codes—by partitioning a vertically into m column-blocks [a_0, ..., a_{m-1}] and b horizontally into m row-blocks [b_0^t, ..., b_{m-1}^t]^t, encoding p_a(x) = sum_{i=0}^{m-1} a_i x^i and p_b(x) = sum_{j=0}^{m-1} b_j x^{m-1-j}, and recovering ab = sum_{i=0}^{m-1} a_i b_i as the coefficient of x^{m-1} in p_a(x) p_b(x)—and unifies matdot and polynomial codes via polydot(m, s, t) codes (with st = m) to trade off worker-to-fusion communication cost o(n^2 / t^2) against recovery threshold k = t^2(2s - 1). distinct from polynomial codes (aimech:polynomialcodesforstragglerresilienthighdimensionalcodedmatrixmultiplication, which split a horizontally and b vertically into outer-product blocks requiring recovery threshold m^2 with o(n^2 / m^2) per-worker output communication). dutta et al. (allerton 2017 / ieee trans. inf. theory 2020 / arxiv:1801.10292, constructions 1-5 &amp; theorems 1-6, pp. 4-17) introduce four coupled constructions: (1) matdot codes (construction 1, theorem 1), which encode column-blocks of a as p_a(x) = sum_{i=0}^{m-1} a_i x^i and row-blocks of b as p_b(x) = sum_{j=0}^{m-1} b_j x^{m-1-j} so that ab = sum_{i=0}^{m-1} a_i b_i is the coefficient of x^{m-1} in the degree-(2m-2) product polynomial p_c(x) = p_a(x) p_b(x), achieving recovery threshold k = 2m - 1; (2) systematic matdot codes (construction 2, lemma 1, theorem 2), which encode p_a(x) = sum_{i=1}^m a_{i-1} l_i(x) and p_b(x) = sum_{i=1}^m b_{i-1} l_i(x) using lagrange basis polynomials l_i(x) so the first m workers output uncoded a_{r-1} b_{r-1} while any 2m - 1 workers suffice for interpolation; (3) polydot(m, s, t) codes (construction 3, lemma 2, theorem 3), which partition a into a t x s block grid and b into an s x t block grid (st = m) to achieve recovery threshold t^2(2s - 1) (improved to t^2 s + s - 1 under generalized substitution x = y^t, z = y^{st}, table i); and (4) n-matrix multiplication codes (constructions 4-5, theorems 4-6). matdot codes polydot codes systematic matdot codes matdot and polydot coded matrix multiplication matdot splits a vertically into m column-blocks a_i in f^{n x (n/m)} and b horizontally into m row-blocks b_j in f^{(n/m) x n}, encodes p_a(x) = sum_{i=0}^{m-1} a_i x^i and p_b(x) = sum_{j=0}^{m-1} b_j x^{m-1-j}, and recovers ab = sum_{i=0}^{m-1} a_i b_i as the coefficient of x^{m-1} in the degree-(2m - 2) polynomial p_c(x) = p_a(x) p_b(x) from any 2m - 1 workers (construction 1, theorem 1); systematic matdot (construction 2, lemma 1, theorem 2) uses lagrange basis polynomials l_i(x) so the first m workers directly output a_{r-1} b_{r-1} while retaining the 2m - 1 worst-case recovery threshold. for any factorization st = m dividing n, polydot(m, s, t) splits a into a t x s grid and b into an s x t grid and uses the bijection f(alpha, beta, gamma) = alpha + t beta + t(2s - 1) gamma (lemma 2, equation 13) to achieve recovery threshold k = t^2(2s - 1) with per-worker communication o(n^2 / t^2) (theorem 3), interpolating between matdot (s = m, t = 1, k = 2m - 1) and polynomial codes (s = 1, t = m, k = m^2); theorems 4-6 extend this construction to one-round coded multiplication of n &gt;= 3 matrices with recovery threshold 2m^{n/2} - 1 for even n and (m + 1)m^{floor(n/2)} - 1 for odd n. reducing the recovery threshold from m^2 to 2m - 1 in matdot increases the per-worker output dimension from (n/m) x (n/m) to a full n x n matrix (increasing total worker-to-fusion communication from o(n^2) to o(m n^2)), and when coded computing is applied to operations whose output size matches their o(n^4) computational complexity (such as kronecker tensor products a otimes b), fusion-node decoding overhead theta(n^4 log^2 m) becomes a bottleneck (section vii-a). applied to straggler- and fault-tolerant distributed matrix-matrix multiplication, chained multi-matrix products d^(1) d^(2) ... d^(n), and coded deep neural network training on unreliable compute clusters. on the optimal recovery threshold of coded matrix multiplication on the optimal recovery threshold of coded matrix multiplication (arxiv abstract) on the optimal recovery threshold of coded matrix multiplication (crossref metadata) sanghamitra dutta mohammad fahim farzin haddadpour haewon jeong viveck r. cadambe pulkit grover sanghamitra dutta mohammad fahim farzin haddadpour haewon jeong viveck r. cadambe pulkit grover sanghamitra dutta mohammad fahim farzin haddadpour haewon jeong viveck r. cadambe pulkit grover">
+        <td>
+          <a href="../curated/MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication.html" style="font-weight: 600; font-size: 1rem;">MatDot and PolyDot Codes for Straggler-Resilient Coded Matrix Multiplication</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> MatDot Codes, PolyDot Codes…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A family of algebraic coded matrix-multiplication schemes proposed by Dutta, Fahim, Haddadpour, Jeong, Cadambe, and Grover (2017/2020) that…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
