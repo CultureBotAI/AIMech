@@ -1,0 +1,102 @@
+id: AIMech:FedPopAndFedSoukBayesianHierarchicalPopulationPersonalizedFederatedLearning
+name: FedPop and FedSOUK (Bayesian Mixed-Effects Population Personalized Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Bayesian mixed-effects population modeling framework and stochastic optimization / compressed Langevin Markov chain Monte Carlo algorithm for personalized federated learning (Kotelevskii, Vono, Durmus, & Moulines 2022, Sections 2-3, Equations 3-11, Algorithm 1, Theorem 1) that decomposes each client i's network into a shared high-dimensional fixed-effect representation phi in R^{d_phi} and a low-dimensional client-specific random-effect parameter z_i in R^d (d << d_phi) drawn from a population prior p(z_i | theta) = N(z_0, Gamma) with hyper-parameters theta = (z_0, Gamma), and maximizes the marginal log-posterior log p(theta, phi | D_{1:b}) (Equations 4-8) via parallel local Unadjusted Langevin Algorithm (ULA) steps z_i^{(t, k+1)} = z_i^{(t, k)} - eta nabla_z U_i(theta^{(t)}, phi^{(t)}, z_i^{(t, k)}) + sqrt(2 eta) xi_i^{(t, k)} (Equation 9) and quantized local fixed-effect gradients uploaded to the server to update phi^{(t+1)} and theta^{(t+1)} (Equations 10-11, Algorithm 1, instantiated as FedSOUL and its compressed variant FedSOUK).
+identity_notes: Distinct from pFedBayes (AIMech:PFedBayesPersonalizedFederatedLearningViaVariationalBayesianInference, Zhang et al. 2022), which places a full-dimensional diagonal Gaussian variational distribution over all neural network weights (doubling communication cost) rather than a mixed-effects model with deterministic shared representation phi and low-dimensional Langevin-sampled random effects z_i in R^d (d << d_phi); and distinct from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which computes point-estimate local heads z_i without a shared population prior N(z_0, Gamma), empirical Bayes shrinkage on small-sample clients, or posterior uncertainty quantification.
+aliases:
+- FedPop
+- FedSOUK
+- FedSOUL
+- Federated Population Bayesian Mixed-Effects Learning
+definition_evidence:
+- source_id: r483-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r483-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r483-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r483-mixed-effects-population-prior-and-compressed-langevin-mechanism
+  kind: mechanism
+  statement: FedPop models client parameters via shared fixed effects phi and low-dimensional random effects z_i ~ p(z_i | theta) = N(z_0, Gamma) (Equation 4); in each round t of FedSOUL/FedSOUK (Algorithm 1), active clients run K local Langevin Monte Carlo steps on z_i (Equation 9) and I local stochastic gradient steps on phi_i, transmitting only the single final sample z_i^{(t, K)} in R^d and compressed fixed-effect update Q(Delta phi_i^{(t)}) to the server, which updates the population prior theta^{(t+1)} and global representation phi^{(t+1)} (Kotelevskii et al. 2022, Section 3, Equations 8-11, Algorithm 1, pp. 4-6).
+  evidence:
+  - source_id: r483-primary-pdf
+    locator: Section 3 (Equations 8-11, Algorithm 1), pp. 4-6
+    relation: supports
+- claim_id: r483-non-asymptotic-wasserstein-and-iterate-convergence-scope
+  kind: scope
+  statement: Under strong convexity and L-smoothness of the negative log-posterior potentials U_i (Assumptions H1-H3) and unbiased quantization Q (Assumption H4), Theorem 1 establishes explicit non-asymptotic bounds on both the optimization error E[||theta^{(t)} - theta^*||_2^2 + ||phi^{(t)} - phi^*||_2^2] and the Wasserstein-2 distance W_2^2 between the empirical Langevin distribution and the true conditional posterior (Kotelevskii et al. 2022, Section 3.2, Theorem 1, p. 6).
+  evidence:
+  - source_id: r483-primary-pdf
+    locator: Section 3.2 (Assumptions H1-H4, Theorem 1, Equation 12), p. 6
+    relation: supports
+- claim_id: r483-uncertainty-calibration-and-new-client-inference-application
+  kind: application
+  statement: Applied to personalized federated classification, uncertainty calibration (reliability diagrams), and zero-shot / few-shot new-client generalization by sampling z_{b+1} ~ p(z | theta^{T}) on synthetic regression, CIFAR-10, and CIFAR-100 benchmarks (Kotelevskii et al. 2022, Section 5, Tables 1-2, Figures 2-3).
+  evidence:
+  - source_id: r483-primary-pdf
+    locator: Section 5 (Experiments, Tables 1-2, Figures 2-3), pp. 7-9
+    relation: supports
+- claim_id: r483-unadjusted-langevin-discretization-bias-limitation
+  kind: limitation
+  statement: Using a fixed local Langevin step size eta > 0 without Metropolis-Hastings correction introduces an O(eta) discretization bias floor in the asymptotic posterior and hyper-parameter estimates (Theorem 1, Equation 12) unless eta is annealed toward zero (Kotelevskii et al. 2022, Section 3.2, p. 6).
+  evidence:
+  - source_id: r483-primary-pdf
+    locator: Section 3.2 (Theorem 1 & discussion of step-size bias), p. 6
+    relation: supports
+evidence_sources:
+- source_id: r483-primary-pdf
+  title: 'FedPop: A Bayesian Approach for Personalised Federated Learning'
+  authors: &id001
+  - Nikita Kotelevskii
+  - Maxime Vono
+  - Alain Durmus
+  - Eric Moulines
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2206.03611.pdf
+  persistent_id: https://arxiv.org/abs/2206.03611
+  version: NeurIPS 2022 (2022) (352 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:26:00Z'
+  sha256: 3309cdf1e0b11a69f79c6d7c32be77a9014f0dea29dbaa2debc8cf9e7d319390
+- source_id: r483-arxiv-abs
+  title: 'FedPop: A Bayesian Approach for Personalised Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2206.03611
+  persistent_id: https://arxiv.org/abs/2206.03611
+  version: arXiv abstract page (700 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:26:00Z'
+  sha256: 8f0bca1d1af33ca4221cee7a2ac0f074f8d1b683b54e28696e2109d03be39148
+- source_id: r483-metadata-cr
+  title: 'FedPop: A Bayesian Approach for Personalised Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2206.03611
+  persistent_id: https://arxiv.org/abs/2206.03611
+  version: Crossref API work record (944 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:26:00Z'
+  sha256: d2470e23bd166356ef82cd5a1e508b55ccf697fe04166899819cf1a0e3f6f4b0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedPop and FedSOUK are Bayesian mixed-effects personalized federated learning algorithms within the broader FederatedLearning category.
+limitations:
+- Exhibits an O(eta) discretization bias floor from Unadjusted Langevin Algorithm steps when run with constant local step size eta.
+- Uploading local random-effect samples z_i^{(t, K)} to update the population prior theta may leak client head information unless protected by differential privacy or secure aggregation.
+curation:
+  created_at: '2026-10-19T09:26:00Z'
+  updated_at: '2026-10-19T09:26:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
