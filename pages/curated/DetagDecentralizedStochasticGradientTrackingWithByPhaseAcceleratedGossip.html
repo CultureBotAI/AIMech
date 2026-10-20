@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeTAG Decentralized Stochastic Gradient Tracking with By-Phase Accelerated Gossip · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>DeTAG Decentralized Stochastic Gradient Tracking with By-Phase Accelerated Gossip</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DeTAG Decentralized Stochastic Gradient Tracking with By-Phase Accelerated Gossip</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DetagDecentralizedStochasticGradientTrackingWithByPhaseAcceleratedGossip</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DeTAG, Decentralized Stochastic Gradient Tracking with By-Phase Accelerated Gossip, By-Phase Accelerated Gossip Gradient Tracking
+    </div>
+
+  <div class="detail-desc">
+    A decentralized stochastic non-convex optimization algorithm (DeTAG) that partitions training into phases of length R, concurrently executing R steps of momentum-accelerated gossip z_{r+1,i} = (1 + eta) sum_{j in N_i U {i}} z_{r,j} W_{ji} - eta z_{r-1,i} with eta = (1 - sqrt(1 - lambda^2)) / (1 + sqrt(1 - lambda^2)) on both the model replica x_tilde and gradient tracker y while accumulating B*R stochastic gradient queries at the fixed phase point x_{k,i}, and updating x_{k+1} = AG_R(x_k - alpha * y_k) and y_{k+1} = AG_R(y_k + g_tilde_k - g_tilde_{k-1}) at each phase boundary to achieve near-minimax-optimal sample and communication complexity.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Yucheng Lu and Christopher De Sa (ICML 2021, PMLR Vol. 139, pp. 7111-7123; arXiv:2006.08085). Distinct from standard Decentralized Stochastic Gradient Tracking (DSGT / GT-DSGD, Pu &amp; Nedic 2020; Zhang &amp; You 2019; Xin et al. 2021), which corresponds to the unaccelerated single-step special case R = 1, eta = 0 and incurs suboptimal O((1 - lambda)^(-3)) spectral-gap dependence; and distinct from RelaySum / RelaySGD (Vogels et al., NeurIPS 2021, Round 549), which routes unattenuated sums over spanning trees rather than running by-phase Chebyshev-accelerated gossip with gradient tracking on arbitrary doubly-stochastic gossip matrices.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#detag-by-phase-accelerated-gossip-and-gradient-tracker-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Within each phase k of R iterations, each worker i simultaneously accumulates R stochastic gradient batches g_(k) at fixed parameters x_{k,i} while applying R steps of Accelerated Gossip AG(z, W) with extrapolation weight eta = (1 - sqrt(1 - lambda^2)) / (1 + sqrt(1 - lambda^2)) to both the model replica x_tilde and gradient tracker y, contracting consensus error by factor rho = (1 - sqrt(1 - lambda_2(W)))^R before performing the phase-end tracker update y_{t+1,i} &lt;- y_{t+1,i} + g_(k) - g_(k-1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r552-primary-pdf">Optimal Complexity in Decentralized Training</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Algorithms 2-3 &amp; Appendix B.4 Equations (52)-(61), pp. 9-10, 24</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#detag-near-optimal-nonconvex-sample-and-communication-complexity-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For L-smooth non-convex objectives with bounded initial heterogeneity (1/n) sum_i ||grad f_i(0) - grad f(0)||^2 &lt;= varsigma_0^2 and gossip second eigenvalue lambda, setting phase length R = max((1/2) log n, (1/2) log(varsigma_0^2 T / (Delta * L))) / sqrt(1 - lambda) enables DeTAG to reach an epsilon-stationary point in O(Delta * L * sigma^2 / (n * B * epsilon^4) + Delta * L * log(n + varsigma_0 * n / (epsilon * sqrt(Delta * L))) / (epsilon^2 * sqrt(1 - lambda))) iterations, matching the information-theoretic lower bound of Corollary 1 up to a logarithmic factor.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r552-primary-pdf">Optimal Complexity in Decentralized Training</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Theorem 1 &amp; Corollary 1, Section 6 Theorem 3, Table 2, pp. 3, 7, 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#detag-phase-length-and-spectral-gap-tuning-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires tuning or estimating the gossip acceleration parameter eta (which depends on the second largest eigenvalue lambda of W) and the phase length R, and holds the model query point x_{k,i} fixed across the R inner steps of each phase.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r552-primary-pdf">Optimal Complexity in Decentralized Training</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Understanding the phase length R &amp; Appendix A.1-A.2, pp. 10, 18-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#detag-unshuffled-cifar-sparse-graph-training-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to decentralized training of LeNet on unshuffled non-IID CIFAR-10 and ResNet-20 on CIFAR-100 across sparse ring topologies with small spectral gaps (1 - lambda down to 4e-4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r552-primary-pdf">Optimal Complexity in Decentralized Training</a></span>
+        <span>· <strong>Locator:</strong> Section 7 Experiments, Figures 2-3, pp. 10-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires a doubly-stochastic gossip matrix W and tuning of the phase length R and acceleration weight eta.</li>
+      <li>Accumulates gradients at a fixed phase iterate x_{k,i} across R steps unless modified with heuristic local steps.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:FederatedLearning covers distributed training over local datasets, whereas DeTAG is a serverless decentralized stochastic gradient-tracking algorithm with R-step Chebyshev-accelerated gossip phases.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r552-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r552-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2006.08085.pdf" target="_blank" rel="noopener">Optimal Complexity in Decentralized Training</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yucheng Lu, Christopher De Sa
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/LuS21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:720a7e94166b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r552-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r552-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2006.08085" target="_blank" rel="noopener">Optimal Complexity in Decentralized Training (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yucheng Lu, Christopher De Sa
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2006.08085</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:310417162cf8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r552-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r552-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/LuS21" target="_blank" rel="noopener">Optimal Complexity in Decentralized Training (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yucheng Lu, Christopher De Sa
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/LuS21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f37c01f632ed…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:35:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:35:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DetagDecentralizedStochasticGradientTrackingWithByPhaseAcceleratedGossip.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DetagDecentralizedStochasticGradientTrackingWithByPhaseAcceleratedGossip.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
