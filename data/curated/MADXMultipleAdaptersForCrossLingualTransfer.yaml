@@ -1,0 +1,105 @@
+id: AIMech:MADXMultipleAdaptersForCrossLingualTransfer
+name: MAD-X Multiple Adapters for Cross-Lingual Transfer
+concept_kind: architecture
+review_status: DRAFT
+definition: 'A modular adapter-based architecture and transfer framework for pre-trained multilingual Transformers that combines three distinct adapter modules while keeping backbone parameters frozen: (1) language adapters LA_l(h_l, r_l) = U_l(ReLU(D_l(h_l))) + r_l trained via masked language modeling (MLM) on unlabeled monolingual corpora, (2) task adapters TA_l(h_l, r_l) = U_l(ReLU(D_l(LA_l))) + r_l stacked atop the fixed source-language adapter during downstream task training, and (3) NICE-coupled invertible adapters A_inv and A_inv^{-1} wrapping tied input and output token embeddings, enabling zero-shot cross-lingual transfer by substituting target-language invertible and language adapters at inference.'
+identity_notes: Introduced by Jonas Pfeiffer, Ivan Vulic, Iryna Gurevych, and Sebastian Ruder (EMNLP 2020, pp. 7654-7673, arXiv:2005.00052) as MAD-X (Multiple ADapters for Cross-lingual transfer). Distinct from AdapterFusion (AIMech:AdapterFusion), which combines multiple task adapters via a softmax attention layer rather than stacking language, task, and invertible adapters for cross-lingual transfer; and from LT-SFT (AIMech:LTSFTLotteryTicketSparseFineTuning), which composes sparse parameter difference vectors in weight space without adding adapter layers.
+aliases:
+- MAD-X
+- Multiple Adapters for Cross-Lingual Transfer
+- MAD-X Invertible Adapter Framework
+definition_evidence:
+- source_id: r713-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r713-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r713-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: madx-stacked-language-and-task-bottleneck-adapters
+  kind: mechanism
+  statement: At each Transformer layer l, MAD-X inserts a language adapter LA_l(h_l, r_l) = U_l(ReLU(D_l(h_l))) + r_l after the feed-forward layer normalization (with FFN residual r_l) and stacks a task adapter TA_l(h_l, r_l) = U_l^TA(ReLU(D_l^TA(LA_l))) + r_l on top, training LA_l via MLM on unlabeled language data and TA_l on labeled source-language task data while keeping LA_l fixed, then swapping LA_l^src with LA_l^trg at inference for zero-shot transfer.
+  evidence:
+  - source_id: r713-primary-pdf
+    locator: Section 4.1-4.2, Equations (1)-(2), Figure 1, pp. 3-4
+    relation: supports
+- claim_id: madx-nice-coupled-invertible-embedding-adapters
+  kind: mechanism
+  statement: To adapt tied input and output token embeddings without overfitting output embeddings to MLM, MAD-X splits each h-dimensional token embedding e = [e_1, e_2] into e_1, e_2 in R^{h/2} and applies an exactly invertible NICE coupling layer o_1 = F(e_2) + e_1, o_2 = G(o_1) + e_2 after the input embeddings and its exact inverse e_2 = o_2 - G(o_1), e_1 = o_1 - F(e_2) before the tied output embeddings, where F and G are ReLU bottleneck projections with hidden dimension h/4.
+  evidence:
+  - source_id: r713-primary-pdf
+    locator: Section 4.3, Equations (3)-(5), Figure 2, p. 4
+    relation: supports
+- claim_id: madx-cross-lingual-ner-xcopa-xquad-transfer
+  kind: application
+  statement: Adding only 3.05% parameters per language (8.25M parameters on XLM-R Base), MAD-X improves average cross-lingual WikiANN NER F1 across all 16x16 source-target language pairs (including 8 unseen low-resource languages) from 32.6 to 38.2 (+5.6 F1) and zero-shot transfer from English from 41.6 to 53.2 (+11.6 F1), while outperforming XLM-R on XCOPA causal commonsense reasoning (61.5 vs. 59.7).
+  evidence:
+  - source_id: r713-primary-pdf
+    locator: Section 6-7, Tables 2-6, pp. 6-8, 12
+    relation: supports
+  - source_id: r713-metadata-cr
+    locator: EMNLP 2020 bibliographic record
+    relation: supports
+- claim_id: madx-task-only-unseen-language-and-monolingual-corpus-limitation
+  kind: limitation
+  statement: Using task adapters alone without language and invertible adapters (MAD-X - LAD - INV) degrades significantly on unseen languages (29.8 vs. 38.2 average NER F1), and MAD-X requires unlabeled monolingual corpora in each target language to pretrain its language and invertible adapters via MLM.
+  evidence:
+  - source_id: r713-primary-pdf
+    locator: Section 6-8, Table 2, pp. 6-9
+    relation: supports
+evidence_sources:
+- source_id: r713-primary-pdf
+  title: 'MAD-X: An Adapter-Based Framework for Multi-Task Cross-Lingual Transfer'
+  authors: &id001
+  - Jonas Pfeiffer
+  - Ivan Vulic
+  - Iryna Gurevych
+  - Sebastian Ruder
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2005.00052.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=MAD-X+An+Adapter-Based+Framework+for+Multi-Task+Cross-Lingual+Transfer&h=5&format=xml
+  version: Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP 2020), pp. 7654-7673 (2020) (2412365 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:16:00Z'
+  sha256: d7cc5f7342fff37b34f8a712e8ebf81583f4a4a280e3a9ecd87eb6c0ef987b84
+- source_id: r713-arxiv-abs
+  title: 'MAD-X: An Adapter-Based Framework for Multi-Task Cross-Lingual Transfer (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2005.00052
+  persistent_id: https://arxiv.org/abs/2005.00052
+  version: arXiv abstract page (6790 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:16:00Z'
+  sha256: 2466a94efab2a251f435020fb79cc3c5b7826615d66e6f6a48a0545585b84686
+- source_id: r713-metadata-cr
+  title: 'MAD-X: An Adapter-Based Framework for Multi-Task Cross-Lingual Transfer (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=MAD-X+An+Adapter-Based+Framework+for+Multi-Task+Cross-Lingual+Transfer&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=MAD-X+An+Adapter-Based+Framework+for+Multi-Task+Cross-Lingual+Transfer&h=5&format=xml
+  version: Crossref API work record (934 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:16:00Z'
+  sha256: aba0280ee8dbbc4e729fd7cdbee0821ff045857def6d29c8b4811087a49d0102
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: MAD-X is a modular neural adapter architecture for cross-lingual transfer in pre-trained multilingual Transformer networks.
+limitations:
+- Requires unlabeled monolingual text in each target language to train language and invertible adapters via masked language modeling before zero-shot task transfer.
+- Without language and invertible adapters, task adapters alone lack the capacity to bridge script and vocabulary mismatches on languages unseen during multilingual pretraining.
+- Inserted serial language, task, and invertible adapter layers add sequential operations to every Transformer layer during inference.
+curation:
+  created_at: '2026-10-19T13:16:00Z'
+  updated_at: '2026-10-19T13:16:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
