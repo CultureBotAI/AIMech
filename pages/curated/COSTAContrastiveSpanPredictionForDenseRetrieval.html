@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COSTA Contrastive Span Prediction Pre-Training for Dense Retrieval · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>COSTA Contrastive Span Prediction Pre-Training for Dense Retrieval</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">COSTA Contrastive Span Prediction Pre-Training for Dense Retrieval</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:COSTAContrastiveSpanPredictionForDenseRetrieval</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> COSTA, Contrastive Span Prediction for Dense Retrieval, Pre-train a Discriminative Text Encoder for Dense Retrieval via Contrastive Span Prediction
+    </div>
+
+  <div class="detail-desc">
+    A decoder-free self-supervised pre-training algorithm for dense text retrieval that samples T spans at each of four granularities (word, phrase, sentence, and paragraph) per input document d_i using Beta-distributed span lengths p_span ~ Beta(alpha, beta), l_span = p_span (l_max - l_min) + l_min, encodes the whole document d_i = ([CLS], x_1, ..., x_n) in a single forward pass of a bidirectional Transformer encoder into token hidden states h_0, h_1, ..., h_n, transforms the whole-text [CLS] representation through a nonlinear projector z_i = Tanh(FFN(h_0)) while pooling each sampled span p in S(i) via token average pooling z_p = AvgPooling([h_start, ..., h_{end-1}]), and jointly optimizes Masked Language Modeling L_MLM and a Group-Wise Contrastive loss L_GWC = sum_{i=1}^N -(1/(4T)) sum_{p in S(i)} log(exp(sim(z_i, z_p)/tau) / sum_{j=1}^{N(4T+1)} 1_{[i != j]} exp(sim(z_i, z_j)/tau)) that pulls each whole-text representation toward all 4T of its own multi-granularity spans while pushing it away from all other whole-text and span representations in the mini-batch.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from SEED-Encoder (AIMech:SEEDPreTrainingStrongTextEncoderUsingWeakDecoder), Condenser (AIMech:CondenserPreTrainingArchitectureForDenseRetrieval), RetroMAE (AIMech:RetroMAERetrievalOrientedMaskedAutoEncoder), and CoT-MAE (AIMech:CoTMAEContextualMaskedAutoEncoderForDensePassageRetrieval), all of which attach an auxiliary decoder or head during pre-training to reconstruct tokens via generative cross-entropy rather than decoder-free multi-granularity group-wise contrastive span alignment; and distinct from coCondenser (AIMech:CoCondenserUnsupervisedCorpusAwareLanguageModelPreTraining), which contrasts pairs of random document spans using a Condenser skip-connection head rather than aligning a nonlinearly projected whole-text [CLS] vector against 4T multi-granularity pooled spans from the same encoder pass.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#costa-multi-granularity-span-pooling-and-nonlinear-projector</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    COSTA samples T spans at each of 4 granularities (word-level, phrase-level [4, 16], sentence-level [16, 64], and paragraph-level [64, 128]) using Beta(alpha=4, beta=2) length sampling (Equations 1-3) and extracts both the whole-text representation z_0 = Tanh(FFN(h_0)) and all 4T span representations z_i = AvgPooling([h_start, ..., h_{end-1}]) from a single forward pass of the Transformer encoder (Equations 4-7, Algorithm 1), where the nonlinear Tanh-FFN projector prevents representation collapse between same-layer [CLS] and span outputs (Table 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r767-primary-pdf">Pre-train a Discriminative Text Encoder for Dense Retrieval via Contrastive Span Prediction</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Section 4.5.1 &amp; Section 5.3.3, Equations 1-7, Algorithm 1, Tables 4 &amp; 6, pp. 3-4, 6, 8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r767-primary-pdf">Pre-train a Discriminative Text Encoder for Dense Retrieval via Contrastive Span Prediction</a></span>
+        <span>· <strong>Locator:</strong> main() verification of Beta(4, 2) span length expectation and multi-granularity intervals</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#costa-group-wise-contrastive-loss</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given a mini-batch of N documents and their N * 4T spans (forming N(4T+1) representations), COSTA optimizes the Group-Wise Contrastive loss L_GWC = sum_{i=1}^N -(1/(4T)) sum_{p in S(i)} log(exp(sim(z_i, z_p)/tau) / sum_{j=1}^{N(4T+1)} 1_{[i != j]} exp(sim(z_i, z_j)/tau)) jointly with L_MLM via L_total = lambda L_GWC + L_MLM (Equations 8-9), eliminating the decoder bypass effect and producing more discriminative document clusters than SEED-Encoder (Figure 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r767-primary-pdf">Pre-train a Discriminative Text Encoder for Dense Retrieval via Contrastive Span Prediction</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.2-3.3 &amp; Section 5.4, Equations 8-9, Figure 3, pp. 4-5, 9</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r767-primary-pdf">Pre-train a Discriminative Text Encoder for Dense Retrieval via Contrastive Span Prediction</a></span>
+        <span>· <strong>Locator:</strong> main() verification of group_wise_contrastive_loss L_GWC on aligned vs unaligned span groups</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#costa-dense-retrieval-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Pre-trained on Wikipedia and fine-tuned on MS MARCO Passage Ranking, TREC 2019 DL Passage, MS MARCO Document Ranking, and TREC 2019 DL Document, COSTA significantly outperforms BERT, ICT, PROP, B-PROP, and SEED under identical fine-tuning (reaching 0.366 MRR@10 on MS MARCO Dev Passage and 0.422 MRR@100 on MS MARCO Dev Doc in Tables 1-3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r767-primary-pdf">Pre-train a Discriminative Text Encoder for Dense Retrieval via Contrastive Span Prediction</a></span>
+        <span>· <strong>Locator:</strong> Sections 5.1-5.2 &amp; 5.5, Tables 1-3, Figure 4, pp. 6-7, 9</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r767-metadata-cr">Pre-train a Discriminative Text Encoder for Dense Retrieval via Contrastive Span Prediction (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> BibTeX citation record for arXiv:2204.10641 (SIGIR 2022, doi:10.1145/3477495.3531772)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#costa-span-count-and-temperature-sensitivity-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Sampling too many spans per granularity (e.g., T = 20, requiring each whole-text vector to align simultaneously with 80 random spans) slows convergence and degrades retrieval MRR@10 from 0.339 (at T = 5) to 0.320 (Table 5), and L_GWC is highly sensitive to the temperature hyperparameter tau (dropping from 0.335 MRR@10 at tau = 0.1 to 0.274 at tau = 10 and 0.267 at tau = 0.01 in Table 7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r767-primary-pdf">Pre-train a Discriminative Text Encoder for Dense Retrieval via Contrastive Span Prediction</a></span>
+        <span>· <strong>Locator:</strong> Sections 5.3.2 &amp; 5.3.4, Tables 5 &amp; 7, pp. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Increasing the number of sampled spans per granularity beyond T = 5 (e.g., T = 10 or 20) makes the simultaneous multi-positive alignment objective harder to optimize early in training and reduces downstream MRR (Table 5).</li>
+      <li>Highly sensitive to the contrastive temperature hyperparameter tau, with both tau &gt;= 1 and tau &lt;= 0.01 degrading MRR@10 compared to tau = 0.1 (Table 7).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            COSTA pre-trains a deep bidirectional Transformer neural network encoder with a nonlinear Tanh-FFN projection head using a multi-granularity group-wise contrastive loss.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r767-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r767-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2204.10641" target="_blank" rel="noopener">Pre-train a Discriminative Text Encoder for Dense Retrieval via Contrastive Span Prediction</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xinyu Ma, Jiafeng Guo, Ruqing Zhang, Yixing Fan, Xueqi Cheng
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2204.10641</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:56c045b2ff35…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r767-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r767-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2204.10641" target="_blank" rel="noopener">Pre-train a Discriminative Text Encoder for Dense Retrieval via Contrastive Span Prediction (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xinyu Ma, Jiafeng Guo, Ruqing Zhang, Yixing Fan, Xueqi Cheng
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2204.10641</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a5d064c08e33…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r767-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r767-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2204.10641" target="_blank" rel="noopener">Pre-train a Discriminative Text Encoder for Dense Retrieval via Contrastive Span Prediction (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xinyu Ma, Jiafeng Guo, Ruqing Zhang, Yixing Fan, Xueqi Cheng
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2204.10641</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c8212eee6f05…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:10:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:10:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/COSTAContrastiveSpanPredictionForDenseRetrieval.yaml" target="_blank" rel="noopener">
+      <code>data/curated/COSTAContrastiveSpanPredictionForDenseRetrieval.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
