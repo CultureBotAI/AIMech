@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moshpit SGD and Moshpit All-Reduce · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Moshpit SGD and Moshpit All-Reduce</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Moshpit SGD and Moshpit All-Reduce</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Moshpit SGD, Moshpit All-Reduce, Moshpit Averaging
+    </div>
+
+  <div class="detail-desc">
+    A fault-tolerant, communication-efficient decentralized averaging protocol (Moshpit All-Reduce, Algorithm 1) and distributed local stochastic gradient optimization method (Moshpit SGD, Algorithm 2) designed for training on heterogeneous, unreliable, or preemptible compute nodes. Instead of running fragile global Ring All-Reduce across all N peers or slow sparse-graph gossip, Moshpit All-Reduce dynamically partitions peers into small independent groups of size at most M using Distributed Hash Table (DHT) matchmaking keyed by tuples of their d - 1 most recent Butterfly All-Reduce chunk indices C_i^t = (c_i^{t-d+1}, ..., c_i^t), ensuring that any two peers grouped together at round t join different groups at round t + 1. Moshpit SGD interleaves tau local SGD steps on active peers P_{k+1} with periodic Moshpit All-Reduce synchronization, achieving topology-independent exponential averaging and Local-SGD-equivalent iteration complexity even under peer churn.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from global Ring/Butterfly All-Reduce (where a single straggler or failed peer stalls the entire cluster) and from gossip or PushSum decentralized SGD (whose convergence rate degrades with the spectral gap 1 - lambda_2(M) of a fixed sparse communication graph). Moshpit All-Reduce uses DHT-coordinated hypercube chunk-history keys to form disjoint small All-Reduce groups whose expected squared distortion contracts exponentially at rate ((r - 1)/N + r/N^2)^T independent of graph spectral gap.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#hypercube-chunk-index-dht-matchmaking-and-exact-full-grid-averaging</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In Moshpit All-Reduce (Algorithm 1), each peer i maintains a group key C_i^t = (c_i^{t-d+1}, ..., c_i^t) of its d - 1 previous Butterfly All-Reduce chunk indices so that peers sharing a group in round t are assigned distinct group keys in round t + 1. Theorem C.1 proves that when N = M^d peers occupy a full d-dimensional hypercube without failures, Moshpit All-Reduce computes the exact global average (1/M^d) sum_{j=1}^{M^d} theta_j across all peers in exactly d communication rounds, and Theorem 3.1 proves almost-sure convergence to the global average under random peer orderings whenever each worker has a non-zero probability of completing a round.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r580-primary-pdf">Moshpit SGD: Communication-Efficient Decentralized Training on Heterogeneous Unreliable Devices</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Algorithm 1, Equations (1)-(3), Theorem 3.1, pp. 4-5; Appendix C.1-C.2, Theorem C.1, pp. 21-23</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#exponential-distortion-contraction-and-binomial-dropout-variance-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under random splitting of N peers into r disjoint groups of sizes M_1^k, ..., M_r^k, Theorem 3.2 (Theorem C.3) proves that the expected average squared distortion from the mean bar{theta} contracts after T rounds by ((r - 1)/N + r/N^2)^T, and Theorem C.4 (with Lemma C.1) proves that when peers drop out independently with survival probability p &gt;= 2/3 and grid size M &gt;= 11, the output variance of Moshpit Averaging satisfies E[||theta_i^T - E_theta[theta_i^T]||^2] &lt;= 2 sigma^2 / (M (M / 3)^{T - 1}).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r580-primary-pdf">Moshpit SGD: Communication-Efficient Decentralized Training on Heterogeneous Unreliable Devices</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.1, Theorem 3.2, Equation (5), p. 5; Appendix C.3-C.4, Theorem C.3, Lemma C.1, and Theorem C.4, Equations (18)-(26), pp. 23-31</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r580-metadata-cr">Moshpit SGD: Communication-Efficient Decentralized Training on Heterogeneous Unreliable Devices (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic record</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#moshpit-sgd-convergence-under-peer-vanishing-and-linear-programming-load-balancing</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under bounded local gradient variance sigma^2 (Assumption 3.1) and bounded peer-vanishing drift Delta_{pv}^k and averaging error gamma^2 delta_{aq}^2 (Assumption 3.2), Theorems 3.3 and 3.4 prove that Moshpit SGD (Algorithm 2) matches Centralized Local-SGD iteration complexity in both mu-strongly convex/convex and L-smooth nonconvex regimes without any spectral-gap factor, while Appendix G formulates a linear program min_{w, xi} xi subject to sum_{i=1}^M w_i = 1, w_i &gt;= 0, and xi &gt;= (1 - w_i + (M - 1) w_i) / b_i to balance Butterfly All-Reduce partition weights w_i across peers with heterogeneous bandwidths b_i.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r580-primary-pdf">Moshpit SGD: Communication-Efficient Decentralized Training on Heterogeneous Unreliable Devices</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.2, Algorithm 2, Assumptions 3.1-3.2, Theorems 3.3-3.4, pp. 6-7; Appendix D and G, pp. 31-45</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#partially-occupied-grid-and-adaptive-optimizer-pseudo-gradient-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When the active peer count N is much smaller than the hypercube capacity M^d, deterministic hypercube coordinates can produce uneven or singleton groups (Section 4.1), and when combined with adaptive optimizers such as LAMB on language model pretraining, direct parameter averaging can diverge unless workers recover pseudo-gradients after averaging to update local optimizer statistics (Section 4.3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r580-primary-pdf">Moshpit SGD: Communication-Efficient Decentralized Training on Heterogeneous Unreliable Devices</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Observation 4, p. 8; Section 4.3, p. 10; Appendix C.1, p. 22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires a Distributed Hash Table (such as Kademlia DHT) and background asynchronous matchmaking RPCs to assemble groups before each averaging round.</li>
+      <li>On single-node multi-GPU servers with reliable high-speed PCIe/NVLink interconnect, TCP-based Moshpit All-Reduce has higher overhead than direct Ring All-Reduce.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Moshpit SGD and Moshpit All-Reduce enable fault-tolerant decentralized and federated training across unreliable, heterogeneous devices with dynamic peer participation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r580-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r580-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2103.03239" target="_blank" rel="noopener">Moshpit SGD: Communication-Efficient Decentralized Training on Heterogeneous Unreliable Devices</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Max Ryabinin, Eduard Gorbunov, Vsevolod Plokhotnyuk, Gennady Pekhimenko
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Moshpit+SGD+Ryabinin+Gorbunov&amp;format=json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:54fe0d1a22d8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r580-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r580-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2103.03239" target="_blank" rel="noopener">Moshpit SGD: Communication-Efficient Decentralized Training on Heterogeneous Unreliable Devices (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Max Ryabinin, Eduard Gorbunov, Vsevolod Plokhotnyuk, Gennady Pekhimenko
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2103.03239</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:65f71dc6d803…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r580-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r580-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Moshpit+SGD+Ryabinin+Gorbunov&amp;format=json" target="_blank" rel="noopener">Moshpit SGD: Communication-Efficient Decentralized Training on Heterogeneous Unreliable Devices (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Max Ryabinin, Eduard Gorbunov, Vsevolod Plokhotnyuk, Gennady Pekhimenko
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Moshpit+SGD+Ryabinin+Gorbunov&amp;format=json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ed897f73133e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:03:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:03:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
