@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LaPraDoR Iterative Contrastive Learning and Lexicon-Enhanced Dense Retrieval · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>LaPraDoR Iterative Contrastive Learning and Lexicon-Enhanced Dense Retrieval</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">LaPraDoR Iterative Contrastive Learning and Lexicon-Enhanced Dense Retrieval</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LaPraDoRUnsupervisedPretrainedDenseRetrieverZeroShot</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LaPraDoR, Large-scale Pretrained Dense Zero-shot Retriever, ICoL and LEDR for Unsupervised Zero-Shot Dense Retrieval
+    </div>
+
+  <div class="detail-desc">
+    An unsupervised dual-tower dense retrieval pre-training and zero-shot inference algorithm that combines Inverse Cloze Task (ICT) and Dropout as Positive Instance (DaPI) supervision under Iterative Contrastive Learning (ICoL)—which alternates training between the query encoder E_Q (optimizing L_q = L_qd + lambda L_qq with E_D frozen while enqueuing frozen document embeddings into a FIFO cache queue Q) and the document encoder E_D (optimizing L_d = L_dq + lambda L_dd with E_Q frozen while enqueuing frozen query embeddings into Q, clearing Q whenever the active encoder switches so all cached negative representations lie in the exact same hidden space)—and performs zero-shot retrieval via Lexicon-Enhanced Dense Retrieval (LEDR) by multiplying the mean-pooled cosine similarity sim(q, d) with the BM25 lexical score: score(q, d) = sim(q, d) * BM25(q, d).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from MoCo (AIMech:MomentumContrastiveLearning) and xMoCo, which maintain slow momentum-updated target encoders whose older queued representations drift across different hidden spaces over training steps; distinct from Contriever (AIMech:ContrieverUnsupervisedDenseInformationRetrievalWithContrastiveLearning), which uses a MoCo momentum queue with random cropping and inverse cloze without alternating frozen-encoder cache clearing or multiplicative BM25 scoring; and distinct from COIL (AIMech:COILContextualizedInvertedList), which stores contextualized token vectors in an inverted list rather than multiplying a single global mean-pooled cosine similarity with BM25.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#laprador-iterative-contrastive-learning-cache-alignment</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Iterative Contrastive Learning (ICoL, Section 3.3, Equations 2-7, Figure 2) alternates training between E_Q (minimizing L_q = L_qd + lambda L_qq while E_D is frozen) and E_D (minimizing L_d = L_dq + lambda L_dd while E_Q is frozen), storing gradient-free representations from the currently frozen encoder in a large FIFO cache queue Q (capacity m = 100k) and clearing Q at every switch so that all fresh and cached negative instances in L_qd and L_dq reside in the exact same hidden space without requiring extra momentum encoders.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r762-primary-pdf">LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 Iterative Contrastive Learning &amp; Section 4.2.1, Equations 2-7, Figure 2, Table 2, pp. 3-5, 7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r762-primary-pdf">LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> main() verification of icol_qd_loss negative expansion and zero hidden-space drift across cached frozen representations</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#laprador-lexicon-enhanced-dense-retrieval</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Lexicon-Enhanced Dense Retrieval (LEDR, Section 3.4, Equations 8-9) multiplies the dense dual-tower cosine similarity sim(q, d) by the BM25 lexical matching score BM25(q, d), score(q, d) = sim(q, d) * BM25(q, d), improving zero-shot BEIR average nDCG@10 from 0.294 to 0.457 (unsupervised) and from 0.396 to 0.485 (fine-tuned) while running 22.5x faster on GPU than BM25 + cross-encoder reranking (Tables 1 and 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r762-primary-pdf">LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4 &amp; Sections 4.2-4.3, Equations 8-9, Tables 1 &amp; 3, Figure 3, pp. 5-8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r762-primary-pdf">LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> main() verification of LEDR multiplicative score resolving pure-BM25 and pure-dense failure modes</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#laprador-beir-zero-shot-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across the 18 zero-shot datasets of the BEIR benchmark, unsupervised LaPraDoR (pre-trained on C4 with weight sharing between E_Q and E_D) achieves 0.457 average nDCG@10—outperforming supervised dense retrievers DPR (0.237), ANCE (0.389), GenQ (0.410), and TAS-B (0.415)—and reaches 0.485 average nDCG@10 after MS MARCO fine-tuning (Table 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r762-primary-pdf">LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Experimental Results, Tables 1-4, pp. 6-8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r762-metadata-cr">LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> BibTeX citation record for arXiv:2203.06169</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#laprador-zero-bm25-cutoff-and-pretraining-cost-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because LEDR multiplies sim(q, d) by BM25(q, d) and sets BM25 scores beyond the top-1,000 lexical candidates to zero for computational efficiency, documents with zero lexical overlap (or outside the BM25 top-1,000) receive a zero LEDR score regardless of their dense cosine similarity, and large-scale C4 pre-training requires 1M steps (~400 hours on 16 V100 GPUs).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r762-primary-pdf">LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4 Equation 9 &amp; Section 4.1 Model Settings and Training Details, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Because LEDR multiplies sim(q, d) by BM25(q, d) and truncates BM25 scores after the top 1,000 lexical candidates to 0, purely semantic matches with no lexical term overlap receive a zero combined score.</li>
+      <li>Clearing the FIFO cache queue Q every time training switches between E_Q and E_D temporarily reduces the number of cached negatives during the warmup steps immediately following a switch.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LaPraDoR pre-trains a dual-tower Transformer encoder network using Iterative Contrastive Learning and combines its dense embeddings with BM25 lexical scoring.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r762-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r762-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2203.06169" target="_blank" rel="noopener">LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Canwen Xu, Daya Guo, Nan Duan, Julian McAuley
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2203.06169</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c5b116b0a124…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r762-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r762-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2203.06169" target="_blank" rel="noopener">LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Canwen Xu, Daya Guo, Nan Duan, Julian McAuley
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2203.06169</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2259b8fcb4ed…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r762-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r762-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2203.06169" target="_blank" rel="noopener">LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Canwen Xu, Daya Guo, Nan Duan, Julian McAuley
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2203.06169</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4eb54eb544db…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:05:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:05:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LaPraDoRUnsupervisedPretrainedDenseRetrieverZeroShot.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LaPraDoRUnsupervisedPretrainedDenseRetrieverZeroShot.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
