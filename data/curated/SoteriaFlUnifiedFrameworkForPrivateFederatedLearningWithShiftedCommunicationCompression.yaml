@@ -1,0 +1,105 @@
+id: AIMech:SoteriaFlUnifiedFrameworkForPrivateFederatedLearningWithShiftedCommunicationCompression
+name: SoteriaFL Unified Framework for Private Federated Learning with Shifted Communication Compression
+concept_kind: algorithm
+review_status: DRAFT
+definition: A unified framework for local differentially private (LDP) federated learning with communication compression (Algorithm 1) in which each client i perturbs its local stochastic gradient estimator tilde{g}_i^t relative to a maintained local reference shift s_i^t via Gaussian noise xi_i^t ~ N(0, sigma_p^2 I_d) before applying an unbiased omega-compressor C_i^t(tilde{g}_i^t - s_i^t + xi_i^t), updating the shift as s_i^{t+1} = s_i^t + gamma_t C_i^t(tilde{g}_i^t - s_i^t + xi_i^t) with optimal shift step size gamma_t = ((1+omega) - sqrt((1+omega)^2 - tau)) / (2*omega*(1+omega)) so that compression variance does not blow up under differential privacy noise.
+identity_notes: Distinct from naive Compressed-DP-SGD (which sets s_i^t = 0 and suffers an O((1+omega) sigma_p^2) noise amplification combined with unbounded gradient-norm variance) and from non-private DIANA / EF21. SoteriaFL (Li, Zhao, Li, & Chi, NeurIPS 2022, arXiv:2206.09888) unifies Soteria-SGD, Soteria-SVRG, and Soteria-SAGA under Lemma 1's shifted-compression contraction.
+aliases:
+- SoteriaFL
+- Soteria-SGD
+- Soteria-SVRG
+- Soteria-SAGA
+definition_evidence:
+- source_id: r561-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r561-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r561-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: soteriafl-shifted-ldp-compressed-gradient-estimator-and-lemma1-contraction-mechanism
+  kind: mechanism
+  statement: In SoteriaFL (Algorithm 1), each client i computes a local gradient estimator tilde{g}_i^t (instantiated as clipped mini-batch SGD, clipped SVRG, or clipped SAGA in Table 2), adds Gaussian LDP noise xi_i^t ~ N(0, sigma_p^2 I_d) to the shifted difference tilde{g}_i^t - s_i^t, transmits v_i^t = C_i^t(tilde{g}_i^t - s_i^t + xi_i^t), and updates s_i^{t+1} = s_i^t + gamma_t v_i^t; by Lemma 1, setting gamma_t = ((1+omega) - sqrt((1+omega)^2 - tau)) / (2*omega*(1+omega)) contracts the shift error Phi_s^t at rate (1 - tau/(4*(1+omega))) while bounding the additive LDP noise term by (1 + 2*(1 - sqrt(1 - tau/(1+omega)^2))) d sigma_p^2.
+  evidence:
+  - source_id: r561-primary-pdf
+    locator: Section 3 Algorithm 1 p. 4 & Section 4 Lemma 1 Equations (5)-(6) p. 6
+    relation: supports
+- claim_id: soteriafl-eps-delta-ldp-privacy-utility-and-communication-complexity-scope
+  kind: scope
+  statement: Under (eps, delta)-local differential privacy (Theorem 1, setting sigma_p^2 = 8 G^2 T log(1/delta) / (K^2 m^2 eps^2)) and L-smoothness (Assumption 1), SoteriaFL (Theorem 2 & Corollaries 1-3) achieves optimal utility O(sqrt(d log(1/delta)) / (n sqrt(m) eps)) with O((1+omega)^{3/2} sqrt(n) m eps) communication rounds for Soteria-SVRG/SAGA when omega <= O(m eps^2 / (d log(1/delta)) - 1), matching uncompressed private FL utility while reducing communicated bits by factor 1/(1+omega).
+  evidence:
+  - source_id: r561-primary-pdf
+    locator: Section 4 Theorems 1-2 & Corollaries 1-3 pp. 5-8, Table 1 p. 2
+    relation: supports
+  - source_id: r561-arxiv-abs
+    locator: Abstract
+    relation: supports
+- claim_id: soteriafl-gradient-clipping-norm-bound-and-unbiased-compressor-limitation
+  kind: limitation
+  statement: Requires bounded per-sample gradient sensitivity ||nabla f_{i,j}(x)||_2 <= G (enforced via gradient clipping before forming tilde{g}_i^t) to guarantee (eps, delta)-LDP and assumes unbiased omega-compression operators (Assumption 3).
+  evidence:
+  - source_id: r561-primary-pdf
+    locator: Section 2.2 Assumptions 3-4 p. 4 & Section 3.1 Table 2 p. 5
+    relation: supports
+- claim_id: soteriafl-differentially-private-compressed-federated-classification-application
+  kind: application
+  statement: Applied to locally differentially private and communication-compressed federated logistic regression and neural network classification across distributed client datasets.
+  evidence:
+  - source_id: r561-primary-pdf
+    locator: Section 5 Experiments pp. 9-10
+    relation: supports
+evidence_sources:
+- source_id: r561-primary-pdf
+  title: 'SoteriaFL: A Unified Framework for Private Federated Learning with Communication Compression'
+  authors: &id001
+  - Zhize Li
+  - Haoyu Zhao
+  - Boyue Li
+  - Yuejie Chi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2206.09888.pdf
+  persistent_id: https://api.openalex.org/works/https://doi.org/10.52202/068431-0310
+  version: Advances in Neural Information Processing Systems (NeurIPS 2022, Vol. 35, pp. 4285-4300) (2022) (1815429 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:44:00Z'
+  sha256: ef533269c03b489a68c4c287b21c87f8b662ebf85abb3c2cf5bbc15ce7befa1a
+- source_id: r561-arxiv-abs
+  title: 'SoteriaFL: A Unified Framework for Private Federated Learning with Communication Compression (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2206.09888
+  persistent_id: https://arxiv.org/abs/2206.09888
+  version: arXiv abstract page (7002 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:44:00Z'
+  sha256: 1e2709946e8ccff51fd3f0bf5cc2aca8d50e39313e33a64fc37fbc782e3601a8
+- source_id: r561-metadata-cr
+  title: 'SoteriaFL: A Unified Framework for Private Federated Learning with Communication Compression (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.openalex.org/works/https://doi.org/10.52202/068431-0310
+  persistent_id: https://api.openalex.org/works/https://doi.org/10.52202/068431-0310
+  version: Crossref API work record (30309 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:44:00Z'
+  sha256: 8b7ce1ebf18e4f1550f864d4afc25aff664973880ff2f52e76eecf1b3ddcd0eb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: SoteriaFL is a specific locally differentially private and communication-compressed federated learning framework.
+limitations:
+- Requires bounded per-sample gradient norm sensitivity ||nabla f_{i,j}(x)||_2 <= G via clipping.
+- Assumes unbiased omega-compression operators for the theoretical privacy-utility-communication guarantees.
+curation:
+  created_at: '2026-10-19T10:44:00Z'
+  updated_at: '2026-10-19T10:44:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
