@@ -1,0 +1,94 @@
+id: AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+name: FedGNN (Federated Graph Neural Network for Privacy-Preserving Recommendation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: FedGNN (Federated Graph Neural Network for Privacy-Preserving Recommendation) is a federated collaborative filtering and graph neural network training framework in which each user client maintains a private first-order user-item interaction subgraph G_i, protects interacted item IDs against server gradient-inversion attacks by sampling M non-interacted pseudo items with synthetic Gaussian embedding gradients g_i^p matching the mean and covariance of real item embedding gradients g_i^e, perturbs the combined model and item-embedding gradients with clipped Laplace local differential privacy g_i = clip(g_i, delta) + Laplace(0, lambda), and expands local graphs to high-order user-item neighbor neighborhoods via homomorphic-encryption item-ID matching and anonymous neighbor user-embedding exchange through a third-party server.
+identity_notes: 'Introduced by Chuhan Wu, Fangzhao Wu, Yang Cao, Yongfeng Huang, and Xing Xie in ''FedGNN: Federated Graph Neural Network for Privacy-Preserving Recommendation'' (arXiv:2102.04925, DBLP:journals/corr/abs-2102-04925). Distinct from FCF (Federated Collaborative Filtering, Ammad-ud-din et al. 2019), which models only first-order matrix factorization interactions and exposes interacted item IDs via non-zero item-embedding gradients; and distinct from FedSage+ (Zhang et al. NeurIPS 2021), which trains a local missing-neighbor generator (NeighGen) across multi-node subgraphs rather than expanding user-centric bipartite recommendation graphs via encrypted item matching and pseudo-item LDP gradients.'
+aliases:
+- FedGNN
+- Federated Graph Neural Network for Privacy-Preserving Recommendation
+definition_evidence:
+- source_id: r517-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r517-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r517-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fedgnn-pseudo-interacted-item-sampling-and-ldp-gradient-perturbation
+  kind: mechanism
+  statement: To prevent the central server from inferring a user's private interaction history from which item embeddings have non-zero gradients g_i^e and from reconstructing raw ratings y_{i,j} via gradient inversion, each client in FedGNN samples M non-interacted items, generates synthetic pseudo-item gradients g_i^p from a Gaussian distribution matching the empirical mean and covariance of real item-embedding gradients g_i^e (yielding expected interaction anonymity proportional to 1 + M P / |Y_o|), and perturbs the combined gradient g_i = (g_i^m, g_i^e, g_i^p) via g_i = clip(g_i, delta) + Laplace(0, lambda) (Equation 1) with local differential privacy upper bound epsilon <= 2 delta / lambda.
+  evidence:
+  - source_id: r517-primary-pdf
+    locator: Section 3.3 and Section 3.5, Equation (1), pages 4-6
+    relation: supports
+- claim_id: fedgnn-privacy-preserving-graph-expansion-via-encrypted-item-matching
+  kind: mechanism
+  statement: 'To capture high-order collaborative user-item signals without revealing user identities or raw interaction lists to the recommendation server or other clients, FedGNN uses Algorithm 2: after T warmup epochs, the central server generates a public/private key pair (p, s) and sends p to clients; each client encrypts its interacted item IDs with p and sends the ciphertexts together with its inferred user embedding e_i^u to a third-party server, which links users sharing identical encrypted item ciphertexts and returns anonymous 1-hop neighbor user embeddings [e_{i,1}^u, ..., e_{i,N}^u] so each client can connect neighbor user nodes to co-interacted items in its expanded local graph G_i.'
+  evidence:
+  - source_id: r517-primary-pdf
+    locator: Section 3.4, Algorithm 2 and Figure 3, pages 5-6
+    relation: supports
+- claim_id: fedgnn-recommendation-accuracy-across-six-benchmarks
+  kind: application
+  statement: Evaluated across six benchmark recommendation datasets (MovieLens-100K, MovieLens-1M, MovieLens-10M, Flixster, Douban, and YahooMusic), FedGNN with gated graph neural networks (GGNN), graph convolutional networks (GCN), or graph attention networks (GAT) matches centralized GNN recommendation RMSE and significantly outperforms privacy-preserving Federated Matrix Factorization (FedMF) and Federated Collaborative Filtering (FCF) (Tables 2 and 3, e.g., reducing RMSE on ML-100K from 0.947 for FedMF to 0.910 for FedGNN).
+  evidence:
+  - source_id: r517-primary-pdf
+    locator: Section 4.1-4.3, Tables 2-3, pages 6-7
+    relation: supports
+evidence_sources:
+- source_id: r517-primary-pdf
+  title: 'FedGNN: Federated Graph Neural Network for Privacy-Preserving Recommendation'
+  authors: &id001
+  - Chuhan Wu
+  - Fangzhao Wu
+  - Yang Cao
+  - Yongfeng Huang
+  - Xing Xie
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2102.04925.pdf
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2102-04925
+  version: arXiv (2021) (2093228 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:00:00Z'
+  sha256: a9cfe057f622db83db4293d06fb1087714dba6c925c4c3be161832c6f4179a46
+- source_id: r517-arxiv-abs
+  title: 'FedGNN: Federated Graph Neural Network for Privacy-Preserving Recommendation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.04925
+  persistent_id: https://arxiv.org/abs/2102.04925
+  version: arXiv abstract page (7752 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:00:00Z'
+  sha256: e77ed0ef2b95a361cafb707b639042e82cc7cc63ac1bd0f9f5748c7532e4d1fb
+- source_id: r517-metadata-cr
+  title: 'FedGNN: Federated Graph Neural Network for Privacy-Preserving Recommendation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-2102-04925
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2102-04925
+  version: Crossref API work record (1332 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:00:00Z'
+  sha256: fbeb4afdd158ed8f2d1d46cf1449f10eeaf9c3e93d3a7e40f75b999279aabc5f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedGNN is a federated graph neural network training framework for privacy-preserving collaborative recommendation under AIO:FederatedLearning.
+limitations:
+- Privacy-preserving user-item graph expansion relies on the security assumption that the central recommendation server and the third-party matching server do not collude.
+- Uploading pseudo-interacted item gradients g_i^p for M non-interacted items per user increases client-to-server communication cost linearly in M (Figure 6b).
+curation:
+  created_at: '2026-10-19T10:00:00Z'
+  updated_at: '2026-10-19T10:00:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
