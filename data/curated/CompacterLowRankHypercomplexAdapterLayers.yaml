@@ -1,0 +1,94 @@
+id: AIMech:CompacterLowRankHypercomplexAdapterLayers
+name: Compacter (Low-Rank Hypercomplex Adapter Layers)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Compacter (Compact Adapter) is a parameter-efficient fine-tuning method for pretrained Transformer models that replaces the dense down-projection D^l in R^{k x d} and up-projection U^l in R^{d x k} of bottleneck adapter modules A^l(x) = U^l(GeLU(D^l(x))) + x with Low-rank Parameterized Hypercomplex Multiplication (LPHM) layers: A^l(x) = LPHM^{U^l}(GeLU(LPHM^{D^l}(x))) + x. For a user-specified hyperparameter n dividing input dimension k and bottleneck dimension d, each LPHM weight matrix W in R^{k x d} is synthesized as the sum of n Kronecker products between shared "slow" weights A_i in R^{n x n} (shared across all adapter layers and positions in the network) and adapter-specific "fast" rank-r matrices B_i = s_i t_i^T in R^{(k/n) x (d/n)} with s_i in R^{(k/n) x r} and t_i in R^{r x (d/n)} (typically r = 1): W = sum_{i=1}^n A_i (x) (s_i t_i^T). Its variant Compacter++ retains only the post-feed-forward Compacter module per Transformer block.'
+identity_notes: Distinct from standard bottleneck adapters (Houlsby et al., 2019), which parameterize U^l and D^l as unconstrained dense matrices costing 4 L k d parameters across L encoder-decoder layers, and from PHM-Adapter, which does not share A_i across layers or factorize B_i into rank-one outer products (costing 4 L (k d / n + n^3) parameters). Also distinct from LoRA (Hu et al., 2022), which adds parallel low-rank updates directly to frozen attention weights without a nonlinear GeLU bottleneck or Kronecker hypercomplex multiplication.
+aliases:
+- Compacter
+- Compacter++
+- Low-Rank Parameterized Hypercomplex Multiplication Adapter
+- LPHM Adapter
+definition_evidence:
+- source_id: r659-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r659-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r659-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r659-claim-linear-sum-parameter-complexity-reduction
+  kind: mechanism
+  statement: By sharing the n matrices {A_i}_{i=1}^n in R^{n x n} (n^3 parameters total) across all layers and parameterizing each down- and up-projection's B_i via rank-one vectors s_i in R^{k/n} and t_i in R^{d/n} (n(k/n + d/n) = k + d parameters per projection), Compacter reduces total adapter weight parameters for an L-layer encoder-decoder Transformer from 4 L k d (O(k d)) in standard adapters and 4 L (k d / n + n^3) (O(k d / n)) in PHM-Adapters to 4 L (k + d) + n^3 (O(k + d)), and to 2 L (k + d) + n^3 in Compacter++.
+  evidence:
+  - source_id: r659-primary-pdf
+    locator: Section 4 (Parameter Efficiency), p. 5; Appendix B, Table 6, p. 16
+    relation: supports
+- claim_id: r659-claim-glue-superglue-and-low-resource-generalization
+  kind: application
+  statement: On T5-base (222M parameters), Compacter (0.073% trainable parameters) and Compacter++ (0.047% trainable parameters, 2127.66x fewer than full fine-tuning) match or outperform full fine-tuning and prior PEFT baselines (Adapter, Pfeiffer-Adapter, AdapterDrop, Prompt Tuning, Intrinsic-SAID, BitFit) on GLUE (86.62 and 86.47 vs. 86.50 average) and SuperGLUE (71.57 and 71.82 vs. 70.06 average) as well as low-resource GLUE subsamples of 100 to 4000 examples while reducing peak GPU training memory by 41.94% and epoch time by 26.51%.
+  evidence:
+  - source_id: r659-primary-pdf
+    locator: Section 5.3-5.6, Tables 1-3 & Figure 4, p. 7-10
+    relation: supports
+- claim_id: r659-claim-nonlinear-bottleneck-unmergeable-inference-limitation
+  kind: limitation
+  statement: Because Compacter inserts serial adapter blocks A^l(x) = LPHM^{U^l}(GeLU(LPHM^{D^l}(x))) + x containing a nonlinear GeLU activation after attention and feed-forward sublayers, its learned weights cannot be algebraically folded into the frozen backbone weight matrices at inference time, and on small backbones such as T5-small (60M) all parameter-efficient methods including Compacter underperform full fine-tuning.
+  evidence:
+  - source_id: r659-primary-pdf
+    locator: Section 2.2 & 3.2, Equation (2) & p. 5; Appendix E (Impact of Model Size), Table 9, p. 18
+    relation: supports
+evidence_sources:
+- source_id: r659-primary-pdf
+  title: 'Compacter: Efficient Low-Rank Hypercomplex Adapter Layers'
+  authors: &id001
+  - Rabeeh Karimi Mahabadi
+  - James Henderson
+  - Sebastian Ruder
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.04647.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/MahabadiHR21.html
+  version: Advances in Neural Information Processing Systems 34 (NeurIPS 2021) (2021) (721967 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:22:00Z'
+  sha256: ef87e29bf8fadae8d40cb12d1436835142eab0c25bdb0bd3757147c67b193fe4
+- source_id: r659-arxiv-abs
+  title: 'Compacter: Efficient Low-Rank Hypercomplex Adapter Layers (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.04647
+  persistent_id: https://arxiv.org/abs/2106.04647
+  version: arXiv abstract page (7085 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:22:00Z'
+  sha256: 7588d8592cb38ee2fade0c7cb10e8b29fd6af0ba9581c03fa8feba4a32b0e7c7
+- source_id: r659-metadata-cr
+  title: 'Compacter: Efficient Low-Rank Hypercomplex Adapter Layers (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/MahabadiHR21.html
+  persistent_id: https://dblp.org/rec/conf/nips/MahabadiHR21.html
+  version: Crossref API work record (905 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:22:00Z'
+  sha256: 339bb4474dad810e63a69952067735c8a6a4ca6440e795b3d455062834e9b770
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Compacter inserts Kronecker-factored LPHM bottleneck adapter layers into pretrained Transformer neural networks.
+limitations:
+- Requires input dimension k and adapter bottleneck dimension d to be divisible by the Kronecker hyperparameter n, and because of the intermediate GeLU nonlinearity, the adapter layers cannot be merged into the frozen Transformer linear projections at inference time.
+- Trainable LayerNorm parameters and LPHM bias vectors account for over 50% of the remaining trainable parameters (e.g., 44.01% LayerNorm and 18.15% biases in Compacter++ at n = 4), so increasing n beyond 4 yields diminishing parameter savings unless biases and LayerNorm updates are omitted.
+curation:
+  created_at: '2026-10-19T12:22:00Z'
+  updated_at: '2026-10-19T12:22:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
