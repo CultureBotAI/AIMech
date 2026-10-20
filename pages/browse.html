@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1465</strong> artificial intelligence concepts, comprising <strong>1023</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1466</strong> artificial intelligence concepts, comprising <strong>1024</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1465)</option>
-        <option value="curated">Curated AIMech (1023)</option>
+        <option value="all">All Origins (1466)</option>
+        <option value="curated">Curated AIMech (1024)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (719)</option>
+          <option value="algorithm">Algorithms (720)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1465</span> of <span id="totalCount">1465</span>
+      Showing <span id="matchCount">1466</span> of <span id="totalCount">1466</span>
     </div>
   </div>
 </div>
@@ -565,6 +565,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:AdaCgdAndAda3PcAdaptiveThreePointCompressionForDistributedOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="adacomp (adaptive residual gradient compression) adacompadaptiveresidualgradientcompression aimech:adacompadaptiveresidualgradientcompression algorithms algorithm an o(n) sorting-free residual gradient compression algorithm for data-parallel distributed deep learning that updates each layer&#39;s accumulated residual gradient g = residue + dw and forms a soft-threshold comparison vector h = g + dw = residue + 2 dw, uniformly partitions g into fixed-length bins of size l_t, computes each bin&#39;s local maximum absolute value g_max(i) = max_{j in bin i} |g(index)|, transmits and quantizes all bin entries satisfying |h(index)| &gt;= g_max(i) into a sign bit times a single layer-wide scale factor equal to the mean of g_max across all bins, and retains the quantization error g(index) - g_q(index) and all untransmitted bin entries in residue(index) for the next mini-batch. distinct from 1-bit sgd (aimech:onebitstochasticgradientdescent, seide et al. 2014) and terngrad (aimech:terngradternarygradients, wen et al. 2017), which quantize dense gradient vectors without local-bin sparsity selection and either diverge on convolutional layers when combined with fc compression or cap compression at 16x. distinct from fixed-threshold compression (strom 2015), fixed-percentage global top-k sorting (dryden et al. 2016), and deep gradient compression (aimech:deepgradientcompression, lin et al. 2018), which rely on global thresholding or sorting rather than o(n) localized bin sampling with the self-adjusting soft threshold |residue + 2 dw| &gt;= g_max(i). adacomp adaptive residual gradient compression adacomp gradient compression adaptive residual gradient compression scheme for each layer, adacomp computes the updated residual gradient g = residue + dw and the doubled-gradient probe h = g + dw = residue + 2 dw, divides g into uniform bins of length l_t, finds each bin&#39;s local maximum magnitude g_max(i), and transmits every element satisfying |h(index)| &gt;= g_max(i) quantized as g_q(index) = sign(g(index)) * s where s = (1 / b) sum_{i=1}^b g_max(i) is the layer-wide mean of the bin maxima, updating residue(index) &lt;- g(index) - g_q(index) for transmitted elements and residue(index) &lt;- g(index) for untransmitted elements in o(n) time without sorting (algorithm 2). unlike hard local selection (ls) without a soft threshold—which transmits only a fixed number of bin maxima and suffers a positive-feedback loop at l_t &gt;= 300 where untransmitted residual gradients (rg) and weight gradients (dw) grow exponentially to [-240k, 239k] and cause model divergence—adacomp&#39;s soft threshold |residue + 2 dw| &gt;= g_max(i) automatically transmits more elements in early epochs (when residues are small relative to dw) and drains clusters of near-maximal residues together, bounding residual gradients within [-0.015, 0.015] even at l_t = 5000 (~2000x compression, figures 4-6). using fixed bin sizes of l_t = 50 for convolutional layers (encoded with 8-bit sparse-indexed ternarized representations for l_t &lt; 64) and l_t = 500 for fully-connected and recurrent layers (encoded with 16-bit sparse-indexed ternarized representations), adacomp selects an average of up to 5 elements per bin to achieve ~40x effective compression on convolutional layers and ~200x effective compression on fully-connected and lstm layers across mnist-cnn, cifar10-cnn (up to 128 learners), alexnet, resnet18, resnet50 on imagenet, bn50-dnn speech recognition, and shakespeare lstm under both momentum sgd and adam without noticeable accuracy degradation (table 2, figures 2-3). increasing the per-learner mini-batch size increases input feature activity across bins so that more residues satisfy |residue + 2 dw| &gt;= g_max(i), reducing the achievable effective compression rate at fixed accuracy (figure 7a), and the number of transmitted elements varies dynamically across bins, layers, and epochs rather than guaranteeing a fixed per-step message size. adacomp : adaptive residual gradient compression for data-parallel distributed training adacomp : adaptive residual gradient compression for data-parallel distributed training (arxiv abstract) adacomp : adaptive residual gradient compression for data-parallel distributed training (crossref metadata) chia-yu chen jungwook choi daniel brand ankur agrawal wei zhang kailash gopalakrishnan chia-yu chen jungwook choi daniel brand ankur agrawal wei zhang kailash gopalakrishnan chia-yu chen jungwook choi daniel brand ankur agrawal wei zhang kailash gopalakrishnan">
+        <td>
+          <a href="curated/AdaCompAdaptiveResidualGradientCompression.html" style="font-weight: 600; font-size: 1rem;">AdaComp (Adaptive Residual Gradient Compression)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> AdaComp, Adaptive Residual Gradient Compression…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An O(N) sorting-free residual gradient compression algorithm for data-parallel distributed deep learning that updates each layer&#39;s accumulat…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:AdaCompAdaptiveResidualGradientCompression</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

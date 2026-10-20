@@ -1,0 +1,108 @@
+id: AIMech:AdaCompAdaptiveResidualGradientCompression
+name: AdaComp (Adaptive Residual Gradient Compression)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An O(N) sorting-free residual gradient compression algorithm for data-parallel distributed deep learning that updates each layer's accumulated residual gradient G = residue + dW and forms a soft-threshold comparison vector H = G + dW = residue + 2 dW, uniformly partitions G into fixed-length bins of size L_T, computes each bin's local maximum absolute value g_max(i) = max_{j in bin i} |G(index)|, transmits and quantizes all bin entries satisfying |H(index)| >= g_max(i) into a sign bit times a single layer-wide scale factor equal to the mean of g_max across all bins, and retains the quantization error G(index) - G_q(index) and all untransmitted bin entries in residue(index) for the next mini-batch.
+identity_notes: Distinct from 1-bit SGD (AIMech:OneBitStochasticGradientDescent, Seide et al. 2014) and TernGrad (AIMech:TernGradTernaryGradients, Wen et al. 2017), which quantize dense gradient vectors without local-bin sparsity selection and either diverge on convolutional layers when combined with FC compression or cap compression at 16x. Distinct from fixed-threshold compression (Strom 2015), fixed-percentage global top-k sorting (Dryden et al. 2016), and Deep Gradient Compression (AIMech:DeepGradientCompression, Lin et al. 2018), which rely on global thresholding or sorting rather than O(N) localized bin sampling with the self-adjusting soft threshold |residue + 2 dW| >= g_max(i).
+aliases:
+- AdaComp
+- Adaptive Residual Gradient Compression
+- AdaComp Gradient Compression
+- Adaptive Residual Gradient Compression Scheme
+definition_evidence:
+- source_id: r629-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r629-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r629-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r629-local-bin-soft-threshold-and-mean-gmax-quantization
+  kind: mechanism
+  statement: For each layer, AdaComp computes the updated residual gradient G = residue + dW and the doubled-gradient probe H = G + dW = residue + 2 dW, divides G into uniform bins of length L_T, finds each bin's local maximum magnitude g_max(i), and transmits every element satisfying |H(index)| >= g_max(i) quantized as G_q(index) = sign(G(index)) * s where s = (1 / B) sum_{i=1}^B g_max(i) is the layer-wide mean of the bin maxima, updating residue(index) <- G(index) - G_q(index) for transmitted elements and residue(index) <- G(index) for untransmitted elements in O(N) time without sorting (Algorithm 2).
+  evidence:
+  - source_id: r629-primary-pdf
+    locator: Adaptive Residual Gradient Compression (AdaComp) Technique & Algorithm 2, pp. 3-4
+    relation: supports
+- claim_id: r629-self-adjusting-sparsity-prevents-residual-explosion
+  kind: mechanism
+  statement: "Unlike hard Local Selection (LS) without a soft threshold\u2014which transmits only a fixed number of bin maxima and suffers a positive-feedback loop at L_T >= 300 where untransmitted residual gradients (RG) and weight gradients (dW) grow exponentially to [-240K, 239K] and cause model divergence\u2014AdaComp's soft threshold |residue + 2 dW| >= g_max(i) automatically transmits more elements in early epochs (when residues are small relative to dW) and drains clusters of near-maximal residues together, bounding residual gradients within [-0.015, 0.015] even at L_T = 5000 (~2000x compression, Figures 4-6)."
+  evidence:
+  - source_id: r629-primary-pdf
+    locator: 'Discussions: Robustness of the AdaComp Technique, Figures 4-6, pp. 6-7'
+    relation: supports
+- claim_id: r629-conv-40x-and-fc-lstm-200x-compression-across-optimizers
+  kind: application
+  statement: Using fixed bin sizes of L_T = 50 for convolutional layers (encoded with 8-bit sparse-indexed ternarized representations for L_T < 64) and L_T = 500 for fully-connected and recurrent layers (encoded with 16-bit sparse-indexed ternarized representations), AdaComp selects an average of up to 5 elements per bin to achieve ~40x effective compression on convolutional layers and ~200x effective compression on fully-connected and LSTM layers across MNIST-CNN, CIFAR10-CNN (up to 128 learners), AlexNet, ResNet18, ResNet50 on ImageNet, BN50-DNN speech recognition, and Shakespeare LSTM under both momentum SGD and Adam without noticeable accuracy degradation (Table 2, Figures 2-3).
+  evidence:
+  - source_id: r629-primary-pdf
+    locator: Experiment Results, Table 2 & Figures 2-3, pp. 4-6
+    relation: supports
+  - source_id: r629-metadata-cr
+    locator: AAAI 2018 bibliographic record (conf/aaai/ChenCBAZG18)
+    relation: supports
+- claim_id: r629-minibatch-size-activity-and-variable-message-length
+  kind: limitation
+  statement: Increasing the per-learner mini-batch size increases input feature activity across bins so that more residues satisfy |residue + 2 dW| >= g_max(i), reducing the achievable effective compression rate at fixed accuracy (Figure 7a), and the number of transmitted elements varies dynamically across bins, layers, and epochs rather than guaranteeing a fixed per-step message size.
+  evidence:
+  - source_id: r629-primary-pdf
+    locator: Impact of mini-batch size and number of learners, Figure 7(a)-(b), pp. 7-8
+    relation: supports
+evidence_sources:
+- source_id: r629-primary-pdf
+  title: 'AdaComp : Adaptive Residual Gradient Compression for Data-Parallel Distributed Training'
+  authors: &id001
+  - Chia-Yu Chen
+  - Jungwook Choi
+  - Daniel Brand
+  - Ankur Agrawal
+  - Wei Zhang
+  - Kailash Gopalakrishnan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1712.02679.pdf
+  persistent_id: https://dblp.org/rec/conf/aaai/ChenCBAZG18
+  version: Proceedings of the Thirty-Second AAAI Conference on Artificial Intelligence (AAAI 2018), pp. 2827-2835 (2018) (1963391 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:52:00Z'
+  sha256: d35279b484d60363c8dd06f26fb9d718d4f78ca0caa2cebc670c68786c89f05f
+- source_id: r629-arxiv-abs
+  title: 'AdaComp : Adaptive Residual Gradient Compression for Data-Parallel Distributed Training (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1712.02679
+  persistent_id: https://arxiv.org/abs/1712.02679
+  version: arXiv abstract page (7282 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:52:00Z'
+  sha256: 9803b3d6d0c4aa8cd2e9e351eb5f0f270e50793afcf017d5de13afe70ee6b2f4
+- source_id: r629-metadata-cr
+  title: 'AdaComp : Adaptive Residual Gradient Compression for Data-Parallel Distributed Training (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/aaai/ChenCBAZG18
+  persistent_id: https://dblp.org/rec/conf/aaai/ChenCBAZG18
+  version: Crossref API work record (2030 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:52:00Z'
+  sha256: e48915beec8fd34447d96de704da9df9c1c4a90234ba5be70fc1d2421669bc76
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: AdaComp is a distributed gradient compression method for data-parallel training of convolutional, recurrent, and fully-connected neural networks.
+limitations:
+- Achievable compression rate decreases as the local mini-batch size per learner increases due to higher input feature activity across bins (Figure 7a).
+- Because the soft threshold |residue + 2 dW| >= g_max(i) adapts to local gradient activity, the number of transmitted non-zero elements varies across bins and mini-batches rather than producing a constant-size communication buffer.
+- Requires selecting layer-type bin sizes L_T (empirically L_T = 50 for convolutional layers and L_T = 500 for fully-connected and LSTM layers) and switchover from 8-bit to 16-bit sparse index representations when L_T >= 64.
+curation:
+  created_at: '2026-10-19T11:52:00Z'
+  updated_at: '2026-10-19T11:52:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
