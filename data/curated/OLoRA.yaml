@@ -1,0 +1,106 @@
+id: AIMech:OLoRA
+name: O-LoRA
+concept_kind: algorithm
+review_status: DRAFT
+definition: A rehearsal-free continual learning algorithm for pretrained language models that allocates a low-rank adapter pair (A_t, B_t) for each sequential task t while freezing prior adapters {(A_i, B_i)}_{i < t} and penalizing the squared Frobenius inner product ||A_i^T A_t||_F^2 so that new task updates occur in a subspace orthogonal to previously learned task subspaces.
+identity_notes: Distinct from AIMech:LowRankAdaptation (LoRA), which adapts a model to a single static task and suffers catastrophic forgetting when sequentially updated across multiple tasks, and from Orthogonal Gradient Descent (OGD), which requires storing explicit historical data gradients across all model parameters. O-LoRA (Xiao Wang, Tianze Chen, Qiming Ge, Han Xia, Rong Bao, Rui Zheng, Qi Zhang, Tao Gui, and Xuanjing Huang, Findings of EMNLP 2023, arXiv:2310.14152) treats the column space U_i = span(a_i^1, ..., a_i^r) of each past task's frozen LoRA factor A_i in R^{d x r} as a parameter-efficient proxy for that task's gradient subspace. When learning task t on dataset D_t, O-LoRA optimizes sum_{(x,y) in D_t} log p_Theta(y | x) + lambda_1 sum_{i=1}^{t-1} L_orth(A_i, A_t), where O_{i,t} = A_i^T A_t in R^{r x r} and L_orth(A_i, A_t) = sum_{j,k} ||O_{i,t}[j, k]||^2. At inference time (or periodically during training), all learned adapters are summed into the base weights W_init := W_init + sum_{i=1}^t A_i B_i without requiring task IDs or replay buffers.
+aliases:
+- Orthogonal Low-Rank Adaptation
+- O-LoRA Continual Subspace Learning
+- Orthogonal Subspace Low-Rank Adaptation
+definition_evidence:
+- source_id: r669-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r669-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r669-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: olora-low-rank-subspace-orthogonality-regularization
+  kind: mechanism
+  statement: For each incoming task t, O-LoRA freezes the LoRA parameters {(A_i, B_i)}_{i < t} of previous tasks and regularizes the current task's subspace basis A_t in R^{d x r} via L_orth(A_i, A_t) = sum_{j,k} (A_i^T A_t)[j,k]^2, driving A_i^T A_t -> 0 without storing historical training examples or full-model gradient vectors.
+  evidence:
+  - source_id: r669-primary-pdf
+    locator: Section 3.2 (Continual Learning in Orthogonal Subspaces), p. 4, Equations (3)-(8)
+    relation: supports
+- claim_id: olora-task-id-free-additive-weight-merging
+  kind: mechanism
+  statement: Because all task adapters operate additively on the shared query and value projections, O-LoRA merges completed task updates into the pretrained weights via W_init := W_init + sum_{i=1}^t A_i B_i, enabling task-ID-free inference and preventing GPU memory inflation across task streams.
+  evidence:
+  - source_id: r669-primary-pdf
+    locator: Section 3.2 & Table 1, p. 4, Equation (9)
+    relation: supports
+- claim_id: olora-application-continual-nlp-and-unseen-task-generalization
+  kind: application
+  statement: On 5-task and 15-task continual learning benchmarks with T5-large and LLaMA-7B, O-LoRA outperforms rehearsal-free and replay baselines (including EWC, LwF, L2P, and LFPT5) while preserving zero-shot generalization on 57 unseen MMLU tasks.
+  evidence:
+  - source_id: r669-primary-pdf
+    locator: Section 4 (Experiments), Tables 2-4 & Figures 3-4, pp. 5-8
+    relation: supports
+- claim_id: olora-limitation-finite-ambient-dimension-and-training-task-boundaries
+  kind: limitation
+  statement: Because at most floor(d / r) mutually orthogonal rank-r subspaces can exist in R^d, O-LoRA's strict orthogonality capacity saturates when the number of sequential tasks T satisfies T r > d, and the training procedure still requires explicit task boundaries to instantiate and freeze per-task LoRA modules.
+  evidence:
+  - source_id: r669-primary-pdf
+    locator: Section 6 (Limitations), p. 9
+    relation: supports
+evidence_sources:
+- source_id: r669-primary-pdf
+  title: Orthogonal Subspace Learning for Language Model Continual Learning
+  authors: &id001
+  - Xiao Wang
+  - Tianze Chen
+  - Qiming Ge
+  - Han Xia
+  - Rong Bao
+  - Rui Zheng
+  - Qi Zhang
+  - Tao Gui
+  - Xuanjing Huang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2310.14152
+  persistent_id: https://dblp.org/search/publ/api?q=Orthogonal+Subspace+Learning+Language+Model+Continual+Learning+Xiao+Wang&format=xml
+  version: 'Findings of the Association for Computational Linguistics: EMNLP 2023 (2023) (510964 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T12:32:00Z'
+  sha256: 61290f084ff66bb2829be1454847b53f3e5dd7362d54f76924671ec99832216c
+- source_id: r669-arxiv-abs
+  title: Orthogonal Subspace Learning for Language Model Continual Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2310.14152
+  persistent_id: https://arxiv.org/abs/2310.14152
+  version: arXiv abstract page (6349 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:32:00Z'
+  sha256: 5a9f4047597c5210051dae1afb83e64af84dc9428663cf3947e57badbf09633c
+- source_id: r669-metadata-cr
+  title: Orthogonal Subspace Learning for Language Model Continual Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Orthogonal+Subspace+Learning+Language+Model+Continual+Learning+Xiao+Wang&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Orthogonal+Subspace+Learning+Language+Model+Continual+Learning+Xiao+Wang&format=xml
+  version: Crossref API work record (989 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:32:00Z'
+  sha256: 0807e87ab0fa7abfd5dff8c9e02b9e44491de4c72a8bd03fb431867d9a80ede3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: O-LoRA performs continual learning across sequential tasks in deep transformer neural networks via orthogonal low-rank adapters.
+limitations:
+- In a layer of input dimension d, at most floor(d / r) rank-r subspaces can be mutually orthogonal, limiting scalability when hundreds of sequential tasks are learned.
+- Although inference is task-ID-free after merging, training requires explicit task boundary identification to freeze prior adapters and allocate new (A_t, B_t) matrices.
+curation:
+  created_at: '2026-10-19T12:32:00Z'
+  updated_at: '2026-10-19T12:32:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

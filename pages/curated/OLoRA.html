@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>O-LoRA · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>O-LoRA</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">O-LoRA</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:OLoRA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Orthogonal Low-Rank Adaptation, O-LoRA Continual Subspace Learning, Orthogonal Subspace Low-Rank Adaptation
+    </div>
+
+  <div class="detail-desc">
+    A rehearsal-free continual learning algorithm for pretrained language models that allocates a low-rank adapter pair (A_t, B_t) for each sequential task t while freezing prior adapters {(A_i, B_i)}_{i &lt; t} and penalizing the squared Frobenius inner product ||A_i^T A_t||_F^2 so that new task updates occur in a subspace orthogonal to previously learned task subspaces.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:LowRankAdaptation (LoRA), which adapts a model to a single static task and suffers catastrophic forgetting when sequentially updated across multiple tasks, and from Orthogonal Gradient Descent (OGD), which requires storing explicit historical data gradients across all model parameters. O-LoRA (Xiao Wang, Tianze Chen, Qiming Ge, Han Xia, Rong Bao, Rui Zheng, Qi Zhang, Tao Gui, and Xuanjing Huang, Findings of EMNLP 2023, arXiv:2310.14152) treats the column space U_i = span(a_i^1, ..., a_i^r) of each past task&#39;s frozen LoRA factor A_i in R^{d x r} as a parameter-efficient proxy for that task&#39;s gradient subspace. When learning task t on dataset D_t, O-LoRA optimizes sum_{(x,y) in D_t} log p_Theta(y | x) + lambda_1 sum_{i=1}^{t-1} L_orth(A_i, A_t), where O_{i,t} = A_i^T A_t in R^{r x r} and L_orth(A_i, A_t) = sum_{j,k} ||O_{i,t}[j, k]||^2. At inference time (or periodically during training), all learned adapters are summed into the base weights W_init := W_init + sum_{i=1}^t A_i B_i without requiring task IDs or replay buffers.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#olora-low-rank-subspace-orthogonality-regularization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each incoming task t, O-LoRA freezes the LoRA parameters {(A_i, B_i)}_{i &lt; t} of previous tasks and regularizes the current task&#39;s subspace basis A_t in R^{d x r} via L_orth(A_i, A_t) = sum_{j,k} (A_i^T A_t)[j,k]^2, driving A_i^T A_t -&gt; 0 without storing historical training examples or full-model gradient vectors.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r669-primary-pdf">Orthogonal Subspace Learning for Language Model Continual Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Continual Learning in Orthogonal Subspaces), p. 4, Equations (3)-(8)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#olora-task-id-free-additive-weight-merging</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because all task adapters operate additively on the shared query and value projections, O-LoRA merges completed task updates into the pretrained weights via W_init := W_init + sum_{i=1}^t A_i B_i, enabling task-ID-free inference and preventing GPU memory inflation across task streams.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r669-primary-pdf">Orthogonal Subspace Learning for Language Model Continual Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 &amp; Table 1, p. 4, Equation (9)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#olora-application-continual-nlp-and-unseen-task-generalization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On 5-task and 15-task continual learning benchmarks with T5-large and LLaMA-7B, O-LoRA outperforms rehearsal-free and replay baselines (including EWC, LwF, L2P, and LFPT5) while preserving zero-shot generalization on 57 unseen MMLU tasks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r669-primary-pdf">Orthogonal Subspace Learning for Language Model Continual Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Experiments), Tables 2-4 &amp; Figures 3-4, pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#olora-limitation-finite-ambient-dimension-and-training-task-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because at most floor(d / r) mutually orthogonal rank-r subspaces can exist in R^d, O-LoRA&#39;s strict orthogonality capacity saturates when the number of sequential tasks T satisfies T r &gt; d, and the training procedure still requires explicit task boundaries to instantiate and freeze per-task LoRA modules.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r669-primary-pdf">Orthogonal Subspace Learning for Language Model Continual Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 6 (Limitations), p. 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>In a layer of input dimension d, at most floor(d / r) rank-r subspaces can be mutually orthogonal, limiting scalability when hundreds of sequential tasks are learned.</li>
+      <li>Although inference is task-ID-free after merging, training requires explicit task boundary identification to freeze prior adapters and allocate new (A_t, B_t) matrices.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            O-LoRA performs continual learning across sequential tasks in deep transformer neural networks via orthogonal low-rank adapters.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r669-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r669-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2310.14152" target="_blank" rel="noopener">Orthogonal Subspace Learning for Language Model Continual Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiao Wang, Tianze Chen, Qiming Ge, Han Xia, Rong Bao, Rui Zheng, Qi Zhang, Tao Gui, Xuanjing Huang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Orthogonal+Subspace+Learning+Language+Model+Continual+Learning+Xiao+Wang&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:61290f084ff6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r669-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r669-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2310.14152" target="_blank" rel="noopener">Orthogonal Subspace Learning for Language Model Continual Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiao Wang, Tianze Chen, Qiming Ge, Han Xia, Rong Bao, Rui Zheng, Qi Zhang, Tao Gui, Xuanjing Huang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2310.14152</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5a9f4047597c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r669-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r669-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Orthogonal+Subspace+Learning+Language+Model+Continual+Learning+Xiao+Wang&amp;format=xml" target="_blank" rel="noopener">Orthogonal Subspace Learning for Language Model Continual Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiao Wang, Tianze Chen, Qiming Ge, Han Xia, Rong Bao, Rui Zheng, Qi Zhang, Tao Gui, Xuanjing Huang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Orthogonal+Subspace+Learning+Language+Model+Continual+Learning+Xiao+Wang&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0807e87ab0fa…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:32:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:32:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/OLoRA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/OLoRA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
