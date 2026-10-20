@@ -1,0 +1,103 @@
+id: AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+name: 5GCS (Fifth-Generation Local Training with Client Sampling)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An accelerated fifth-generation local training (LT) federated optimization framework for minimizing mu-strongly convex and L-smooth distributed objectives f(x) = (1/n) sum_{i=1}^n f_i(x) + r(x) under partial client participation (sampling a cohort S^t subseteq {1, ..., n} of size s = |S^t| uniformly at random in each round t). Grounded in the primal-dual lifted reformulation (Equations 11-12) over server primal-dual variables (x^t, z^t, bar{u}^t) and client dual control variates u_i^t in R^d, 5GCS (Algorithm 1) constructs the momentum-interpolated primal query tilde{x}^t = (eta x^t + z^t)/(1 + eta), queries each sampled client i in S^t to compute an Approximate Proximal Point (APP(delta)) solution hat{x}_i^t satisfying ||hat{x}_i^t - x_i^*(tilde{x}^t, u_i^t)||^2 <= delta ||tilde{x}^t - x_i^*(tilde{x}^t, u_i^t)||^2 for the shifted local subproblem x_i^*(tilde{x}^t, u_i^t) = prox_{(1/tau) f_i}(tilde{x}^t + (1/tau) u_i^t), updates active client duals via u_i^{t+1} = u_i^t + alpha(tilde{x}^t - hat{x}_i^t), and updates the server iterates (x^{t+1}, z^{t+1}, bar{u}^{t+1}) to attain accelerated O((n/s) sqrt(L/mu) log(1/epsilon)) communication complexity.
+identity_notes: Distinct from fourth-generation LT methods such as ProxSkip / Scaffnew (AIMech:ProxSkipLocalTrainingAlgorithm, which require full client participation to achieve O(sqrt(L/mu) log(1/epsilon)) communication complexity and lacks a known extension to client sampling with O((n/s) sqrt(L/mu)) rates) and from third-generation methods such as Scaffold (which achieve unaccelerated O((n/s)(L/mu) log(1/epsilon)) rates). 5GCS reformulates accelerated primal-dual LT around client-sampled Approximate Proximal Point (APP) local solvers.
+aliases:
+- 5GCS
+- Fifth-Generation Local Training
+- LT with Double Acceleration and Client Sampling
+definition_evidence:
+- source_id: r581-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r581-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r581-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: five-generation-taxonomy-and-primal-dual-saddle-point-reformulation
+  kind: mechanism
+  statement: "Section 1.2 (Table 1) classifies local training into five generations \u2014 heuristic local SGD (Gen 1), homogeneous-data LT (Gen 2), drift-corrected unaccelerated LT such as Scaffold with O(kappa log(1/epsilon)) communication (Gen 3), full-participation accelerated LT such as Scaffnew/ProxSkip with O(sqrt(kappa) log(1/epsilon)) communication (Gen 4), and accelerated client-sampling LT (Gen 5) \u2014 and Section 3 (Equations 11-12) grounds 5GCS in the lifted saddle-point reformulation min_{x in R^d} max_{u_1, ..., u_n in R^d} {(1/n) sum_{i=1}^n (langle x, u_i rangle - f_i^*(u_i)) + r(x)}."
+  evidence:
+  - source_id: r581-primary-pdf
+    locator: Section 1.2, Table 1, pp. 2-4; Section 3, Equations (11)-(12), p. 5
+    relation: supports
+- claim_id: accelerated-client-sampling-communication-complexity-under-app-condition
+  kind: mechanism
+  statement: "Theorem 4.2 proves that for any contraction factor delta in [0, (1 + mu/(2 tau))^{-1}) in the Approximate Proximal Point condition ||hat{x}_i^t - x_i^*(tilde{x}^t, u_i^t)||^2 <= delta ||tilde{x}^t - x_i^*(tilde{x}^t, u_i^t)||^2 (Definition 4.1) and any penalty tau >= (n/(2 s) - 1) mu, setting alpha = tau (1 - delta (1 + mu/(2 tau)))/(1 + delta) yields linear Lyapunov contraction E[Psi^{t+1}] <= (1 + theta)^{-1} Psi^t, attaining epsilon-accuracy in T = O(((n/s) + sqrt((n/s)(tau/mu))) log(1/epsilon)) communication rounds \u2014 simplifying at the optimal penalty tau = (n L)/s to O((n/s) sqrt(L/mu) log(1/epsilon)) rounds."
+  evidence:
+  - source_id: r581-primary-pdf
+    locator: Section 4, Definition 4.1, Algorithm 1, Theorem 4.2, and Corollary 5.1, pp. 6-8
+    relation: supports
+  - source_id: r581-metadata-cr
+    locator: Bibliographic record (PMLR 206:1055-1092)
+    relation: supports
+- claim_id: fixed-local-gd-and-cgd-inner-loop-implementations-of-5gcs
+  kind: application
+  statement: "Section 5 (Algorithms 2 and 3, Theorems 5.2 and 5.4) instantiates the APP(delta) local solver using K fixed local gradient descent steps with stepsize gamma = 2/(L + mu + 2 tau) \u2014 requiring only K >= (1 + L s / (n mu)) log(4) local steps (at most K = ceil(2 log 4) = 3 local steps when tau >= L) to achieve O((n/s) sqrt(L/mu) log(1/epsilon)) communication \u2014 as well as randomized Coordinate Gradient Descent (CGD) and Accelerated CGD local solvers."
+  evidence:
+  - source_id: r581-primary-pdf
+    locator: Section 5.2-5.4, Algorithms 2-3, Theorems 5.2 and 5.4, Table 1, pp. 8-10
+    relation: supports
+- claim_id: client-statefulness-and-strong-convexity-requirement
+  kind: limitation
+  statement: 5GCS requires each client i in {1, ..., n} to maintain a persistent local dual control variate u_i^t in R^d across rounds (making it a stateful cross-silo/cross-device method) and relies on strong convexity (mu > 0) of the local objectives f_i or global regularizer r for its accelerated O((n/s) sqrt(L/mu) log(1/epsilon)) rate.
+  evidence:
+  - source_id: r581-primary-pdf
+    locator: Section 2, Assumption 2.1, p. 4; Section 4, Algorithm 1, p. 6
+    relation: supports
+evidence_sources:
+- source_id: r581-primary-pdf
+  title: Can 5th Generation Local Training Methods Support Client Sampling? Yes!
+  authors: &id001
+  - Michal Grudzien
+  - Grigory Malinovsky
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2212.14370
+  persistent_id: https://dblp.org/search/publ/api?q=Can+5th+Generation+Local+Training+Methods+Support+Client+Sampling&format=json
+  version: Proceedings of the 26th International Conference on Artificial Intelligence and Statistics (AISTATS 2023), PMLR 206:1055-1092 (2023) (1652298 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:04:00Z'
+  sha256: 38fa826978c5188adaf2ad8240bbe9bfea6a5fa921520b827d252559e9eb7fa6
+- source_id: r581-arxiv-abs
+  title: Can 5th Generation Local Training Methods Support Client Sampling? Yes! (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2212.14370
+  persistent_id: https://arxiv.org/abs/2212.14370
+  version: arXiv abstract page (6678 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:04:00Z'
+  sha256: d3122db956ae9593b6c86f470e851f0ca55e4fb7d81ab6c2307131e30a2be427
+- source_id: r581-metadata-cr
+  title: Can 5th Generation Local Training Methods Support Client Sampling? Yes! (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Can+5th+Generation+Local+Training+Methods+Support+Client+Sampling&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=Can+5th+Generation+Local+Training+Methods+Support+Client+Sampling&format=json
+  version: Crossref API work record (1789 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:04:00Z'
+  sha256: c5d2fabd5e4f5f50ae89e02fe3fab1b0fb4affb57cdd242938dd22f35cdb5934
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: 5GCS is an accelerated federated local training algorithm with partial client participation.
+limitations:
+- Requires each client to store a persistent d-dimensional dual control variate u_i^t between participations.
+- Theoretical O((n/s) sqrt(L/mu) log(1/epsilon)) communication guarantees require strong convexity (mu > 0) and L-smoothness of the local objectives.
+curation:
+  created_at: '2026-10-19T11:04:00Z'
+  updated_at: '2026-10-19T11:04:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

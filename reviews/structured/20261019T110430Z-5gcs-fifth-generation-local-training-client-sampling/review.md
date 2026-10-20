@@ -1,0 +1,356 @@
+# Scientific author self-review of 5GCS (Fifth-Generation Local Training with Client Sampling)
+
+- Review: 20261019T110430Z-5gcs-fifth-generation-local-training-client-sampling
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T11:04:00Z
+- Finished UTC: 2026-10-19T11:04:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain 5GCS (Fifth-Generation Local Training with Client Sampling) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/FiveGcsFifthGenerationLocalTrainingWithClientSampling.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base ae069c9f98fd6ab3b9306aa5b096d074dd8afbdb.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling | data/curated/FiveGcsFifthGenerationLocalTrainingWithClientSampling.yaml | maintained | 5GCS (Fifth-Generation Local Training with Client Sampling) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling | Validated history sidecar files. |
+| python3 5gcs-fifth-generation-local-training-client-sampling-boundaries.py | passed | True | AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling | [PASS] Round 581 5GCS verified: eq11_lhs=18.6800==18.6800, K_local=16, psi_0=8.013e+00 -&gt; psi_T=1.024e-30 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling.
+
+5GCS (Fifth-Generation Local Training with Client Sampling) is a distinct concept.
+
+Distinct from fourth-generation LT methods such as ProxSkip / Scaffnew (AIMech:ProxSkipLocalTrainingAlgorithm, which require full client participation to achieve O(sqrt(L/mu) log(1/epsilon)) communication complexity and lacks a known extension to client sampling with O((n/s) sqrt(L/mu)) rates) and from third-generation methods such as Scaffold (which achieve unaccelerated O((n/s)(L/mu) log(1/epsilon)) rates). 5GCS reformulates accelerated primal-dual LT around client-sampled Approximate Proximal Point (APP) local solvers.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in 5gcs-fifth-generation-local-training-client-sampling-boundaries.py passed with exit code 0: [PASS] Round 581 5GCS verified: eq11_lhs=18.6800==18.6800, K_local=16, psi_0=8.013e+00 -&gt; psi_T=1.024e-30
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T110400Z-5gcs-fifth-generation-local-training-client-sampling.json | supports | No normalized identity match for AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/5gcs-fifth-generation-local-training-client-sampling-boundaries.py | supports | All constructed boundary assertions in 5gcs-fifth-generation-local-training-client-sampling-boundaries.py passed with exit code 0: [PASS] Round 581 5GCS verified: eq11_lhs=18.6800==18.6800, K_local=16, psi_0=8.013e+00 -&gt; psi_T=1.024e-30 |
+| r581-primary-pdf | https://arxiv.org/pdf/2212.14370; Full-text PDF | supports | Full-text PDF (Proceedings of the 26th International Conference on Artificial Intelligence and Statistics (AISTATS 2023), PMLR 206:1055-1092 (2023)) read and verified. |
+| r581-arxiv-abs | https://arxiv.org/abs/2212.14370; arXiv abstract | supports | arXiv abstract read and verified. |
+| r581-metadata-cr | https://dblp.org/search/publ/api?q=Can+5th+Generation+Local+Training+Methods+Support+Client+Sampling&amp;format=json; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling in Round 581.
+- All pages of Proceedings of the 26th International Conference on Artificial Intelligence and Statistics (AISTATS 2023), PMLR 206:1055-1092 (2023) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T110430Z-5gcs-fifth-generation-local-training-client-sampling
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of 5GCS (Fifth-Generation Local Training with
+  Client Sampling)
+started_at: '2026-10-19T11:04:00Z'
+finished_at: '2026-10-19T11:04:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 26th International Conference on Artificial Intelligence and Statistics
+    (AISTATS 2023), PMLR 206:1055-1092 (2023) and pure-Python boundary checks. This
+    is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain 5GCS (Fifth-Generation Local Training with Client Sampling) as a distinct
+  DRAFT algorithm. All three claims are supported by full-text primary evidence and
+  pure-Python boundary verification.
+source:
+  git_revision: ae069c9f98fd6ab3b9306aa5b096d074dd8afbdb
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/FiveGcsFifthGenerationLocalTrainingWithClientSampling.yaml
+    sha256: 41208646428fd613e6a99c17491956b7fbc842504b68b5e70990830617a63211
+    role: target
+  - path: research/discovery/20261019T110400Z-5gcs-fifth-generation-local-training-client-sampling.json
+    sha256: 4b6018945fafa9edd4545df9241c81ecaf958f47f5b0e1f1044dfc67eb088a16
+    role: context
+  - path: research/discovery/5gcs-fifth-generation-local-training-client-sampling-boundaries.py
+    sha256: 10e1239af6e9883b183a7efd0c10d0e4c19a1c66846bb70e4d77ff5c53f30f99
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+  path: data/curated/FiveGcsFifthGenerationLocalTrainingWithClientSampling.yaml
+  label: 5GCS (Fifth-Generation Local Training with Client Sampling)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FiveGcsFifthGenerationLocalTrainingWithClientSampling.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/FiveGcsFifthGenerationLocalTrainingWithClientSampling.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 5gcs-fifth-generation-local-training-client-sampling-boundaries.py
+  command: python3 research/discovery/5gcs-fifth-generation-local-training-client-sampling-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 581 5GCS verified: eq11_lhs=18.6800==18.6800, K_local=16,
+    psi_0=8.013e+00 -> psi_T=1.024e-30'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T110400Z-5gcs-fifth-generation-local-training-client-sampling.json
+  accessed_at: '2026-10-19T11:04:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T11:04:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/5gcs-fifth-generation-local-training-client-sampling-boundaries.py
+  accessed_at: '2026-10-19T11:04:00Z'
+  snapshot_sha256: 10e1239af6e9883b183a7efd0c10d0e4c19a1c66846bb70e4d77ff5c53f30f99
+  support: supports
+  summary: 'All constructed boundary assertions in 5gcs-fifth-generation-local-training-client-sampling-boundaries.py
+    passed with exit code 0: [PASS] Round 581 5GCS verified: eq11_lhs=18.6800==18.6800,
+    K_local=16, psi_0=8.013e+00 -> psi_T=1.024e-30'
+- evidence_id: r581-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2212.14370
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T11:04:00Z'
+  snapshot_sha256: 38fa826978c5188adaf2ad8240bbe9bfea6a5fa921520b827d252559e9eb7fa6
+  support: supports
+  summary: Full-text PDF (Proceedings of the 26th International Conference on Artificial
+    Intelligence and Statistics (AISTATS 2023), PMLR 206:1055-1092 (2023)) read and
+    verified.
+- evidence_id: r581-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2212.14370
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T11:04:00Z'
+  snapshot_sha256: d3122db956ae9593b6c86f470e851f0ca55e4fb7d81ab6c2307131e30a2be427
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r581-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/search/publ/api?q=Can+5th+Generation+Local+Training+Methods+Support+Client+Sampling&format=json
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T11:04:00Z'
+  snapshot_sha256: c5d2fabd5e4f5f50ae89e02fe3fab1b0fb4affb57cdd242938dd22f35cdb5934
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+  evidence_ids:
+  - identity
+  - r581-primary-pdf
+  - r581-arxiv-abs
+  - r581-metadata-cr
+  summary: 5GCS (Fifth-Generation Local Training with Client Sampling) is a distinct
+    concept.
+  details: Distinct from fourth-generation LT methods such as ProxSkip / Scaffnew
+    (AIMech:ProxSkipLocalTrainingAlgorithm, which require full client participation
+    to achieve O(sqrt(L/mu) log(1/epsilon)) communication complexity and lacks a known
+    extension to client sampling with O((n/s) sqrt(L/mu)) rates) and from third-generation
+    methods such as Scaffold (which achieve unaccelerated O((n/s)(L/mu) log(1/epsilon))
+    rates). 5GCS reformulates accelerated primal-dual LT around client-sampled Approximate
+    Proximal Point (APP) local solvers.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+  evidence_ids:
+  - mapping
+  - r581-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+  evidence_ids:
+  - r581-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in 5gcs-fifth-generation-local-training-client-sampling-boundaries.py
+    passed with exit code 0: [PASS] Round 581 5GCS verified: eq11_lhs=18.6800==18.6800,
+    K_local=16, psi_0=8.013e+00 -> psi_T=1.024e-30'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+  evidence_ids:
+  - identity
+  - mapping
+  - r581-primary-pdf
+  - r581-arxiv-abs
+  - r581-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FiveGcsFifthGenerationLocalTrainingWithClientSampling
+  in Round 581.
+- All pages of Proceedings of the 26th International Conference on Artificial Intelligence
+  and Statistics (AISTATS 2023), PMLR 206:1055-1092 (2023) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
