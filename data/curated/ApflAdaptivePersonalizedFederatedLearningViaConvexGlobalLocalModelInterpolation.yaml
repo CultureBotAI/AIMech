@@ -1,0 +1,100 @@
+id: AIMech:ApflAdaptivePersonalizedFederatedLearningViaConvexGlobalLocalModelInterpolation
+name: APFL (Adaptive Personalized Federated Learning via Convex Global-Local Model Interpolation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A personalized federated optimization algorithm and generalization framework (Deng, Kamani, & Mahdavi 2020, Sections 2-4, Equations 2-10, Theorem 1, Algorithm 1) that learns for each client i a personalized predictor h_{alpha_i}(w_hat_i) parameterized by a convex combination w_hat_i = alpha_i v_i + (1 - alpha_i) w^* of a local model v_i in R^d and a shared global model w^* = argmin_w (1/n) sum_{j=1}^n f_j(w), maintaining three local sequences during communication-efficient local descent: the global iterate w_i^{(t)} = w_i^{(t-1)} - eta_t nabla f_i(w_i^{(t-1)}; xi_i^t) (synchronized every tau steps to w^{(t)} = (1/|S_t|) sum_{i in S_t} w_i^{(t)}), the local auxiliary iterate v_i^{(t)} = v_i^{(t-1)} - eta_t nabla_{v} f_i(v_hat_i^{(t-1)}; xi_i^t) evaluated at the interpolated point v_hat_i^{(t-1)} = alpha_i v_i^{(t-1)} + (1 - alpha_i) w_i^{(t-1)} (Equations 6-9), and the client mixing weight alpha_i^{(t)} = Proj_{[0,1]}(alpha_i^{(t-1)} - eta_t <v_i^{(t-1)} - w_i^{(t-1)}, nabla f_i(v_hat_i^{(t-1)}; xi_i^t)>) (Equation 10).'
+identity_notes: Distinct from Ditto (AIMech:DittoFairAndRobustPersonalizedFederatedMultiTaskLearning, Li et al. 2021) and pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, T. Dinh et al. 2020), which optimize local objectives regularized by a quadratic proximity penalty (lambda/2)||v_i - w||_2^2 without evaluating loss gradients at an explicit convex parameter interpolation v_hat_i = alpha_i v_i + (1 - alpha_i) w_i or updating a client-specific mixing coefficient alpha_i in [0, 1] via inner-product gradient descent (Equation 10).
+aliases:
+- APFL
+- Adaptive Personalized Federated Learning
+- Adaptive Global-Local Model Interpolation for Personalized Federated Learning
+definition_evidence:
+- source_id: r471-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r471-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r471-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r471-generalization-bound-optimal-mixing-weight-mechanism
+  kind: mechanism
+  statement: Theorem 1 bounds the target risk of the interpolated hypothesis h_{alpha_i} = alpha_i h_{i,S_i} + (1 - alpha_i) h_{D_bar,S} by 2 alpha_i^2 (hat{L}_{D_i}(h_{i,S_i}) + O(sqrt((d log(m_i/d)) / m_i))) + 2 (1 - alpha_i)^2 (hat{L}_{D_bar}(h_{D_bar,S}) + B_i + d_H(D_i, D_bar) + O(sqrt((d log(m/d)) / m))), showing that the optimal mixing weight alpha_i^* increases toward 1 as the distribution divergence (B_i + d_H(D_i, D_bar)) or local sample size m_i increases, and decreases toward 0 when client distributions are homogeneous (Deng et al. 2020, Section 3, Theorem 1).
+  evidence:
+  - source_id: r471-primary-pdf
+    locator: Section 3 (Generalization Guarantee, Theorem 1 & Remark 1), pp. 4-5
+    relation: supports
+- claim_id: r471-coupled-local-update-and-alpha-projection-mechanism
+  kind: mechanism
+  statement: By chain rule on the composite objective F_i(v_i; w_i^{(t-1)}) = f_i(alpha_i v_i + (1 - alpha_i) w_i^{(t-1)}), APFL updates v_i^{(t)} using alpha_i nabla f_i(v_hat_i^{(t-1)}) and adapts alpha_i^{(t)} online via projected gradient descent using the inner product <v_i^{(t-1)} - w_i^{(t-1)}, nabla f_i(v_hat_i^{(t-1)}; xi_i^t)> without additional gradient evaluations beyond nabla f_i(v_hat_i^{(t-1)}) (Deng et al. 2020, Section 4, Equations 6-10, Algorithm 1).
+  evidence:
+  - source_id: r471-primary-pdf
+    locator: Section 4 (Adaptive Personalized Federated Learning, Equations 6-10, Algorithm 1), pp. 5-7
+    relation: supports
+- claim_id: r471-non-iid-classification-and-regression-application
+  kind: application
+  statement: Applied to personalized logistic regression and deep neural network classification on synthetic non-IID data, MNIST, CIFAR-10, and EMNIST with automatic per-client adaptation of alpha_i (Deng et al. 2020, Section 6, Figures 1-4).
+  evidence:
+  - source_id: r471-primary-pdf
+    locator: Section 6 (Experiments, Figures 1-4), pp. 8-10
+    relation: supports
+- claim_id: r471-double-local-memory-and-forward-backward-cost-limitation
+  kind: limitation
+  statement: Requires each client to store both the local model v_i and the local copy of the global model w_i and to compute two separate stochastic gradients per local step (nabla f_i(w_i^{(t-1)}) and nabla f_i(v_hat_i^{(t-1)})), doubling per-step local gradient computation compared to standard FedAvg (Deng et al. 2020, Algorithm 1).
+  evidence:
+  - source_id: r471-primary-pdf
+    locator: Section 4 (Algorithm 1, lines 6-9), p. 6
+    relation: supports
+evidence_sources:
+- source_id: r471-primary-pdf
+  title: Adaptive Personalized Federated Learning
+  authors: &id001
+  - Yuyang Deng
+  - Mohammad Mahdi Kamani
+  - Mehrdad Mahdavi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2003.13461.pdf
+  persistent_id: https://arxiv.org/abs/2003.13461
+  version: arXiv:2003.13461 (2020) (1442 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:14:00Z'
+  sha256: 08e6a7ab846c217745324417948a07026a6ed021bc9fb85a8224a42f531ebbc2
+- source_id: r471-arxiv-abs
+  title: Adaptive Personalized Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2003.13461
+  persistent_id: https://arxiv.org/abs/2003.13461
+  version: arXiv abstract page (496 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:14:00Z'
+  sha256: a711c57132d6284a4ce5ce0eb33532b2a87e504053d3cf1a570ee08fc62672ba
+- source_id: r471-metadata-cr
+  title: Adaptive Personalized Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2003.13461
+  persistent_id: https://arxiv.org/abs/2003.13461
+  version: Crossref API work record (233 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:14:00Z'
+  sha256: c0e3d2b435e98c9297f981977c38474bf4adf830e4b6a71b4e3d0a0361ffa120
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: APFL is a personalized federated learning algorithm within the broader FederatedLearning category.
+limitations:
+- Requires two local gradient computations per iteration (one at the global iterate w_i and one at the interpolated iterate v_hat_i) and twice the local model memory.
+- Coordinate-level convex interpolation of non-linear neural network weights can traverse high-loss barriers if local and global iterates drift into different permutation basins.
+curation:
+  created_at: '2026-10-19T09:14:00Z'
+  updated_at: '2026-10-19T09:14:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
