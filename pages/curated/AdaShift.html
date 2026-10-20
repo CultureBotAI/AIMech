@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AdaShift · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>AdaShift</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AdaShift</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AdaShift</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Adaptive Learning Rate Method with Temporal Shifting, Temporally Shifted Second-Moment Decorrelated Adam, Block-Wise Spatial-Temporal Shifted Adaptive Optimization
+    </div>
+
+  <div class="detail-desc">
+    An adaptive learning rate optimization algorithm that eliminates the positive correlation between the second-moment scale v_t and the current gradient g_t (or first moment m_t) by maintaining a first-in-first-out window queue Q of the latest n gradients {g_{t-i}}_{i=0}^{n-1} to compute the truncated moving-average first moment m_t = (sum_{i=0}^{n-1} beta_1^i g_{t-i}) / (sum_{i=0}^{n-1} beta_1^i) while updating the adaptive scale v_t[b] = beta_2 v_{t-1}[b] + (1 - beta_2) phi(g_{t-n}^2[b]) for each parameter block b using the popped n-step temporally shifted gradient g_{t-n} and a block-wise spatial aggregation function phi (such as max).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Adam and AMSGrad (which compute v_t using the contemporaneous squared gradient g_t^2, inducing positive correlation between v_t and |g_t| that biases the net update factor k(g_t) against large informative gradients). By separating the temporal support of m_t ({g_t, ..., g_{t-n+1}}) from the temporal support of v_t ({g_{t-n}, g_{t-n-1}, ...}), AdaShift makes v_t statistically independent of m_t under mini-batch independence and guarantees an unbiased expected net update factor E[k(g_t)] across all gradient magnitudes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#adashift-net-update-factor-bias-in-adam-lemmas-2-to-4</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Defining the net update factor of gradient g_t as k(g_t) = sum_{i=t}^inf (alpha_i / sqrt(v_i)) (1 - beta_1) beta_1^{i-t} so net(g_t) = k(g_t) g_t, Zhou et al. (ICLR 2019, Lemmas 2-4) prove that on d-periodic sequential counterexamples lim_{n-&gt;inf} v_{nd+i} = ((1 - beta_2)/(1 - beta_2^d))(C^2 - 1)beta_2^{i-1} + 1 and lim_{n-&gt;inf} k(C) = lim_{n-&gt;inf} k(g_{nd+1}) is strictly minimal across the epoch, and on i.i.d. stochastic counterexamples E[k(C)] &lt; E[k(-1)], causing Adam to weight small wrong-direction gradients more heavily than large correct-direction gradients.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r616-primary-pdf">AdaShift: Decorrelation and Convergence of Adaptive Learning Rate Methods</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.3, Equations 8-12, Lemmas 2-4, and Appendices E-G, p. 3-5, 15-18</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r616-metadata-cr">AdaShift: Decorrelation and Convergence of Adaptive Learning Rate Methods (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata for Zhou et al. ICLR 2019</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#adashift-temporal-decorrelation-theorem-5-and-fifo-window</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Theorem 5 (Equation 13), when v_t follows a stationary distribution independent of the current gradient g_t, the expected net update factor E[k(g_t)] is identical for all gradients; AdaShift enforces this independence under mini-batch sampling by popping g_{t-n} from a length-n FIFO queue Q to update v_t[i] = beta_2 v_{t-1}[i] + (1 - beta_2) phi(g_{t-n}^2[i]) while computing m_t = (sum_{j=0}^{n-1} beta_1^j g_{t-j}) / (sum_{j=0}^{n-1} beta_1^j) solely from the unpopped window {g_t, ..., g_{t-n+1}}.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r616-primary-pdf">AdaShift: Decorrelation and Convergence of Adaptive Learning Rate Methods</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.4, Theorem 5, Algorithm 1, Equations 13-17, and Appendix B (Algorithm 2), p. 5-7, 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#adashift-counterexample-vision-wgan-and-nmt-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AdaShift converges rapidly in the optimal descent direction on Reddi et al.&#39;s stochastic counterexample (where Adam diverges and AMSGrad converges slowly) and improves training loss, test accuracy, and BLEU score over Adam and AMSGrad on MNIST MLP, CIFAR-10 ResNet-18 and DenseNet-100, Tiny-ImageNet DenseNet, WGAN-GP discriminator training, and LSTM neural machine translation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r616-primary-pdf">AdaShift: Decorrelation and Convergence of Adaptive Learning Rate Methods</a></span>
+        <span>· <strong>Locator:</strong> Section 5 (Experiments), Figures 1-7, p. 8-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#adashift-fifo-window-memory-and-deterministic-correlation-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AdaShift must store a FIFO queue Q of the latest n full gradient tensors {g_{t-i}}_{i=0}^{n-1} in memory (requiring O(n P) memory for window length n), and its temporal decorrelation guarantee relies on mini-batch gradients being statistically independent across steps t and t - n, which does not hold on deterministic sequential problems without spatial aggregation or large beta_1/beta_2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r616-primary-pdf">AdaShift: Decorrelation and Convergence of Adaptive Learning Rate Methods</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 (p. 6), Section 5.1 (p. 8), Appendix B (Algorithm 2, p. 13), and Appendix J (p. 22-23)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires storing a first-in-first-out queue Q of the latest n full gradient vectors in memory, incurring O(n P) memory overhead for window length n (e.g., n = 10).</li>
+      <li>Temporal shifting alone assumes statistical independence between g_t and g_{t-n} across mini-batches and can suffer from gradient spikes without the block-wise spatial reduction phi(x) = max_i x[i].</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AdaShift is a decorrelated adaptive gradient optimizer used for training deep neural networks, generative adversarial networks, and neural machine translation models.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r616-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r616-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1810.00143.pdf" target="_blank" rel="noopener">AdaShift: Decorrelation and Convergence of Adaptive Learning Rate Methods</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhiming Zhou, Qingru Zhang, Guansong Lu, Hongwei Wang, Weinan Zhang, Yong Yu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/ZhouZLWZY19.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c6109d918540…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r616-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r616-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1810.00143" target="_blank" rel="noopener">AdaShift: Decorrelation and Convergence of Adaptive Learning Rate Methods (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhiming Zhou, Qingru Zhang, Guansong Lu, Hongwei Wang, Weinan Zhang, Yong Yu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1810.00143</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9cbfc297ecf6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r616-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r616-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/ZhouZLWZY19.xml" target="_blank" rel="noopener">AdaShift: Decorrelation and Convergence of Adaptive Learning Rate Methods (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhiming Zhou, Qingru Zhang, Guansong Lu, Hongwei Wang, Weinan Zhang, Yong Yu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/ZhouZLWZY19.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:894b70486639…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:39:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:39:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdaShift.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdaShift.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

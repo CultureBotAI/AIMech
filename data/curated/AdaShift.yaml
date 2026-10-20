@@ -1,0 +1,106 @@
+id: AIMech:AdaShift
+name: AdaShift
+concept_kind: algorithm
+review_status: DRAFT
+definition: An adaptive learning rate optimization algorithm that eliminates the positive correlation between the second-moment scale v_t and the current gradient g_t (or first moment m_t) by maintaining a first-in-first-out window queue Q of the latest n gradients {g_{t-i}}_{i=0}^{n-1} to compute the truncated moving-average first moment m_t = (sum_{i=0}^{n-1} beta_1^i g_{t-i}) / (sum_{i=0}^{n-1} beta_1^i) while updating the adaptive scale v_t[b] = beta_2 v_{t-1}[b] + (1 - beta_2) phi(g_{t-n}^2[b]) for each parameter block b using the popped n-step temporally shifted gradient g_{t-n} and a block-wise spatial aggregation function phi (such as max).
+identity_notes: Distinct from Adam and AMSGrad (which compute v_t using the contemporaneous squared gradient g_t^2, inducing positive correlation between v_t and |g_t| that biases the net update factor k(g_t) against large informative gradients). By separating the temporal support of m_t ({g_t, ..., g_{t-n+1}}) from the temporal support of v_t ({g_{t-n}, g_{t-n-1}, ...}), AdaShift makes v_t statistically independent of m_t under mini-batch independence and guarantees an unbiased expected net update factor E[k(g_t)] across all gradient magnitudes.
+aliases:
+- Adaptive Learning Rate Method with Temporal Shifting
+- Temporally Shifted Second-Moment Decorrelated Adam
+- Block-Wise Spatial-Temporal Shifted Adaptive Optimization
+definition_evidence:
+- source_id: r616-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r616-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r616-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: adashift-net-update-factor-bias-in-adam-lemmas-2-to-4
+  kind: mechanism
+  statement: Defining the net update factor of gradient g_t as k(g_t) = sum_{i=t}^inf (alpha_i / sqrt(v_i)) (1 - beta_1) beta_1^{i-t} so net(g_t) = k(g_t) g_t, Zhou et al. (ICLR 2019, Lemmas 2-4) prove that on d-periodic sequential counterexamples lim_{n->inf} v_{nd+i} = ((1 - beta_2)/(1 - beta_2^d))(C^2 - 1)beta_2^{i-1} + 1 and lim_{n->inf} k(C) = lim_{n->inf} k(g_{nd+1}) is strictly minimal across the epoch, and on i.i.d. stochastic counterexamples E[k(C)] < E[k(-1)], causing Adam to weight small wrong-direction gradients more heavily than large correct-direction gradients.
+  evidence:
+  - source_id: r616-primary-pdf
+    locator: Section 3.1-3.3, Equations 8-12, Lemmas 2-4, and Appendices E-G, p. 3-5, 15-18
+    relation: supports
+  - source_id: r616-metadata-cr
+    locator: Bibliographic metadata for Zhou et al. ICLR 2019
+    relation: supports
+- claim_id: adashift-temporal-decorrelation-theorem-5-and-fifo-window
+  kind: scope
+  statement: Under Theorem 5 (Equation 13), when v_t follows a stationary distribution independent of the current gradient g_t, the expected net update factor E[k(g_t)] is identical for all gradients; AdaShift enforces this independence under mini-batch sampling by popping g_{t-n} from a length-n FIFO queue Q to update v_t[i] = beta_2 v_{t-1}[i] + (1 - beta_2) phi(g_{t-n}^2[i]) while computing m_t = (sum_{j=0}^{n-1} beta_1^j g_{t-j}) / (sum_{j=0}^{n-1} beta_1^j) solely from the unpopped window {g_t, ..., g_{t-n+1}}.
+  evidence:
+  - source_id: r616-primary-pdf
+    locator: Section 4.1-4.4, Theorem 5, Algorithm 1, Equations 13-17, and Appendix B (Algorithm 2), p. 5-7, 13
+    relation: supports
+- claim_id: adashift-counterexample-vision-wgan-and-nmt-applications
+  kind: application
+  statement: AdaShift converges rapidly in the optimal descent direction on Reddi et al.'s stochastic counterexample (where Adam diverges and AMSGrad converges slowly) and improves training loss, test accuracy, and BLEU score over Adam and AMSGrad on MNIST MLP, CIFAR-10 ResNet-18 and DenseNet-100, Tiny-ImageNet DenseNet, WGAN-GP discriminator training, and LSTM neural machine translation.
+  evidence:
+  - source_id: r616-primary-pdf
+    locator: Section 5 (Experiments), Figures 1-7, p. 8-10
+    relation: supports
+- claim_id: adashift-fifo-window-memory-and-deterministic-correlation-limitation
+  kind: limitation
+  statement: AdaShift must store a FIFO queue Q of the latest n full gradient tensors {g_{t-i}}_{i=0}^{n-1} in memory (requiring O(n P) memory for window length n), and its temporal decorrelation guarantee relies on mini-batch gradients being statistically independent across steps t and t - n, which does not hold on deterministic sequential problems without spatial aggregation or large beta_1/beta_2.
+  evidence:
+  - source_id: r616-primary-pdf
+    locator: Section 4.1 (p. 6), Section 5.1 (p. 8), Appendix B (Algorithm 2, p. 13), and Appendix J (p. 22-23)
+    relation: supports
+evidence_sources:
+- source_id: r616-primary-pdf
+  title: 'AdaShift: Decorrelation and Convergence of Adaptive Learning Rate Methods'
+  authors: &id001
+  - Zhiming Zhou
+  - Qingru Zhang
+  - Guansong Lu
+  - Hongwei Wang
+  - Weinan Zhang
+  - Yong Yu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1810.00143.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/ZhouZLWZY19.xml
+  version: International Conference on Learning Representations (ICLR 2019) (2019) (5426040 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:39:00Z'
+  sha256: c6109d918540d9fbbbb987a143a34d742a5d247f202eb52c57d4100599957c65
+- source_id: r616-arxiv-abs
+  title: 'AdaShift: Decorrelation and Convergence of Adaptive Learning Rate Methods (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1810.00143
+  persistent_id: https://arxiv.org/abs/1810.00143
+  version: arXiv abstract page (7599 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:39:00Z'
+  sha256: 9cbfc297ecf627057c2f50a76b6dd904e006eae17071b82f8118c5b9143a854a
+- source_id: r616-metadata-cr
+  title: 'AdaShift: Decorrelation and Convergence of Adaptive Learning Rate Methods (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/ZhouZLWZY19.xml
+  persistent_id: https://dblp.org/rec/conf/iclr/ZhouZLWZY19.xml
+  version: Crossref API work record (495 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:39:00Z'
+  sha256: 894b70486639e58a1dacf118bc79b2d96ecea7202dd864dd1d77ccd4fbd756d6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: AdaShift is a decorrelated adaptive gradient optimizer used for training deep neural networks, generative adversarial networks, and neural machine translation models.
+limitations:
+- Requires storing a first-in-first-out queue Q of the latest n full gradient vectors in memory, incurring O(n P) memory overhead for window length n (e.g., n = 10).
+- Temporal shifting alone assumes statistical independence between g_t and g_{t-n} across mini-batches and can suffer from gradient spikes without the block-wise spatial reduction phi(x) = max_i x[i].
+curation:
+  created_at: '2026-10-19T11:39:00Z'
+  updated_at: '2026-10-19T11:39:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
