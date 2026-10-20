@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LM Distill + Ranker Distill (Two-Round Knowledge Distillation for BERT Rankers) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/learning_paradigm.html">Learning Paradigms</a>
+  <span>/</span>
+  <strong>LM Distill + Ranker Distill (Two-Round Knowledge Distillation for BERT Rankers)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">LM Distill + Ranker Distill (Two-Round Knowledge Distillation for BERT Rankers)</h1>
+    <span class="badge badge-curated">Learning Paradigms</span>
+    <span class="detail-id">AIMech:LMDistillPlusRankerDistillForBERTRankers</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LM Distill + Ranker Distill, Two-Round LM and Ranker Knowledge Distillation for BERT Rerankers, LM-Distill-Plus-Ranker-Distill
+    </div>
+
+  <div class="detail-desc">
+    A two-round knowledge distillation paradigm for compressing BERT-based neural rerankers (Gao, Dai, &amp; Callan, ICTIR 2020) that explicitly disentangles and transfers two sources of teacher capability: (1) general-purpose language modeling knowledge via LM Distill, which distills a pre-trained 12-layer BERT language model over a large text corpus into a compact student language model, and (2) search-specific relevance modeling knowledge via Ranker Distill, which subsequently distills both intermediate self-attention distributions and output relevance predictions from a fine-tuned 12-layer BERT ranker onto the LM-distilled student, preserving statistical non-inferiority to the full BERT ranker at up to 9x inference speedup.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from single-stage Ranker Distill (which distills a fine-tuned BERT ranker directly onto a randomly initialized student and fails to recover general language modeling knowledge) and from LM Distill + Fine-tuning (which fine-tunes a distilled LM directly on hard search labels and degrades or overfits under high compression such as 4-layer H=312 students). By pairing LM Distill initialization with Ranker Distill intermediate-attention and output supervision, LM Distill + Ranker Distill prevents overfitting past 5M training pairs and achieves statistical non-inferiority on both 6-layer (H=768) and 4-layer (H=312) rankers.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#lm-plus-ranker-distill-three-regime-separation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The framework decomposes BERT ranker compression into three regimes (Figure 1): Ranker Distill alone (distilling a fine-tuned BERT ranker into a randomly initialized student), LM Distill + Fine-tuning (distilling general-purpose LM predictions into a student LM followed by supervised search fine-tuning), and LM Distill + Ranker Distill (initializing the student via LM Distill and then distilling intermediate self-attention distributions and output relevance signals from a fine-tuned BERT ranker teacher).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r798-primary-pdf">Understanding BERT Rankers Under Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Distilling BERT for Ranking), pp. 1-2, Figure 1</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r798-primary-pdf">Understanding BERT Rankers Under Distillation</a></span>
+        <span>· <strong>Locator:</strong> non_inferiority_margin_check and kl_divergence verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#lm-plus-ranker-distill-noninferiority-and-9x-speedup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On MS MARCO Passage Ranking and TREC 2019 DL Queries, Ranker Distill alone fails 3%-margin non-inferiority testing at both 6 layers (0.3380 MRR@10) and 4 layers (0.3286 MRR@10 vs. 0.3527 for 12-layer BERT), and LM Distill + Fine-tuning fails at 4 layers (0.3320 MRR@10), whereas LM Distill + Ranker Distill achieves statistical non-inferiority at both 6 layers (0.3600 MRR@10, 2.0x speedup) and 4 layers with H=312 (0.3501 MRR@10, 0.6827 NDCG@10, 9.0x speedup at 0.33s per 1000 documents or 30 queries/sec at depth 100, Tables 1-2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r798-primary-pdf">Understanding BERT Rankers Under Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1 (Impacts on Ranking Performance), p. 3, Tables 1-2</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r798-primary-pdf">Understanding BERT Rankers Under Distillation</a></span>
+        <span>· <strong>Locator:</strong> Table 1 non-inferiority and depth-100 throughput verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#lm-plus-ranker-distill-sample-complexity-and-overfitting-resistance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    While a 6-layer LM-distilled student converges near full BERT accuracy within 100K-1M training pairs, a highly compressed 4-layer (H=312) student requires 5M-10M pairs to recover lost LM capacity; beyond 5M pairs, direct fine-tuning degrades due to overfitting whereas Ranker Distill continues improving monotonically (Section 5.2, Figure 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r798-primary-pdf">Understanding BERT Rankers Under Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2 (Impacts on Training), p. 4, Figure 2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#lm-plus-ranker-distill-offline-training-time-cost</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because Ranker Distill executes both the 12-layer teacher and the student during training and requires 5x more training steps for the 4-layer model to converge (5M vs. 1M examples), reaching within 5% of teacher accuracy requires 5.5 hours (6-layer) to 14.8 hours (4-layer) on 4 GPUs, which is 5x-9x slower than direct fine-tuning (1.1h and 1.6h, Table 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r798-primary-pdf">Understanding BERT Rankers Under Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2 (Fine-tuning vs. Ranker Distill during Training, Table 3), p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Ranker Distill requires running both teacher and student forward passes over 5M-10M training pairs for highly compressed 4-layer models, increasing offline training time by 5x-9x compared to direct fine-tuning (14.8h vs. 1.6h).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LM Distill + Ranker Distill is a two-stage knowledge distillation learning paradigm for Transformer neural network rankers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r798-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r798-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2007.11088.pdf" target="_blank" rel="noopener">Understanding BERT Rankers Under Distillation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Luyu Gao, Zhuyun Dai, Jamie Callan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2007.11088</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1429e48ff3f7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r798-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r798-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2007.11088" target="_blank" rel="noopener">Understanding BERT Rankers Under Distillation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Luyu Gao, Zhuyun Dai, Jamie Callan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2007.11088</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2af67f5b9263…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r798-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r798-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2007.11088" target="_blank" rel="noopener">Understanding BERT Rankers Under Distillation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Luyu Gao, Zhuyun Dai, Jamie Callan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2007.11088</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b5cf635b4480…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:41:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:41:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LMDistillPlusRankerDistillForBERTRankers.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LMDistillPlusRankerDistillForBERTRankers.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
