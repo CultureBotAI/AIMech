@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1506</strong> artificial intelligence concepts, comprising <strong>1064</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1507</strong> artificial intelligence concepts, comprising <strong>1065</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1506)</option>
-        <option value="curated">Curated AIMech (1064)</option>
+        <option value="all">All Origins (1507)</option>
+        <option value="curated">Curated AIMech (1065)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (760)</option>
+          <option value="algorithm">Algorithms (761)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1506</span> of <span id="totalCount">1506</span>
+      Showing <span id="matchCount">1507</span> of <span id="totalCount">1507</span>
     </div>
   </div>
 </div>
@@ -30634,6 +30634,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="s-lora slora aimech:slora algorithms algorithm a scalable multi-adapter inference serving algorithm and memory management architecture that decouples batched base-model computation from on-the-fly low-rank adapter evaluation, jointly manages dynamic kv caches and heterogeneous-rank lora weights in a single h-page unified paging memory pool, executes padding-free non-contiguous gather matrix multiplications (mbgmm and mbgmv), and aligns multi-gpu adapter tensor parallelism with base-model all-reduce collectives. distinct from aimech:lowrankadaptation (lora), which merges a single adapter w&#39; = w + a b into the base weights and incurs prohibitive weight duplication or serial swapping latency when serving many concurrent adapters, and from aimech:pagedattention, which pages only kv cache tensors for a single static weight set. s-lora (ying sheng, shiyi cao, dacheng li, coleman hooper, nicholas lee, shuo yang, christopher chou, banghua zhu, lianmin zheng, kurt keutzer, joseph e. gonzalez, and ion stoica, mlsys 2024, arxiv:2311.03285) stores thousands of lora adapters in host ram and dynamically prefetches active adapters into gpu memory. because a per-layer kv cache tensor has shape (s, h) and a lora weight matrix has shape (r, h) sharing the hidden dimension h, s-lora allocates both from a unified memory pool partitioned into pages of h elements (where sequence length s uses s pages and rank r uses r pages). custom triton/cuda kernels—multi-size batched gather matrix-matrix multiplication (mbgmm) for prefill and multi-size batched gather matrix-vector multiplication (mbgmv) for decode—compute x a b directly over non-contiguous pages across heterogeneous ranks r without padding, while s-lora tensor parallelism restricts added multi-gpu communication to 5(n-1)br/n elements. scalable lora serving with unified paging s-lora concurrent multi-adapter serving exploiting the shared hidden dimension h between kv cache tensors of shape (s, h) and lora weight matrices of shape (r, h), s-lora&#39;s unified paging statically allocates a single gpu memory pool of h-element pages in which a kv cache of sequence length s occupies s pages and a lora weight tensor of rank r occupies r interleaved non-contiguous pages, eliminating external fragmentation during dynamic adapter loading. rather than merging adapters into w or padding heterogeneous ranks to use dense batched gemm, s-lora batches the shared base projection x w across all requests and executes x a b on the fly using multi-size batched gather matrix-matrix multiplication (mbgmm) during prefill and multi-size batched gather matrix-vector multiplication (mbgmv) during decode directly over non-contiguous page indices. across n gpus under megatron-lm tensor parallelism, s-lora partitions a_1, b_1 column-wise (with an all-gather on the r-dimensional intermediate vector) and a_2 row-wise, b_2 column-wise (with an all-reduce on the r-dimensional vector and fusion into the base model&#39;s final all-reduce), incurring only 5(n-1)br/n additional communication versus 2(n-1)bh/n for the base model. evaluated on llama-7b/13b/30b/70b across synthetic power-law workloads and real lmsys chatbot arena traces, s-lora serves up to 2,000 concurrent lora adapters on a single a100 (80gb) gpu, improving throughput by up to 4x over vllm-packed and up to 30x over huggingface peft. when serving only one or two static adapters, s-lora&#39;s separated on-the-fly x a b computation has slightly lower throughput than merging w&#39; = w + a b once into the base model, and under highly uniform request distributions with rapid adapter churn across batches, pcie host-to-gpu prefetching bandwidth can still bottleneck adapter loading. s-lora: serving thousands of concurrent lora adapters s-lora: serving thousands of concurrent lora adapters (arxiv abstract) s-lora: serving thousands of concurrent lora adapters (crossref metadata) ying sheng shiyi cao dacheng li coleman hooper nicholas lee shuo yang christopher chou banghua zhu lianmin zheng kurt keutzer joseph e. gonzalez ion stoica ying sheng shiyi cao dacheng li coleman hooper nicholas lee shuo yang christopher chou banghua zhu lianmin zheng kurt keutzer joseph e. gonzalez ion stoica ying sheng shiyi cao dacheng li coleman hooper nicholas lee shuo yang christopher chou banghua zhu lianmin zheng kurt keutzer joseph e. gonzalez ion stoica">
+        <td>
+          <a href="curated/SLoRA.html" style="font-weight: 600; font-size: 1rem;">S-LoRA</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Scalable LoRA Serving with Unified Paging, S-LoRA Concurrent Multi-Adapter Serving            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A scalable multi-adapter inference serving algorithm and memory management architecture that decouples batched base-model computation from o…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:SLoRA</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="5 claims curated">5 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
