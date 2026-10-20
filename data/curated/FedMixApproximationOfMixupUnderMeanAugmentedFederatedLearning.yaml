@@ -1,0 +1,101 @@
+id: AIMech:FedMixApproximationOfMixupUnderMeanAugmentedFederatedLearning
+name: FedMix (Approximation of Mixup under Mean Augmented Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A privacy-preserving federated data augmentation and optimization algorithm (Yoon, Shin, Hwang, & Yang 2021, Section 3, Proposition 1, Equations 1-5, Algorithms 1-2) operating within the Mean Augmented Federated Learning (MAFL) framework \u2014 in which each client k partitions its local dataset D_k into M_k-instance batches and exchanges only batch-averaged ('mashed') input-label pairs (x_bar_j, y_bar_j) with the server \u2014 that approximates the cross-client Global Mixup loss (1/|J|) sum_{j in J} ell(f((1 - lambda) x_i + lambda x_j), (1 - lambda) y_i + lambda y_j) around lambda << 1 via a first-order Taylor expansion in the first argument x, exploiting linearity in (x_j, y_j) so that the resulting local objective ell_FedMix = (1 - lambda) ell(f((1 - lambda) x_i), y_i) + lambda ell(f((1 - lambda) x_i), y_bar_j) + lambda (partial ell / partial x)|_{x=(1-lambda)x_i, y=y_i} . x_bar_j (Equation 5, Algorithm 2) requires only the averaged external data (x_bar_j, y_bar_j) and the local input derivative partial ell / partial x without accessing raw client instances."
+identity_notes: Distinct from standard Mixup (AIMech:MixupVicinalRiskMinimizationByConvexSampleInterpolation, Zhang et al. 2018), which requires direct access to raw sample pairs (x_i, y_i) and (x_j, y_j); and distinct from NaiveMix within MAFL (Equation 1), which directly evaluates f((1 - lambda) x_i + lambda x_bar_j) on averaged inputs without the input-Jacobian correction term lambda (partial ell / partial x) . x_bar_j derived in Proposition 1.
+aliases:
+- FedMix
+- Federated Mixup under Mean Augmented Federated Learning
+- MAFL-FedMix
+definition_evidence:
+- source_id: r470-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r470-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r470-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r470-taylor-expansion-linearity-in-mashed-data-mechanism
+  kind: mechanism
+  statement: Proposition 1 expands the cross-client Global Mixup loss ell(f((1 - lambda) x_i + lambda x_j), (1 - lambda) y_i + lambda y_j) around lambda << 1 to first order O(lambda), yielding (1 - lambda) ell(f((1 - lambda) x_i), y_i) + lambda ell(f((1 - lambda) x_i), y_j) + lambda (partial ell / partial x)|_{(1-lambda)x_i, y_i} . x_j (Equation 4); because this expression is affine in x_j and y_j, averaging over a batch J of M instances from client j replaces individual (x_j, y_j) with their means (x_bar_j, y_bar_j) exactly up to O(lambda^2) (Yoon et al. 2021, Section 3.3, Proposition 1, Equation 5, Appendix C).
+  evidence:
+  - source_id: r470-primary-pdf
+    locator: Section 3.3 (Proposition 1, Equations 3-5), p. 5, and Appendix C (Equations 6-8), p. 14
+    relation: supports
+- claim_id: r470-mafl-batch-averaging-privacy-communication-tradeoff-scope
+  kind: scope
+  statement: Under the Mean Augmented Federated Learning (MAFL) protocol (Algorithm 1), the batch averaging size M_k controls the privacy-utility and communication trade-off, where client k transmits n_k / M_k averaged input-label pairs (only once when local datasets are static), incurring negligible communication overhead d_i / (T p_m) relative to T rounds of p_m-parameter model exchange (Yoon et al. 2021, Sections 3.2 & 3.4).
+  evidence:
+  - source_id: r470-primary-pdf
+    locator: Section 3.2 (Algorithm 1), p. 4, and Section 3.4, p. 6
+    relation: supports
+- claim_id: r470-non-iid-federated-classification-and-language-application
+  kind: application
+  statement: Applied to non-IID federated image classification on FEMNIST, CIFAR-10, and CIFAR-100 and embedding-space character prediction on Shakespeare under partial client participation and Dirichlet/class-shard label skew (Yoon et al. 2021, Section 4, Tables 1-7).
+  evidence:
+  - source_id: r470-primary-pdf
+    locator: Section 4 (Experiments, Tables 1-7, Figure 2), pp. 6-9
+    relation: supports
+- claim_id: r470-second-order-taylor-breakdown-at-large-lambda-limitation
+  kind: limitation
+  statement: Because FedMix drops O(lambda^2) second-order terms in the Taylor expansion around lambda << 1 and exchanges batch-averaged inputs, choosing a large Mixup ratio lambda (e.g., lambda = 0.5) degrades approximation accuracy, and choosing a small averaging batch size M_k risks leaking information about local data distributions (Yoon et al. 2021, Section 3.4 & Section 4.2 Table 5).
+  evidence:
+  - source_id: r470-primary-pdf
+    locator: Section 3.4, p. 6, and Section 4.2 (Table 5), p. 8
+    relation: supports
+evidence_sources:
+- source_id: r470-primary-pdf
+  title: 'FedMix: Approximation of Mixup under Mean Augmented Federated Learning'
+  authors: &id001
+  - Tehrim Yoon
+  - Sumin Shin
+  - Sung Ju Hwang
+  - Eunho Yang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2107.00233.pdf
+  persistent_id: https://arxiv.org/abs/2107.00233
+  version: ICLR 2021 (2021) (1759 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:13:00Z'
+  sha256: 9607f76b30cf9f6319177a49dce1140277c49d22edc31c22fdb806999a43bf83
+- source_id: r470-arxiv-abs
+  title: 'FedMix: Approximation of Mixup under Mean Augmented Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2107.00233
+  persistent_id: https://arxiv.org/abs/2107.00233
+  version: arXiv abstract page (1042 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:13:00Z'
+  sha256: ed5a619680564c9d305d9baa97e15d7d272eb98dc0c71386bdfdb50862ed5ce5
+- source_id: r470-metadata-cr
+  title: 'FedMix: Approximation of Mixup under Mean Augmented Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2107.00233
+  persistent_id: https://arxiv.org/abs/2107.00233
+  version: Crossref API work record (292 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:13:00Z'
+  sha256: 436503c9d031613aa3d463fc7ca7b1c7ee5220b2cf28da184214cb9045cc3a05
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedMix is a federated learning algorithm using Taylor-expanded Mixup over batch-averaged client data within the broader FederatedLearning category.
+limitations:
+- First-order Taylor approximation accuracy degrades when the Mixup interpolation coefficient lambda is not small (O(lambda^2) remainder).
+- Exchanging batch-averaged inputs (x_bar, y_bar) can leak client distribution properties if the averaging batch size M_k or local sample count n_k is too small.
+curation:
+  created_at: '2026-10-19T09:13:00Z'
+  updated_at: '2026-10-19T09:13:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
