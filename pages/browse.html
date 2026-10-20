@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1464</strong> artificial intelligence concepts, comprising <strong>1022</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1465</strong> artificial intelligence concepts, comprising <strong>1023</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1464)</option>
-        <option value="curated">Curated AIMech (1022)</option>
+        <option value="all">All Origins (1465)</option>
+        <option value="curated">Curated AIMech (1023)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (718)</option>
+          <option value="algorithm">Algorithms (719)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1464</span> of <span id="totalCount">1464</span>
+      Showing <span id="matchCount">1465</span> of <span id="totalCount">1465</span>
     </div>
   </div>
 </div>
@@ -36384,6 +36384,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:ZenoPlusPlusRobustFullyAsynchronousStochasticGradientDescent</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="zero-infinity zeroinfinityheterogeneousextremescaletraining aimech:zeroinfinityheterogeneousextremescaletraining algorithms algorithm a heterogeneous distributed deep learning training system and algorithm built on zero stage-3 that partitions all model states (parameters, gradients, and optimizer states) across data-parallel processes and offloads them to cpu and nvme storage via the infinity offload engine (deepnvme asynchronous bulk i/o + reusable pinned-memory buffer pool), while decomposing individual large operators into sequential parameter tiles via memory-centric tiling, retrieving offloaded parameters across all parallel pcie links via allgather-based bandwidth-centric partitioning, and overlapping nvme-to-cpu (nc), cpu-to-gpu (cg), and gpu-to-gpu (gg) transfers with computation via a dynamic operator-sequence prefetcher. distinct from zero-offload (which builds on zero-2, replicates fp16 parameters on every gpu, uses single-owner broadcast limiting offload bandwidth to one pcie link, and cannot offload to nvme), from gpu-only zero-3, and from 3d parallelism (which requires manual tensor-slicing model parallelism and pipeline-stage refactoring and is bounded by aggregate gpu hbm capacity). zero redundancy optimizer infinity zero-infinity nvme-cpu-gpu offload deepspeed zero-infinity for a transformer with nl layers and hidden dimension hd (params approx 12 nl hd^2, model-state memory 240 nl hd^2 bytes, eq. 1-2), model state working memory for the largest linear layer (hd -&gt; 4 hd) is 16 hd^2 bytes (eq. 4) and activation working memory is bsz * seq * ci * (16 hd + 2 attn_heads * seq) bytes (eq. 5); with per-iteration compute 8 * bsz * seq * params flops (eq. 7-8), the arithmetic intensities with respect to parameters and gradients, optimizer states, and activation checkpoints reduce exactly to ait_{param+grad} = seq * bsz (eq. 9), ait_{opt} = seq * bsz / 4 (eq. 10), and ait_{act_ckpt} = 24 * hd * ci (eq. 11), governing bandwidth efficiency via efficiency = (ait * bw) / (ait * bw + peak_tp) (eq. 6). memory-centric tiling decomposes a large linear operator into a mathematically equivalent sequence of t smaller parameter tiles that are fetched and released one at a time via zero-3, reducing peak gpu model state working memory by factor 1 / t without tensor-slicing model parallelism (section 5.1.3, scaling hidden dimension from 8k to 64k in figure 6b); simultaneously, bandwidth-centric partitioning shards each parameter across all dp data-parallel processes and reconstructs it via allgather instead of single-owner broadcast, activating all dp pcie links in parallel so effective slow-memory-to-gpu bandwidth scales linearly with dp (section 6.1). by decorating torch.nn.module.__init__ to partition and offload each submodule&#39;s parameters immediately upon construction (section 7.2) and injecting recursive pre/post forward-backward hooks with external-parameter auto-registration (section 7.1), zero-infinity fine-tunes up to 1-trillion-parameter models on a single 16-gpu dgx-2 node without model parallelism and scales up to 32-trillion-parameter models across 32 dgx-2 nodes (512 v100 gpus), sustaining over 25 petaflops (49 tflops/gpu, ~40% of peak) with superlinear weak scaling. because optimizer states have 4x lower arithmetic intensity (seq * bsz / 4) than parameters and gradients and are updated at the end of the backward pass where they cannot be fully overlapped with forward-backward gpu compute, achieving high efficiency at small per-gpu batch sizes requires high aggregate nvme/cpu bandwidth (~1.5 tb/s across the cluster), and at extreme 20t-parameter scale on 512 gpus, cpu memory capacity for activation checkpoints limits per-gpu micro-batch size to 1.25, reducing throughput from 49 to 34 tflops/gpu. zero-infinity: breaking the gpu memory wall for extreme scale deep learning zero-infinity: breaking the gpu memory wall for extreme scale deep learning (arxiv abstract) zero-infinity: breaking the gpu memory wall for extreme scale deep learning (crossref metadata) samyam rajbhandari olatunji ruwase jeff rasley shaden smith yuxiong he samyam rajbhandari olatunji ruwase jeff rasley shaden smith yuxiong he samyam rajbhandari olatunji ruwase jeff rasley shaden smith yuxiong he">
+        <td>
+          <a href="curated/ZeROInfinityHeterogeneousExtremeScaleTraining.html" style="font-weight: 600; font-size: 1rem;">ZeRO-Infinity</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Zero Redundancy Optimizer Infinity, ZeRO-Infinity NVMe-CPU-GPU Offload…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A heterogeneous distributed deep learning training system and algorithm built on ZeRO Stage-3 that partitions all model states (parameters,…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:ZeROInfinityHeterogeneousExtremeScaleTraining</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

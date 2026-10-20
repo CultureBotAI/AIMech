@@ -1,0 +1,102 @@
+id: AIMech:ZeROInfinityHeterogeneousExtremeScaleTraining
+name: ZeRO-Infinity
+concept_kind: algorithm
+review_status: DRAFT
+definition: A heterogeneous distributed deep learning training system and algorithm built on ZeRO Stage-3 that partitions all model states (parameters, gradients, and optimizer states) across data-parallel processes and offloads them to CPU and NVMe storage via the Infinity Offload Engine (DeepNVMe asynchronous bulk I/O + reusable pinned-memory buffer pool), while decomposing individual large operators into sequential parameter tiles via Memory-Centric Tiling, retrieving offloaded parameters across all parallel PCIe links via allgather-based Bandwidth-Centric Partitioning, and overlapping NVMe-to-CPU (nc), CPU-to-GPU (cg), and GPU-to-GPU (gg) transfers with computation via a dynamic operator-sequence prefetcher.
+identity_notes: Distinct from ZeRO-Offload (which builds on ZeRO-2, replicates FP16 parameters on every GPU, uses single-owner broadcast limiting offload bandwidth to one PCIe link, and cannot offload to NVMe), from GPU-only ZeRO-3, and from 3D Parallelism (which requires manual tensor-slicing model parallelism and pipeline-stage refactoring and is bounded by aggregate GPU HBM capacity).
+aliases:
+- Zero Redundancy Optimizer Infinity
+- ZeRO-Infinity NVMe-CPU-GPU Offload
+- DeepSpeed ZeRO-Infinity
+definition_evidence:
+- source_id: r628-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r628-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r628-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r628-memory-working-set-and-arithmetic-intensity-efficiency-laws
+  kind: mechanism
+  statement: For a Transformer with nl layers and hidden dimension hd (params approx 12 nl hd^2, model-state memory 240 nl hd^2 bytes, Eq. 1-2), Model State Working Memory for the largest linear layer (hd -> 4 hd) is 16 hd^2 bytes (Eq. 4) and Activation Working Memory is bsz * seq * ci * (16 hd + 2 attn_heads * seq) bytes (Eq. 5); with per-iteration compute 8 * bsz * seq * params FLOPs (Eq. 7-8), the arithmetic intensities with respect to parameters and gradients, optimizer states, and activation checkpoints reduce exactly to ait_{param+grad} = seq * bsz (Eq. 9), ait_{opt} = seq * bsz / 4 (Eq. 10), and ait_{act_ckpt} = 24 * hd * ci (Eq. 11), governing bandwidth efficiency via efficiency = (ait * bw) / (ait * bw + peak_tp) (Eq. 6).
+  evidence:
+  - source_id: r628-primary-pdf
+    locator: Section 3 Eq. (1)-(5) & Figure 2a, p. 3-4; Section 4.1-4.2 Eq. (6)-(11) & Figure 3, p. 4-6
+    relation: supports
+- claim_id: c-r628-memory-centric-tiling-and-bandwidth-centric-allgather-partitioning
+  kind: mechanism
+  statement: Memory-Centric Tiling decomposes a large linear operator into a mathematically equivalent sequence of T smaller parameter tiles that are fetched and released one at a time via ZeRO-3, reducing peak GPU Model State Working Memory by factor 1 / T without tensor-slicing model parallelism (Section 5.1.3, scaling hidden dimension from 8K to 64K in Figure 6b); simultaneously, Bandwidth-Centric Partitioning shards each parameter across all dp data-parallel processes and reconstructs it via allgather instead of single-owner broadcast, activating all dp PCIe links in parallel so effective slow-memory-to-GPU bandwidth scales linearly with dp (Section 6.1).
+  evidence:
+  - source_id: r628-primary-pdf
+    locator: Section 5.1.3, p. 6; Section 6.1-6.2, p. 8; Section 8.5-8.6 Figure 6b-6c, p. 10-11
+    relation: supports
+- claim_id: c-r628-multi-trillion-parameter-training-and-zero-refactoring-init
+  kind: application
+  statement: By decorating torch.nn.Module.__init__ to partition and offload each submodule's parameters immediately upon construction (Section 7.2) and injecting recursive pre/post forward-backward hooks with external-parameter auto-registration (Section 7.1), ZeRO-Infinity fine-tunes up to 1-trillion-parameter models on a single 16-GPU DGX-2 node without model parallelism and scales up to 32-trillion-parameter models across 32 DGX-2 nodes (512 V100 GPUs), sustaining over 25 petaflops (49 TFLOPS/GPU, ~40% of peak) with superlinear weak scaling.
+  evidence:
+  - source_id: r628-primary-pdf
+    locator: Section 1 Figure 1, p. 1; Section 7.1-7.2, p. 9; Section 8.2-8.4 Table 1 & Figure 5, p. 10
+    relation: supports
+- claim_id: c-r628-optimizer-state-bandwidth-and-small-batch-cpu-memory-limitation
+  kind: limitation
+  statement: Because optimizer states have 4x lower arithmetic intensity (seq * bsz / 4) than parameters and gradients and are updated at the end of the backward pass where they cannot be fully overlapped with forward-backward GPU compute, achieving high efficiency at small per-GPU batch sizes requires high aggregate NVMe/CPU bandwidth (~1.5 TB/s across the cluster), and at extreme 20T-parameter scale on 512 GPUs, CPU memory capacity for activation checkpoints limits per-GPU micro-batch size to 1.25, reducing throughput from 49 to 34 TFLOPS/GPU.
+  evidence:
+  - source_id: r628-primary-pdf
+    locator: Section 4.2, p. 6; Section 5.2.2, p. 7; Section 8.2 Table 1 & Figure 5a, p. 10
+    relation: supports
+evidence_sources:
+- source_id: r628-primary-pdf
+  title: 'ZeRO-Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning'
+  authors: &id001
+  - Samyam Rajbhandari
+  - Olatunji Ruwase
+  - Jeff Rasley
+  - Shaden Smith
+  - Yuxiong He
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2104.07857.pdf
+  persistent_id: https://dblp.org/rec/conf/sc/RajbhandariRRSH21
+  version: Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis (SC 2021, Article 59) (2021) (1322978 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:51:00Z'
+  sha256: 6b291a9bf12fe52d6eafda2ec69d65cbab59db046cf27d8ecb4912331dc402c1
+- source_id: r628-arxiv-abs
+  title: 'ZeRO-Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2104.07857
+  persistent_id: https://arxiv.org/abs/2104.07857
+  version: arXiv abstract page (7377 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:51:00Z'
+  sha256: fe11a78fe51a72533ec47273266031956b038ccf37f37d4dcc8aa1aa0d270caf
+- source_id: r628-metadata-cr
+  title: 'ZeRO-Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/sc/RajbhandariRRSH21
+  persistent_id: https://dblp.org/rec/conf/sc/RajbhandariRRSH21
+  version: Crossref API work record (1906 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:51:00Z'
+  sha256: ec7eb3a1338e6cc40f8317f9c4b6fd304b9794ddcc0641820c285819a512c573
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: ZeRO-Infinity enables distributed training and fine-tuning of multi-trillion-parameter deep artificial neural networks across heterogeneous NVMe, CPU, and GPU memory tiers.
+limitations:
+- Optimizer states have 4x lower arithmetic intensity (seq * bsz / 4) than parameters and gradients and execute at the end of backward propagation, requiring high aggregate NVMe-CPU bandwidth (~1.5 TB/s across nodes) at small micro-batch sizes.
+- When activation checkpoints are offloaded only to CPU memory rather than NVMe, CPU memory capacity limits the per-GPU micro-batch size for 20-trillion-parameter models, reducing per-GPU throughput from 49 to 34 TFLOPS.
+curation:
+  created_at: '2026-10-19T11:51:00Z'
+  updated_at: '2026-10-19T11:51:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
