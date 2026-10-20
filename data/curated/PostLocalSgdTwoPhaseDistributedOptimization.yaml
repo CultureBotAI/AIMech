@@ -1,0 +1,104 @@
+id: AIMech:PostLocalSgdTwoPhaseDistributedOptimization
+name: Post-Local Stochastic Gradient Descent
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A two-phase distributed stochastic gradient optimization algorithm across K parallel workers with local mini-batch size B_loc that sets the inter-worker model-averaging period H_{(t)} via a piecewise schedule around transition step t'' (typically the first learning-rate decay): during Phase 1 (t <= t''), it sets H_{(t)} = 1 so workers synchronize after every step as standard large-batch mini-batch SGD (using standard linear scaling and warmup schedules), and during Phase 2 (t > t''), it switches to H_{(t)} = H > 1 sequential local SGD steps w_{(t)+h+1}^k = w_{(t)+h}^k - gamma_{(t)} g_{(t)+h}^k per worker before global model averaging w_{(t+1)} = (1 / K) sum_{k=1}^K w_{(t)+H}^k.'
+identity_notes: 'Distinct from standard single-phase Local SGD / Parallel SGD (which uses constant H > 1 from initialization t = 0 and suffers early optimization degradation at large K and H), from gradual local-step warmup schedules, and from outer-momentum wrappers (SlowMo): Post-Local SGD specifically delays local multi-step updates until the trajectory enters the basin of a local minimum at the first learning-rate decay t'', simultaneously preserving Phase-1 optimization stability and injecting K-fold amplified structured gradient noise in Phase 2 to escape sharp minima.'
+aliases:
+- Post-Local SGD
+- Two-Phase Post-Local SGD
+- Hierarchical Post-Local SGD
+definition_evidence:
+- source_id: r622-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r622-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r622-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r622-two-phase-schedule-and-phase1-equivalence
+  kind: mechanism
+  statement: Post-Local SGD defines the worker synchronization interval as H_{(t)} = 1 for t <= t' and H_{(t)} = H > 1 for t > t' (Section 3 and Algorithm 2); during Phase 1 (t <= t'), the update is algebraically identical to synchronous mini-batch SGD with effective batch size K B_loc, allowing direct reuse of linear learning-rate scaling and gradual warmup without hyperparameter retuning while avoiding the early-epoch optimization degradation of cold-started Local SGD.
+  evidence:
+  - source_id: r622-primary-pdf
+    locator: Section 1 Eq. (1)-(2) & Figure 1, p. 1-2; Section 3, p. 4; Appendix B.4.2 & C.1 Algorithm 2, p. 23-26
+    relation: supports
+- claim_id: c-r622-sde-anisotropic-noise-amplification-and-flat-minima
+  kind: mechanism
+  statement: "Under the Euler-Maruyama stochastic differential equation approximation of SGD (Section 5, Eq. 3-4), each worker's local update with mini-batch size B_loc experiences anisotropic gradient noise covariance approximately K * Sigma(w) \u2014 K times larger than the globally averaged mini-batch SGD noise covariance Sigma(w) = (1 / (K B_loc) - 1 / N) K(w) \u2014 which acts as computation-free structured noise injection during Phase 2 and drives Post-Local SGD to flatter minima with significantly lower dominant Hessian eigenvalues."
+  evidence:
+  - source_id: r622-primary-pdf
+    locator: Section 5 & Section 5.1, Eq. (3)-(4) & Figure 4, p. 8-9; Appendix C.4 Figures 13-15, p. 28-30
+    relation: supports
+- claim_id: c-r622-large-batch-generalization-and-compression-compatibility
+  kind: application
+  statement: Post-Local SGD closes the large-batch generalization gap on CIFAR-10/100 (ResNet-20, DenseNet-40-12, WideResNet-28-10 at K B_loc up to 4096) and ImageNet (ResNet-50 at K B_loc up to 16384), improves upon LARS, and composes directly with gradient compression (signSGD and EF-signSGD, Algorithms 3-4) and hierarchical multi-rack synchronization (Hierarchical Local SGD, Algorithm 5, Eq. 5-6).
+  evidence:
+  - source_id: r622-primary-pdf
+    locator: Section 4.2 Tables 2-5, p. 6-8; Appendix C.5.5 Algorithms 3-4, p. 32-34; Appendix D-E Algorithm 5 & Eq. (5)-(6), p. 35-40
+    relation: supports
+- claim_id: c-r622-transition-timing-and-extreme-local-steps-limitation
+  kind: limitation
+  statement: Turning on local updates too early (e.g., at epoch 0 or via short linear/exponential local-step warmup before the trajectory stabilizes) degrades training loss and final accuracy when K and H are large, whereas delaying the switch until the second learning-rate decay sacrifices communication savings and risks trapping the model in a sharper minimum.
+  evidence:
+  - source_id: r622-primary-pdf
+    locator: Appendix B.4.2 Figures 10-11, p. 23-25; Appendix C.2 Figure 12, p. 27
+    relation: supports
+evidence_sources:
+- source_id: r622-primary-pdf
+  title: Don't Use Large Mini-Batches, Use Local SGD
+  authors: &id001
+  - Tao Lin
+  - Sebastian U. Stich
+  - Kumar Kshitij Patel
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1808.07217.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/LinSPJ20
+  version: International Conference on Learning Representations (ICLR 2020) / arXiv:1808.07217v6 (2020) (4217506 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:45:00Z'
+  sha256: b520f48bd682ae06bf9ee1d9a0574f37776ec272d1d6678d1d27ae25a0ae8951
+- source_id: r622-arxiv-abs
+  title: Don't Use Large Mini-Batches, Use Local SGD (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1808.07217
+  persistent_id: https://arxiv.org/abs/1808.07217
+  version: arXiv abstract page (6818 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:45:00Z'
+  sha256: 75ef433cfdb1960a3263acc8d8b9979fa948562af63fee30cab8d9eb8c7f7be8
+- source_id: r622-metadata-cr
+  title: Don't Use Large Mini-Batches, Use Local SGD (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/LinSPJ20
+  persistent_id: https://dblp.org/rec/conf/iclr/LinSPJ20
+  version: Crossref API work record (1689 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:45:00Z'
+  sha256: 0d4808ecd5bc94bfccb2912afa8d43e8ea0bddbf4040ddad53eed8d0e83a757b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Post-Local SGD is a two-phase local-update distributed SGD algorithm closely related to federated averaging (Local SGD) that Periodic-averages worker models after H local steps in Phase 2.
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Post-Local SGD is designed to close the large-batch generalization gap in distributed training of deep neural networks.
+limitations:
+- 'Sensitive to the phase-transition time t'': switching to local SGD before the model enters the influence basin of a local minimum (e.g., before the first learning-rate decay) can cause training instability at large H, while switching too late (e.g., at the second decay) reduces communication savings and can fail to escape sharp minima.'
+- During Phase 1 (t <= t'), Post-Local SGD performs full synchronization at every iteration (H_{(t)} = 1), so communication savings are realized only during Phase 2 (t > t').
+curation:
+  created_at: '2026-10-19T11:45:00Z'
+  updated_at: '2026-10-19T11:45:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
