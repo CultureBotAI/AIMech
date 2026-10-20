@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sophia (Second-Order Clipped Stochastic Optimization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Sophia (Second-Order Clipped Stochastic Optimization)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Sophia (Second-Order Clipped Stochastic Optimization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SophiaSecondOrderClippedStochasticOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Sophia Optimizer, Sophia-G, Sophia-H, Gauss-Newton-Bartlett Clipped Diagonal Hessian Optimizer
+    </div>
+
+  <div class="detail-desc">
+    A scalable second-order stochastic optimization algorithm (Algorithm 1) designed for large-scale language model pre-training that preconditions an exponential moving average (EMA) of gradients m_t = beta_1 m_{t-1} + (1 - beta_1) g_t by an EMA of diagonal Hessian estimates h_t = beta_2 h_{t-1} + (1 - beta_2) hat{h}_t updated lazily once every k steps (typically k = 10), combined with coordinate-wise positive curvature thresholding max(gamma h_t, epsilon) and element-wise update clipping clip(z, rho) = max(min(z, rho), -rho) to update parameters via theta_{t+1} = theta_t - eta_t lambda theta_t - eta_t clip(m_t / max(gamma h_t, epsilon), rho). Sophia instantiates the diagonal Hessian estimator hat{h}_t via either the Gauss-Newton-Bartlett (GNB) estimator (Sophia-G, Algorithm 2: sampling mini-batch labels hat{y}_b ~ softmax(f(theta, x_b)) and computing B hat{g} odot hat{g} where hat{g} = nabla_theta (1/B) sum_{b=1}^B l_ce(f(theta, x_b), hat{y}_b)) or the Hutchinson estimator (Sophia-H, Algorithm 3: u odot nabla(langle nabla L(theta), u rangle) with u ~ N(0, I_d)).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Adam/AdamW (which precondition by the empirical Fisher diagonal v_t = EMA(g_t odot g_t) computed with true labels y_b rather than model-sampled labels hat{y}_b ~ p(theta, x_b), conflating residual loss magnitude with curvature) and from unclipped diagonal Newton/AdaHessian methods (which can converge to local maxima or saddle points under negative curvature and require every-step Hessian-vector products). Whenever a coordinate&#39;s curvature h_{t,[i]} &lt;= 0 or m_{t,[i]} / (gamma h_{t,[i]}) &gt; rho, Sophia automatically falls back to clipped SignGD/Lion-like constant displacement +-eta_t rho on that coordinate.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#coordinate-wise-positive-thresholding-and-clipping-escapes-negative-curvature</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In Section 2.1-2.2 (Equations 1-4, Figure 2, Algorithm 1), thresholding the diagonal Hessian estimate via max(gamma h_{t,[i]}, epsilon) and clipping the preconditioned ratio via clip(m_{t,[i]} / max(gamma h_{t,[i]}, epsilon), rho) ensures that in non-convex regions where h_{t,[i]} &lt;= 0 (negative curvature, saddle points, or local maxima) or where h_{t,[i]} is inaccurately small, the coordinate update safely reduces to benign SignGD (+-eta_t rho sign(m_{t,[i]})), while in convex regions with heterogeneous curvatures (sharp versus flat dimensions) it normalizes coordinate velocities like damped Newton&#39;s method.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r583-primary-pdf">Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1-2.2, Equations (1)-(4), Footnote 1, Figure 2, Algorithm 1, pp. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#unbiased-minibatch-gauss-newton-bartlett-diagonal-estimator</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In Section 2.3 (Option 2, Equations 9-13, Algorithm 2), for a mini-batch {(x_b, y_b)}_{b=1}^B with exponential-family/cross-entropy loss l(f(theta, x_b), y_b), sampling synthetic labels hat{y}_b ~ p(theta, x_b) independently from the model&#39;s predictive distribution and computing the squared mini-batch gradient B hat{g} odot hat{g} where hat{g} = nabla_theta (1/B) sum_{b=1}^B l(f(theta, x_b), hat{y}_b) yields an exact unbiased estimator of the diagonal of the Gauss-Newton matrix (1/B) sum_{b=1}^B diag(J_theta f(theta, x_b)^T S_b J_theta f(theta, x_b)) using only one backward pass (costing ~5% average overhead when evaluated every k = 10 steps) and guarantees non-negative coordinates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r583-primary-pdf">Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, Equations (9)-(13), Algorithm 2, pp. 6-7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r583-metadata-cr">Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic record (ICLR 2024)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#condition-number-independent-convergence-on-strictly-convex-self-concordant-functions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In Section 4 (Theorems 4.3 and 4.5, Lemmas D.10 and D.11), under twice differentiability and a Hessian trace continuity assumption (Assumption 4.1-4.2), deterministic Sophia achieves local quadratic convergence and global step complexity T &lt;= d / (eta^2 rho^2) (L(theta_0) - min L(theta)) + log_2(1 / (2 eta rho^2 mu)) + log_2 log_2(d / (4 rho^2 epsilon)) that is completely independent of the maximum eigenvalue M = lambda_max(nabla^2 L) and the condition number kappa = M / mu.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r583-primary-pdf">Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Assumptions 4.1-4.2, Theorems 4.3 and 4.5, pp. 9-10; Appendix D, Lemmas D.10-D.11, pp. 19-24</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#diagonal-approximation-and-periodic-backward-pass-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Sophia approximates only the diagonal of the Hessian or Gauss-Newton matrix (ignoring off-diagonal parameter interactions) and requires an additional backward pass (Sophia-G) or Hessian-vector product (Sophia-H) every k steps, adding approximately 5%/k*10 compute overhead.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r583-primary-pdf">Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2-2.3, pp. 5-7; Section 3.2, Figure 6, p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Approximates only the diagonal entries of the Hessian/Gauss-Newton matrix.</li>
+      <li>Adds an extra backward pass (Sophia-G) or Hessian-vector product (Sophia-H) once every k steps (~5% compute overhead at k=10).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Sophia is a scalable second-order diagonal Hessian optimizer designed for pre-training autoregressive Transformer neural language models.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r583-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r583-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2305.14342" target="_blank" rel="noopener">Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hong Liu, Zhiyuan Li, David Leo Wright Hall, Percy Liang, Tengyu Ma
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Sophia+A+Scalable+Stochastic+Second-order+Optimizer+for+Language+Model&amp;format=json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:176e26b9c32b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r583-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r583-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2305.14342" target="_blank" rel="noopener">Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hong Liu, Zhiyuan Li, David Leo Wright Hall, Percy Liang, Tengyu Ma
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2305.14342</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:937c663fe011…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r583-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r583-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Sophia+A+Scalable+Stochastic+Second-order+Optimizer+for+Language+Model&amp;format=json" target="_blank" rel="noopener">Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hong Liu, Zhiyuan Li, David Leo Wright Hall, Percy Liang, Tengyu Ma
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Sophia+A+Scalable+Stochastic+Second-order+Optimizer+for+Language+Model&amp;format=json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d447eed9e48f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:06:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:06:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SophiaSecondOrderClippedStochasticOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SophiaSecondOrderClippedStochasticOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

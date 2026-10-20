@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">673 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">674 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">673</span> of <span id="totalCount">673</span>
+      Showing <span id="matchCount">674</span> of <span id="totalCount">674</span>
     </div>
   </div>
 </div>
@@ -15154,6 +15154,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="sophia (second-order clipped stochastic optimization) sophiasecondorderclippedstochasticoptimization aimech:sophiasecondorderclippedstochasticoptimization algorithms algorithm a scalable second-order stochastic optimization algorithm (algorithm 1) designed for large-scale language model pre-training that preconditions an exponential moving average (ema) of gradients m_t = beta_1 m_{t-1} + (1 - beta_1) g_t by an ema of diagonal hessian estimates h_t = beta_2 h_{t-1} + (1 - beta_2) hat{h}_t updated lazily once every k steps (typically k = 10), combined with coordinate-wise positive curvature thresholding max(gamma h_t, epsilon) and element-wise update clipping clip(z, rho) = max(min(z, rho), -rho) to update parameters via theta_{t+1} = theta_t - eta_t lambda theta_t - eta_t clip(m_t / max(gamma h_t, epsilon), rho). sophia instantiates the diagonal hessian estimator hat{h}_t via either the gauss-newton-bartlett (gnb) estimator (sophia-g, algorithm 2: sampling mini-batch labels hat{y}_b ~ softmax(f(theta, x_b)) and computing b hat{g} odot hat{g} where hat{g} = nabla_theta (1/b) sum_{b=1}^b l_ce(f(theta, x_b), hat{y}_b)) or the hutchinson estimator (sophia-h, algorithm 3: u odot nabla(langle nabla l(theta), u rangle) with u ~ n(0, i_d)). distinct from adam/adamw (which precondition by the empirical fisher diagonal v_t = ema(g_t odot g_t) computed with true labels y_b rather than model-sampled labels hat{y}_b ~ p(theta, x_b), conflating residual loss magnitude with curvature) and from unclipped diagonal newton/adahessian methods (which can converge to local maxima or saddle points under negative curvature and require every-step hessian-vector products). whenever a coordinate&#39;s curvature h_{t,[i]} &lt;= 0 or m_{t,[i]} / (gamma h_{t,[i]}) &gt; rho, sophia automatically falls back to clipped signgd/lion-like constant displacement +-eta_t rho on that coordinate. sophia optimizer sophia-g sophia-h gauss-newton-bartlett clipped diagonal hessian optimizer in section 2.1-2.2 (equations 1-4, figure 2, algorithm 1), thresholding the diagonal hessian estimate via max(gamma h_{t,[i]}, epsilon) and clipping the preconditioned ratio via clip(m_{t,[i]} / max(gamma h_{t,[i]}, epsilon), rho) ensures that in non-convex regions where h_{t,[i]} &lt;= 0 (negative curvature, saddle points, or local maxima) or where h_{t,[i]} is inaccurately small, the coordinate update safely reduces to benign signgd (+-eta_t rho sign(m_{t,[i]})), while in convex regions with heterogeneous curvatures (sharp versus flat dimensions) it normalizes coordinate velocities like damped newton&#39;s method. in section 2.3 (option 2, equations 9-13, algorithm 2), for a mini-batch {(x_b, y_b)}_{b=1}^b with exponential-family/cross-entropy loss l(f(theta, x_b), y_b), sampling synthetic labels hat{y}_b ~ p(theta, x_b) independently from the model&#39;s predictive distribution and computing the squared mini-batch gradient b hat{g} odot hat{g} where hat{g} = nabla_theta (1/b) sum_{b=1}^b l(f(theta, x_b), hat{y}_b) yields an exact unbiased estimator of the diagonal of the gauss-newton matrix (1/b) sum_{b=1}^b diag(j_theta f(theta, x_b)^t s_b j_theta f(theta, x_b)) using only one backward pass (costing ~5% average overhead when evaluated every k = 10 steps) and guarantees non-negative coordinates. in section 4 (theorems 4.3 and 4.5, lemmas d.10 and d.11), under twice differentiability and a hessian trace continuity assumption (assumption 4.1-4.2), deterministic sophia achieves local quadratic convergence and global step complexity t &lt;= d / (eta^2 rho^2) (l(theta_0) - min l(theta)) + log_2(1 / (2 eta rho^2 mu)) + log_2 log_2(d / (4 rho^2 epsilon)) that is completely independent of the maximum eigenvalue m = lambda_max(nabla^2 l) and the condition number kappa = m / mu. sophia approximates only the diagonal of the hessian or gauss-newton matrix (ignoring off-diagonal parameter interactions) and requires an additional backward pass (sophia-g) or hessian-vector product (sophia-h) every k steps, adding approximately 5%/k*10 compute overhead. sophia: a scalable stochastic second-order optimizer for language model pre-training sophia: a scalable stochastic second-order optimizer for language model pre-training (arxiv abstract) sophia: a scalable stochastic second-order optimizer for language model pre-training (crossref metadata) hong liu zhiyuan li david leo wright hall percy liang tengyu ma hong liu zhiyuan li david leo wright hall percy liang tengyu ma hong liu zhiyuan li david leo wright hall percy liang tengyu ma">
+        <td>
+          <a href="../curated/SophiaSecondOrderClippedStochasticOptimization.html" style="font-weight: 600; font-size: 1rem;">Sophia (Second-Order Clipped Stochastic Optimization)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Sophia Optimizer, Sophia-G…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A scalable second-order stochastic optimization algorithm (Algorithm 1) designed for large-scale language model pre-training that preconditi…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:SophiaSecondOrderClippedStochasticOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>

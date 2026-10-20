@@ -1,0 +1,106 @@
+id: AIMech:SophiaSecondOrderClippedStochasticOptimization
+name: Sophia (Second-Order Clipped Stochastic Optimization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A scalable second-order stochastic optimization algorithm (Algorithm 1) designed for large-scale language model pre-training that preconditions an exponential moving average (EMA) of gradients m_t = beta_1 m_{t-1} + (1 - beta_1) g_t by an EMA of diagonal Hessian estimates h_t = beta_2 h_{t-1} + (1 - beta_2) hat{h}_t updated lazily once every k steps (typically k = 10), combined with coordinate-wise positive curvature thresholding max(gamma h_t, epsilon) and element-wise update clipping clip(z, rho) = max(min(z, rho), -rho) to update parameters via theta_{t+1} = theta_t - eta_t lambda theta_t - eta_t clip(m_t / max(gamma h_t, epsilon), rho). Sophia instantiates the diagonal Hessian estimator hat{h}_t via either the Gauss-Newton-Bartlett (GNB) estimator (Sophia-G, Algorithm 2: sampling mini-batch labels hat{y}_b ~ softmax(f(theta, x_b)) and computing B hat{g} odot hat{g} where hat{g} = nabla_theta (1/B) sum_{b=1}^B l_ce(f(theta, x_b), hat{y}_b)) or the Hutchinson estimator (Sophia-H, Algorithm 3: u odot nabla(langle nabla L(theta), u rangle) with u ~ N(0, I_d)).'
+identity_notes: Distinct from Adam/AdamW (which precondition by the empirical Fisher diagonal v_t = EMA(g_t odot g_t) computed with true labels y_b rather than model-sampled labels hat{y}_b ~ p(theta, x_b), conflating residual loss magnitude with curvature) and from unclipped diagonal Newton/AdaHessian methods (which can converge to local maxima or saddle points under negative curvature and require every-step Hessian-vector products). Whenever a coordinate's curvature h_{t,[i]} <= 0 or m_{t,[i]} / (gamma h_{t,[i]}) > rho, Sophia automatically falls back to clipped SignGD/Lion-like constant displacement +-eta_t rho on that coordinate.
+aliases:
+- Sophia Optimizer
+- Sophia-G
+- Sophia-H
+- Gauss-Newton-Bartlett Clipped Diagonal Hessian Optimizer
+definition_evidence:
+- source_id: r583-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r583-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r583-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: coordinate-wise-positive-thresholding-and-clipping-escapes-negative-curvature
+  kind: mechanism
+  statement: In Section 2.1-2.2 (Equations 1-4, Figure 2, Algorithm 1), thresholding the diagonal Hessian estimate via max(gamma h_{t,[i]}, epsilon) and clipping the preconditioned ratio via clip(m_{t,[i]} / max(gamma h_{t,[i]}, epsilon), rho) ensures that in non-convex regions where h_{t,[i]} <= 0 (negative curvature, saddle points, or local maxima) or where h_{t,[i]} is inaccurately small, the coordinate update safely reduces to benign SignGD (+-eta_t rho sign(m_{t,[i]})), while in convex regions with heterogeneous curvatures (sharp versus flat dimensions) it normalizes coordinate velocities like damped Newton's method.
+  evidence:
+  - source_id: r583-primary-pdf
+    locator: Section 2.1-2.2, Equations (1)-(4), Footnote 1, Figure 2, Algorithm 1, pp. 3-5
+    relation: supports
+- claim_id: unbiased-minibatch-gauss-newton-bartlett-diagonal-estimator
+  kind: mechanism
+  statement: In Section 2.3 (Option 2, Equations 9-13, Algorithm 2), for a mini-batch {(x_b, y_b)}_{b=1}^B with exponential-family/cross-entropy loss l(f(theta, x_b), y_b), sampling synthetic labels hat{y}_b ~ p(theta, x_b) independently from the model's predictive distribution and computing the squared mini-batch gradient B hat{g} odot hat{g} where hat{g} = nabla_theta (1/B) sum_{b=1}^B l(f(theta, x_b), hat{y}_b) yields an exact unbiased estimator of the diagonal of the Gauss-Newton matrix (1/B) sum_{b=1}^B diag(J_theta f(theta, x_b)^T S_b J_theta f(theta, x_b)) using only one backward pass (costing ~5% average overhead when evaluated every k = 10 steps) and guarantees non-negative coordinates.
+  evidence:
+  - source_id: r583-primary-pdf
+    locator: Section 2.3, Equations (9)-(13), Algorithm 2, pp. 6-7
+    relation: supports
+  - source_id: r583-metadata-cr
+    locator: Bibliographic record (ICLR 2024)
+    relation: supports
+- claim_id: condition-number-independent-convergence-on-strictly-convex-self-concordant-functions
+  kind: application
+  statement: In Section 4 (Theorems 4.3 and 4.5, Lemmas D.10 and D.11), under twice differentiability and a Hessian trace continuity assumption (Assumption 4.1-4.2), deterministic Sophia achieves local quadratic convergence and global step complexity T <= d / (eta^2 rho^2) (L(theta_0) - min L(theta)) + log_2(1 / (2 eta rho^2 mu)) + log_2 log_2(d / (4 rho^2 epsilon)) that is completely independent of the maximum eigenvalue M = lambda_max(nabla^2 L) and the condition number kappa = M / mu.
+  evidence:
+  - source_id: r583-primary-pdf
+    locator: Section 4, Assumptions 4.1-4.2, Theorems 4.3 and 4.5, pp. 9-10; Appendix D, Lemmas D.10-D.11, pp. 19-24
+    relation: supports
+- claim_id: diagonal-approximation-and-periodic-backward-pass-overhead-limitation
+  kind: limitation
+  statement: Sophia approximates only the diagonal of the Hessian or Gauss-Newton matrix (ignoring off-diagonal parameter interactions) and requires an additional backward pass (Sophia-G) or Hessian-vector product (Sophia-H) every k steps, adding approximately 5%/k*10 compute overhead.
+  evidence:
+  - source_id: r583-primary-pdf
+    locator: Section 2.2-2.3, pp. 5-7; Section 3.2, Figure 6, p. 8
+    relation: supports
+evidence_sources:
+- source_id: r583-primary-pdf
+  title: 'Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training'
+  authors: &id001
+  - Hong Liu
+  - Zhiyuan Li
+  - David Leo Wright Hall
+  - Percy Liang
+  - Tengyu Ma
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2305.14342
+  persistent_id: https://dblp.org/search/publ/api?q=Sophia+A+Scalable+Stochastic+Second-order+Optimizer+for+Language+Model&format=json
+  version: The Twelfth International Conference on Learning Representations (ICLR 2024) (2024) (3204564 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:06:00Z'
+  sha256: 176e26b9c32bfcc36b1db9affba822d2389ee7f83d4dbea2cf2c5bfe44ca72fd
+- source_id: r583-arxiv-abs
+  title: 'Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2305.14342
+  persistent_id: https://arxiv.org/abs/2305.14342
+  version: arXiv abstract page (6995 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:06:00Z'
+  sha256: 937c663fe0114e2d2f8ced08779ceb3291d3df34b4f47b0fb3ae8e9eff15c520
+- source_id: r583-metadata-cr
+  title: 'Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Sophia+A+Scalable+Stochastic+Second-order+Optimizer+for+Language+Model&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=Sophia+A+Scalable+Stochastic+Second-order+Optimizer+for+Language+Model&format=json
+  version: Crossref API work record (1901 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:06:00Z'
+  sha256: d447eed9e48f68ca84e5411fb6cc9be90b35006878407798173f08145190f2e7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Sophia is a scalable second-order diagonal Hessian optimizer designed for pre-training autoregressive Transformer neural language models.
+limitations:
+- Approximates only the diagonal entries of the Hessian/Gauss-Newton matrix.
+- Adds an extra backward pass (Sophia-G) or Hessian-vector product (Sophia-H) once every k steps (~5% compute overhead at k=10).
+curation:
+  created_at: '2026-10-19T11:06:00Z'
+  updated_at: '2026-10-19T11:06:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
