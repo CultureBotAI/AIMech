@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">742 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">743 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">742</span> of <span id="totalCount">742</span>
+      Showing <span id="matchCount">743</span> of <span id="totalCount">743</span>
     </div>
   </div>
 </div>
@@ -13990,6 +13990,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="principal singular values and singular vectors adaptation (pissa) pissaprincipalsingularvaluesandsingularvectorsadaptation aimech:pissaprincipalsingularvaluesandsingularvectorsadaptation algorithms algorithm principal singular values and singular vectors adaptation (pissa) is a parameter-efficient fine-tuning (peft) method that shares the exact architecture of low-rank adaptation (lora), y = x w = x (w^{res} + a b), but initializes the trainable low-rank matrices a in r^{m x r} and b in r^{r x n} using the top-r principal singular values and singular vectors of the pretrained weight matrix w = u diag(s) v^t: a = u_{:,:r} diag(s_{:r}^{1/2}) and b = diag(s_{:r}^{1/2}) v_{:,:r}^t, while freezing the residual matrix w^{res} = w - a b = u_{:,r:} diag(s_{r:}) v_{:,r:}^t. because a and b start aligned with the dominant singular directions of w rather than at zero, pissa preserves the exact initial forward pass w = w^{res} + a b while yielding non-zero, high-magnitude initial gradients along the principal subspace and substantially reducing base-model quantization error when quantizing only w^{res} (qpissa). distinct from standard lora (hu et al., 2022), which freezes the entire pretrained matrix w and initializes a with gaussian noise and b = 0, resulting in a zero initial gradient for a (partial l / partial a = x^t (partial l / partial y) b^t = 0) and slow early-stage optimization. also distinct from loftq (li et al., 2024), which iteratively alternates quantization and svd to approximate w with q + a b where a b corrects quantization residuals rather than containing the principal singular components of w. pissa principal singular values and singular vectors adaptation qpissa quantized principal singular values and singular vectors adaptation given the svd w = u diag(s) v^t with singular values sorted in descending order, pissa sets a = u_{:,:r} diag(s_{:r}^{1/2}), b = diag(s_{:r}^{1/2}) v_{:,:r}^t, and frozen w^{res} = u_{:,r:} diag(s_{r:}) v_{:,r:}^t, guaranteeing exact initial model equivalence w^{res} + a b = w while ensuring both initial factor gradients partial l / partial a = x^t (partial l / partial y) b^t and partial l / partial b = a^t x^t (partial l / partial y) are immediately non-zero and aligned with the top-r singular directions. in qpissa, removing the top-r principal singular components from w before quantizing the residual matrix w^{res} to 4-bit normalfloat (nf4) strips away the largest singular values and narrows the outlier distribution of the matrix being quantized, while keeping the dominant principal components a and b in full precision—substantially reducing quantization error ||w - (nf4(w^{res}) + a b)||_* compared to qlora&#39;s ||w - nf4(w)||_*. by employing randomized fast svd (halko et al., 2011) with n_iter power iterations, pissa reduces initialization overhead to a few seconds and significantly outperforms lora, qlora, and loftq on mathematical reasoning (gsm8k, math), code generation (humaneval, mbpp), and glue tasks across llama-2-7b/13b/70b, mistral-7b, gemma-7b, and deberta-v3-large. because pissa subtracts a_{init} b_{init} from w to form w^{res}, switching among multiple task-specific pissa adapters on a shared frozen base model requires either storing a_{init} b_{init} alongside each adapter (updating w^{res} + a b = w + (a b - a_{init} b_{init})) or folding the adapter back into w, and computing exact svd on massive weight matrices without fast svd incurs o(min(m, n) * m * n) initialization time. pissa: principal singular values and singular vectors adaptation of large language models pissa: principal singular values and singular vectors adaptation of large language models (arxiv abstract) pissa: principal singular values and singular vectors adaptation of large language models (crossref metadata) fanxu meng zhaohui wang muhan zhang fanxu meng zhaohui wang muhan zhang fanxu meng zhaohui wang muhan zhang">
+        <td>
+          <a href="../curated/PissaPrincipalSingularValuesAndSingularVectorsAdaptation.html" style="font-weight: 600; font-size: 1rem;">Principal Singular Values and Singular Vectors Adaptation (PiSSA)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> PiSSA, Principal Singular Values and Singular Vectors Adaptation…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            Principal Singular Values and Singular Vectors Adaptation (PiSSA) is a parameter-efficient fine-tuning (PEFT) method that shares the exact a…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PissaPrincipalSingularValuesAndSingularVectorsAdaptation</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
