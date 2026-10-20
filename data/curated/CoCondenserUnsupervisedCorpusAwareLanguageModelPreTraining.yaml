@@ -1,0 +1,99 @@
+id: AIMech:CoCondenserUnsupervisedCorpusAwareLanguageModelPreTraining
+name: coCondenser Unsupervised Corpus-Aware Language Model Pre-Training
+concept_kind: algorithm
+review_status: DRAFT
+definition: A two-stage unsupervised language model pre-training algorithm for dense passage retrieval that warm-starts from a universal Condenser model (whose head takes the late-backbone [CLS] representation h_cls^late and short-circuited early-backbone token representations h^early for masked language modeling) and continues pre-training on a target search corpus by sampling two random spans (s_{i1}, s_{i2}) from each of n documents in a batch and minimizing the average sum of Condenser masked language modeling loss and a corpus-aware span contrastive loss L_{ij}^{co} = -log [exp(<h_{i1}, h_{i2}>) / sum_{k=1}^n sum_{l=1}^2 I_{ij != kl} exp(<h_{ij}, h_{kl}>)], using a Gradient Cache v_{ij} = dL^{co}/dh_{ij} to decouple large-batch contrastive gradient computation from sub-batch encoder backpropagation before discarding the Condenser head for small-batch dense retriever fine-tuning.
+identity_notes: Distinct from Condenser (Gao & Callan, EMNLP 2021, AIMech:CondenserPreTrainingArchitectureForDenseRetrieval), which uses the late-early short-circuit MLM architecture without any corpus-level contrastive loss over [CLS] inner products; distinct from RocketQA (Qu et al., NAACL 2021, AIMech:RocketQADenoisedHardNegativeSampling), which relies on supervised cross-batch negatives, cross-encoder hard-negative denoising, and synthetic data augmentation during fine-tuning; and distinct from ICT (Lee et al., ACL 2019, AIMech:InverseClozeTask), which contrasts pseudo-queries against context passages using standard Transformer encoders without Condenser short-circuit heads or gradient-cached skip-span contrastive pre-training.
+aliases:
+- coCondenser
+- Corpus-Aware Condenser Pre-Training
+- Unsupervised Corpus-Aware Condenser for Dense Passage Retrieval
+definition_evidence:
+- source_id: r752-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r752-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r752-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r752-claim-corpus-span-contrastive-loss
+  kind: mechanism
+  statement: Given a random batch of n documents [d_1, ..., d_n] from the target search corpus, coCondenser samples two random text spans (s_{i1}, s_{i2}) per document and trains their late-backbone [CLS] embeddings h_{ij} with the joint word-and-span objective L = (1/2n) sum_{i=1}^n sum_{j=1}^2 [L_{ij}^{mlm} + L_{ij}^{co}], where L_{ij}^{co} = -log(exp(<h_{i1}, h_{i2}>) / sum_{k=1}^n sum_{l=1}^2 I_{ij != kl} exp(<h_{ij}, h_{kl}>)) pulls spans from the same document together and pushes spans from different documents apart in inner-product space.
+  evidence:
+  - source_id: r752-primary-pdf
+    locator: Section 3.2, Equations 6-7, p. 3
+    relation: supports
+- claim_id: r752-claim-gradient-cache-decoupling
+  kind: mechanism
+  statement: To execute 2,000-document (4,000-span) contrastive pre-training updates on four 11GB RTX 2080 Ti GPUs without holding the full batch activation graph in memory, coCondenser runs an initial no-grad forward pass to cache all representation gradients v_{ij} = dL^{co}/dh_{ij} in C = [v_{11}, ..., v_{n2}] and then accumulates parameter gradients (1/2n) sum_{i,j} [v_{ij}^T (dh_{ij}/dTheta) + dL_{ij}^{mlm}/dTheta] over small sub-batches.
+  evidence:
+  - source_id: r752-primary-pdf
+    locator: Section 3.3 & Section 4.1, Equations 8-12, pp. 3-5
+    relation: supports
+- claim_id: r752-claim-small-batch-retrieval-application
+  kind: application
+  statement: When fine-tuned with batch size 64 on a single RTX 2080 Ti GPU without cross-encoder denoising or data augmentation, coCondenser achieves 38.2 MRR@10 and 98.4 Recall@1000 on MS-MARCO Passage Dev (and 35.7 MRR@10 / 97.8 R@1000 even without hard negatives), 75.8 R@5 / 84.3 R@20 / 89.0 R@100 on Natural Questions test, and 76.8 R@5 / 83.2 R@20 / 87.3 R@100 on TriviaQA test, outperforming RocketQA trained with batch size 4,096 (37.0 MRR@10, 97.9 R@1000).
+  evidence:
+  - source_id: r752-primary-pdf
+    locator: Section 4.2 & Section 5, Tables 1-3, Figure 2, pp. 5-7
+    relation: supports
+- claim_id: r752-claim-corpus-specific-pretraining-limitation
+  kind: limitation
+  statement: Unlike stage-one universal Condenser pre-training, stage-two coCondenser pre-training is corpus-specific and requires running large-batch unsupervised contrastive pre-training (2,000 documents per step) separately on each target retrieval corpus (such as Wikipedia or the MS-MARCO web collection), and without second-round hard negative mining its local ranking precision (35.7 MRR@10) lags behind hard-negative-tuned Condenser (36.6 MRR@10).
+  evidence:
+  - source_id: r752-primary-pdf
+    locator: Section 1, Section 4.1, and Section 5, Table 2, pp. 1-2, 4, 7
+    relation: supports
+evidence_sources:
+- source_id: r752-primary-pdf
+  title: Unsupervised Corpus Aware Language Model Pre-training for Dense Passage Retrieval
+  authors: &id001
+  - Luyu Gao
+  - Jamie Callan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2108.05540.pdf
+  persistent_id: https://dblp.org/rec/conf/acl/GaoC22.xml
+  version: 'Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (ACL 2022, Volume 1: Long Papers), pp. 2843-2853 (2022) (645182 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:55:00Z'
+  sha256: e8e96763e57b4b045f6e3aeb556c23cbf5815a97e30d0c6299b4422a0633a36a
+- source_id: r752-arxiv-abs
+  title: Unsupervised Corpus Aware Language Model Pre-training for Dense Passage Retrieval (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2108.05540
+  persistent_id: https://arxiv.org/abs/2108.05540
+  version: arXiv abstract page (6395 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:55:00Z'
+  sha256: 371808cf9b3c1e1fe92fc67e0f3bbf9290cb95cb68a4e6fb51acb52a11cfb2ad
+- source_id: r752-metadata-cr
+  title: Unsupervised Corpus Aware Language Model Pre-training for Dense Passage Retrieval (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/acl/GaoC22.xml
+  persistent_id: https://dblp.org/rec/conf/acl/GaoC22.xml
+  version: Crossref API work record (502 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:55:00Z'
+  sha256: bf812f6ed42c2335a15ac25dd0a34275ad63d611f61e4dc93c5745fcdf2f56f0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: coCondenser pre-trains deep bidirectional Transformer neural network encoders with a corpus-aware contrastive objective and short-circuited MLM head to structure the dense passage embedding space.
+limitations:
+- Requires a second stage of large-batch unsupervised pre-training tailored to each target document corpus (e.g., Wikipedia vs. MS-MARCO) rather than producing a single corpus-agnostic checkpoint.
+- Without second-round hard-negative mining during fine-tuning, coCondenser achieves high recall (97.8 R@1000) but lower top-rank precision (35.7 MRR@10) than hard-negative-tuned Condenser (36.6 MRR@10).
+curation:
+  created_at: '2026-10-19T13:55:00Z'
+  updated_at: '2026-10-19T13:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

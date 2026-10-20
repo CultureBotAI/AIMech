@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">820 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">821 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">820</span> of <span id="totalCount">820</span>
+      Showing <span id="matchCount">821</span> of <span id="totalCount">821</span>
     </div>
   </div>
 </div>
@@ -3449,6 +3449,32 @@
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="cocondenser unsupervised corpus-aware language model pre-training cocondenserunsupervisedcorpusawarelanguagemodelpretraining aimech:cocondenserunsupervisedcorpusawarelanguagemodelpretraining algorithms algorithm a two-stage unsupervised language model pre-training algorithm for dense passage retrieval that warm-starts from a universal condenser model (whose head takes the late-backbone [cls] representation h_cls^late and short-circuited early-backbone token representations h^early for masked language modeling) and continues pre-training on a target search corpus by sampling two random spans (s_{i1}, s_{i2}) from each of n documents in a batch and minimizing the average sum of condenser masked language modeling loss and a corpus-aware span contrastive loss l_{ij}^{co} = -log [exp(&lt;h_{i1}, h_{i2}&gt;) / sum_{k=1}^n sum_{l=1}^2 i_{ij != kl} exp(&lt;h_{ij}, h_{kl}&gt;)], using a gradient cache v_{ij} = dl^{co}/dh_{ij} to decouple large-batch contrastive gradient computation from sub-batch encoder backpropagation before discarding the condenser head for small-batch dense retriever fine-tuning. distinct from condenser (gao &amp; callan, emnlp 2021, aimech:condenserpretrainingarchitecturefordenseretrieval), which uses the late-early short-circuit mlm architecture without any corpus-level contrastive loss over [cls] inner products; distinct from rocketqa (qu et al., naacl 2021, aimech:rocketqadenoisedhardnegativesampling), which relies on supervised cross-batch negatives, cross-encoder hard-negative denoising, and synthetic data augmentation during fine-tuning; and distinct from ict (lee et al., acl 2019, aimech:inverseclozetask), which contrasts pseudo-queries against context passages using standard transformer encoders without condenser short-circuit heads or gradient-cached skip-span contrastive pre-training. cocondenser corpus-aware condenser pre-training unsupervised corpus-aware condenser for dense passage retrieval given a random batch of n documents [d_1, ..., d_n] from the target search corpus, cocondenser samples two random text spans (s_{i1}, s_{i2}) per document and trains their late-backbone [cls] embeddings h_{ij} with the joint word-and-span objective l = (1/2n) sum_{i=1}^n sum_{j=1}^2 [l_{ij}^{mlm} + l_{ij}^{co}], where l_{ij}^{co} = -log(exp(&lt;h_{i1}, h_{i2}&gt;) / sum_{k=1}^n sum_{l=1}^2 i_{ij != kl} exp(&lt;h_{ij}, h_{kl}&gt;)) pulls spans from the same document together and pushes spans from different documents apart in inner-product space. to execute 2,000-document (4,000-span) contrastive pre-training updates on four 11gb rtx 2080 ti gpus without holding the full batch activation graph in memory, cocondenser runs an initial no-grad forward pass to cache all representation gradients v_{ij} = dl^{co}/dh_{ij} in c = [v_{11}, ..., v_{n2}] and then accumulates parameter gradients (1/2n) sum_{i,j} [v_{ij}^t (dh_{ij}/dtheta) + dl_{ij}^{mlm}/dtheta] over small sub-batches. when fine-tuned with batch size 64 on a single rtx 2080 ti gpu without cross-encoder denoising or data augmentation, cocondenser achieves 38.2 mrr@10 and 98.4 recall@1000 on ms-marco passage dev (and 35.7 mrr@10 / 97.8 r@1000 even without hard negatives), 75.8 r@5 / 84.3 r@20 / 89.0 r@100 on natural questions test, and 76.8 r@5 / 83.2 r@20 / 87.3 r@100 on triviaqa test, outperforming rocketqa trained with batch size 4,096 (37.0 mrr@10, 97.9 r@1000). unlike stage-one universal condenser pre-training, stage-two cocondenser pre-training is corpus-specific and requires running large-batch unsupervised contrastive pre-training (2,000 documents per step) separately on each target retrieval corpus (such as wikipedia or the ms-marco web collection), and without second-round hard negative mining its local ranking precision (35.7 mrr@10) lags behind hard-negative-tuned condenser (36.6 mrr@10). unsupervised corpus aware language model pre-training for dense passage retrieval unsupervised corpus aware language model pre-training for dense passage retrieval (arxiv abstract) unsupervised corpus aware language model pre-training for dense passage retrieval (crossref metadata) luyu gao jamie callan luyu gao jamie callan luyu gao jamie callan">
+        <td>
+          <a href="../curated/CoCondenserUnsupervisedCorpusAwareLanguageModelPreTraining.html" style="font-weight: 600; font-size: 1rem;">coCondenser Unsupervised Corpus-Aware Language Model Pre-Training</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> coCondenser, Corpus-Aware Condenser Pre-Training…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A two-stage unsupervised language model pre-training algorithm for dense passage retrieval that warm-starts from a universal Condenser model…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:CoCondenserUnsupervisedCorpusAwareLanguageModelPreTraining</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
