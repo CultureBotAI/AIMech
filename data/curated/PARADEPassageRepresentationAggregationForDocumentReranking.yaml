@@ -1,0 +1,97 @@
+id: AIMech:PARADEPassageRepresentationAggregationForDocumentReranking
+name: 'PARADE: Passage Representation Aggregation for Document Reranking'
+concept_kind: architecture
+review_status: DRAFT
+definition: A neural document reranking architecture (Li, Yates, MacAvaney, He, & Sun, 2021) that segments a long document D into overlapping passages P_1, ..., P_n, encodes each query-passage pair with a pretrained Transformer (such as BERT or ELECTRA) into passage-level [CLS] relevance representations p_i^cls = PLM(q, P_i) in R^d, and aggregates D^cls = {p_1^cls, ..., p_n^cls} directly into a single dense document representation d^cls in R^d via element-wise max pooling (PARADE-Max), softmax attention weighting (PARADE-Attn), stacked stride-2 convolutional layers (PARADE-CNN), or a hierarchical Transformer encoder over [emb^cls, p_1^cls, ..., p_n^cls] (PARADE-Transformer) before computing the final document relevance score rel(q, D) = W_d d^cls.
+identity_notes: Distinct from passage score aggregation methods such as BERT-MaxP and Birch (which collapse each passage representation p_i^cls into a scalar relevance score s_i before pooling across passages) and from CEDR (which averages token/CLS similarity matrices into kernel-pooling neural rankers). PARADE aggregates the high-dimensional passage [CLS] representation vectors themselves via hierarchical Transformer or CNN layers and supports logit-level MSE knowledge distillation L = alpha * L_CE + (1 - alpha) * ||z^t - z^s||^2 into compact student backbones.
+aliases:
+- PARADE Document Reranking Architecture
+- Passage Representation Aggregation for Document Reranking
+- PARADE-Transformer Document Reranker
+definition_evidence:
+- source_id: r785-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r785-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r785-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: parade-hierarchical-representation-aggregation-mechanism
+  kind: mechanism
+  statement: Given passage relevance representations D^cls = {p_1^cls, ..., p_n^cls} extracted from sliding windows (e.g., 225 tokens with stride 200), PARADE summarizes D^cls into a document representation d^cls in R^d via element-wise max pooling d^cls[j] = max_i p_i^cls[j] (PARADE-Max), learned softmax attention weights w_i = softmax(W p_i^cls) (PARADE-Attn), 4 layers of stride-2 1D convolutions (PARADE-CNN), or a hierarchical Transformer encoder over x^0 = (emb^cls, p_1^cls, ..., p_n^cls) (PARADE-Transformer) followed by linear projection rel(q, D) = W_d d^cls, and supports output-logit knowledge distillation L = alpha * L_CE + (1 - alpha) * ||z^t - z^s||^2.
+  evidence:
+  - source_id: r785-primary-pdf
+    locator: Section 3.3-3.4, Equations (2)-(7), pp. 3-4; Section 5.2, Equation (8), p. 8
+    relation: supports
+  - source_id: r785-primary-pdf
+    locator: vec_max_pool, vec_attn_pool, parade_transformer_cls, and distillation_loss verification
+    relation: supports
+- claim_id: parade-broad-vs-single-passage-scope
+  kind: scope
+  statement: Hierarchical passage representation aggregation (PARADE-Transformer and PARADE-CNN) significantly outperforms passage score aggregation baselines on collections with broad information needs where relevance signals are distributed across multiple passages (such as TREC Robust04, GOV2, and NTCIR WWW-3), whereas simpler PARADE-Max aggregation is sufficient on collections exhibiting 'maximum passage bias' where queries are answered by 1-2 passages (such as TREC DL and TREC Genomics).
+  evidence:
+  - source_id: r785-primary-pdf
+    locator: Section 4.5-4.6, Tables 2-5, pp. 5-7; Section 5.4, Table 9, pp. 9-10
+    relation: supports
+- claim_id: parade-multi-passage-gpu-memory-limitation
+  kind: limitation
+  statement: Because PARADE encodes up to n passages per document simultaneously for end-to-end training and reranking, computational and memory costs scale linearly with the number of preserved passages n, requiring passage truncation/sampling or knowledge distillation into smaller student backbones (such as BERT-Small or BERT-Mini) for low-latency deployment.
+  evidence:
+  - source_id: r785-primary-pdf
+    locator: Section 3.5, p. 4; Section 4.3, p. 5; Section 5.2-5.3, Tables 7-8, pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r785-primary-pdf
+  title: 'PARADE: Passage Representation Aggregation for Document Reranking'
+  authors: &id001
+  - Canjia Li
+  - Andrew Yates
+  - Sean MacAvaney
+  - Ben He
+  - Yingfei Sun
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2008.09093.pdf
+  persistent_id: https://arxiv.org/bibtex/2008.09093
+  version: arXiv preprint arXiv:2008.09093 (ACM Transactions on Information Systems) (2021) (742212 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:28:00Z'
+  sha256: 47af21be1068a5b43f53fb6ee97d1aa9b2014edc2f50a859171989044eae0f37
+- source_id: r785-arxiv-abs
+  title: 'PARADE: Passage Representation Aggregation for Document Reranking (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2008.09093
+  persistent_id: https://arxiv.org/abs/2008.09093
+  version: arXiv abstract page (7224 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:28:00Z'
+  sha256: 44a02e7fc558318753a0ba2f9376acef19f8c26ad725d81786384d663175d8c3
+- source_id: r785-metadata-cr
+  title: 'PARADE: Passage Representation Aggregation for Document Reranking (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2008.09093
+  persistent_id: https://arxiv.org/bibtex/2008.09093
+  version: Crossref API work record (426 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:28:00Z'
+  sha256: a0d8203e22e4706a4e0af7798930233a5268f878fb41ed605fd667a72407ea35
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: PARADE is a neural passage-representation aggregation and document reranking architecture built on pretrained Transformer encoders.
+limitations:
+- Encoding multiple passages per document increases memory and latency linearly with the number of passages preserved, requiring passage truncation/sampling or knowledge distillation into smaller student backbones for real-time reranking.
+curation:
+  created_at: '2026-10-19T14:28:00Z'
+  updated_at: '2026-10-19T14:28:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

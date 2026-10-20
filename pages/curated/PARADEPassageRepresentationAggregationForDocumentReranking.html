@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PARADE: Passage Representation Aggregation for Document Reranking · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>PARADE: Passage Representation Aggregation for Document Reranking</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">PARADE: Passage Representation Aggregation for Document Reranking</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:PARADEPassageRepresentationAggregationForDocumentReranking</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PARADE Document Reranking Architecture, Passage Representation Aggregation for Document Reranking, PARADE-Transformer Document Reranker
+    </div>
+
+  <div class="detail-desc">
+    A neural document reranking architecture (Li, Yates, MacAvaney, He, &amp; Sun, 2021) that segments a long document D into overlapping passages P_1, ..., P_n, encodes each query-passage pair with a pretrained Transformer (such as BERT or ELECTRA) into passage-level [CLS] relevance representations p_i^cls = PLM(q, P_i) in R^d, and aggregates D^cls = {p_1^cls, ..., p_n^cls} directly into a single dense document representation d^cls in R^d via element-wise max pooling (PARADE-Max), softmax attention weighting (PARADE-Attn), stacked stride-2 convolutional layers (PARADE-CNN), or a hierarchical Transformer encoder over [emb^cls, p_1^cls, ..., p_n^cls] (PARADE-Transformer) before computing the final document relevance score rel(q, D) = W_d d^cls.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from passage score aggregation methods such as BERT-MaxP and Birch (which collapse each passage representation p_i^cls into a scalar relevance score s_i before pooling across passages) and from CEDR (which averages token/CLS similarity matrices into kernel-pooling neural rankers). PARADE aggregates the high-dimensional passage [CLS] representation vectors themselves via hierarchical Transformer or CNN layers and supports logit-level MSE knowledge distillation L = alpha * L_CE + (1 - alpha) * ||z^t - z^s||^2 into compact student backbones.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#parade-hierarchical-representation-aggregation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given passage relevance representations D^cls = {p_1^cls, ..., p_n^cls} extracted from sliding windows (e.g., 225 tokens with stride 200), PARADE summarizes D^cls into a document representation d^cls in R^d via element-wise max pooling d^cls[j] = max_i p_i^cls[j] (PARADE-Max), learned softmax attention weights w_i = softmax(W p_i^cls) (PARADE-Attn), 4 layers of stride-2 1D convolutions (PARADE-CNN), or a hierarchical Transformer encoder over x^0 = (emb^cls, p_1^cls, ..., p_n^cls) (PARADE-Transformer) followed by linear projection rel(q, D) = W_d d^cls, and supports output-logit knowledge distillation L = alpha * L_CE + (1 - alpha) * ||z^t - z^s||^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r785-primary-pdf">PARADE: Passage Representation Aggregation for Document Reranking</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3-3.4, Equations (2)-(7), pp. 3-4; Section 5.2, Equation (8), p. 8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r785-primary-pdf">PARADE: Passage Representation Aggregation for Document Reranking</a></span>
+        <span>· <strong>Locator:</strong> vec_max_pool, vec_attn_pool, parade_transformer_cls, and distillation_loss verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#parade-broad-vs-single-passage-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Hierarchical passage representation aggregation (PARADE-Transformer and PARADE-CNN) significantly outperforms passage score aggregation baselines on collections with broad information needs where relevance signals are distributed across multiple passages (such as TREC Robust04, GOV2, and NTCIR WWW-3), whereas simpler PARADE-Max aggregation is sufficient on collections exhibiting &#39;maximum passage bias&#39; where queries are answered by 1-2 passages (such as TREC DL and TREC Genomics).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r785-primary-pdf">PARADE: Passage Representation Aggregation for Document Reranking</a></span>
+        <span>· <strong>Locator:</strong> Section 4.5-4.6, Tables 2-5, pp. 5-7; Section 5.4, Table 9, pp. 9-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#parade-multi-passage-gpu-memory-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because PARADE encodes up to n passages per document simultaneously for end-to-end training and reranking, computational and memory costs scale linearly with the number of preserved passages n, requiring passage truncation/sampling or knowledge distillation into smaller student backbones (such as BERT-Small or BERT-Mini) for low-latency deployment.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r785-primary-pdf">PARADE: Passage Representation Aggregation for Document Reranking</a></span>
+        <span>· <strong>Locator:</strong> Section 3.5, p. 4; Section 4.3, p. 5; Section 5.2-5.3, Tables 7-8, pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Encoding multiple passages per document increases memory and latency linearly with the number of passages preserved, requiring passage truncation/sampling or knowledge distillation into smaller student backbones for real-time reranking.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PARADE is a neural passage-representation aggregation and document reranking architecture built on pretrained Transformer encoders.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r785-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r785-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2008.09093.pdf" target="_blank" rel="noopener">PARADE: Passage Representation Aggregation for Document Reranking</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Canjia Li, Andrew Yates, Sean MacAvaney, Ben He, Yingfei Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2008.09093</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:47af21be1068…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r785-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r785-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2008.09093" target="_blank" rel="noopener">PARADE: Passage Representation Aggregation for Document Reranking (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Canjia Li, Andrew Yates, Sean MacAvaney, Ben He, Yingfei Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2008.09093</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:44a02e7fc558…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r785-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r785-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2008.09093" target="_blank" rel="noopener">PARADE: Passage Representation Aggregation for Document Reranking (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Canjia Li, Andrew Yates, Sean MacAvaney, Ben He, Yingfei Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2008.09093</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a0d8203e22e4…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:28:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:28:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PARADEPassageRepresentationAggregationForDocumentReranking.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PARADEPassageRepresentationAggregationForDocumentReranking.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
