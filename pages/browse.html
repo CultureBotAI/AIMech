@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1466</strong> artificial intelligence concepts, comprising <strong>1024</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1467</strong> artificial intelligence concepts, comprising <strong>1025</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1466)</option>
-        <option value="curated">Curated AIMech (1024)</option>
+        <option value="all">All Origins (1467)</option>
+        <option value="curated">Curated AIMech (1025)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (720)</option>
+          <option value="algorithm">Algorithms (721)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1466</span> of <span id="totalCount">1466</span>
+      Showing <span id="matchCount">1467</span> of <span id="totalCount">1467</span>
     </div>
   </div>
 </div>
@@ -117,6 +117,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:OneBitAdamPreconditionerFreezeCommunicationCompression</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="1-bit lamb (error-compensated lamb-preconditioned large-batch compressed optimization) onebitlambadaptivelayerwisecompressedtraining aimech:onebitlambadaptivelayerwisecompressedtraining algorithms algorithm a two-stage communication-efficient large-batch distributed optimization algorithm that runs uncompressed lamb for t_w warmup steps while tracking an exponential moving average c_avg^{(l)} = beta_3 c_avg^{(l)} + (1 - beta_3) c_t^{(l)} of each layer&#39;s trust-ratio scaling coefficient and storing the warmup-end variance v_{t_w}^{(l)} as a frozen preconditioner, then transitions to two-pass error-compensated 1-bit momentum compression where each worker reconstructs the global layerwise gradient g_t^{(l)} = (m_t^{(l)} - beta_1 m_{t-1}^{(l)}) / (1 - beta_1) from compressed momentum to update a fresh variance estimate v_t^{(l)} and scales the frozen-preconditioned layer update by c_t^{(l)} = r_t^{(l)} c_avg^{(l)} using the double-clipped infinity-norm ratio r_t^{(l)} = clip(clip(||v_{t_w}^{(l)} / v_t^{(l)}||_inf, (1 - r_threshold) r_{t-1}^{(l)}, (1 + r_threshold) r_{t-1}^{(l)}), r_min, r_max). distinct from uncompressed lamb (aimech:lamblayerwiseadaptivemomentsbatchoptimization, you et al. 2020), which requires full-precision gradient allreduce and up-to-date uncompressed momentum and variance to compute layerwise trust ratios c_t^{(l)} = clip(||x_{t-1}^{(l)}|| / ||u_t^{(l)}||, c_min, c_max). distinct from 1-bit adam (aimech:onebitadamerrorcompensatedpreconditionedmomentum, tang et al. 2021), which freezes variance globally without layerwise scaling or fresh-variance tracking and suffers convergence degradation at large batch sizes (16k-64k), and from naive &#39;lamb + basic 1-bit&#39; (section 3.4), which freezes both variance and c_t^{(l)} and degrades accuracy because lamb&#39;s per-layer variance norms decay by up to two orders of magnitude during training. 1-bit lamb one-bit lamb 1-bit lamb optimizer error-compensated lamb-preconditioned momentum sgd because lamb&#39;s per-layer variance norms v_t^{(l)} continue decreasing by up to two orders of magnitude throughout large-batch training (figure 1b), simply freezing both v_{t_w}^{(l)} and lamb&#39;s scaling coefficient c_t^{(l)} (&#39;lamb + basic 1-bit&#39;) degrades bert validation loss (1.494 vs 1.451) and squad/glue accuracy (tables 2-3); 1-bit lamb compensates for the frozen denominator sqrt(v_{t_w}^{(l)}) by reconstructing the global layer gradient g_t^{(l)} = (m_t^{(l)} - beta_1 m_{t-1}^{(l)}) / (1 - beta_1) from consecutive compressed momentums, updating a fresh variance v_t^{(l)} = beta_2 v_{t-1}^{(l)} + (1 - beta_2)(g_t^{(l)})^2, and multiplying the warmup moving average c_avg^{(l)} by the soft- and hard-clipped infinity-norm ratio r_t^{(l)} = clip(clip(||v_{t_w}^{(l)} / v_t^{(l)}||_inf, (1 - r_threshold) r_{t-1}^{(l)}, (1 + r_threshold) r_{t-1}^{(l)}), r_min, r_max) (algorithm 1 lines 15-21). to avoid issuing 302 separate per-layer compressed collectives in bert-large while preventing layers with small or large momentum magnitudes from suffering severe 1-bit quantization error when fused into a single 1d buffer, 1-bit lamb computes a fixed per-layer momentum scale coefficient from the average momentum norm at the end of warmup, multiplies each layer&#39;s local momentum by its scale coefficient prior to fused 1-bit nccl alltoall/allgather communication, and divides each layer&#39;s global compressed momentum by the same fixed coefficient afterward without perturbing error-compensation cancellation. with time-varying effective layerwise learning rate gamma_t = gamma c_{t-1} in [gamma_min, gamma_max] and step-ratio-scaled error feedback m_{t+1/2}^{(i)} = c_omega[m_t^{(i)} + (c_{t-2} / c_{t-1}) delta_t^{(i)}], the global momentum satisfies m_t = beta_1 m_{t-1} + (1 - beta_1) g_bar_t + (gamma_{t-1} / gamma_t) delta_tilde_{t-1} - delta_tilde_t, and the virtual sequence y_t = x_t - (gamma_t m_t + gamma_{t-1} delta_tilde_t) / (1 - beta_1) satisfies y_{t+1} - y_t = -gamma_t g_bar_{t+1}; under assumption 1 (l-lipschitz gradients, variance sigma^2, and bounded compression error eps), theorem 1 and corollary 1 establish (v_max / t) sum_{t=0}^{t-1} e||grad f(x_t)||_v^2 = o(sigma / sqrt(n t) + eps^{2/3} / t^{2/3} + 1 / t). across bert-large pre-training with batch sizes from 8k to 64k on up to 256 v100 gpus using the 3-phase nccl alltoall/allgather compressed backend, 1-bit lamb achieves 4.6x and 4.1x end-to-end communication volume reduction for sequence lengths 128 (16.7% warmup) and 512 (19.3% warmup), up to 4.5x compression-stage throughput speedup and 2.8x end-to-end speedup (cutting 256-gpu ethernet total runtime from 731 minutes to 351 minutes), while matching uncompressed lamb validation loss (1.443 vs 1.451), squad 1.1 f1 (90.524 avg / 90.788 max), and glue average score (83.9 vs 83.9). 1-bit lamb: communication efficient large-scale large-batch training with lamb&#39;s convergence speed 1-bit lamb: communication efficient large-scale large-batch training with lamb&#39;s convergence speed (arxiv abstract) 1-bit lamb: communication efficient large-scale large-batch training with lamb&#39;s convergence speed (crossref metadata) conglong li ammar ahmad awan hanlin tang samyam rajbhandari yuxiong he conglong li ammar ahmad awan hanlin tang samyam rajbhandari yuxiong he conglong li ammar ahmad awan hanlin tang samyam rajbhandari yuxiong he">
+        <td>
+          <a href="curated/OneBitLambAdaptiveLayerwiseCompressedTraining.html" style="font-weight: 600; font-size: 1rem;">1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed Optimization)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> 1-bit LAMB, One-Bit LAMB…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A two-stage communication-efficient large-batch distributed optimization algorithm that runs uncompressed LAMB for T_w warmup steps while tr…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

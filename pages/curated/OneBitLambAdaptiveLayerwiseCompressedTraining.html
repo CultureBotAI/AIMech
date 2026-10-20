@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed Optimization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed Optimization)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed Optimization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> 1-bit LAMB, One-Bit LAMB, 1-bit LAMB Optimizer, Error-Compensated LAMB-Preconditioned Momentum SGD
+    </div>
+
+  <div class="detail-desc">
+    A two-stage communication-efficient large-batch distributed optimization algorithm that runs uncompressed LAMB for T_w warmup steps while tracking an exponential moving average c_avg^{(l)} = beta_3 c_avg^{(l)} + (1 - beta_3) c_t^{(l)} of each layer&#39;s trust-ratio scaling coefficient and storing the warmup-end variance v_{T_w}^{(l)} as a frozen preconditioner, then transitions to two-pass error-compensated 1-bit momentum compression where each worker reconstructs the global layerwise gradient g_t^{(l)} = (m_t^{(l)} - beta_1 m_{t-1}^{(l)}) / (1 - beta_1) from compressed momentum to update a fresh variance estimate v_t^{(l)} and scales the frozen-preconditioned layer update by c_t^{(l)} = r_t^{(l)} c_avg^{(l)} using the double-clipped infinity-norm ratio r_t^{(l)} = clip(clip(||v_{T_w}^{(l)} / v_t^{(l)}||_inf, (1 - r_threshold) r_{t-1}^{(l)}, (1 + r_threshold) r_{t-1}^{(l)}), r_min, r_max).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from uncompressed LAMB (AIMech:LAMBLayerwiseAdaptiveMomentsBatchOptimization, You et al. 2020), which requires full-precision gradient allreduce and up-to-date uncompressed momentum and variance to compute layerwise trust ratios c_t^{(l)} = clip(||x_{t-1}^{(l)}|| / ||u_t^{(l)}||, c_min, c_max). Distinct from 1-bit Adam (AIMech:OneBitAdamErrorCompensatedPreconditionedMomentum, Tang et al. 2021), which freezes variance globally without layerwise scaling or fresh-variance tracking and suffers convergence degradation at large batch sizes (16K-64K), and from naive &#39;LAMB + basic 1-bit&#39; (Section 3.4), which freezes both variance and c_t^{(l)} and degrades accuracy because LAMB&#39;s per-layer variance norms decay by up to two orders of magnitude during training.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r630-reconstructed-gradient-and-double-clipped-scaling-ratio</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because LAMB&#39;s per-layer variance norms v_t^{(l)} continue decreasing by up to two orders of magnitude throughout large-batch training (Figure 1b), simply freezing both v_{T_w}^{(l)} and LAMB&#39;s scaling coefficient c_t^{(l)} (&#39;LAMB + basic 1-bit&#39;) degrades BERT validation loss (1.494 vs 1.451) and SQuAD/GLUE accuracy (Tables 2-3); 1-bit LAMB compensates for the frozen denominator sqrt(v_{T_w}^{(l)}) by reconstructing the global layer gradient g_t^{(l)} = (m_t^{(l)} - beta_1 m_{t-1}^{(l)}) / (1 - beta_1) from consecutive compressed momentums, updating a fresh variance v_t^{(l)} = beta_2 v_{t-1}^{(l)} + (1 - beta_2)(g_t^{(l)})^2, and multiplying the warmup moving average c_avg^{(l)} by the soft- and hard-clipped infinity-norm ratio r_t^{(l)} = clip(clip(||v_{T_w}^{(l)} / v_t^{(l)}||_inf, (1 - r_threshold) r_{t-1}^{(l)}, (1 + r_threshold) r_{t-1}^{(l)}), r_min, r_max) (Algorithm 1 Lines 15-21).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r630-primary-pdf">1-bit LAMB: Communication Efficient Large-Scale Large-Batch Training with LAMB&#39;s Convergence Speed</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.3-3.4 Figure 1 &amp; Table 2, Section 4 Algorithm 1, pp. 4-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r630-momentum-fusion-and-layerwise-momentum-scaling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To avoid issuing 302 separate per-layer compressed collectives in BERT-Large while preventing layers with small or large momentum magnitudes from suffering severe 1-bit quantization error when fused into a single 1D buffer, 1-bit LAMB computes a fixed per-layer momentum scale coefficient from the average momentum norm at the end of warmup, multiplies each layer&#39;s local momentum by its scale coefficient prior to fused 1-bit NCCL Alltoall/AllGather communication, and divides each layer&#39;s global compressed momentum by the same fixed coefficient afterward without perturbing error-compensation cancellation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r630-primary-pdf">1-bit LAMB: Communication Efficient Large-Scale Large-Batch Training with LAMB&#39;s Convergence Speed</a></span>
+        <span>· <strong>Locator:</strong> Section 5 &amp; Appendix A.5.1-A.5.2, pp. 7, 16-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r630-time-varying-error-compensation-convergence-rate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With time-varying effective layerwise learning rate gamma_t = gamma c_{t-1} in [gamma_min, gamma_max] and step-ratio-scaled error feedback m_{t+1/2}^{(i)} = C_omega[m_t^{(i)} + (c_{t-2} / c_{t-1}) delta_t^{(i)}], the global momentum satisfies m_t = beta_1 m_{t-1} + (1 - beta_1) g_bar_t + (gamma_{t-1} / gamma_t) delta_tilde_{t-1} - delta_tilde_t, and the virtual sequence y_t = x_t - (gamma_t m_t + gamma_{t-1} delta_tilde_t) / (1 - beta_1) satisfies y_{t+1} - y_t = -gamma_t g_bar_{t+1}; under Assumption 1 (L-Lipschitz gradients, variance sigma^2, and bounded compression error eps), Theorem 1 and Corollary 1 establish (V_max / T) sum_{t=0}^{T-1} E||grad f(x_t)||_V^2 = O(sigma / sqrt(n T) + eps^{2/3} / T^{2/3} + 1 / T).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r630-primary-pdf">1-bit LAMB: Communication Efficient Large-Scale Large-Batch Training with LAMB&#39;s Convergence Speed</a></span>
+        <span>· <strong>Locator:</strong> Appendix A.7 Assumption 1, Theorem 1 Eq. (3), Corollary 1 &amp; Lemma 2, pp. 17-23</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r630-large-batch-bert-volume-reduction-and-speedup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across BERT-Large pre-training with batch sizes from 8K to 64K on up to 256 V100 GPUs using the 3-phase NCCL Alltoall/AllGather compressed backend, 1-bit LAMB achieves 4.6x and 4.1x end-to-end communication volume reduction for sequence lengths 128 (16.7% warmup) and 512 (19.3% warmup), up to 4.5x compression-stage throughput speedup and 2.8x end-to-end speedup (cutting 256-GPU Ethernet total runtime from 731 minutes to 351 minutes), while matching uncompressed LAMB validation loss (1.443 vs 1.451), SQuAD 1.1 F1 (90.524 avg / 90.788 max), and GLUE average score (83.9 vs 83.9).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r630-primary-pdf">1-bit LAMB: Communication Efficient Large-Scale Large-Batch Training with LAMB&#39;s Convergence Speed</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Tables 2-4 &amp; Figures 2-3, pp. 5, 7-9</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r630-metadata-cr">1-bit LAMB: Communication Efficient Large-Scale Large-Batch Training with LAMB&#39;s Convergence Speed (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> HiPC 2022 bibliographic record (conf/hipc/LiATRH22)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Introduces additional GPU memory overhead during the compression stage because each worker must store one persistent copy of the fresh variance v_t^{(l)} and one temporary copy of the previous step&#39;s compressed momentum m_{t-1}^{(l)} to reconstruct global gradients.</li>
+      <li>Requires an uncompressed LAMB warmup phase (e.g., 16.7% of steps for sequence length 128 and 19.3% of steps for sequence length 512) until LAMB&#39;s layerwise scaling coefficients reach a stable plateau.</li>
+      <li>Requires PyTorch distributed with NCCL &gt;= v2.7 (for Alltoall support) or an MPI-based collective backend to execute the three-phase compressed allreduce.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            1-bit LAMB is a large-batch communication-compressed adaptive optimizer for distributed pre-training of deep transformer neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r630-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r630-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2104.06069.pdf" target="_blank" rel="noopener">1-bit LAMB: Communication Efficient Large-Scale Large-Batch Training with LAMB&#39;s Convergence Speed</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Conglong Li, Ammar Ahmad Awan, Hanlin Tang, Samyam Rajbhandari, Yuxiong He
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/hipc/LiATRH22</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7bb1c6dcab2a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r630-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r630-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2104.06069" target="_blank" rel="noopener">1-bit LAMB: Communication Efficient Large-Scale Large-Batch Training with LAMB&#39;s Convergence Speed (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Conglong Li, Ammar Ahmad Awan, Hanlin Tang, Samyam Rajbhandari, Yuxiong He
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2104.06069</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:46028042ec6c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r630-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r630-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/hipc/LiATRH22" target="_blank" rel="noopener">1-bit LAMB: Communication Efficient Large-Scale Large-Batch Training with LAMB&#39;s Convergence Speed (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Conglong Li, Ammar Ahmad Awan, Hanlin Tang, Samyam Rajbhandari, Yuxiong He
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/hipc/LiATRH22</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:32bca0f71b06…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:53:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:53:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/OneBitLambAdaptiveLayerwiseCompressedTraining.yaml" target="_blank" rel="noopener">
+      <code>data/curated/OneBitLambAdaptiveLayerwiseCompressedTraining.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
