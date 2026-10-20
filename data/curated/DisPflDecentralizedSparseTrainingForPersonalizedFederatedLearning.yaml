@@ -1,0 +1,106 @@
+id: AIMech:DisPflDecentralizedSparseTrainingForPersonalizedFederatedLearning
+name: 'DisPFL: Decentralized Sparse Training for Personalized Federated Learning'
+concept_kind: algorithm
+review_status: DRAFT
+definition: A communication- and computation-efficient peer-to-peer personalized federated learning algorithm (DisPFL / Dis-PFL; Dai, Shen, He, Tian, and Tao, ICML 2022) that optimizes min_{w, m_1, ..., m_K} (1 / K) sum_{k=1}^K E_{(x,y)~D_k}[L(w odot m_k; (x, y))] (Eq. 4) by maintaining a fixed-budget personalized binary mask m_k in {0, 1}^d initialized via the Erdos-Renyi Kernel (ERK) layer-wise sparsity rule on each client k. At communication round t, each client k aggregates sparse models received from its topological neighbors S_{k,t} via coordinate-wise intersection-count normalization masked to its local support, w_{k, t+1/2} = ((w_{k,t} + sum_{j in S_{k,t}} w_{j,t}) / (m_{k,t} + sum_{j in S_{k,t}} m_{j,t})) odot m_{k,t} (Algorithm 1 line 7), executes N local masked SGD steps, and adaptively updates m_{k,t+1} by pruning a cosine-annealed fraction alpha_t = (alpha / 2)(1 + cos(t pi / (N T_end))) of smallest-magnitude active weights per layer and regrowing the exact same number of inactive weights with the largest gradient magnitudes |g(w_{k,t+1})| (Algorithm 2).
+identity_notes: Distinct from centralized sparse FL algorithms such as PruneFL (AIMech:PruneFlAdaptiveDistributedParameterPruningForFederatedLearning; Jiang et al., IEEE TNNLS 2023), which maintains a single shared global pruned mask reconfigured by a central server to minimize global empirical risk rather than personalized per-client ERK masks over a decentralized peer-to-peer topology. Distinct from dense decentralized SGD algorithms such as D-PSGD (Lian et al., 2017) and D^2 (AIMech:D2VarianceReducedDecentralizedTrainingOverHeterogeneousData; Tang et al., ICML 2018), which communicate and average full dense parameter vectors across all nodes rather than performing support-intersection-normalized averaging combined with local magnitude pruning and gradient-magnitude regrowth.
+aliases:
+- DisPFL
+- Dis-PFL Decentralized Sparse PFL
+- Distributed Personalized Federated Learning via Decentralized Sparse Training
+definition_evidence:
+- source_id: r507-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r507-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r507-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: dispfl-intersection-normalized-sparse-averaging-and-prune-regrow-mechanism
+  kind: mechanism
+  statement: In DisPFL (Algorithm 1, p. 4; Algorithm 2, p. 13), each client k initializes a personalized mask m_{k,0} using Erdos-Renyi Kernel (ERK) layer-wise proportions (n_{l-1} + n_l + w_l + h_l) / (n_{l-1} n_l w_l h_l), combines neighbor sparse models via w_{k, t+1/2} = ((w_{k,t} + sum_{j in S_{k,t}} w_{j,t}) / (m_{k,t} + sum_{j in S_{k,t}} m_{j,t})) odot m_{k,t} so active coordinates are normalized solely by the number of neighbors sharing that coordinate, and after N masked SGD steps prunes the bottom alpha_t fraction of active weights by |w_{k,t+1}| and regrows an equal count of inactive weights with largest |g(w_{k,t+1})|.
+  evidence:
+  - source_id: r507-primary-pdf
+    locator: Section 3.2 Proposed DisPFL, Algorithm 1, pp. 4-5; Appendix A Algorithm 2, p. 13
+    relation: supports
+- claim_id: dispfl-sparse-subspace-compression-generalization-bound-scope
+  kind: scope
+  statement: Under Assumptions 1-3 (loss bound M, L-smoothness, and union active parameter proportion beta <= 1 across collaborating sparse masks), Theorem 1 (p. 5; proof in Appendix C, pp. 16-18) proves that if a compressed sparse model w_tilde satisfies ||w - w_tilde|| <= eps_tilde / L with gradient displacement bound ||v|| < (1 / tau) beta D_g, then with probability at least 1 - delta - 9 exp(-n eps'^2 / M^2) over sample S of size n, |R_hat_S(A(S)) - R(A(S))| < 9 eps', establishing that smaller union active proportion beta tightens the generalization error bound.
+  evidence:
+  - source_id: r507-primary-pdf
+    locator: Section 3.3 Theoretical Understanding of Generalization, Assumptions 1-3, Theorem 1, p. 5; Appendix C, pp. 16-18
+    relation: supports
+- claim_id: dispfl-dense-regrowth-gradient-evaluation-and-extreme-sparsity-drop-limitation
+  kind: limitation
+  statement: Updating the personalized mask via gradient-magnitude regrowth (Algorithm 2 line 11) requires evaluating a full dense stochastic gradient g(w_{k,t+1}) over all d coordinates once per communication round (unless disabled under the fixed-mask variant), and extreme sparsity (e.g., 90% pruned parameters on CIFAR-100) reduces accuracy relative to moderate 50%-80% sparsity (Section 3.2, p. 5; Section 4.3 Figure 4a, p. 7).
+  evidence:
+  - source_id: r507-primary-pdf
+    locator: Section 3.2 Discussion on Extra Resource Cost, p. 5; Section 4.3 Hyper-parameter Sensitivity, Fig. 4(a), p. 7; Appendix A Algorithm 2, p. 13
+    relation: supports
+- claim_id: dispfl-decentralized-non-iid-image-and-text-classification-application
+  kind: application
+  statement: Applied to decentralized personalized federated classification across ring, grid, Erdos-Renyi, and fully connected peer-to-peer topologies on CIFAR-10, CIFAR-100, Tiny-ImageNet, and AG News using ResNet-18, VGG-11, and TextCNN.
+  evidence:
+  - source_id: r507-primary-pdf
+    locator: Section 4 Experiments, Tables 1-2, Figures 2-6, pp. 5-8; Appendix B.3-B.4, pp. 14-15
+    relation: supports
+evidence_sources:
+- source_id: r507-primary-pdf
+  title: 'DispFL: Towards Communication-Efficient Personalized Federated Learning via Decentralized Sparse Training'
+  authors: &id001
+  - Rong Dai
+  - Li Shen
+  - Fengxiang He
+  - Xinmei Tian
+  - Dacheng Tao
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2206.00187.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/DaiSHTT22
+  version: Proceedings of the 39th International Conference on Machine Learning (ICML 2022), PMLR 162:4587-4604 (2022) (10077952 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:50:00Z'
+  sha256: 4efaa87b8f7ccf7260622f12107db98513b754a8aafcced7e2c963e3450758db
+- source_id: r507-arxiv-abs
+  title: 'DispFL: Towards Communication-Efficient Personalized Federated Learning via Decentralized Sparse Training (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2206.00187
+  persistent_id: https://arxiv.org/abs/2206.00187
+  version: arXiv abstract page (6347 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:50:00Z'
+  sha256: 7b17639a989331493ae1eb3805b1349d82ecb9e16f09400145065dd60f83b7d4
+- source_id: r507-metadata-cr
+  title: 'DispFL: Towards Communication-Efficient Personalized Federated Learning via Decentralized Sparse Training (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/DaiSHTT22
+  persistent_id: https://dblp.org/rec/conf/icml/DaiSHTT22
+  version: Crossref API work record (1994 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:50:00Z'
+  sha256: 0c83c65b7b8741d72e5c805af5195b1b05bc95e51b66e78eb4e7406664b53abc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: DisPFL is a decentralized personalized federated learning algorithm based on sparse mask training.
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: DisPFL applies dynamic Erdos-Renyi Kernel sparse training (magnitude pruning and gradient-magnitude regrowth) on each client.
+limitations:
+- Gradient-based mask regrowth requires computing a full dense gradient g(w_{k,t+1}) once at the end of each local training round, adding O(d / N) amortized compute relative to fixed-mask sparse training (Section 3.2, p. 5; Algorithm 2 line 11, p. 13).
+- Unstructured weight sparsity requires sparse matrix-vector hardware or library support to translate theoretical FLOP reductions into wall-clock speedups on edge devices (Section 3.2, pp. 4-5).
+- Excessively high sparsity ratios (e.g., 90% pruned weights) degrade personalized test accuracy on complex label spaces such as CIFAR-100 (Section 4.3, Fig. 4a, p. 7).
+curation:
+  created_at: '2026-10-19T09:50:00Z'
+  updated_at: '2026-10-19T09:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

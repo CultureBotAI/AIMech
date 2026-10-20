@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DisPFL: Decentralized Sparse Training for Personalized Federated Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>DisPFL: Decentralized Sparse Training for Personalized Federated Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DisPFL: Decentralized Sparse Training for Personalized Federated Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DisPflDecentralizedSparseTrainingForPersonalizedFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DisPFL, Dis-PFL Decentralized Sparse PFL, Distributed Personalized Federated Learning via Decentralized Sparse Training
+    </div>
+
+  <div class="detail-desc">
+    A communication- and computation-efficient peer-to-peer personalized federated learning algorithm (DisPFL / Dis-PFL; Dai, Shen, He, Tian, and Tao, ICML 2022) that optimizes min_{w, m_1, ..., m_K} (1 / K) sum_{k=1}^K E_{(x,y)~D_k}[L(w odot m_k; (x, y))] (Eq. 4) by maintaining a fixed-budget personalized binary mask m_k in {0, 1}^d initialized via the Erdos-Renyi Kernel (ERK) layer-wise sparsity rule on each client k. At communication round t, each client k aggregates sparse models received from its topological neighbors S_{k,t} via coordinate-wise intersection-count normalization masked to its local support, w_{k, t+1/2} = ((w_{k,t} + sum_{j in S_{k,t}} w_{j,t}) / (m_{k,t} + sum_{j in S_{k,t}} m_{j,t})) odot m_{k,t} (Algorithm 1 line 7), executes N local masked SGD steps, and adaptively updates m_{k,t+1} by pruning a cosine-annealed fraction alpha_t = (alpha / 2)(1 + cos(t pi / (N T_end))) of smallest-magnitude active weights per layer and regrowing the exact same number of inactive weights with the largest gradient magnitudes |g(w_{k,t+1})| (Algorithm 2).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from centralized sparse FL algorithms such as PruneFL (AIMech:PruneFlAdaptiveDistributedParameterPruningForFederatedLearning; Jiang et al., IEEE TNNLS 2023), which maintains a single shared global pruned mask reconfigured by a central server to minimize global empirical risk rather than personalized per-client ERK masks over a decentralized peer-to-peer topology. Distinct from dense decentralized SGD algorithms such as D-PSGD (Lian et al., 2017) and D^2 (AIMech:D2VarianceReducedDecentralizedTrainingOverHeterogeneousData; Tang et al., ICML 2018), which communicate and average full dense parameter vectors across all nodes rather than performing support-intersection-normalized averaging combined with local magnitude pruning and gradient-magnitude regrowth.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dispfl-intersection-normalized-sparse-averaging-and-prune-regrow-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In DisPFL (Algorithm 1, p. 4; Algorithm 2, p. 13), each client k initializes a personalized mask m_{k,0} using Erdos-Renyi Kernel (ERK) layer-wise proportions (n_{l-1} + n_l + w_l + h_l) / (n_{l-1} n_l w_l h_l), combines neighbor sparse models via w_{k, t+1/2} = ((w_{k,t} + sum_{j in S_{k,t}} w_{j,t}) / (m_{k,t} + sum_{j in S_{k,t}} m_{j,t})) odot m_{k,t} so active coordinates are normalized solely by the number of neighbors sharing that coordinate, and after N masked SGD steps prunes the bottom alpha_t fraction of active weights by |w_{k,t+1}| and regrows an equal count of inactive weights with largest |g(w_{k,t+1})|.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r507-primary-pdf">DispFL: Towards Communication-Efficient Personalized Federated Learning via Decentralized Sparse Training</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Proposed DisPFL, Algorithm 1, pp. 4-5; Appendix A Algorithm 2, p. 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#dispfl-sparse-subspace-compression-generalization-bound-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Assumptions 1-3 (loss bound M, L-smoothness, and union active parameter proportion beta &lt;= 1 across collaborating sparse masks), Theorem 1 (p. 5; proof in Appendix C, pp. 16-18) proves that if a compressed sparse model w_tilde satisfies ||w - w_tilde|| &lt;= eps_tilde / L with gradient displacement bound ||v|| &lt; (1 / tau) beta D_g, then with probability at least 1 - delta - 9 exp(-n eps&#39;^2 / M^2) over sample S of size n, |R_hat_S(A(S)) - R(A(S))| &lt; 9 eps&#39;, establishing that smaller union active proportion beta tightens the generalization error bound.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r507-primary-pdf">DispFL: Towards Communication-Efficient Personalized Federated Learning via Decentralized Sparse Training</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 Theoretical Understanding of Generalization, Assumptions 1-3, Theorem 1, p. 5; Appendix C, pp. 16-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#dispfl-dense-regrowth-gradient-evaluation-and-extreme-sparsity-drop-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Updating the personalized mask via gradient-magnitude regrowth (Algorithm 2 line 11) requires evaluating a full dense stochastic gradient g(w_{k,t+1}) over all d coordinates once per communication round (unless disabled under the fixed-mask variant), and extreme sparsity (e.g., 90% pruned parameters on CIFAR-100) reduces accuracy relative to moderate 50%-80% sparsity (Section 3.2, p. 5; Section 4.3 Figure 4a, p. 7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r507-primary-pdf">DispFL: Towards Communication-Efficient Personalized Federated Learning via Decentralized Sparse Training</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Discussion on Extra Resource Cost, p. 5; Section 4.3 Hyper-parameter Sensitivity, Fig. 4(a), p. 7; Appendix A Algorithm 2, p. 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#dispfl-decentralized-non-iid-image-and-text-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to decentralized personalized federated classification across ring, grid, Erdos-Renyi, and fully connected peer-to-peer topologies on CIFAR-10, CIFAR-100, Tiny-ImageNet, and AG News using ResNet-18, VGG-11, and TextCNN.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r507-primary-pdf">DispFL: Towards Communication-Efficient Personalized Federated Learning via Decentralized Sparse Training</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Experiments, Tables 1-2, Figures 2-6, pp. 5-8; Appendix B.3-B.4, pp. 14-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Gradient-based mask regrowth requires computing a full dense gradient g(w_{k,t+1}) once at the end of each local training round, adding O(d / N) amortized compute relative to fixed-mask sparse training (Section 3.2, p. 5; Algorithm 2 line 11, p. 13).</li>
+      <li>Unstructured weight sparsity requires sparse matrix-vector hardware or library support to translate theoretical FLOP reductions into wall-clock speedups on edge devices (Section 3.2, pp. 4-5).</li>
+      <li>Excessively high sparsity ratios (e.g., 90% pruned weights) degrade personalized test accuracy on complex label spaces such as CIFAR-100 (Section 4.3, Fig. 4a, p. 7).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DisPFL is a decentralized personalized federated learning algorithm based on sparse mask training.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DisPFL applies dynamic Erdos-Renyi Kernel sparse training (magnitude pruning and gradient-magnitude regrowth) on each client.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r507-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r507-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2206.00187.pdf" target="_blank" rel="noopener">DispFL: Towards Communication-Efficient Personalized Federated Learning via Decentralized Sparse Training</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rong Dai, Li Shen, Fengxiang He, Xinmei Tian, Dacheng Tao
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/DaiSHTT22</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4efaa87b8f7c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r507-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r507-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2206.00187" target="_blank" rel="noopener">DispFL: Towards Communication-Efficient Personalized Federated Learning via Decentralized Sparse Training (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rong Dai, Li Shen, Fengxiang He, Xinmei Tian, Dacheng Tao
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2206.00187</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7b17639a9893…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r507-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r507-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/DaiSHTT22" target="_blank" rel="noopener">DispFL: Towards Communication-Efficient Personalized Federated Learning via Decentralized Sparse Training (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rong Dai, Li Shen, Fengxiang He, Xinmei Tian, Dacheng Tao
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/DaiSHTT22</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0c83c65b7b87…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:50:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:50:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DisPflDecentralizedSparseTrainingForPersonalizedFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DisPflDecentralizedSparseTrainingForPersonalizedFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
