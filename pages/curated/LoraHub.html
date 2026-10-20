@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LoraHub · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>LoraHub</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">LoraHub</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LoraHub</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LoraHub Dynamic LoRA Composition, LoraHub Gradient-Free Cross-Task LoRA Assembly, Dynamic Low-Rank Adaptation Composition (LoraHub)
+    </div>
+
+  <div class="detail-desc">
+    A few-shot cross-task generalization framework that dynamically assembles N upstream task-specific LoRA modules {(A_i, B_i)}_{i=1}^N into a single unified low-rank module m_hat = (sum_i w_i A_i)(sum_i w_i B_i) and optimizes the scalar composition coefficients {w_1, ..., w_N} on a handful of labeled target-task examples via L1-regularized gradient-free black-box optimization.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard LoRA (AIMech:LoRA, which trains a single low-rank adapter via gradient descent on a target task), from HydraLoRA (AIMech:HydraLoRA, which jointly trains a shared down-projection matrix A and multiple routed up-projection heads B_k end-to-end with backpropagation), and from S-LoRA (AIMech:SLoRA, an inference serving system that batches heterogeneous LoRA adapters in unified paging memory rather than composing multiple upstream adapters into a single synthesized module for unseen tasks). Formulated by Huang et al. (COLM 2024, arXiv:2307.13269).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#lorahub-factorwise-bilinear-module-composition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the COMPOSE stage, LoraHub combines N upstream LoRA modules {m_i = A_i B_i}_{i=1}^N of matching rank r using real-valued scalar weights w = (w_1, ..., w_N) via separate element-wise linear combinations of the low-rank factors, m_hat = (sum_{i=1}^N w_i A_i)(sum_{i=1}^N w_i B_i), producing a single rank-r adapter that captures both self-terms w_i^2 A_i B_i and cross-task bilinear interactions w_i w_j A_i B_j.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r681-primary-pdf">LoraHub: Efficient Cross-Task Generalization via Dynamic LoRA Composition</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 COMPOSE: Element-wise composition of LoRA modules, Eq. 1, p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#lorahub-gradient-free-cmaes-l1-adaptation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the ADAPT stage, LoraHub optimizes the scalar coefficients {w_1, ..., w_N} over K inference-only iterations on a few-shot support set Q using Covariance Matrix Adaptation Evolution Strategies (CMA-ES) to minimize the L1-regularized cross-entropy loss L(Q; w) + alpha sum_{i=1}^N |w_i| without computing backpropagation gradients or storing optimizer states for the base language model.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r681-primary-pdf">LoraHub: Efficient Cross-Task Generalization via Dynamic LoRA Composition</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4 ADAPT: Weight optimization via gradient-free methods, p. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#lorahub-bbh-few-shot-generalization-efficiency</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    LoraHub is applied to few-shot cross-task generalization on the Big-Bench Hard (BBH) benchmark with FLAN-T5-large and FLAN-T5-xl, approaching few-shot in-context learning accuracy while requiring zero demonstration examples in the prompt at test time (reducing average inference tokens per example from 597.8 to 111.6) and using approximately 5 GB of GPU memory compared to 34 GB for gradient-based LoRA tuning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r681-primary-pdf">LoraHub: Efficient Cross-Task Generalization via Dynamic LoRA Composition</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Main results, Table 1 &amp; Section 5 Analysis, p. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#lorahub-uniform-rank-and-candidate-variance-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Element-wise factor composition in LoraHub requires all combined LoRA modules to share the exact same rank r and base LLM architecture, and combining a large unpruned pool of candidate modules increases search space dimensionality and performance variance while lagging gradient-based fine-tuning on tasks that deviate sharply from the upstream module pool.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r681-primary-pdf">LoraHub: Efficient Cross-Task Generalization via Dynamic LoRA Composition</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, Section 4.2, and Appendix H, p. 4, 6-8, 21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires all candidate LoRA modules to be trained on the same base model architecture with identical rank r.</li>
+      <li>Incurs K black-box evaluation passes during the per-task ADAPT phase and underperforms gradient-based LoRA tuning when the target task domain is unrepresented in the upstream LoRA module pool.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LoraHub composes pre-trained low-rank neural network adapters via gradient-free evolutionary optimization for cross-task generalization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r681-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r681-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2307.13269" target="_blank" rel="noopener">LoraHub: Efficient Cross-Task Generalization via Dynamic LoRA Composition</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chengsong Huang, Qian Liu, Bill Yuchen Lin, Tianyu Pang, Chao Du, Min Lin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-2307-13269.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:50c241ff8866…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r681-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r681-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2307.13269" target="_blank" rel="noopener">LoraHub: Efficient Cross-Task Generalization via Dynamic LoRA Composition (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chengsong Huang, Qian Liu, Bill Yuchen Lin, Tianyu Pang, Chao Du, Min Lin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2307.13269</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f51ce80042e7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r681-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r681-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/corr/abs-2307-13269.xml" target="_blank" rel="noopener">LoraHub: Efficient Cross-Task Generalization via Dynamic LoRA Composition (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chengsong Huang, Qian Liu, Bill Yuchen Lin, Tianyu Pang, Chao Du, Min Lin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-2307-13269.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4f16f8dc439c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:44:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:44:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LoraHub.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LoraHub.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
