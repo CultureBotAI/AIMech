@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zeno Suspicion-Based Fault-Tolerant Distributed Stochastic Gradient Descent · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Zeno Suspicion-Based Fault-Tolerant Distributed Stochastic Gradient Descent</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Zeno Suspicion-Based Fault-Tolerant Distributed Stochastic Gradient Descent</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ZenoSuspicionBasedFaultTolerantDistributedStochasticGradientDescent</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Zeno, Zeno Distributed SGD, Zeno Suspicion-Based Aggregation, Stochastic Descendant Score Aggregation
+    </div>
+
+  <div class="detail-desc">
+    A Byzantine-tolerant synchronous distributed stochastic gradient descent algorithm in which the parameter server samples a small validation mini-batch f_r(x) = (1/n_r) sum_{i=1}^{n_r} f(x; z_i) at each iteration, computes a regularized stochastic descendant score Score_{gamma, rho}(u, x) = f_r(x) - f_r(x - gamma * u) - rho * ||u||^2 for each of the m worker gradient candidates {tilde_v_i}, sorts candidates in descending score order, and averages the top m - b candidates (with m &gt; b &gt;= q) to update the global model.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from majority-based geometric or coordinate-wise robust aggregation rules that require q &lt; m/2 without a server validation loss check (Krum, Bulyan, Trimmed-Mean, Coordinate-Wise Median), and distinct from FLTrust (which computes a server reference gradient on a root dataset and ReLU-clips cosine similarities rather than evaluating loss descent f_r(x) - f_r(x - gamma u) - rho ||u||^2). Specifically denotes the Zeno algorithm of Xie, Koyejo, &amp; Gupta (ICML 2019, PMLR 97:6893-6901, Definitions 2-3, Algorithm 1, Lemma 1, Theorem 1).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r523-stochastic-descendant-score-and-top-subset-averaging</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Using a validation mini-batch f_r(x) = (1/n_r) sum_{i=1}^{n_r} f(x; z_i) sampled after receiving worker candidate updates {tilde_v_i : i in [m]}, Zeno evaluates Score_{gamma, rho}(tilde_v_i, x) = f_r(x) - f_r(x - gamma * tilde_v_i) - rho * ||tilde_v_i||^2 (Definition 2) to reward loss decrease while penalizing update magnitude, sorts candidates as Score(tilde_v_{(1)}) &gt;= ... &gt;= Score(tilde_v_{(m)}), and outputs Zeno_b({tilde_v_i}) = (1/(m - b)) sum_{i=1}^{m-b} tilde_v_{(i)} (Definition 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r523-primary-pdf">Zeno: Distributed Stochastic Gradient Descent with Suspicion-based Fault-tolerance</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Definitions 2-3 and Algorithm 1, p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r523-dishonest-majority-nonconvex-convergence-guarantee</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By Lemma 1, the i-th highest candidate score dominates the i-th highest honest worker score Score_{gamma, rho}(tilde_v_{(i)}, x) &gt;= Score_{gamma, rho}(v_{(i)}, x) for all i in [m - q]; consequently, for any number of Byzantine workers q &lt; m (including a dishonest majority q &gt;= m/2) with m &gt; b &gt;= q, Theorem 1 and Corollaries 1-2 prove O(1/sqrt(T)) convergence to a stationary point of smooth non-convex objectives under both i.i.d. and disjoint non-i.i.d. worker data.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r523-primary-pdf">Zeno: Distributed Stochastic Gradient Descent with Suspicion-based Fault-tolerance</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Lemma 1, Theorem 1, and Corollaries 1-2, p. 4; Appendix A, pp. 10-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r523-server-validation-batch-and-forward-pass-overhead</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Zeno requires the central server to hold a trusted validation dataset from the target learning distribution and to evaluate the validation loss f_r(x - gamma * tilde_v_i) across all m candidate updates at every iteration.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r523-primary-pdf">Zeno: Distributed Stochastic Gradient Descent with Suspicion-based Fault-tolerance</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2 and Section 4.1 Assumption 1, pp. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires a clean validation dataset at the parameter server drawn from an unbiased target distribution.</li>
+      <li>Incurs m validation mini-batch forward evaluations f_r(x - gamma * tilde_v_i) on the server at every synchronous SGD step.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Zeno is a Byzantine-robust gradient aggregation rule for distributed and federated stochastic gradient descent.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r523-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r523-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1805.10032.pdf" target="_blank" rel="noopener">Zeno: Distributed Stochastic Gradient Descent with Suspicion-based Fault-tolerance</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Cong Xie, Oluwasanmi Koyejo, Indranil Gupta
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/XieKG19.json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:addb078699e5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r523-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r523-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1805.10032" target="_blank" rel="noopener">Zeno: Distributed Stochastic Gradient Descent with Suspicion-based Fault-tolerance (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Cong Xie, Oluwasanmi Koyejo, Indranil Gupta
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1805.10032</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8b179e9bd6aa…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r523-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r523-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/XieKG19.json" target="_blank" rel="noopener">Zeno: Distributed Stochastic Gradient Descent with Suspicion-based Fault-tolerance (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Cong Xie, Oluwasanmi Koyejo, Indranil Gupta
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/XieKG19.json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:800e006e941b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:06:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:06:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ZenoSuspicionBasedFaultTolerantDistributedStochasticGradientDescent.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ZenoSuspicionBasedFaultTolerantDistributedStochasticGradientDescent.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
