@@ -1,0 +1,353 @@
+# Scientific author self-review of Vote-k Selective Annotation for In-Context Learning
+
+- Review: 20261019T134130Z-vote-k-selective-annotation-in-context-learning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T13:41:00Z
+- Finished UTC: 2026-10-19T13:41:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Vote-k Selective Annotation for In-Context Learning as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/VoteKSelectiveAnnotationForInContextLearning.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:VoteKSelectiveAnnotationForInContextLearning
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 0bf8926c9597513e740d0ae61d40c48676fed44e.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:VoteKSelectiveAnnotationForInContextLearning | data/curated/VoteKSelectiveAnnotationForInContextLearning.yaml | maintained | Vote-k Selective Annotation for In-Context Learning |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:VoteKSelectiveAnnotationForInContextLearning | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:VoteKSelectiveAnnotationForInContextLearning | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:VoteKSelectiveAnnotationForInContextLearning | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:VoteKSelectiveAnnotationForInContextLearning | Validated history sidecar files. |
+| python3 vote-k-selective-annotation-in-context-learning-boundaries.py | passed | True | AIMech:VoteKSelectiveAnnotationForInContextLearning | Vote-k verification passed: selected_clusters=[0, 1, 2] (vs undiscounted=[0]) |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:VoteKSelectiveAnnotationForInContextLearning.
+
+Vote-k Selective Annotation for In-Context Learning is a distinct concept.
+
+Distinct from test-time prompt retrieval methods such as KATE (AIMech:KATEkNNAugmentedInContextExampleSelection) and EPR (AIMech:EPREfficientPromptRetrievalForInContextLearning), which assume the entire training pool is already annotated and select prompts per test query, whereas Vote-k operates before annotation to choose a compact, diverse, and representative subset L of size M from an unlabeled pool X to be human-annotated. Also distinct from pure facility-location or greedy embedding-diversity coreset selection, which do not combine exponentially discounted kNN graph voting with in-context LM confidence stratification.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:VoteKSelectiveAnnotationForInContextLearning.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:VoteKSelectiveAnnotationForInContextLearning.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in vote-k-selective-annotation-in-context-learning-boundaries.py passed with exit code 0: Vote-k verification passed: selected_clusters=[0, 1, 2] (vs undiscounted=[0])
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:VoteKSelectiveAnnotationForInContextLearning.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T134100Z-vote-k-selective-annotation-in-context-learning.json | supports | No normalized identity match for AIMech:VoteKSelectiveAnnotationForInContextLearning across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/vote-k-selective-annotation-in-context-learning-boundaries.py | supports | All constructed boundary assertions in vote-k-selective-annotation-in-context-learning-boundaries.py passed with exit code 0: Vote-k verification passed: selected_clusters=[0, 1, 2] (vs undiscounted=[0]) |
+| r738-primary-pdf | https://arxiv.org/pdf/2209.01975.pdf; Full-text PDF | supports | Full-text PDF (The Eleventh International Conference on Learning Representations (ICLR 2023) (2023)) read and verified. |
+| r738-arxiv-abs | https://arxiv.org/abs/2209.01975; arXiv abstract | supports | arXiv abstract read and verified. |
+| r738-metadata-cr | https://dblp.org/search/publ/api?q=Selective+Annotation+Makes+Language+Models+Better+Few-Shot+Learners+Su&amp;h=5&amp;format=xml; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:VoteKSelectiveAnnotationForInContextLearning in Round 738.
+- All pages of The Eleventh International Conference on Learning Representations (ICLR 2023) (2023) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T134130Z-vote-k-selective-annotation-in-context-learning
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Vote-k Selective Annotation for In-Context
+  Learning
+started_at: '2026-10-19T13:41:00Z'
+finished_at: '2026-10-19T13:41:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:VoteKSelectiveAnnotationForInContextLearning
+    against existing AIMech and AIO records and verified all claims against The Eleventh
+    International Conference on Learning Representations (ICLR 2023) (2023) and pure-Python
+    boundary checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Vote-k Selective Annotation for In-Context Learning as a distinct
+  DRAFT algorithm. All three claims are supported by full-text primary evidence and
+  pure-Python boundary verification.
+source:
+  git_revision: 0bf8926c9597513e740d0ae61d40c48676fed44e
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/VoteKSelectiveAnnotationForInContextLearning.yaml
+    sha256: 8c3250618cd00a56a6f3e9227748d472a241c12a5f4aff2ef2de69d46a39609c
+    role: target
+  - path: research/discovery/20261019T134100Z-vote-k-selective-annotation-in-context-learning.json
+    sha256: fadaf50706dc81852f26239ee1439e281ba6c5a27ce4dd99132daa7b94f11ef3
+    role: context
+  - path: research/discovery/vote-k-selective-annotation-in-context-learning-boundaries.py
+    sha256: 762954af4ff9187ed6b5d6734cd13029d3f7963a3651f76b494dcf1fb99b4172
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:VoteKSelectiveAnnotationForInContextLearning
+  path: data/curated/VoteKSelectiveAnnotationForInContextLearning.yaml
+  label: Vote-k Selective Annotation for In-Context Learning
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/VoteKSelectiveAnnotationForInContextLearning.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/VoteKSelectiveAnnotationForInContextLearning.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:VoteKSelectiveAnnotationForInContextLearning'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:VoteKSelectiveAnnotationForInContextLearning
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VoteKSelectiveAnnotationForInContextLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VoteKSelectiveAnnotationForInContextLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VoteKSelectiveAnnotationForInContextLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VoteKSelectiveAnnotationForInContextLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 vote-k-selective-annotation-in-context-learning-boundaries.py
+  command: python3 research/discovery/vote-k-selective-annotation-in-context-learning-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VoteKSelectiveAnnotationForInContextLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Vote-k verification passed: selected_clusters=[0, 1, 2] (vs undiscounted=[0])'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T134100Z-vote-k-selective-annotation-in-context-learning.json
+  accessed_at: '2026-10-19T13:41:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:VoteKSelectiveAnnotationForInContextLearning
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T13:41:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/vote-k-selective-annotation-in-context-learning-boundaries.py
+  accessed_at: '2026-10-19T13:41:00Z'
+  snapshot_sha256: 762954af4ff9187ed6b5d6734cd13029d3f7963a3651f76b494dcf1fb99b4172
+  support: supports
+  summary: 'All constructed boundary assertions in vote-k-selective-annotation-in-context-learning-boundaries.py
+    passed with exit code 0: Vote-k verification passed: selected_clusters=[0, 1,
+    2] (vs undiscounted=[0])'
+- evidence_id: r738-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2209.01975.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T13:41:00Z'
+  snapshot_sha256: f9dd0373bacef9eed0d1df29be0d7e5f218e00f54783906a3850f6cebc8e53b5
+  support: supports
+  summary: Full-text PDF (The Eleventh International Conference on Learning Representations
+    (ICLR 2023) (2023)) read and verified.
+- evidence_id: r738-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2209.01975
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T13:41:00Z'
+  snapshot_sha256: 79f9549283667f2007302099ff79e5807058c7b3b0c19dbc35b0acbb12fff317
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r738-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/search/publ/api?q=Selective+Annotation+Makes+Language+Models+Better+Few-Shot+Learners+Su&h=5&format=xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T13:41:00Z'
+  snapshot_sha256: a1fa4bc6c510c2ec6904c1d0694cdde551ba35d9e8335982ad7d925ce96b0acd
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:VoteKSelectiveAnnotationForInContextLearning
+  evidence_ids:
+  - identity
+  - r738-primary-pdf
+  - r738-arxiv-abs
+  - r738-metadata-cr
+  summary: Vote-k Selective Annotation for In-Context Learning is a distinct concept.
+  details: Distinct from test-time prompt retrieval methods such as KATE (AIMech:KATEkNNAugmentedInContextExampleSelection)
+    and EPR (AIMech:EPREfficientPromptRetrievalForInContextLearning), which assume
+    the entire training pool is already annotated and select prompts per test query,
+    whereas Vote-k operates before annotation to choose a compact, diverse, and representative
+    subset L of size M from an unlabeled pool X to be human-annotated. Also distinct
+    from pure facility-location or greedy embedding-diversity coreset selection, which
+    do not combine exponentially discounted kNN graph voting with in-context LM confidence
+    stratification.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:VoteKSelectiveAnnotationForInContextLearning
+  evidence_ids:
+  - mapping
+  - r738-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:VoteKSelectiveAnnotationForInContextLearning
+  evidence_ids:
+  - r738-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in vote-k-selective-annotation-in-context-learning-boundaries.py
+    passed with exit code 0: Vote-k verification passed: selected_clusters=[0, 1,
+    2] (vs undiscounted=[0])'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:VoteKSelectiveAnnotationForInContextLearning
+  evidence_ids:
+  - identity
+  - mapping
+  - r738-primary-pdf
+  - r738-arxiv-abs
+  - r738-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:VoteKSelectiveAnnotationForInContextLearning in Round
+  738.
+- All pages of The Eleventh International Conference on Learning Representations (ICLR
+  2023) (2023) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
