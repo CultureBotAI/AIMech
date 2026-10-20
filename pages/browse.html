@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1607</strong> artificial intelligence concepts, comprising <strong>1165</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1608</strong> artificial intelligence concepts, comprising <strong>1166</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1607)</option>
-        <option value="curated">Curated AIMech (1165)</option>
+        <option value="all">All Origins (1608)</option>
+        <option value="curated">Curated AIMech (1166)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (836)</option>
+          <option value="algorithm">Algorithms (837)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (60)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1607</span> of <span id="totalCount">1607</span>
+      Showing <span id="matchCount">1608</span> of <span id="totalCount">1608</span>
     </div>
   </div>
 </div>
@@ -37336,6 +37336,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="5 claims curated">5 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="tct-colbert tightly-coupled teachers knowledge distillation for dense retrieval tctcolberttightlycoupledteachersfordenseretrieval aimech:tctcolberttightlycoupledteachersfordenseretrieval algorithms algorithm a knowledge-distillation algorithm for single-stage dense passage retrieval that initializes a siamese bert bi-encoder student from a fine-tuned late-interaction colbert teacher, removes colbert&#39;s conv1d token-projection head to represent each query and passage as a single average-pooled token embedding pool(e_q), pool(e_d) in r^h scored via dot product phi_pooldot(q, d) = &lt;pool(e_q), pool(e_d)&gt;, and interleaves online inference of the frozen colbert teacher phi_maxsim(q, d) = sum_{i in |e_q|} max_{j in |e_d|} &lt;eta_q(e_{q_i}), eta_d(e_{d_j})&gt; across all passages d_b = {d^+_{q_j}}_{j in b} u {d^-_{q_j}}_{j in b} in each training mini-batch b to minimize l = -sum_{i=1}^{|b|} [gamma * 1_{d_i in t^+_{q_i}} log p(d_i | q_i) - (1 - gamma) sum_{d&#39; in d_b} kl(p_hat(d&#39; | q_i) || p(d&#39; | q_i))] where p(d | q) = softmax(phi_pooldot(q, d)) and p_hat(d | q) = softmax(phi_maxsim(q, d) / tau), optionally combined at inference with top-k sparse retrieval scores via minimum-score-substituted linear interpolation over d_sp u d_ds. distinct from tas-b (aimech:tasbtopicawaresamplingbalancedmargindistillation), which distills pairwise score margins from dual colbert and cross-encoder teachers over topic-clustered queries rather than temperature-scaled listwise kl divergence over dynamic in-batch subsampled passages from a tightly-coupled colbert teacher; distinct from rocketqa (aimech:rocketqadenoisedhardnegativesampling) and rocketqav2 (aimech:rocketqav2jointtrainingdensepassageretrievalandreranking), which distill from a cross-encoder reranker over per-query candidate lists rather than a late-interaction maxsim teacher over full o(|b|^2) in-batch query-passage grids; and distinct from ance (aimech:anceapproximatenearestneighbornegativecontrastivelearning), which requires periodic asynchronous corpus-wide ann re-encoding instead of tightly-coupled in-batch teacher distillation. tct-colbert tightly-coupled teacher colbert distilling dense representations for ranking using tightly-coupled teachers in-batch negatives for knowledge distillation with tightly-coupled teachers for dense retrieval tct-colbert simplifies colbert&#39;s late-interaction scoring phi_maxsim(q, d) = sum_{i in |e_q|} max_{j in |e_d|} &lt;eta_q(e_{q_i}), eta_d(e_{d_j})&gt; (equation 3) by removing the conv1d layer and compressing each passage and query into a single h = 768 average-pooled vector scored by phi_pooldot(q, d) = &lt;pool(e_q), pool(e_d)&gt; (equation 2, section 3), initializing the student bi-encoder from the trained colbert teacher weights and freezing the teacher during distillation (section 4). during each mini-batch b of triplets (q_i, d^+_{q_i}, d^-_{q_i})_{i in b}, tct-colbert interleaves online colbert teacher inference across the entire in-batch passage pool d_b = {d^+_{q_j}}_{j in b} u {d^-_{q_j}}_{j in b} to compute temperature-scaled soft targets p_hat(d | q_i) = exp(phi_maxsim(q_i, d)/tau) / sum_{d&#39; in d_b} exp(phi_maxsim(q_i, d&#39;)/tau) (tau = 0.25) and optimizes l = -sum_{i=1}^{|b|} [gamma * 1_{d_i in t^+_{q_i}} log p(d_i | q_i) - (1 - gamma) sum_{d&#39; in d_b} kl(p_hat(d&#39; | q_i) || p(d&#39; | q_i))] (gamma = 0.1, equations 5-6), where adding in-batch subsampling distillation atop triplet distillation improves ms marco dev full-corpus retrieval mrr@10 from 0.328 to 0.335 (table 3). to combine top-1000 sparse candidates d_sp (bm25 or doc2query-t5) with top-1000 dense candidates d_ds without scoring the entire corpus, tct-colbert evaluates phi(q, d) over d in d_sp u d_ds via alpha * phi_sp(q, d) + phi_ds(q, d) when d is in both sets, substituting min_{d&#39; in d_ds} phi_ds(q, d&#39;) when d is not in d_ds and alpha * min_{d&#39; in d_sp} phi_sp(q, d&#39;) when d is not in d_sp (equation 7), achieving 0.364 mrr@10 and 0.973 r@1000 on ms marco dev at 106ms/query—4x faster than colbert (458ms) and 33x faster than bm25 + bert-large (3,500ms) (tables 1-2). because tight coupling requires online teacher inference over all |b| x |d_b| query-passage combinations in every mini-batch, the teacher model must be computationally efficient (ruling out full cross-encoder teachers for dynamic in-batch subsampling, section 1 &amp; section 2), and compressing token-level representations into a single pooled vector incurs a standalone dense effectiveness drop compared to multi-stage colbert (0.335 vs. 0.360 mrr@10 on ms marco dev, table 1) unless complemented by sparse signals. distilling dense representations for ranking using tightly-coupled teachers distilling dense representations for ranking using tightly-coupled teachers (arxiv abstract) distilling dense representations for ranking using tightly-coupled teachers (crossref metadata) sheng-chieh lin jheng-hong yang jimmy lin sheng-chieh lin jheng-hong yang jimmy lin sheng-chieh lin jheng-hong yang jimmy lin">
+        <td>
+          <a href="curated/TCTColBERTTightlyCoupledTeachersForDenseRetrieval.html" style="font-weight: 600; font-size: 1rem;">TCT-ColBERT Tightly-Coupled Teachers Knowledge Distillation for Dense Retrieval</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> TCT-ColBERT, Tightly-Coupled Teacher ColBERT…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A knowledge-distillation algorithm for single-stage dense passage retrieval that initializes a Siamese BERT bi-encoder student from a fine-t…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
