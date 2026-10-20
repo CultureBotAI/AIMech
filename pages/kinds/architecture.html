@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">41 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">42 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">41</span> of <span id="totalCount">41</span>
+      Showing <span id="matchCount">42</span> of <span id="totalCount">42</span>
     </div>
   </div>
 </div>
@@ -543,6 +543,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="loramoe loramoe aimech:loramoe architectures architecture a mixture-of-experts-style parameter-efficient fine-tuning architecture that freezes the pre-trained backbone feed-forward linear weights w_0 to preserve parametric world knowledge, introduces n parallel low-rank experts delta w_{e_i} = b_i a_i gated by a trainable softmax router g(x) = softmax(x w_g) as o = w_0 x + (alpha / r) sum_{i=1}^n omega_i b_i a_i x, and enforces a localized balancing constraint l_lbc = sigma^2(i o q) / mu(i o q) during supervised fine-tuning to partition experts into world-knowledge-aligning experts and downstream-task experts while balancing utilization within each group. distinct from hydralora (aimech:hydralora, which shares a single down-projection matrix a across multiple up-projection heads b_k without type-partitioned localized balancing), from mole (aimech:molemixtureofloraexperts, which freezes pre-trained loras and gates over their concatenated layer outputs), and from standard sparsely-gated moe layers (which replace the entire ffn with full-rank experts and apply a single-distribution global coefficient-of-variation balancing loss). formulated by dou et al. (acl 2024, arxiv:2312.09979). loramoe plugin with localized balancing constraint localized-balanced mixture of lora experts for world knowledge retention moe-style lora plugin for alleviating world knowledge forgetting in each transformer ffn block, loramoe freezes the pre-trained linear weight matrix w_0 in r^{d_in x d_out} and adds n trainable low-rank experts delta w_{e_i} = b_i a_i (a_i in r^{d_in x r}, b_i in r^{r x d_out}, r &lt;&lt; min(d_in, d_out)) weighted by a router g(x) = softmax(x w_g) so that the layer output is o = w_0 x + (alpha / r) sum_{i=1}^n omega_i b_i a_i x. given the sample-level expert importance matrix q_{n,m} = sum_{j=1}^{t_m} g(x_j)_n for expert n and training sample m and the binary-group affinity coefficient matrix i_{n,m} = 1 + delta when type_e(n) = type_s(m) and 1 - delta when type_e(n) != type_s(m) (delta in [0, 1]), loramoe minimizes l_total = l + beta * l_lbc with l_lbc = sigma^2(i o q) / mu(i o q), softly specializing subsets of experts to world-knowledge vs. downstream tasks while balancing utilization within each expert group and requiring no task-type labels at inference time. loramoe is applied to large-scale multi-task supervised fine-tuning of llama-2-7b on 3 million instruction samples spanning reading comprehension, nli, translation, summarization, coreference, and closed-book qa (triviaqa, natural questions, hotpotqa), improving world-knowledge benchmark scores by an average of 35.3% (up to 63.9%) over vanilla sft and 30.9% over single-lora peft while matching or exceeding sft on downstream tasks. during training, the localized balancing constraint requires partitioning training datasets into pre-defined coarse task categories (world-knowledge vs. other downstream tasks) to construct the importance coefficient matrix i_{n,m}, and its extension to finer-grained multi-category expert taxonomies and models larger than 7b parameters remains unverified. loramoe: alleviate world knowledge forgetting in large language models via moe-style plugin loramoe: alleviate world knowledge forgetting in large language models via moe-style plugin (arxiv abstract) loramoe: alleviate world knowledge forgetting in large language models via moe-style plugin (crossref metadata) shihan dou enyu zhou yan liu songyang gao jun zhao wei shen yuhao zhou zhiheng xi xiao wang xiaoran fan shiliang pu jiang zhu rui zheng tao gui qi zhang xuanjing huang shihan dou enyu zhou yan liu songyang gao jun zhao wei shen yuhao zhou zhiheng xi xiao wang xiaoran fan shiliang pu jiang zhu rui zheng tao gui qi zhang xuanjing huang shihan dou enyu zhou yan liu songyang gao jun zhao wei shen yuhao zhou zhiheng xi xiao wang xiaoran fan shiliang pu jiang zhu rui zheng tao gui qi zhang xuanjing huang">
+        <td>
+          <a href="../curated/LoRAMoE.html" style="font-weight: 600; font-size: 1rem;">LoRAMoE</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> LoRAMoE Plugin with Localized Balancing Constraint, Localized-Balanced Mixture of LoRA Experts for World Knowledge Retention…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A Mixture-of-Experts-style parameter-efficient fine-tuning architecture that freezes the pre-trained backbone feed-forward linear weights W_…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:LoRAMoE</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

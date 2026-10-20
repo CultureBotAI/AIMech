@@ -1,0 +1,112 @@
+id: AIMech:LoRAMoE
+name: LoRAMoE
+concept_kind: architecture
+review_status: DRAFT
+definition: A Mixture-of-Experts-style parameter-efficient fine-tuning architecture that freezes the pre-trained backbone feed-forward linear weights W_0 to preserve parametric world knowledge, introduces N parallel low-rank experts Delta W_{E_i} = B_i A_i gated by a trainable softmax router G(x) = Softmax(x W_g) as o = W_0 x + (alpha / r) sum_{i=1}^N omega_i B_i A_i x, and enforces a Localized Balancing Constraint L_lbc = sigma^2(I o Q) / mu(I o Q) during supervised fine-tuning to partition experts into world-knowledge-aligning experts and downstream-task experts while balancing utilization within each group.
+identity_notes: Distinct from HydraLoRA (AIMech:HydraLoRA, which shares a single down-projection matrix A across multiple up-projection heads B_k without type-partitioned localized balancing), from MoLE (AIMech:MoLEMixtureOfLoRAExperts, which freezes pre-trained LoRAs and gates over their concatenated layer outputs), and from standard sparsely-gated MoE layers (which replace the entire FFN with full-rank experts and apply a single-distribution global coefficient-of-variation balancing loss). Formulated by Dou et al. (ACL 2024, arXiv:2312.09979).
+aliases:
+- LoRAMoE Plugin with Localized Balancing Constraint
+- Localized-Balanced Mixture of LoRA Experts for World Knowledge Retention
+- MoE-Style LoRA Plugin for Alleviating World Knowledge Forgetting
+definition_evidence:
+- source_id: r687-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r687-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r687-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: loramoe-ffn-plugin-forward-routing-mechanism
+  kind: mechanism
+  statement: In each Transformer FFN block, LoRAMoE freezes the pre-trained linear weight matrix W_0 in R^{d_in x d_out} and adds N trainable low-rank experts Delta W_{E_i} = B_i A_i (A_i in R^{d_in x r}, B_i in R^{r x d_out}, r << min(d_in, d_out)) weighted by a router G(x) = Softmax(x W_g) so that the layer output is o = W_0 x + (alpha / r) sum_{i=1}^N omega_i B_i A_i x.
+  evidence:
+  - source_id: r687-primary-pdf
+    locator: Section 3.1 Architecture, Eq. 1-5 and Figure 4, p. 3-5
+    relation: supports
+- claim_id: loramoe-localized-balancing-constraint-mechanism
+  kind: mechanism
+  statement: Given the sample-level expert importance matrix Q_{n,m} = sum_{j=1}^{T_m} G(x_j)_n for expert n and training sample m and the binary-group affinity coefficient matrix I_{n,m} = 1 + delta when Type_e(n) = Type_s(m) and 1 - delta when Type_e(n) != Type_s(m) (delta in [0, 1]), LoRAMoE minimizes L_total = L + beta * L_lbc with L_lbc = sigma^2(I o Q) / mu(I o Q), softly specializing subsets of experts to world-knowledge vs. downstream tasks while balancing utilization within each expert group and requiring no task-type labels at inference time.
+  evidence:
+  - source_id: r687-primary-pdf
+    locator: Section 3.2 Localized Balancing Constraint, Eq. 6-9 & Appendix C Eq. 10-12, p. 5-6, 11-13
+    relation: supports
+- claim_id: loramoe-large-scale-sft-knowledge-retention-application
+  kind: application
+  statement: LoRAMoE is applied to large-scale multi-task supervised fine-tuning of LLaMA-2-7B on 3 million instruction samples spanning reading comprehension, NLI, translation, summarization, coreference, and closed-book QA (TriviaQA, Natural Questions, HotpotQA), improving world-knowledge benchmark scores by an average of 35.3% (up to 63.9%) over vanilla SFT and 30.9% over single-LoRA PEFT while matching or exceeding SFT on downstream tasks.
+  evidence:
+  - source_id: r687-primary-pdf
+    locator: Section 4.1-4.4, Tables 2-3 and Figure 7, p. 6-8
+    relation: supports
+- claim_id: loramoe-coarse-binary-task-taxonomy-limitation
+  kind: limitation
+  statement: During training, the Localized Balancing Constraint requires partitioning training datasets into pre-defined coarse task categories (world-knowledge vs. other downstream tasks) to construct the importance coefficient matrix I_{n,m}, and its extension to finer-grained multi-category expert taxonomies and models larger than 7B parameters remains unverified.
+  evidence:
+  - source_id: r687-primary-pdf
+    locator: Section 7 Limitations, p. 9
+    relation: supports
+evidence_sources:
+- source_id: r687-primary-pdf
+  title: 'LoRAMoE: Alleviate World Knowledge Forgetting in Large Language Models via MoE-Style Plugin'
+  authors: &id001
+  - Shihan Dou
+  - Enyu Zhou
+  - Yan Liu
+  - Songyang Gao
+  - Jun Zhao
+  - Wei Shen
+  - Yuhao Zhou
+  - Zhiheng Xi
+  - Xiao Wang
+  - Xiaoran Fan
+  - Shiliang Pu
+  - Jiang Zhu
+  - Rui Zheng
+  - Tao Gui
+  - Qi Zhang
+  - Xuanjing Huang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2312.09979.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=2312.09979&format=xml
+  version: Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (ACL 2024) (2024) (1153794 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:50:00Z'
+  sha256: e5bf545cb7b16c93ea3bffda30457a0bc9425cdcae66b3411af8dd5944146998
+- source_id: r687-arxiv-abs
+  title: 'LoRAMoE: Alleviate World Knowledge Forgetting in Large Language Models via MoE-Style Plugin (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2312.09979
+  persistent_id: https://arxiv.org/abs/2312.09979
+  version: arXiv abstract page (7203 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:50:00Z'
+  sha256: 373c85cde835ded654e0f31d01aceafdc4ac20ba6107dfe6fdc870fbbbbac93e
+- source_id: r687-metadata-cr
+  title: 'LoRAMoE: Alleviate World Knowledge Forgetting in Large Language Models via MoE-Style Plugin (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=2312.09979&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=2312.09979&format=xml
+  version: Crossref API work record (893 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:50:00Z'
+  sha256: 67421fddaeae3880eebdd5c56703eb06d5123ca267a39b9b0f79e0b6df902bbd
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: LoRAMoE is a neural network Mixture-of-Experts plugin architecture with low-rank adapter experts.
+limitations:
+- Requires pre-categorizing training samples into coarse task types (world-knowledge vs. downstream tasks) during training to compute the localized balancing constraint matrix I_{n,m}.
+curation:
+  created_at: '2026-10-19T12:50:00Z'
+  updated_at: '2026-10-19T12:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
