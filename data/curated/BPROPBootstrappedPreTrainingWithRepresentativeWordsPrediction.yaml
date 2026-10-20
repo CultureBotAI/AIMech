@@ -1,0 +1,112 @@
+id: AIMech:BPROPBootstrappedPreTrainingWithRepresentativeWordsPrediction
+name: B-PROP Bootstrapped Pre-Training with Representative Words Prediction for Ad-Hoc Retrieval
+concept_kind: algorithm
+review_status: DRAFT
+definition: A bootstrapped self-supervised pre-training algorithm for ad-hoc document retrieval that extracts final-layer head-averaged [CLS]-token self-attention weights alpha^t = (1/h) sum_{i=1}^h alpha^t_i from a pre-trained BERT model, sums them per distinct vocabulary term in document d as beta^_{w_k} = sum_{x_t = w_k} alpha^t and applies a BM25-inspired saturation function beta_{w_k} = beta^_{w_k} / (b + beta^_{w_k}) followed by softmax normalization to obtain the contextual document term distribution P(w_k | theta_d) = exp(beta_{w_k}) / sum_{w' in V} exp(beta_{w'}), computes the collection-wide random term distribution P(w_k | theta_random) = (1/|D|) sum_{d in D} P(w_k | theta_d), derives a divergence-from-randomness contrastive term distribution P(w_k | theta_contrastive) = exp(gamma^_{w_k}) / sum_{w' in V} exp(gamma^_{w'}) from the point-wise cross-entropy gamma^_{w_k} = -P(w_k | theta_d) log2 P(w_k | theta_random), samples pairs of equal-length word sets (s_1, s_2) of length l ~ Poisson(lambda) from P(w_k | theta_contrastive), and re-trains BERT on the joint Representative Words Prediction and Masked Language Modeling objective L_total = L_ROP + L_MLM.
+identity_notes: Distinct from PROP (AIMech:PROPPreTrainingWithRepresentativeWordsPrediction), which samples representative word sets from a term-independent Dirichlet-smoothed unigram language model rather than bootstrapping from BERT's saturated [CLS]-attention divergence-from-randomness contrastive distribution; and distinct from DeepCT, which trains a regression head to predict supervised term recall weights for inverted-index term weighting rather than bootstrapped pairwise ROP pre-training.
+aliases:
+- B-PROP
+- Bootstrapped Pre-training with Representative Words Prediction
+- B-PROP Contrastive Attention Term Sampling for Ad-Hoc Retrieval
+definition_evidence:
+- source_id: r765-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r765-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r765-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: bprop-saturated-cls-attention-document-distribution
+  kind: mechanism
+  statement: To prevent high-frequency words with repeated occurrences from dominating BERT's final-layer head-averaged [CLS] attention weights alpha^t = (1/h) sum_{i=1}^h alpha^t_i (Equation 4), B-PROP aggregates attention per distinct term beta^_{w_k} = sum_{x_t = w_k} alpha^t and applies the BM25-inspired saturation function beta_{w_k} = beta^_{w_k} / (b + beta^_{w_k}) (with optimal b = 0.01) before softmax normalization P(w_k | theta_d) = exp(beta_{w_k}) / sum_{w' in V} exp(beta_{w'}) (Equation 5, Table 5).
+  evidence:
+  - source_id: r765-primary-pdf
+    locator: Section 3.2.1 Document Term Distribution & Section 4.4 Impact of Saturation Function, Equations 4-5, Table 5, pp. 3-4, 7-8
+    relation: supports
+  - source_id: r765-primary-pdf
+    locator: main() verification of compute_doc_term_dist with saturation parameter b=0.01
+    relation: supports
+- claim_id: bprop-divergence-from-randomness-contrastive-sampling
+  kind: mechanism
+  statement: Because vanilla BERT [CLS] attention encodes general sequence semantics and assigns high weights to common collection stopwords ('in', 'the', 'of' in Table 1), B-PROP computes the collection expectation P(w_k | theta_random) = (1/|D|) sum_{d in D} P(w_k | theta_d) (Equation 6) and defines the contrastive term distribution via cross-entropy divergence gamma^_{w_k} = -P(w_k | theta_d) log2 P(w_k | theta_random) and P(w_k | theta_contrastive) = exp(gamma^_{w_k}) / sum_{w' in V} exp(gamma^_{w'}) (Equations 7-8), promoting document-informative terms over stopwords and significantly outperforming non-contrastive attention sampling (Figure 1).
+  evidence:
+  - source_id: r765-primary-pdf
+    locator: Section 1 Table 1, Sections 3.2.2-3.2.3 & Section 4.3, Equations 6-8, Figure 1, pp. 2, 4, 7
+    relation: supports
+  - source_id: r765-primary-pdf
+    locator: main() verification that P_contrastive promotes topical terms ('fibrosis', 'pulmonary') above stopwords ('the', 'in')
+    relation: supports
+- claim_id: bprop-benchmark-adhoc-retrieval-applications
+  kind: application
+  statement: Across 7 ad-hoc retrieval benchmarks (MS MARCO Document Ranking, TREC 2019 DL, Robust04, ClueWeb09-B, Gov2, MQ2007, and MQ2008), B-PROP significantly outperforms BERT, Transformer_ICT, and PROP in both full-supervision and zero-/low-resource settings (Tables 3-4, Figure 3).
+  evidence:
+  - source_id: r765-primary-pdf
+    locator: Sections 4.2 & 4.7, Tables 3-4, Figure 3, pp. 5-9
+    relation: supports
+  - source_id: r765-metadata-cr
+    locator: BibTeX citation record for arXiv:2104.09791 (SIGIR 2021, doi:10.1145/3404835.3462869)
+    relation: supports
+- claim_id: bprop-saturation-sensitivity-and-overfitting-limitation
+  kind: limitation
+  statement: B-PROP's downstream performance is sensitive to the saturation hyperparameter b (degrading significantly at b = 0.05 or b = 0.001 compared to b = 0.01 in Table 5), requires a full forward pass of BERT over the document collection D to estimate P(w_k | theta_random), and can overfit to the pre-training corpus domain when pre-trained for too many steps (Figure 2).
+  evidence:
+  - source_id: r765-primary-pdf
+    locator: Sections 4.4-4.5, Table 5 & Figure 2, pp. 7-8
+    relation: supports
+evidence_sources:
+- source_id: r765-primary-pdf
+  title: 'B-PROP: Bootstrapped Pre-training with Representative Words Prediction for Ad-hoc Retrieval'
+  authors: &id001
+  - Xinyu Ma
+  - Jiafeng Guo
+  - Ruqing Zhang
+  - Yixing Fan
+  - Yingyan Li
+  - Xueqi Cheng
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2104.09791
+  persistent_id: https://arxiv.org/bibtex/2104.09791
+  version: Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2021) (2021) (756048 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:08:00Z'
+  sha256: 896a1668104b2cc36f8409bc712b0bd26d59b397d82fbe930505295e08c32b0c
+- source_id: r765-arxiv-abs
+  title: 'B-PROP: Bootstrapped Pre-training with Representative Words Prediction for Ad-hoc Retrieval (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2104.09791
+  persistent_id: https://arxiv.org/abs/2104.09791
+  version: arXiv abstract page (7594 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:08:00Z'
+  sha256: 52d03065f3d02546c8155be2357e47317480d7e62eae175673423abacbea2147
+- source_id: r765-metadata-cr
+  title: 'B-PROP: Bootstrapped Pre-training with Representative Words Prediction for Ad-hoc Retrieval (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2104.09791
+  persistent_id: https://arxiv.org/bibtex/2104.09791
+  version: Crossref API work record (471 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:08:00Z'
+  sha256: e7c27a5df4ed43b429344874206fef182b2929c2d667754299814ba3d23b88bf
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: B-PROP bootstraps a multi-head self-attention Transformer language model (BERT) by using its own [CLS] attention weights and divergence-from-randomness cross-entropy to generate Representative Words Prediction pre-training targets.
+limitations:
+- Sensitive to the choice of the attention saturation hyperparameter b (Table 5).
+- Requires running BERT inference across the entire document collection D prior to pre-training to compute P(w_k | theta_d) and the collection-wide expectation P(w_k | theta_random), and excessive pre-training steps on a source corpus can cause domain overfitting on out-of-domain target collections (Figure 2).
+curation:
+  created_at: '2026-10-19T14:08:00Z'
+  updated_at: '2026-10-19T14:08:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
