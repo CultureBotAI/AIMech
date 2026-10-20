@@ -1,0 +1,111 @@
+id: AIMech:DensePhrasesLearningDenseRepresentationsOfPhrasesAtScale
+name: DensePhrases Dense Phrase Retrieval at Scale
+concept_kind: architecture
+review_status: DRAFT
+definition: A reader-free, purely dense phrase-retrieval architecture and training framework for open-domain question answering and knowledge-intensive NLP that encodes each passage p = w_1, ..., w_m with a SpanBERT phrase encoder M_p into token vectors h_1, ..., h_m in R^d to represent any contiguous phrase s_k up to L words by concatenating its start and end token vectors E_s(s_k, p) = [h_{start(k)}, h_{end(k)}] in R^{2d} while storing only filtered word vectors H in R^{|W(D)| x d}, encodes each question q via two separate encoders M_{q,start} and M_{q,end} into E_q(q) = [q^start, q^end] in R^{2d} for constrained maximum inner product search s_hat = argmax_{1 <= i <= j < i+L} (H q^start)_i + (H q^end)_j, trains phrase and question representations jointly with single-passage span log-likelihood, cross-attention KL distillation, in-batch negatives, and FIFO-cached pre-batch negatives from the preceding C mini-batches (L = lambda_1 L_single + lambda_2 L_distill + lambda_3 L_neg), and performs query-side fine-tuning by updating only E_q to maximize the marginal log-likelihood of gold answer strings among top-k retrieved phrases from the fixed phrase index H.
+identity_notes: Distinct from two-stage retriever-reader models such as DPR and GAR (AIMech:GARGenerationAugmentedRetrievalForOpenDomainQA), which retrieve passages first and run an on-demand reading-comprehension model at inference time rather than directly retrieving answer phrases via decomposed start/end token MIPS; and distinct from earlier hybrid phrase retrieval systems (DenSPI and DenSPI+Sparc), which require concatenating high-dimensional sparse document/paragraph/contextualized vectors with split dense vectors and coherency scalars rather than purely dense unsplit SpanBERT endpoint representations trained with FIFO pre-batch negatives and query-side fine-tuning.
+aliases:
+- DensePhrases
+- Learning Dense Representations of Phrases at Scale
+- DensePhrases Phrase Retrieval Model
+definition_evidence:
+- source_id: r772-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r772-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r772-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: densephrases-decomposed-endpoint-phrase-and-question-encoding
+  kind: mechanism
+  statement: DensePhrases represents any contiguous phrase s_k of length up to L = 20 tokens in passage p as the concatenation of its SpanBERT start and end token vectors E_s(s_k, p) = [h_{start(k)}, h_{end(k)}] in R^{2d} (d = 768, Equation 3) and encodes each question q using two separate pre-trained encoders M_{q,start} and M_{q,end} into E_q(q) = [q^start, q^end] in R^{2d} (Equation 4), enabling direct answer extraction via constrained MIPS s_hat = argmax_{1 <= i <= j < i+L} (H q^start)_i + (H q^end)_j over a stacked token matrix H in R^{|W(D)| x d} that stores only word vectors rather than all 6 x 10^{10} phrases (Sections 2, 3.2 & 5, Equation 10).
+  evidence:
+  - source_id: r772-primary-pdf
+    locator: Sections 2, 3.2 & 5, Equations 2-4 & 10, Footnote 5, pp. 2-4, 6
+    relation: supports
+  - source_id: r772-primary-pdf
+    locator: constrained_mips_phrase_search() verification of decomposed endpoint MIPS equivalence
+    relation: supports
+- claim_id: densephrases-prebatch-negatives-and-multi-loss-phrase-training
+  kind: mechanism
+  statement: To learn discriminative phrase representations without GPU-prohibitive batch sizes, DensePhrases maintains a FIFO queue caching detached gold-phrase endpoint matrices G^start and G^end from the preceding C mini-batches (pre-batch negatives, providing B x C + B - 1 total negatives per example with B = 84, C = 2 and no gradient backpropagation to cached batches) and optimizes L = lambda_1 L_single + lambda_2 L_distill + lambda_3 L_neg (lambda_1 = 1, lambda_2 = 2, lambda_3 = 4, Equations 5-9) on reading-comprehension passages augmented with T5-generated entity questions and SpanBERT-base cross-attention KL distillation (Sections 4.1-4.4, Tables 5-6).
+  evidence:
+  - source_id: r772-primary-pdf
+    locator: Sections 4.1-4.4 & Section 8, Equations 5-9, Figure 2, Tables 5-6, pp. 4-6, 8-9
+    relation: supports
+  - source_id: r772-primary-pdf
+    locator: prebatch_negative_loss() verification of B * C + B - 1 negative count and softmax loss
+    relation: supports
+- claim_id: densephrases-query-side-finetuning-and-open-domain-qa-application
+  kind: application
+  statement: After indexing the full Wikipedia phrase dump H (reduced from 1,547GB to 320GB via ~75% learned token filtering and int4 scalar quantization, Table 1 & Appendix E), DensePhrases performs query-side fine-tuning by updating only E_q to minimize L_query = -log(sum_{s in S~(q), TEXT(s)=a*} exp(f(s | D, q)) / sum_{s in S~(q)} exp(f(s | D, q))) over the top k = 100 MIPS-retrieved phrases (Equation 11), boosting Natural Questions EM by 12-19 points to 40.9 EM (matching DPR-multi's 41.5 EM while running at 20.6 Q/sec on GPU and 13.6 Q/sec on CPU, Tables 1, 3 & 7) and achieving state-of-the-art KILT slot-filling accuracy on T-REx and ZsRE using only 5K-10K training triples without re-indexing (Table 4).
+  evidence:
+  - source_id: r772-primary-pdf
+    locator: Sections 6-8 & Appendix E, Equation 11, Tables 1, 3, 4 & 7, pp. 2, 6-9, 14
+    relation: supports
+  - source_id: r772-primary-pdf
+    locator: query_side_finetuning_loss() verification of marginal log-likelihood over top-k retrieved phrases
+    relation: supports
+- claim_id: densephrases-uncompressed-vector-retention-and-extractive-scope-limitation
+  kind: limitation
+  statement: While inference requires only the 320GB int4-quantized MIPS index, query-side fine-tuning (Equation 11) requires retaining ~500GB of original uncompressed start and end vectors on disk to reconstruct gradients because the on-disk MIPS index returns only top-k scores and indices (Appendix E), and DensePhrases is restricted to extractive span answers from natural paragraphs (excluding answers in Wikipedia lists or tables, Section 2 & Appendix C).
+  evidence:
+  - source_id: r772-primary-pdf
+    locator: Section 2, Section 10 (Ethical Considerations), Appendix C & Appendix E, pp. 2, 10, 13-14
+    relation: supports
+evidence_sources:
+- source_id: r772-primary-pdf
+  title: Learning Dense Representations of Phrases at Scale
+  authors: &id001
+  - Jinhyuk Lee
+  - Mujeen Sung
+  - Jaewoo Kang
+  - Danqi Chen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2012.12624.pdf
+  persistent_id: https://arxiv.org/bibtex/2012.12624
+  version: ACL-IJCNLP 2021 (2021) (1712072 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:15:00Z'
+  sha256: e3eacb3f5627ef4bdaef95a52d8c61902953c8ce16bfa100ecac35a017fa18d4
+- source_id: r772-arxiv-abs
+  title: Learning Dense Representations of Phrases at Scale (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2012.12624
+  persistent_id: https://arxiv.org/abs/2012.12624
+  version: arXiv abstract page (7111 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:15:00Z'
+  sha256: 14870f72a6ff154fa8b1cfb4ba4e636a21d825d63a38b8a4bd7e5a1bd450981f
+- source_id: r772-metadata-cr
+  title: Learning Dense Representations of Phrases at Scale (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2012.12624
+  persistent_id: https://arxiv.org/bibtex/2012.12624
+  version: Crossref API work record (395 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:15:00Z'
+  sha256: f45bca1eb43fec56c82bf35e47ae965afa6df18428b812bdda7c5f0948d7446a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: DensePhrases uses three SpanBERT Transformer neural network encoders (one phrase encoder and two start/end question encoders) to build and query a dense token-endpoint MIPS index.
+limitations:
+- Query-side fine-tuning requires keeping ~500GB of original start and end token vectors on disk to compute gradients, because the quantized on-disk MIPS index returns only top-k scores and indices rather than full vectors.
+- Restricted to extractive contiguous phrase answers up to L words within natural paragraphs, excluding non-extractive answers or answers located inside structured tables and lists.
+- Phrase encoders trained solely on reading comprehension datasets such as SQuAD can inherit topic biases from the underlying article sampling if not adapted via query-side fine-tuning.
+curation:
+  created_at: '2026-10-19T14:15:00Z'
+  updated_at: '2026-10-19T14:15:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

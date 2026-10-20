@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">60 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">61 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">60</span> of <span id="totalCount">60</span>
+      Showing <span id="matchCount">61</span> of <span id="totalCount">61</span>
     </div>
   </div>
 </div>
@@ -343,6 +343,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="densephrases dense phrase retrieval at scale densephraseslearningdenserepresentationsofphrasesatscale aimech:densephraseslearningdenserepresentationsofphrasesatscale architectures architecture a reader-free, purely dense phrase-retrieval architecture and training framework for open-domain question answering and knowledge-intensive nlp that encodes each passage p = w_1, ..., w_m with a spanbert phrase encoder m_p into token vectors h_1, ..., h_m in r^d to represent any contiguous phrase s_k up to l words by concatenating its start and end token vectors e_s(s_k, p) = [h_{start(k)}, h_{end(k)}] in r^{2d} while storing only filtered word vectors h in r^{|w(d)| x d}, encodes each question q via two separate encoders m_{q,start} and m_{q,end} into e_q(q) = [q^start, q^end] in r^{2d} for constrained maximum inner product search s_hat = argmax_{1 &lt;= i &lt;= j &lt; i+l} (h q^start)_i + (h q^end)_j, trains phrase and question representations jointly with single-passage span log-likelihood, cross-attention kl distillation, in-batch negatives, and fifo-cached pre-batch negatives from the preceding c mini-batches (l = lambda_1 l_single + lambda_2 l_distill + lambda_3 l_neg), and performs query-side fine-tuning by updating only e_q to maximize the marginal log-likelihood of gold answer strings among top-k retrieved phrases from the fixed phrase index h. distinct from two-stage retriever-reader models such as dpr and gar (aimech:gargenerationaugmentedretrievalforopendomainqa), which retrieve passages first and run an on-demand reading-comprehension model at inference time rather than directly retrieving answer phrases via decomposed start/end token mips; and distinct from earlier hybrid phrase retrieval systems (denspi and denspi+sparc), which require concatenating high-dimensional sparse document/paragraph/contextualized vectors with split dense vectors and coherency scalars rather than purely dense unsplit spanbert endpoint representations trained with fifo pre-batch negatives and query-side fine-tuning. densephrases learning dense representations of phrases at scale densephrases phrase retrieval model densephrases represents any contiguous phrase s_k of length up to l = 20 tokens in passage p as the concatenation of its spanbert start and end token vectors e_s(s_k, p) = [h_{start(k)}, h_{end(k)}] in r^{2d} (d = 768, equation 3) and encodes each question q using two separate pre-trained encoders m_{q,start} and m_{q,end} into e_q(q) = [q^start, q^end] in r^{2d} (equation 4), enabling direct answer extraction via constrained mips s_hat = argmax_{1 &lt;= i &lt;= j &lt; i+l} (h q^start)_i + (h q^end)_j over a stacked token matrix h in r^{|w(d)| x d} that stores only word vectors rather than all 6 x 10^{10} phrases (sections 2, 3.2 &amp; 5, equation 10). to learn discriminative phrase representations without gpu-prohibitive batch sizes, densephrases maintains a fifo queue caching detached gold-phrase endpoint matrices g^start and g^end from the preceding c mini-batches (pre-batch negatives, providing b x c + b - 1 total negatives per example with b = 84, c = 2 and no gradient backpropagation to cached batches) and optimizes l = lambda_1 l_single + lambda_2 l_distill + lambda_3 l_neg (lambda_1 = 1, lambda_2 = 2, lambda_3 = 4, equations 5-9) on reading-comprehension passages augmented with t5-generated entity questions and spanbert-base cross-attention kl distillation (sections 4.1-4.4, tables 5-6). after indexing the full wikipedia phrase dump h (reduced from 1,547gb to 320gb via ~75% learned token filtering and int4 scalar quantization, table 1 &amp; appendix e), densephrases performs query-side fine-tuning by updating only e_q to minimize l_query = -log(sum_{s in s~(q), text(s)=a*} exp(f(s | d, q)) / sum_{s in s~(q)} exp(f(s | d, q))) over the top k = 100 mips-retrieved phrases (equation 11), boosting natural questions em by 12-19 points to 40.9 em (matching dpr-multi&#39;s 41.5 em while running at 20.6 q/sec on gpu and 13.6 q/sec on cpu, tables 1, 3 &amp; 7) and achieving state-of-the-art kilt slot-filling accuracy on t-rex and zsre using only 5k-10k training triples without re-indexing (table 4). while inference requires only the 320gb int4-quantized mips index, query-side fine-tuning (equation 11) requires retaining ~500gb of original uncompressed start and end vectors on disk to reconstruct gradients because the on-disk mips index returns only top-k scores and indices (appendix e), and densephrases is restricted to extractive span answers from natural paragraphs (excluding answers in wikipedia lists or tables, section 2 &amp; appendix c). learning dense representations of phrases at scale learning dense representations of phrases at scale (arxiv abstract) learning dense representations of phrases at scale (crossref metadata) jinhyuk lee mujeen sung jaewoo kang danqi chen jinhyuk lee mujeen sung jaewoo kang danqi chen jinhyuk lee mujeen sung jaewoo kang danqi chen">
+        <td>
+          <a href="../curated/DensePhrasesLearningDenseRepresentationsOfPhrasesAtScale.html" style="font-weight: 600; font-size: 1rem;">DensePhrases Dense Phrase Retrieval at Scale</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> DensePhrases, Learning Dense Representations of Phrases at Scale…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A reader-free, purely dense phrase-retrieval architecture and training framework for open-domain question answering and knowledge-intensive…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:DensePhrasesLearningDenseRepresentationsOfPhrasesAtScale</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
