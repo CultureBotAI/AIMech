@@ -1,0 +1,101 @@
+id: AIMech:HarmoFlHarmonizingLocalAndGlobalDriftsInFederatedLearning
+name: 'HarmoFL: Harmonizing Local and Global Drifts in Federated Learning on Heterogeneous Medical Images'
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A federated learning algorithm for feature-heterogeneous multi-institution imaging (HarmoFL; Jiang, Wang, and Dou, AAAI 2022) that jointly mitigates local client drift and global server drift without extra model-parameter communication overhead by combining (1) frequency-domain Amplitude Normalization\u2014where each client i updates a moving-average Fourier amplitude spectrum A_bar_{i,k} = (1 - v) A_bar_{i,k-1} + v (1/M) sum_{m=1}^M A_{i,x_m} (initialized each round from the server-averaged global amplitude A_bar^t = (1/N) sum_{i=1}^N A_bar_{i,K}^{t-1}) and reconstructs harmonized images Psi(x_m) = F^{-1}(A_bar_{i,k}, P_{i,x_m}) preserving local phase P_{i,x_m}\u2014with (2) Client Weight Perturbation, where each local step computes Euclidean-normalized gradient ascent perturbation delta_k = alpha * nabla ell_i(Psi(x), y; theta_{i,k-1}) / ||nabla ell_i(Psi(x), y; theta_{i,k-1})||_2 and updates theta_{i,k} = theta_{i,k-1} - eta_l nabla ell_i(Psi(x), y; theta_{i,k-1} + delta_k) to guide local models into overlapping flat optima prior to server aggregation."
+identity_notes: Distinct from FedDG / ELCFS (AIMech:FedDgEpisodicLearningInContinuousFrequencySpaceForFederatedDomainGeneralization; Liu et al., CVPR 2021), which shares per-client frequency amplitude banks for episodic continuous interpolation and boundary-oriented meta-learning; HarmoFL maintains a single server-averaged moving-average amplitude template A_bar^t without sharing individual image amplitude banks and couples frequency harmonization with SAM-style local Euclidean weight perturbation delta_k = alpha * g / ||g||_2. Distinct from FedBN (Li et al., ICLR 2021), which keeps Batch Normalization parameters local without frequency-space amplitude harmonization or local weight perturbation.
+aliases:
+- HarmoFL
+- Harmonizing Local and Global Drifts in Federated Learning
+- Amplitude Normalization and Client Weight Perturbation Federated Learning
+definition_evidence:
+- source_id: r501-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r501-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r501-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: harmofl-amplitude-normalization-and-weight-perturbation-mechanism
+  kind: mechanism
+  statement: In each communication round t, client i initializes its running amplitude A_bar_{i,0}^t = A_bar^t from the server-averaged amplitude spectrum, updates A_bar_{i,k}^t = (1 - v) A_bar_{i,k-1}^t + v (1/M) sum_{m=1}^M A_{i,x_m} at batch k (with v = 1 in round 1 and v = 0.1 thereafter), reconstructs amplitude-normalized inputs Psi(x_m) = F^{-1}(A_bar_{i,k}^t, P_{i,x_m}), and performs local gradient descent evaluated at the perturbed weights theta_{i,k-1}^t + delta_k where delta_k = alpha * nabla ell_i(Psi(x), y; theta_{i,k-1}^t) / ||nabla ell_i(Psi(x), y; theta_{i,k-1}^t)||_2, after which the server averages both model weights theta^{t+1} = theta^t - eta_g (1/N) sum_{i=1}^N Delta theta_i^t and amplitude spectra A_bar^{t+1} = (1/N) sum_{i=1}^N A_bar_{i,K}^t.
+  evidence:
+  - source_id: r501-primary-pdf
+    locator: Sections 3.1-3.2, Eqs. (1)-(8), Algorithm 1, pp. 3-4
+    relation: supports
+- claim_id: harmofl-coupled-drift-bound-and-nonconvex-convergence-rate
+  kind: scope
+  statement: Under L-smoothness, bounded gradient norm G, bounded Hessian norm B, bounded parameter norm C, and bounded cross-client gradient difference (1/N) sum_{i=1}^N ||nabla ell_i(Psi(x), y; theta) - nabla f(theta)|| <= epsilon (Assumptions B.1-B.4), Theorem B.6 shows that overall client-server drift Gamma = (1/(KN)) sum_{k=1}^K sum_{i=1}^N E[||theta_{i,k}^t - theta^t||^2] satisfies Gamma <= 4 eta_tilde^2 (G^2 + B^2 C^2) / eta_g^2 + 4 eta_tilde^2 epsilon^2 (N-1)^2 / (eta_g^2 N^2) + 2 eta_tilde^2 sigma^2 / (K eta_g^2) with eta_tilde = K eta_g eta_l, and Theorem 3.1 proves non-convex stationarity convergence at rate O(sqrt((f(theta^0) - f(theta^*)) / (K T)) + (f(theta^0) - f(theta^*)) / T).
+  evidence:
+  - source_id: r501-primary-pdf
+    locator: Section 3.3 Theoretical Analysis, Theorem 3.1, Eq. (9), p. 5; Appendix B Assumptions B.1-B.4, Theorem B.5, Theorem B.6, pp. 9-11
+    relation: supports
+- claim_id: harmofl-double-gradient-evaluation-and-perturbation-radius-limitation
+  kind: limitation
+  statement: Computing the perturbed gradient nabla ell_i(Psi(x), y; theta_{i,k-1} + delta_k) requires two forward-backward passes per local step (first at theta_{i,k-1} to form delta_k and second at theta_{i,k-1} + delta_k) Plus 2D FFT/IFFT operations on each image batch, and the theoretical convergence guarantee requires the perturbation radius alpha to decay as O(1 / sqrt(K T)) because overly large alpha degrades local optimization stability (Appendix C.2 Figure 6, p. 12).
+  evidence:
+  - source_id: r501-primary-pdf
+    locator: Section 3.2 Eqs. (6)-(7), p. 4; Section 3.3 Theorem 3.1, p. 5; Appendix C.2 Figure 6, p. 12
+    relation: supports
+- claim_id: harmofl-multi-site-medical-image-classification-and-segmentation-application
+  kind: application
+  statement: Applied to multi-institution federated medical image classification and segmentation across scanner and staining protocol shifts, including histology nuclei segmentation, prostate MRI segmentation (6 institutions), and Camelyon17 breast cancer lymph-node histology classification (5 hospitals).
+  evidence:
+  - source_id: r501-primary-pdf
+    locator: Section 4 Experiments, Tables 1-2, Figures 3-5, pp. 5-8
+    relation: supports
+evidence_sources:
+- source_id: r501-primary-pdf
+  title: 'HarmoFL: Harmonizing Local and Global Drifts in Federated Learning on Heterogeneous Medical Images'
+  authors: &id001
+  - Meirui Jiang
+  - Zirui Wang
+  - Qi Dou
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2112.10775.pdf
+  persistent_id: https://doi.org/10.1609/aaai.v36i1.19993
+  version: Proceedings of the AAAI Conference on Artificial Intelligence (AAAI 2022), Vol. 36, No. 1, pp. 1087-1095 (2022) (7635671 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:44:00Z'
+  sha256: 116b5072a1653df161fbe762fd7db648d0db928a7414aa6493fff3f37b0442db
+- source_id: r501-arxiv-abs
+  title: 'HarmoFL: Harmonizing Local and Global Drifts in Federated Learning on Heterogeneous Medical Images (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2112.10775
+  persistent_id: https://arxiv.org/abs/2112.10775
+  version: arXiv abstract page (7280 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:44:00Z'
+  sha256: 1426048d7e76e573295d98909ea8e7bc46ef9ef4e658c5c82805b034e65f08ca
+- source_id: r501-metadata-cr
+  title: 'HarmoFL: Harmonizing Local and Global Drifts in Federated Learning on Heterogeneous Medical Images (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1609/aaai.v36i1.19993
+  persistent_id: https://doi.org/10.1609/aaai.v36i1.19993
+  version: Crossref API work record (4146 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:44:00Z'
+  sha256: bce74fe7f1f03e93a9c9e2cb71c1f375ee052f890fe1ca7736210b31b6e5804f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: HarmoFL is a specialized federated learning algorithm combining frequency-space amplitude normalization and local weight perturbation.
+limitations:
+- Client weight perturbation requires two gradient computations per local mini-batch step (evaluating at theta_{i,k-1} and at theta_{i,k-1} + delta_k), roughly doubling local backpropagation cost alongside 2D FFT/IFFT image transformations (Section 3.2, pp. 3-4).
+- Sharing the moving-average amplitude spectrum A_bar_{i,K}^t with the central server assumes that low-level intensity and contrast shifts are captured primarily in Fourier amplitudes while anatomical semantics reside in phases, which is tailored to multi-scanner imaging shifts rather than non-spectral tabular or text modalities (Section 3.1, p. 3).
+- Convergence guarantees (Theorem 3.1) require the perturbation radius alpha to decay as O(1 / sqrt(K T)), and overly large fixed alpha values degrade accuracy (Section 3.3, p. 5; Appendix C.2 Figure 6, p. 12).
+curation:
+  created_at: '2026-10-19T09:44:00Z'
+  updated_at: '2026-10-19T09:44:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">593 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">594 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">593</span> of <span id="totalCount">593</span>
+      Showing <span id="matchCount">594</span> of <span id="totalCount">594</span>
     </div>
   </div>
 </div>
@@ -7145,6 +7145,32 @@
         <td>
             <span class="badge badge-mechanism" title="2 claims curated">2 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="harmofl: harmonizing local and global drifts in federated learning on heterogeneous medical images harmoflharmonizinglocalandglobaldriftsinfederatedlearning aimech:harmoflharmonizinglocalandglobaldriftsinfederatedlearning algorithms algorithm a federated learning algorithm for feature-heterogeneous multi-institution imaging (harmofl; jiang, wang, and dou, aaai 2022) that jointly mitigates local client drift and global server drift without extra model-parameter communication overhead by combining (1) frequency-domain amplitude normalization—where each client i updates a moving-average fourier amplitude spectrum a_bar_{i,k} = (1 - v) a_bar_{i,k-1} + v (1/m) sum_{m=1}^m a_{i,x_m} (initialized each round from the server-averaged global amplitude a_bar^t = (1/n) sum_{i=1}^n a_bar_{i,k}^{t-1}) and reconstructs harmonized images psi(x_m) = f^{-1}(a_bar_{i,k}, p_{i,x_m}) preserving local phase p_{i,x_m}—with (2) client weight perturbation, where each local step computes euclidean-normalized gradient ascent perturbation delta_k = alpha * nabla ell_i(psi(x), y; theta_{i,k-1}) / ||nabla ell_i(psi(x), y; theta_{i,k-1})||_2 and updates theta_{i,k} = theta_{i,k-1} - eta_l nabla ell_i(psi(x), y; theta_{i,k-1} + delta_k) to guide local models into overlapping flat optima prior to server aggregation. distinct from feddg / elcfs (aimech:feddgepisodiclearningincontinuousfrequencyspaceforfederateddomaingeneralization; liu et al., cvpr 2021), which shares per-client frequency amplitude banks for episodic continuous interpolation and boundary-oriented meta-learning; harmofl maintains a single server-averaged moving-average amplitude template a_bar^t without sharing individual image amplitude banks and couples frequency harmonization with sam-style local euclidean weight perturbation delta_k = alpha * g / ||g||_2. distinct from fedbn (li et al., iclr 2021), which keeps batch normalization parameters local without frequency-space amplitude harmonization or local weight perturbation. harmofl harmonizing local and global drifts in federated learning amplitude normalization and client weight perturbation federated learning in each communication round t, client i initializes its running amplitude a_bar_{i,0}^t = a_bar^t from the server-averaged amplitude spectrum, updates a_bar_{i,k}^t = (1 - v) a_bar_{i,k-1}^t + v (1/m) sum_{m=1}^m a_{i,x_m} at batch k (with v = 1 in round 1 and v = 0.1 thereafter), reconstructs amplitude-normalized inputs psi(x_m) = f^{-1}(a_bar_{i,k}^t, p_{i,x_m}), and performs local gradient descent evaluated at the perturbed weights theta_{i,k-1}^t + delta_k where delta_k = alpha * nabla ell_i(psi(x), y; theta_{i,k-1}^t) / ||nabla ell_i(psi(x), y; theta_{i,k-1}^t)||_2, after which the server averages both model weights theta^{t+1} = theta^t - eta_g (1/n) sum_{i=1}^n delta theta_i^t and amplitude spectra a_bar^{t+1} = (1/n) sum_{i=1}^n a_bar_{i,k}^t. under l-smoothness, bounded gradient norm g, bounded hessian norm b, bounded parameter norm c, and bounded cross-client gradient difference (1/n) sum_{i=1}^n ||nabla ell_i(psi(x), y; theta) - nabla f(theta)|| &lt;= epsilon (assumptions b.1-b.4), theorem b.6 shows that overall client-server drift gamma = (1/(kn)) sum_{k=1}^k sum_{i=1}^n e[||theta_{i,k}^t - theta^t||^2] satisfies gamma &lt;= 4 eta_tilde^2 (g^2 + b^2 c^2) / eta_g^2 + 4 eta_tilde^2 epsilon^2 (n-1)^2 / (eta_g^2 n^2) + 2 eta_tilde^2 sigma^2 / (k eta_g^2) with eta_tilde = k eta_g eta_l, and theorem 3.1 proves non-convex stationarity convergence at rate o(sqrt((f(theta^0) - f(theta^*)) / (k t)) + (f(theta^0) - f(theta^*)) / t). computing the perturbed gradient nabla ell_i(psi(x), y; theta_{i,k-1} + delta_k) requires two forward-backward passes per local step (first at theta_{i,k-1} to form delta_k and second at theta_{i,k-1} + delta_k) plus 2d fft/ifft operations on each image batch, and the theoretical convergence guarantee requires the perturbation radius alpha to decay as o(1 / sqrt(k t)) because overly large alpha degrades local optimization stability (appendix c.2 figure 6, p. 12). applied to multi-institution federated medical image classification and segmentation across scanner and staining protocol shifts, including histology nuclei segmentation, prostate mri segmentation (6 institutions), and camelyon17 breast cancer lymph-node histology classification (5 hospitals). harmofl: harmonizing local and global drifts in federated learning on heterogeneous medical images harmofl: harmonizing local and global drifts in federated learning on heterogeneous medical images (arxiv abstract) harmofl: harmonizing local and global drifts in federated learning on heterogeneous medical images (crossref metadata) meirui jiang zirui wang qi dou meirui jiang zirui wang qi dou meirui jiang zirui wang qi dou">
+        <td>
+          <a href="../curated/HarmoFlHarmonizingLocalAndGlobalDriftsInFederatedLearning.html" style="font-weight: 600; font-size: 1rem;">HarmoFL: Harmonizing Local and Global Drifts in Federated Learning on Heterogeneous Medical Images</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> HarmoFL, Harmonizing Local and Global Drifts in Federated Learning…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A federated learning algorithm for feature-heterogeneous multi-institution imaging (HarmoFL; Jiang, Wang, and Dou, AAAI 2022) that jointly m…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:HarmoFlHarmonizingLocalAndGlobalDriftsInFederatedLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
