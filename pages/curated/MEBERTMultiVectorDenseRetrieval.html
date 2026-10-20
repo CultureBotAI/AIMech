@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ME-BERT Multi-Vector Dense Retrieval · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>ME-BERT Multi-Vector Dense Retrieval</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">ME-BERT Multi-Vector Dense Retrieval</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:MEBERTMultiVectorDenseRetrieval</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ME-BERT, Multi-Vector BERT Dense Retrieval, Multi-Vector Encoding BERT
+    </div>
+
+  <div class="detail-desc">
+    A multi-vector dense retrieval architecture and capacity-bounded representation framework that represents each query as a single projected [CLS] vector f^(1)(x) in R^k and each document as a fixed number m of dense vectors {f_1^(m)(y), ..., f_m^(m)(y)} in R^k obtained by applying a learnable linear projection to the contextualized BERT outputs of the first m document tokens, scoring query-document relevance by the maximum inner product across the m document vectors psi^(m)(x, y) = max_{j in {1..m}} &lt;f^(1)(x), f_j^(m)(y)&gt; so that exact top-K document retrieval reduces to a single maximum inner-product search (MIPS) query over an index of m * |D| vectors.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from ColBERT (AIMech:ColBERTContextualizedLateInteraction), which encodes every query token and every document token and sums maximum similarities across all query tokens (requiring multiple MIPS queries per user query plus post-processing rather than a single query vector searched against m fixed vectors per document); and distinct from Poly-encoders (AIMech:PolyEncoderArchitecture), which apply a softmax-weighted attention step over m context codes before computing the final query dot product (preventing direct single-query sublinear MIPS indexing).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#mebert-normalized-margin-dimension-bound-and-orthogonal-decomposition-theorem</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Defining the normalized margin between query q and documents d_1, d_2 as mu(q, d_1, d_2) = &lt;q, d_1 - d_2&gt; / (||q|| * ||d_1 - d_2||) (Definition 2.1), Lemma 1 proves that preserving the ranking &lt;Phi q, Phi d_1&gt; &gt; &lt;Phi q, Phi d_2&gt; under random projection Phi in R^{k x v} with probability at least 1 - beta requires encoding dimension k &gt;= 2 * (mu^2 / 2 - mu^3 / 3)^(-1) * ln(4 / beta) (Equation 2); Theorem 1 proves that decomposing long documents into m orthogonal segments d = sum_{i=1}^m d^(i) where q aligns with segment i guarantees mu(q, d_1^(i), d_2^(i)) &gt;= mu(q, d_1, d_2), increasing the normalized margin and lowering the required dimension k.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r778-primary-pdf">Sparse, Dense, and Attentional Representations for Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.2-2.3 &amp; Section 3, Definition 2.1, Lemma 1, Theorem 1, &amp; Appendix A, pp. 3-5, 13-15</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r778-primary-pdf">Sparse, Dense, and Attentional Representations for Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> normalized_margin(), lemma1_min_dimension(), and main() verification of Theorem 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#mebert-first-m-token-max-inner-product-single-query-mips</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    ME-BERT encodes query x into a single vector f^(1)(x) = W_Q * [CLS]_Q and document y into m vectors f_j^(m)(y) = W_D * Z_j for its first m tokens j in {1, ..., m}, scoring relevance via psi^(m)(x, y) = max_{j in {1..m}} &lt;f^(1)(x), f_j^(m)(y)&gt; (Section 3, Figure 2); because argmax_{y in D} psi^(m)(x, y) is recovered by finding the pair (y, j) maximizing &lt;f^(1)(x), f_j^(m)(y)&gt;, retrieval executes as a single query lookup in an m * |D|-vector MIPS index without multi-query aggregation or attention post-processing.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r778-primary-pdf">Sparse, Dense, and Attentional Representations for Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Multi-Vector Encodings &amp; Inference), Figure 2, pp. 5-6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r778-primary-pdf">Sparse, Dense, and Attentional Representations for Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> me_bert_score() and main() verification of flat m*|D| MIPS index equivalence</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#mebert-long-document-and-open-retrieval-qa-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With m = 8 vectors per passage, ME-BERT consistently outperforms single-vector DE-BERT across MS MARCO, TREC-CAR, and four open-retrieval QA benchmarks (NaturalQuestions, TriviaQA, WebQuestions, CuratedTREC, Tables 2-4)—with its largest gains over DE-BERT occurring on long documents where single-vector capacity degrades (Figures 3-4)—and achieves higher retrieval accuracy and lower latency than Poly-encoders while further improving when hybridized with BM25 (ME-HYBRID, Table 2 &amp; Figure 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r778-primary-pdf">Sparse, Dense, and Attentional Representations for Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 6, Tables 2-5 &amp; Figures 3-5, pp. 7-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#mebert-m-fold-index-footprint-growth-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because ME-BERT indexes m separate k-dimensional vectors for every document in the collection, its dense MIPS index memory footprint and vector count scale linearly by a factor of m (e.g., 8x more indexed vectors for m = 8) compared to a single-vector dual encoder of the same embedding dimension k (Section 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r778-primary-pdf">Sparse, Dense, and Attentional Representations for Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Inference) &amp; Section 6.3, Figure 5, pp. 5, 9-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Increases the number of dense vectors stored in the MIPS index by a factor of m (e.g., 8x for m = 8) relative to a single-vector dual encoder.</li>
+      <li>Because the query is still compressed into a single vector, fine-grained token-to-token interaction remains coarser than full all-tokens late interaction.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            ME-BERT uses twin-tower pretrained BERT-large neural encoders with learnable linear projection heads on the query [CLS] token and the first m document tokens.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r778-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r778-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2005.00181.pdf" target="_blank" rel="noopener">Sparse, Dense, and Attentional Representations for Text Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yi Luan, Jacob Eisenstein, Kristina Toutanova, Michael Collins
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2005.00181</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f40e82a15ea8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r778-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r778-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2005.00181" target="_blank" rel="noopener">Sparse, Dense, and Attentional Representations for Text Retrieval (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yi Luan, Jacob Eisenstein, Kristina Toutanova, Michael Collins
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2005.00181</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:37f4e172c41f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r778-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r778-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2005.00181" target="_blank" rel="noopener">Sparse, Dense, and Attentional Representations for Text Retrieval (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yi Luan, Jacob Eisenstein, Kristina Toutanova, Michael Collins
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2005.00181</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:014d36ca2544…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:21:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:21:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MEBERTMultiVectorDenseRetrieval.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MEBERTMultiVectorDenseRetrieval.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
