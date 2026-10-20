@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CANITA Compressed Accelerated Gradient Method for Distributed Convex Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>CANITA Compressed Accelerated Gradient Method for Distributed Convex Optimization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">CANITA Compressed Accelerated Gradient Method for Distributed Convex Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CanitaCompressedAcceleratedGradientMethodForDistributedConvexOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CANITA, Compressed Accelerated Gradient Method CANITA, CANITA Distributed Convex Optimization Algorithm
+    </div>
+
+  <div class="detail-desc">
+    A compressed Nesterov-style accelerated gradient algorithm for distributed smooth convex optimization across n machines (Algorithm 1) that couples three momentum-coupled iterate sequences (x^t, y^t, z^t) with a randomized loopless control-variate reference point w^t (updated to z^t with probability p_t) and worker-side DIANA-style gradient shifts h_i^{t+1} = h_i^t + alpha_t Q_i^t(nabla f_i(w^t) - h_i^t) under randomized unbiased (omega)-compressors, achieving the accelerated O(sqrt((1 + omega) L / eps) + omega * (L / (n * eps))^{1/3} + (omega * L / (n * eps))^{1/2}) communication complexity in general smooth convex regimes without strong convexity.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from non-accelerated DIANA (Mishchenko et al., 2019; O((1 + omega/n) L / eps) in general convex settings), ADIANA (Li et al., ICML 2020; requires strong convexity mu &gt; 0), and uncompressed ANITA (Li, 2021). CANITA (Li &amp; Richtarik, NeurIPS 2021, arXiv:2107.09461) is the first distributed method with communication compression to achieve the accelerated O(sqrt(L/eps)) leading term on general smooth convex objectives.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#canita-dual-compressed-difference-estimator-with-probabilistic-anchor-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each communication round t, CANITA forms the extrapolated query point y^t = theta_t x^t + (1 - theta_t) w^t, each worker i transmits two compressed gradient differences Q_i^t(nabla f_i(y^t) - h_i^t) and Q_i^t(nabla f_i(w^t) - h_i^t) to form the global gradient estimator g^t = h^t + (1/n) sum_i Q_i^t(nabla f_i(y^t) - h_i^t) and shift update h_i^{t+1} = h_i^t + alpha_t Q_i^t(nabla f_i(w^t) - h_i^t), updates x^{t+1} = x^t - (eta_t/theta_t) g^t and z^t = theta_t x^{t+1} + (1 - theta_t) w^t, and resets w^{t+1} = z^t with probability p_t (or keeps w^t with probability 1 - p_t).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r560-primary-pdf">CANITA: Faster Rates for Distributed Convex Optimization with Communication Compression</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Algorithm 1 &amp; Equations (3)-(4) p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#canita-accelerated-general-convex-communication-complexity-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L-average smoothness (Assumption 1) and unbiased omega-compression (Definition 1) with theta_t = 3(1+b)/(t + 9(1+b+omega)), p_t = 1/(1+b), alpha_t = 1/(1+omega), and b = min{omega, sqrt(omega(1+omega)^2 / n)} (Theorem 2 &amp; Corollary 1), CANITA achieves an eps-suboptimal solution f(z^T) - f(x^*) &lt;= eps in O(sqrt((1+omega) L / eps) + omega * (L / (n * eps))^{1/3} + (omega * L / (n * eps))^{1/2}) communication rounds, achieving strictly O(sqrt(L/eps)) round complexity when n &gt;= omega^3.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r560-primary-pdf">CANITA: Faster Rates for Distributed Convex Optimization with Communication Compression</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Theorem 1, Theorem 2 &amp; Corollary 1 pp. 6-7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r560-arxiv-abs">CANITA: Faster Rates for Distributed Convex Optimization with Communication Compression (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#canita-unbiased-compressor-and-double-message-per-round-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    CANITA&#39;s convergence analysis requires randomized unbiased compression operators satisfying E[Q(x)] = x and E[||Q(x) - x||^2] &lt;= omega ||x||^2 (excluding contractive biased compressors such as Top-k without error feedback) and transmits two compressed vectors per worker per round (for y^t and w^t).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r560-primary-pdf">CANITA: Faster Rates for Distributed Convex Optimization with Communication Compression</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Definition 1 p. 4 &amp; Algorithm 1 Line 5 p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#canita-distributed-convex-logistic-and-linear-regression-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed regularized logistic regression and unregularized convex learning across multiple worker nodes using randomized sparsification (Rand-k) and quantization (QSGD).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r560-primary-pdf">CANITA: Faster Rates for Distributed Convex Optimization with Communication Compression</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Examples 1-2 p. 4 &amp; Section 6 p. 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires unbiased omega-compression operators (excluding contractive biased compressors without error feedback).</li>
+      <li>Transmits two compressed gradient differences per worker in each communication round.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            CANITA is a communication-compressed accelerated distributed convex optimization algorithm applicable to multi-worker and federated training.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r560-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r560-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2107.09461.pdf" target="_blank" rel="noopener">CANITA: Faster Rates for Distributed Convex Optimization with Communication Compression</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhize Li, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2107.09461</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e0711a16e7e7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r560-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r560-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2107.09461" target="_blank" rel="noopener">CANITA: Faster Rates for Distributed Convex Optimization with Communication Compression (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhize Li, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2107.09461</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7d1dfa5d56b8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r560-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r560-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2107.09461" target="_blank" rel="noopener">CANITA: Faster Rates for Distributed Convex Optimization with Communication Compression (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhize Li, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2107.09461</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:21114949f2e5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:43:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:43:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CanitaCompressedAcceleratedGradientMethodForDistributedConvexOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CanitaCompressedAcceleratedGradientMethodForDistributedConvexOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
