@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schedule-Free Optimization (Schedule-Free SGD and Schedule-Free AdamW) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Schedule-Free Optimization (Schedule-Free SGD and Schedule-Free AdamW)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Schedule-Free Optimization (Schedule-Free SGD and Schedule-Free AdamW)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ScheduleFreeOptimizationViaIterateAveragingAndMomentumInterpolation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Schedule-Free Optimization, Schedule-Free SGD, Schedule-Free AdamW, The Road Less Scheduled Optimizer
+    </div>
+
+  <div class="detail-desc">
+    A family of anytime stochastic optimization algorithms (Schedule-Free SGD, Equations 3-5, and Schedule-Free AdamW, Algorithm 1) and an online-to-batch conversion framework (Theorem 2 and Theorem 5) that eliminate preset learning rate decay schedules and knowledge of the stopping horizon T without adding extra hyperparameters or memory buffers over standard momentum optimizers. At step t, Schedule-Free optimization forms the gradient evaluation location y_t = (1 - beta) z_t + beta x_t as a convex interpolation between the base optimizer sequence z_t and the online weighted evaluation average x_t, evaluates the stochastic subgradient g_t in partial f(y_t, zeta_t) at y_t, updates the base sequence z_{t+1} (e.g., z_{t+1} = z_t - gamma g_t for SGD or z_{t+1} = z_t - gamma_t g_t / (sqrt{v_t} + epsilon) - gamma_t lambda y_t for AdamW), and updates the evaluation iterate via x_{t+1} = (1 - c_{t+1}) x_t + c_{t+1} z_{t+1} where c_{t+1} = w_{t+1} / sum_{i=1}^{t+1} w_i (such as c_{t+1} = 1/(t+1) or warmup-squared weights c_{t+1} = gamma_t^2 / sum_{i=1}^t gamma_i^2).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Polyak-Ruppert averaging (beta = 0, which evaluates gradients purely at the fast base sequence y_t = z_t and suffers from instability and poor deep learning performance) and from Primal averaging (beta = 1, which evaluates gradients purely at the slow running average y_t = x_t and converges too slowly in early stages). By setting beta in (0, 1) (typically beta in [0.9, 0.98]), Schedule-Free interpolation immediately injects (1 - beta) Delta_t into y_{t+1} while gradually incorporating the remainder via x_{t+1}, achieving worst-case optimal O(DG/sqrt{T}) non-smooth convex convergence for every beta in [0, 1].
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#unified-bregman-online-to-batch-conversion-and-momentum-optimality</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 2 (Equation 12, Appendix A) and Theorem 5 (Appendix C, Equations 27-30) prove the exact step identity w_{1:t} F(x_t) - w_{1:t-1} F(x_{t-1}) - w_t F(x_*) = w_t langle nabla F(y_t), z_t - x_* rangle - (w_t / alpha_t) B_F(y_t, x_t) - (w_t(1 - alpha_t)/alpha_t) B_F(x_t, y_t) - w_{1:t-1} B_F(x_{t-1}, x_t) - w_t B_F(x_*, y_t) for any convex function F and any sequence beta_t = 1 - alpha_t in [0, 1], establishing E[F(x_T) - F(x_*)] &lt;= E[sum_{t=1}^T w_t langle g_t, z_t - x_* rangle] / sum_{t=1}^T w_t and proving that Schedule-Free SGD achieves the exact minimax optimal rate E[F(x_T) - F(x_*)] &lt;= D G / sqrt{T} for every momentum parameter beta in [0, 1] (Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r585-primary-pdf">The Road Less Scheduled</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Theorems 1 and 2, Equations (8)-(12), pp. 3-4; Appendices A and C, Theorem 5, Equations (24)-(30), pp. 19-23</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#exact-unification-of-polyak-averaging-primal-averaging-and-linear-decay-schedules</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section 2.1 and Appendix B (Theorem 4 and Section B.1) show that Theorem 2 recovers classical Polyak-Ruppert online-to-batch conversion at beta_t = 0, Primal Averaging / Heavy-Ball at beta_t = 1, and last-iterate linear-decay scheduling at beta_t = t/T (alpha_t = (T - t)/T with w_t = 1, where the momentum coefficient 1 - alpha_t + t(alpha_{t+1} - alpha_t) vanishes identically so y_{t+1} - y_t = ((T - t)/T)(z_{t+1} - z_t) and y_T = x_T).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r585-primary-pdf">The Road Less Scheduled</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, pp. 4-5; Appendix B, Theorem 4 and Section B.1, pp. 20-21</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r585-metadata-cr">The Road Less Scheduled (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic record (NeurIPS 2024)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#schedule-free-adamw-with-two-buffer-in-place-memory-and-warmup-squared-weighting</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Schedule-Free AdamW (Algorithm 1, Section 4.4) eliminates the traditional momentum buffer m_t by storing only z_t, v_t, and the primary parameter buffer (flipping in-place between y_t during training steps and x_t during evaluation passes to match standard AdamW&#39;s memory footprint) while weighting the online average by c_{t+1} = gamma_t^2 / sum_{i=1}^t gamma_i^2 where gamma_t = gamma sqrt{1 - beta_2^t} min(1, t / T_warmup) (Equation 23).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r585-primary-pdf">The Road Less Scheduled</a></span>
+        <span>· <strong>Locator:</strong> Section 4.4, Algorithm 1, Equation (23), pp. 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#batch-normalization-running-statistics-mismatch-between-y-and-x-sequences</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because training forward passes evaluate activations at the interpolated sequence y_t whereas inference and validation evaluate the model at the averaged sequence x_t, networks containing Batch Normalization layers require recomputing BatchNorm running mean and variance statistics on x_t over a small number of training batches prior to evaluation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r585-primary-pdf">The Road Less Scheduled</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, p. 10; Section 4.4, pp. 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires updating BatchNorm running mean and variance buffers on the evaluation sequence x_t before model evaluation.</li>
+      <li>Optimal base learning rate and weight decay values differ from those tuned for cosine or linear decay schedules.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Schedule-Free SGD and Schedule-Free AdamW are general-purpose optimizers for training deep artificial neural networks without learning rate schedules.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Provides minimax-optimal anytime convergence guarantees and empirical speedups on convex stochastic logistic regression problems.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r585-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r585-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2405.15682" target="_blank" rel="noopener">The Road Less Scheduled</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aaron Defazio, Xingyu Alice Yang, Harsh Mehta, Konstantin Mishchenko, Ahmed Khaled, Ashok Cutkosky
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=The+Road+Less+Scheduled+Defazio&amp;format=json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1aef42351ac4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r585-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r585-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2405.15682" target="_blank" rel="noopener">The Road Less Scheduled (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aaron Defazio, Xingyu Alice Yang, Harsh Mehta, Konstantin Mishchenko, Ahmed Khaled, Ashok Cutkosky
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2405.15682</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f32c531ae811…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r585-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r585-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=The+Road+Less+Scheduled+Defazio&amp;format=json" target="_blank" rel="noopener">The Road Less Scheduled (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aaron Defazio, Xingyu Alice Yang, Harsh Mehta, Konstantin Mishchenko, Ahmed Khaled, Ashok Cutkosky
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=The+Road+Less+Scheduled+Defazio&amp;format=json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:454943ae8c85…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:08:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:08:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ScheduleFreeOptimizationViaIterateAveragingAndMomentumInterpolation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ScheduleFreeOptimizationViaIterateAveragingAndMomentumInterpolation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

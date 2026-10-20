@@ -1,0 +1,110 @@
+id: AIMech:ScheduleFreeOptimizationViaIterateAveragingAndMomentumInterpolation
+name: Schedule-Free Optimization (Schedule-Free SGD and Schedule-Free AdamW)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A family of anytime stochastic optimization algorithms (Schedule-Free SGD, Equations 3-5, and Schedule-Free AdamW, Algorithm 1) and an online-to-batch conversion framework (Theorem 2 and Theorem 5) that eliminate preset learning rate decay schedules and knowledge of the stopping horizon T without adding extra hyperparameters or memory buffers over standard momentum optimizers. At step t, Schedule-Free optimization forms the gradient evaluation location y_t = (1 - beta) z_t + beta x_t as a convex interpolation between the base optimizer sequence z_t and the online weighted evaluation average x_t, evaluates the stochastic subgradient g_t in partial f(y_t, zeta_t) at y_t, updates the base sequence z_{t+1} (e.g., z_{t+1} = z_t - gamma g_t for SGD or z_{t+1} = z_t - gamma_t g_t / (sqrt{v_t} + epsilon) - gamma_t lambda y_t for AdamW), and updates the evaluation iterate via x_{t+1} = (1 - c_{t+1}) x_t + c_{t+1} z_{t+1} where c_{t+1} = w_{t+1} / sum_{i=1}^{t+1} w_i (such as c_{t+1} = 1/(t+1) or warmup-squared weights c_{t+1} = gamma_t^2 / sum_{i=1}^t gamma_i^2).
+identity_notes: Distinct from Polyak-Ruppert averaging (beta = 0, which evaluates gradients purely at the fast base sequence y_t = z_t and suffers from instability and poor deep learning performance) and from Primal averaging (beta = 1, which evaluates gradients purely at the slow running average y_t = x_t and converges too slowly in early stages). By setting beta in (0, 1) (typically beta in [0.9, 0.98]), Schedule-Free interpolation immediately injects (1 - beta) Delta_t into y_{t+1} while gradually incorporating the remainder via x_{t+1}, achieving worst-case optimal O(DG/sqrt{T}) non-smooth convex convergence for every beta in [0, 1].
+aliases:
+- Schedule-Free Optimization
+- Schedule-Free SGD
+- Schedule-Free AdamW
+- The Road Less Scheduled Optimizer
+definition_evidence:
+- source_id: r585-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r585-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r585-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: unified-bregman-online-to-batch-conversion-and-momentum-optimality
+  kind: mechanism
+  statement: Theorem 2 (Equation 12, Appendix A) and Theorem 5 (Appendix C, Equations 27-30) prove the exact step identity w_{1:t} F(x_t) - w_{1:t-1} F(x_{t-1}) - w_t F(x_*) = w_t langle nabla F(y_t), z_t - x_* rangle - (w_t / alpha_t) B_F(y_t, x_t) - (w_t(1 - alpha_t)/alpha_t) B_F(x_t, y_t) - w_{1:t-1} B_F(x_{t-1}, x_t) - w_t B_F(x_*, y_t) for any convex function F and any sequence beta_t = 1 - alpha_t in [0, 1], establishing E[F(x_T) - F(x_*)] <= E[sum_{t=1}^T w_t langle g_t, z_t - x_* rangle] / sum_{t=1}^T w_t and proving that Schedule-Free SGD achieves the exact minimax optimal rate E[F(x_T) - F(x_*)] <= D G / sqrt{T} for every momentum parameter beta in [0, 1] (Theorem 1).
+  evidence:
+  - source_id: r585-primary-pdf
+    locator: Section 2, Theorems 1 and 2, Equations (8)-(12), pp. 3-4; Appendices A and C, Theorem 5, Equations (24)-(30), pp. 19-23
+    relation: supports
+- claim_id: exact-unification-of-polyak-averaging-primal-averaging-and-linear-decay-schedules
+  kind: mechanism
+  statement: Section 2.1 and Appendix B (Theorem 4 and Section B.1) show that Theorem 2 recovers classical Polyak-Ruppert online-to-batch conversion at beta_t = 0, Primal Averaging / Heavy-Ball at beta_t = 1, and last-iterate linear-decay scheduling at beta_t = t/T (alpha_t = (T - t)/T with w_t = 1, where the momentum coefficient 1 - alpha_t + t(alpha_{t+1} - alpha_t) vanishes identically so y_{t+1} - y_t = ((T - t)/T)(z_{t+1} - z_t) and y_T = x_T).
+  evidence:
+  - source_id: r585-primary-pdf
+    locator: Section 2.1, pp. 4-5; Appendix B, Theorem 4 and Section B.1, pp. 20-21
+    relation: supports
+  - source_id: r585-metadata-cr
+    locator: Bibliographic record (NeurIPS 2024)
+    relation: supports
+- claim_id: schedule-free-adamw-with-two-buffer-in-place-memory-and-warmup-squared-weighting
+  kind: application
+  statement: Schedule-Free AdamW (Algorithm 1, Section 4.4) eliminates the traditional momentum buffer m_t by storing only z_t, v_t, and the primary parameter buffer (flipping in-place between y_t during training steps and x_t during evaluation passes to match standard AdamW's memory footprint) while weighting the online average by c_{t+1} = gamma_t^2 / sum_{i=1}^t gamma_i^2 where gamma_t = gamma sqrt{1 - beta_2^t} min(1, t / T_warmup) (Equation 23).
+  evidence:
+  - source_id: r585-primary-pdf
+    locator: Section 4.4, Algorithm 1, Equation (23), pp. 12-13
+    relation: supports
+- claim_id: batch-normalization-running-statistics-mismatch-between-y-and-x-sequences
+  kind: limitation
+  statement: Because training forward passes evaluate activations at the interpolated sequence y_t whereas inference and validation evaluate the model at the averaged sequence x_t, networks containing Batch Normalization layers require recomputing BatchNorm running mean and variance statistics on x_t over a small number of training batches prior to evaluation.
+  evidence:
+  - source_id: r585-primary-pdf
+    locator: Section 4.2, p. 10; Section 4.4, pp. 12-13
+    relation: supports
+evidence_sources:
+- source_id: r585-primary-pdf
+  title: The Road Less Scheduled
+  authors: &id001
+  - Aaron Defazio
+  - Xingyu Alice Yang
+  - Harsh Mehta
+  - Konstantin Mishchenko
+  - Ahmed Khaled
+  - Ashok Cutkosky
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2405.15682
+  persistent_id: https://dblp.org/search/publ/api?q=The+Road+Less+Scheduled+Defazio&format=json
+  version: Advances in Neural Information Processing Systems 37 (NeurIPS 2024) (2024) (1593206 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:08:00Z'
+  sha256: 1aef42351ac417eb08ba81919cb49bd9d14d98320d0bd3d47eac72f48dcf20d3
+- source_id: r585-arxiv-abs
+  title: The Road Less Scheduled (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2405.15682
+  persistent_id: https://arxiv.org/abs/2405.15682
+  version: arXiv abstract page (6636 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:08:00Z'
+  sha256: f32c531ae811e4977a491d2aabb7bbf28c754ff8239cec674c3b3a8666ce139e
+- source_id: r585-metadata-cr
+  title: The Road Less Scheduled (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=The+Road+Less+Scheduled+Defazio&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=The+Road+Less+Scheduled+Defazio&format=json
+  version: Crossref API work record (1917 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:08:00Z'
+  sha256: 454943ae8c8537b9436c5587e21be4be7f88ddf59b2a79f5af6742c8359b2d49
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Schedule-Free SGD and Schedule-Free AdamW are general-purpose optimizers for training deep artificial neural networks without learning rate schedules.
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Provides minimax-optimal anytime convergence guarantees and empirical speedups on convex stochastic logistic regression problems.
+limitations:
+- Requires updating BatchNorm running mean and variance buffers on the evaluation sequence x_t before model evaluation.
+- Optimal base learning rate and weight decay values differ from those tuned for cosine or linear decay schedules.
+curation:
+  created_at: '2026-10-19T11:08:00Z'
+  updated_at: '2026-10-19T11:08:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

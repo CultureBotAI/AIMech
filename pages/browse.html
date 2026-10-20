@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1421</strong> artificial intelligence concepts, comprising <strong>979</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1422</strong> artificial intelligence concepts, comprising <strong>980</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1421)</option>
-        <option value="curated">Curated AIMech (979)</option>
+        <option value="all">All Origins (1422)</option>
+        <option value="curated">Curated AIMech (980)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (675)</option>
+          <option value="algorithm">Algorithms (676)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1421</span> of <span id="totalCount">1421</span>
+      Showing <span id="matchCount">1422</span> of <span id="totalCount">1422</span>
     </div>
   </div>
 </div>
@@ -28995,6 +28995,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="schedule-free optimization (schedule-free sgd and schedule-free adamw) schedulefreeoptimizationviaiterateaveragingandmomentuminterpolation aimech:schedulefreeoptimizationviaiterateaveragingandmomentuminterpolation algorithms algorithm a family of anytime stochastic optimization algorithms (schedule-free sgd, equations 3-5, and schedule-free adamw, algorithm 1) and an online-to-batch conversion framework (theorem 2 and theorem 5) that eliminate preset learning rate decay schedules and knowledge of the stopping horizon t without adding extra hyperparameters or memory buffers over standard momentum optimizers. at step t, schedule-free optimization forms the gradient evaluation location y_t = (1 - beta) z_t + beta x_t as a convex interpolation between the base optimizer sequence z_t and the online weighted evaluation average x_t, evaluates the stochastic subgradient g_t in partial f(y_t, zeta_t) at y_t, updates the base sequence z_{t+1} (e.g., z_{t+1} = z_t - gamma g_t for sgd or z_{t+1} = z_t - gamma_t g_t / (sqrt{v_t} + epsilon) - gamma_t lambda y_t for adamw), and updates the evaluation iterate via x_{t+1} = (1 - c_{t+1}) x_t + c_{t+1} z_{t+1} where c_{t+1} = w_{t+1} / sum_{i=1}^{t+1} w_i (such as c_{t+1} = 1/(t+1) or warmup-squared weights c_{t+1} = gamma_t^2 / sum_{i=1}^t gamma_i^2). distinct from polyak-ruppert averaging (beta = 0, which evaluates gradients purely at the fast base sequence y_t = z_t and suffers from instability and poor deep learning performance) and from primal averaging (beta = 1, which evaluates gradients purely at the slow running average y_t = x_t and converges too slowly in early stages). by setting beta in (0, 1) (typically beta in [0.9, 0.98]), schedule-free interpolation immediately injects (1 - beta) delta_t into y_{t+1} while gradually incorporating the remainder via x_{t+1}, achieving worst-case optimal o(dg/sqrt{t}) non-smooth convex convergence for every beta in [0, 1]. schedule-free optimization schedule-free sgd schedule-free adamw the road less scheduled optimizer theorem 2 (equation 12, appendix a) and theorem 5 (appendix c, equations 27-30) prove the exact step identity w_{1:t} f(x_t) - w_{1:t-1} f(x_{t-1}) - w_t f(x_*) = w_t langle nabla f(y_t), z_t - x_* rangle - (w_t / alpha_t) b_f(y_t, x_t) - (w_t(1 - alpha_t)/alpha_t) b_f(x_t, y_t) - w_{1:t-1} b_f(x_{t-1}, x_t) - w_t b_f(x_*, y_t) for any convex function f and any sequence beta_t = 1 - alpha_t in [0, 1], establishing e[f(x_t) - f(x_*)] &lt;= e[sum_{t=1}^t w_t langle g_t, z_t - x_* rangle] / sum_{t=1}^t w_t and proving that schedule-free sgd achieves the exact minimax optimal rate e[f(x_t) - f(x_*)] &lt;= d g / sqrt{t} for every momentum parameter beta in [0, 1] (theorem 1). section 2.1 and appendix b (theorem 4 and section b.1) show that theorem 2 recovers classical polyak-ruppert online-to-batch conversion at beta_t = 0, primal averaging / heavy-ball at beta_t = 1, and last-iterate linear-decay scheduling at beta_t = t/t (alpha_t = (t - t)/t with w_t = 1, where the momentum coefficient 1 - alpha_t + t(alpha_{t+1} - alpha_t) vanishes identically so y_{t+1} - y_t = ((t - t)/t)(z_{t+1} - z_t) and y_t = x_t). schedule-free adamw (algorithm 1, section 4.4) eliminates the traditional momentum buffer m_t by storing only z_t, v_t, and the primary parameter buffer (flipping in-place between y_t during training steps and x_t during evaluation passes to match standard adamw&#39;s memory footprint) while weighting the online average by c_{t+1} = gamma_t^2 / sum_{i=1}^t gamma_i^2 where gamma_t = gamma sqrt{1 - beta_2^t} min(1, t / t_warmup) (equation 23). because training forward passes evaluate activations at the interpolated sequence y_t whereas inference and validation evaluate the model at the averaged sequence x_t, networks containing batch normalization layers require recomputing batchnorm running mean and variance statistics on x_t over a small number of training batches prior to evaluation. the road less scheduled the road less scheduled (arxiv abstract) the road less scheduled (crossref metadata) aaron defazio xingyu alice yang harsh mehta konstantin mishchenko ahmed khaled ashok cutkosky aaron defazio xingyu alice yang harsh mehta konstantin mishchenko ahmed khaled ashok cutkosky aaron defazio xingyu alice yang harsh mehta konstantin mishchenko ahmed khaled ashok cutkosky">
+        <td>
+          <a href="curated/ScheduleFreeOptimizationViaIterateAveragingAndMomentumInterpolation.html" style="font-weight: 600; font-size: 1rem;">Schedule-Free Optimization (Schedule-Free SGD and Schedule-Free AdamW)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Schedule-Free Optimization, Schedule-Free SGD…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A family of anytime stochastic optimization algorithms (Schedule-Free SGD, Equations 3-5, and Schedule-Free AdamW, Algorithm 1) and an onlin…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:ScheduleFreeOptimizationViaIterateAveragingAndMomentumInterpolation</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
