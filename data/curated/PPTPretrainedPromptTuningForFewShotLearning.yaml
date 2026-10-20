@@ -1,0 +1,102 @@
+id: AIMech:PPTPretrainedPromptTuningForFewShotLearning
+name: PPT Pre-Trained Prompt Tuning for Few-Shot Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient few-shot prompt-tuning framework that groups downstream classification tasks into format-specific or unified multiple-choice Pattern-Verbalizer Pairs PVP_i^pre = (f_i^pre, v_i^pre), pre-trains a sequence of continuous soft prompt embeddings P_i on large-scale unlabeled corpora via self-supervised cloze objectives arg max_P sum_x log p(<X> = v(y) | [P; f(x)]; P) with all pretrained language model weights frozen, and uses P_i to initialize downstream few-shot soft prompt optimization.
+identity_notes: Distinct from vanilla Prompt Tuning (Lester et al., EMNLP 2021, AIMech:PromptTuning), which initializes soft prompts randomly or from vocabulary word embeddings and suffers high variance and poor accuracy in few-shot settings, and from SPoT (Vu et al., ACL 2022, AIMech:SPoTSoftPromptTransfer), which transfers soft prompts from supervised source tasks rather than self-supervised pre-training on unlabeled corpora via unified Pattern-Verbalizer Pairs.
+aliases:
+- PPT
+- Pre-trained Prompt Tuning
+- Hybrid PPT and Unified PPT
+- Self-Supervised Pre-Trained Soft Prompt Tuning
+definition_evidence:
+- source_id: r722-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r722-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r722-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r722-claim-self-supervised-pvp-formats
+  kind: mechanism
+  statement: "PPT designs self-supervised pre-training Pattern-Verbalizer Pairs on 10GB unlabeled corpora (OpenWebText and WuDaoCorpora) for three task families\u20143-class document-coherent next sentence prediction for sentence-pair classification, multi-option next sentence selection for multiple-choice classification, and pseudo-labeled single-sentence classification\u2014and further unifies all three into a single variable-option (2 to 16 options) multiple-choice pre-training format (Unified PPT)."
+  evidence:
+  - source_id: r722-primary-pdf
+    locator: Section 3.2-3.3 & Appendix C.3, Equations 3-5, Table 9, pp. 4-5, 13
+    relation: supports
+- claim_id: r722-claim-parameter-and-memory-efficiency
+  kind: mechanism
+  statement: "With 100 soft tokens of dimension 4096 on 11B-parameter backbones (T5-XXL and CPM-2), PPT tunes only 409,600 (~410K) parameters per task\u2014nearly 27,000x (over 3,000x in storage) smaller than full-model tuning\u2014while reducing per-step training time from 4,416 ms to 794 ms and GPU memory from 259 GB to 72 GB on SST-2."
+  evidence:
+  - source_id: r722-primary-pdf
+    locator: Section 4.1 & Appendix E, Table 10, pp. 6, 13-14
+    relation: supports
+- claim_id: r722-claim-few-shot-accuracy-and-variance
+  kind: application
+  statement: Across 15 English and Chinese benchmarks in the 32-sample few-shot setting on 11B-parameter T5-XXL and CPM-2 models, PPT and Unified PPT substantially outperform vanilla Prompt Tuning and LM Adaptation while dramatically reducing seed variance (e.g., improving English SST-2 from 70.5+-15.5 to 94.4+-0.3 and Chinese CCPM from 31.0+-9.7 to 85.4+-0.6, surpassing full-model fine-tuning).
+  evidence:
+  - source_id: r722-primary-pdf
+    locator: Section 4.2, Tables 4-5, pp. 6-7
+    relation: supports
+- claim_id: r722-claim-convergence-and-pseudo-label-limitation
+  kind: limitation
+  statement: Single-sentence PPT relies on an external fine-tuned classifier (e.g., RoBERTa-base trained on Yelp-5) to annotate pseudo-labels and cannot directly generalize to arbitrary non-sentiment single-text domains with many classes unless reformulated via Unified PPT, and soft prompt optimization still requires a much larger learning rate (5e-3 to 5e-2) and more training steps to converge than full-model fine-tuning.
+  evidence:
+  - source_id: r722-primary-pdf
+    locator: Section 3.2.3, Section 4.2-4.3, and Appendix C.2, Figure 5, pp. 5, 7-8, 12-13
+    relation: supports
+evidence_sources:
+- source_id: r722-primary-pdf
+  title: 'PPT: Pre-trained Prompt Tuning for Few-shot Learning'
+  authors: &id001
+  - Yuxian Gu
+  - Xu Han
+  - Zhiyuan Liu
+  - Minlie Huang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2109.04332.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=PPT+Pre-trained+Prompt+Tuning+for+Few-shot+Learning+Gu&format=xml
+  version: 'Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (ACL 2022, Volume 1: Long Papers), pp. 8410-8423 (2022) (674620 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:25:00Z'
+  sha256: 62a886a40a9770d150362f8e69bde9a7b6aada90044383345d1ecdc954215e2c
+- source_id: r722-arxiv-abs
+  title: 'PPT: Pre-trained Prompt Tuning for Few-shot Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2109.04332
+  persistent_id: https://arxiv.org/abs/2109.04332
+  version: arXiv abstract page (6957 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:25:00Z'
+  sha256: ab4cf4abb0d452a129595b70ceed96ddf2360ced66e3e07c5898f317cb661c7e
+- source_id: r722-metadata-cr
+  title: 'PPT: Pre-trained Prompt Tuning for Few-shot Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=PPT+Pre-trained+Prompt+Tuning+for+Few-shot+Learning+Gu&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=PPT+Pre-trained+Prompt+Tuning+for+Few-shot+Learning+Gu&format=xml
+  version: Crossref API work record (883 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:25:00Z'
+  sha256: 7532926c731699fa54193a6ea17001cd46418d9ea9ff9a3c83acefd2f393579d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: PPT adapts frozen 11B-parameter Transformer language models to few-shot classification tasks by pre-training continuous soft prompt embeddings on unlabeled corpora.
+limitations:
+- Format-specific single-sentence PPT requires an auxiliary supervised classifier to generate pseudo-labels on unlabeled text and does not generalize across domains or >5 classes without switching to Unified PPT.
+- Even with pre-trained initialization, soft prompt optimization converges in more steps than full-model fine-tuning and requires an upfront 200,000-step self-supervised prompt pre-training stage on 10GB of unlabeled text.
+curation:
+  created_at: '2026-10-19T13:25:00Z'
+  updated_at: '2026-10-19T13:25:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

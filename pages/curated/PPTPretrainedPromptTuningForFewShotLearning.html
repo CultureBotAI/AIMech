@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PPT Pre-Trained Prompt Tuning for Few-Shot Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>PPT Pre-Trained Prompt Tuning for Few-Shot Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">PPT Pre-Trained Prompt Tuning for Few-Shot Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PPTPretrainedPromptTuningForFewShotLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PPT, Pre-trained Prompt Tuning, Hybrid PPT and Unified PPT, Self-Supervised Pre-Trained Soft Prompt Tuning
+    </div>
+
+  <div class="detail-desc">
+    A parameter-efficient few-shot prompt-tuning framework that groups downstream classification tasks into format-specific or unified multiple-choice Pattern-Verbalizer Pairs PVP_i^pre = (f_i^pre, v_i^pre), pre-trains a sequence of continuous soft prompt embeddings P_i on large-scale unlabeled corpora via self-supervised cloze objectives arg max_P sum_x log p(&lt;X&gt; = v(y) | [P; f(x)]; P) with all pretrained language model weights frozen, and uses P_i to initialize downstream few-shot soft prompt optimization.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from vanilla Prompt Tuning (Lester et al., EMNLP 2021, AIMech:PromptTuning), which initializes soft prompts randomly or from vocabulary word embeddings and suffers high variance and poor accuracy in few-shot settings, and from SPoT (Vu et al., ACL 2022, AIMech:SPoTSoftPromptTransfer), which transfers soft prompts from supervised source tasks rather than self-supervised pre-training on unlabeled corpora via unified Pattern-Verbalizer Pairs.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r722-claim-self-supervised-pvp-formats</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    PPT designs self-supervised pre-training Pattern-Verbalizer Pairs on 10GB unlabeled corpora (OpenWebText and WuDaoCorpora) for three task families—3-class document-coherent next sentence prediction for sentence-pair classification, multi-option next sentence selection for multiple-choice classification, and pseudo-labeled single-sentence classification—and further unifies all three into a single variable-option (2 to 16 options) multiple-choice pre-training format (Unified PPT).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r722-primary-pdf">PPT: Pre-trained Prompt Tuning for Few-shot Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3 &amp; Appendix C.3, Equations 3-5, Table 9, pp. 4-5, 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r722-claim-parameter-and-memory-efficiency</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With 100 soft tokens of dimension 4096 on 11B-parameter backbones (T5-XXL and CPM-2), PPT tunes only 409,600 (~410K) parameters per task—nearly 27,000x (over 3,000x in storage) smaller than full-model tuning—while reducing per-step training time from 4,416 ms to 794 ms and GPU memory from 259 GB to 72 GB on SST-2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r722-primary-pdf">PPT: Pre-trained Prompt Tuning for Few-shot Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 &amp; Appendix E, Table 10, pp. 6, 13-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r722-claim-few-shot-accuracy-and-variance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across 15 English and Chinese benchmarks in the 32-sample few-shot setting on 11B-parameter T5-XXL and CPM-2 models, PPT and Unified PPT substantially outperform vanilla Prompt Tuning and LM Adaptation while dramatically reducing seed variance (e.g., improving English SST-2 from 70.5+-15.5 to 94.4+-0.3 and Chinese CCPM from 31.0+-9.7 to 85.4+-0.6, surpassing full-model fine-tuning).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r722-primary-pdf">PPT: Pre-trained Prompt Tuning for Few-shot Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, Tables 4-5, pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r722-claim-convergence-and-pseudo-label-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Single-sentence PPT relies on an external fine-tuned classifier (e.g., RoBERTa-base trained on Yelp-5) to annotate pseudo-labels and cannot directly generalize to arbitrary non-sentiment single-text domains with many classes unless reformulated via Unified PPT, and soft prompt optimization still requires a much larger learning rate (5e-3 to 5e-2) and more training steps to converge than full-model fine-tuning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r722-primary-pdf">PPT: Pre-trained Prompt Tuning for Few-shot Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.3, Section 4.2-4.3, and Appendix C.2, Figure 5, pp. 5, 7-8, 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Format-specific single-sentence PPT requires an auxiliary supervised classifier to generate pseudo-labels on unlabeled text and does not generalize across domains or &gt;5 classes without switching to Unified PPT.</li>
+      <li>Even with pre-trained initialization, soft prompt optimization converges in more steps than full-model fine-tuning and requires an upfront 200,000-step self-supervised prompt pre-training stage on 10GB of unlabeled text.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PPT adapts frozen 11B-parameter Transformer language models to few-shot classification tasks by pre-training continuous soft prompt embeddings on unlabeled corpora.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r722-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r722-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2109.04332.pdf" target="_blank" rel="noopener">PPT: Pre-trained Prompt Tuning for Few-shot Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yuxian Gu, Xu Han, Zhiyuan Liu, Minlie Huang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=PPT+Pre-trained+Prompt+Tuning+for+Few-shot+Learning+Gu&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:62a886a40a97…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r722-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r722-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2109.04332" target="_blank" rel="noopener">PPT: Pre-trained Prompt Tuning for Few-shot Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yuxian Gu, Xu Han, Zhiyuan Liu, Minlie Huang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2109.04332</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ab4cf4abb0d4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r722-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r722-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=PPT+Pre-trained+Prompt+Tuning+for+Few-shot+Learning+Gu&amp;format=xml" target="_blank" rel="noopener">PPT: Pre-trained Prompt Tuning for Few-shot Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yuxian Gu, Xu Han, Zhiyuan Liu, Minlie Huang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=PPT+Pre-trained+Prompt+Tuning+for+Few-shot+Learning+Gu&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7532926c7316…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:25:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:25:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PPTPretrainedPromptTuningForFewShotLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PPTPretrainedPromptTuningForFewShotLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
