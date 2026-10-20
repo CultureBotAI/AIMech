@@ -1,0 +1,360 @@
+# Scientific author self-review of PRoLoRA
+
+- Review: 20261019T123730Z-prolora-partial-rotation-intra-layer-shared-low-rank-adaptation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T12:37:00Z
+- Finished UTC: 2026-10-19T12:37:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain PRoLoRA as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/PRoLoRA.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:PRoLoRA
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 4a58cfb954d1eeb70c3fb415212332da713141cd.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:PRoLoRA | data/curated/PRoLoRA.yaml | maintained | PRoLoRA |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:PRoLoRA | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:PRoLoRA | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:PRoLoRA | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:PRoLoRA | Validated history sidecar files. |
+| python3 prolora-partial-rotation-intra-layer-shared-low-rank-adaptation-boundaries.py | passed | True | AIMech:PRoLoRA | [PASS] Round 674 PRoLoRA (Wang et al., ACL 2024): params=44&lt;80, rolora_diag_err=0.00e+00, prolora_diag_diff=4.7956&gt;1.0, init_bound_ratio=1.4142 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:PRoLoRA.
+
+PRoLoRA is a distinct concept.
+
+Distinct from AIMech:LowRankAdaptation (which leaves all r*(h+o) adapter entries unshared, corresponding to the special case u = r) and from inter-layer weight-tying methods such as AIMech:VeraVectorBasedRandomMatrixAdaptation (VeRA) and Tied-LoRA (which share matrices across layers and require matching layer dimensions). PRoLoRA (Partially Rotation-enhanced Low-Rank Adaptation; Sheng Wang, Boyang Xue, Jiacheng Ye, Jiyue Jiang, Liheng Chen, Lingpeng Kong, &amp; Chuan Wu, ACL 2024, arXiv:2402.16902) operates strictly within each layer via four components (Section 3.1, Equations 2-5): (1) Broadcast Reduction partitions the shared rank-(r-u) portion of A and B into m horizontal chunks of width h/m and n vertical chunks of height o/n; (2) Rotation Enhancement differentiates broadcast chunks i in {0..m-1} and j in {0..n-1} by circularly shifting along the rank dimension via A_i = Roll(A_0, i*s_A) and B_j = Roll(B_0, j*s_B); (3) Partially-Sharing Refinement reserves u unshared ranks (A_u in R^{u x h}, B_u in R^{o x u}) so that Delta W = (B_u (+)_h (B_0 (+)_v ... (+)_v B_{n-1})) (A_u (+)_v (A_0 (+)_h ... (+)_h A_{m-1})), breaking the equal-displacement block symmetry of pure rotation with total trainable parameters u(h+o) + h(r-u)/m + o(r-u)/n; and (4) Rectified Initialization samples A_0 ~ U(-g sqrt(3/h), g sqrt(3/h)) using the full matrix fan-in h rather than chunk width h/m.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:PRoLoRA.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:PRoLoRA.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in prolora-partial-rotation-intra-layer-shared-low-rank-adaptation-boundaries.py passed with exit code 0: [PASS] Round 674 PRoLoRA (Wang et al., ACL 2024): params=44&lt;80, rolora_diag_err=0.00e+00, prolora_diag_diff=4.7956&gt;1.0, init_bound_ratio=1.4142
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:PRoLoRA.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T123700Z-prolora-partial-rotation-intra-layer-shared-low-rank-adaptation.json | supports | No normalized identity match for AIMech:PRoLoRA across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/prolora-partial-rotation-intra-layer-shared-low-rank-adaptation-boundaries.py | supports | All constructed boundary assertions in prolora-partial-rotation-intra-layer-shared-low-rank-adaptation-boundaries.py passed with exit code 0: [PASS] Round 674 PRoLoRA (Wang et al., ACL 2024): params=44&lt;80, rolora_diag_err=0.00e+00, prolora_diag_diff=4.7956&gt;1.0, init_bound_ratio=1.4142 |
+| r674-primary-pdf | https://arxiv.org/pdf/2402.16902.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (ACL 2024) (2024)) read and verified. |
+| r674-arxiv-abs | https://arxiv.org/abs/2402.16902; arXiv abstract | supports | arXiv abstract read and verified. |
+| r674-metadata-cr | https://dblp.org/search/publ/api?q=PRoLoRA+Partial+Rotation+Empowers&amp;format=xml; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PRoLoRA in Round 674.
+- All pages of Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (ACL 2024) (2024) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T123730Z-prolora-partial-rotation-intra-layer-shared-low-rank-adaptation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of PRoLoRA
+started_at: '2026-10-19T12:37:00Z'
+finished_at: '2026-10-19T12:37:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:PRoLoRA
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 62nd Annual Meeting of the Association for Computational Linguistics (ACL
+    2024) (2024) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain PRoLoRA as a distinct DRAFT architecture. All three claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 4a58cfb954d1eeb70c3fb415212332da713141cd
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/PRoLoRA.yaml
+    sha256: ad38d282cc43ad0157d38071136e96ec399d7a6c54f125cb08b1041635ca928b
+    role: target
+  - path: research/discovery/20261019T123700Z-prolora-partial-rotation-intra-layer-shared-low-rank-adaptation.json
+    sha256: 6587df285a37b451f074f0bde3d87e5bb5bb6619c4d160372e323c711027e539
+    role: context
+  - path: research/discovery/prolora-partial-rotation-intra-layer-shared-low-rank-adaptation-boundaries.py
+    sha256: a4aca56188e032300686d0a21076834bd4dfc4412828d21f908fa6b5ae61c768
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:PRoLoRA
+  path: data/curated/PRoLoRA.yaml
+  label: PRoLoRA
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PRoLoRA.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/PRoLoRA.yaml and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:PRoLoRA'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:PRoLoRA
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PRoLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PRoLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PRoLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PRoLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 prolora-partial-rotation-intra-layer-shared-low-rank-adaptation-boundaries.py
+  command: python3 research/discovery/prolora-partial-rotation-intra-layer-shared-low-rank-adaptation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PRoLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 674 PRoLoRA (Wang et al., ACL 2024): params=44<80, rolora_diag_err=0.00e+00,
+    prolora_diag_diff=4.7956>1.0, init_bound_ratio=1.4142'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T123700Z-prolora-partial-rotation-intra-layer-shared-low-rank-adaptation.json
+  accessed_at: '2026-10-19T12:37:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:PRoLoRA across AIO and curated
+    corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T12:37:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/prolora-partial-rotation-intra-layer-shared-low-rank-adaptation-boundaries.py
+  accessed_at: '2026-10-19T12:37:00Z'
+  snapshot_sha256: a4aca56188e032300686d0a21076834bd4dfc4412828d21f908fa6b5ae61c768
+  support: supports
+  summary: 'All constructed boundary assertions in prolora-partial-rotation-intra-layer-shared-low-rank-adaptation-boundaries.py
+    passed with exit code 0: [PASS] Round 674 PRoLoRA (Wang et al., ACL 2024): params=44<80,
+    rolora_diag_err=0.00e+00, prolora_diag_diff=4.7956>1.0, init_bound_ratio=1.4142'
+- evidence_id: r674-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2402.16902.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T12:37:00Z'
+  snapshot_sha256: 908004d1339f3703305877627baf1b47ee1cc9b8ee278d4559d817bab79af30e
+  support: supports
+  summary: Full-text PDF (Proceedings of the 62nd Annual Meeting of the Association
+    for Computational Linguistics (ACL 2024) (2024)) read and verified.
+- evidence_id: r674-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2402.16902
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T12:37:00Z'
+  snapshot_sha256: 37981d23b09bab3066f58390ea31d0659426581aaae67c238b4ffca33bfe4cc3
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r674-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/search/publ/api?q=PRoLoRA+Partial+Rotation+Empowers&format=xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T12:37:00Z'
+  snapshot_sha256: a742aefc63630aa8c5aaffb3789d56a8ad6f7046f19505b12b64595c7e03d09f
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:PRoLoRA
+  evidence_ids:
+  - identity
+  - r674-primary-pdf
+  - r674-arxiv-abs
+  - r674-metadata-cr
+  summary: PRoLoRA is a distinct concept.
+  details: 'Distinct from AIMech:LowRankAdaptation (which leaves all r*(h+o) adapter
+    entries unshared, corresponding to the special case u = r) and from inter-layer
+    weight-tying methods such as AIMech:VeraVectorBasedRandomMatrixAdaptation (VeRA)
+    and Tied-LoRA (which share matrices across layers and require matching layer dimensions).
+    PRoLoRA (Partially Rotation-enhanced Low-Rank Adaptation; Sheng Wang, Boyang Xue,
+    Jiacheng Ye, Jiyue Jiang, Liheng Chen, Lingpeng Kong, & Chuan Wu, ACL 2024, arXiv:2402.16902)
+    operates strictly within each layer via four components (Section 3.1, Equations
+    2-5): (1) Broadcast Reduction partitions the shared rank-(r-u) portion of A and
+    B into m horizontal chunks of width h/m and n vertical chunks of height o/n; (2)
+    Rotation Enhancement differentiates broadcast chunks i in {0..m-1} and j in {0..n-1}
+    by circularly shifting along the rank dimension via A_i = Roll(A_0, i*s_A) and
+    B_j = Roll(B_0, j*s_B); (3) Partially-Sharing Refinement reserves u unshared ranks
+    (A_u in R^{u x h}, B_u in R^{o x u}) so that Delta W = (B_u (+)_h (B_0 (+)_v ...
+    (+)_v B_{n-1})) (A_u (+)_v (A_0 (+)_h ... (+)_h A_{m-1})), breaking the equal-displacement
+    block symmetry of pure rotation with total trainable parameters u(h+o) + h(r-u)/m
+    + o(r-u)/n; and (4) Rectified Initialization samples A_0 ~ U(-g sqrt(3/h), g sqrt(3/h))
+    using the full matrix fan-in h rather than chunk width h/m.'
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:PRoLoRA
+  evidence_ids:
+  - mapping
+  - r674-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:PRoLoRA
+  evidence_ids:
+  - r674-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in prolora-partial-rotation-intra-layer-shared-low-rank-adaptation-boundaries.py
+    passed with exit code 0: [PASS] Round 674 PRoLoRA (Wang et al., ACL 2024): params=44<80,
+    rolora_diag_err=0.00e+00, prolora_diag_diff=4.7956>1.0, init_bound_ratio=1.4142'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:PRoLoRA
+  evidence_ids:
+  - identity
+  - mapping
+  - r674-primary-pdf
+  - r674-arxiv-abs
+  - r674-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PRoLoRA in Round 674.
+- All pages of Proceedings of the 62nd Annual Meeting of the Association for Computational
+  Linguistics (ACL 2024) (2024) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

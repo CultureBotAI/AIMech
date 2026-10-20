@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">39 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">40 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">39</span> of <span id="totalCount">39</span>
+      Showing <span id="matchCount">40</span> of <span id="totalCount">40</span>
     </div>
   </div>
 </div>
@@ -719,6 +719,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="prolora prolora aimech:prolora architectures architecture a parameter-efficient low-rank adaptation architecture that combines intra-layer hidden-dimension chunk broadcasting with rank-dimension circular roll rotations, a subset of unshared rank vectors, and full-width rectified kaiming initialization to achieve high effective adapter rank with a fraction of lora&#39;s trainable parameters. distinct from aimech:lowrankadaptation (which leaves all r*(h+o) adapter entries unshared, corresponding to the special case u = r) and from inter-layer weight-tying methods such as aimech:veravectorbasedrandommatrixadaptation (vera) and tied-lora (which share matrices across layers and require matching layer dimensions). prolora (partially rotation-enhanced low-rank adaptation; sheng wang, boyang xue, jiacheng ye, jiyue jiang, liheng chen, lingpeng kong, &amp; chuan wu, acl 2024, arxiv:2402.16902) operates strictly within each layer via four components (section 3.1, equations 2-5): (1) broadcast reduction partitions the shared rank-(r-u) portion of a and b into m horizontal chunks of width h/m and n vertical chunks of height o/n; (2) rotation enhancement differentiates broadcast chunks i in {0..m-1} and j in {0..n-1} by circularly shifting along the rank dimension via a_i = roll(a_0, i*s_a) and b_j = roll(b_0, j*s_b); (3) partially-sharing refinement reserves u unshared ranks (a_u in r^{u x h}, b_u in r^{o x u}) so that delta w = (b_u (+)_h (b_0 (+)_v ... (+)_v b_{n-1})) (a_u (+)_v (a_0 (+)_h ... (+)_h a_{m-1})), breaking the equal-displacement block symmetry of pure rotation with total trainable parameters u(h+o) + h(r-u)/m + o(r-u)/n; and (4) rectified initialization samples a_0 ~ u(-g sqrt(3/h), g sqrt(3/h)) using the full matrix fan-in h rather than chunk width h/m. partially rotation-enhanced low-rank adaptation partial rotation intra-layer shared lora prolora intra-layer chunk-rotated adaptation while pure hidden-dimension chunk broadcasting (clora) replicates identical blocks in b a and rank-axis circular rotation a_i = roll(a_0, i*s_a), b_j = roll(b_0, j*s_b) (rolora) still leaves blocks with equal relative displacement (j - i) identical when s_a = s_b, reserving u unshared ranks in prolora breaks block-wise symmetry while reducing trainable parameters from r(h+o) to u(h+o) + h(r-u)/m + o(r-u)/n. because standard kaiming uniform initialization on a shared chunk a_0 of width h/m would inflate sampling bounds by sqrt(m) relative to the unshared matrix a_u of width h, prolora rectifies a_0&#39;s initialization to u(-g sqrt(3/h), g sqrt(3/h)) using the full layer input dimension h while initializing b to zero. across mmlu, bbh, gsm8k, tydi qa, and humaneval on llama2-7b and llama2-13b, prolora outperforms rank-16 lora (37.53 vs. 36.97 average) using half the trainable parameters (19.99m vs. 40.98m), doubling concurrent multi-lora serving capacity in a fixed 20gb gpu memory budget from ~512 to ~1024 adapters without weight-shape restrictions. increasing the chunk sharing ratios m and n shifts the optimal learning rate upward relative to unshared parameters, and naive forward execution without custom fused kernels temporarily materializes the expanded roll-broadcasted chunk copies in memory during each layer&#39;s computation. prolora: partial rotation empowers more parameter-efficient lora prolora: partial rotation empowers more parameter-efficient lora (arxiv abstract) prolora: partial rotation empowers more parameter-efficient lora (crossref metadata) sheng wang boyang xue jiacheng ye jiyue jiang liheng chen lingpeng kong chuan wu sheng wang boyang xue jiacheng ye jiyue jiang liheng chen lingpeng kong chuan wu sheng wang boyang xue jiacheng ye jiyue jiang liheng chen lingpeng kong chuan wu">
+        <td>
+          <a href="../curated/PRoLoRA.html" style="font-weight: 600; font-size: 1rem;">PRoLoRA</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Partially Rotation-Enhanced Low-Rank Adaptation, Partial Rotation Intra-Layer Shared LoRA…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A parameter-efficient low-rank adaptation architecture that combines intra-layer hidden-dimension chunk broadcasting with rank-dimension cir…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PRoLoRA</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
