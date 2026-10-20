@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rsLoRA · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>rsLoRA</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">rsLoRA</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RsLoRA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Rank-Stabilized LoRA, Rank-Stabilized Low-Rank Adaptation, Rank Stabilization Scaling Factor for LoRA
+    </div>
+
+  <div class="detail-desc">
+    A rank-stabilized low-rank adaptation algorithm that scales the low-rank adapter product BA by gamma_r = alpha / sqrt(r) instead of the conventional alpha / r factor, ensuring that adapter activation moments and backpropagated input gradients remain Theta_r(1) as the rank r increases.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:LowRankAdaptation (LoRA), which scales the adapter product B A by gamma_r = alpha / r and consequently suffers an O(1/r) collapse in effective update magnitude and gradient norms as r grows, and from AIMech:LoraPlusEfficientLowRankAdaptationWithAsymmetricLearningRates (LoRA+), which addresses the width-d asymmetry between A and B via unequal learning rates eta_B = lambda eta_A. rsLoRA (Damjan Kalajdzievski, arXiv:2312.03732) analyzes the infinite-rank limit r -&gt; infinity of an adapter x_{out} = (W + gamma_r B A) x_{in} + b initialized with B_0 = 0 and A_{i,j} ~ N(0, sigma_A^2) independent of r. Theorem 3.2 proves that after n gradient steps, E_{A_0}[gamma_r B_n A_n] = -gamma_r^2 r sigma_A eta sum_{k=0}^{n-1} v_k x_k^T + O_r(gamma_r^3 r), so both the m-th forward activation moments and the backpropagated input gradients are Theta_r((gamma_r^2 r)^m), which is non-collapsing and stable (Theta_r(1)) if and only if gamma_r in Theta_r(1 / sqrt(r)).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#rslora-inverse-sqrt-rank-scaling-factor-theorem</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For an adapter gamma_r B A with B_0 = 0 and A_0 entries drawn i.i.d. with mean 0 and r-independent variance sigma_A, the expected update after n steps scales as E_{A_0}[gamma_r B_n A_n] in Theta_r(gamma_r^2 r), so setting gamma_r = alpha / sqrt(r) is the unique scaling exponent (up to a constant) that keeps forward output moments and backward input gradients at Theta_r(1) as r -&gt; infinity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r668-primary-pdf">A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Definition 3.1 &amp; Theorem 3.2) &amp; Appendix A (Proof of Theorem 3.2, Equations 6-11), pp. 3, 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#rslora-elimination-of-high-rank-gradient-collapse</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Whereas standard LoRA scaling gamma_r = alpha / r causes parameter gradient norms to shrink by orders of magnitude as r increases from 4 to 2048—stunting learning so high ranks perform no better than rank 4—rsLoRA preserves consistent initial gradient norms across all ranks and unlocks monotonic perplexity improvements with increasing rank.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r668-primary-pdf">A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Experimental Results, Figures 2-3) &amp; Appendix B.1-B.4, pp. 4-5, 9-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#rslora-application-llama2-and-gptj-instruction-and-math-finetuning</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to LLaMA-2-7B on OpenOrca with AdamW and SGD and to GPT-J-6B on GSM8K with Adafactor across ranks r in {4, 8, 32, 128, 512, 2048}, rsLoRA enables smooth training-compute-versus-perplexity scaling while merging (W + (alpha/sqrt(r)) B A) into the base weights with zero inference overhead.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r668-primary-pdf">A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA</a></span>
+        <span>· <strong>Locator:</strong> Section 4 &amp; Appendix B.2 (Figures 2, 4, 5), pp. 4-5, 9-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#rslora-limitation-initialization-only-scaling-instability</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Scaling only the initialization variance of A_0 by 1 / sqrt(r) without applying the multiplicative factor gamma_r = alpha / sqrt(r) to the adapter forward pass stabilizes gradients only at step 0 and becomes unstable later in training at large ranks (e.g., r = 2048), while higher ranks still incur proportional training memory and FLOPs.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r668-primary-pdf">A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA</a></span>
+        <span>· <strong>Locator:</strong> Section 4 &amp; Appendix B.3 (Scaling at Initialization Only, Figure 6), pp. 5, 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Although rsLoRA merges into W with zero inference overhead, training at high ranks (e.g., r = 512 or 2048) still increases training-time adapter parameters, optimizer states, and FLOPs linearly with r.</li>
+      <li>Rank-correcting only the initialization distribution of A without keeping the multiplicative 1/sqrt(r) forward scaling factor fails to prevent training instability at large ranks.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            rsLoRA stabilizes low-rank adapter fine-tuning across arbitrary ranks in deep artificial neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r668-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r668-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2312.03732" target="_blank" rel="noopener">A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Damjan Kalajdzievski
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Rank+Stabilization+Scaling+Factor+LoRA+Kalajdzievski&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8d45b0bc98bf…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r668-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r668-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2312.03732" target="_blank" rel="noopener">A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Damjan Kalajdzievski
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2312.03732</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:efa582cb19c3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r668-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r668-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Rank+Stabilization+Scaling+Factor+LoRA+Kalajdzievski&amp;format=xml" target="_blank" rel="noopener">A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Damjan Kalajdzievski
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Rank+Stabilization+Scaling+Factor+LoRA+Kalajdzievski&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c17288a98cca…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:31:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:31:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RsLoRA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RsLoRA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
