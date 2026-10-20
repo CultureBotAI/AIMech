@@ -1,0 +1,114 @@
+id: AIMech:ADOREOptimizingDenseRetrievalModelTrainingWithHardNegatives
+name: ADORE and STAR Hard-Negative Dense Retrieval Training Framework
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A two-stage hard-negative training algorithm and theoretical optimization framework for bi-encoder dense retrieval that first trains both query and document encoders with STAR (Stable Training Algorithm for dense Retrieval) by minimizing a weighted RankNet pairwise objective alpha L_r(theta) + L_s(theta) (0 < alpha << 1) combining static pre-retrieved hard negatives L_s(theta) with reused in-batch random negatives L_r(theta), and then freezes the resulting pre-computed (and optionally product-quantized) document index to train the query encoder with ADORE (Algorithm for Directly Optimizing Ranking pErformance) using online dynamic top-K hard negatives D^-_theta = {d^- : 1_{pi(d^-) <= K_q} = 1} retrieved at every step under a metric-weighted LambdaLoss L(d^+, d^-) = Delta_M log(1 + exp(f(q, d^-) - f(q, d^+))), where Delta_M is the change in target IR metric (such as MRR) caused by swapping the ranks of d^+ and d^-.'
+identity_notes: Distinct from ANCE (AIMech:ANCEApproximateNearestNeighborNegativeContrastiveLearning), which periodically re-encodes the entire corpus and rebuilds the ANN index every several thousand steps to refresh static hard negatives without random-negative stabilization or metric-weighted LambdaLoss; and distinct from RocketQA (AIMech:RocketQADenoisedHardNegativeSampling), which uses a cross-encoder teacher to filter static hard negatives rather than online query-side dynamic hard negative retrieval against a fixed document index.
+aliases:
+- ADORE
+- STAR and ADORE
+- ADORE+STAR
+- Algorithm for Directly Optimizing Ranking Performance
+- Stable Training Algorithm for Dense Retrieval and ADORE
+definition_evidence:
+- source_id: r761-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r761-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r761-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: adore-random-vs-top-k-hard-negative-theory
+  kind: mechanism
+  statement: Using the exact rank identity pi(d^+) = delta(d^+) + 1 + sum_{d^- in D^-} 1_{f(q, d^+) < f(q, d^-)} (Equation 3), uniform random negative sampling minimizes total pairwise errors sum_q sum_{d^+} (pi(d^+) - delta(d^+) - 1) (Equation 5), which is unbounded (up to |C|) and empirically dominated by a tiny fraction of difficult queries (0.2% of queries contributing 60% of total errors in Figure 3), whereas top-K hard negative sampling minimizes bounded top-K pairwise errors min(pi(d^+) - delta(d^+) - 1, K) (Equation 6, Theorem 4.1).
+  evidence:
+  - source_id: r761-primary-pdf
+    locator: Sections 3-4 & Section 8.1, Equations 3-6, Theorem 4.1, Figure 3, Table 1, pp. 3, 6-7
+    relation: supports
+  - source_id: r761-primary-pdf
+    locator: main() verification of rank_position identity Eq. 3 and bounded top-K error vs unbounded random error
+    relation: supports
+- claim_id: adore-static-vs-dynamic-hard-negative-mrr-bound
+  kind: mechanism
+  statement: 'Static hard negative sampling over a fixed set D^-_s has a loose quality bound phi(D^-_s) = min_{d^- in D^-_s} pi(d^-) in [1, |C| - |D^-_s| + 1] (Equation 8) so that even when training loss on D^-_s reaches zero, inf(MRR) = E_q[1 / (phi(D^-_s) - |D^+|)] ~ 1/|C| (Equation 9); by contrast, dynamic hard negative sampling D^-_theta = {d^- : 1_{pi(d^-) <= K_q} = 1} (Equation 10) bounds phi(D^-_theta) in [1, |D^+| + 1] and guarantees MRR = 1 when training loss reaches zero (Equations 11-12).'
+  evidence:
+  - source_id: r761-primary-pdf
+    locator: Section 5 Static vs. Dynamic Hard Negatives & Section 8.2, Equations 7-12, Figure 4, pp. 4, 7
+    relation: supports
+  - source_id: r761-primary-pdf
+    locator: main() verification of static zero-loss MRR < 1.0 vs dynamic zero-loss MRR == 1.0
+    relation: supports
+- claim_id: adore-star-and-lambdaloss-query-optimization
+  kind: application
+  statement: Combining STAR document-encoder training (alpha L_r(theta) + L_s(theta), Equation 13) with ADORE query-encoder training under LambdaLoss L(d^+, d^-) = Delta_M log(1 + exp(f(q, d^-) - f(q, d^+))) (Equation 15) achieves 0.347 MRR@10 on MS MARCO Dev Passage and 0.405 MRR@100 on MS MARCO Dev Doc with an 18x-179x training speedup over ANCE and supports end-to-end training directly against Product Quantization (PQ) compressed indexes (Tables 2-5).
+  evidence:
+  - source_id: r761-primary-pdf
+    locator: Sections 6 & 8.3-8.4, Equations 13-15, Tables 2-5, pp. 4-9
+    relation: supports
+  - source_id: r761-metadata-cr
+    locator: BibTeX citation record for arXiv:2104.08051 (SIGIR 2021)
+    relation: supports
+- claim_id: adore-frozen-document-encoder-limitation
+  kind: limitation
+  statement: Because ADORE avoids periodic corpus re-indexing by freezing pre-computed document embeddings throughout dynamic hard negative retrieval, ADORE only updates the query encoder and cannot directly update the document encoder based on dynamic retrieval results; furthermore, over-compressed PQ indexes (e.g., PQ=6) degrade search quality so severely that ADORE degenerates toward random negative sampling (Section 8.4.2, Section 9).
+  evidence:
+  - source_id: r761-primary-pdf
+    locator: Section 6.3, Section 8.4.2 & Section 9 Conclusion, Table 5, pp. 5, 9-10
+    relation: supports
+evidence_sources:
+- source_id: r761-primary-pdf
+  title: Optimizing Dense Retrieval Model Training with Hard Negatives
+  authors: &id001
+  - Jingtao Zhan
+  - Jiaxin Mao
+  - Yiqun Liu
+  - Jiafeng Guo
+  - Min Zhang
+  - Shaoping Ma
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2104.08051
+  persistent_id: https://arxiv.org/bibtex/2104.08051
+  version: Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2021) (2021) (2751459 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:04:00Z'
+  sha256: 32c2565073c8a4eb80737812733224708e998aeb37f1bd9f7fbbf24fea31949b
+- source_id: r761-arxiv-abs
+  title: Optimizing Dense Retrieval Model Training with Hard Negatives (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2104.08051
+  persistent_id: https://arxiv.org/abs/2104.08051
+  version: arXiv abstract page (7596 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:04:00Z'
+  sha256: cb38c4cc57eb847fde3bed93fb1a519582802d9581a318a490889cfa717ee377
+- source_id: r761-metadata-cr
+  title: Optimizing Dense Retrieval Model Training with Hard Negatives (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2104.08051
+  persistent_id: https://arxiv.org/bibtex/2104.08051
+  version: Crossref API work record (430 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:04:00Z'
+  sha256: 4c26ef904aa46d55ddbfe093c5d96234b92d72cc4e650861ea977f6da234f6cf
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: STAR and ADORE optimize neural Transformer dual-encoder query and document embedding networks using stabilized static and dynamic hard negative sampling.
+limitations:
+- ADORE fixes the pre-computed document embeddings and only trains the query encoder, relying on a separate method such as STAR to train the document encoder.
+- When paired with an overly compressed Product Quantization index (e.g., PQ=6), retrieved dynamic negatives are inaccurate and ADORE degenerates to random negative sampling performance.
+curation:
+  created_at: '2026-10-19T14:04:00Z'
+  updated_at: '2026-10-19T14:04:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
