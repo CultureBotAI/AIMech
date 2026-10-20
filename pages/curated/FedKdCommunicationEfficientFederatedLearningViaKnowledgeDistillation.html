@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedKD: Communication-Efficient Federated Learning via Knowledge Distillation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedKD: Communication-Efficient Federated Learning via Knowledge Distillation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedKD: Communication-Efficient Federated Learning via Knowledge Distillation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedKD, Adaptive Mutual Distillation with Dynamic SVD Gradient Compression Federated Learning, Communication-Efficient Federated Learning via Knowledge Distillation
+    </div>
+
+  <div class="detail-desc">
+    A communication-efficient federated learning algorithm (FedKD; Wu, Wu, Lyu, Huang, and Xie, Nature Communications 2022) in which each client i maintains a large local private teacher (mentor) model T_i with parameters Theta_i^t and a smaller shared student (mentee) model S with parameters Theta^s that are trained reciprocally on private local data via task-loss-gated adaptive mutual distillation—combining cross-entropy task losses L_{t,i}^t and L_{s,i}^t with soft-label KL losses L_{t,i}^d = KL(y_i^s, y_i^t) / (L_{t,i}^t + L_{s,i}^t), L_{s,i}^d = KL(y_i^t, y_i^s) / (L_{t,i}^t + L_{s,i}^t) and hidden-state/attention alignment loss L_{t,i}^h = L_{s,i}^h = (MSE(H_i^t, W_i^h H^s) + MSE(A_i^t, A^s)) / (L_{t,i}^t + L_{s,i}^t)—while communicating only the student gradients g_i = dL_{s,i} / dTheta^s compressed by dynamic truncated SVD g_i approx U_i Sigma_i V_i under a linearly increasing singular-value energy threshold T(t) = T_start + (T_end - T_start) t.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from proxy-dataset federated ensemble distillation methods such as FedMD (AIMech:FedMdHeterogeneousFederatedLearningViaPublicDatasetModelDistillation; Li &amp; Wang, 2019) and FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning; Lin et al., NeurIPS 2020), which require a shared or unlabeled public dataset to exchange or ensemble logits; FedKD requires no shared dataset and instead exchanges SVD-factorized gradients of a compact local student model that mutually distills with each client&#39;s private large teacher model. Distinct from FedGKT (AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning; He et al., 2020), which offloads a large classifier to the server and exchanges intermediate feature maps and logits.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fedkd-adaptive-mutual-distillation-and-hidden-alignment-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On each client i, FedKD trains the local teacher T_i and shared student S simultaneously using unified losses L_{t,i} = L_{t,i}^d + L_{t,i}^h + L_{t,i}^t and L_{s,i} = L_{s,i}^d + L_{s,i}^h + L_{s,i}^t, where both the mutual soft-label KL divergence terms KL(y_i^s, y_i^t), KL(y_i^t, y_i^s) and the hidden-state and self-attention MSE alignment term MSE(H_i^t, W_i^h H^s) + MSE(A_i^t, A^s) are scaled by 1 / (L_{t,i}^t + L_{s,i}^t) so that distillation weight is suppressed when task cross-entropy losses are large and amplified as predictions become accurate.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r504-primary-pdf">FedKD: Communication Efficient Federated Learning via Knowledge Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Federated Knowledge Distillation, Eqs. (1)-(7), p. 4; Appendix A.3 Algorithm 1 lines 25-31, p. 12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#fedkd-dynamic-svd-gradient-approximation-and-complexity-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Before uploading or broadcasting student gradients g_i in R^{P x Q} (with P &gt;= Q), FedKD factorizes g_i approx U_i Sigma_i V_i retaining the smallest number K of singular values satisfying (sum_{m=1}^K sigma_m^2) / (sum_{m=1}^Q sigma_m^2) &gt; T(t) with linear energy schedule T(t) = T_start + (T_end - T_start) t for t in [0, 1]; whenever P K + K^2 + K Q &lt; P Q, communication cost scales as O(R |Theta^s| / rho) with compression ratio rho = P Q / (P K + K^2 + K Q) &gt; 1 and |Theta^s| &lt;&lt; |Theta^t|, while total client/server computation scales as O(R D |Theta^t| + R D |Theta^s| + R P Q^2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r504-primary-pdf">FedKD: Communication Efficient Federated Learning via Knowledge Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 Dynamic Gradients Approximation, Eqs. (8)-(9), and Section 3.4 Complexity Analysis, p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fedkd-local-teacher-compute-and-energy-threshold-sensitivity-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each client must locally store and backpropagate through both the full-size teacher model T_i and the student model S plus compute per-round SVD factorizations (incurring O(R D |Theta^t| + R D |Theta^s| + R P Q^2) local compute), and setting the starting SVD energy threshold T_start &lt; 0.95 causes a sharp drop in downstream model accuracy due to excessive early gradient truncation (Section 3.4, p. 5; Section 4.5, Fig. 5, p. 8).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r504-primary-pdf">FedKD: Communication Efficient Federated Learning via Knowledge Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4 Complexity Analysis, p. 5; Section 4.5 Impact of Energy Threshold, Fig. 5, p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#fedkd-pretrained-language-model-news-and-biomedical-nlp-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to federated fine-tuning and distillation of pre-trained Transformer language models (12-layer UniLM local teachers with 2-layer and 4-layer student submodels) for personalized news recommendation (MIND) and adverse drug reaction tweet classification (SMM4H).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r504-primary-pdf">FedKD: Communication Efficient Federated Learning via Knowledge Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Experiments, Tables 1-3, Figs. 2-7, pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires each client device to have sufficient memory and compute to train the large local teacher model T_i alongside the shared student model S (O(R D |Theta^t| + R D |Theta^s| + R P Q^2) computational complexity, Section 3.4, p. 5).</li>
+      <li>SVD gradient compression only reduces communication when the retained rank K satisfies P K + K^2 + K Q &lt; P Q, and late-stage gradients have flatter singular spectra requiring larger K to meet Tend (Section 3.3, p. 5; Section 4.6, Fig. 7, p. 8).</li>
+      <li>Setting the initial energy threshold T_start below 0.95 degrades model accuracy due to overly coarse early gradient approximations (Section 4.5, Fig. 5a, p. 8).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedKD is a communication-efficient federated learning algorithm combining mutual knowledge distillation with dynamic SVD gradient compression.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r504-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r504-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2108.13323.pdf" target="_blank" rel="noopener">FedKD: Communication Efficient Federated Learning via Knowledge Distillation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chuhan Wu, Fangzhao Wu, Lingjuan Lyu, Yongfeng Huang, Xing Xie
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1038/s41467-022-29763-x</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7dc0558dda59…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r504-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r504-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2108.13323" target="_blank" rel="noopener">FedKD: Communication Efficient Federated Learning via Knowledge Distillation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chuhan Wu, Fangzhao Wu, Lingjuan Lyu, Yongfeng Huang, Xing Xie
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2108.13323</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a163eed9cca8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r504-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r504-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1038/s41467-022-29763-x" target="_blank" rel="noopener">FedKD: Communication Efficient Federated Learning via Knowledge Distillation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chuhan Wu, Fangzhao Wu, Lingjuan Lyu, Yongfeng Huang, Xing Xie
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1038/s41467-022-29763-x</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c287d5419aa5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:47:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:47:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

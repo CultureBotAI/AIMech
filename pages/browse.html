@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1340</strong> artificial intelligence concepts, comprising <strong>898</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1341</strong> artificial intelligence concepts, comprising <strong>899</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1340)</option>
-        <option value="curated">Curated AIMech (898)</option>
+        <option value="all">All Origins (1341)</option>
+        <option value="curated">Curated AIMech (899)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (596)</option>
+          <option value="algorithm">Algorithms (597)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1340</span> of <span id="totalCount">1340</span>
+      Showing <span id="matchCount">1341</span> of <span id="totalCount">1341</span>
     </div>
   </div>
 </div>
@@ -10921,6 +10921,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:FedIirImplicitInvariantRelationshipsForOutOfDistributionFederatedLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fedkd: communication-efficient federated learning via knowledge distillation fedkdcommunicationefficientfederatedlearningviaknowledgedistillation aimech:fedkdcommunicationefficientfederatedlearningviaknowledgedistillation algorithms algorithm a communication-efficient federated learning algorithm (fedkd; wu, wu, lyu, huang, and xie, nature communications 2022) in which each client i maintains a large local private teacher (mentor) model t_i with parameters theta_i^t and a smaller shared student (mentee) model s with parameters theta^s that are trained reciprocally on private local data via task-loss-gated adaptive mutual distillation—combining cross-entropy task losses l_{t,i}^t and l_{s,i}^t with soft-label kl losses l_{t,i}^d = kl(y_i^s, y_i^t) / (l_{t,i}^t + l_{s,i}^t), l_{s,i}^d = kl(y_i^t, y_i^s) / (l_{t,i}^t + l_{s,i}^t) and hidden-state/attention alignment loss l_{t,i}^h = l_{s,i}^h = (mse(h_i^t, w_i^h h^s) + mse(a_i^t, a^s)) / (l_{t,i}^t + l_{s,i}^t)—while communicating only the student gradients g_i = dl_{s,i} / dtheta^s compressed by dynamic truncated svd g_i approx u_i sigma_i v_i under a linearly increasing singular-value energy threshold t(t) = t_start + (t_end - t_start) t. distinct from proxy-dataset federated ensemble distillation methods such as fedmd (aimech:fedmdheterogeneousfederatedlearningviapublicdatasetmodeldistillation; li &amp; wang, 2019) and feddf (aimech:feddfensembledistillationforrobustmodelfusioninfederatedlearning; lin et al., neurips 2020), which require a shared or unlabeled public dataset to exchange or ensemble logits; fedkd requires no shared dataset and instead exchanges svd-factorized gradients of a compact local student model that mutually distills with each client&#39;s private large teacher model. distinct from fedgkt (aimech:fedgktgroupknowledgetransferforedgefederatedlearning; he et al., 2020), which offloads a large classifier to the server and exchanges intermediate feature maps and logits. fedkd adaptive mutual distillation with dynamic svd gradient compression federated learning communication-efficient federated learning via knowledge distillation on each client i, fedkd trains the local teacher t_i and shared student s simultaneously using unified losses l_{t,i} = l_{t,i}^d + l_{t,i}^h + l_{t,i}^t and l_{s,i} = l_{s,i}^d + l_{s,i}^h + l_{s,i}^t, where both the mutual soft-label kl divergence terms kl(y_i^s, y_i^t), kl(y_i^t, y_i^s) and the hidden-state and self-attention mse alignment term mse(h_i^t, w_i^h h^s) + mse(a_i^t, a^s) are scaled by 1 / (l_{t,i}^t + l_{s,i}^t) so that distillation weight is suppressed when task cross-entropy losses are large and amplified as predictions become accurate. before uploading or broadcasting student gradients g_i in r^{p x q} (with p &gt;= q), fedkd factorizes g_i approx u_i sigma_i v_i retaining the smallest number k of singular values satisfying (sum_{m=1}^k sigma_m^2) / (sum_{m=1}^q sigma_m^2) &gt; t(t) with linear energy schedule t(t) = t_start + (t_end - t_start) t for t in [0, 1]; whenever p k + k^2 + k q &lt; p q, communication cost scales as o(r |theta^s| / rho) with compression ratio rho = p q / (p k + k^2 + k q) &gt; 1 and |theta^s| &lt;&lt; |theta^t|, while total client/server computation scales as o(r d |theta^t| + r d |theta^s| + r p q^2). each client must locally store and backpropagate through both the full-size teacher model t_i and the student model s plus compute per-round svd factorizations (incurring o(r d |theta^t| + r d |theta^s| + r p q^2) local compute), and setting the starting svd energy threshold t_start &lt; 0.95 causes a sharp drop in downstream model accuracy due to excessive early gradient truncation (section 3.4, p. 5; section 4.5, fig. 5, p. 8). applied to federated fine-tuning and distillation of pre-trained transformer language models (12-layer unilm local teachers with 2-layer and 4-layer student submodels) for personalized news recommendation (mind) and adverse drug reaction tweet classification (smm4h). fedkd: communication efficient federated learning via knowledge distillation fedkd: communication efficient federated learning via knowledge distillation (arxiv abstract) fedkd: communication efficient federated learning via knowledge distillation (crossref metadata) chuhan wu fangzhao wu lingjuan lyu yongfeng huang xing xie chuhan wu fangzhao wu lingjuan lyu yongfeng huang xing xie chuhan wu fangzhao wu lingjuan lyu yongfeng huang xing xie">
+        <td>
+          <a href="curated/FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation.html" style="font-weight: 600; font-size: 1rem;">FedKD: Communication-Efficient Federated Learning via Knowledge Distillation</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedKD, Adaptive Mutual Distillation with Dynamic SVD Gradient Compression Federated Learning…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A communication-efficient federated learning algorithm (FedKD; Wu, Wu, Lyu, Huang, and Xie, Nature Communications 2022) in which each client…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
