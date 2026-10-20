@@ -1,0 +1,107 @@
+id: AIMech:TensorNormalTrainingKroneckerNaturalGradientOptimization
+name: Tensor Normal Training (TNT Kronecker-Factored Natural Gradient Optimization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A structure-aware second-order natural gradient optimization algorithm for deep neural networks that approximates each layer's block-diagonal Fisher information matrix by fitting a zero-mean Tensor Normal distribution TN(0, U_1, ..., U_k) to the model-sampled gradient tensor G via Kullback-Leibler divergence minimization, estimating each mode-j Kronecker covariance factor as U_j = (1 / prod_{l != j} d_l) E[G_{(j)} G_{(j)}^T] from the mode-j matricization G_{(j)} and preconditioning momentum updates by the Kronecker product of damped inverse covariance factors.
+identity_notes: Distinct from Shampoo (AIMech:ShampooPreconditionedStochasticTensorOptimization), which accumulates unnormalized empirical-gradient outer products E[G_{(j)} G_{(j)}^T] on dataset labels without dividing by prod_{l != j} d_l and preconditions via fractional matrix powers L_j^{-1/(2k)} (an upper bound approximating the square root of the empirical Fisher rather than the true Fisher). Distinct from K-FAC (AIMech:KfacKroneckerFactoredApproximateCurvature), which factors layer curvature into forward activation covariance A A^T and backpropagated pre-activation gradient covariance E_F E_F^T and requires architecture-specific derivations and approximations for convolutional and attention layers, whereas TNT operates directly on the parameter gradient tensor G of any layer shape.
+aliases:
+- Tensor Normal Training
+- TNT Optimizer
+- Tensor Normal Natural Gradient Method
+- Simulation-Based Tensor-Normal Fisher Preconditioning
+definition_evidence:
+- source_id: r642-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r642-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r642-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: tnt-tensor-normal-kl-minimization-theorem1-mechanism
+  kind: mechanism
+  statement: Theorem 1 proves that for a zero-mean k-way gradient tensor G in R^{d_1 x ... x d_k}, the Kullback-Leibler divergence D_KL(p(G) || TN(0, U_1, ..., U_k)) between the true gradient distribution and a Tensor Normal distribution with Kronecker covariance Sigma = U_k (x) ... (x) U_1 is minimized if and only if U_j = (1 / prod_{l != j} d_l) E[G_{(j)} (bigotimes_{l != j} U_l^{-1}) G_{(j)}^T] for all j = 1, ..., k, which TNT simplifies by setting U_l = I_{d_l} inside the expectation to obtain the decoupled mode-j matricization estimator U_j = (1 / prod_{l != j} d_l) E[G_{(j)} G_{(j)}^T].
+  evidence:
+  - source_id: r642-primary-pdf
+    locator: Section 2.2 Theorem 1, Equation (7), and Appendix A, pages 3-4, 15
+    relation: supports
+- claim_id: tnt-sampled-fisher-and-inverse-mode-contraction-mechanism
+  kind: mechanism
+  statement: To approximate the true Fisher information matrix (equivalent to the generalized Gauss-Newton matrix) rather than the empirical Fisher, TNT samples auxiliary outputs y ~ p(y | x, theta) from the model's predictive distribution, computes the per-layer auxiliary gradient G, updates exponential moving averages of U_j = (1 / prod_{l != j} d_l) G_{(j)} G_{(j)}^T every T_1 steps, inverts (U_j + epsilon I)^{-1} every T_2 steps, and preconditions the momentum tensor M via mode-1 through mode-k tensor-matrix products.
+  evidence:
+  - source_id: r642-primary-pdf
+    locator: Section 2.2-2.3 and Section 3 Algorithm 1, pages 4-6
+    relation: supports
+- claim_id: tnt-architecture-agnostic-tensor-parameter-scope
+  kind: scope
+  statement: Because TNT constructs its Kronecker factors solely from the mode unfoldings G_{(j)} of each parameter gradient tensor (requiring only O(sum_{j=1}^k d_j^2) memory and O(sum_{j=1}^k d_j^3) inversion cost per tensor), it applies uniformly to convolutional filters (3D tensors after merging spatial dimensions), bias vectors (reshaped as 2D matrices), batch normalization weights, and attention layers without layer-type-specific activation hooks.
+  evidence:
+  - source_id: r642-primary-pdf
+    locator: Section 1, Section 2.3, and Section 3 Implementation Details, pages 2, 4-6
+    relation: supports
+- claim_id: tnt-autoencoder-and-cnn-generalization-application
+  kind: application
+  statement: On deep autoencoder optimization benchmarks (MNIST, FACES, CURVES) and image classification tasks (VGG16 and ResNet-32/34/50 on CIFAR-10, CIFAR-100, SVHN, and ImageNet), TNT achieves faster per-epoch and wall-clock convergence than SGD, Adam, Shampoo, and K-FAC while reaching comparable or higher validation accuracy.
+  evidence:
+  - source_id: r642-primary-pdf
+    locator: Section 4.1-4.2 Figures 1-4 and Table 1, pages 7-9
+    relation: supports
+- claim_id: tnt-per-sample-gradient-and-extra-backward-pass-limitation
+  kind: limitation
+  statement: Exact evaluation of the Tensor Normal statistics requires per-datapoint gradients G_{(j)} from an additional backward pass on model-sampled labels (or rank-1 mini-batch approximations hat{G} hat{G}^T across sub-batches), adding extra backpropagation overhead at steps where curvature statistics are updated.
+  evidence:
+  - source_id: r642-primary-pdf
+    locator: Section 3 Algorithm 1 and Computational Cost discussion, pages 5-7
+    relation: supports
+evidence_sources:
+- source_id: r642-primary-pdf
+  title: Tensor Normal Training for Deep Learning Models
+  authors: &id001
+  - Yi Ren
+  - Donald Goldfarb
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.02925.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/RenG21
+  version: Advances in Neural Information Processing Systems 34 (NeurIPS 2021) (2021) (1350223 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:05:00Z'
+  sha256: 946995faa2d324885231840dbdefd101e6398bfdc16eac68e2ff65e762fb471f
+- source_id: r642-arxiv-abs
+  title: Tensor Normal Training for Deep Learning Models (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.02925
+  persistent_id: https://arxiv.org/abs/2106.02925
+  version: arXiv abstract page (7102 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:05:00Z'
+  sha256: 7775dd2bba415ae04d10f05fef761e6bd096887b66da163914986cfb0aec23f2
+- source_id: r642-metadata-cr
+  title: Tensor Normal Training for Deep Learning Models (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/RenG21
+  persistent_id: https://dblp.org/rec/conf/nips/RenG21
+  version: Crossref API work record (1626 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:05:00Z'
+  sha256: a12e1b800dd5c999e813aee1045f8b9260189a8f55e5c11e47798145cee7d9e6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Tensor Normal Training is a Kronecker-factored natural gradient optimizer for training convolutional, recurrent, and fully connected deep neural networks.
+limitations:
+- Requires an extra backward pass with model-sampled labels at statistics-update iterations (every T_1 steps) to estimate the true Fisher rather than the empirical Fisher.
+- Simplifies the coupled Theorem 1 stationarity equations by setting U_l = I_{d_l} inside the expectation, introducing a mild trace-scaling approximation when factor spectra are highly anisotropic.
+curation:
+  created_at: '2026-10-19T12:05:00Z'
+  updated_at: '2026-10-19T12:05:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

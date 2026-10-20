@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tensor Normal Training (TNT Kronecker-Factored Natural Gradient Optimization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Tensor Normal Training (TNT Kronecker-Factored Natural Gradient Optimization)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Tensor Normal Training (TNT Kronecker-Factored Natural Gradient Optimization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:TensorNormalTrainingKroneckerNaturalGradientOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Tensor Normal Training, TNT Optimizer, Tensor Normal Natural Gradient Method, Simulation-Based Tensor-Normal Fisher Preconditioning
+    </div>
+
+  <div class="detail-desc">
+    A structure-aware second-order natural gradient optimization algorithm for deep neural networks that approximates each layer&#39;s block-diagonal Fisher information matrix by fitting a zero-mean Tensor Normal distribution TN(0, U_1, ..., U_k) to the model-sampled gradient tensor G via Kullback-Leibler divergence minimization, estimating each mode-j Kronecker covariance factor as U_j = (1 / prod_{l != j} d_l) E[G_{(j)} G_{(j)}^T] from the mode-j matricization G_{(j)} and preconditioning momentum updates by the Kronecker product of damped inverse covariance factors.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Shampoo (AIMech:ShampooPreconditionedStochasticTensorOptimization), which accumulates unnormalized empirical-gradient outer products E[G_{(j)} G_{(j)}^T] on dataset labels without dividing by prod_{l != j} d_l and preconditions via fractional matrix powers L_j^{-1/(2k)} (an upper bound approximating the square root of the empirical Fisher rather than the true Fisher). Distinct from K-FAC (AIMech:KfacKroneckerFactoredApproximateCurvature), which factors layer curvature into forward activation covariance A A^T and backpropagated pre-activation gradient covariance E_F E_F^T and requires architecture-specific derivations and approximations for convolutional and attention layers, whereas TNT operates directly on the parameter gradient tensor G of any layer shape.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#tnt-tensor-normal-kl-minimization-theorem1-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 1 proves that for a zero-mean k-way gradient tensor G in R^{d_1 x ... x d_k}, the Kullback-Leibler divergence D_KL(p(G) || TN(0, U_1, ..., U_k)) between the true gradient distribution and a Tensor Normal distribution with Kronecker covariance Sigma = U_k (x) ... (x) U_1 is minimized if and only if U_j = (1 / prod_{l != j} d_l) E[G_{(j)} (bigotimes_{l != j} U_l^{-1}) G_{(j)}^T] for all j = 1, ..., k, which TNT simplifies by setting U_l = I_{d_l} inside the expectation to obtain the decoupled mode-j matricization estimator U_j = (1 / prod_{l != j} d_l) E[G_{(j)} G_{(j)}^T].
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r642-primary-pdf">Tensor Normal Training for Deep Learning Models</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 Theorem 1, Equation (7), and Appendix A, pages 3-4, 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#tnt-sampled-fisher-and-inverse-mode-contraction-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To approximate the true Fisher information matrix (equivalent to the generalized Gauss-Newton matrix) rather than the empirical Fisher, TNT samples auxiliary outputs y ~ p(y | x, theta) from the model&#39;s predictive distribution, computes the per-layer auxiliary gradient G, updates exponential moving averages of U_j = (1 / prod_{l != j} d_l) G_{(j)} G_{(j)}^T every T_1 steps, inverts (U_j + epsilon I)^{-1} every T_2 steps, and preconditions the momentum tensor M via mode-1 through mode-k tensor-matrix products.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r642-primary-pdf">Tensor Normal Training for Deep Learning Models</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2-2.3 and Section 3 Algorithm 1, pages 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#tnt-architecture-agnostic-tensor-parameter-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because TNT constructs its Kronecker factors solely from the mode unfoldings G_{(j)} of each parameter gradient tensor (requiring only O(sum_{j=1}^k d_j^2) memory and O(sum_{j=1}^k d_j^3) inversion cost per tensor), it applies uniformly to convolutional filters (3D tensors after merging spatial dimensions), bias vectors (reshaped as 2D matrices), batch normalization weights, and attention layers without layer-type-specific activation hooks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r642-primary-pdf">Tensor Normal Training for Deep Learning Models</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Section 2.3, and Section 3 Implementation Details, pages 2, 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#tnt-autoencoder-and-cnn-generalization-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On deep autoencoder optimization benchmarks (MNIST, FACES, CURVES) and image classification tasks (VGG16 and ResNet-32/34/50 on CIFAR-10, CIFAR-100, SVHN, and ImageNet), TNT achieves faster per-epoch and wall-clock convergence than SGD, Adam, Shampoo, and K-FAC while reaching comparable or higher validation accuracy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r642-primary-pdf">Tensor Normal Training for Deep Learning Models</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2 Figures 1-4 and Table 1, pages 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#tnt-per-sample-gradient-and-extra-backward-pass-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Exact evaluation of the Tensor Normal statistics requires per-datapoint gradients G_{(j)} from an additional backward pass on model-sampled labels (or rank-1 mini-batch approximations hat{G} hat{G}^T across sub-batches), adding extra backpropagation overhead at steps where curvature statistics are updated.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r642-primary-pdf">Tensor Normal Training for Deep Learning Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Algorithm 1 and Computational Cost discussion, pages 5-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an extra backward pass with model-sampled labels at statistics-update iterations (every T_1 steps) to estimate the true Fisher rather than the empirical Fisher.</li>
+      <li>Simplifies the coupled Theorem 1 stationarity equations by setting U_l = I_{d_l} inside the expectation, introducing a mild trace-scaling approximation when factor spectra are highly anisotropic.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Tensor Normal Training is a Kronecker-factored natural gradient optimizer for training convolutional, recurrent, and fully connected deep neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r642-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r642-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2106.02925.pdf" target="_blank" rel="noopener">Tensor Normal Training for Deep Learning Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yi Ren, Donald Goldfarb
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/RenG21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:946995faa2d3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r642-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r642-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2106.02925" target="_blank" rel="noopener">Tensor Normal Training for Deep Learning Models (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yi Ren, Donald Goldfarb
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2106.02925</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7775dd2bba41…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r642-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r642-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/RenG21" target="_blank" rel="noopener">Tensor Normal Training for Deep Learning Models (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yi Ren, Donald Goldfarb
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/RenG21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a12e1b800dd5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:05:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:05:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TensorNormalTrainingKroneckerNaturalGradientOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TensorNormalTrainingKroneckerNaturalGradientOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
