@@ -1,0 +1,107 @@
+id: AIMech:MoRA
+name: MoRA
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient fine-tuning algorithm that replaces the pair of rectangular low-rank adapter matrices in LoRA with a single trainable square matrix M of size r_hat x r_hat (where r_hat = floor(sqrt((d + k) r))) bookended by non-parameterized linear input-compression and output-decompression operators that expand M losslessly into a high-rank weight update matrix Delta_W.
+identity_notes: "Distinct from AIMech:LowRankAdaptation (LoRA), which uses (d + k) r trainable parameters across two rectangular matrices A in R^{r x k} and B in R^{d x r} and is algebraically restricted to rank(Delta_W) <= r, and from AIMech:MELoRA, which trains n separate mini-LoRA adapters B_i A_i along the block diagonal. MoRA (Ting Jiang, Shaohan Huang, Shengyue Luo, Zihan Zhang, Haizhen Huang, Furu Wei, Weiwei Deng, Feng Sun, Qi Zhang, Deqing Wang, and Fuzhen Zhuang, arXiv:2405.12130) maximizes update rank under the exact same parameter budget (d + k) r by allocating a single square matrix M in R^{r_hat x r_hat} with r_hat = floor(sqrt((d + k) r)) >> r (for example, r_hat = 256 versus r = 8 when d = k = 4096). Non-parameterized linear operators f_comp: R^k -> R^{r_hat} (or R^{n x r_hat}) and f_decomp: R^{r_hat} -> R^d\u2014instantiated via row/column group sharing (Equations 6-7) for large ranks or input chunk reshaping with RoPE-inspired 2D block-diagonal rotations R_{theta_j, i} (Equations 8-11) for smaller ranks\u2014satisfy f_decomp(M f_comp(x)) = Delta_W x for all x in R^k, allowing M to be merged into W_0 with zero inference latency overhead."
+aliases:
+- MoRA High-Rank Updating
+- Square-Matrix High-Rank Parameter-Efficient Fine-Tuning
+definition_evidence:
+- source_id: r667-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r667-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r667-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: mora-square-matrix-rank-amplification-under-equal-budget
+  kind: mechanism
+  statement: Given a pretrained weight matrix W_0 in R^{d x k} and a LoRA parameter budget of (d + k) r trainable weights, MoRA parameterizes the adapter as a single square matrix M in R^{r_hat x r_hat} with r_hat = floor(sqrt((d + k) r)), raising the maximum achievable rank of the weight update from r to r_hat (or up to d under chunk decoupling) without increasing trainable parameter count.
+  evidence:
+  - source_id: r667-primary-pdf
+    locator: Section 1 & Section 4 (Method), pp. 2, 4, Equations (2)-(3)
+    relation: supports
+- claim_id: mora-nonparameterized-sharing-and-rotational-decoupling-operators
+  kind: mechanism
+  statement: "MoRA pairs M with linear non-parameterized compression and decompression operators\u2014either summing input coordinates within predefined groups g and broadcasting outputs across groups g' (Delta_W_{i,j} = M_{g'_i, g_j}) or reshaping x into n chunks of size r_hat rotated by 2D block-diagonal rotation matrices R_{theta_j, i} before multiplying by M\u2014such that f_decomp(M f_comp(x)) = Delta_W x merges losslessly into W_0."
+  evidence:
+  - source_id: r667-primary-pdf
+    locator: Section 4 (Method), pp. 4-5, Equations (3)-(11)
+    relation: supports
+- claim_id: mora-application-knowledge-memorization-and-continual-pretraining
+  kind: application
+  statement: On memory-intensive UUID pair memorization, biomedical and financial continual pretraining of LLaMA-2-7B, and C4 transformer pretraining from scratch (including periodic merge-and-reinit ReMoRA with alternating group patterns), MoRA achieves substantially higher singular-value spectra and outperforms LoRA and ReLoRA while matching LoRA on instruction tuning and mathematical reasoning.
+  evidence:
+  - source_id: r667-primary-pdf
+    locator: Section 5 (Experiment) & Section 6 (Analysis), Tables 1-4 & Figures 3-5, pp. 5-8
+    relation: supports
+- claim_id: mora-limitation-compression-information-loss-or-reshape-overhead
+  kind: limitation
+  statement: When r_hat is small relative to d and k, row/column group sharing averages many input coordinates into each entry of M and degrades accuracy due to compression information loss, whereas the chunk-reshaping and rotation operators avoid compression loss at the cost of applying M across n = k / r_hat chunks during training and producing a block-diagonal Delta_W.
+  evidence:
+  - source_id: r667-primary-pdf
+    locator: Section 4 & Section 6.2 (Influence of Decompression and Compression), pp. 4-5, 8, Table 4
+    relation: supports
+evidence_sources:
+- source_id: r667-primary-pdf
+  title: 'MoRA: High-Rank Updating for Parameter-Efficient Fine-Tuning'
+  authors: &id001
+  - Ting Jiang
+  - Shaohan Huang
+  - Shengyue Luo
+  - Zihan Zhang
+  - Haizhen Huang
+  - Furu Wei
+  - Weiwei Deng
+  - Feng Sun
+  - Qi Zhang
+  - Deqing Wang
+  - Fuzhen Zhuang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2405.12130
+  persistent_id: https://dblp.org/search/publ/api?q=MoRA+High-Rank+Updating+Parameter-Efficient&format=xml
+  version: arXiv Computing Research Repository (CoRR) (2024) (1034190 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:30:00Z'
+  sha256: ce1ef4c2e094edb59c096ec2af288711e8e662062d4efced6c80ee74b8f571fe
+- source_id: r667-arxiv-abs
+  title: 'MoRA: High-Rank Updating for Parameter-Efficient Fine-Tuning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2405.12130
+  persistent_id: https://arxiv.org/abs/2405.12130
+  version: arXiv abstract page (6565 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:30:00Z'
+  sha256: ec972b1faeb2314b13198d396eae20bc8d2496e67ae9e5cd0f7d371fca45400b
+- source_id: r667-metadata-cr
+  title: 'MoRA: High-Rank Updating for Parameter-Efficient Fine-Tuning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=MoRA+High-Rank+Updating+Parameter-Efficient&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=MoRA+High-Rank+Updating+Parameter-Efficient&format=xml
+  version: Crossref API work record (841 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:30:00Z'
+  sha256: c6aa60a39cf51c8d7488189430867cac65fe8464510587b9860896db937e5ea2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: MoRA adapts linear projection layers in deep artificial neural networks using high-rank square-matrix updates.
+limitations:
+- Under row and column group sharing at small ranks (e.g., r = 8 where 16 rows/columns share a single entry of M), summing large coordinate groups causes information loss during input compression.
+- Under chunk decoupling and rotation (Equations 8-9), the merged weight update Delta_W is restricted to a block-diagonal matrix with blocks P^i = M R_i, and periodic merging (ReMoRA) requires alternating group definitions across merge boundaries to continue increasing rank.
+curation:
+  created_at: '2026-10-19T12:30:00Z'
+  updated_at: '2026-10-19T12:30:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
