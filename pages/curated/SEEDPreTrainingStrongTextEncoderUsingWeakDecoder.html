@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEED Pre-Training a Strong Text Encoder Using a Weak Decoder · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>SEED Pre-Training a Strong Text Encoder Using a Weak Decoder</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SEED Pre-Training a Strong Text Encoder Using a Weak Decoder</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:SEEDPreTrainingStrongTextEncoderUsingWeakDecoder</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SEED-Encoder, SEED Weak-Decoder Pre-Training for Dense Retrieval, Pre-Training a Strong Text Encoder for Dense Retrieval Using a Weak Decoder
+    </div>
+
+  <div class="detail-desc">
+    A representation-bottleneck encoder-decoder pre-training architecture for dense text retrieval (SEED-Encoder) that encodes a masked input passage with a deep bidirectional Transformer encoder (trained with masked language modeling) into a single dense [CLS] representation vector and feeds only that [CLS] vector—blocking all non-[CLS] token representations from the encoder—to a structurally weakened autoregressive Transformer decoder (few layers and a restricted local self-attention span k where decoding step i can attend only to the encoder [CLS] vector and at most the preceding k local tokens i-k+1..i) to reconstruct the original uncorrupted document, thereby forcing global semantic information into the encoder [CLS] embedding before discarding the weak decoder for dense retrieval fine-tuning.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Condenser (AIMech:CondenserPreTrainingArchitectureForDenseRetrieval), which uses a bidirectional MLM head with late-to-early skip connections rather than an autoregressive decoder with restricted local attention span k; distinct from RetroMAE (AIMech:RetroMAERetrievalOrientedMaskedAutoEncoder) and SimLM (AIMech:SimLMRepresentationBottleneckPreTraining), which use shallow bidirectional decoders with masked or generator-replaced tokens rather than causal autoregressive decoding with restricted attention span k; and distinct from standard BART/T5 seq2seq pre-training, which passes all encoder token embeddings via cross-attention and uses a strong full-span decoder.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#seed-cls-bottleneck-and-weak-decoder-span</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    SEED-Encoder disconnects cross-attention to non-[CLS] encoder token representations so that the decoder accesses the encoder exclusively through the dense [CLS] vector, and weakens the autoregressive decoder Along two axes—shallow depth (e.g., 1 to 3 layers) and restricted local attention span k (where position i only attends to the encoder [CLS] vector and local tokens i-k+1..i)—so the decoder cannot rely on long-range causal language modeling and must extract global passage semantics from the [CLS] vector.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r760-primary-pdf">Less is More: Pre-train a Strong Text Encoder for Dense Retrieval Using a Weak Decoder</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Pre-training with a Weak Decoder, Figure 1, pp. 3-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r760-primary-pdf">Less is More: Pre-train a Strong Text Encoder for Dense Retrieval Using a Weak Decoder</a></span>
+        <span>· <strong>Locator:</strong> main() verification of restricted_attention_mask(seq_len, span_k=3) and amplification of gradient w.r.t. encoder [CLS] summary c_cls</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#seed-ablation-of-decoder-strength</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Ablation studies across decoder depth and attention span k (Table 4) demonstrate that overly strong decoders (unlimited attention span k = All or deeper 6-layer decoders) degrade downstream dense retrieval accuracy because the decoder solves autoregressive next-token prediction from local/causal context without forcing information through the encoder [CLS] bottleneck, whereas a 3-layer decoder with restricted span k = 2 or 3 maximizes retrieval MRR and Recall.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r760-primary-pdf">Less is More: Pre-train a Strong Text Encoder for Dense Retrieval Using a Weak Decoder</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 Ablation Study, Table 4, pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#seed-dense-retrieval-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Pre-training with SEED-Encoder improves dense retrieval across both in-batch negative training and ANCE hard-negative training on MS MARCO Passage Ranking, MS MARCO Document Ranking, and Natural Questions (Tables 1-3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r760-primary-pdf">Less is More: Pre-train a Strong Text Encoder for Dense Retrieval Using a Weak Decoder</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Main Results, Tables 1-3, pp. 5-6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r760-metadata-cr">Less is More: Pre-train a Strong Text Encoder for Dense Retrieval Using a Weak Decoder (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> BibTeX citation record for arXiv:2102.09206 (EMNLP 2021)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#seed-span-tuning-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Setting the decoder attention span too small (k = 1, degenerating toward bag-of-words prediction) or too large (k = All, full causal attention) hurts downstream dense retrieval performance (Table 4), requiring careful tuning of decoder capacity relative to encoder size.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r760-primary-pdf">Less is More: Pre-train a Strong Text Encoder for Dense Retrieval Using a Weak Decoder</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 Ablation Study, Table 4, pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Downstream retrieval quality is sensitive to the balance of decoder weakness (attention span k and number of decoder layers); both k=1 and unrestricted causal attention underperform k=2..3.</li>
+      <li>Adds an auxiliary autoregressive decoder during pre-training before discarding it for fine-tuning.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SEED-Encoder is a specialized Transformer encoder-decoder neural network architecture with an information bottleneck at the [CLS] representation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r760-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r760-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2102.09206" target="_blank" rel="noopener">Less is More: Pre-train a Strong Text Encoder for Dense Retrieval Using a Weak Decoder</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shuqi Lu, Di He, Chenyan Xiong, Guolin Ke, Waleed Malik, Zhicheng Dou, Paul Bennett, Tie-Yan Liu, Arnold Overwijk
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2102.09206</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:695cce710bef…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r760-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r760-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2102.09206" target="_blank" rel="noopener">Less is More: Pre-train a Strong Text Encoder for Dense Retrieval Using a Weak Decoder (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shuqi Lu, Di He, Chenyan Xiong, Guolin Ke, Waleed Malik, Zhicheng Dou, Paul Bennett, Tie-Yan Liu, Arnold Overwijk
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2102.09206</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7c011ea11b9c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r760-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r760-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2102.09206" target="_blank" rel="noopener">Less is More: Pre-train a Strong Text Encoder for Dense Retrieval Using a Weak Decoder (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shuqi Lu, Di He, Chenyan Xiong, Guolin Ke, Waleed Malik, Zhicheng Dou, Paul Bennett, Tie-Yan Liu, Arnold Overwijk
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2102.09206</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0ff932db33e5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:03:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:03:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SEEDPreTrainingStrongTextEncoderUsingWeakDecoder.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SEEDPreTrainingStrongTextEncoderUsingWeakDecoder.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,112 @@
+id: AIMech:SEEDPreTrainingStrongTextEncoderUsingWeakDecoder
+name: SEED Pre-Training a Strong Text Encoder Using a Weak Decoder
+concept_kind: architecture
+review_status: DRAFT
+definition: "A representation-bottleneck encoder-decoder pre-training architecture for dense text retrieval (SEED-Encoder) that encodes a masked input passage with a deep bidirectional Transformer encoder (trained with masked language modeling) into a single dense [CLS] representation vector and feeds only that [CLS] vector\u2014blocking all non-[CLS] token representations from the encoder\u2014to a structurally weakened autoregressive Transformer decoder (few layers and a restricted local self-attention span k where decoding step i can attend only to the encoder [CLS] vector and at most the preceding k local tokens i-k+1..i) to reconstruct the original uncorrupted document, thereby forcing global semantic information into the encoder [CLS] embedding before discarding the weak decoder for dense retrieval fine-tuning."
+identity_notes: Distinct from Condenser (AIMech:CondenserPreTrainingArchitectureForDenseRetrieval), which uses a bidirectional MLM head with late-to-early skip connections rather than an autoregressive decoder with restricted local attention span k; distinct from RetroMAE (AIMech:RetroMAERetrievalOrientedMaskedAutoEncoder) and SimLM (AIMech:SimLMRepresentationBottleneckPreTraining), which use shallow bidirectional decoders with masked or generator-replaced tokens rather than causal autoregressive decoding with restricted attention span k; and distinct from standard BART/T5 seq2seq pre-training, which passes all encoder token embeddings via cross-attention and uses a strong full-span decoder.
+aliases:
+- SEED-Encoder
+- SEED Weak-Decoder Pre-Training for Dense Retrieval
+- Pre-Training a Strong Text Encoder for Dense Retrieval Using a Weak Decoder
+definition_evidence:
+- source_id: r760-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r760-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r760-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: seed-cls-bottleneck-and-weak-decoder-span
+  kind: mechanism
+  statement: "SEED-Encoder disconnects cross-attention to non-[CLS] encoder token representations so that the decoder accesses the encoder exclusively through the dense [CLS] vector, and weakens the autoregressive decoder Along two axes\u2014shallow depth (e.g., 1 to 3 layers) and restricted local attention span k (where position i only attends to the encoder [CLS] vector and local tokens i-k+1..i)\u2014so the decoder cannot rely on long-range causal language modeling and must extract global passage semantics from the [CLS] vector."
+  evidence:
+  - source_id: r760-primary-pdf
+    locator: Section 3.2 Pre-training with a Weak Decoder, Figure 1, pp. 3-4
+    relation: supports
+  - source_id: r760-primary-pdf
+    locator: main() verification of restricted_attention_mask(seq_len, span_k=3) and amplification of gradient w.r.t. encoder [CLS] summary c_cls
+    relation: supports
+- claim_id: seed-ablation-of-decoder-strength
+  kind: mechanism
+  statement: Ablation studies across decoder depth and attention span k (Table 4) demonstrate that overly strong decoders (unlimited attention span k = All or deeper 6-layer decoders) degrade downstream dense retrieval accuracy because the decoder solves autoregressive next-token prediction from local/causal context without forcing information through the encoder [CLS] bottleneck, whereas a 3-layer decoder with restricted span k = 2 or 3 maximizes retrieval MRR and Recall.
+  evidence:
+  - source_id: r760-primary-pdf
+    locator: Section 4.3 Ablation Study, Table 4, pp. 6-7
+    relation: supports
+- claim_id: seed-dense-retrieval-applications
+  kind: application
+  statement: Pre-training with SEED-Encoder improves dense retrieval across both in-batch negative training and ANCE hard-negative training on MS MARCO Passage Ranking, MS MARCO Document Ranking, and Natural Questions (Tables 1-3).
+  evidence:
+  - source_id: r760-primary-pdf
+    locator: Section 4.2 Main Results, Tables 1-3, pp. 5-6
+    relation: supports
+  - source_id: r760-metadata-cr
+    locator: BibTeX citation record for arXiv:2102.09206 (EMNLP 2021)
+    relation: supports
+- claim_id: seed-span-tuning-limitation
+  kind: limitation
+  statement: Setting the decoder attention span too small (k = 1, degenerating toward bag-of-words prediction) or too large (k = All, full causal attention) hurts downstream dense retrieval performance (Table 4), requiring careful tuning of decoder capacity relative to encoder size.
+  evidence:
+  - source_id: r760-primary-pdf
+    locator: Section 4.3 Ablation Study, Table 4, pp. 6-7
+    relation: supports
+evidence_sources:
+- source_id: r760-primary-pdf
+  title: 'Less is More: Pre-train a Strong Text Encoder for Dense Retrieval Using a Weak Decoder'
+  authors: &id001
+  - Shuqi Lu
+  - Di He
+  - Chenyan Xiong
+  - Guolin Ke
+  - Waleed Malik
+  - Zhicheng Dou
+  - Paul Bennett
+  - Tie-Yan Liu
+  - Arnold Overwijk
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2102.09206
+  persistent_id: https://arxiv.org/bibtex/2102.09206
+  version: Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing (EMNLP 2021) (2021) (1030393 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:03:00Z'
+  sha256: 695cce710bef36c889b4b35430571041f7c39b3ab6a9064debc8c614b6a9ca88
+- source_id: r760-arxiv-abs
+  title: 'Less is More: Pre-train a Strong Text Encoder for Dense Retrieval Using a Weak Decoder (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.09206
+  persistent_id: https://arxiv.org/abs/2102.09206
+  version: arXiv abstract page (7277 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:03:00Z'
+  sha256: 7c011ea11b9ce6c388bd6c834226c260162b33afbcc420a9d5750b9a7d18cee5
+- source_id: r760-metadata-cr
+  title: 'Less is More: Pre-train a Strong Text Encoder for Dense Retrieval Using a Weak Decoder (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2102.09206
+  persistent_id: https://arxiv.org/bibtex/2102.09206
+  version: Crossref API work record (495 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:03:00Z'
+  sha256: 0ff932db33e52cca248aa98c7cc3c608e48134fb8e48b5a0a85d6a30f80f8550
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: SEED-Encoder is a specialized Transformer encoder-decoder neural network architecture with an information bottleneck at the [CLS] representation.
+limitations:
+- Downstream retrieval quality is sensitive to the balance of decoder weakness (attention span k and number of decoder layers); both k=1 and unrestricted causal attention underperform k=2..3.
+- Adds an auxiliary autoregressive decoder during pre-training before discarding it for fine-tuning.
+curation:
+  created_at: '2026-10-19T14:03:00Z'
+  updated_at: '2026-10-19T14:03:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
