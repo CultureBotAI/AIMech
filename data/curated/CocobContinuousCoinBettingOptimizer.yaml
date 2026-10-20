@@ -1,0 +1,100 @@
+id: AIMech:CocobContinuousCoinBettingOptimizer
+name: Continuous Coin Betting Optimizer
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A learning-rate-free, dual-averaging stochastic subgradient optimization algorithm that reduces d-dimensional minimization of a function F(w) from initial point w_1 to betting on d continuous coins whose outcomes are the negative stochastic subgradients g_{t,i} in [-L_i, L_i] (E[g_t] in partial[-F(w_t)]): for each coordinate i, it accumulates absolute subgradient sum G_{t,i} = G_{t-1,i} + |g_{t,i}| (G_{0,i} = L_i), cumulative reward Reward_{t,i} = Reward_{t-1,i} + (w_{t,i} - w_{1,i}) g_{t,i}, and signed subgradient sum theta_{t,i} = theta_{t-1,i} + g_{t,i}, bets signed wealth fraction beta_{t,i} = (2 sigma(2 theta_{t,i} / (G_{t,i} + L_i)) - 1) / L_i where sigma(x) = 1 / (1 + exp(-x)), and updates parameters via w_{t+1,i} = w_{1,i} + beta_{t,i} (L_i + Reward_{t,i}), with deep-network variant COCOB-Backprop adapting L_{t,i} = max(L_{t-1,i}, |g_{t,i}|) and clamping Reward_{t,i} >= 0 online.'
+identity_notes: 'Distinct from adaptive learning-rate algorithms (AdaGrad, RMSProp, Adam, AdaDelta) that scale updates by a tuned base learning rate eta and from second-order or curvature-based tuners (YellowFin): COCOB eliminates the learning rate hyperparameter entirely by mapping iterate offsets w_{t,i} - w_{1,i} to bets proportional to accumulated gambler wealth L_i + Reward_{t,i} under Fenchel duality.'
+aliases:
+- COCOB
+- COntinuous COin Betting
+- COCOB Optimizer
+- COCOB-Backprop
+definition_evidence:
+- source_id: r621-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r621-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r621-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r621-scale-invariance-and-wealth-lower-bound
+  kind: mechanism
+  statement: Multiplying all negative subgradients g_{t,i} and coordinate scales L_i by any positive constant c > 0 leaves the COCOB iterate sequence w_{t,i} invariant; moreover, because |beta_{t,i} g_{t,i}| < 1, gambler wealth Wealth_{t,i} = L_i + Reward_{t,i} remains strictly positive and satisfies the inductive data-dependent lower bound Wealth_{T,i} >= L_i exp(theta_{T,i}^2 / (2 L_i (G_{T,i} + L_i)) - sum_{j=1}^T |g_{j,i}| / (2 (G_{j-1,i} + L_i))) (Lemma 2 and Eq. 3).
+  evidence:
+  - source_id: r621-primary-pdf
+    locator: Section 5, p. 4-5; Appendix A Lemma 2 & Eq. (3)-(5), p. 12-14
+    relation: supports
+- claim_id: c-r621-weakly-quasi-convex-convergence-bound
+  kind: mechanism
+  statement: 'By Fenchel-conjugate duality (Lemma 1), Theorem 1 proves that on any tau-weakly-quasi-convex objective F : R^d -> R with bounded stochastic subgradients |g_{t,i}| <= L_i, COCOB guarantees E[F(w_I)] - F(w*) <= sum_{i=1}^d (L_i + |w*_i - w_{1,i}| sqrt(E[L_i (G_{T,i} + L_i) ln(1 + (G_{T,i} + L_i)^2 (w*_i - w_{1,i})^2 / L_i^2)])) / (tau T), achieving the optimal O_tilde(||w* - w_1||_1 / sqrt(T)) parameter-free rate while exploiting gradient sparsity via G_{T,i}.'
+  evidence:
+  - source_id: r621-primary-pdf
+    locator: Section 5 Theorem 1, p. 5; Appendix A Proof of Theorem 1, p. 12-14
+    relation: supports
+- claim_id: c-r621-cocob-backprop-online-scale-adaptation
+  kind: application
+  statement: To train deep neural networks where per-coordinate gradient bounds L_i are unknown a priori and vary across layers, COCOB-Backprop (Algorithm 2) updates L_{t,i} = max(L_{t-1,i}, |g_{t,i}|), enforces non-negative wealth Reward_{t,i} = max(Reward_{t-1,i} + (w_{t,i} - w_{1,i}) g_{t,i}, 0), and updates w_{t+1,i} = w_{1,i} + (theta_{t,i} / (L_{t,i} max(G_{t,i} + L_{t,i}, alpha L_{t,i}))) (L_{t,i} + Reward_{t,i}) with default alpha = 100 so the first update step has bounded magnitude |w_{2,i} - w_{1,i}| = 1 / alpha.
+  evidence:
+  - source_id: r621-primary-pdf
+    locator: Section 6 Algorithm 2, p. 6-7; Section 7 Figures 2-4, p. 7-9
+    relation: supports
+- claim_id: c-r621-known-scale-bound-and-overfitting-limitation
+  kind: limitation
+  statement: The theoretical convergence guarantee of Theorem 1 requires known a priori coordinate subgradient upper bounds |g_{t,i}| <= L_i; when L_{t,i} is estimated online in COCOB-Backprop, wealth positivity is no longer guaranteed without explicit clipping max(..., 0) and the formal regret guarantee no longer holds.
+  evidence:
+  - source_id: r621-primary-pdf
+    locator: Section 6, p. 6-7; Section 7, p. 8-9
+    relation: supports
+evidence_sources:
+- source_id: r621-primary-pdf
+  title: Training Deep Networks without Learning Rates Through Coin Betting
+  authors: &id001
+  - Francesco Orabona
+  - Tatiana Tommasi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1705.07795.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/OrabonaT17
+  version: Advances in Neural Information Processing Systems 30 (NIPS 2017) / arXiv:1705.07795v3 (2017) (825065 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:44:00Z'
+  sha256: ba246d0274427402cb73c2650f43e4a5cd4763cd312020cd521d1988de57d6a2
+- source_id: r621-arxiv-abs
+  title: Training Deep Networks without Learning Rates Through Coin Betting (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1705.07795
+  persistent_id: https://arxiv.org/abs/1705.07795
+  version: arXiv abstract page (6763 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:44:00Z'
+  sha256: 725a869c3a6328dcaa605ec4005f2b5012f5f0a72cb055b9f695d54d9b82a0db
+- source_id: r621-metadata-cr
+  title: Training Deep Networks without Learning Rates Through Coin Betting (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/OrabonaT17
+  persistent_id: https://dblp.org/rec/conf/nips/OrabonaT17
+  version: Crossref API work record (1163 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:44:00Z'
+  sha256: 9491ec42db046a6a8694fa33ecd3bc4e32cd506eef673fe7bd00b9a7fa086fc5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: COCOB and COCOB-Backprop are parameter-free stochastic gradient optimization algorithms designed for training deep neural networks without learning rates.
+limitations:
+- The exact Theorem 1 convergence guarantee requires known upper bounds L_i on coordinate subgradient magnitudes; the practical deep-learning variant COCOB-Backprop replaces L_i with running maxima L_{t,i} and lacks a formal convergence proof.
+- Because COCOB rapidly minimizes training loss without manual learning-rate decay, overparameterized recurrent networks (such as word-level LSTMs on Penn Treebank) can exhibit test-perplexity overfitting unless paired with early stopping or regularization.
+curation:
+  created_at: '2026-10-19T11:44:00Z'
+  updated_at: '2026-10-19T11:44:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

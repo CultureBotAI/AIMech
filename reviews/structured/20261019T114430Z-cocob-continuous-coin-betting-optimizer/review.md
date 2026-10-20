@@ -1,0 +1,353 @@
+# Scientific author self-review of Continuous Coin Betting Optimizer
+
+- Review: 20261019T114430Z-cocob-continuous-coin-betting-optimizer
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T11:44:00Z
+- Finished UTC: 2026-10-19T11:44:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Continuous Coin Betting Optimizer as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/CocobContinuousCoinBettingOptimizer.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:CocobContinuousCoinBettingOptimizer
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 60053acc46cfc694cbfd65384d6e4ef7caed90b6.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:CocobContinuousCoinBettingOptimizer | data/curated/CocobContinuousCoinBettingOptimizer.yaml | maintained | Continuous Coin Betting Optimizer |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:CocobContinuousCoinBettingOptimizer | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:CocobContinuousCoinBettingOptimizer | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:CocobContinuousCoinBettingOptimizer | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:CocobContinuousCoinBettingOptimizer | Validated history sidecar files. |
+| python3 cocob-continuous-coin-betting-optimizer-boundaries.py | passed | True | AIMech:CocobContinuousCoinBettingOptimizer | [PASS] Round 621 COCOB verified: scale_err=4.44e-16, lemma2_rat=1.0007&gt;=1, wealth_rat=1.1859&gt;=1, fenchel_rat=1.2965&lt;=1, thm1_rat=0.2099&lt;=1, abs_subopt=0.4291, bp_err=0.0192 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:CocobContinuousCoinBettingOptimizer.
+
+Continuous Coin Betting Optimizer is a distinct concept.
+
+Distinct from adaptive learning-rate algorithms (AdaGrad, RMSProp, Adam, AdaDelta) that scale updates by a tuned base learning rate eta and from second-order or curvature-based tuners (YellowFin): COCOB eliminates the learning rate hyperparameter entirely by mapping iterate offsets w_{t,i} - w_{1,i} to bets proportional to accumulated gambler wealth L_i + Reward_{t,i} under Fenchel duality.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:CocobContinuousCoinBettingOptimizer.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:CocobContinuousCoinBettingOptimizer.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in cocob-continuous-coin-betting-optimizer-boundaries.py passed with exit code 0: [PASS] Round 621 COCOB verified: scale_err=4.44e-16, lemma2_rat=1.0007&gt;=1, wealth_rat=1.1859&gt;=1, fenchel_rat=1.2965&lt;=1, thm1_rat=0.2099&lt;=1, abs_subopt=0.4291, bp_err=0.0192
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:CocobContinuousCoinBettingOptimizer.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T114400Z-cocob-continuous-coin-betting-optimizer.json | supports | No normalized identity match for AIMech:CocobContinuousCoinBettingOptimizer across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/cocob-continuous-coin-betting-optimizer-boundaries.py | supports | All constructed boundary assertions in cocob-continuous-coin-betting-optimizer-boundaries.py passed with exit code 0: [PASS] Round 621 COCOB verified: scale_err=4.44e-16, lemma2_rat=1.0007&gt;=1, wealth_rat=1.1859&gt;=1, fenchel_rat=1.2965&lt;=1, thm1_rat=0.2099&lt;=1, abs_subopt=0.4291, bp_err=0.0192 |
+| r621-primary-pdf | https://arxiv.org/pdf/1705.07795.pdf; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems 30 (NIPS 2017) / arXiv:1705.07795v3 (2017)) read and verified. |
+| r621-arxiv-abs | https://arxiv.org/abs/1705.07795; arXiv abstract | supports | arXiv abstract read and verified. |
+| r621-metadata-cr | https://dblp.org/rec/conf/nips/OrabonaT17; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:CocobContinuousCoinBettingOptimizer in Round 621.
+- All pages of Advances in Neural Information Processing Systems 30 (NIPS 2017) / arXiv:1705.07795v3 (2017) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T114430Z-cocob-continuous-coin-betting-optimizer
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Continuous Coin Betting Optimizer
+started_at: '2026-10-19T11:44:00Z'
+finished_at: '2026-10-19T11:44:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:CocobContinuousCoinBettingOptimizer
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems 30 (NIPS 2017) / arXiv:1705.07795v3 (2017)
+    and pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Continuous Coin Betting Optimizer as a distinct DRAFT algorithm. All
+  three claims are supported by full-text primary evidence and pure-Python boundary
+  verification.
+source:
+  git_revision: 60053acc46cfc694cbfd65384d6e4ef7caed90b6
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/CocobContinuousCoinBettingOptimizer.yaml
+    sha256: 8c554694404212703ca0828837accefe3c3e2486f434020e7c4889b8342d1b2f
+    role: target
+  - path: research/discovery/20261019T114400Z-cocob-continuous-coin-betting-optimizer.json
+    sha256: ab941325d3c6b7e53ab0e5b9e051aacfdcc5ce0dc0a8d76e7951dc14fb6ae796
+    role: context
+  - path: research/discovery/cocob-continuous-coin-betting-optimizer-boundaries.py
+    sha256: 48d4c520c43ddd4c0347318d022cf9bf5a5e040c5fa38c4565c3077dfbba8534
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:CocobContinuousCoinBettingOptimizer
+  path: data/curated/CocobContinuousCoinBettingOptimizer.yaml
+  label: Continuous Coin Betting Optimizer
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/CocobContinuousCoinBettingOptimizer.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/CocobContinuousCoinBettingOptimizer.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:CocobContinuousCoinBettingOptimizer'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:CocobContinuousCoinBettingOptimizer
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CocobContinuousCoinBettingOptimizer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CocobContinuousCoinBettingOptimizer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CocobContinuousCoinBettingOptimizer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CocobContinuousCoinBettingOptimizer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 cocob-continuous-coin-betting-optimizer-boundaries.py
+  command: python3 research/discovery/cocob-continuous-coin-betting-optimizer-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CocobContinuousCoinBettingOptimizer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 621 COCOB verified: scale_err=4.44e-16, lemma2_rat=1.0007>=1,
+    wealth_rat=1.1859>=1, fenchel_rat=1.2965<=1, thm1_rat=0.2099<=1, abs_subopt=0.4291,
+    bp_err=0.0192'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T114400Z-cocob-continuous-coin-betting-optimizer.json
+  accessed_at: '2026-10-19T11:44:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:CocobContinuousCoinBettingOptimizer
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T11:44:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/cocob-continuous-coin-betting-optimizer-boundaries.py
+  accessed_at: '2026-10-19T11:44:00Z'
+  snapshot_sha256: 48d4c520c43ddd4c0347318d022cf9bf5a5e040c5fa38c4565c3077dfbba8534
+  support: supports
+  summary: 'All constructed boundary assertions in cocob-continuous-coin-betting-optimizer-boundaries.py
+    passed with exit code 0: [PASS] Round 621 COCOB verified: scale_err=4.44e-16,
+    lemma2_rat=1.0007>=1, wealth_rat=1.1859>=1, fenchel_rat=1.2965<=1, thm1_rat=0.2099<=1,
+    abs_subopt=0.4291, bp_err=0.0192'
+- evidence_id: r621-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1705.07795.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T11:44:00Z'
+  snapshot_sha256: ba246d0274427402cb73c2650f43e4a5cd4763cd312020cd521d1988de57d6a2
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 30 (NIPS
+    2017) / arXiv:1705.07795v3 (2017)) read and verified.
+- evidence_id: r621-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1705.07795
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T11:44:00Z'
+  snapshot_sha256: 725a869c3a6328dcaa605ec4005f2b5012f5f0a72cb055b9f695d54d9b82a0db
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r621-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/nips/OrabonaT17
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T11:44:00Z'
+  snapshot_sha256: 9491ec42db046a6a8694fa33ecd3bc4e32cd506eef673fe7bd00b9a7fa086fc5
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:CocobContinuousCoinBettingOptimizer
+  evidence_ids:
+  - identity
+  - r621-primary-pdf
+  - r621-arxiv-abs
+  - r621-metadata-cr
+  summary: Continuous Coin Betting Optimizer is a distinct concept.
+  details: 'Distinct from adaptive learning-rate algorithms (AdaGrad, RMSProp, Adam,
+    AdaDelta) that scale updates by a tuned base learning rate eta and from second-order
+    or curvature-based tuners (YellowFin): COCOB eliminates the learning rate hyperparameter
+    entirely by mapping iterate offsets w_{t,i} - w_{1,i} to bets proportional to
+    accumulated gambler wealth L_i + Reward_{t,i} under Fenchel duality.'
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:CocobContinuousCoinBettingOptimizer
+  evidence_ids:
+  - mapping
+  - r621-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:CocobContinuousCoinBettingOptimizer
+  evidence_ids:
+  - r621-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in cocob-continuous-coin-betting-optimizer-boundaries.py
+    passed with exit code 0: [PASS] Round 621 COCOB verified: scale_err=4.44e-16,
+    lemma2_rat=1.0007>=1, wealth_rat=1.1859>=1, fenchel_rat=1.2965<=1, thm1_rat=0.2099<=1,
+    abs_subopt=0.4291, bp_err=0.0192'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:CocobContinuousCoinBettingOptimizer
+  evidence_ids:
+  - identity
+  - mapping
+  - r621-primary-pdf
+  - r621-arxiv-abs
+  - r621-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:CocobContinuousCoinBettingOptimizer in Round 621.
+- All pages of Advances in Neural Information Processing Systems 30 (NIPS 2017) /
+  arXiv:1705.07795v3 (2017) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

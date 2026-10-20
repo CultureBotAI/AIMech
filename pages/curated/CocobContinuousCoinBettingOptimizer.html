@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Continuous Coin Betting Optimizer · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Continuous Coin Betting Optimizer</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Continuous Coin Betting Optimizer</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CocobContinuousCoinBettingOptimizer</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> COCOB, COntinuous COin Betting, COCOB Optimizer, COCOB-Backprop
+    </div>
+
+  <div class="detail-desc">
+    A learning-rate-free, dual-averaging stochastic subgradient optimization algorithm that reduces d-dimensional minimization of a function F(w) from initial point w_1 to betting on d continuous coins whose outcomes are the negative stochastic subgradients g_{t,i} in [-L_i, L_i] (E[g_t] in partial[-F(w_t)]): for each coordinate i, it accumulates absolute subgradient sum G_{t,i} = G_{t-1,i} + |g_{t,i}| (G_{0,i} = L_i), cumulative reward Reward_{t,i} = Reward_{t-1,i} + (w_{t,i} - w_{1,i}) g_{t,i}, and signed subgradient sum theta_{t,i} = theta_{t-1,i} + g_{t,i}, bets signed wealth fraction beta_{t,i} = (2 sigma(2 theta_{t,i} / (G_{t,i} + L_i)) - 1) / L_i where sigma(x) = 1 / (1 + exp(-x)), and updates parameters via w_{t+1,i} = w_{1,i} + beta_{t,i} (L_i + Reward_{t,i}), with deep-network variant COCOB-Backprop adapting L_{t,i} = max(L_{t-1,i}, |g_{t,i}|) and clamping Reward_{t,i} &gt;= 0 online.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from adaptive learning-rate algorithms (AdaGrad, RMSProp, Adam, AdaDelta) that scale updates by a tuned base learning rate eta and from second-order or curvature-based tuners (YellowFin): COCOB eliminates the learning rate hyperparameter entirely by mapping iterate offsets w_{t,i} - w_{1,i} to bets proportional to accumulated gambler wealth L_i + Reward_{t,i} under Fenchel duality.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r621-scale-invariance-and-wealth-lower-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Multiplying all negative subgradients g_{t,i} and coordinate scales L_i by any positive constant c &gt; 0 leaves the COCOB iterate sequence w_{t,i} invariant; moreover, because |beta_{t,i} g_{t,i}| &lt; 1, gambler wealth Wealth_{t,i} = L_i + Reward_{t,i} remains strictly positive and satisfies the inductive data-dependent lower bound Wealth_{T,i} &gt;= L_i exp(theta_{T,i}^2 / (2 L_i (G_{T,i} + L_i)) - sum_{j=1}^T |g_{j,i}| / (2 (G_{j-1,i} + L_i))) (Lemma 2 and Eq. 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r621-primary-pdf">Training Deep Networks without Learning Rates Through Coin Betting</a></span>
+        <span>· <strong>Locator:</strong> Section 5, p. 4-5; Appendix A Lemma 2 &amp; Eq. (3)-(5), p. 12-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r621-weakly-quasi-convex-convergence-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By Fenchel-conjugate duality (Lemma 1), Theorem 1 proves that on any tau-weakly-quasi-convex objective F : R^d -&gt; R with bounded stochastic subgradients |g_{t,i}| &lt;= L_i, COCOB guarantees E[F(w_I)] - F(w*) &lt;= sum_{i=1}^d (L_i + |w*_i - w_{1,i}| sqrt(E[L_i (G_{T,i} + L_i) ln(1 + (G_{T,i} + L_i)^2 (w*_i - w_{1,i})^2 / L_i^2)])) / (tau T), achieving the optimal O_tilde(||w* - w_1||_1 / sqrt(T)) parameter-free rate while exploiting gradient sparsity via G_{T,i}.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r621-primary-pdf">Training Deep Networks without Learning Rates Through Coin Betting</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Theorem 1, p. 5; Appendix A Proof of Theorem 1, p. 12-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r621-cocob-backprop-online-scale-adaptation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To train deep neural networks where per-coordinate gradient bounds L_i are unknown a priori and vary across layers, COCOB-Backprop (Algorithm 2) updates L_{t,i} = max(L_{t-1,i}, |g_{t,i}|), enforces non-negative wealth Reward_{t,i} = max(Reward_{t-1,i} + (w_{t,i} - w_{1,i}) g_{t,i}, 0), and updates w_{t+1,i} = w_{1,i} + (theta_{t,i} / (L_{t,i} max(G_{t,i} + L_{t,i}, alpha L_{t,i}))) (L_{t,i} + Reward_{t,i}) with default alpha = 100 so the first update step has bounded magnitude |w_{2,i} - w_{1,i}| = 1 / alpha.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r621-primary-pdf">Training Deep Networks without Learning Rates Through Coin Betting</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Algorithm 2, p. 6-7; Section 7 Figures 2-4, p. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r621-known-scale-bound-and-overfitting-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The theoretical convergence guarantee of Theorem 1 requires known a priori coordinate subgradient upper bounds |g_{t,i}| &lt;= L_i; when L_{t,i} is estimated online in COCOB-Backprop, wealth positivity is no longer guaranteed without explicit clipping max(..., 0) and the formal regret guarantee no longer holds.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r621-primary-pdf">Training Deep Networks without Learning Rates Through Coin Betting</a></span>
+        <span>· <strong>Locator:</strong> Section 6, p. 6-7; Section 7, p. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The exact Theorem 1 convergence guarantee requires known upper bounds L_i on coordinate subgradient magnitudes; the practical deep-learning variant COCOB-Backprop replaces L_i with running maxima L_{t,i} and lacks a formal convergence proof.</li>
+      <li>Because COCOB rapidly minimizes training loss without manual learning-rate decay, overparameterized recurrent networks (such as word-level LSTMs on Penn Treebank) can exhibit test-perplexity overfitting unless paired with early stopping or regularization.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            COCOB and COCOB-Backprop are parameter-free stochastic gradient optimization algorithms designed for training deep neural networks without learning rates.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r621-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r621-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1705.07795.pdf" target="_blank" rel="noopener">Training Deep Networks without Learning Rates Through Coin Betting</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Francesco Orabona, Tatiana Tommasi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/OrabonaT17</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ba246d027442…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r621-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r621-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1705.07795" target="_blank" rel="noopener">Training Deep Networks without Learning Rates Through Coin Betting (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Francesco Orabona, Tatiana Tommasi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1705.07795</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:725a869c3a63…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r621-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r621-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/OrabonaT17" target="_blank" rel="noopener">Training Deep Networks without Learning Rates Through Coin Betting (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Francesco Orabona, Tatiana Tommasi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/OrabonaT17</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9491ec42db04…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:44:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:44:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CocobContinuousCoinBettingOptimizer.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CocobContinuousCoinBettingOptimizer.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
