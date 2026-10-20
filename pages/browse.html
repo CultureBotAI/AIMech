@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1441</strong> artificial intelligence concepts, comprising <strong>999</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1442</strong> artificial intelligence concepts, comprising <strong>1000</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1441)</option>
-        <option value="curated">Curated AIMech (999)</option>
+        <option value="all">All Origins (1442)</option>
+        <option value="curated">Curated AIMech (1000)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (695)</option>
+          <option value="algorithm">Algorithms (696)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1441</span> of <span id="totalCount">1441</span>
+      Showing <span id="matchCount">1442</span> of <span id="totalCount">1442</span>
     </div>
   </div>
 </div>
@@ -18654,6 +18654,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="laprop (decoupled momentum and adaptivity optimizer) lapropseparatingmomentumandadaptivityinadam aimech:lapropseparatingmomentumandadaptivityinadam algorithms algorithm an adaptive first-order stochastic optimization algorithm that decouples parameter-space momentum from root-mean-square gradient adaptivity by normalizing the current gradient by its bias-corrected second-moment estimate prior to accumulating momentum. given momentum parameter mu in [0, 1), adaptivity parameter nu in [0, 1), and bias correction factors c_m = 1 - mu^t and c_n = 1 - nu^t, laprop updates n_t = nu n_{t-1} + (1 - nu) g_t^2, m_t = mu m_{t-1} + (1 - mu) g_t / (sqrt(n_t / c_n) + eps), and theta_{t+1} = theta_t - lambda_t m_t / c_m, bersama with decoupled-weight-decay (lapropw), monotonic-second-moment (amsprop), and variance-centered (centered laprop) extensions. distinct from adam (kingma and ba 2015) and adopt (aimech:adoptmodifiedadamoptimalconvergenceanybeta2): in the generalized adaptive update theta_{t+1} = theta_t - lambda_t g_t nabla l(theta_t) + mu_t k_t (theta_t - theta_{t-1}) (eq. 2), adam induces k_t = h_t^{-1} h_{t-1} (reweighting past parameter momentum by the current preconditioner and diverging when nu -&gt; 0 with mu &gt; 0), whereas laprop sets k_t = i by normalizing g_t with contemporaneous bias-corrected sqrt(n_t / c_n) + eps before momentum accumulation (unlike adopt, which uses the lagged un-bias-corrected v_{t-1}). originally circulated as &#39;laprop: a better way to combine momentum with adaptive gradient&#39; (v1) and revised as &#39;laprop: separating momentum and adaptivity in adam&#39; (v3). laprop optimizer laprop separating momentum and adaptivity in adam lapropw and amsprop and centered laprop in the generalized adaptive framework theta_{t+1} = theta_t - lambda_t g_t nabla l(theta_t) + mu_t k_t (theta_t - theta_{t-1}) (eq. 2, p. 3), adam has k_t = h_t^{-1} h_{t-1} (eq. 6), which causes accumulated parameter-space momentum to vanish when a single exploding gradient enlarges h_t and yields infinite update variance var[lim_{nu-&gt;0} m_t / sqrt(n_t)] = infty when nu -&gt; 0 and mu &gt; 0 (eq. 8, p. 4); laprop sets k_t = i (eq. 7) and smoothly interpolates to signed stochastic gradient with momentum theta_{t+1} = theta_t - (1 - mu) lambda_t sgn(nabla l(theta_t)) + mu (theta_t - theta_{t-1}) as nu -&gt; 0 (section 3, table 1, p. 4-5). proposition 1 (section 4, p. 6; appendix a.1, eqs. 10-12, p. 14) proves that the bias-corrected laprop update magnitude is unconditionally bounded above by |m_t / c_m(t)| &lt;= 1 / sqrt(1 - nu) for all mu, nu in [0, 1) independently of mu, whereas proposition 2 (p. 6; appendix a.2, eqs. 13-15, p. 14) shows that adam&#39;s update bound |(m_t / c_m(t)) / sqrt(n_t / c_n(t))| &lt;= 1 / (sqrt(1 - nu)(1 - gamma)) with gamma = mu / sqrt(nu) holds only in the restricted regime mu &lt; sqrt(nu). under convex objectives with bounded gradients ||nabla l_t(theta)||_infty &lt;= g_infty, bounded iterate diameter ||theta_{t1} - theta_{t2}||_infty &lt;= d, decaying stepsizes lambda_t = lambda / sqrt(t), and s_{t+1} / lambda_{t+1} &gt;= s_t / lambda_t where s_t = sqrt(n_t / c_n), theorem 1 (section 4, eq. 9, p. 6; appendix a.3, eqs. 16-26, p. 15-17) proves o(sqrt(t)) regret for laprop across all mu, nu in [0, 1), replacing adam/amsgrad&#39;s coupled factor 1 / ((1 - mu)(1 - mu/sqrt(nu))) with 1 / ((1 - mu)(1 - nu)). laprop converges across the full adaptivity range nu in [0, 1) on high-noise rosenbrock optimization and vgg-19 neural style transfer where adam and amsgrad diverge at small nu, trains 500-layer and 1000-layer relu networks on mnist, accelerates iwslt14 de-en and wikipedia roberta transformer training, and achieves higher rainbow dqn rewards across 20 atari-2600 games. theorem 1&#39;s regret guarantee still relies on the monotonicity assumption s_{t+1,i} / lambda_{t+1} &gt;= s_{t,i} / lambda_t (unless enforced via the amsprop maximum operation in algorithm 3, which empirically degrades early-stage speed), and the centered laprop extension (algorithm 4, appendix b.5, p. 19) is unstable during initial steps t &lt; t_init and diverges under a constant non-zero gradient. laprop: separating momentum and adaptivity in adam laprop: separating momentum and adaptivity in adam (arxiv abstract) laprop: separating momentum and adaptivity in adam (crossref metadata) liu ziyin zhikang t. wang masahito ueda liu ziyin zhikang t. wang masahito ueda liu ziyin zhikang t. wang masahito ueda">
+        <td>
+          <a href="curated/LaPropSeparatingMomentumAndAdaptivityInAdam.html" style="font-weight: 600; font-size: 1rem;">LaProp (Decoupled Momentum and Adaptivity Optimizer)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> LaProp Optimizer, LaProp Separating Momentum and Adaptivity in Adam…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An adaptive first-order stochastic optimization algorithm that decouples parameter-space momentum from root-mean-square gradient adaptivity…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:LaPropSeparatingMomentumAndAdaptivityInAdam</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="5 claims curated">5 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
