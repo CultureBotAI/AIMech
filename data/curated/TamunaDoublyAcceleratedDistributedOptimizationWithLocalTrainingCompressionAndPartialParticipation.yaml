@@ -1,0 +1,101 @@
+id: AIMech:TamunaDoublyAcceleratedDistributedOptimizationWithLocalTrainingCompressionAndPartialParticipation
+name: TAMUNA Doubly Accelerated Distributed Optimization with Local Training, Compression, and Partial Participation
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A federated and distributed optimization algorithm introduced by Condat, Agarsk\xFD, Malinovsky, and Richt\xE1rik (2023) that simultaneously combines Local Training (LT), Communication Compression (CC), and Partial Client Participation (PP) to minimize f(x) = (1/n) sum_{i=1}^n f_i(x) across n clients without suffering from client drift. In each communication round r, the server broadcasts the global model x_bar^{(r)} to a uniformly sampled cohort Omega^{(r)} subset [n] of size c in {2, ..., n}; active clients perform L^{(r)} ~ Geom(p) drift-corrected local steps x_i^{(r, ell+1)} = x_i^{(r, ell)} - gamma g_i^{(r, ell)} + gamma h_i^{(r)} from x_i^{(r, 0)} = x_bar^{(r)}, apply a correlated column-permuted binary mask compressor C_i^{(r)} that selects exactly s in {2, ..., c} active clients per coordinate j in {1, ..., d}, and the server aggregates x_bar^{(r+1)} = (1/s) sum_{i in Omega^{(r)}} C_i^{(r)}(x_i^{(r, L^{(r)})}) while active clients update their control variates via h_i^{(r+1)} = h_i^{(r)} + (eta/gamma)(C_i^{(r)}(x_bar^{(r+1)}) - C_i^{(r)}(x_i^{(r, L^{(r)})})) and idle clients retain h_i^{(r+1)} = h_i^{(r)}."
+identity_notes: 'Distinct from Scaffnew / ProxSkip (which uses uncompressed full-client communication without partial participation or sparsification), distinct from CompressedScaffnew (which requires full client participation c = n), and distinct from Scaffold (which does not achieve O(sqrt(kappa)) accelerated communication complexity or support correlated coordinate-mask compression): TAMUNA unifies CompressedScaffnew and Cohort-Squeeze via an active-cohort correlated permutation mask with sparsity parameter s in {2, ..., c}, preserving the zero-sum control variate invariant sum_{i=1}^n h_i^{(r)} = 0 under partial participation and achieving doubly accelerated communication complexity with respect to both the condition number kappa = L/mu and model dimension d.'
+aliases:
+- TAMUNA
+- TAMUNA Doubly Accelerated Distributed Optimization under Partial Participation
+- Local Training with Correlated Mask Compression and Partial Participation
+definition_evidence:
+- source_id: r567-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r567-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r567-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: tamuna-correlated-cohort-mask-and-zero-sum-control-variate-invariant
+  kind: mechanism
+  statement: In each round r, TAMUNA generates a binary mask matrix q^{(r)} in {0,1}^{d x c} across the c active clients Omega^{(r)} by independently permuting a template row containing s in {2, ..., c} ones and c - s zeros for each coordinate j in {1, ..., d}; the resulting compressors C_i^{(r)} satisfy E[||(1/s) sum_{i in Omega} C_i(v_i) - (1/c) sum_{i in Omega} v_i||^2] = ((c - s)/(s(c - 1))) ((1/c) sum_{i in Omega} ||v_i||^2 - ||(1/c) sum_{i in Omega} v_i||^2) (Eq. 8) and ensure that the control variate update h_i^{(r+1)} = h_i^{(r)} + (eta/gamma)(C_i^{(r)}(x_bar^{(r+1)}) - C_i^{(r)}(x_i^{(r, L^{(r)})})) preserves sum_{i=1}^n h_i^{(r)} = 0 for all r >= 0 when initialized with sum_{i=1}^n h_i^{(0)} = 0.
+  evidence:
+  - source_id: r567-primary-pdf
+    locator: Section 4, Algorithm 1 & Section 4.1, Equations (6)-(8), pp. 6-8
+    relation: supports
+- claim_id: tamuna-linear-convergence-and-doubly-accelerated-communication-complexity
+  kind: mechanism
+  statement: For L-smooth mu-strongly convex client objectives with exact gradients, setting 0 < gamma < 2/L, 0 < chi <= n(s - 1)/(s(n - 1)), and eta = p chi guarantees that the Lyapunov function Psi^{(r)} := (n/(gamma p)) ||x_bar^{(r)} - x*||^2 + (gamma / (p^2 chi)) ((n - 1)/(s - 1)) sum_{i=1}^n ||h_i^{(r)} - nabla f_i(x*)||^2 contracts at rate E[Psi^{(r)}] <= tau^r Psi^{(0)} with tau = max((1 - gamma mu)^2, (gamma L - 1)^2, 1 - p^2 chi (s - 1)/(n - 1)) < 1 (Theorem 1), yielding doubly accelerated total uplink communication complexity O((sqrt(d) sqrt(kappa) sqrt(n/c) + d sqrt(kappa) sqrt(n)/c + d n / c + sqrt(alpha) d sqrt(kappa) sqrt(n/c)) log(1/epsilon)) floats (Corollary 1).
+  evidence:
+  - source_id: r567-primary-pdf
+    locator: Section 5, Theorem 1, Corollary 1 & Equation (14), pp. 8-10
+    relation: supports
+- claim_id: tamuna-stochastic-gradient-variance-reduced-convergence
+  kind: scope
+  statement: Under unbiased local stochastic gradients with bounded variance C_i and bounded ABC-type second-moment growth A_i ||nabla f_i(x) - nabla f_i(x*)||^2 + B_i D_{f_i}(x, x*) + C_i (Assumption 2), TAMUNA converges linearly to a variance-proportional neighborhood of x* for constant step size gamma (Theorem 3) and converges to x* with O(1/epsilon) communication complexity via diminishing step sizes or variance reduction.
+  evidence:
+  - source_id: r567-primary-pdf
+    locator: Section 6, Assumption 2 & Theorem 3, pp. 11-12
+    relation: supports
+- claim_id: tamuna-stateful-control-variate-and-shared-seed-mask-limitation
+  kind: limitation
+  statement: Because every client i in [n] must maintain a stateful control variate h_i^{(r)} in R^d across rounds even when not participating, TAMUNA is applicable to stateful cross-silo or repeat-participation cross-device federated learning rather than purely stateless one-shot client sampling, and requires active clients in Omega^{(r)} to coordinate (e.g. via a shared pseudorandom seed) to generate the row-constrained binary masks with exactly s ones per coordinate.
+  evidence:
+  - source_id: r567-primary-pdf
+    locator: Section 4.1 & Section 4.2, Remarks on control variates and mask generation, pp. 7-8
+    relation: supports
+evidence_sources:
+- source_id: r567-primary-pdf
+  title: 'TAMUNA: Doubly Accelerated Distributed Optimization under Partial Participation'
+  authors: &id001
+  - Laurent Condat
+  - "Ivan Agarsk\xFD"
+  - Grigory Malinovsky
+  - "Peter Richt\xE1rik"
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2302.09832.pdf
+  persistent_id: https://api.openalex.org/works/W4321471475
+  version: arXiv preprint arXiv:2302.09832 (2023) (4277583 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:50:00Z'
+  sha256: 4d9724df872e679f1590514cdb84b89fd32b84da10fd89bfc5f7c0f3fbc9f68a
+- source_id: r567-arxiv-abs
+  title: 'TAMUNA: Doubly Accelerated Distributed Optimization under Partial Participation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2302.09832
+  persistent_id: https://arxiv.org/abs/2302.09832
+  version: arXiv abstract page (6651 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:50:00Z'
+  sha256: 7890784fa3b6285fb2a36cf0501f83547bb02e350dc010e4c519013d56956a72
+- source_id: r567-metadata-cr
+  title: 'TAMUNA: Doubly Accelerated Distributed Optimization under Partial Participation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.openalex.org/works/W4321471475
+  persistent_id: https://api.openalex.org/works/W4321471475
+  version: Crossref API work record (17533 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:50:00Z'
+  sha256: 205c3ef966f9dee7ca8562ae7fddc0b32c6993beacdb478a03831e9493d5c1b3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: TAMUNA is a specific federated optimization algorithm that combines local training, correlated coordinate-subsampling uplink compression, and partial client participation with exact client-drift cancellation.
+limitations:
+- Requires each client i in [n] to store a persistent d-dimensional control variate h_i^{(r)} across rounds, precluding purely stateless one-shot client participation.
+- Requires at least c >= 2 participating clients per round and s >= 2 active clients transmitting each coordinate j in {1, ..., d} to preserve the zero-sum control variate invariant.
+curation:
+  created_at: '2026-10-19T10:50:00Z'
+  updated_at: '2026-10-19T10:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

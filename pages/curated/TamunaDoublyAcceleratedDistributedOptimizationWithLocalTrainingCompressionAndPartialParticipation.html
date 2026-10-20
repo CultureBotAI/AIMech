@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TAMUNA Doubly Accelerated Distributed Optimization with Local Training, Compression, and Partial Participation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>TAMUNA Doubly Accelerated Distributed Optimization with Local Training, Compression, and Partial Participation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">TAMUNA Doubly Accelerated Distributed Optimization with Local Training, Compression, and Partial Participation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:TamunaDoublyAcceleratedDistributedOptimizationWithLocalTrainingCompressionAndPartialParticipation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> TAMUNA, TAMUNA Doubly Accelerated Distributed Optimization under Partial Participation, Local Training with Correlated Mask Compression and Partial Participation
+    </div>
+
+  <div class="detail-desc">
+    A federated and distributed optimization algorithm introduced by Condat, Agarský, Malinovsky, and Richtárik (2023) that simultaneously combines Local Training (LT), Communication Compression (CC), and Partial Client Participation (PP) to minimize f(x) = (1/n) sum_{i=1}^n f_i(x) across n clients without suffering from client drift. In each communication round r, the server broadcasts the global model x_bar^{(r)} to a uniformly sampled cohort Omega^{(r)} subset [n] of size c in {2, ..., n}; active clients perform L^{(r)} ~ Geom(p) drift-corrected local steps x_i^{(r, ell+1)} = x_i^{(r, ell)} - gamma g_i^{(r, ell)} + gamma h_i^{(r)} from x_i^{(r, 0)} = x_bar^{(r)}, apply a correlated column-permuted binary mask compressor C_i^{(r)} that selects exactly s in {2, ..., c} active clients per coordinate j in {1, ..., d}, and the server aggregates x_bar^{(r+1)} = (1/s) sum_{i in Omega^{(r)}} C_i^{(r)}(x_i^{(r, L^{(r)})}) while active clients update their control variates via h_i^{(r+1)} = h_i^{(r)} + (eta/gamma)(C_i^{(r)}(x_bar^{(r+1)}) - C_i^{(r)}(x_i^{(r, L^{(r)})})) and idle clients retain h_i^{(r+1)} = h_i^{(r)}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Scaffnew / ProxSkip (which uses uncompressed full-client communication without partial participation or sparsification), distinct from CompressedScaffnew (which requires full client participation c = n), and distinct from Scaffold (which does not achieve O(sqrt(kappa)) accelerated communication complexity or support correlated coordinate-mask compression): TAMUNA unifies CompressedScaffnew and Cohort-Squeeze via an active-cohort correlated permutation mask with sparsity parameter s in {2, ..., c}, preserving the zero-sum control variate invariant sum_{i=1}^n h_i^{(r)} = 0 under partial participation and achieving doubly accelerated communication complexity with respect to both the condition number kappa = L/mu and model dimension d.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#tamuna-correlated-cohort-mask-and-zero-sum-control-variate-invariant</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In each round r, TAMUNA generates a binary mask matrix q^{(r)} in {0,1}^{d x c} across the c active clients Omega^{(r)} by independently permuting a template row containing s in {2, ..., c} ones and c - s zeros for each coordinate j in {1, ..., d}; the resulting compressors C_i^{(r)} satisfy E[||(1/s) sum_{i in Omega} C_i(v_i) - (1/c) sum_{i in Omega} v_i||^2] = ((c - s)/(s(c - 1))) ((1/c) sum_{i in Omega} ||v_i||^2 - ||(1/c) sum_{i in Omega} v_i||^2) (Eq. 8) and ensure that the control variate update h_i^{(r+1)} = h_i^{(r)} + (eta/gamma)(C_i^{(r)}(x_bar^{(r+1)}) - C_i^{(r)}(x_i^{(r, L^{(r)})})) preserves sum_{i=1}^n h_i^{(r)} = 0 for all r &gt;= 0 when initialized with sum_{i=1}^n h_i^{(0)} = 0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r567-primary-pdf">TAMUNA: Doubly Accelerated Distributed Optimization under Partial Participation</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Algorithm 1 &amp; Section 4.1, Equations (6)-(8), pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#tamuna-linear-convergence-and-doubly-accelerated-communication-complexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For L-smooth mu-strongly convex client objectives with exact gradients, setting 0 &lt; gamma &lt; 2/L, 0 &lt; chi &lt;= n(s - 1)/(s(n - 1)), and eta = p chi guarantees that the Lyapunov function Psi^{(r)} := (n/(gamma p)) ||x_bar^{(r)} - x*||^2 + (gamma / (p^2 chi)) ((n - 1)/(s - 1)) sum_{i=1}^n ||h_i^{(r)} - nabla f_i(x*)||^2 contracts at rate E[Psi^{(r)}] &lt;= tau^r Psi^{(0)} with tau = max((1 - gamma mu)^2, (gamma L - 1)^2, 1 - p^2 chi (s - 1)/(n - 1)) &lt; 1 (Theorem 1), yielding doubly accelerated total uplink communication complexity O((sqrt(d) sqrt(kappa) sqrt(n/c) + d sqrt(kappa) sqrt(n)/c + d n / c + sqrt(alpha) d sqrt(kappa) sqrt(n/c)) log(1/epsilon)) floats (Corollary 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r567-primary-pdf">TAMUNA: Doubly Accelerated Distributed Optimization under Partial Participation</a></span>
+        <span>· <strong>Locator:</strong> Section 5, Theorem 1, Corollary 1 &amp; Equation (14), pp. 8-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#tamuna-stochastic-gradient-variance-reduced-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under unbiased local stochastic gradients with bounded variance C_i and bounded ABC-type second-moment growth A_i ||nabla f_i(x) - nabla f_i(x*)||^2 + B_i D_{f_i}(x, x*) + C_i (Assumption 2), TAMUNA converges linearly to a variance-proportional neighborhood of x* for constant step size gamma (Theorem 3) and converges to x* with O(1/epsilon) communication complexity via diminishing step sizes or variance reduction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r567-primary-pdf">TAMUNA: Doubly Accelerated Distributed Optimization under Partial Participation</a></span>
+        <span>· <strong>Locator:</strong> Section 6, Assumption 2 &amp; Theorem 3, pp. 11-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#tamuna-stateful-control-variate-and-shared-seed-mask-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because every client i in [n] must maintain a stateful control variate h_i^{(r)} in R^d across rounds even when not participating, TAMUNA is applicable to stateful cross-silo or repeat-participation cross-device federated learning rather than purely stateless one-shot client sampling, and requires active clients in Omega^{(r)} to coordinate (e.g. via a shared pseudorandom seed) to generate the row-constrained binary masks with exactly s ones per coordinate.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r567-primary-pdf">TAMUNA: Doubly Accelerated Distributed Optimization under Partial Participation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 &amp; Section 4.2, Remarks on control variates and mask generation, pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires each client i in [n] to store a persistent d-dimensional control variate h_i^{(r)} across rounds, precluding purely stateless one-shot client participation.</li>
+      <li>Requires at least c &gt;= 2 participating clients per round and s &gt;= 2 active clients transmitting each coordinate j in {1, ..., d} to preserve the zero-sum control variate invariant.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            TAMUNA is a specific federated optimization algorithm that combines local training, correlated coordinate-subsampling uplink compression, and partial client participation with exact client-drift cancellation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r567-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r567-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2302.09832.pdf" target="_blank" rel="noopener">TAMUNA: Doubly Accelerated Distributed Optimization under Partial Participation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Laurent Condat, Ivan Agarský, Grigory Malinovsky, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/W4321471475</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4d9724df872e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r567-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r567-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2302.09832" target="_blank" rel="noopener">TAMUNA: Doubly Accelerated Distributed Optimization under Partial Participation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Laurent Condat, Ivan Agarský, Grigory Malinovsky, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2302.09832</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7890784fa3b6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r567-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r567-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.openalex.org/works/W4321471475" target="_blank" rel="noopener">TAMUNA: Doubly Accelerated Distributed Optimization under Partial Participation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Laurent Condat, Ivan Agarský, Grigory Malinovsky, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/W4321471475</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:205c3ef966f9…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:50:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:50:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TamunaDoublyAcceleratedDistributedOptimizationWithLocalTrainingCompressionAndPartialParticipation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TamunaDoublyAcceleratedDistributedOptimizationWithLocalTrainingCompressionAndPartialParticipation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
