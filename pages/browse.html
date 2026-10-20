@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1593</strong> artificial intelligence concepts, comprising <strong>1151</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1594</strong> artificial intelligence concepts, comprising <strong>1152</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1593)</option>
-        <option value="curated">Curated AIMech (1151)</option>
+        <option value="all">All Origins (1594)</option>
+        <option value="curated">Curated AIMech (1152)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (825)</option>
+          <option value="algorithm">Algorithms (826)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (57)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1593</span> of <span id="totalCount">1593</span>
+      Showing <span id="matchCount">1594</span> of <span id="totalCount">1594</span>
     </div>
   </div>
 </div>
@@ -2429,6 +2429,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="ar2 adversarial retriever-ranker for dense text retrieval ar2adversarialretrieverrankerfordensetextretrieval aimech:ar2adversarialretrieverrankerfordensetextretrieval algorithms algorithm a joint adversarial training algorithm for dense text retrieval that couples a dual-encoder retriever g_theta(q, d) = e_theta(q)^t e_theta(d) and a cross-encoder ranker d_phi(q, d) = w_phi^t e_phi([q, d]) in a contrastive minimax game j^{g*, d*} = min_theta max_phi e_{d_q^- ~ g_theta(q, .)}[log p_phi(d | q; d_q)] where d_q = {d} u d_q^- and p_phi(d | q; d_q) = exp(tau d_phi(q, d)) / sum_{d&#39; in d_q} exp(tau d_phi(q, d&#39;)), alternating coordinate updates that (1) train the ranker d_phi to maximize log p_phi(d | q; d_q) over the ground-truth passage d and n hard negatives d_q^- sampled from the top-k candidates of the retriever&#39;s faiss ann index, (2) update the retriever g_theta to minimize the tractable pairwise expectation upper bound j_hat^theta = e_{d^- ~ p_theta(. | q; d_q^-)}[log p_phi(d | q; {d, d^-})] via policy-gradient weighting grad_theta log p_theta(d^- | q; d_q^-) log p_phi(d | q; {d, d^-}) plus a cross-entropy distillation regularizer j_r^theta = h(p_phi(. | q; d_q), p_theta(. | q; d_q)) that prevents retriever probability collapse, and (3) refresh the corpus ann index after each iteration. distinct from ance (xiong et al., iclr 2021, aimech:anceapproximatenearestneighbornegativecontrastivelearning), which iteratively mines hard negatives from an ann index without a cross-encoder ranker or adversarial minimax reward; distinct from rocketqa (qu et al., naacl 2021, aimech:rocketqadenoisedhardnegativesampling), which uses a static cross-encoder to filter hard negatives offline across separate pipeline stages rather than interactive minimax co-training; and distinct from irgan (wang et al., sigir 2017), which uses a binary gan discriminator objective log d_phi(d, q) + log(1 - d_phi(d^-, q)) rather than a listwise contrastive cross-encoder likelihood with entropy-smoothing distillation regularization. ar2 adversarial retriever-ranker ar2-g and ar2-d adversarial minimax retriever-ranker training because direct optimization of the combinatorial expectation j^theta = e_{d_q^- ~ g_theta(q, .)}[log p_phi(d | q; {d} u d_q^-)] over n sampled negatives is intractable, ar2 derives the pairwise upper bound j^theta &lt;= j_hat^theta = e_{d_i^- ~ p_theta(. | q; d_q^-)}[log p_phi(d | q; {d, d_i^-})] with exact gradient grad_theta j_hat^theta = e_{d_i^- ~ p_theta(. | q; d_q^-)}[grad_theta log p_theta(d_i^- | q; d_q^-) log p_phi(d | q; {d, d_i^-})], which grants smooth high-probability updates to unlabeled false-negative documents that receive high relevance scores from the cross-encoder ranker d_phi. to prevent the retriever g_theta from converging to overly sharp conditional probabilities over d_q = {d} u d_q^- that impede negative exploration during the 10-iteration coordinate game (1,500 retriever mini-batches and 500 ranker mini-batches per iteration followed by faiss ann index refresh), ar2 adds the cross-entropy distillation regularizer j_r^theta = h(p_phi(. | q; d_q), p_theta(. | q; d_q)), raising top-15 retriever distribution entropy on natural questions from 1.70 to 2.10 and improving r@1 from 57.8 to 58.7 and r@5 from 77.3 to 77.9. first-stage dual-encoder retriever ar2-g achieves 77.9 r@5, 86.0 r@20, and 90.1 r@100 on natural questions test (rising to 78.8 r@5 / 86.5 r@20 / 90.4 r@100 with ernie-2.0-large, and 65.6 r@1 / 81.5 r@5 / 84.9 r@10 when reranked by ar2-d), 78.2 r@5 / 84.4 r@20 / 87.9 r@100 on triviaqa test (82.1 r@5 with ar2-d), and 39.5 mrr@10 / 87.8 r@50 / 98.6 r@1k on ms-marco passage dev (43.2 mrr@10 with ar2-d), outperforming ance, rocketqa, pair, cocondenser, and irgan (55.2 vs. 58.7 r@1 on nq). ar2 requires jointly holding and updating a 330m-parameter cross-encoder ranker alongside the 110m-parameter dual-encoder retriever across 10 iterations of corpus re-encoding and faiss ann index rebuilding (taking 9.1 hours on 8 a100 gpus at n=15 negatives vs. 1.85 hours for dpr), and per-batch training latency scales nearly linearly with negative sample size n (from 210ms at n=1 to 630ms at n=15). adversarial retriever-ranker for dense text retrieval adversarial retriever-ranker for dense text retrieval (arxiv abstract) adversarial retriever-ranker for dense text retrieval (crossref metadata) hang zhang yeyun gong yelong shen jiancheng lv nan duan weizhu chen hang zhang yeyun gong yelong shen jiancheng lv nan duan weizhu chen hang zhang yeyun gong yelong shen jiancheng lv nan duan weizhu chen">
+        <td>
+          <a href="curated/AR2AdversarialRetrieverRankerForDenseTextRetrieval.html" style="font-weight: 600; font-size: 1rem;">AR2 Adversarial Retriever-Ranker for Dense Text Retrieval</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> AR2, Adversarial Retriever-Ranker…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A joint adversarial training algorithm for dense text retrieval that couples a dual-encoder retriever G_theta(q, d) = E_theta(q)^T E_theta(d…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:AR2AdversarialRetrieverRankerForDenseTextRetrieval</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
