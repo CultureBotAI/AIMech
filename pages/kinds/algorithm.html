@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">580 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">581 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">580</span> of <span id="totalCount">580</span>
+      Showing <span id="matchCount">581</span> of <span id="totalCount">581</span>
     </div>
   </div>
 </div>
@@ -7751,6 +7751,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="kt-pfl (parameterized knowledge transfer for personalized federated learning) ktpflparameterizedknowledgetransferforpersonalizedfederatedlearning aimech:ktpflparameterizedknowledgetransferforpersonalizedfederatedlearning algorithms algorithm a personalized group knowledge transfer federated learning algorithm (zhang, guo, ma, wang, xu, &amp; wu 2021, sections 3-4, definitions 3.1-3.2, equations 2-7, algorithm 1, theorem 4.1, remark 4.1) that enables clients n in {1, ..., n} with heterogeneous or homogeneous model architectures w^n and non-iid private datasets d_n to collaboratively learn personalized models via a shared public reference dataset d_r and a trainable n x n knowledge coefficient matrix c in r^{n x n} (equation 3). each client n minimizes the personalized loss l_{per,n}(w^n) = l_n(w^n) + lambda sum_{x_hat in d_r} l_{kl}(sum_{m=1}^n c_{mn} s(w^m, x_hat), s(w^n, x_hat)) where s(w^m, x_hat) = softmax(z^m(x_hat)/t) (definition 3.1, equation 2), while the system jointly minimizes min_{w,c} l(w, c) = sum_{n=1}^n (d_n/d) l_{per,n}(w^n) + rho ||c - 1/n||_2^2 with frobenius shrinkage toward the uniform collaboration matrix 1/n (equation 4) via alternating optimization: (1) client-side local sgd on d_n (equation 5) followed by public-data kl distillation toward client n&#39;s personalized server soft prediction sum_{m=1}^n c_{mn} s(w^m, xi_r) (equation 6), and (2) server-side gradient descent on c via c &lt;- c - eta_3 lambda sum_{n=1}^n (d_n/d) nabla_c l_{kl}(sum_{m=1}^n c_m s(w^{m,*}, xi_r), s(w^{n,*}, xi_r)) - 2 eta_3 rho (c - 1/n) (equation 7). distinct from fedmd (aimech:fedmdheterogeneousfederatedlearningviapublicdatasetmodeldistillation, li &amp; wang 2019) and feddf (aimech:feddfensembledistillationforrobustmodelfusioninfederatedlearning, lin et al. 2020), which form a single unweighted global ensemble teacher (1/n) sum_{m=1}^n s(w^m, x_hat) rather than maintaining a client-specific server soft prediction parameterized by a gradient-trained n x n knowledge coefficient matrix c; and distinct from fedfomo (aimech:fedfomofirstordermodeloptimizationforpersonalizedfederatedlearning, zhang et al. 2021) and fedamp (aimech:fedampfederatedattentivemessagepassingforpersonalizedcrosssilofederatedlearning, huang et al. 2021), which require identical model architectures to aggregate raw model parameters in weight space rather than distilling personalized linear combinations of public-data soft predictions across heterogeneous neural architectures. kt-pfl parameterized knowledge transfer for personalized federated learning sim-pfl and topk-pfl personalized knowledge coefficient distillation kt-pfl formulates personalized heterogeneous federated learning as the alternating minimization of l(w, c) = sum_{n=1}^n (d_n/d) [l_n(w^n) + lambda sum_{x_hat in d_r} l_{kl}(sum_{m=1}^n c_{mn} s(w^m, x_hat), s(w^n, x_hat))] + rho ||c - 1/n||_2^2 (equations 2-4), alternating between two-stage client updates (private sgd in equation 5 and public kl distillation in equation 6) and server gradient updates on the n x n knowledge coefficient matrix c with l2 shrinkage toward 1/n (equation 7). theorem 4.1 and remark 4.1 prove that for any client n with local distribution d_n and empirical hypotheses {h_{d_hat_m}}_{m=1}^n, there always exist optimal knowledge coefficients c^*_{m,n} such that the expected loss of the personalized ensemble model satisfies l_{d_n}(sum_{m=1}^n c^*_{m,n} h_{d_hat_m}) &lt;= l_{d_n}(h_{d_hat_n}) and l_{d_n}(sum_{m=1}^n c^*_{m,n} h_{d_hat_m}) &lt;= l_{d_n}((1/n) sum_{m=1}^n h_{d_hat_m}), with strict inequality on non-iid problems. kt-pfl requires a shared public dataset d_r accessible to all clients for computing and distilling soft predictions, and choosing an overly large public dataset size |d_r| or an excessively large generalization regularization parameter rho slows client distillation or forces c toward uniform 1/n weights, degrading personalized accuracy. applied to heterogeneous client architectures (lenet, alexnet, resnet-18, shufflenetv2) and homogeneous cnns on non-iid emnist, fashion_mnist, and cifar-10 benchmarks, where kt-pfl outperforms fedmd, feddf, sim-pfl, topk-pfl, pfedme, fedamp, fedfomo, and pfedhn while reducing communication volume by transmitting compact soft predictions instead of full model weights. parameterized knowledge transfer for personalized federated learning parameterized knowledge transfer for personalized federated learning (arxiv abstract) parameterized knowledge transfer for personalized federated learning (crossref metadata) jie zhang song guo xiaosong ma haozhao wang wencao xu feijie wu jie zhang song guo xiaosong ma haozhao wang wencao xu feijie wu jie zhang song guo xiaosong ma haozhao wang wencao xu feijie wu">
+        <td>
+          <a href="../curated/KtPflParameterizedKnowledgeTransferForPersonalizedFederatedLearning.html" style="font-weight: 600; font-size: 1rem;">KT-pFL (Parameterized Knowledge Transfer for Personalized Federated Learning)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> KT-pFL, Parameterized Knowledge Transfer for Personalized Federated Learning…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A personalized group knowledge transfer federated learning algorithm (Zhang, Guo, Ma, Wang, Xu, &amp; Wu 2021, Sections 3-4, Definitions 3.1-3.2…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:KtPflParameterizedKnowledgeTransferForPersonalizedFederatedLearning</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
