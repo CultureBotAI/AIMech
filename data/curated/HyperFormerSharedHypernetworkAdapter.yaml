@@ -1,0 +1,102 @@
+id: AIMech:HyperFormerSharedHypernetworkAdapter
+name: HyperFormer (Shared Hypernetwork Multi-Task Adapter)
+concept_kind: architecture
+review_status: DRAFT
+definition: A parameter-efficient multi-task Transformer adaptation architecture that learns low-dimensional task, layer-ID, and adapter-position embeddings projected through a MLP task projector h'_I to condition shared linear hypernetworks that generate task- and layer-specific bottleneck adapter weights (U^l_tau, D^l_tau) and conditional layer normalization parameters (gamma^l_tau, beta^l_tau).
+identity_notes: Introduced by Rabeeh Karimi Mahabadi, Sebastian Ruder, Mostafa Dehghani, and James Henderson (ACL/IJCNLP 2021, pp. 565-576, arXiv:2106.04489). Both per-layer HyperFormer (which places a task-conditioned hypernetwork in each Transformer layer) and the compact HyperFormer++ variant (which shares a single pair of adapter and LayerNorm hypernetworks across all layers and tasks conditioned on concatenated task z_tau, layer-ID l_i, and position p_j embeddings) are lumping-cohesive variants covered together in this record.
+aliases:
+- HyperFormer
+- HyperFormer++
+- Shared Hypernetwork Task-Conditional Adapter
+definition_evidence:
+- source_id: r703-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r703-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r703-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: hyperformer-conditional-adapter-and-layernorm-mechanism
+  kind: mechanism
+  statement: HyperFormer inserts task-conditional adapter layers A^l_tau(x) = LN^l_tau(U^l_tau(GeLU(D^l_tau(x)))) + x (Eq. 3) with conditional layer normalization LN^l_tau(x^i_tau) = gamma^l_tau (o) ((x^i_tau - mu_tau)/sigma_tau) + beta^l_tau (Eq. 4) after the attention and feed-forward blocks of a frozen Transformer, generating the adapter weights (U^l_tau, D^l_tau) = (W^{U^l}, W^{D^l}) I_tau (Eq. 6) and LayerNorm parameters (gamma^l_tau, beta^l_tau) = (W^{gamma^l}, W^{beta^l}) I_tau (Eq. 7) from a learned task embedding I_tau = h_I(z_tau) (Eq. 5).
+  evidence:
+  - source_id: r703-primary-pdf
+    locator: Section 2.1-2.3, Figure 1 & Eqs. 3-7, pp. 1-4; Section 4.3 Table 4, p. 7
+    relation: supports
+- claim_id: hyperformer-plusplus-cross-layer-sharing-mechanism
+  kind: mechanism
+  statement: 'HyperFormer++ shares the hypernetworks across all L layers and T tasks by feeding the concatenation of task embedding z_tau in R^t, layer-ID embedding l_i in R^t, and adapter position embedding p_j in R^t through a two-layer ReLU MLP projector h''_I followed by LayerNorm: I_tau = h''_I(z_tau, l_i, p_j) (Eq. 8), reducing total trainable parameters from 4 T L (2 h d + 2 h) for standard Adapters to t(T + 4 + 2 L) + 8 t e + 2 t (2 h d + 2 h) (only 0.29% parameters per task on T5-Base with 1.02x total model size, 3x fewer trainable parameters than Adapters_BASE).'
+  evidence:
+  - source_id: r703-primary-pdf
+    locator: Section 2.4 HyperFormer++, Eq. 8, p. 4; Section 3.1 Table 1, p. 5; Section 4.1 Parameter Efficiency, p. 7
+    relation: supports
+- claim_id: hyperformer-glue-and-fewshot-transfer-application
+  kind: application
+  statement: Evaluated on T5-Small and T5-Base across multi-task GLUE (where HyperFormer++_BASE achieves 86.48 average score with 0.29% trainable parameters per task vs. 85.47 for multi-task T5_BASE and 84.88 for single-task Adapters_BASE), low-resource GLUE subsampling (100 to 4,000 samples per task), and few-shot domain transfer across 7 datasets (SciTail, CB, TREC, BoolQ, IMDB, Yelp Polarity, and PAWS).
+  evidence:
+  - source_id: r703-primary-pdf
+    locator: Section 3.1-3.3, Tables 1-2 & Figure 2, pp. 5-6
+    relation: supports
+- claim_id: hyperformer-fewshot-hypernet-tuning-and-reduction-factor-limitation
+  kind: limitation
+  statement: During few-shot domain transfer to unseen tasks, fine-tuning only the new task embedding without also updating the hypernetwork parameters achieves lower accuracy in the few-shot regime, per-layer HyperFormer without cross-layer sharing incurs substantial parameter overhead (1.54x total parameters and 6.86% per task on T5_BASE), and the adapter reduction factor r in {8, 16, 32} must be tuned depending on dataset size.
+  evidence:
+  - source_id: r703-primary-pdf
+    locator: Section 2.4, p. 4; Section 3.1 Table 1, p. 5; Section 3.3 Footnote 4, p. 6; Appendix A Table 5-7, pp. 11-12
+    relation: supports
+evidence_sources:
+- source_id: r703-primary-pdf
+  title: Parameter-efficient Multi-task Fine-tuning for Transformers via Shared Hypernetworks
+  authors: &id001
+  - Rabeeh Karimi Mahabadi
+  - Sebastian Ruder
+  - Mostafa Dehghani
+  - James Henderson
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.04489.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Parameter-efficient+Multi-task+Fine-tuning+for+Transformers+via+Shared+Hypernetworks&format=xml
+  version: Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (ACL/IJCNLP 2021) (2021) (568019 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:06:00Z'
+  sha256: 39ac7c1b3a9f40afeebb4d9374edbec64060bee9b63195868fdb16ee406b3ab4
+- source_id: r703-arxiv-abs
+  title: Parameter-efficient Multi-task Fine-tuning for Transformers via Shared Hypernetworks (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.04489
+  persistent_id: https://arxiv.org/abs/2106.04489
+  version: arXiv abstract page (6699 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:06:00Z'
+  sha256: 186098afcdb39a2bec8b2e52bd78f8738d40d72b5c47639a6904df08b277a53e
+- source_id: r703-metadata-cr
+  title: Parameter-efficient Multi-task Fine-tuning for Transformers via Shared Hypernetworks (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Parameter-efficient+Multi-task+Fine-tuning+for+Transformers+via+Shared+Hypernetworks&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Parameter-efficient+Multi-task+Fine-tuning+for+Transformers+via+Shared+Hypernetworks&format=xml
+  version: Crossref API work record (961 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:06:00Z'
+  sha256: 656a9f67683eabd67b9910d9db417e847d3770d7e9f9fa8176f9bb84766441b2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: HyperFormer uses shared hypernetwork neural networks to generate task-conditional adapter and layer-normalization weights inside frozen Transformer architectures.
+limitations:
+- Unshared per-layer HyperFormer increases total model parameters to 1.54x (6.86% per task on T5-Base) and requires 7.60 GB GPU memory unless cross-layer hypernetwork sharing (HyperFormer++) is used.
+- In few-shot transfer to new tasks, updating only the task embedding underperforms jointly fine-tuning both the task embedding and hypernetwork weights.
+- Relative to multi-task T5-Base fine-tuning, HyperFormer++_BASE still increases training time per 1,000 steps by 30.49% (7.19 min vs. 5.51 min), and optimal adapter reduction factors r vary across dataset sizes.
+curation:
+  created_at: '2026-10-19T13:06:00Z'
+  updated_at: '2026-10-19T13:06:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
